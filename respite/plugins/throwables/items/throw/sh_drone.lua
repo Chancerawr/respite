@@ -1,0 +1,9 @@
+ITEM.name = "Drone"
+ITEM.model = "models/props/cs_office/Cardboard_box02.mdl"
+ITEM.desc = "A flying drone with a flashlight and a gun."
+ITEM.throwent = "ent_jack_patrolhack"
+ITEM.throwforce = 0
+ITEM.price = 0
+ITEM.flag = "v"
+ITEM.uniqueID = "drone"
+ITEM.category = "Robotic"

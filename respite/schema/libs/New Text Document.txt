@@ -1,0 +1,32 @@
+							local color
+						if(item:getData("customCol")) then
+							color = item:getData("customCol")
+						elseif(item.color) then
+							color = item.color
+						else
+							color = nut.config.get("color")
+						end
+							
+						icon:SetToolTip(
+							"Item ID: #" .. item.id .. "\n\n" ..
+							Format(nut.config.itemFormat,
+							"<color="..color.r..","..color.g..","..color.b..">"..item:getName().."</color>", item:getDesc() or "")
+						)
+							
+							
+							
+							
+							local color
+							if(item:getData("customCol")) then
+								color = item:getData("customCol")
+							elseif(item.color) then
+								color = item.color
+							else
+								color = nut.config.get("color")
+							end
+							
+							icon:SetToolTip(
+								"Item ID: #" .. item.id .. "\n\n" ..
+								Format(nut.config.itemFormat,
+								"<color="..color.r..","..color.g..","..color.b..">"..item:getName().."</color>", item:getDesc() or "")
+							)

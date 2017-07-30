@@ -1,0 +1,9 @@
+ITEM.name = "Fuel Tank"
+ITEM.uniqueID = "comp_fuel_tank"
+ITEM.model = "models/props_junk/gascan001a.mdl"
+ITEM.desc = "A fortified container useful for handling volatile substances."
+ITEM.flag = "v"
+ITEM.price = 10
+ITEM.width = 1
+ITEM.height = 1
+ITEM.material = "models/props_wasteland/tugboat02"

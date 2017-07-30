@@ -1,0 +1,11 @@
+ITEM.name = "Box of Gauze"
+ITEM.model = "models/props_lab/box01a.mdl"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.healAmount = 20
+ITEM.healSeconds = 1
+ITEM.price = 0
+ITEM.desc = "A small box filled with gauze."
+ITEM.uniqueID = "medical_gauze"
+ITEM.flag = "v"
+ITEM.container = "j_empty_bandage"

@@ -1,0 +1,7 @@
+"respite"
+{
+	"base"		"nutscript"
+	"title"		"Respite"
+	"author"	"chessnut"
+	"menusystem"	"1"
+}

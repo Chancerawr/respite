@@ -1,0 +1,10 @@
+ITEM.name = "Backpack"
+ITEM.desc = "A convenient backpack that allows you to carry more things."
+ITEM.width = 2
+ITEM.height = 2
+ITEM.invWidth = 4
+ITEM.invHeight = 4
+ITEM.category = "Storage"
+ITEM.flag = "v"
+ITEM.model = "models/warz/largebackpack.mdl"
+ITEM.uniqueID = "pack"

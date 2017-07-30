@@ -1,0 +1,16 @@
+ITEM.name = "Canned Laughter"
+ITEM.uniqueID = "food_laugh"
+ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
+ITEM.hungerAmount = 10
+ITEM.foodDesc = "A can filled with laughter?"
+ITEM.quantity = 1
+ITEM.price = 4
+ITEM.width = 1
+ITEM.height = 1
+
+ITEM.sound = "vo/citadel/br_laugh01.wav"
+ITEM.container = "j_tinc"
+ITEM.dropscontainer = true
+
+-- 5 fort
+ITEM.attribBoosts = { ["fortitude"] = 5 }

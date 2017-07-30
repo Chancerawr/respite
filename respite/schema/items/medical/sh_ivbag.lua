@@ -1,0 +1,11 @@
+ITEM.name = "IV Bag"
+ITEM.model = "models/props_junk/garbage_bag001a.mdl"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.healAmount = 50
+ITEM.healSeconds = 1
+ITEM.price = 0
+ITEM.desc = "A small bag that can be used for IV therapy."
+ITEM.uniqueID = "medical_iv"
+ITEM.flag = "v"
+ITEM.material = "models/props/cs_assault/moneywrap02"
