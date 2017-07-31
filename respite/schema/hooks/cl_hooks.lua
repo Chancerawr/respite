@@ -404,7 +404,7 @@ function SCHEMA:PlayerBindPress(client, bind, pressed)
 			local entity = trace.Entity
 
 			if (IsValid(entity) and entity:GetClass() == "nut_item") then
-				hook.Run("ItemShowEntityMenu", entity)
+				--hook.Run("ItemShowEntityMenu", entity)
 			end
 			if (IsValid(client) and entity:IsPlayer()) then
 				hook.Run("ShowPlayerCard", entity )

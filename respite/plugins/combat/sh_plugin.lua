@@ -768,3 +768,7 @@ nut.command.add("train", {
 		end
 	end
 })
+
+function PLUGIN:GetMaxAttribPoints()
+	return 25
+end

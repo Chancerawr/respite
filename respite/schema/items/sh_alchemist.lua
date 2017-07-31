@@ -46,14 +46,42 @@ ITEM.functions.Depressant = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player
-		if(item:getOwner() == nil) then --so we can do this on the ground or in the inventory
-			player = item.player
-		else
-			player = item:getOwner()
-		end
+		local player = item.player or item:getOwner()
 		
 		if !player:getChar():getInv():hasItem("drug_depress") then --if item of importance isn't in the inventory.
+			return false
+		end
+	end
+}
+
+ITEM.functions.Memory = {
+	icon = "icon16/box.png",
+	sound = "physics/concrete/rock_impact_soft3.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local object = inventory:hasItem("j_scrap_memory")
+		local ranScrap = {}
+			ranScrap[1] = "cure"
+			ranScrap[2] = "food_water"
+			ranScrap[3] = "food_yams"
+			
+		if(object:getData("Amount") > 1) then
+			object:setData("Amount", object:getData("Amount") - 1)
+		else
+			object:remove()
+		end
+		
+		nut.item.spawn(ranScrap[math.random(1,3)], position)
+		nut.chat.send(client, "itclose", "When nobody is looking, the object in front of the alchemist changes.")		
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("j_scrap_memory") then --if item of importance isn't in the inventory.
 			return false
 		end
 	end

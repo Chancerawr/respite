@@ -13,5 +13,5 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_soda_bottle"
 ITEM.dropscontainer = true
 
---5 agility
-ITEM.attribBoosts = { ["stm"] = 5 }
+--7 agility
+ITEM.attribBoosts = { ["stm"] = 7 }

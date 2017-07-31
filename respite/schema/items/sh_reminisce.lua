@@ -27,7 +27,7 @@ ITEM.functions.Remember = {
 			"sadness",
 			"joy",
 			"disgust",
-			"surpise",
+			"surprise",
 			"trust",
 			"anticipation",
 			"neutral",

@@ -137,49 +137,6 @@ nut.command.add("scwhisper", {
 	end
 })
 
-nut.command.add("chargiveitem", {
-	adminOnly = true,
-	syntax = "<string name> <string item>",
-	onRun = function(client, arguments)
-		if (!arguments[2]) then
-			return L("invalidArg", client, 2)
-		end
-
-		local target = nut.command.findPlayer(client, arguments[1])
-
-		if (IsValid(target) and target:getChar()) then
-			local uniqueID = arguments[2]:lower()
-
-			if (!nut.item.list[uniqueID]) then
-				for k, v in SortedPairs(nut.item.list) do
-					if (nut.util.stringMatches(v.name, uniqueID)) then
-						uniqueID = k
-
-						break
-					end
-				end
-			end
-
-			local inv = target:getChar():getInv()
-			local succ, err = target:getChar():getInv():add(uniqueID)
-
-			if (succ) then
-				target:notify("Item successfully created.")
-				if(target != client) then
-					client:notify("Item successfully created.")
-				end
-			else
-				target:notify(tostring(succ))
-				target:notify(tostring(err))
-				if(target != client) then
-					client:notify(tostring(succ))
-					client:notify(tostring(err))
-				end
-			end
-		end
-	end
-})
-
 nut.command.add("scemit", {
 	adminOnly = true,
 	syntax = "<string soundpath> <int soundlevel=70 (50-100)> <int pitch=100 (30-255)>",

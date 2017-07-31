@@ -42,7 +42,7 @@ if (SERVER) then
 	end
 	
 	function ENT:OnTakeDamage( dmginfo )
-		if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST)) then
+		if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST) and dmginfo:GetDamage() > 10) then
 			nut.item.spawn("j_scrap_concrete", dmginfo:GetDamagePosition())
 			if (nut.config.get("gDamage")) then
 				self:SetHealth(self:Health() - nut.config.get("lifeDrain"))

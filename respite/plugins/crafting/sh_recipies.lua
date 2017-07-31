@@ -2638,7 +2638,7 @@ RECIPES:Register( RECIPE147 )
 local RECIPE148 = {}
 RECIPE148.uid = "nut_shard"
 RECIPE148.name = "Shard"
-RECIPE148.category = "Respites"
+RECIPE148.category = "Mysterious"
 RECIPE148.model = Model( "models/gibs/glass_shard04.mdl" )
 RECIPE148.desc = "A peculiar crystalline shard, it emits a dim white light."
 RECIPE148.noBlueprint = true

@@ -61,6 +61,17 @@ ITEM.functions.Soda = {
 				
 				local soda = fruit.uniqueID .. "_soda"
 
+				if(math.random(0,10) == 10) then
+					local ran = math.random(0,2)
+					if(ran == 0) then
+						soda = "food_soda_cherry"
+					elseif(ran == 1) then
+						soda = "food_soda_blueberry"
+					else
+						soda = "food_soda_cola"
+					end
+				end
+				
 				if(!inventory:add(soda, cans)) then --if the inventory has space, put it in the inventory
 					for i = 1, cans do
 						nut.item.spawn(soda, position) --if not, drop it on the ground
