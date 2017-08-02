@@ -194,12 +194,24 @@ PANEL = {}
 		end
 	end
 	
+	local activePanels = {}
 	function PANEL:PaintOver(w, h)
 		local item = nut.item.held
 		
 		if (IsValid(item)) then
 			local mouseX, mouseY = self:LocalCursorPos()
 			local dropX, dropY = math.ceil((mouseX - 4 - (item.gridW - 1) * 32) / 64), math.ceil((mouseY - 27 - (item.gridH - 1) * 32) / 64)
+
+			if ((mouseX < -w*0.05 or mouseX > w*1.05) or (mouseY < h*0.05 or mouseY > h*1.05)) then
+				activePanels[self] = nil
+			else
+				activePanels[self] = true
+			end
+
+			item.dropPos = item.dropPos or {}
+			if (item.dropPos[self]) then
+				item.dropPos[self].item = nil
+			end
 
 			for x = 0, item.gridW - 1 do
 				for y = 0, item.gridH - 1 do
@@ -208,18 +220,19 @@ PANEL = {}
 					-- Is Drag and Drop icon is in the Frame?
 					if (self.slots[x2] and IsValid(self.slots[x2][y2])) then
 						local bool = self:isEmpty(x2, y2, item)
+						
+						surface.SetDrawColor(0, 0, 255, 10)
 
 						if (x == 0 and y == 0) then
-							item.dropPos = item.dropPos or {}
 							item.dropPos[self] = {x = (x2 - 1)*64 + 4, y = (y2 - 1)*64 + 27, x2 = x2, y2 = y2}
+						end
 							
-							if (bool) then
-								surface.SetDrawColor(0, 255, 0, 10)
-
-								item.dropPos[self].item = nil
-							else
-								surface.SetDrawColor(255, 255, 0, 10)
-								
+						if (bool) then
+							surface.SetDrawColor(0, 255, 0, 10)
+						else
+							surface.SetDrawColor(255, 255, 0, 10)
+							
+							if (self.slots[x2] and self.slots[x2][y2] and item.dropPos[self]) then
 								item.dropPos[self].item = self.slots[x2][y2].item
 							end
 						end
@@ -431,12 +444,24 @@ PANEL = {}
 			panel.OnMouseReleased = function(this, code)
 				if (code == MOUSE_LEFT and nut.item.held == this) then
 					local data = this.dropPos
-					
+
 					this:DragMouseRelease(code)
 					this:MouseCapture(false)
 					this:SetZPos(99)
 
 					nut.item.held = nil
+					
+					if (table.Count(activePanels) == 0) then
+						local item = this.itemTable
+						local inv = this.inv
+
+						if (item and inv) then
+							netstream.Start("invAct", "drop", item.id, inv:getID(), item.id)
+						end
+						
+						return false
+					end
+					activePanels = {}
 
 					if (data) then
 						local inventory = table.GetFirstKey(data)

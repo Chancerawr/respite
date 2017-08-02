@@ -315,7 +315,7 @@ nut.command.add("reflexes", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("stm")/100) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "reflexes", rolled .. critmsg)
 	end
 })
@@ -332,7 +332,7 @@ nut.command.add("flee", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("stm")/100) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "flee", rolled .. critmsg)
 	end
 })
@@ -349,7 +349,7 @@ nut.command.add("dodge", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("stm") * 0.014) + math.random(0, 9)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "dodge", rolled .. critmsg)
 	end
 })
@@ -366,7 +366,7 @@ nut.command.add("block", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.010) + (char:getAttrib("accuracy") * 0.005)) + math.random(0, 9)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "block", rolled .. critmsg)
 	end
 })
@@ -383,7 +383,7 @@ nut.command.add("defend", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.005) + (char:getAttrib("accuracy") * 0.005) + (char:getAttrib("stm") * 0.004)) + math.random(0, 9)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "defend", rolled .. critmsg)
 	end
 })
@@ -402,7 +402,7 @@ nut.command.add("firearms", {
 		local rolled = (math.random(0, 20) * ((char:getAttrib("accuracy") * 0.018) + (char:getAttrib("str") * 0.002)) + math.random(0, 10)) * crit
 		local part = bParts[math.random(1, 77)]
 		
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
 		nut.chat.send(client, "firearms", rolled .. critmsg)
 		nut.chat.send(client, "part", part)
 	end
@@ -422,7 +422,7 @@ nut.command.add("quickdraw", {
 		local rolled = (math.random(0, 20) * ((char:getAttrib("accuracy") * 0.009) + (char:getAttrib("stm") * 0.009)) + math.random(0, 10)) * crit * (.3) --30% penalty
 		local part = bParts[math.random(1, 77)]
 		
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
 		nut.chat.send(client, "firearms", rolled .. critmsg)
 		nut.chat.send(client, "part", part)
 	end
@@ -441,7 +441,7 @@ nut.command.add("firearmsaimed", {
 		end
 		local rolled = ((math.random(0, 20) * ((char:getAttrib("accuracy") * 0.019) + (char:getAttrib("str") * 0.001)) + math.random(0, 10)) + 2) * crit
 
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "firearmsaimed", rolled .. critmsg)
 	end
 })
@@ -460,7 +460,7 @@ nut.command.add("throw", {
 		local rolled = (math.random(0, 20) * ((char:getAttrib("accuracy") * 0.01) + (char:getAttrib("str") * 0.01)) + math.random(0, 10)) * crit
 		local part = bParts[math.random(1, 77)]
 		
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
 		nut.chat.send(client, "throw", rolled .. critmsg)
 		nut.chat.send(client, "part", part)
 	end
@@ -480,14 +480,14 @@ nut.command.add("akimbo", {
 		local rolled = (math.random(0, 16) * ((char:getAttrib("accuracy") * 0.009) + (char:getAttrib("str") * 0.009)) + math.random(0, 8)) * crit
 		local part = bParts[math.random(1, 77)]
 		
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")
 		nut.chat.send(client, "akimbo", rolled .. critmsg)
 		nut.chat.send(client, "part", part)
 		
 		rolled = (math.random(0, 20) * ((char:getAttrib("accuracy") * 0.009) + (char:getAttrib("str") * 0.004)) + math.random(0, 10)) * crit * (.4) --40% penalty
 		part = bParts[math.random(1, 77)]	
 		
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")		
 		nut.chat.send(client, "akimbo", rolled .. critmsg)
 		nut.chat.send(client, "part", part)
 	end
@@ -506,19 +506,19 @@ nut.command.add("firearmsburst", {
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("accuracy") * 0.016) + math.random(0, 8)) * crit
 		local part = bParts[math.random(1, 77)]
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")	
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")	
 		nut.chat.send(client, "firearmsburst", rolled .. critmsg)
 		nut.chat.send(client, "partb", part)
 	
 		rolled = rolled * (0.6 + ((char:getAttrib("str") * 4) / 1000))
 		part = bParts[math.random(1, 77)]
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")	
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")	
 		nut.chat.send(client, "firearmsburst", rolled)
 		nut.chat.send(client, "partb", part)
 	
 		rolled = rolled * (0.4 + ((char:getAttrib("str") * 6) / 1000))
 		part = bParts[math.random(1, 77)]
-		nut.log.add(client:Name().." rolled \""..rolled.. " " .. part .. "\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"")		
 		nut.chat.send(client, "firearmsburst", rolled)
 		nut.chat.send(client, "partb", part)
 	end
@@ -536,15 +536,15 @@ nut.command.add("firearmsburstaimed", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("accuracy") * 0.016) + math.random(0, 8)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")	
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")	
 		nut.chat.send(client, "firearmsburst", rolled .. critmsg)
 	
 		rolled = rolled * (0.6 + ((char:getAttrib("str") * 4) / 1000))
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "firearmsburst", rolled)
 	
 		rolled = rolled * (0.4 + ((char:getAttrib("str") * 6) / 1000))
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "firearmsburst", rolled)
 	end
 })
@@ -561,8 +561,7 @@ nut.command.add("melee", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.014) + (char:getAttrib("accuracy") * 0.006)) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
-		nut.chat.send(client, "melee", rolled .. critmsg)
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 	end
 })
 
@@ -578,7 +577,7 @@ nut.command.add("flail", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.014) + (math.random(0,char:getAttrib("luck")) * 0.003)) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "flail", rolled .. critmsg)
 	end
 })
@@ -595,7 +594,7 @@ nut.command.add("parry", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.005) + (char:getAttrib("accuracy") * 0.005) + (char:getAttrib("stm") * 0.005) + (char:getAttrib("perception") * 0.002)) + math.random(0, 8)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "parry", rolled .. critmsg)
 	end
 })
@@ -612,7 +611,7 @@ nut.command.add("suppress", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.016) + (char:getAttrib("accuracy") * 0.005)) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "suppress", rolled .. critmsg)
 	end
 })
@@ -629,7 +628,7 @@ nut.command.add("grapple", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * ((char:getAttrib("str") * 0.018) + (char:getAttrib("accuracy") * 0.002)) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")
 		nut.chat.send(client, "grapple", rolled .. critmsg)
 	end
 })
@@ -647,7 +646,7 @@ nut.command.add("sneak", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("stm")* 0.02) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")		
 		nut.chat.send(client, "sneak", rolled .. critmsg)
 	end
 })
@@ -665,7 +664,7 @@ nut.command.add("perception", {
 			crit = 1
 		end
 		local rolled = (math.random(0, 20) * (char:getAttrib("perception") * 0.02) + math.random(0, 10)) * crit
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")		
 		nut.chat.send(client, "perception", rolled .. critmsg)
 	end
 })
@@ -675,7 +674,7 @@ nut.command.add("scavenge", {
 		local char = client:getChar()
 		local luckroll = math.random(0, char:getAttrib("luck"))
 		local rolled = math.random(luckroll, 100)
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")		
 		nut.chat.send(client, "scavenge", rolled)
 	end
 })
@@ -684,7 +683,7 @@ nut.command.add("fortitude", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local rolled = (math.random(0, 20) * (char:getAttrib("fortitude") * 0.017) + (char:getAttrib("end") * 0.003) + math.random(0, 10))
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")		
 		nut.chat.send(client, "fortitude", rolled)
 	end
 })
@@ -693,7 +692,7 @@ nut.command.add("endure", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local rolled = (math.random(0, 20) * (char:getAttrib("end") * 0.017) + (char:getAttrib("fortitude") * 0.003) + math.random(0, 10))
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")		
 		nut.chat.send(client, "endure", rolled)
 	end
 })
@@ -703,7 +702,7 @@ nut.command.add("will", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local rolled = (math.random(0, 20) * (char:getAttrib("end") * 0.01) + (char:getAttrib("fortitude") * 0.01) + math.random(0, 10))
-		nut.log.add(client:Name().." rolled \""..rolled.."\"")		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"")		
 		nut.chat.send(client, "will", rolled)
 	end
 })

@@ -382,41 +382,17 @@ end
 function SCHEMA:PlayerBindPress(client, bind, pressed)
 	bind = bind:lower()
 	
-	if (bind:find("gm_showhelp") and pressed) then
-		if (IsValid(nut.gui.menu)) then
-			nut.gui.menu:remove()
-		elseif (LocalPlayer():getChar()) then
-			vgui.Create("nutMenu")
-		end
-
-		return true
-	elseif ((bind:find("use") or bind:find("attack")) and pressed) then
-		local menu, callback = nut.menu.getActiveMenu()
-
-		if (menu and nut.menu.onButtonPressed(menu, callback)) then
-			return true
-		elseif (bind:find("use") and pressed) then
+	if ((bind:find("use") or bind:find("attack")) and pressed) then
+		if (bind:find("use") and pressed) then
 			local data = {}
 				data.start = client:GetShootPos()
 				data.endpos = data.start + client:GetAimVector()*96
 				data.filter = client
 			local trace = util.TraceLine(data)
 			local entity = trace.Entity
-
-			if (IsValid(entity) and entity:GetClass() == "nut_item") then
-				--hook.Run("ItemShowEntityMenu", entity)
-			end
 			if (IsValid(client) and entity:IsPlayer()) then
 				hook.Run("ShowPlayerCard", entity )
 			end
-		end
-	elseif (bind:find("jump")) then
-		nut.command.send("chargetup")
-	elseif (bind:find("speed") and client:KeyDown(IN_WALK) and pressed) then
-		if (LocalPlayer():Crouching()) then
-			RunConsoleCommand("-duck")
-		else
-			RunConsoleCommand("+duck")
 		end
 	end
 end

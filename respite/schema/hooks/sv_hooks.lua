@@ -45,6 +45,7 @@ player models
 Temporary Things (Like Maps)
 --]]
 
+932853908, --rp_dust_v3
 337486491 --rp_lr_refuge
 
 }
@@ -71,11 +72,6 @@ function SCHEMA:OnCharCreated(client, character)
 			inventory:add("food_water_misc", 1)
 			inventory:add("food_apple_plastic", 2)
 			character:giveFlags("M")
-		elseif (character:getFaction() == FACTION_ABER) then
-			inventory:add("book_newchar", 1)
-			inventory:add("book_combat", 1)
-			inventory:add("haze_bottled", 1)
-			inventory:add("food_banana", 1)
 		end
 	end
 end 
@@ -103,26 +99,4 @@ function SCHEMA:Initialize()
 	game.ConsoleCommand("sv_allowupload 0\n");
 	game.ConsoleCommand("sv_allowdownload 0\n");
 	game.ConsoleCommand("sv_allowcslua 0\n");
-end
-
---[[
-function SCHEMA:PlayerSay(client, message)
-	local chatType, message, anonymous = nut.chat.parse(client, message, true)
-
-	if (chatType == "ic") then
-		if (nut.command.parse(client, message)) then
-			return ""
-		end
-	end
-
-	nut.chat.send(client, chatType, message, anonymous)
-
-	hook.Run("PostPlayerSay", client, message, chatType, anonymous)
-
-	return ""
-end
---]]
-
-function SCHEMA:PostPlayerSay(client, message, chatType, anonymous)
-	nut.log.add(client:Name().." said ["..chatType:upper().."] \""..message.."\"")
 end
