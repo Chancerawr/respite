@@ -5,9 +5,25 @@ ITEM.height = 1
 ITEM.healAmount = 15
 ITEM.healSeconds = 1
 ITEM.price = 0
-ITEM.desc = "A small box filled with some sort of plasic dust. (Does not work on non-Plastic characters.)"
+ITEM.desc = "A small box filled with some sort of plastic dust."
 ITEM.uniqueID = "medical_plastic"
 ITEM.flag = "v"
+ITEM.container = false
+
+local function healPlayer(client, target, amount, seconds)
+	hook.Run("OnPlayerHeal", client, target, amount, seconds)
+
+	if (client:Alive() and target:Alive()) then
+		local id = "nutHeal_"..FrameTime()
+		timer.Create(id, 1, seconds, function()
+			if (!target:IsValid() or !target:Alive()) then
+				timer.Destroy(id)	
+			end
+
+			target:SetHealth(math.Clamp(target:Health() + (amount/seconds), 0, target:GetMaxHealth()))
+		end)
+	end
+end
 
 ITEM.functions.usef = { -- sorry, for name order.
 	name = "Use Forward",
@@ -18,7 +34,12 @@ ITEM.functions.usef = { -- sorry, for name order.
 		local trace = client:GetEyeTraceNoCursor() -- We don't need cursors.
 		local target = trace.Entity
 
-		if (target and target:IsValid() and target:IsPlayer() and target:Alive() and target:getChar():getFaction() == FACTION_PLASTIC) then
+		if (!IsValid(target) or target:getChar():getFaction() != FACTION_PLASTIC) then
+			client:notify("This can only be used on Plastics.")
+			return false
+		end
+		
+		if (target and target:IsValid() and target:IsPlayer() and target:Alive()) then
 			healPlayer(item.player, target, item.healAmount, item.healSeconds)
 
 			return true
@@ -29,4 +50,31 @@ ITEM.functions.usef = { -- sorry, for name order.
 	onCanRun = function(item)
 		return (!IsValid(item.entity))
 	end
+}
+
+ITEM.functions.use = { -- sorry, for name order.
+	name = "Use",
+	tip = "useTip",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		if (item.player:Alive()) then
+		local position = item.player:getItemDropPos()
+			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
+			if(item.container) then
+				nut.item.spawn(item.container, position)
+			end	
+		end
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		local char = player:getChar()
+
+		if (char:getFaction() != FACTION_PLASTIC) then
+			return false
+		end
+		
+		if (IsValid(item.entity)) then
+			return false
+		end
+    end
 }

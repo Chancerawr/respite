@@ -7,7 +7,7 @@ ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
 ITEM.color = Color(255, 255, 255)
-ITEM.maxstack = 30
+ITEM.maxstack = 45
 
 ITEM.data = {
 	Amount = 1

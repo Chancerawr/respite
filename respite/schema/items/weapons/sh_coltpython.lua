@@ -29,3 +29,7 @@ ITEM.iconCam = {
 	ang = Angle(0, 0, 0),
 	fov = 4.5
 }
+
+function ITEM:onGetDropModel(self)
+	return "models/weapons/tfa_w_remington_1858.mdl"
+end

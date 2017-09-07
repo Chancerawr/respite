@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = "Crossbow Bolts"
-ITEM.model = "models/crossbow_bolt.mdl"
+ITEM.model = "models/Items/crossbowrounds.mdl"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.iconCam = {

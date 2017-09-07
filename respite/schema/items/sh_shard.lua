@@ -37,29 +37,30 @@ ITEM.functions.Merge = {
   onRun = function(item)
 	local client = item.player
 	local inventory = client:getChar():getInv()
-	local shardcount = item:getData("shardcount")
-	local shard = inventory:hasItem("shard")	
-	while(shard) do
-		if item == shard then
-			shard:remove()
-		else
-			shardcount = shardcount + shard:getData("shardcount")
-			shard:remove()
+	local shardcount = item:getData("shardcount")	
+	local items = inventory:getItems()
+	for k, v in pairs(items) do
+		if(v.uniqueID == "shard" and v != item) then
+			shardcount = shardcount + v:getData("shardcount")
+			v:remove()
 		end
-		while (shardcount >= 10) do
-			shardcount = shardcount - 10
-			inventory:add("shard_complete", 1)		
-		end
-		shard = inventory:hasItem("shard")
 	end
 	
-	if (shardcount == 0) then
-		
-	else
-		inventory:add("shard", 1, { shardcount = shardcount })
+	if (shardcount >= 10) then
+		if(!inventory:hasItem("shard_complete")) then
+			shardcount = shardcount - 10
+			inventory:add("shard_complete", 1, { char = client:getChar():getID() })
+		end
 	end
+	
+	while (shardcount > 9) do
+		inventory:add("shard", 1, { shardcount = 9 })
+		shardcount = shardcount - 9
+	end
+	inventory:add("shard", 1, { shardcount = shardcount })
+	
 	item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
-	return false
+	return true
   end,
   onCanRun = function(item)
 	if (item:getOwner() != nil) then
@@ -75,7 +76,7 @@ ITEM.functions.Scrap = {
   icon = "icon16/cross.png",
   onRun = function(item)
     if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-		item.player:getChar():getInv():add("shard_dust", 1, { Amount = item:getData("shardcount")*3 })
+		item.player:getChar():getInv():add("shard_dust", 1, { Amount = item:getData("shardcount")*5 })
 		item:remove()
 		return false 
     else

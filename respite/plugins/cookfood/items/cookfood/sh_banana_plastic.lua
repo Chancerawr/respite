@@ -1,6 +1,7 @@
 ITEM.name = "Plastic Banana"
 ITEM.uniqueID = "food_banana_plastic"
 ITEM.model = "models/props/cs_italy/bananna.mdl"
+ITEM.material = "phoenix_storms/mrref2"
 ITEM.hungerAmount = 25
 ITEM.foodDesc = "A curved plastic fruit."
 ITEM.quantity = 1
@@ -8,7 +9,6 @@ ITEM.price = 2
 ITEM.width = 2
 ITEM.height = 1
 ITEM.cookable = false
-ITEM.material = "phoenix_storms/mrref2"
 
 ITEM.container = "j_scrap_plastics"
 ITEM.dropscontainer = true

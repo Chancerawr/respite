@@ -120,7 +120,7 @@ ITEM.functions.FishNoBait = {
 			nut.chat.send(client, "itclose", "The unbaited hook is cast into the water.")		
 			item:setData("producing2", CurTime())
 			local oldPos = client:GetPos()
-			client:setAction("Fishing...", 60, 
+			client:setAction("Fishing...", 80, 
 				function()
 					if (item != nil and client:GetPos():Distance(oldPos) <= 500) then
 						item:setData("producing2", 0)
@@ -141,7 +141,7 @@ ITEM.functions.FishNoBait = {
 		return false
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 30
+		local endTime = item:getData("producing2") + 80
 		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 			return true 
 		else

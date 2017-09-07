@@ -24,7 +24,7 @@ local alcohols = {
 }
 
 ITEM.functions.Water = {
-	icon = "icon16/box.png",
+	icon = "icon16/bullet_black.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -67,7 +67,7 @@ ITEM.functions.Water = {
 }
 
 ITEM.functions.Haze = {
-	icon = "icon16/box.png",
+	icon = "icon16/bullet_blue.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -98,7 +98,7 @@ ITEM.functions.Haze = {
 }
 
 ITEM.functions.Alcohol = {
-	icon = "icon16/box.png",
+	icon = "icon16/bullet_yellow.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -113,7 +113,7 @@ ITEM.functions.Alcohol = {
 			end
 		end
 		
-		item:setData("purity", item:getData("purity") - 3)
+		item:setData("purity", item:getData("purity") - 2)
 		drink:remove()
 		if(math.random(0,1) == 1) then
 			inventory:add("drug_disinfectant")
@@ -136,7 +136,7 @@ ITEM.functions.Alcohol = {
 			end
 		end
 		
-		if (item:getData("purity") >= 3 and drink) then -- <30% purity cannot purify alcohol
+		if (item:getData("purity") >= 2 and drink) then -- <30% purity cannot purify alcohol
 			return true
 		else
 			return false

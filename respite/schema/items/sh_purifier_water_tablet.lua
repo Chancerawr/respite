@@ -11,7 +11,7 @@ ITEM.category = "Machines"
 ITEM.color = Color(135, 200, 255)
 
 ITEM.functions.Activate = {
-	icon = "icon16/box.png",
+	icon = "icon16/bullet_blue.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 			local client = item.player

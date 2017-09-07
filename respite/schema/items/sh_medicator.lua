@@ -43,8 +43,8 @@ ITEM.functions.Medical = {
 		
 		nut.chat.send(client, "itclose", "The machine accepts the materials, vibrates intensely, and outputs a something medical after a short period of time.")
 
-		if(amount > 5) then
-			organic:setData("Amount", amount - 5)
+		if(amount > 10) then
+			organic:setData("Amount", amount - 10)
 		else
 			organic:remove()
 		end
@@ -58,7 +58,7 @@ ITEM.functions.Medical = {
 		local player = item.player or item:getOwner()
 		local organic = player:getChar():getInv():hasItem("j_scrap_organic")
 		
-		if !player:getChar():getInv():hasItem("drug_depress") or !organic or (organic and organic:getData("Amount") < 5) then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():hasItem("drug_depress") or !organic or (organic and organic:getData("Amount") < 10) then --if item of importance isn't in the inventory.
 			return false
 		end
 	end

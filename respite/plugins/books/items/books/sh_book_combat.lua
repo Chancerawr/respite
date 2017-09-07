@@ -42,13 +42,16 @@ reduction.
 /suppress : Determines if an enemy is hit by suppressing fire. A player rolls suppression against an enemy in cover. If the enemy attempts to use a weapon or move into the open, it will have to /dodge to avoid 
 being hit. /dodge is rolled the /suppress roll. Can only suppress one target at a time unless all parties agree otherwise in a case where it would make sense. If that is the case, suppression is only rolled once, 
 and every /dodge is compared to that roll. Mostly uses strength and some accuracy.
-		<br/><br/>		
+		<br/><br/>	
+/execute : Used in point blank firearm conditions where target has a low chance of avoiding the hit. Double a normal firearms aimed. If this roll fails, it is assumed that the target has diverted the aim of the executioner, if that is impossible (They are unconscious, lack movement capabilities, etc.), then you shouldn't be using this roll.
+		<br/><br/>	
+/quickdraw : Used to draw your weapon and fire it in the same turn. Can only be used with SMGs and Pistols. Has a roll penalty (30%). Uses accuracy and agility.
+		<br/><br/>	
 /melee : For melee attacks, mostly uses strength with a little bit of accuracy. Mostly uses strength, uses some accuracy.
 		<br/><br/>	
 /flail : For melee attacks, uses a luck roll instead of accuracy. Not the smartest thing to use.
 		<br/><br/>		
-/grapple : Used to grab a target, preventing them from escaping unless they use their turn to try and break free (/grapple vs /grapple). After a successful grapple, the next successful melee attack on an 
-opponent will be stronger, (+5). Bonus applies to those other than grappler (Allies.) Mostly uses strength, uses a little accuracy.
+/grapple : Used to grab a target, preventing them from escaping unless they use their turn to try and break free (/grapple vs /grapple). After a successful grapple, the next successful melee attack on an opponent will be stronger, (+5). Bonus applies to those other than grappler (Allies.) Mostly uses strength, uses a little accuracy.
 		<br/><br/>		
 /sneak : Used for sneaking by a target, or for sneak attacks. Rolled against /perception. If /sneak is successful for a sneak attack, a /melee(+2) or a /firearmsaimed will be used for an attack. Uses agility.
 		<br/><br/>		

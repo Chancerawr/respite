@@ -624,6 +624,130 @@ nut.chat.register("kory", {
 	prefix = {"/kory", "/koreany"}
 })
 
+nut.chat.register("fin", {
+    onCanSay =  function(speaker, text)
+		return speaker:getChar():hasFlags("N")
+	end,
+	onChatAdd = function(speaker, text)
+		if (LocalPlayer():getChar():hasFlags("N")) then
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Finnish "'..text..'"')
+
+		else
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Finnish.")
+
+		end
+	end,
+	onCanHear = nut.config.get("chatRange", 280),
+	onGetColor = function(speaker, text)
+		return Color(102, 153, 204)
+	end,
+	prefix = {"/fin", "/finnish"}
+})
+
+nut.chat.register("finw", {
+    onCanSay =  function(speaker, text)
+		return speaker:getChar():hasFlags("N")
+	end,
+	onChatAdd = function(speaker, text)
+		if (LocalPlayer():getChar():hasFlags("N")) then
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Finnish, "'..text..'"')
+
+		else
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Finnish.")
+
+		end
+	end,
+	onCanHear = nut.config.get("chatRange", 280) * .25,
+	onGetColor = function(speaker, text)	
+	local color = nut.chat.classes.ic.onGetColor(speaker, text)
+		return Color(color.r - 35, color.g - 35, color.b - 35)
+	end,
+	prefix = {"/finw", "/finnishw"}
+})
+
+nut.chat.register("finy", {
+    onCanSay =  function(speaker, text)
+		return speaker:getChar():hasFlags("N")
+	end,
+	onChatAdd = function(speaker, text)
+		if (LocalPlayer():getChar():hasFlags("N")) then
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Finnish, "'..text..'"')
+
+		else
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Finnish.")
+
+		end
+	end,
+	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onGetColor = function(speaker, text)	
+	local color = nut.chat.classes.ic.onGetColor(speaker, text)
+		return Color(color.r + 35, color.g + 35, color.b + 35)
+	end,
+	prefix = {"/finy", "/finnishy"}
+})
+
+nut.chat.register("pol", {
+    onCanSay =  function(speaker, text)
+		return speaker:getChar():hasFlags("O")
+	end,
+	onChatAdd = function(speaker, text)
+		if (LocalPlayer():getChar():hasFlags("O")) then
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Polish "'..text..'"')
+
+		else
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Polish.")
+
+		end
+	end,
+	onCanHear = nut.config.get("chatRange", 280),
+	onGetColor = function(speaker, text)
+		return Color(102, 153, 204)
+	end,
+	prefix = {"/pol", "/polish"}
+})
+
+nut.chat.register("polw", {
+    onCanSay =  function(speaker, text)
+		return speaker:getChar():hasFlags("O")
+	end,
+	onChatAdd = function(speaker, text)
+		if (LocalPlayer():getChar():hasFlags("O")) then
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Polish, "'..text..'"')
+
+		else
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Polish.")
+
+		end
+	end,
+	onCanHear = nut.config.get("chatRange", 280) * .25,
+	onGetColor = function(speaker, text)	
+	local color = nut.chat.classes.ic.onGetColor(speaker, text)
+		return Color(color.r - 35, color.g - 35, color.b - 35)
+	end,
+	prefix = {"/polw", "/polishw"}
+})
+
+nut.chat.register("poly", {
+    onCanSay =  function(speaker, text)
+		return speaker:getChar():hasFlags("O")
+	end,
+	onChatAdd = function(speaker, text)
+		if (LocalPlayer():getChar():hasFlags("O")) then
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Polish, "'..text..'"')
+
+		else
+		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Polish.")
+
+		end
+	end,
+	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onGetColor = function(speaker, text)	
+	local color = nut.chat.classes.ic.onGetColor(speaker, text)
+		return Color(color.r + 35, color.g + 35, color.b + 35)
+	end,
+	prefix = {"/poly", "/polishy"}
+})
+
 nut.chat.register("pla", {
     onCanSay =  function(speaker, text)
 		return speaker:getChar():hasFlags("M")
@@ -696,3 +820,5 @@ nut.flag.add("M", "Plastic Written and Sign Language.")
 nut.flag.add("D", "Afrikaans Language.")
 nut.flag.add("K", "Korean Language.")
 nut.flag.add("H", "American Sign Language.")
+nut.flag.add("O", "Polish Language.")
+nut.flag.add("N", "Finnish Language.")

@@ -12,7 +12,7 @@ ITEM.color = Color(100, 100, 100)
 
 --1 cure, 2 organic material.
 ITEM.functions.Remember = {
-	icon = "icon16/box.png",
+	icon = "icon16/picture.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -43,7 +43,7 @@ ITEM.functions.Remember = {
 		local emotion = emotions[math.random(0,8)]
 		inventory:add("j_scrap_memory", 1, { Amount = 1, feeling = emotion})
 		
-		nut.chat.send(client, "itclose", "You remember something that makes you feel "..emotion..".")	
+		nut.chat.send(client, "itclose", "An image flashes through your mind that makes you feel "..emotion..".")	
 		
 		return false
 	end,

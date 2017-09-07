@@ -29,3 +29,10 @@ ITEM.iconCam = {
 	ang = Angle(0, 0, 1),
 	fov = 4
 }
+
+ITEM.holsterDrawInfo = {
+	model = ITEM.model,
+	bone = "ValveBiped.Bip01_R_Thigh",
+	ang = Angle(270, 90, 180),
+	pos = Vector(-2, -1, -5),
+}

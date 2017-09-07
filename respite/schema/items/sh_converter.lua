@@ -29,7 +29,8 @@ ITEM.iconCam = {
 	pos	= Vector(0, 200, 0)
 }
 
-ITEM.functions.Activate = {
+ITEM.functions.Convert = {
+	name = "Convert",
 	icon = "icon16/arrow_refresh.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
@@ -60,7 +61,13 @@ ITEM.functions.Activate = {
 						item:setData("producing2", 0)
 						local regular = string.sub(plastics.uniqueID, 1, (string.len(plastics.uniqueID) - 8))
 						client:notifyLocalized("Converting has finished.")
-						nut.item.spawn(regular, position)
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add(regular)) then --if the inventory has space, put it in the inventory
+								nut.item.spawn(regular, client:getItemDropPos()) --if not, drop it on the ground
+							end
+						else --if the item is on the ground
+							nut.item.spawn(regular, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+						end
 					end
 				end
 			)
@@ -68,7 +75,57 @@ ITEM.functions.Activate = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local endTime = item:getData("producing2") + 30
-		if (item:getOwner() != nil and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
+		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
+			return true 
+		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Cactus = {
+	icon = "icon16/arrow_refresh.png",
+	sound = "buttons/lightswitch2.wav",
+	onRun = function(item)
+			local client = item.player
+			local position = client:getItemDropPos()
+			local inventory = client:getChar():getInv()
+
+			local plastics = inventory:hasItem("j_cactus_plant_plastic")
+			
+			client:notifyLocalized("Converting has started.")
+			item:setData("producing2", CurTime())
+			plastics:remove()
+			timer.Simple(30, 
+				function()
+					if (item != nil) then
+						item:setData("producing2", 0)
+						local regular = "j_cactus_plant"
+						client:notifyLocalized("Converting has finished.")
+
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add(regular)) then --if the inventory has space, put it in the inventory
+								nut.item.spawn(regular, client:getItemDropPos()) --if not, drop it on the ground
+							end
+						else --if the item is on the ground
+							nut.item.spawn(regular, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+						end
+					end
+				end
+			)
+			return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local endTime = item:getData("producing2") + 30
+		local player = item.player or item:getOwner()
+		
+		local inventory = player:getChar():getInv()
+		local cactus = inventory:hasItem("j_cactus_plant_plastic")
+		if(!cactus) then
+			return false
+		end
+		
+		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 			return true 
 		else
 			return false

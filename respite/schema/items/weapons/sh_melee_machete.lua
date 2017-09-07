@@ -29,4 +29,3 @@ ITEM.iconCam = {
 	ang = Angle(25, 220, 90),
 	fov = 3.9
 }
-ITEM.attribBoosts = { ["str"] = 100, ["stm"] = 100 }

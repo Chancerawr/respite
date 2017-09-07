@@ -19,11 +19,12 @@ local foods = {
 	"food_melon",
 	"food_orange",
 	"food_potato",
-	"food_pumpkin"
+	"food_pumpkin",
+	"food_cactus",
 }
 
 ITEM.functions.Soda = {
-	icon = "icon16/box.png",
+	icon = "icon16/cup.png",
 	sound = "npc/barnacle/neck_snap2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -42,7 +43,6 @@ ITEM.functions.Soda = {
 		if(!done) then
 			client:notifyLocalized("You don't have a suitable food!") return false
 		end
-		
 		
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the plant matter.")	
@@ -72,11 +72,18 @@ ITEM.functions.Soda = {
 					end
 				end
 				
-				if(!inventory:add(soda, cans)) then --if the inventory has space, put it in the inventory
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add(soda, cans)) then --if the inventory has space, put it in the inventory
+						for i = 1, cans do
+							nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
+						end
+					end
+				else --if the item is on the ground
 					for i = 1, cans do
-						nut.item.spawn(soda, position) --if not, drop it on the ground
+						nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 					end
 				end
+				
 				nut.chat.send(client, "itclose", "Soda is dispensed from the machine.")
 			end
 		)
@@ -85,7 +92,52 @@ ITEM.functions.Soda = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local endTime = item:getData("producing2") + 30
-		if (item:getOwner() != nil and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
+		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
+			return true 
+		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Cactus = {
+	icon = "icon16/cup.png",
+	sound = "npc/barnacle/neck_snap2.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local cactus = inventory:hasItem("j_cactus_plant")
+		
+		client:notifyLocalized("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the cactus.")	
+		
+		item:setData("producing2", CurTime())
+		cactus:remove()
+		
+		timer.Simple(45, 
+			function()
+				local soda = "food_cactus_soda"
+
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add(soda)) then --if the inventory has space, put it in the inventory
+						nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
+					end
+				else --if the item is on the ground
+					nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				end
+				
+				nut.chat.send(client, "itclose", "Soda is dispensed from the machine.")
+			end
+		)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local player = item.player or item:getOwner()
+		local endTime = item:getData("producing2") + 45
+		local cactus = player:getChar():getInv():hasItem("j_cactus_plant")
+		if (cactus and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
 			return true 
 		else
 			return false

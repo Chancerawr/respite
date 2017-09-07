@@ -23,7 +23,7 @@ if (SERVER) then
 		local physicsObject = self:GetPhysicsObject()
 
 		if (IsValid(physicsObject)) then
-			physicsObject:Wake()
+			physicsObject:EnableMotion(false)
 		end
 
 		nut.item.newInv(0, self.invType, function(inventory)

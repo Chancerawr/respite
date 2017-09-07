@@ -102,7 +102,7 @@ ITEM.functions.Feed = {
 		
 		client:ConCommand("say /it The strange plant ravenously consumes the meat.")	
 		item:setData("producing2", CurTime())
-		timer.Simple(600, 
+		timer.Simple(1200, 
 			function()
 				if (item != nil) then
 					item:setData("producing2", 0)
@@ -115,7 +115,7 @@ ITEM.functions.Feed = {
 		return false
 	end,
 	onCanRun = function(item)
-		local endTime = item:getData("producing2") + 600
+		local endTime = item:getData("producing2") + 1200
 		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 		else
 			return false

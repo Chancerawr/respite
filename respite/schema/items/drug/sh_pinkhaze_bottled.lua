@@ -1,0 +1,22 @@
+ITEM.name = "Bottled Pink Haze"
+ITEM.model = "models/props_junk/glassbottle01a.mdl"
+ITEM.material = "models/props_combine/tprings_globe"
+ITEM.desc = "A gaseous substance that disorients the user and distorts their senses severely. This can be very painful for the afflicted's entire body. Those afflicted may have their senses 'swapped'."
+ITEM.duration = 3600
+ITEM.uniqueID = "haze_bottled_pink"
+ITEM.price = 200
+ITEM.color = Color(255, 108, 180)
+
+ITEM.attribBoosts = {
+	["fortitude"] = -5,
+	["str"] = -5,
+	["stm"] = -5,
+	["end"] = -5,
+	["accuracy"] = -5,
+	["perception"] = -5
+}
+
+ITEM:hook("_use", function(item)
+	item.player:EmitSound("hl1/ambience/steamburst1.wav")
+	item.player:ScreenFade(1, Color(255, 108, 180, 255), 10, 0)
+end)

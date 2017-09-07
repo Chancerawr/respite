@@ -325,14 +325,20 @@ nut.chat.register("radio", {
 		local listener = LocalPlayer()
 		local dist = speaker:GetPos():Distance(listener:GetPos())
 		local radCol = RADIO_CHATCOLOR
-		local radioMsg = string.Explode("",text)
-		if(dist > nut.config.get("chatRange", 280) * 4) then
-			for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*3)) * text:len()/100) do
-				local ranSpot = math.random(1,text:len())
-				if(radioMsg[ranSpot] != " ") then --dont replace empty spaces
-					radioMsg[ranSpot] = "-"
+		
+		if(!nut.config.get("distortion")) then
+			finalMsg = text
+		else
+			radioMsg = string.Explode("",text)
+			if(dist > nut.config.get("chatRange", 280) * 4) then
+				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*3)) * text:len()/100) do
+					local ranSpot = math.random(1,text:len())
+					if(radioMsg[ranSpot] != " ") then --dont replace empty spaces
+						radioMsg[ranSpot] = "-"
+					end
 				end
 			end
+			finalMsg = string.Implode("", radioMsg)
 		end
 		
 		local someone
@@ -472,7 +478,9 @@ nut.chat.register("radiow", {
 		local radioMsg
 		local finalMsg
 		
-		if(nut.config.get("distortion")) then
+		if(!nut.config.get("distortion")) then
+			finalMsg = text
+		else
 			radioMsg = string.Explode("",text)
 			if(dist > nut.config.get("chatRange", 280) * 4) then
 				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*3)) * text:len()/100) do
@@ -483,8 +491,6 @@ nut.chat.register("radiow", {
 				end
 			end
 			finalMsg = string.Implode("", radioMsg)
-		else
-			finalMsg = text
 		end
 		
 		local someone

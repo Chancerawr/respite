@@ -27,6 +27,7 @@ nut.flag.add("2", "Access to small weaponry.")
 nut.flag.add("3", "Access to large weaponry.")
 nut.flag.add("4", "Access to special weaponry.")--]]
 
+nut.flag.add("j", "Access to the junk items.")
 nut.flag.add("v", "Access to the general items.")
 nut.flag.add("V", "Access to the more rare items.")
 nut.flag.add("E", "Effects.")
@@ -52,7 +53,7 @@ nut.anim.setModelClass("models/spite/scarlet.mdl", "citizen_male")
 nut.anim.setModelClass("models/player/slow/amberlyn/re5/uroboro/slow_public.mdl", "citizen_male")
 nut.anim.setModelClass("models/prosperity/shadow.mdl", "citizen_male")
 
---this is dumb
+--this is dumb, dont do this in the future.
 for i = 1,100 do 
 	if(i < 10) then
 		nut.anim.setModelClass("models/tnb/citizens/female_0"..i..".mdl", "player")
@@ -74,3 +75,17 @@ nut.anim.setModelClass("models/tnb/combine/combine_dvl.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/metrocop.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/metrocop_female.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/synth_soldier.mdl", "player")
+
+
+--This is used for some entities to print stuff in the chat to people.
+nut.chat.register("mind", {
+	onChatAdd = function(speaker, text)
+		local color = nut.chat.classes.ic.onGetColor(speaker, text)
+		chat.AddText(Color(115, 115, 115), "**\""..text.."\"")
+	end,
+	onCanHear = 1, --range is set incredibly low so that only the client can see it.
+	prefix = {"/mind"},
+	font = "nutChatFontItalics",
+	filter = "actions",
+	deadCanChat = true
+})

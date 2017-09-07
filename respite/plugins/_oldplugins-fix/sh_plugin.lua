@@ -115,9 +115,6 @@ end
 function playerMeta:GetInventory()
 	return playerMeta:getChar():getInv()
 end
-function playerMeta:Kick()
-	self:kick()
-end
 function playerMeta:WepRaised()
 	return self:isWepRaised()
 end

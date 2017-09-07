@@ -9,7 +9,7 @@ ITEM.salvItem = "c_scrap"
 	
 ITEM.functions.Scrap = {
   tip = "Scrap this item",
-  icon = "icon16/cross.png",
+  icon = "icon16/wrench.png",
   onRun = function(item)
     if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
 		item.player:getChar():getInv():add(item.salvItem, 1, { Amount = item:getData("scrapamount") })
@@ -27,6 +27,7 @@ ITEM.functions.Scrap = {
 }
 
 ITEM.functions.Custom = {
+	name = "Customize",
 	tip = "Customize this item",
 	icon = "icon16/add.png",
 	onRun = function(item)

@@ -1,6 +1,6 @@
 FACTION.name = "Shade"
 FACTION.desc = "Spooky."
-FACTION.color = Color(60, 60, 60)
+FACTION.color = Color(90, 90, 90)
 FACTION.isDefault = false
 
 FACTION.models = {

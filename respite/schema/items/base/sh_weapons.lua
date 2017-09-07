@@ -8,6 +8,19 @@ ITEM.height = 2
 ITEM.isWeapon = true
 ITEM.weaponCategory = "sidearm"
 
+local quality = {}
+quality[0] = "Terrible"
+quality[1] = "Awful"
+quality[2] = "Bad"
+quality[3] = "Poor"
+quality[4] = "Normal"
+quality[5] = "Decent"
+quality[6] = "Good"
+quality[7] = "Great"
+quality[8] = "Excellent"
+quality[9] = "Master"
+quality[10] = "Perfect"
+
 -- Inventory drawing
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
@@ -139,8 +152,9 @@ ITEM.functions.Equip = {
 }
 
 ITEM.functions.Custom = {
+	name = "Customize",
 	tip = "Customize this item",
-	icon = "icon16/cross.png",
+	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
 		client:requestString("Change Name", "What name do you want this item to have?", function(text)
@@ -292,6 +306,10 @@ function ITEM:getDesc()
 	
 	if(self:getData("customDesc") != nil) then
 		desc = self:getData("customDesc")
+	end	
+	
+	if(self:getData("quality") != nil) then
+		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
 	end
 	
 	return Format(desc)

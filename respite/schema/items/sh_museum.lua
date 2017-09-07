@@ -12,7 +12,7 @@ ITEM.color = Color(0, 0, 0)
 ITEM.data = { producing2 = 0 }
 
 ITEM.functions.Acquire = {
-	icon = "icon16/box.png",
+	icon = "icon16/photo.png",
 	sound = "ambient/materials/footsteps_wood2.wav",
 	onRun = function(item)
 			local client = item.player

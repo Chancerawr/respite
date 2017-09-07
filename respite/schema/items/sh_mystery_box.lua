@@ -17,7 +17,7 @@ ITEM.functions.Open = {
 		local position = client:getItemDropPos()
 		local char = client:getChar()
 		local inventory = char:getInv()
-		local luck = char:getAttrib("luck")
+		local luck = math.Clamp(char:getAttrib("luck"), 0, 100)
 		--designed so that people with large amounts of luck can always roll low, but are less likely to.
 		local luckRoll = math.random(math.random(luck,100), 100) 
 		

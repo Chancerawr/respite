@@ -50,13 +50,26 @@ ITEM.functions.Brew = {
 							
 							for i = 1,cleanN do
 								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(!inventory:add(alcohol[math.random(1,cleanN*3)])) then --if the inventory has space, put it in the inventory
+									--if(!inventory:add(alcohol[math.random(1,cleanN*3)])) then --if the inventory has space, put it in the inventory
 										nut.item.spawn(alcohol[math.random(1,cleanN*3)], client:getItemDropPos()) --if not, drop it on the ground
-									end
+									--end
 									client:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 								else --if the item it on the ground
 									nut.item.spawn(alcohol[math.random(1,cleanN*3)], item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
 									item:getEntity():EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
+								end
+							end
+							if(clean) then
+								if(math.random(0,9) == 0) then
+									if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+										if(!inventory:add("alc_cloud")) then --if the inventory has space, put it in the inventory
+											nut.item.spawn("alc_cloud", client:getItemDropPos()) --if not, drop it on the ground
+										end
+										client:EmitSound("hl1/ambience/steamburst1.wav")
+									else --if the item it on the ground
+										nut.item.spawn("alc_cloud", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+										item:getEntity():EmitSound("hl1/ambience/steamburst1.wav")
+									end
 								end
 							end
 							

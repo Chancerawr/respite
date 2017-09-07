@@ -58,17 +58,35 @@ function RECIPES:Register( tbl )
 			//print("ProcessCraftItems called")
 		
 			player:EmitSound( "items/ammo_pickup.wav" )
+			
+			--used for finding the average quality of all the items that have quality.
+			local avgQual = 0
+			local total = 0
+			
 			for k, v in pairs( self.items ) do
 				local itemObj = player:getChar():getInv():hasItem( k )
 				local inventory = player:getChar():getInv()	
 				
 				if (inventory:hasItem( k )) then
 					if (itemObj:getData("Amount") == nil) then --non stack items
+					
+						if(itemObj:getData("quality")) then 
+							avgQual = avgQual + itemObj:getData("quality")
+							total = total + 1
+						end
+					
 						local count = 1
 						local part = inventory:hasItem(k)	
 						part:remove()
 						while (count < v) do
 							part = inventory:hasItem(k)
+							
+							if(itemObj:getData("quality")) then 
+								print("test")
+								avgQual = avgQual + itemObj:getData("quality")
+								total = total + 1
+							end
+								
 							part:remove()
 							count = count + 1
 						end
@@ -96,11 +114,49 @@ function RECIPES:Register( tbl )
 					end
 				end
 			end
+			local iness = player:getChar():getAttrib("medical")
+			
+			if(!iness) then
+				iness = 0
+				player:getChar():setAttrib("medical", 0)
+			end
+			
+			local craftMod = math.Clamp((iness/10) + math.random(-2,2), 0, 10)
+			
+			--this will go into the thing for descriptions
+			--[[
+			local quality = {}
+			quality[1] = "Terrible"
+			quality[2] = "Bad"
+			quality[3] = "Poor"
+			quality[4] = "Normal"
+			quality[5] = "Decent"
+			quality[6] = "Good"
+			quality[7] = "Great"
+			quality[8] = "Excellent"
+			quality[9] = "Master"
+			quality[10] = "Perfect"
+			--]]
+			
+			if(total > 0) then
+				avgQual = avgQual/total
+			else
+				--this is just so things that don't have any quality don't lean towards 0.
+				avgQual = craftMod
+			end
+			
+			local finQual = math.Round((avgQual + craftMod)/2)
+			
 			for k, v in pairs( self.result ) do
 				--if (!player:getChar():getInv():add(k, v)) then
 					for i = 1, v do
-						nut.item.spawn(k, player:getItemDropPos())
+						nut.item.spawn(k, player:getItemDropPos(), 
+							function(item)
+								item:setData("quality", finQual)
+							end
+						)
 					end
+					player:getChar():updateAttrib("medical", 0.005)
 				--else
 					--netstream.Start(client, "vendorAdd", uniqueID)
 				--end

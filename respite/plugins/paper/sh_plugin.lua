@@ -14,7 +14,7 @@ if SERVER then
 		if note:IsValid() then
 			note:setNetVar( "text", text )
 		end
-		print( tostring( client ) .. ": Pushed new note." )
+		nut.log.addRaw(client:Name() .. " wrote " .. data[1])
 	end)
 
 	function playerMeta:OpenNote( text, entity, private )

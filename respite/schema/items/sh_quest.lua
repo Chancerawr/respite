@@ -9,8 +9,9 @@ ITEM.onGetDropModel = true
 ITEM.data = { customName = ITEM.name, customDesc = ITEM.desc, customMdl = ITEM.model}
 
 ITEM.functions.Custom = {
+	name = "Customize",
 	tip = "Customize this item",
-	icon = "icon16/add.png",
+	icon = "icon16/wrench.png",
 	onRun = function(item)
 	client = item.player
 	client:requestString("Change Name", "What name do you want this item to have?", function(text)

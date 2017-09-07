@@ -1,2 +1,2 @@
-ATTRIBUTE.name = "Medical"
-ATTRIBUTE.desc = "Your character's skill with medicine and medical techniques."
+ATTRIBUTE.name = "Craftiness"
+ATTRIBUTE.desc = "Your character's skill with construction, crafting, and general ingenuity."

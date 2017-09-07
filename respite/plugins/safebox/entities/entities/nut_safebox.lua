@@ -71,9 +71,12 @@ if (SERVER) then
 	end
 
 	function ENT:Use(activator)
-		self:OpenInv(activator)
+		if(activator:getChar():getFaction() == FACTION_SURVIVOR or activator:getChar():getFaction() == FACTION_SHADE) then
+			self:OpenInv(activator)
+		else
+			activator:notify("Only Drifters or Shades can use this.")
+		end
 	end
-
 else
 		netstream.Hook("safeOpen", function(index)
 			local inventory = nut.item.inventories[index]

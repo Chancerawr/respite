@@ -29,6 +29,7 @@ local workshopIDs = {
 1076723138, --tfa content 1
 1076732010, --tfa content 2
 1076706011, --tfa content 3
+756545326, --gunsmoke community models
 
 --[[
 player models
@@ -45,7 +46,7 @@ player models
 Temporary Things (Like Maps)
 --]]
 
-337486491 --rp_lr_refuge
+104522041 --rp_apoc
 
 }
 

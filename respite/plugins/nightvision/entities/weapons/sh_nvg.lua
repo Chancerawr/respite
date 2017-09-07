@@ -101,11 +101,11 @@ if( CLIENT ) then
 		am_nightvision = DynamicLight( 0 )
 		if ( am_nightvision ) then
 			am_nightvision.Pos = ply:EyePos()
-			am_nightvision.r = 0
-			am_nightvision.g = 15
-			am_nightvision.b = 0
+			am_nightvision.r = 255
+			am_nightvision.g = 255
+			am_nightvision.b = 255
 			am_nightvision.Brightness = 4
-			am_nightvision.Size = 9999999999
+			am_nightvision.Size = 10000
 			am_nightvision.DieTime = CurTime()+100000
 			am_nightvision.Style = 1
 		end

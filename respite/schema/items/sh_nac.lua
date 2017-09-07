@@ -83,14 +83,14 @@ ITEM.functions.Create = {
 		local metal = inventory:hasItem("j_scrap_metals")	
 		
 		if (!metal) then
-			client:notifyLocalized("You need 5 scrap metal!") return false
+			client:notifyLocalized("You need 4 scrap metal!") return false
 		end
 		
 		local amount = metal:getData("Amount")
-		if(amount >= 5) then
+		if(amount >= 4) then
 		
-			metal:setData("Amount", amount - 5)
-			if (amount - 5 == 0) then
+			metal:setData("Amount", amount - 4)
+			if (amount - 4 == 0) then
 				metal:remove()
 			end
 			
@@ -101,7 +101,7 @@ ITEM.functions.Create = {
 				nut.item.spawn(canned[math.random(1,18)], position) --small chance to spawn random canned food
 			end
 		else
-			client:notifyLocalized("You need 5 scrap metal!") return false
+			client:notifyLocalized("You need 4 scrap metal!") return false
 		end
 		
 		return false

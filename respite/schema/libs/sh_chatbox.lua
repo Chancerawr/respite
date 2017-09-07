@@ -355,8 +355,7 @@ do
 			end,
 			onCanHear = nut.config.get("chatRange", 280),
 			prefix = {".//", "[[", "/looc"},
-			noSpaceAfter = true,
-			filter = "ooc"
+			noSpaceAfter = true
 		})
 
 		-- Roll information in chat.

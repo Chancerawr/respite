@@ -1,8 +1,9 @@
-ITEM.name = "Wormhole Bomb"
+ITEM.name = "Turbulent Phase Bomb"
 ITEM.uniqueID = "portal_explosives"
 ITEM.model = "models/Items/grenadeammo.mdl"
 ITEM.material = "models/props_lab/security_screens2"
-ITEM.desc = "A powerful device that can be used to tear open a portal."
+ITEM.desc = "An explosive device with an explosive radius of about half a meter. In that area, material is displaced into small pieces due to the incredibly unstable portal, effect lasts for a only few seconds, but is very devastating."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
+ITEM.color = Color(140, 20, 140)

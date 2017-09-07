@@ -11,7 +11,7 @@ ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
 ITEM.functions.Refine = {
-	icon = "icon16/box.png",
+	icon = "icon16/cog.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 		local client = item.player

@@ -11,7 +11,7 @@ ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 ITEM.data = { producing2 = 0 }
 
-ITEM.meats = {
+local meats = {
 	"food_monster_meat",
 	"food_human_meat",
 	"food_human_torso3",
@@ -68,7 +68,7 @@ ITEM.functions.Activate = {
 				client:notifyLocalized("Baconating has begun.")
 			end
 			item:setData("producing2", CurTime())
-			timer.Simple(180, 
+			timer.Simple(300, 
 				function()
 					if (item != nil) then
 						item:setData("producing2", 0)
@@ -91,7 +91,7 @@ ITEM.functions.Activate = {
 			return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 180
+		local endTime = item:getData("producing2") + 300
 		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 			return true 
 		else

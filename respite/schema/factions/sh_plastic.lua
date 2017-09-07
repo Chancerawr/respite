@@ -159,5 +159,4 @@ FACTION.models = {
 "models/tnb/citizens/female_65.mdl"
 }
 
-
 FACTION_PLASTIC = FACTION.index

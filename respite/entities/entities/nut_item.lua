@@ -1,10 +1,11 @@
 AddCSLuaFile()
 
+ENT.Base = "base_entity"
 ENT.Type = "anim"
 ENT.PrintName = "Item"
 ENT.Category = "NutScript"
 ENT.Spawnable = false
-ENT.RenderGroup 		= RENDERGROUP_BOTH
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 if (SERVER) then
 	function ENT:Initialize()
@@ -19,16 +20,17 @@ if (SERVER) then
 			physObj:EnableMotion(true)
 			physObj:Wake()
 		end
+		
+		hook.Run("OnItemSpawned", self)
 	end
 
-	--[[
+
 	function ENT:setHealth(amount)
 		self.health = amount
 	end
-	--]]
-	
-	--[[
+
 	function ENT:OnTakeDamage(dmginfo)
+		--[[
 		local damage = dmginfo:GetDamage()
 		self:setHealth(self.health - damage)
 
@@ -36,8 +38,8 @@ if (SERVER) then
 			self.onbreak = true
 			self:Remove()
 		end
+		--]]
 	end
-	--]]
 
 	function ENT:setItem(itemID)
 		local itemTable = nut.item.instances[itemID]
@@ -46,16 +48,17 @@ if (SERVER) then
 			local model = itemTable.onGetDropModel and itemTable:onGetDropModel(self) or itemTable.model
 
 			self:SetSkin(itemTable.skin or 0)
+			if (itemTable.worldModel) then
+				self:SetModel(itemTable.worldModel == true and "models/props_junk/cardboard_box004a.mdl" or itemTable.worldModel)
+			else
+				self:SetModel(model)
+			end
+			self:SetModel(model)
 			
-			if (itemTable.material) then --material
+			if(itemTable.material) then
 				self:SetMaterial(itemTable.material)
 			end
 			
-			if (itemTable.worldModel) then
-				self:SetModel(itemTable.worldModel)
-			end
-			
-			self:SetModel(model)
 			self:PhysicsInit(SOLID_VPHYSICS)
 			self:SetSolid(SOLID_VPHYSICS)
 			self:setNetVar("id", itemTable.uniqueID)
@@ -87,11 +90,26 @@ if (SERVER) then
 
 	function ENT:OnRemove()
 		if (!nut.shuttingDown and !self.nutIsSafe and self.nutItemID) then
-			local item = nut.item.instances[self.nutItemID]
+			local itemTable = nut.item.instances[self.nutItemID]
 
-			if (item) then
-				if (item.onRemoved) then
-					item:onRemoved()
+			if (self.onbreak) then
+				self:EmitSound("physics/cardboard/cardboard_box_break"..math.random(1, 3)..".wav")
+				local position = self:LocalToWorld(self:OBBCenter())
+
+				local effect = EffectData()
+					effect:SetStart(position)
+					effect:SetOrigin(position)
+					effect:SetScale(3)
+				util.Effect("GlassImpact", effect)
+
+				if (itemTable.onDestoryed) then
+					itemTable:onDestoryed(self)
+				end
+			end
+
+			if (itemTable) then
+				if (itemTable.onRemoved) then
+					itemTable:onRemoved()
 				end
 
 				nut.db.query("DELETE FROM nut_items WHERE _itemID = "..self.nutItemID)
@@ -100,13 +118,13 @@ if (SERVER) then
 	end
 	
 	function ENT:Think()
-		local it = self:getItemTable()
-		
-		if (it) then
-			if (!it.id or it.id == 0) then
-				self:Remove()
-			end
+		local itemTable = self:getItemTable()
+				
+		if (itemTable and itemTable.think) then
+			itemTable:think(self)
 		end
+
+		return true
 	end
 else
 	ENT.DrawEntityInfo = true
@@ -150,8 +168,7 @@ else
 			
 			if (description != self.desc) then
 				self.desc = description
-				self.lines, self.offset = nut.util.wrapText(description, ScrW() * 0.7, "nutSmallFont")
-				self.offset = self.offset * 0.5
+				self.markup = nut.markup.parse("<font=nutItemDescFont>" .. description .. "</font>", ScrW() * 0.7)
 			end
 			
 			--custom names
@@ -165,12 +182,12 @@ else
 			
 			nut.util.drawText(L(name), x, y, colorAlpha(color, alpha), 1, 1, nil, alpha * 0.65)
 
-			local lines = self.lines
-			local offset = self.offset
-
-			for i = 1, #lines do
-				nut.util.drawText(lines[i], x, y + (i * 16), colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
+			y = y + 12
+			if (self.markup) then
+				self.markup:draw(x, y, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 			end
+
+			x, y = hook.Run("DrawItemDescription", self, x, y, colorAlpha(color_white, alpha), alpha * 0.65)
 
 			itemTable.entity = nil
 			itemTable.data = oldData
@@ -181,25 +198,21 @@ else
 		local itemTable = self:getItemTable()
 
 		if (itemTable and itemTable.drawEntity) then
-			itemTable:drawEntity(self, itemTable)
+			itemTable:drawEntity(self)
 		end
 	end
-	
-	--doesnt draw if it's too far away. Comment this out if losing fps on maps with render zones or whatever they're called.
-	--[[
+
 	function ENT:Draw()
-		if(LocalPlayer():GetPos():Distance( self:GetPos() ) < 5000) then
-			self:DrawModel()
-			self:DrawShadow(true)
-		else
-			self:DrawShadow(false)
-		end
+		self:DrawModel()
 	end
-	--]]
+end
+
+function ENT:getItemID()
+	return self:getNetVar("id", "")
 end
 
 function ENT:getItemTable()
-	return nut.item.list[self:getNetVar("id", "")]
+	return nut.item.list[self:getItemID()]
 end
 
 function ENT:getData(key, default)

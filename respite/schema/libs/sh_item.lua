@@ -71,7 +71,7 @@ do
 					local panel = nut.gui["inv"..invID] or nut.gui.inv1
 
 					if (IsValid(panel)) then
-						local icon = panel:addIcon(item.model or "models/props_junk/popcan01a.mdl", x, y, item.width, item.height)
+						local icon = panel:addIcon(item:getData("customMdl", item.model) or "models/props_junk/popcan01a.mdl", x, y, item.width, item.height)
 
 						if (IsValid(icon)) then
 							local color

@@ -10,30 +10,6 @@ ITEM.material = "models/props_c17/metalladder001"
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
-ITEM.containers = {
-	"j_empty_beer",
-	"j_empty_beer2",
-	"j_empty_bleach",
-	"j_empty_soda_can",
-	"j_empty_soda2",
-	"j_empty_soda1",
-	"j_empty_juice_bottle",
-	"j_empty_milk_jug",
-	"j_empty_milk_carton",
-	"j_empty_moonshine",
-	"j_empty_mountain_spring",
-	"j_empty_soda_bottle",
-	"j_empty_teapot",
-	"j_empty_vegetable_oil",
-	"j_empty_vial",
-	"j_empty_vodka",
-	"j_empty_water",
-	"j_empty_water_blood",
-	"j_empty_whiskey",
-	"j_empty_wine",
-	"j_empty_mug"
-}
-
 ITEM.iconCam = {
 	ang = Angle(0, 270, 0),
 	fov	= 9.4,

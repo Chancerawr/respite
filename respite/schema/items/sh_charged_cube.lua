@@ -1,0 +1,7 @@
+ITEM.name = "Charged Cube"
+ITEM.uniqueID = "charged_cube"
+ITEM.desc = "A perfect cube, it is hot the touch and stores electricity incredibly well."
+ITEM.model = "models/hunter/blocks/cube025x025x025.mdl"
+ITEM.material = "models/alyx/emptool_glow"
+ITEM.flag = "v"
+ITEM.category = "Charged"

@@ -1,10 +1,12 @@
 ITEM.name = "Bottled Blue Haze"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
+ITEM.material = "models/xqm/boxfull_diffuse"
 ITEM.desc = "A gaseous, hallucinogenic substance, individuals that make contact with the blue haze may see vivid hallucinations for an hour or so."
 ITEM.duration = 3600
 ITEM.uniqueID = "haze_bottled"
 ITEM.price = 200
-ITEM.material = "models/xqm/boxfull_diffuse"
+ITEM.color = Color(50, 50, 255)
+
 ITEM.attribBoosts = {
 	["fortitude"] = 5,
 }

@@ -5,17 +5,6 @@ ITEM.desc = ITEM.desc or "An item that is undefined."
 ITEM.id = ITEM.id or 0
 ITEM.uniqueID = "undefined"
 
-function ITEM:getName()
-	if (!self.name) then return "ERROR" end
-	
-	if (type(self.name) == "function") then
-		return "ERROR"
-	end
-	
-	--return L(self.name or "noName")
-	return self.name or "noName"
-end
-
 function ITEM:getData(key, default)
 	self.data = self.data or {}
 

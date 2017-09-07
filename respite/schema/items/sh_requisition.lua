@@ -64,10 +64,10 @@ ITEM.functions.Ammo = {
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
 	
-		client:requestString("Purchase", "This costs 100. Are you sure? Type 'yes' to proceed.", 
+		client:requestString("Purchase", "This costs 400 scrap coins. Are you sure? Type 'yes' to proceed.", 
 		function(text)
 			if(text == "yes") then
-				char:takeMoney(100)
+				char:takeMoney(400)
 				chip:remove()
 				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
 				
@@ -114,10 +114,10 @@ ITEM.functions.Ammo = {
 									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
 										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 									end
-									char:giveMoney(100)	
+									char:giveMoney(400)	
 								else --if the item it on the ground
 									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(100)
+									char:giveMoney(400)
 								end
 							end
 						end
@@ -138,7 +138,7 @@ ITEM.functions.Ammo = {
 			player = item:getOwner()
 		end
 		
-		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 100) then 
+		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 400) then 
 			return false
 		end
 	end
@@ -154,10 +154,10 @@ ITEM.functions.Food = {
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
 
-		client:requestString("Purchase", "This costs 50. Are you sure? Type 'yes' to proceed.", 
+		client:requestString("Purchase", "This costs 100 scrap coins. Are you sure? Type 'yes' to proceed.", 
 		function(text)
 			if(text == "yes") then
-				char:takeMoney(50)
+				char:takeMoney(100)
 				chip:remove()
 				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
 				
@@ -211,10 +211,10 @@ ITEM.functions.Food = {
 									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
 										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 									end
-									char:giveMoney(50)
+									char:giveMoney(100)
 								else --if the item it on the ground
 									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(50)
+									char:giveMoney(100)
 								end
 							end
 						end
@@ -250,7 +250,7 @@ ITEM.functions.Medical = {
 		local inventory = char:getInv()
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
-		client:requestString("Purchase", "This costs 500. Are you sure? Type 'yes' to proceed.", 
+		client:requestString("Purchase", "This costs 500 scrap coins. Are you sure? Type 'yes' to proceed.", 
 		function(text)
 			if(text == "yes") then
 				char:takeMoney(500)
@@ -470,10 +470,10 @@ ITEM.functions.Firearm = {
 		}
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
-		client:requestString("Purchase", "This costs 10,000. Are you sure? Type 'yes' to proceed.", 
+		client:requestString("Purchase", "This costs 20,000 scrap coins. Are you sure? Type 'yes' to proceed.", 
 			function(text)
 				if(text == "yes") then
-					char:takeMoney(10000)
+					char:takeMoney(20000)
 					chip:remove()
 					nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
 					
@@ -516,9 +516,9 @@ ITEM.functions.Firearm = {
 										if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
 											nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 										end
-										char:giveMoney(10000)
+										char:giveMoney(20000)
 									else --if the item it on the ground
-										char:giveMoney(10000)
+										char:giveMoney(20000)
 										nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
 									end
 								end
@@ -541,7 +541,7 @@ ITEM.functions.Firearm = {
 			player = item:getOwner()
 		end
 		
-		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 10000) then 
+		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 20000) then 
 			return false
 		end
 	end

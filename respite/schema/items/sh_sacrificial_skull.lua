@@ -9,9 +9,10 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(0, 0, 0)
+ITEM.data = { producing2 = 0 }
 
 ITEM.functions.Sacrifice = {
-	icon = "icon16/box.png",
+	icon = "icon16/eye.png",
 	sound = "npc/barnacle/neck_snap2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -59,36 +60,70 @@ ITEM.functions.Sacrifice = {
 		end
 		
 		sacrifice:remove()
-
-		local reward = math.random(math.random(0, math.floor(char:getAttrib("fortitude"))), 100) -- rolls from character's fortitude attribute to 100.
-		if(reward < 5) then
-			client:notifyLocalized("You receive nothing.")
-		elseif (reward < 50) then
-			client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
-			nut.item.spawn("drug_depress", position)
-		elseif (reward < 65) then
-			client:notifyLocalized("You receive a vial of cure for your sacrifice.")
-			nut.item.spawn("cure", position)		
-		elseif (reward < 75) then
-			client:notifyLocalized("You receive a lamp?")
-			nut.item.spawn("hl2_m_lamp_strange", position)
-		elseif (reward < 80) then
-			client:notifyLocalized("You receive a can of yams?")
-			nut.item.spawn("food_yams", position)
-		elseif (reward < 90) then
-			client:notifyLocalized("You receive a baby doll.")
-			nut.item.spawn("j_baby_doll", position)	
-		elseif (reward < 95) then
-			client:notifyLocalized("You receive a bottle of blue haze for your sacrifice.")
-			nut.item.spawn("haze_bottled", position)
-		elseif (reward <= 99) then
-			client:notifyLocalized("You receive an enhanced chip for your sacrifice.")
-			nut.item.spawn("cube_chip_enhanced", position)		
-		elseif (reward == 100) then
-			client:notifyLocalized("You feel like you've lost part of yourself.")	
-			char:updateAttrib("fortitude", 1)
-		end
-		nut.log.add(client:Name().." used a sacrifical skull: \""..reward.."\"")
+		item:setData("producing2", CurTime())
+		
+		client:notifyLocalized("The skull takes the sacrifice, and begins to consume it.")
+		
+		timer.Simple(69, --RATTLE ME BONES 
+			function()
+				position = client:getItemDropPos()
+				nut.chat.send(client, "itclose", client:Name().. "'s sacrificial skull rattles gently.")
+				
+				local fort = math.Clamp(math.floor(char:getAttrib("fortitude")), 0, 100)
+				local fortRan = math.random(0, fort)
+				
+				local reward = math.random(fortRan, 100) -- rolls from character's fortitude attribute to 100.
+				local rewardI
+				
+				if(reward < 5) then
+					client:notifyLocalized("You receive nothing.")
+				elseif (reward < 50) then
+					client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
+					rewardI = "drug_depress"
+				elseif (reward < 65) then
+					client:notifyLocalized("You receive a vial of cure for your sacrifice.")
+					rewardI = "cure"
+				elseif (reward < 75) then
+					client:notifyLocalized("You receive a lamp?")
+					rewardI = "hl2_m_lamp_strange"
+				elseif (reward < 80) then
+					client:notifyLocalized("You receive a can of yams?")
+					rewardI = "food_yams"
+				elseif (reward < 94) then
+					client:notifyLocalized("You receive a baby doll.")
+					rewardI = "j_baby_doll"
+				elseif (reward < 97) then
+					client:notifyLocalized("You receive a bottle of blue haze for your sacrifice.")
+					rewardI = "haze_bottled"
+				elseif (reward <= 99) then
+					client:notifyLocalized("You receive an enhanced chip for your sacrifice.")
+					rewardI = "cube_chip_enhanced"					
+				elseif (reward == 100) then
+					client:notifyLocalized("You feel like you've changed somehow.")	
+					char:updateAttrib("fortitude", 1)
+				end
+				nut.log.addRaw(client:Name().." used a sacrifical skull: \""..reward.."\"")
+				
+				if(rewardI) then
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						if(!inventory:add(rewardI)) then --if the inventory has space, put it in the inventory
+							nut.item.spawn(rewardI, client:getItemDropPos()) --if not, drop it on the ground
+						end
+					else --if the item it on the ground
+						nut.item.spawn(rewardI, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+					end
+				end
+				
+				item:setData("producing2", 0)
+			end
+		)
 		return false
+	end,
+	onCanRun = function(item)
+		local endTime = item:getData("producing2") + 69
+		if(CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
+		else
+			return false
+		end
 	end
 }

@@ -2083,7 +2083,7 @@ RECIPE116.result = {
 RECIPES:Register( RECIPE116 )
 //
 local RECIPE117 = {}
-RECIPE117.uid = "nut_ammo_77251"
+RECIPE117.uid = "nut_ammo_76251"
 RECIPE117.name = "7.62x51mm Ammo"
 RECIPE117.category = "Ammunition"
 RECIPE117.model = Model( "models/items/boxmrounds.mdl" )
@@ -2094,12 +2094,12 @@ RECIPE117.items = {
 	["cube_chip"] = 6
 }
 RECIPE117.result = {
-	["ammo_77251"] = 1
+	["ammo_76251"] = 1
 }
 RECIPES:Register( RECIPE117 )
 //
 local RECIPE118 = {}
-RECIPE118.uid = "nut_ammo_77254"
+RECIPE118.uid = "nut_ammo_76254"
 RECIPE118.name = "7.62x54mm Ammo"
 RECIPE118.category = "Ammunition"
 RECIPE118.model = Model( "models/items/boxmrounds.mdl" )
@@ -2110,7 +2110,7 @@ RECIPE118.items = {
 	["cube_chip"] = 6
 }
 RECIPE118.result = {
-	["ammo_77254"] = 1
+	["ammo_76254"] = 1
 }
 RECIPES:Register( RECIPE118 )
 //
@@ -2649,4 +2649,73 @@ RECIPE148.result = {
 	["shard"] = 1
 }
 RECIPES:Register( RECIPE148 )
+//
+local RECIPE149 = {}
+RECIPE149.uid = "nut_suture"
+RECIPE149.name = "Makeshift Suture Kit"
+RECIPE149.category = "Medical"
+RECIPE149.model = Model( "models/props_lab/box01a.mdl" )
+RECIPE149.desc = "A small box filled tools and sutures."
+RECIPE149.noBlueprint = true
+RECIPE149.items = {
+	["j_scrap_plastics"] = 15,
+	["j_scrap_cloth"] = 15,
+	["j_scrap_metals"] = 10
+}
+RECIPE149.result = {
+	["medical_suture"] = 1
+}
+RECIPES:Register( RECIPE149 )
+//
+local RECIPE150 = {}
+RECIPE150.uid = "nut_drill"
+RECIPE150.name = "Power Drill"
+RECIPE150.category = "Tools"
+RECIPE150.model = Model( "models/warz/melee/powerdrill.mdl" )
+RECIPE150.desc = "An electric drill. (This is not a weapon.)"
+RECIPE150.noBlueprint = true
+RECIPE150.items = {
+	["j_scrap_metals"] = 5,
+	["j_scrap_plastics"] = 5,
+	["j_scrap_elecs"] = 3,
+	["j_scrap_chems"] = 2
+}
+RECIPE150.result = {
+	["j_drill"] = 1
+}
+RECIPES:Register( RECIPE150 )
+//
+local RECIPE151 = {}
+RECIPE151.uid = "nut_saw"
+RECIPE151.name = "Power Saw"
+RECIPE151.category = "Tools"
+RECIPE151.model = Model( "models/props/cs_militia/circularsaw01.mdl" )
+RECIPE151.desc = "An electric saw, it won't work without electricity. (This is not a weapon.)"
+RECIPE151.noBlueprint = true
+RECIPE151.items = {
+	["j_scrap_metals"] = 10,
+	["j_scrap_plastics"] = 5,
+	["j_scrap_elecs"] = 4,
+	["j_scrap_chems"] = 2
+}
+RECIPE151.result = {
+	["j_power_saw"] = 1
+}
+RECIPES:Register( RECIPE151 )
+//
+local RECIPE152 = {}
+RECIPE152.uid = "nut_bandages_memory"
+RECIPE152.name = "Memory Wraps"
+RECIPE152.category = "Medical"
+RECIPE152.model = Model( "models/props_lab/box01a.mdl" )
+RECIPE152.desc = "A small box filled with some strange wrappings.\nThese wrappings help deal with numbness caused by blight damage."
+RECIPE152.noBlueprint = true
+RECIPE152.items = {
+	["medical_bandages"] = 2,
+	["j_scrap_memory"] = 2
+}
+RECIPE152.result = {
+	["medical_memory"] = 1
+}
+RECIPES:Register( RECIPE152 )
 //

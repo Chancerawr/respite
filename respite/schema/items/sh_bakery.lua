@@ -11,7 +11,7 @@ ITEM.color = Color(50, 150, 50)
 ITEM.data = { producing2 = 0 }
 
 ITEM.functions.Bake = {
-	icon = "icon16/box.png",
+	icon = "icon16/cake.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -90,7 +90,7 @@ ITEM.functions.Bake = {
 				end
 			)
 		else
-			client:notifyLocalized("You need 2 organic materials and one bottle of water!") return false
+			client:notifyLocalized("You need 2 organic material and one bottle of water!") return false
 		end
 
 		return false

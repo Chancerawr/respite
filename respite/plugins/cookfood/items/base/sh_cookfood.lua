@@ -29,8 +29,10 @@ function ITEM:getDesc()
 		str = str .. "\nFood Status: %s."
 	end
 
-	str = str .. "\nPortions remaining: " .. self.quantity
-
+	if(self.quantity) then
+		str = str .. "\nPortions remaining: " .. self:getData("quantity", self.quantity)
+	end
+		
 	return Format(str, COOKLEVEL[(self:getData("cooked") or 1)][1])
 end
 
@@ -133,8 +135,9 @@ ITEM.functions.use = {
 }
 
 ITEM.functions.Custom = {
+	name = "Customize",
 	tip = "Customize this item",
-	icon = "icon16/add.png",
+	icon = "icon16/wrench.png",
 	onRun = function(item)
 	client = item.player
 	client:requestString("Change Name", "What name do you want this item to have?", function(text)

@@ -47,19 +47,10 @@ ITEM.functions.use = { -- sorry, for name order.
 		end
 	end,
 	onCanRun = function(item)
-		if (item.player != nil) then
-			client = item.player
-			char = client:getChar()
-		elseif(item:getOwner() != nil) then
-			client = item:getOwner()
-			char = client:getChar()
-		end
+		local player = item.player or item:getOwner()
+		local char = player:getChar()
 
-		if (char:getFaction() != FACTION_PLASTIC and item.uniqueID != "medical_plastic") then
-			return true
-		elseif (char:getFaction() == FACTION_PLASTIC and item.uniqueID == "medical_plastic") then
-			return true
-		else
+		if (char:getFaction() == FACTION_PLASTIC) then
 			return false
 		end
     end
@@ -76,7 +67,7 @@ ITEM.functions.usef = { -- sorry, for name order.
 		local trace = client:GetEyeTraceNoCursor() -- We don't need cursors.
 		local target = trace.Entity
 
-		if (target and target:IsValid() and target:IsPlayer() and target:Alive() and target:getChar():getFaction() != FACTION_PLASTIC) then
+		if (target and target:IsValid() and target:IsPlayer() and target:Alive()) then
 			healPlayer(item.player, target, item.healAmount, item.healSeconds)
 
 			return true
@@ -88,3 +79,27 @@ ITEM.functions.usef = { -- sorry, for name order.
 		return (!IsValid(item.entity))
 	end
 }
+
+local quality = {}
+quality[0] = "Terrible"
+quality[1] = "Awful"
+quality[2] = "Bad"
+quality[3] = "Poor"
+quality[4] = "Normal"
+quality[5] = "Decent"
+quality[6] = "Good"
+quality[7] = "Great"
+quality[8] = "Excellent"
+quality[9] = "Master"
+quality[10] = "Perfect"
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("quality") != nil) then
+		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
+	end
+	
+	return Format(desc)
+end
+

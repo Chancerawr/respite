@@ -24,7 +24,7 @@ local ranScrap = {}
 	ranScrap[15] = "j_scrap_rubber"
 	ranScrap[16] = "j_scrap_memory"
 	ranScrap[17] = "j_scrap_wood"
-	ranScrap[18] = "cube_chip"
+	--ranScrap[18] = "cube_chip"
 
 if (SERVER) then
 	function ENT:Initialize()
@@ -61,7 +61,7 @@ if (SERVER) then
 	
 	function ENT:OnTakeDamage( dmginfo )
 		if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST) and dmginfo:GetDamage() > 10) then
-			nut.item.spawn(ranScrap[math.random(1,18)], dmginfo:GetDamagePosition())
+			nut.item.spawn(ranScrap[math.random(1,17)], dmginfo:GetDamagePosition())
 			if (nut.config.get("gDamage")) then
 				self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
 				if(self:Health() == 0) then

@@ -49,7 +49,7 @@ if (SERVER) then
 			nut.item.spawn("j_scrap_metals", dmginfo:GetDamagePosition())
 			if (nut.config.get("gDamage")) then
 				self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
-				if(self:Health() == 0) then
+				if(self:Health() < 1) then
 					self:Remove()
 				end
 			end

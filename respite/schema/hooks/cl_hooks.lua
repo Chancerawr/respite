@@ -261,7 +261,7 @@ if ( nut.gui.char and nut.gui.char:IsVisible() ) then
 menu = {}
 menu["$pp_colour_addr"] = -23/255
 menu["$pp_colour_addg"] = -16/255
-menu["$pp_colour_addb"] = -5/255
+menu["$pp_colour_addb"] = 5/255
 menu["$pp_colour_brightness"] = -0.07
 menu["$pp_colour_contrast"] = 0.8
 menu["$pp_colour_colour"] = 0.2
@@ -272,28 +272,43 @@ DrawColorModify( menu )
 
  end
 
+if ( nut.gui.char and !nut.gui.char:IsVisible() ) then
 if NUT_CVAR_POSTPROCESS:GetBool() then
-if !nut.gui.char:IsVisible() then
 
 ingame = {}
 ingame["$pp_colour_addr"] = -10/255
 ingame["$pp_colour_addg"] = -5/255
-ingame["$pp_colour_addb"] = 10/255
-ingame["$pp_colour_brightness"] = -0.02
-ingame["$pp_colour_contrast"] = 1.0
-ingame["$pp_colour_colour"] = 0.55
+ingame["$pp_colour_addb"] = 15/255
+ingame["$pp_colour_brightness"] = -0.03
+ingame["$pp_colour_contrast"] = 1.2
+ingame["$pp_colour_colour"] = 0.40
 ingame["$pp_colour_mulr"] = 0
 ingame["$pp_colour_mulg"] = 0
 ingame["$pp_colour_mulb"] = 0
-DrawSunbeams( 2, 2, 2, 2, 2 )
+-- DrawSunbeams( 2, 2, 2, 2, 2 )
 DrawColorModify( ingame ) 
-
+DrawBloom( .75, 1, 9, 9, 1, .65, 2, 2, 2 )
+DrawToyTown( 1, ScrH()/2 )
+end
+end
 end
 
-end
+function SCHEMA:HUDPaint()
+if NUT_CVAR_LETTERBOX:GetBool() or IsValid(nut.char.gui) then
+ 
+		local w,h = ScrW(),ScrH()
+		surface.SetDrawColor ( 0, 0, 0, 255 )
+		surface.DrawRect ( 0, 0, w, h / 6 )
+		
+		local w,h = ScrW(),ScrH()
+		surface.SetDrawColor ( 0, 0, 0, 255 )
+		surface.DrawRect ( 0, 930, w, h / 6 )
+		
+		end 
 end
 
 NUT_CVAR_POSTPROCESS = CreateClientConVar("nut_postprocess", 0, true, true)
+NUT_CVAR_LETTERBOX = CreateClientConVar("nut_letterbox", 0, true, true)
 
 --disables kill feed
 function SCHEMA:DrawDeathNotice() 
@@ -324,6 +339,16 @@ function SCHEMA:SetupQuickMenu(menu)
 					RunConsoleCommand("nut_postprocess", "0")
 				end
 			end, NUT_CVAR_POSTPROCESS:GetBool())
+			
+	  menu:addSpacer()
+	  
+	  	  local button = menu:addCheck("Letterbox", function(panel, state)
+				if (state) then
+					RunConsoleCommand("nut_letterbox", "1")
+				else
+					RunConsoleCommand("nut_letterbox", "0")
+				end
+			end, NUT_CVAR_LETTERBOX:GetBool())
 			
 	  menu:addSpacer()
 end

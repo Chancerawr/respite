@@ -18,7 +18,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.CURE = {
-	icon = "icon16/box.png",
+	icon = "icon16/eye.png",
 	sound = "ambient/creatures/rats4.wav",
 	onRun = function(item)
 			local client = item.player

@@ -40,7 +40,7 @@ ITEM.functions.Farm = {
 							if(!inventory:add(grow)) then --if the inventory has space, put it in the inventory
 								nut.item.spawn(grow, client:getItemDropPos()) --if not, drop it on the ground
 							end
-						else --if the item it on the ground
+						else --if the item is on the ground
 							nut.item.spawn(grow, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 						end
 						client:notify("Farming has finished.")

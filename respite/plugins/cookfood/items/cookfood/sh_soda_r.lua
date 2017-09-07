@@ -14,4 +14,4 @@ ITEM.dropscontainer = true
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 --3 agi
-ITEM.attribBoosts = { ["accuracy"] = 4, ["strength"] = 4, ["luck"] = 2  }
+ITEM.attribBoosts = { ["accuracy"] = 4, ["str"] = 4, ["luck"] = 2  }

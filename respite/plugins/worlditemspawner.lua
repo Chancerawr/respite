@@ -261,6 +261,7 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		{"hl2_m_wrench"},
 		{"hl2_m_hammer"},
 		{"hl2_m_pole"},
+		{"hl2_m_bat"},
 	}
 }
 
