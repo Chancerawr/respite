@@ -638,19 +638,19 @@ ITEM.functions.Weather = {
 		if (weather == "rain") then
 			client:notify("It is raining in your Respite.")
 			reward = "food_water_misc"
-		elseif (weather "snow") then
+		elseif (weather == "snow") then
 			client:notify("It is snowing in your Respite.")
 			reward = "food_water_misc"
-		elseif (weather "fog") then
+		elseif (weather == "fog") then
 			client:notify("It is foggy in your Respite.")		
 			reward = "food_monster_meat"
-		elseif (weather "blue haze") then
+		elseif (weather == "blue haze") then
 			client:notify("Blue Haze has arrived in your Respite.")		
 			reward = "haze_bottled"
-		elseif (weather "black haze") then
+		elseif (weather == "black haze") then
 			client:notify("Black Haze has arrived in your Respite.")
 			reward = "cure"
-		elseif (weather "pink haze") then
+		elseif (weather == "pink haze") then
 			client:notify("Pink Haze has arrived in your Respite.")
 			reward = "haze_bottled_pink"
 		end

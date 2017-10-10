@@ -10,7 +10,7 @@ ITEM.height = 1
 ITEM.cookable = false
 ITEM.skin = 1
 ITEM.container = "j_empty_soda2"
-ITEM.dropscontainer = true
+ 
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 --3 agi

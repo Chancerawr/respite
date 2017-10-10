@@ -64,7 +64,7 @@ ITEM.functions.Sacrifice = {
 		
 		client:notifyLocalized("The skull takes the sacrifice, and begins to consume it.")
 		
-		timer.Simple(69, --RATTLE ME BONES 
+		timer.Simple(40, --RATTLE ME BONES 
 			function()
 				position = client:getItemDropPos()
 				nut.chat.send(client, "itclose", client:Name().. "'s sacrificial skull rattles gently.")
@@ -120,7 +120,7 @@ ITEM.functions.Sacrifice = {
 		return false
 	end,
 	onCanRun = function(item)
-		local endTime = item:getData("producing2") + 69
+		local endTime = item:getData("producing2") + 40
 		if(CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 		else
 			return false

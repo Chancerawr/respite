@@ -12,6 +12,6 @@ ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 --4 str
 ITEM.container = "j_empty_bourbon"
-ITEM.dropscontainer = true
+ 
 
 ITEM.attribBoosts = { ["str"] = 4 }

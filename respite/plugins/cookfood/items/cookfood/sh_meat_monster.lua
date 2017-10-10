@@ -17,7 +17,7 @@ ITEM.functions.Convert = {
   icon = "icon16/cross.png",
   onRun = function(item)
     if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-		item.player:getChar():getInv():add("j_scrap_organic", 1, { Amount = 5 })
+		item.player:getChar():getInv():add("j_scrap_organic", 1, { Amount = 3 })
 		item:remove()
 		return false 
     else

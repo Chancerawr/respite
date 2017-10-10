@@ -1,5 +1,6 @@
 ITEM.name = "Plastic Dust"
 ITEM.model = "models/props_lab/box01a.mdl"
+ITEM.material = "phoenix_storms/mrref2"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.healAmount = 15

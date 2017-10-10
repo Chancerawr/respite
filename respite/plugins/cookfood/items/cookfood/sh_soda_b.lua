@@ -9,7 +9,7 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.cookable = false
 ITEM.container = "j_empty_soda_can"
-ITEM.dropscontainer = true
+ 
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attribBoosts = { ["end"] = 4, ["fortitude"] = 4, ["luck"] = 1  }

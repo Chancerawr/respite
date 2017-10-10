@@ -10,6 +10,6 @@ ITEM.height = 1
 ITEM.cookable = false
 --3 agi 3 str 3 acc
 ITEM.container = "j_empty_mre"
-ITEM.dropscontainer = true
+ 
 
 ITEM.attribBoosts = { ["stm"] = 3, ["str"] = 3, ["accuracy"] = 3 }

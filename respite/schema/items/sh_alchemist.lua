@@ -120,12 +120,20 @@ ITEM.functions.Chunk = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		local object = inventory:hasItem("c_scrap_gnome")
+		local amount = object:getData("Amount", 1)
+		
 		local ranScrap = {}
 			ranScrap[1] = "shard"
 			ranScrap[2] = "cube_chip_enhanced"
 			ranScrap[3] = "food_apple_cursed"
 			ranScrap[4] = "portal_explosives"
-		object:remove()
+			
+		if(amount > 1) then
+			object:setData("Amount", amount - 1)
+		else
+			object:remove()
+		end
+			
 		nut.item.spawn(ranScrap[math.random(1,4)], position)
 		nut.chat.send(client, "itclose", "When nobody is looking, the object in front of the alchemist changes.")	
 		

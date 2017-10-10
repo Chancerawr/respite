@@ -9,4 +9,4 @@ ITEM.price = 6
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.attribBoosts = { ["end"] = 2 }
+ITEM.attribBoosts = { ["medical"] = 5 }

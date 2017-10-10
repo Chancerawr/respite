@@ -9,7 +9,6 @@ ITEM.width = 1
 ITEM.height = 1
 
 ITEM.container = "j_tinc"
-ITEM.dropscontainer = true
 
 --1 agility
 ITEM.attribBoosts = { ["stm"] = 1 }

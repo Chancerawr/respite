@@ -325,8 +325,11 @@ nut.chat.register("radio", {
 		local listener = LocalPlayer()
 		local dist = speaker:GetPos():Distance(listener:GetPos())
 		local radCol = RADIO_CHATCOLOR
+		local finalMsg
 		
-		if(!nut.config.get("distortion")) then
+		local booster = speaker:getChar():getData("boost", false)
+		
+		if(!nut.config.get("distortion") or booster) then
 			finalMsg = text
 		else
 			radioMsg = string.Explode("",text)
@@ -347,7 +350,6 @@ nut.chat.register("radio", {
 			someone = "Someone"
 		end
 		
-		local finalMsg = string.Implode("", radioMsg)
 		local speako = someone or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name())
 
 		chat.AddText(radCol, speako, radCol, " radios in \""..finalMsg.."\"")
@@ -478,9 +480,11 @@ nut.chat.register("radiow", {
 		local radioMsg
 		local finalMsg
 		
-		if(!nut.config.get("distortion")) then
+		local booster = speaker:getChar():getData("boost", false)
+		
+		if(!nut.config.get("distortion") or booster) then
 			finalMsg = text
-		else
+		else			
 			radioMsg = string.Explode("",text)
 			if(dist > nut.config.get("chatRange", 280) * 4) then
 				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*3)) * text:len()/100) do

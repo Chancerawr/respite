@@ -13,7 +13,7 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.skin = 1
 
 ITEM.container = "j_empty_water_blood"
-ITEM.dropscontainer = true
+ 
 
 ITEM.iconCam = {
 	ang = Angle(25, 40, 0),

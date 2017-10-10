@@ -8,12 +8,12 @@ ITEM.quantity = 3
 ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
-ITEM.color = Color(0, 0, 0)
+ITEM.color = Color(0, 128, 128)
 
 ITEM.container = "j_tinc"
-ITEM.dropscontainer = true
+ 
 
-ITEM.attribBoosts = { ["fortitude"] = 15, ["endurance"] = -15 }
+ITEM.attribBoosts = { ["fortitude"] = -15, ["endurance"] = -15 }
 
 ITEM:hook("use", function(item)
 	item.player:EmitSound(item.sound)
@@ -30,9 +30,7 @@ ITEM.functions.use = {
 		local position = item.player:getItemDropPos()
 		local client = item.player
 		local char = client:getChar()
-		--local inventory = character:getInv()
-		
-		--item.player:addHunger(item.hungerAmount * mul) 
+
 		quantity = quantity - 1
 		client:notify("Your mind fills with images of another person's life.")
 		client:notify("You are having vivid hallucinations.")
@@ -68,12 +66,10 @@ ITEM.functions.use = {
 			item:setData("quantity", quantity)
 			return false
 		else
-			if(item.container != "") then
+			if(item.container) then
 				nut.item.spawn(item.container, position)
 			end
 		end
-		--nut.item.spawn(item.container, position)
-		--inventory.add(item.container, 1, true )
 		
 		
 		return true

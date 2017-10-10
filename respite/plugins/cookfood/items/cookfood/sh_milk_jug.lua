@@ -9,7 +9,7 @@ ITEM.width = 2
 ITEM.height = 2
 --4 accuracy
 ITEM.container = "j_empty_milk_jug"
-ITEM.dropscontainer = true
+ 
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 

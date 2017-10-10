@@ -3,7 +3,7 @@ ITEM.uniqueID = "brewery"
 ITEM.model = "models/props_c17/trappropeller_engine.mdl"
 ITEM.desc = "A large metallic object, it seems to have a chip slot and a circular hole."
 ITEM.width = 3
-ITEM.height = 4
+ITEM.height = 3
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.material = "models/props_pipes/destroyedpipes01a"
@@ -85,4 +85,70 @@ ITEM.functions.Brew = {
 		end
 		return false
 	end
+}
+
+ITEM.functions.Potion2 = {
+    name = "Potions",
+    tip = "useTip",
+    icon = "icon16/star.png",
+    isMulti = true,
+    multiOptions = function(item, client)
+        local targets = {
+            {name = "Healing Salve", data = "none"},
+            {name = "Accuracy", data = "accuracy"},
+            {name = "Agility", data = "agility"},
+            {name = "Craftiness", data = "craftiness"},
+            {name = "Endurance", data = "endurance"},
+            {name = "Fortitude", data = "fortitude"},
+            {name = "Luck", data = "luck"},
+            {name = "Perception", data = "perception"},
+            {name = "Strength", data = "strength"},
+        }
+       
+        return targets
+    end,
+    onCanRun = function(item)      
+		local player = item.player or item:getOwner()
+		
+		if(!player:getChar():getInv():hasItem("food_apple_cursed")) then
+			return false
+		end
+        --return (!IsValid(item.entity))
+    end,
+    onRun = function(item, data)
+        local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local object = inventory:hasItem("food_apple_cursed")
+		
+		local recipes = {
+			["accuracy"] = "orange",
+			["agility"] = "apple",
+			["endurance"] = "melon",
+			["strength"] = "potato",
+			["perception"] = "banana",
+			["luck"] = "lemon",
+			["fortitude"] = "monster_meat",
+			["craftiness"] = "cactus"
+		}
+		
+		if(data != "none") then --for anything other than healing salve
+			local potCore = inventory:hasItem("food_" .. recipes[data])
+			if(!potCore) then
+				client:notify("You do not have a(n) " .. recipes[data])
+				return false
+			end
+			
+			potCore:remove()
+			object:remove()
+			nut.item.spawn("potion_" .. data, position)
+			nut.chat.send(client, "itclose", "The objects move through the brewery quickly, and a liquid is dispensed into a vial.")	
+		else --for healing salve
+			object:remove()
+			nut.item.spawn("salve_healing", position)
+			nut.chat.send(client, "itclose", "The object moves through the brewery quickly, and a liquid is dispensed into a vial.")
+		end
+	 
+        return false
+    end,
 }

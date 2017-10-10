@@ -144,3 +144,58 @@ ITEM.functions.Cactus = {
 		end
 	end
 }
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/cup.png",
+	sound = "HL1/fvox/hiss.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local cactus = inventory:hasItem("ammo_battery")
+		
+		client:notifyLocalized("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the battery.")	
+		
+		item:setData("producing2", CurTime())
+		cactus:remove()
+		
+		timer.Simple(45, 
+			function()
+				local soda = "food_soda_cold"
+
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add(soda)) then --if the inventory has space, put it in the inventory
+						nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
+					end
+				else --if the item is on the ground
+					nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				end
+				
+				--drops a dead battery.
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add("j_battery_dead")) then --if the inventory has space, put it in the inventory
+						nut.item.spawn("j_battery_dead", client:getItemDropPos()) --if not, drop it on the ground
+					end
+				else --if the item is on the ground
+					nut.item.spawn("j_battery_dead", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				end
+				
+				nut.chat.send(client, "itclose", "Something is dispensed from the machine.")
+			end
+		)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local player = item.player or item:getOwner()
+		local endTime = item:getData("producing2") + 45
+		local battery = player:getChar():getInv():hasItem("ammo_battery")
+		if (battery and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
+			return true 
+		else
+			return false
+		end
+	end
+}

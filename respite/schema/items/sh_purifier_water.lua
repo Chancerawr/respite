@@ -1,4 +1,4 @@
-ITEM.name = "Purifier - Water"
+ITEM.name = "Purifier"
 ITEM.uniqueID = "purifier_water"
 ITEM.model = "models/props_junk/plasticbucket001a.mdl"
 ITEM.material = "models/props_combine/com_shield001a"
@@ -67,6 +67,7 @@ ITEM.functions.Water = {
 }
 
 ITEM.functions.Haze = {
+	name = "Blue Haze",
 	icon = "icon16/bullet_blue.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
@@ -86,6 +87,38 @@ ITEM.functions.Haze = {
 		local player = item.player or item:getOwner()
 		
 		if !player:getChar():getInv():hasItem("haze_bottled") then --if blue haze isn't in the inventory.
+			return false
+		end
+		
+		if (item:getData("purity") >= 5) then -- <50% purity cannot purify blue haze
+			return true
+		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.HazePink = {
+	name = "Pink Haze",
+	icon = "icon16/bullet_pink.png",
+	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local corWater = inventory:hasItem("haze_bottled_pink")
+			
+		item:setData("purity", item:getData("purity") - 5)
+		corWater:remove()
+		inventory:add("food_apple_cursed")
+		nut.chat.send(client, "itclose", "The container passes through the object, and an apple comes out?")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("haze_bottled_pink") then --if blue haze isn't in the inventory.
 			return false
 		end
 		

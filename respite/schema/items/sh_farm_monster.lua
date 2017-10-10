@@ -100,9 +100,9 @@ ITEM.functions.Feed = {
 			client:notifyLocalized("You don't have any usable meat!") return false
 		end		
 		
-		client:ConCommand("say /it The strange plant ravenously consumes the meat.")	
+		nut.chat.send(client, "itclose", "The strange plant ravenously consumes the meat.")	
 		item:setData("producing2", CurTime())
-		timer.Simple(1200, 
+		timer.Simple(1800, 
 			function()
 				if (item != nil) then
 					item:setData("producing2", 0)
@@ -115,7 +115,7 @@ ITEM.functions.Feed = {
 		return false
 	end,
 	onCanRun = function(item)
-		local endTime = item:getData("producing2") + 1200
+		local endTime = item:getData("producing2") + 1800
 		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 		else
 			return false

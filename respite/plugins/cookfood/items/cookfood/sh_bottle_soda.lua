@@ -11,7 +11,6 @@ ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.container = "j_empty_soda_bottle"
-ITEM.dropscontainer = true
 
 --7 agility
 ITEM.attribBoosts = { ["stm"] = 7 }

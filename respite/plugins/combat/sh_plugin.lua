@@ -429,26 +429,30 @@ nut.command.add("firearms", {
 				--compares accuracy and strength to target's agility. Forms a roll based on the discrepancy.
 				--accuracy / tarAgility = chance to hit (capped at a max of 85%) and then multiplied by range factor.
 				--crit and crit fail
-				local rangeRoll = math.Clamp(char:getAttrib("accuracy") / tarChar:getAttrib("stm"), 0, 0.85) * (100 / distance)
-
+				local rangeRoll = math.Clamp(char:getAttrib("accuracy") / tarChar:getAttrib("stm") * (200 / distance), 0, 0.85)
+				
 				if(math.random(1,100) <= rangeRoll * 100) then
 					--uses target's luck to determine critical miss (luck save)
-					if(math.random(1,1000) < tarChar:getAttrib("luck") + 10) then
+					if(rangeRoll != 0.85 and math.random(1,1000) < tarChar:getAttrib("luck") + 10) then
 						--print("LuckSave!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (unfortunately) MISSED!")
+						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (unfortunately) MISSED! ("..math.Round(rangeRoll*100).."%)")
+						nut.log.addRaw(client:Name().." missed \""..target:Name(), 2)
 						--format = "%s has fired %s.",
 					else
 						--print("Success!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and HIT!")
+						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and HIT! ("..math.Round(rangeRoll*100)..")")
+						nut.log.addRaw(client:Name().." hit \""..target:Name().. " in " .. part .. "\"", 2)
 					end
 				else
 					--uses own luck to dtermine lucky shot if first attempt misses. (luck save)
-					if(math.random(1,1000) < char:getAttrib("luck") + 10) then
+					if(rangeRoll != 0 and math.random(1,1000) < char:getAttrib("luck") + 10) then
 						--print("LuckHit!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (luckily) HIT!")
+						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (luckily) HIT! ("..math.Round(rangeRoll*100)..")")
+						nut.log.addRaw(client:Name().." hit(luck) \""..target:Name().. " in " .. part .. "\"", 2)
 					else
 						--print("Failure!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and MISSED!")
+						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and MISSED! ("..math.Round(rangeRoll*100)..")")
+						nut.log.addRaw(client:Name().." missed \""..target:Name(), 2)
 					end
 				end
 			else
@@ -859,7 +863,7 @@ nut.command.add("fortattack", {
 			fancyStr = string.upper(fancyStr) --capitalizes all of it
 			fancyStr = "'" .. fancyStr .. "'" --puts apostrophes around it i guess
 			
-			rolled = tonumber(rolled) / (1 - tonumber(ability[arguments[1]]))
+			rolled = tonumber(rolled) * (1 - tonumber(ability[arguments[1]]))
 			rolled = fancyStr ..", and rolled ".. rolled
 		end
 		--Bob has attempted to use an ability: genital strike, and rolled 69

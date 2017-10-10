@@ -10,4 +10,4 @@ ITEM.height = 2
 ITEM.cookable = false
 
 --1 agi 4 str
-ITEM.attribBoosts = { ["endurance"] = 3 }
+ITEM.attribBoosts = { ["end"] = 3 }

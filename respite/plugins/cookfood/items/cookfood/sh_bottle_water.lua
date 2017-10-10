@@ -11,7 +11,6 @@ ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.container = "j_empty_water"
-ITEM.dropscontainer = true
 
 --2 agi
 ITEM.attribBoosts = { ["stm"] = 2 }

@@ -7,7 +7,7 @@ ITEM.quantity = 2
 ITEM.price = 1
 ITEM.cookable = false
 ITEM.container = "j_empty_soda_can"
-ITEM.dropscontainer = true
+ 
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 --3 agi

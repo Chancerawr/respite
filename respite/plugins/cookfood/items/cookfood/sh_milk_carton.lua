@@ -8,7 +8,7 @@ ITEM.price = 3
 ITEM.width = 1
 ITEM.height = 2
 ITEM.container = "j_empty_milk_carton"
-ITEM.dropscontainer = true
+ 
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 

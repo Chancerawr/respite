@@ -30,7 +30,7 @@ ITEM.iconCam = {
 	fov = 19
 }
 
-ITEM.data = { scrapamount = 10 }
+ITEM.data = { scrapamount = 6 }
 ITEM.salvItem = "j_scrap_wood"
 
 ITEM.functions.Scrap = {

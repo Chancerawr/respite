@@ -1174,7 +1174,7 @@ RECIPE67.model = Model( "models/props_junk/garbage_metalcan001a.mdl" )
 RECIPE67.desc = "???"
 RECIPE67.noBlueprint = true
 RECIPE67.items = {
-	["food_yams"] = 5,
+	["food_yams"] = 4,
 	["j_scrap_memory"] = 1
 }
 RECIPE67.result = {
@@ -2446,7 +2446,8 @@ RECIPE138.model = Model( "models/items/battery.mdl" )
 RECIPE138.desc = "A single, seemingly enhanced battery."
 RECIPE138.noBlueprint = true
 RECIPE138.items = {
-	["j_scrap_battery"] = 5
+	["j_scrap_battery"] = 6,
+	["cube_chip"] = 2
 }
 RECIPE138.result = {
 	["ammo_battery"] = 1
@@ -2718,4 +2719,54 @@ RECIPE152.result = {
 	["medical_memory"] = 1
 }
 RECIPES:Register( RECIPE152 )
+//
+local RECIPE153 = {}
+RECIPE153.uid = "nut_plastics"
+RECIPE153.name = "Plastic"
+RECIPE153.category = "Resources"
+RECIPE153.model = Model( "models/props_wasteland/prison_toiletchunk01a.mdl" )
+RECIPE153.desc = "A chunk of plastic."
+RECIPE153.noBlueprint = true
+RECIPE153.items = {
+	["medical_plastic"] = 1
+}
+RECIPE153.result = {
+	["j_scrap_plastics"] = 1
+}
+RECIPES:Register( RECIPE153 )
+//
+local RECIPE154 = {}
+RECIPE154.uid = "nut_rebar_club"
+RECIPE154.name = "Rebar Club"
+RECIPE154.category = "Weapons - Melee"
+RECIPE154.model = Model( "models/props_debris/rebar003b_48.mdl" )
+RECIPE154.desc = "A spike of rebar with a chunk of concrete on it."
+RECIPE154.noBlueprint = true
+RECIPE154.items = {
+	["j_scrap_concrete"] = 20,
+	["j_scrap_metals"] = 10
+}
+RECIPE154.result = {
+	["hl2_m_rebar"] = 1
+}
+RECIPES:Register( RECIPE154 )
+//
+local RECIPE155 = {}
+RECIPE155.uid = "nut_farm_cactus"
+RECIPE155.name = "Farm - Cactus"
+RECIPE155.category = "Farms"
+RECIPE155.model = Model( "models/props_junk/terracotta01.mdl" )
+RECIPE155.desc = "A strange pot, the dirt in it gives off a dim light."
+RECIPE155.noBlueprint = true
+RECIPE155.items = {
+	["j_scrap_plastics"] = 10,
+	["j_scrap_organic"] = 10,
+	["j_scrap_concrete"] = 5,	
+	["j_cactus_plant"] = 2,
+	["shard_dust"] = 1
+}
+RECIPE155.result = {
+	["farm_cactus"] = 1
+}
+RECIPES:Register( RECIPE155 )
 //

@@ -11,7 +11,6 @@ ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.container = "j_empty_mountain_spring"
-ITEM.dropscontainer = true
 
 --3 accuracy
 ITEM.attribBoosts = { ["accuracy"] = 3 }

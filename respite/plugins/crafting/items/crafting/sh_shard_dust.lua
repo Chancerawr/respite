@@ -2,6 +2,7 @@ ITEM.name = "Shard Dust"
 ITEM.uniqueID = "shard_dust"
 ITEM.desc = "A stange dust that emits a small amount of light."
 ITEM.model = "models/props_lab/box01a.mdl"
+ITEM.material = "models/props/de_inferno/offwndwb_break"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "1"

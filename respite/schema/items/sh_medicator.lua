@@ -1,7 +1,7 @@
 ITEM.name = "Device - Medicator"
 ITEM.uniqueID = "medicator"
 ITEM.model = "models/props_combine/health_charger001.mdl"
-ITEM.desc = "A strange metal box, It has a large slot that is labelled 'DEPRESSANTS', another slot labelled 'ORGANICS', and a small output slot labelled 'MEDICATION'."
+ITEM.desc = "A strange metal object, It has a large slot that is labelled 'DEPRESSANTS', another slot labelled 'ORGANICS', and a small output slot labelled 'MEDICATION'."
 ITEM.width = 2
 ITEM.height = 2
 ITEM.flag = "v"

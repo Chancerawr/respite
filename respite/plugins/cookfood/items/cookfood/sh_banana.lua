@@ -10,7 +10,6 @@ ITEM.height = 1
 ITEM.cookable = false
 
 ITEM.container = "j_bananaskin"
-ITEM.dropscontainer = true
 
 ITEM.iconCam = {
 	ang	= Angle(25.000, 40.000, 26),

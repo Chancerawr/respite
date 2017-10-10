@@ -249,7 +249,6 @@ nut.command.add("sccircle2", {
 })
 
 nut.command.add("plasticdust", {
-	syntax = "<string attribute>",
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		if(char:getFaction() != FACTION_PLASTIC) then
@@ -263,8 +262,9 @@ nut.command.add("plasticdust", {
 			char:setData("lastDust", 0)
 			lastDust = 0
 		end
-			
+		
 		if(lastDust and math.abs(tonumber(lastDust) - tonumber(os.date("%d"))) >= 3) then -- harvest once every 3 days.
+			char:setData("lastDust", os.date("%d"))
 			nut.item.spawn("medical_plastic", client:getItemDropPos())
 			client:notifyLocalized("You have harvested plastic dust from yourself.")
 		else

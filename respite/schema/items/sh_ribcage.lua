@@ -48,8 +48,6 @@ ITEM.functions.Release = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local cure = inventory:hasItem("cure")
-		local organic = inventory:hasItem("j_scrap_organic")
 		local charges = chargeTimer(item:getData("sTime"))
 		
 		client:getChar():takeMoney(8)

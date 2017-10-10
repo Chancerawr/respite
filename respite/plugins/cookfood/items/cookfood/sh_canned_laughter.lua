@@ -10,7 +10,7 @@ ITEM.height = 1
 
 ITEM.sound = "vo/citadel/br_laugh01.wav"
 ITEM.container = "j_tinc"
-ITEM.dropscontainer = true
+ 
 
 -- 5 fort
 ITEM.attribBoosts = { ["fortitude"] = 5 }

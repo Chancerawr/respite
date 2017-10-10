@@ -9,7 +9,7 @@ ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
 ITEM.container = "j_empty_chocolate_box"
-ITEM.dropscontainer = true
+ 
 ITEM.cookable = false
 --3 agi
 

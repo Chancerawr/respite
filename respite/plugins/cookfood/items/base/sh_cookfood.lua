@@ -12,7 +12,7 @@ ITEM.container = ""
 ITEM.flag = "v"
 ITEM.sound = "npc/barnacle/barnacle_crunch2.wav"
 ITEM.attribBoosts = { ["str"] = 0 }
-ITEM.duration = 3600
+ITEM.duration = 7200
 
 function ITEM:getDesc()
 	local str = self.foodDesc
@@ -65,24 +65,29 @@ if (CLIENT) then
 	end
 end
 
-ITEM:hook("use", function(item)
-	item.player:EmitSound(item.sound)
-end)
-
 ITEM.functions.use = {
 	name = "Consume",
 	tip = "useTip",
 	icon = "icon16/cup.png",
 	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+		--stomach checker
+		if(char:getData("stomach", 0) < 4) then
+			char:setData("stomach", char:getData("stomach", 0) + 1)
+			timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
+				char:setData("stomach", char:getData("stomach", 0) - 1)
+			end)
+		else
+			client:notify("You are too full!")
+			return false
+		end	
+	
 		local cooked = item:getData("cooked", 1)
 		local quantity = item:getData("quantity", item.quantity)
 		local mul = COOKLEVEL[cooked][2]
 		local position = item.player:getItemDropPos()
-		local client = item.player
-		local char = client:getChar()
-		--local inventory = character:getInv()
 		
-		--item.player:addHunger(item.hungerAmount * mul) 
 		quantity = quantity - 1
 		
 		if (char and client:Alive()) then
@@ -94,22 +99,44 @@ ITEM.functions.use = {
 			
 			local charID = char:getID()
 			local name = item.name
-			timer.Create("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), item.duration, 1, function()
+			
+			--if we already have a thing for that buff, refresh it.
+			if(timer.Exists("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex())) then 
+				timer.Adjust("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), item.duration, 1, function()
 
-				if (client and IsValid(client)) then
-					local curChar = client:getChar()
-					if (curChar and curChar:getID() == charID) then
-						client:notify(Format("%s has worn off.", name))
+					if (client and IsValid(client)) then
+						local curChar = client:getChar()
+						if (curChar and curChar:getID() == charID) then
+							client:notify(Format("%s has worn off.", name))
 
-						if (item.attribBoosts) then
-							for k, v in pairs(item.attribBoosts) do
-								char:removeBoost(item.uniqueID, k)
+							if (item.attribBoosts) then
+								for k, v in pairs(item.attribBoosts) do
+									char:removeBoost(item.uniqueID, k)
+								end
 							end
 						end
 					end
-				end
-			end)
+				end)
+			else
+				timer.Create("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), item.duration, 1, function()
+
+					if (client and IsValid(client)) then
+						local curChar = client:getChar()
+						if (curChar and curChar:getID() == charID) then
+							client:notify(Format("%s has worn off.", name))
+
+							if (item.attribBoosts) then
+								for k, v in pairs(item.attribBoosts) do
+									char:removeBoost(item.uniqueID, k)
+								end
+							end
+						end
+					end
+				end)
+			end
 		end
+		
+		item.player:EmitSound(item.sound)
 		
 		if (quantity >= 1) then
 			item:setData("quantity", quantity)
@@ -119,9 +146,6 @@ ITEM.functions.use = {
 				nut.item.spawn(item.container, position)
 			end
 		end
-		--nut.item.spawn(item.container, position)
-		--inventory.add(item.container, 1, true )
-		
 		
 		return true
 	end,
@@ -129,7 +153,7 @@ ITEM.functions.use = {
 		if (item.mustCooked and item:getData("cooked", 1) == 1) then
 			return false
 		end
-
+		
 		return (!IsValid(item.entity))
 	end
 }

@@ -11,7 +11,7 @@ ITEM.cookable = false
 ITEM.material = "models/props_c17/furnituremetal001a"
 
 ITEM.container = "j_cereal_box"
-ITEM.dropscontainer = true
+ 
 
 --2 accuracy 2 perception
 ITEM.attribBoosts = { ["accuracy"] = 2, ["perception"] = 2 }

@@ -247,6 +247,28 @@ ITEM.functions.Blight = {
 	end
 }
 
+ITEM.functions.Paint = {
+	name = "Paint",
+	icon = "icon16/color_swatch.png",
+	onRun = function(item)
+		local client = item.player
+		local paint = client:getChar():getInv():hasItem("j_paint_can")
+		local paintCol = paint:getData("paint", "white")
+		client:requestString("Paint", "Are you sure you want to paint this weapon " ..paintCol.."?",
+			function(text)
+				paint:remove()
+				item:setData("customDesc", item:getDesc() .. "\nThis weapon is painted "..paintCol..".")
+				nut.item.spawn("j_empty_paint_can", client:getItemDropPos())
+			end
+		)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return (client:getChar():getInv():hasItem("j_paint_can"))
+	end
+}
+
 function ITEM:onCanBeTransfered(oldInventory, newInventory)
 	if (newInventory and self:getData("equip")) then
 		return false

@@ -350,7 +350,7 @@ function SCHEMA:SetupQuickMenu(menu)
 				end
 			end, NUT_CVAR_LETTERBOX:GetBool())
 			
-	  menu:addSpacer()
+	  menu:addSpacer()	  
 end
 
 function SCHEMA:ShowPlayerCard( client, me )

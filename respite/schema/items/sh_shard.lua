@@ -2,11 +2,11 @@ ITEM.name = "Shard"
 ITEM.uniqueID = "shard"
 ITEM.desc = "A peculiar crystalline shard, it emits a dim white light."
 ITEM.model = "models/gibs/glass_shard04.mdl"
+ITEM.material = "models/props/de_inferno/offwndwb_break"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
-ITEM.material = "models/props/cs_assault/moneywrap02"
 ITEM.data = { shardcount = 1 }
 ITEM.color = Color(255, 255, 255)
 

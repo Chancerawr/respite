@@ -10,7 +10,7 @@ ITEM.height = 1
 ITEM.sound = "npc/barnacle/barnacle_gulp2.wav"
 
 ITEM.container = "j_tinc"
-ITEM.dropscontainer = true
+ 
 
 --1 agility
 ITEM.attribBoosts = { ["stm"] = 1 }

@@ -104,3 +104,31 @@ ITEM.functions.Bake = {
 		end
 	end
 }
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("food_donut_giant", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a giant donut.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
+			return false
+		end
+	end
+}

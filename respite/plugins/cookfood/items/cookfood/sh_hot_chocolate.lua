@@ -8,7 +8,7 @@ ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
 ITEM.container = "j_empty_mug"
-ITEM.dropscontainer = true
+ 
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 --5 accuracy

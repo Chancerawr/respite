@@ -182,3 +182,7 @@ else
 		end
 	end--]]
 end
+
+function PLUGIN:PrePlayerLoadedChar(client, character, currentChar)
+	character:setData("stomach", 0)
+end

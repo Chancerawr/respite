@@ -82,7 +82,6 @@ function RECIPES:Register( tbl )
 							part = inventory:hasItem(k)
 							
 							if(itemObj:getData("quality")) then 
-								print("test")
 								avgQual = avgQual + itemObj:getData("quality")
 								total = total + 1
 							end

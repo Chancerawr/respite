@@ -11,4 +11,4 @@ ITEM.cookable = false
 ITEM.material = "phoenix_storms/mrref2"
 
 --1 agi 4 str
-ITEM.attribBoosts = { ["endurance"] = 1 }
+ITEM.attribBoosts = { ["end"] = 1 }

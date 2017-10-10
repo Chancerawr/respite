@@ -12,7 +12,7 @@ ITEM.cookable = false
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 
 ITEM.container = "j_empty_beer"
-ITEM.dropscontainer = true
+ 
 
 local function onUse(item)
 	item.player:ScreenFade(1, Color(150, 150, 150, 100), .4, 0)

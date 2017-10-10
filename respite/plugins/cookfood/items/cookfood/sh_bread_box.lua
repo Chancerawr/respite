@@ -8,8 +8,8 @@ ITEM.price = 10
 ITEM.width = 2
 ITEM.height = 1
 ITEM.cookable = false
+
 --3 agi
 ITEM.container = "j_empty_bread_box"
-ITEM.dropscontainer = true
 
 ITEM.attribBoosts = { ["stm"] = 3 }

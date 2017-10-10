@@ -81,6 +81,13 @@ ITEM.functions.use = { -- sorry, for name order.
 		
 		return true
 	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if (player:GetAmmoCount(item.ammo) >= item.ammoAmount * 2) then
+			return false
+		end
+	end
 }
 
 

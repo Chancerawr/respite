@@ -41,12 +41,12 @@ ITEM.functions.FishBait = {
 							else
 								catch = "food_fish2"
 							end
-						elseif (reward < 98) then
+						elseif (reward < 95) then
 							client:notifyLocalized("You catch a water purification tablet!.")	
 							catch = "purifier_water_tablet"	
 						elseif (reward <= 100) then
 							client:notifyLocalized("You catch a shard!.")	
-							catch = "shard"
+							catch = "shard_dust"
 						end		
 					
 						chip:remove()
