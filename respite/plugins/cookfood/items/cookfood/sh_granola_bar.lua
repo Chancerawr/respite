@@ -11,3 +11,9 @@ ITEM.material = "models/props_c17/furniturefabric002a"
 ITEM.cookable = false
 
 ITEM.attribBoosts = { ["accuracy"] = 4 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
+}

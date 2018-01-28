@@ -5,10 +5,16 @@ ITEM.model = "models/props_junk/garbage_bag001a.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.flag = "1"
+ITEM.flag = "V"
 ITEM.category = "Machines"
 ITEM.data = { chipcount = 0 }
 ITEM.color = Color(140, 20, 140)
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 170),
+	fov = 5.5,
+}
 
 ITEM.functions.Fill = {
   tip = "Put your chips into the bag.",

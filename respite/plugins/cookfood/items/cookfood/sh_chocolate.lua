@@ -9,8 +9,12 @@ ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
 ITEM.container = "j_empty_chocolate_box"
- 
 ITEM.cookable = false
---4 agi
 
 ITEM.attribBoosts = { ["stm"] = 4 }
+
+ITEM.iconCam = {
+	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),
+	ang = Angle(25, 220, 0),
+	fov = 5,
+}

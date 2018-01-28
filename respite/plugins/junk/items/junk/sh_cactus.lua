@@ -9,6 +9,12 @@ ITEM.height = 1
 ITEM.data = { scrapamount = 1 }
 ITEM.salvItem = "j_scrap_organic"
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 4.5,
+}
+
 ITEM.functions.Harvest = {
 	name = "Harvest Flesh",
 	tip = "Scrap this item",

@@ -9,10 +9,11 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
+
 ITEM.iconCam = {
-	pos = Vector(239.96850585938, 201.32643127441, 146.8380279541),
-	ang = Angle(25, 220, 0),
-	fov = 4.9215354052487
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 180),
+	fov = 11,
 }
 
 ITEM.data = { scrapamount = 2 }

@@ -1,6 +1,13 @@
 ITEM.name = "Blue Skies"
 ITEM.desc = "A book about some military stuff."
 ITEM.flag = "k"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 <h1>Blue Skies</h1>
 <h3></h3>

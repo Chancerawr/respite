@@ -6,8 +6,15 @@ ITEM.uniqueID = "voltaic"
 ITEM.price = 200
 ITEM.material = "models/alyx/emptool_glow"
 ITEM.color = Color(50, 255, 50)
+
 ITEM.attribBoosts = {
 	["stm"] = 25,
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
 }
 
 ITEM:hook("_use", function(item)

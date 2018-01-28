@@ -6,8 +6,14 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.data = { scrapamount = 5 }
+ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "c_scrap_gnome"
+
+ITEM.iconCam = {
+	pos = Vector(280.39529418945, 236.86444091797, 184.78364562988),
+	ang = Angle(25, 220, 0),
+	fov = 5.0807393438119,
+}
 
 ITEM.functions.Memory = {
 	icon = "icon16/box.png",

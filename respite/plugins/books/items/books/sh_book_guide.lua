@@ -3,6 +3,13 @@ ITEM.desc = "A guide written by a Drifter based on his own experiences."
 ITEM.uniqueID = "book_walker1"
 ITEM.price = 0
 ITEM.flag = "3"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 
 <h1>The Survival Guide to the Respite.</h1>

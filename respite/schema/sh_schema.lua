@@ -76,23 +76,6 @@ nut.anim.setModelClass("models/tnb/combine/metrocop.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/metrocop_female.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/synth_soldier.mdl", "player")
 
-
-
-
-nut.anim.setModelClass("models/weapon_re2_hunk.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_gib_a_fnpc.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_re2hunk_fnpc.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_wounded_fnpc.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_zombie_codmw3_fnpc.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_zombie_fnpc.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_zombie_met_fnpc.mdl", "citizen_male")
-nut.anim.setModelClass("models/npc/friendly/uss_zombie_orc_fnpc.mdl", "citizen_male")
-
-nut.anim.setModelClass("models/player/uss_re2alphateam.mdl", "player")
-
-
-nut.anim.setModelClass("models/drem/cch/npc/male_09.mdl", "citizen_male")
-
 --This is used for some entities to print stuff in the chat to people.
 nut.chat.register("mind", {
 	onChatAdd = function(speaker, text)

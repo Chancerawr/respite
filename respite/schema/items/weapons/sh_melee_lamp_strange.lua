@@ -24,11 +24,13 @@ ITEM.height = 2
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 90),
-	fov = 20
+	fov = 20.5,
 }
+
 
 ITEM.data = { scrapamount = 1 }
 ITEM.salvItem = "j_scrap_memory"

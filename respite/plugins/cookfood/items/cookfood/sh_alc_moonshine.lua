@@ -10,8 +10,13 @@ ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.material = "models/props_wasteland/tugboat02"
---6 str
 ITEM.container = "j_empty_moonshine"
- 
+ITEM.color = Color(139,69,19)
 
 ITEM.attribBoosts = { ["str"] = 6 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
+}

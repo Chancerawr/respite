@@ -9,8 +9,15 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "v"
 ITEM.material = "models/flesh"
+ITEM.color = Color(150,50,50)
 
 ITEM.attribBoosts = { ["fortitude"] = 5 }
+
+ITEM.iconCam = {
+	pos = Vector(0.5, -0.25, 200),
+	ang = Angle(90, 0, 0),
+	fov = 2.75,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

@@ -28,7 +28,7 @@ ITEM.functions.Load = { -- sorry, for name order.
 }
 
 ITEM.iconCam = {
-	pos = Vector(171.2562713623, 143.70104980469, 104.24736785889),
-	ang = Angle(25, 220, 0),
-	fov = 2
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
 }

@@ -10,6 +10,12 @@ ITEM.data = {
 	Amount = 1
 }
 
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 4.5,
+}
+
 ITEM.functions.Scrap = {
   tip = "Scrap this item",
   icon = "icon16/cross.png",

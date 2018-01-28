@@ -28,5 +28,5 @@ ITEM.category = "Tools"
 ITEM.iconCam = {
 	pos = Vector(0, 200, 9),
 	ang = Angle(0, 270, 0),
-	fov = 6
+	fov = 5.5,
 }

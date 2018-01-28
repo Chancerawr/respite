@@ -9,6 +9,12 @@ ITEM.height = 2
 ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "j_scrap_plastics"
 
+ITEM.iconCam = {
+	pos = Vector(224.21286010742, 188.08586120605, 136.6078338623),
+	ang = Angle(25, 220, 0),
+	fov = 4.8611911663843,
+}
+
 ITEM.functions.Fill = {
 	icon = "icon16/box.png",
 	sound = "ambient/water/distant_drip4.wav",

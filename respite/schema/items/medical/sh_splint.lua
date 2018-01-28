@@ -8,3 +8,9 @@ ITEM.price = 0
 ITEM.desc = "A crude splint."
 ITEM.uniqueID = "medical_splint"
 ITEM.flag = "v"
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 9,
+}

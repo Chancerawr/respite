@@ -4,9 +4,18 @@ ITEM.price = 50
 ITEM.model = "models/items/crossbowrounds.mdl"
 ITEM.flag = "v"
 ITEM.uniqueID = "ziptie"
+
 ITEM.data = {
 chance = 10
 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 7,
+}
+
+
 -- ITEM.factions = {FACTION_CP, FACTION_OW}
 ITEM.functions.Use = {
 	onRun = function(item)

@@ -9,8 +9,12 @@ ITEM.width = 1
 ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
-
 ITEM.container = "j_empty_mountain_spring"
 
---3 accuracy
 ITEM.attribBoosts = { ["accuracy"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
+}

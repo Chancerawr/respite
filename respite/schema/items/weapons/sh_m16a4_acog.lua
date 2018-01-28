@@ -23,8 +23,9 @@ ITEM.price = 0
 ITEM.height = 2
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
+
 ITEM.iconCam = {
-	pos = Vector(0, -200, -1.5),
-	ang = Angle(0, -270, 0),
-	fov = 10.5
+	pos = Vector(0, 200, -1),
+	ang = Angle(0, 270, 0),
+	fov = 10.5,
 }

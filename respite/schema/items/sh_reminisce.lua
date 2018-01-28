@@ -10,6 +10,12 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(100, 100, 100)
 
+ITEM.iconCam = {
+	pos = Vector(143.77166748047, 121.48292541504, 94),
+	ang = Angle(25, 220, 0),
+	fov = 5.5,
+}
+
 --1 cure, 2 organic material.
 ITEM.functions.Remember = {
 	icon = "icon16/picture.png",
@@ -58,6 +64,34 @@ ITEM.functions.Remember = {
 			if(organic:getData("Amount") < 2) then
 				return false
 			end
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("chip_escape", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a strange chip.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
+			return false
 		end
 	end
 }

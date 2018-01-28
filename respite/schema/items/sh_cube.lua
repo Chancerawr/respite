@@ -1,12 +1,12 @@
 ITEM.name = "Device - Food"
 ITEM.uniqueID = "cube_b"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
+ITEM.material = "models/props_canal/canal_bridge_railing_01a"
 ITEM.desc = "A strange metal box, it would be seemingly vibrating lightly. The box appears to have only a single button, labelled 'FOOD', and a slot in the top for some sort of chip."
 ITEM.width = 3
 ITEM.height = 3
 ITEM.flag = "v"
 ITEM.price = 500
-ITEM.material = "models/props_canal/canal_bridge_railing_01a"
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 

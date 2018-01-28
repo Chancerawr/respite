@@ -22,23 +22,25 @@ nut.chat.register("ic", {
 		local speako = hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 		local pSay = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
 		local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)-- fuck your period bullshit
+		local nameCol = nut.config.get("chatColor")
+		nameCol = Color(nameCol.r + 50, nameCol.g + 50, nameCol.b + 50)
 		if suffix == "?" then
 			if math.random(1, 2) == 1 then
-				chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " asks \""..pSay.."\"")
+				chat.AddText(nameCol, speako, nut.config.get("chatColor"), " asks \""..pSay.."\"")
 			else
-				chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" asks ", nut.config.get("chatColor"), speako)
+				chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" asks ", nameCol, speako)
 			end
 		elseif suffix == "!" then
 			if math.random(1, 2) == 1 then
-				chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " shouts \""..pSay.."\"")
+				chat.AddText(nameCol, speako, nut.config.get("chatColor"), " shouts \""..pSay.."\"")
 			else
-				chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" shouts ", nut.config.get("chatColor"), speako)
+				chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" shouts ", nameCol, speako)
 			end
 		elseif suffix == "." then
 			if math.random(1, 2) == 1 then
-				chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " says \""..pSay.."\"")
+				chat.AddText(nameCol, speako, nut.config.get("chatColor"), " says \""..pSay.."\"")
 			else
-				chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" says ", nut.config.get("chatColor"), speako)
+				chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" says ", nameCol, speako)
 			end
 		else
 			chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " says \""..pSayC.."\"")

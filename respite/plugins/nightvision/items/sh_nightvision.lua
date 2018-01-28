@@ -23,8 +23,9 @@ ITEM.price = 10000
 ITEM.height = 1
 ITEM.flag = "k"
 ITEM.category = "Illumination"
+
 ITEM.iconCam = {
-	ang	= Angle(-0.70499622821808, 268.25439453125, 0),
-	fov	= 12.085652091515,
-	pos	= Vector(0, 200, 0)
+	pos = Vector(200, 2.5, 0),
+	ang = Angle(180, -0, 180),
+	fov = 5,
 }

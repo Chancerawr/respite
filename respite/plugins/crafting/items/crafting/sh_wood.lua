@@ -10,7 +10,9 @@ ITEM.maxstack = 35
 ITEM.data = {
 	Amount = 1
 }
---[[
-function ITEM:getDesc()
-	return Format(self.desc, self:getData("Amount"))
-end--]]
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 18,
+}

@@ -9,11 +9,15 @@ ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
 ITEM.color = Color(0, 128, 128)
-
 ITEM.container = "j_tinc"
- 
 
 ITEM.attribBoosts = { ["fortitude"] = -15, ["endurance"] = -15 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, -0.5),
+	ang = Angle(0, -0, 0),
+	fov = 2.25,
+}
 
 ITEM:hook("use", function(item)
 	item.player:EmitSound(item.sound)

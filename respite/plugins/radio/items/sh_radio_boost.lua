@@ -6,6 +6,13 @@ ITEM.desc = "A useful piece of equipment that can be attached to radios to reduc
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
+ITEM.price = 100
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 0),
+	ang = Angle(0, 270, 0),
+	fov = 4.25,
+}
 
 -- Inventory drawing
 if (CLIENT) then

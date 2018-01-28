@@ -2,7 +2,7 @@ ITEM.name = "Device - Soda Stream"
 ITEM.uniqueID = "soda_stream"
 ITEM.model = "models/props/cs_assault/ventilationduct02.mdl"
 ITEM.material = "models/props_pipes/pipesystem01a_skin3"
-ITEM.desc = "A contraption that can make various types of soda."
+ITEM.desc = "A contraption that can make various types of liquid."
 ITEM.width = 2
 ITEM.height = 2
 ITEM.flag = "v"
@@ -12,36 +12,199 @@ ITEM.color = Color(50, 150, 50)
 
 ITEM.data = { producing2 = 0 }
 
-local foods = {
-	"food_apple",
-	"food_banana",
-	"food_lemon",
-	"food_melon",
-	"food_orange",
-	"food_potato",
-	"food_pumpkin",
-	"food_cactus",
+ITEM.iconCam = {
+	pos = Vector(9.5, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 7,
+}
+
+ITEM.functions.Ichor = {
+	name = "Ichor",
+	icon = "icon16/cup.png",
+	sound = "HL1/fvox/hiss.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local items = {
+			"food_apple",
+			"food_orange",
+			"food_lemon",
+			"food_potato",
+			"food_melon",
+			"food_banana",
+			"food_pumpkin",
+			"food_cactus"
+		}
+		
+		for k, v in pairs(items) do
+			food = inventory:hasItem(v)
+			if(food) then
+				break
+			end
+		end
+		
+		if(!food) then
+			client:notify("You need a grown food item.")
+			return false
+		end
+		
+		local memory = inventory:hasItem("j_scrap_memory")
+		if(!memory) then
+			client:notify("You need a memory.")
+			return false
+		end
+		
+		local amount = memory:getData("Amount", 1)
+		if(amount > 1) then
+			memory:setData("Amount", amount - 1)
+		else
+			memory:remove()
+		end
+		
+		
+		client:notify("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the objects, and begins to make some strange squishing noises.")	
+		
+		item:setData("producing2", CurTime())
+		
+		food:remove()
+		
+		timer.Simple(60, 
+			function()
+				timer.Simple(amount, 
+					function()
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("ichor")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("ichor", client:getItemDropPos()) --if not, drop it on the ground
+							end
+						else --if the item is on the ground
+							nut.item.spawn("ichor", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+						end
+					end
+				)
+				client:notify("Converting has finished.")
+				nut.chat.send(client, "itclose", "Ichor comes out of the machine in a container.")
+			end
+		)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local player = item.player or item:getOwner()
+		
+		if(!player:getChar():getInv():hasItem("j_scrap_memory")) then --check if they have the item of interest
+			return false
+		end
+		
+		local endTime = item:getData("producing2") + 60
+		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
+			return true 
+		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Juice = {
+	icon = "icon16/cup.png",
+	sound = "npc/barnacle/neck_snap2.wav",
+	onRun = function(item)
+		local foods = {
+			"food_apple",
+			"food_banana",
+			"food_lemon",
+			"food_melon",
+			"food_orange",
+			"food_potato",
+			"food_pumpkin",
+			"food_cactus",
+		}
+	
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local fruit
+		for k, v in pairs (foods) do
+			fruit = inventory:hasItem(v)
+			if (fruit) then
+				break
+			end
+		end	
+		
+		if(!fruit) then
+			client:notifyLocalized("You don't have a suitable food!") 
+			return false
+		end
+		
+		client:notifyLocalized("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the plant matter.")	
+		
+		item:setData("producing2", CurTime())
+		fruit:remove()
+		
+		timer.Simple(60, 
+			function()
+				local cans = 1 --this is left over from soda
+				
+				local soda = fruit.uniqueID .. "_juice"
+				
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add(soda, cans)) then --if the inventory has space, put it in the inventory
+						for i = 1, cans do
+							nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
+						end
+					end
+				else --if the item is on the ground
+					for i = 1, cans do
+						nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+					end
+				end
+				
+				nut.chat.send(client, "itclose", "Juice is dispensed from the machine.")
+			end
+		)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local endTime = item:getData("producing2") + 60
+		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
+			return true 
+		else
+			return false
+		end
+	end
 }
 
 ITEM.functions.Soda = {
 	icon = "icon16/cup.png",
 	sound = "npc/barnacle/neck_snap2.wav",
 	onRun = function(item)
+		local foods = {
+			"food_apple",
+			"food_banana",
+			"food_lemon",
+			"food_melon",
+			"food_orange",
+			"food_potato",
+			"food_pumpkin",
+			"food_cactus",
+		}
+	
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local done = false
 		local fruit
 		for k, v in pairs (foods) do
 			fruit = inventory:hasItem(v)
-			if (fruit and !done) then
-				done = true
+			if (fruit) then
 				break
 			end
 		end	
 		
-		if(!done) then
-			client:notifyLocalized("You don't have a suitable food!") return false
+		if(!fruit) then
+			client:notify("You don't have a suitable food!") return false
 		end
 		
 		client:notifyLocalized("Converting has started.")

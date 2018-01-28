@@ -1,12 +1,12 @@
 ITEM.name = "Device - Brewery"
 ITEM.uniqueID = "brewery"
 ITEM.model = "models/props_c17/trappropeller_engine.mdl"
+ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.desc = "A large metallic object, it seems to have a chip slot and a circular hole."
 ITEM.width = 3
 ITEM.height = 3
 ITEM.flag = "v"
 ITEM.price = 500
-ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
@@ -109,6 +109,11 @@ ITEM.functions.Potion2 = {
     end,
     onCanRun = function(item)      
 		local player = item.player or item:getOwner()
+		
+		--item doesn't work when on the ground, so make them have to pick it up I guess.
+		if(IsValid(item.entity)) then
+			return false
+		end
 		
 		if(!player:getChar():getInv():hasItem("food_apple_cursed")) then
 			return false

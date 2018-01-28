@@ -10,6 +10,12 @@ ITEM.material = "models/props/cs_assault/metal_stairs1"
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 10,
+}
+
 ITEM.functions.Refine = {
 	icon = "icon16/cog.png",
 	sound = "buttons/lightswitch2.wav",

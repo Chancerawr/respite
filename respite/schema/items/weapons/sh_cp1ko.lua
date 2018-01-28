@@ -16,6 +16,7 @@
 ITEM.name = "CP-1K0"
 ITEM.desc = "High capacity low calibre select fire pistol made from various scrap parts. Appears to be derived from the CP-1KA model.\nThis weapon utilizes 9x19mm rounds."
 ITEM.model = "models/weapons/tfa_w_dmgf_co1911.mdl"
+ITEM.material = "models/props_canal/canal_bridge_railing_01b"
 ITEM.class = "tfa_cp1ko"
 ITEM.uniqueID = "tfa_cp1ko"
 ITEM.weaponCategory = "sidearm"
@@ -25,9 +26,9 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
 ITEM.iconCam = {
-	pos = Vector(0, -200, -2.5),
-	ang = Angle(0, -270, 5),
-	fov = 4
+	pos = Vector(0, 200, -2.5),
+	ang = Angle(0, 270, 5),
+	fov = 4.5,
 }
 
 ITEM.holsterDrawInfo = {

@@ -22,9 +22,9 @@ ITEM.width = 3
 ITEM.height = 1
 ITEM.price = 0
 ITEM.iconCam = {
-	pos = Vector(-194.44444274902, -10.5, 2.5),
-	ang = Angle(0, 0, -4),
-	fov = 8.3333333333333
+	pos = Vector(-200, 10.5, 2),
+	ang = Angle(0, -0, 4.6999998092651),
+	fov = 8,
 }
 
 ITEM.flag = "v"

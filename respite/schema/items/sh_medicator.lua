@@ -9,6 +9,12 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
+ITEM.iconCam = {
+	pos = Vector(200, 0, 0),
+	ang = Angle(180, -0, 180),
+	fov = 14,
+}
+
 ITEM.functions.Medical = {
 	name = "Create Medical Supplies",
 	icon = "icon16/box.png",
@@ -59,6 +65,34 @@ ITEM.functions.Medical = {
 		local organic = player:getChar():getInv():hasItem("j_scrap_organic")
 		
 		if !player:getChar():getInv():hasItem("drug_depress") or !organic or (organic and organic:getData("Amount") < 10) then --if item of importance isn't in the inventory.
+			return false
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("salve_healing", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a vial filled with green liquid.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
 			return false
 		end
 	end

@@ -10,3 +10,9 @@ ITEM.width = 1
 ITEM.height = 1
 
 ITEM.attribBoosts = { ["medical"] = 5 }
+
+ITEM.iconCam = {
+	pos = Vector(-5, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 3,
+}

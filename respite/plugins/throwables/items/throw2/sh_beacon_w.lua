@@ -6,3 +6,9 @@ ITEM.uniqueID = "nut_beacon_w"
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Illumination"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0.5),
+	ang = Angle(0, -0, 0),
+	fov = 3.25,
+}

@@ -6,9 +6,16 @@ ITEM.foodDesc = "The torso of a human being."
 ITEM.quantity = 2
 ITEM.price = 100
 ITEM.width = 2
-ITEM.height = 3
---10 fortitude
+ITEM.height = 2
+ITEM.color = Color(150,50,50)
+
 ITEM.attribBoosts = { ["fortitude"] = 10 }
+
+ITEM.iconCam = {
+	pos = Vector(200, 6, -1),
+	ang = Angle(180, -0, 90),
+	fov = 4,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

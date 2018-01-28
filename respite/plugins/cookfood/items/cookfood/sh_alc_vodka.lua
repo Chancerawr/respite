@@ -9,8 +9,12 @@ ITEM.width = 1
 ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
---5 str
 ITEM.container = "j_empty_vodka"
- 
 
 ITEM.attribBoosts = { ["str"] = 5 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 6),
+	ang = Angle(0, -0, 0),
+	fov = 2.5,
+}

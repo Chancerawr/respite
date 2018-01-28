@@ -9,3 +9,9 @@ ITEM.material = "phoenix_storms/wire/pcb_green"
 
 ITEM.data = { scrapamount = 3 }
 ITEM.salvItem = "j_scrap_cloth"
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 170),
+	fov = 5.5,
+}

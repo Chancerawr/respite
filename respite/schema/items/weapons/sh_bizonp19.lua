@@ -25,7 +25,7 @@ ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
 
 ITEM.iconCam = {
-	pos = Vector(-200, -7, 3),
-	ang = Angle(0, 0, -13),
-	fov = 11
+	pos = Vector(-200, 6, 2),
+	ang = Angle(0, -0, 12),
+	fov = 9.5,
 }

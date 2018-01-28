@@ -4,7 +4,7 @@ ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.price = 75
-ITEM.desc = "A strange vial that is filled with some bright green liquid.\nUpon topical application, this liquid enhances normal human regeneration, and allows for a speedier recovery from wounds. However, it is not good enough to replace necessary medical treatment."
+ITEM.desc = "A strange vial that is filled with some bright green liquid.\nDrinking this potion leaves the user feeling somewhat more fortunate. Good things may happen to them."
 ITEM.flag = "V"
 ITEM.uniqueID = "potion_luck"
 ITEM.container = "j_empty_vial"
@@ -15,7 +15,7 @@ ITEM.attribBoosts = {
 }
 
 ITEM.iconCam = {
-	ang= Angle(-1.4803389310837, 269.8740234375, 0),
-	fov= 4.0632088024625,
-	pos= Vector(0, 200, 0)
+	pos = Vector(-200, 0, 4.75),
+	ang = Angle(0, -0, 0),
+	fov = 3.6,
 }

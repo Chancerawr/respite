@@ -11,5 +11,10 @@ ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
---3 agi 3 luck
 ITEM.attribBoosts = { ["fortitude"] = 5, ["luck"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
+}

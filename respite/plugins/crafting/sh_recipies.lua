@@ -2770,3 +2770,19 @@ RECIPE155.result = {
 }
 RECIPES:Register( RECIPE155 )
 //
+local RECIPE156 = {}
+RECIPE156.uid = "nut_sledgehammer"
+RECIPE156.name = "Makeshift Sledgehammer"
+RECIPE156.category = "Weapons - Melee"
+RECIPE156.model = Model( "models/props_debris/wood_board02a.mdl" )
+RECIPE156.desc = "A large hammer usually used to distribute force over a wide area."
+RECIPE156.noBlueprint = true
+RECIPE156.items = {
+	["j_scrap_concrete"] = 20,
+	["j_scrap_wood"] = 15
+}
+RECIPE156.result = {
+	["hl2_m_sledgehammer"] = 1
+}
+RECIPES:Register( RECIPE156 )
+//

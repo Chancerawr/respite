@@ -8,11 +8,15 @@ ITEM.price = 0
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "v"
-
---10 fortitude
+ITEM.color = Color(150,50,50)
 
 ITEM.attribBoosts = { ["fortitude"] = 10 }
 
+ITEM.iconCam = {
+	pos = Vector(-200, -0.5, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

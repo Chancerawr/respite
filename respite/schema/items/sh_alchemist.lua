@@ -1,15 +1,21 @@
 ITEM.name = "The Alchemist"
 ITEM.uniqueID = "alchemist"
 ITEM.model = "models/props_junk/gnome.mdl"
-ITEM.material = "models/props_lab/security_screens"
+ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.desc = "It moves when you're not watching."
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 500
-ITEM.category = "Machines"
+ITEM.category = "Gnomes"
 ITEM.color = Color(140, 20, 140)
 ITEM.data = { producing2 = 0 }
+
+ITEM.iconCam = {
+	pos = Vector(280.39529418945, 236.86444091797, 184.78364562988),
+	ang = Angle(25, 220, 0),
+	fov = 5.0807393438119,
+}
 
 ITEM.functions.Depressant = {
 	icon = "icon16/box.png",
@@ -177,6 +183,45 @@ ITEM.functions.Yams = {
 		local player = item.player or item:getOwner()
 		
 		if !player:getChar():getInv():hasItem("food_yams_mysterious") then --if item of importance isn't in the inventory.
+			return false
+		end
+	end
+}
+
+ITEM.functions.Apple = {
+	name = "Cursed Apple",
+	icon = "icon16/box.png",
+	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local ichor = inventory:hasItem("ichor")
+
+		local amount = ichor:getData("Amount")
+		ichor:setData("Amount", amount - 5) --costs 5
+		if (ichor:getData("Amount") == 0) then
+			ichor:remove()
+		end
+
+		nut.item.spawn("food_apple_cursed", position)
+		
+		nut.chat.send(client, "itclose", "When nobody is looking, the object in front of the alchemist is replaced with an apple.")	
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		local ichor = player:getChar():getInv():hasItem("ichor")
+		if(ichor) then
+			local amount = ichor:getData("Amount")
+			if(amount >= 5) then
+				return true --need 5 ichor to run
+			else
+				return false
+			end
+		else
 			return false
 		end
 	end

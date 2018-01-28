@@ -20,12 +20,13 @@ ITEM.class = "tfa_cr33p"
 ITEM.uniqueID = "tfa_cr33p"
 ITEM.weaponCategory = "primary"
 ITEM.width = 4
-ITEM.price = 0
 ITEM.height = 2
+ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
+
 ITEM.iconCam = {
-	pos = Vector(-11, 200, -2),
-	ang = Angle(0, 270, -10),
-	fov = 10
+	pos = Vector(11, 200, -2),
+	ang = Angle(0, 270, 10),
+	fov = 10,
 }

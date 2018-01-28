@@ -13,7 +13,7 @@ ITEM.container = "j_empty_vial"
 ITEM.color = Color(50, 255, 50)
 
 ITEM.iconCam = {
-	ang= Angle(-1.4803389310837, 269.8740234375, 0),
-	fov= 4.0632088024625,
-	pos= Vector(0, 200, 0)
+	pos = Vector(-200, 0, 4.75),
+	ang = Angle(0, -0, 0),
+	fov = 3.6,
 }

@@ -22,11 +22,11 @@ ITEM.model = "models/weapons/tfa_w_acc_int_aw50.mdl"
 ITEM.width = 5
 ITEM.height = 2
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, -13, 3),
-	ang = Angle(0, -0, -6),
-	fov = 18
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Snipers"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 14.5, 2),
+	ang = Angle(0, -0, 6),
+	fov = 16.5,
+}

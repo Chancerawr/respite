@@ -19,12 +19,13 @@ ITEM.model = "models/weapons/tfa_w_dmg_vikhr.mdl"
 ITEM.class = "tfa_vikhr"
 ITEM.weaponCategory = "primary"
 ITEM.width = 4
-ITEM.price = 0
 ITEM.height = 2
+ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
+
 ITEM.iconCam = {
-	ang	= Angle(-0.70499622821808, 268.25439453125, 0),
-	fov	= 12.085652091515,
-	pos	= Vector(0, 200, 0)
+	pos = Vector(11, 200, -2),
+	ang = Angle(0, 270, 10),
+	fov = 10,
 }

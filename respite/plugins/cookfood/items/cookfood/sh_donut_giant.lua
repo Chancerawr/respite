@@ -9,5 +9,10 @@ ITEM.width = 2
 ITEM.height = 2
 ITEM.cookable = false
 
---5 luck
 ITEM.attribBoosts = { ["luck"] = 10 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 7,
+}

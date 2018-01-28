@@ -4,8 +4,15 @@ ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.desc = "A small bottle filled with some pills."
 ITEM.duration = 100
 ITEM.price = 30
+
 ITEM.attribBoosts = {
 	["fortitude"] = 3,
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3.75,
 }
 
 ITEM:hook("_use", function(item)

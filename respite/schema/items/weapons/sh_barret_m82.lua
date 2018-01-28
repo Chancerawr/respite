@@ -21,11 +21,11 @@ ITEM.model = "models/weapons/tfa_w_barret_m82.mdl"
 ITEM.width = 5
 ITEM.height = 2
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, -17, 4),
-	ang = Angle(0, -0, -7),
-	fov = 15
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Snipers"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 17, 4),
+	ang = Angle(0, -0, 7),
+	fov = 15,
+}

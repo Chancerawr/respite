@@ -2,6 +2,13 @@ ITEM.name = "Respite (OOC)"
 ITEM.desc = "A short introduction to Respite, this book is OOC.\nThis book can be sold."
 ITEM.price = 0
 ITEM.flag = "3"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 		<p align="center"><font color='red' size='6'>Respite</font></p><br/>
 		<font color='black' size='3'>Respite is a survival, horror, and mystery 

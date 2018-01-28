@@ -7,10 +7,18 @@ ITEM.quantity = 6
 ITEM.price = 6
 ITEM.width = 2
 ITEM.height = 2
---4 accuracy
 ITEM.container = "j_empty_milk_jug"
- 
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
-ITEM.attribBoosts = { ["accuracy"] = 4 }
+ITEM.attribBoosts = { 
+	["accuracy"] = 4,
+	["str"] = 4,
+	["end"] = 4 
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5.5,
+}

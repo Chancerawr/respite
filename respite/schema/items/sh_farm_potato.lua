@@ -10,6 +10,12 @@ ITEM.category = "Farms"
 ITEM.data = { producing2 = 0 }
 ITEM.color = Color(50, 150, 50)
 
+ITEM.iconCam = {
+	pos = Vector(188.63706970215, 158.96276855469, 122.02513885498),
+	ang = Angle(25, 220, 0),
+	fov = 4.7276473777797,
+}
+
 ITEM.functions.Farm = {
 	icon = "icon16/box.png",
 	sound = "npc/barnacle/barnacle_tongue_pull1.wav",

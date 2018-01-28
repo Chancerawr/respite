@@ -7,6 +7,7 @@ ITEM.height = 2
 ITEM.invWidth = 4
 ITEM.invHeight = 2
 ITEM.isBag = true
+ITEM.openTime = 3
 
 --this is used to make checking for other backpacks in the inventory a little less more efficient
 local otherBags = {
@@ -20,29 +21,36 @@ local otherBags = {
 ITEM.functions.View = {
 	icon = "icon16/briefcase.png",
 	onClick = function(item)
-		local index = item:getData("id")
+		nut.bar.actionStart = CurTime()
+		nut.bar.actionEnd = CurTime() + item.openTime
+		nut.bar.actionText = "Opening.."
+		LocalPlayer():ConCommand("play items/ammocrate_open.wav")
+		timer.Simple(item.openTime, 
+			function()
+				local index = item:getData("id")
 
-		if (index) then
-			local panel = nut.gui["inv"..index]
-			local parent = item.invID and nut.gui["inv"..item.invID] or nil
-			local inventory = nut.item.inventories[index]
-			
-			if (IsValid(panel)) then
-				panel:Remove()
+				if (index) then
+					local panel = nut.gui["inv"..index]
+					local parent = item.invID and nut.gui["inv"..item.invID] or nil
+					local inventory = nut.item.inventories[index]
+					
+					if (IsValid(panel)) then
+						panel:Remove()
+					end
+
+					if (inventory and inventory.slots) then
+						panel = vgui.Create("nutInventory", parent)
+						panel:setInventory(inventory)
+						panel:ShowCloseButton(true)
+						panel:SetTitle(item.name)
+
+						nut.gui["inv"..index] = panel
+					else
+						ErrorNoHalt("[NutScript] Attempt to view an uninitialized inventory '"..index.."'\n")
+					end
+				end
 			end
-
-			if (inventory and inventory.slots) then
-				panel = vgui.Create("nutInventory", parent)
-				panel:setInventory(inventory)
-				panel:ShowCloseButton(true)
-				panel:SetTitle(item.name)
-
-				nut.gui["inv"..index] = panel
-			else
-				ErrorNoHalt("[NutScript] Attempt to view an uninitialized inventory '"..index.."'\n")
-			end
-		end
-
+		)
 		return false
 	end,
 	onCanRun = function(item)

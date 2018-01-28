@@ -21,11 +21,11 @@ ITEM.model = "models/weapons/tfa_w_ares_shrike.mdl"
 ITEM.width = 4
 ITEM.height = 2
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, -10.5, 2),
-	ang = Angle(0, 0, -6),
-	fov = 11
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Machine Guns"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 11, 0),
+	ang = Angle(0, -0, 5),
+	fov = 11.5,
+}

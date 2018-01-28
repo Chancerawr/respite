@@ -9,3 +9,9 @@ ITEM.price = 50
 ITEM.category = "Storage"
 ITEM.flag = "v"
 ITEM.uniqueID = "stor_suitcase"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, -9),
+	ang = Angle(0, 270, 0),
+	fov = 8,
+}

@@ -54,24 +54,20 @@ local PANEL = {}
 		end)
 		self.title:SetExpensiveShadow(2, Color(0, 0, 0, 200))
 		
-		-- self.schemaLogo = self:Add("DImage")
-		-- self.schemaLogo:SetZPos(-197)
-		-- self.schemaLogo:SetPos(ScrW() * 0.11, 15)
-		-- self.schemaLogo:SetSize(ScrW() * 0.277, ScrH() * 0.147)
-		-- self.schemaLogo:SetImage("requiem909/deadline.png")
-		
 		self.schemaLogo = self:Add("DHTML")
 		self.schemaLogo:SetSize(ScrW(), ScrH())
 		self.schemaLogo:SetPos(ScrW() * 0.30, 25)
 		self.schemaLogo:SetZPos(-197)
 		self.schemaLogo:OpenURL("http://i.imgur.com/xihenMy.png")
-
-		-- self.videoBackground = self:Add("DHTML")
-		-- self.videoBackground:SetSize(ScrW(), ScrH())
-		-- self.videoBackground:SetPos(0, 0)
-		-- self.videoBackground:SetZPos(-500)
-		-- self.videoBackground:OpenURL("http://www.paradiselost.rocks/server/")
-
+		
+		--[[
+		self.background = self:Add("DHTML")
+		self.background:SetSize(ScrW(), ScrH())
+		self.background:SetPos(0, 0)
+		self.background:SetZPos(-300)
+		self.background:OpenURL("https://i.imgur.com/inVWfQz.jpg")
+		--]]
+		
 		self.subTitle = self:Add("DLabel")
 		self.subTitle:SetContentAlignment(5)
 		self.subTitle:MoveBelow(self.title, 0)
@@ -104,17 +100,22 @@ local PANEL = {}
 		self.icon.click:SetAlpha(0)
 		self.icon:SetAlpha(150)
 
-		local x, y = ScrW() * 0.1, ScrH() * 0.3
+		local x, y = ScrW() * 0.25, ScrH() * 0.8
 		local i = 1
-
+		
 		self.buttons = {}
 		surface.SetFont("nutMenuButtonFontNew")
-
+		
 		local function AddMenuLabel(text, callback, isLast, noTranslation, parent)
 			parent = parent or self
-
+			
 			local label = parent:Add("nutMenuButton")
-			label:SetPos(x, y)
+			if(text == "return" or text == "leave") then
+				label:SetPos(ScrW() * 0.8, y)
+			else
+				label:SetPos(x, y)
+			end
+			
 			label:setText(text, noTranslation)
 			label:SetAlpha(0)
 			label:AlphaTo(255, 0.3, (fadeSpeed * 6) + 0.15 * i, function()
@@ -122,7 +123,7 @@ local PANEL = {}
 					fadeSpeed = 0
 				end
 			end)
-
+			
 			if (callback) then
 				label.DoClick = function(this)
 					if (this:GetAlpha() == 255 and callback) then
@@ -130,10 +131,11 @@ local PANEL = {}
 					end
 				end
 			end
-
+			
 			i = i + 0.33
-			y = y + label:GetTall() + 16
-
+			--y = y + label:GetTall() + 16
+			x = x + label:GetWide() + 16
+			
 			self.buttons[#self.buttons + 1] = label
 			return label
 		end
@@ -167,7 +169,7 @@ local PANEL = {}
 		local CreateMainButtons
 
 		local function CreateReturnButton()
-			AddMenuLabel("Return to Game", function()
+			AddMenuLabel("Return", function()
 				if (IsValid(self.creation) and self.creation.creating) then
 					return
 				end
@@ -181,13 +183,25 @@ local PANEL = {}
 						end)
 					end
 				end
-
+				
+				
 				self.fadePanels = {}
 				ClearAllButtons(CreateMainButtons)
+				x, y = ScrW() * 0.25, ScrH() * 0.8
 			end)
 		end
 
 		function CreateMainButtons()
+		
+			local bar = self:Add("nutMenuBar")
+			bar:SetPos(0, ScrH() - (ScrH() / 4.75))
+			bar:SetSize(ScrW(), ScrH() / 12)
+			self.buttons[#self.buttons + 1] = bar		
+		
+		--	self.bar = self:Add("nutMenuBar")
+		--	self.bar:SetPos(0, ScrH() - (ScrH() / 4.75))
+		--	self.bar:SetSize(ScrW(), ScrH() / 12)
+
 			local count = 0
 
 			for k, v in pairs(nut.faction.teams) do
@@ -501,6 +515,24 @@ local PANEL = {}
 
 			local hasCharacter = LocalPlayer().getChar and LocalPlayer():getChar()
 
+			--testing a thing here
+			local totalWidth = -16
+			for k, v in pairs(self.buttons) do
+				if(v:GetWide() != ScrW()) then
+					totalWidth = totalWidth + v:GetWide() + 16
+				end
+			end
+			
+			local newX = ScrW() * 0.5 - (totalWidth / 2)
+			
+			for k, v in pairs(self.buttons) do
+				if(v:GetWide() != ScrW()) then
+					v:SetPos(newX, y)
+					newX = newX + v:GetWide() + 16
+				end
+			end
+			
+			
 			if (hook.Run("ShouldMenuButtonShow", "leave") != false) then
 				AddMenuLabel(hasCharacter and "return" or "leave", function()
 					if (!hasCharacter) then
@@ -611,3 +643,14 @@ hook.Add("CreateMenuButtons", "nutCharButton", function(tabs)
 		vgui.Create("nutCharMenu")
 	end
 end)
+
+
+local barPanel = {}
+	function barPanel:Init()
+		self:SetColor(Color( 50, 50, 50, 200 ))
+		self:SetDrawBackground(true)
+		self:SetTextColor(Color(255,255,255,0))
+		self:SetText("")
+	end
+
+vgui.Register("nutMenuBar", barPanel, "DButton")

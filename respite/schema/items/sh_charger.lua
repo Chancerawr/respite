@@ -9,6 +9,12 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
+ITEM.iconCam = {
+	pos = Vector(200, 0, 0),
+	ang = Angle(180, -0, 180),
+	fov = 14,
+}
+
 ITEM.functions.Charge = {
 	name = "Charge Battery",
 	icon = "icon16/box.png",
@@ -22,7 +28,7 @@ ITEM.functions.Charge = {
 		
 		nut.chat.send(client, "itclose", "The machine accepts the dead battery and the money, vibrates intensely, and outputs a freshly charged battery.")
 		
-		char:takeMoney(10)
+		char:takeMoney(40)
 		battery:remove()
 		
 		if(!inventory:add("ammo_battery")) then
@@ -34,7 +40,7 @@ ITEM.functions.Charge = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("j_battery_dead" or player:getChar():getMoney() < 10) then --if item of importance isn't in the inventory.
+		if (!player:getChar():getInv():hasItem("j_battery_dead") or player:getChar():getMoney() < 40) then --if item of importance isn't in the inventory.
 			return false
 		end
 	end

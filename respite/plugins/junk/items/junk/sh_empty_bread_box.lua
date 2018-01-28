@@ -9,6 +9,12 @@ ITEM.height = 1
 ITEM.data = { scrapamount = 1 }
 ITEM.salvItem = "misc_paper"
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 6.5),
+	ang = Angle(0, -0, 0),
+	fov = 10,
+}
+
 ITEM.functions.Scrap = {
 	tip = "Scrap this item",
 	icon = "icon16/cross.png",

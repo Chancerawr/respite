@@ -7,6 +7,11 @@ ITEM.price = 150
 ITEM.flag = "v"
 ITEM.uniqueID = "comm_signal"
 
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, -60),
+	fov = 2.5,
+}
 
 function ITEM:getDesc()
 	local str

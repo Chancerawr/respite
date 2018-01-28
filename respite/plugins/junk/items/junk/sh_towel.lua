@@ -9,3 +9,9 @@ ITEM.material = "models/props_c17/furniturefabric003a"
 
 ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "j_scrap_cloth"
+
+ITEM.iconCam = {
+	pos = Vector(0, -1, 200),
+	ang = Angle(90, 0, 0),
+	fov = 20,
+}

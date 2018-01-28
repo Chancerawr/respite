@@ -328,7 +328,7 @@ nut.chat.register("radio", {
 		local finalMsg
 		
 		local booster = speaker:getChar():getData("boost", false)
-		
+
 		if(!nut.config.get("distortion") or booster) then
 			finalMsg = text
 		else
@@ -640,7 +640,7 @@ nut.command.add("distortion", {
 	adminOnly = true,
 	syntax = "<bool true/false>",
 	onRun = function(client, arguments)
-		if(arguments[1]) then
+		if(arguments[1] != 0) then
 			nut.config.set("distortion", true)
 			client:notifyLocalized("Distortion has been turned on.")
 		else

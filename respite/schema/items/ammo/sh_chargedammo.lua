@@ -24,6 +24,12 @@ ITEM.price = 0
 ITEM.uniqueID = "ammo_battery"
 ITEM.material = "phoenix_storms/wire/pcb_blue"
 
+ITEM.iconCam = {
+	pos = Vector(200, 0, 5),
+	ang = Angle(180, -0, 180),
+	fov = 3.75,
+}
+
 local function onUse(item)
 	if(!item.player:getChar():getInv():add("j_battery_dead")) then
 		nut.item.spawn("j_battery_dead", item.player:getItemDropPos())

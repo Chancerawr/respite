@@ -8,6 +8,12 @@ ITEM.height = 3
 
 ITEM.salvItem = "j_newspaper"
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 12),
+	ang = Angle(0, -0, 0),
+	fov = 8,
+}
+
 ITEM.functions.Scrap = {
   tip = "Scrap this item",
   icon = "icon16/cross.png",

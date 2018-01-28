@@ -6,7 +6,7 @@ ENT.AdminOnly = true
 ENT.Category = "NutScript Throwable"
 ENT.RenderGroup 		= RENDERGROUP_BOTH
 
-ENT.configLifetime = 9000
+ENT.configLifetime = 1800
 ENT.configColor = Color( 255, 255, 255 )
 
 if (SERVER) then

@@ -9,6 +9,12 @@ ITEM.height = 2
 ITEM.data = { scrapamount = 5 }
 ITEM.salvItem = "j_scrap_chems"
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 10,
+}
+
 ITEM.functions.Load = { -- sorry, for name order.
 	name = "Load",
 	tip = "useTip",

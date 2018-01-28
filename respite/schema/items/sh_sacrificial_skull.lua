@@ -11,6 +11,12 @@ ITEM.category = "Machines"
 ITEM.color = Color(0, 0, 0)
 ITEM.data = { producing2 = 0 }
 
+ITEM.iconCam = {
+	pos = Vector(200, 0, 0),
+	ang = Angle(180, -0, 180),
+	fov = 2.5,
+}
+
 ITEM.functions.Sacrifice = {
 	icon = "icon16/eye.png",
 	sound = "npc/barnacle/neck_snap2.wav",
@@ -100,7 +106,7 @@ ITEM.functions.Sacrifice = {
 					rewardI = "cube_chip_enhanced"					
 				elseif (reward == 100) then
 					client:notifyLocalized("You feel like you've changed somehow.")	
-					char:updateAttrib("fortitude", 1)
+					char:updateAttrib("fortitude", 0.5)
 				end
 				nut.log.addRaw(client:Name().." used a sacrifical skull: \""..reward.."\"")
 				
@@ -123,6 +129,35 @@ ITEM.functions.Sacrifice = {
 		local endTime = item:getData("producing2") + 40
 		if(CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("drug_venom", position)
+		nut.item.spawn("drug_venom", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some strange vials..")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
 			return false
 		end
 	end

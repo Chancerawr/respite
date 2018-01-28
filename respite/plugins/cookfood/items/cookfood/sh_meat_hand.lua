@@ -6,10 +6,16 @@ ITEM.foodDesc = "A hand that was once connected to a human being."
 ITEM.quantity = 1
 ITEM.price = 100
 ITEM.width = 1
-ITEM.height = 2
---10 fortitude
+ITEM.height = 1
+ITEM.color = Color(150,50,50)
 
 ITEM.attribBoosts = { ["fortitude"] = 10 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 1.25, 200),
+	ang = Angle(90, 0, 0),
+	fov = 1.8,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

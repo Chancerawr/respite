@@ -7,6 +7,12 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Illumination"
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0.5),
+	ang = Angle(0, -0, 0),
+	fov = 3.25,
+}
+
 ITEM.functions.Load = { -- sorry, for name order.
 	name = "Load",
 	tip = "useTip",

@@ -1,6 +1,6 @@
 ITEM.name = "Mystery Box"
 ITEM.desc = "A strange box, I wonder what's inside?"
-ITEM.model = Model("models/Items/item_item_crate.mdl")
+ITEM.model = "models/Items/item_item_crate.mdl"
 ITEM.material = "models/props_lab/security_screens"
 ITEM.uniqueID = "mystery_box"
 ITEM.price = 500
@@ -8,6 +8,12 @@ ITEM.flag = "v"
 ITEM.width = 2
 ITEM.height = 2
 ITEM.color = Color(140, 20, 140)
+
+ITEM.iconCam = {
+	pos = Vector(0.75, -1, 200),
+	ang = Angle(90, 0, 0),
+	fov = 12,
+}
 
 ITEM.functions.Open = {
 	icon = "icon16/box.png",

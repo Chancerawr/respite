@@ -15,17 +15,17 @@
 
 ITEM.name = "FG 42"
 ITEM.desc = "A very large machine gun.\nThis weapon utilizes .30-06 rounds."
+ITEM.model = "models/weapons/tfa_w_fg42.mdl"
 ITEM.class = "tfa_fg42"
 ITEM.weaponCategory = "primary"
-ITEM.model = "models/weapons/tfa_w_fg42.mdl"
 ITEM.width = 4
 ITEM.height = 1
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, -9.5, 2.5),
-	ang = Angle(0, 0, -5),
-	fov = 11.5
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Machine Guns"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 10, 3),
+	ang = Angle(0, -0, 5),
+	fov = 11.5,
+}

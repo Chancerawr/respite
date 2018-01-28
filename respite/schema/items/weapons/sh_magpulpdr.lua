@@ -23,8 +23,9 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Submachine Guns"
+
 ITEM.iconCam = {
-	pos = Vector(-200, -1, 2),
-	ang = Angle(0, 0, -6),
-	fov = 10
+	pos = Vector(-200, 1.7, 2.5),
+	ang = Angle(0, -0, 6),
+	fov = 7,
 }

@@ -5,11 +5,17 @@ ITEM.hungerAmount = 35
 ITEM.foodDesc = "A leg that was once connected to a human being."
 ITEM.quantity = 4
 ITEM.price = 100
-ITEM.width = 5
-ITEM.height = 2
---10 fortitude
+ITEM.width = 4
+ITEM.height = 1
+ITEM.color = Color(150,50,50)
 
 ITEM.attribBoosts = { ["fortitude"] = 10 }
+
+ITEM.iconCam = {
+	pos = Vector(-15, 200, 2.5),
+	ang = Angle(0, 270, 0),
+	fov = 14.5,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

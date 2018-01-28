@@ -10,6 +10,12 @@ ITEM.category = "OOC"
 ITEM.data = { customCol = Color(255, 253, 0) }
 ITEM.color = Color(255, 253, 0)
 
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 --luck
 --fortitude
 --agility

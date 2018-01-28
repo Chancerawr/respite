@@ -24,10 +24,11 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Illumination"
+
 ITEM.iconCam = {
-	pos = Vector(-195, -1.5, 0),
-	ang = Angle(0, 0, 0),
-	fov = 5
+	pos = Vector(-200, 1.5, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
 }
 
 ITEM:hook("drop", function(item)

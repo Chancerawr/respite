@@ -7,8 +7,12 @@ ITEM.quantity = 3
 ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
-
 ITEM.container = "j_tinc"
 
---1 agility
 ITEM.attribBoosts = { ["stm"] = 1 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, -0.5),
+	ang = Angle(0, -0, 0),
+	fov = 2.25,
+}

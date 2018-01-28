@@ -46,8 +46,8 @@ player models
 Temporary Things (Like Maps)
 --]]
 
-119420070 --rp_outercanals
-
+200098715, --gm_coolsnow
+104484346 --gm_isles
 }
 
 for k, v in pairs(workshopIDs) do
@@ -102,6 +102,25 @@ function SCHEMA:Initialize()
 	game.ConsoleCommand("sv_kickerrornum 0\n");
 
 	game.ConsoleCommand("sv_allowupload 0\n");
-	game.ConsoleCommand("sv_allowdownload 0\n");
+	game.ConsoleCommand("sv_allowdownload 1\n");
 	game.ConsoleCommand("sv_allowcslua 0\n");
+end
+
+function SCHEMA:ScalePlayerDamage(client, hitGroup, dmgInfo)
+	local attacker = dmgInfo:GetAttacker()
+	if(attacker and attacker:IsPlayer()) then
+		if(dmgInfo:GetDamageType() == DMG_SLASH) then
+			dmgInfo:ScaleDamage(.1)
+		else
+			dmgInfo:ScaleDamage(.5)
+		end
+	else
+		dmgInfo:ScaleDamage(1.5)
+
+		if (hitGroup == HITGROUP_HEAD) then
+			dmgInfo:ScaleDamage(7)
+		elseif (LIMB_GROUPS[hitGroup]) then
+			dmgInfo:ScaleDamage(0.5)
+		end
+	end
 end

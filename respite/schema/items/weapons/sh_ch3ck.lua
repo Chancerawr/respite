@@ -15,18 +15,19 @@
 
 ITEM.name = "CH-3CK"
 ITEM.desc = "Makeshift rocket-launcher. While it seems simple in core design, the munitions are probably the expensive piece. Rumoured to be named after what you should do prior to firing lest you want to blow yourself up.\nThis weapon utilizes rockets."
+ITEM.model = "models/props_docks/dock01_pole01a_128.mdl"
+ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_ch3ck"
 ITEM.uniqueID = "tfa_ch3ck"
 ITEM.weaponCategory = "primary"
-ITEM.model = "models/props_docks/dock01_pole01a_128.mdl"
 ITEM.width = 5
 ITEM.height = 2
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 90),
-	fov = 40
-}
 ITEM.flag = "v"
+ITEM.category = "Weapons - Misc"
 
-ITEM.category = "Weapons - Machine Guns"
+ITEM.iconCam = {
+	pos = Vector(0, 200, 0),
+	ang = Angle(0, 270, 90),
+	fov = 38,
+}

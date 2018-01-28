@@ -3,13 +3,19 @@ ITEM.uniqueID = "nac"
 ITEM.model = "models/props/de_nuke/emergency_lighta.mdl"
 ITEM.material = "models/props_wasteland/quarryobjects01"
 ITEM.desc = "A strange metal cylinder, it kind of looks like a can if you stare long enough."
-ITEM.width = 2
-ITEM.height = 2
+ITEM.width = 1
+ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 ITEM.data = { producing2 = 0, can = "food_yams" }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, -3),
+	ang = Angle(0, -0, 0),
+	fov = 5.5,
+}
 
 local canned = {
 	"food_asparagus",

@@ -9,8 +9,13 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.cookable = false
 
---2 luck
 ITEM.attribBoosts = { ["luck"] = 4 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 7,
+}
 
 if (CLIENT) then
 	function ITEM:drawEntity(entity, item)

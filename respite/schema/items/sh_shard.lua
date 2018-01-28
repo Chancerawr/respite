@@ -10,6 +10,12 @@ ITEM.category = "Shard"
 ITEM.data = { shardcount = 1 }
 ITEM.color = Color(255, 255, 255)
 
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 7,
+}
+
 if (CLIENT) then
 	function ITEM:drawEntity(entity, item)
 		entity:DrawModel()

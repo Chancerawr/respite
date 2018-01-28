@@ -15,17 +15,17 @@
 
 ITEM.name = "USAS"
 ITEM.desc = "A South-Korean produced, magazine fed automatic shotgun. Featuring a fire-rate of an average Kalash, it can still clear a room.\nThis weapon utilizes 12 gauge."
+ITEM.model = "models/weapons/tfa_w_usas_12.mdl"
 ITEM.class = "tfa_usas"
 ITEM.weaponCategory = "primary"
-ITEM.model = "models/weapons/tfa_w_usas_12.mdl"
 ITEM.width = 4
 ITEM.height = 2
 ITEM.price = 0
-ITEM.iconCam = {
-    pos = Vector(0, 200, 1),
-    ang = Angle(0, 270, 0),
-    fov = 10
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Shotguns"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 9, 3),
+	ang = Angle(0, -0, 0),
+	fov = 12,
+}

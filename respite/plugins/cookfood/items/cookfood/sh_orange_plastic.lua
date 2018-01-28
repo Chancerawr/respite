@@ -10,5 +10,10 @@ ITEM.height = 1
 ITEM.cookable = false
 ITEM.material = "phoenix_storms/mrref2"
 
---2 agi
 ITEM.attribBoosts = { ["accuracy"] = 1 }
+
+ITEM.iconCam = {
+	pos = Vector(82.698043823242, 69.391883850098, 50.334232330322),
+	ang = Angle(25, 220, 0),
+	fov = 4.3176393460169,
+}

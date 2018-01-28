@@ -219,7 +219,7 @@ local function combatRollPart(client, attr, debuff, msg)
 	
 	local part = bParts[math.random(1, 77)]
 	
-	nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
+	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
 	nut.chat.send(client, "firearms", "has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
 end
 
@@ -245,7 +245,7 @@ local function combatRoll(client, attr, debuff, msg, category)
 	
 	local part = bParts[math.random(1, 77)]
 	
-	nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
+	nut.log.addRaw(client:Name().." rolled \""..rolled.."\".", 2)
 	nut.chat.send(client, category, "has rolled " .. rolled .. critmsg .. " for " .. msg)
 end
 
@@ -307,6 +307,7 @@ nut.command.add("firearms", {
 			local tarChar = target:getChar()
 			local char = client:getChar()
 			if(tarChar) then
+				local part = bParts[math.random(1, 77)]
 				--compares accuracy and strength to target's agility. Forms a roll based on the discrepancy.
 				--accuracy / tarAgility = chance to hit (capped at a max of 85%) and then multiplied by range factor.
 				--crit and crit fail
@@ -336,8 +337,6 @@ nut.command.add("firearms", {
 						nut.log.addRaw(client:Name().." missed \""..target:Name(), 2)
 					end
 				end
-				
-				local part = bParts[math.random(1, 77)]
 				nut.chat.send(client, "part", part)
 			else
 				client:notify("Target does not exist!")
@@ -362,7 +361,7 @@ nut.command.add("firearmsaimed", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((char:getAttrib("accuracy") * 0.4) + (char:getAttrib("str") * 0.1))
-		combatRoll(client, attr, 1.2, "an aimed shot.")
+		combatRoll(client, attr, 1.2, "an aimed shot.", "firearms")
 	end
 })
 
@@ -522,7 +521,7 @@ nut.command.add("sneak", {
 nut.command.add("perception", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("perception") * 0.5))
+		local attr = (char:getAttrib("perception") * 0.5)
 		combatRoll(client, attr, 1, "perceiving.", "react")
 	end
 })

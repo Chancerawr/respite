@@ -2,16 +2,17 @@
 renderdIcons = renderdIcons or {}
 
 -- To make making inventory variant, This must be followed up.
-function renderNewIcon(panel, itemTable)
+function renderNewIcon(panel, itemTable)	
 	-- re-render icons
-	if ((itemTable.iconCam and !renderdIcons[string.lower(itemTable.model)]) or itemTable.forceRender) then
+	if ((itemTable.iconCam and !renderdIcons[string.lower(itemTable.uniqueID)]) or itemTable.forceRender) then
 		local iconCam = itemTable.iconCam
+		
 		iconCam = {
 			cam_pos = iconCam.pos,
 			cam_ang = iconCam.ang,
 			cam_fov = iconCam.fov,
 		}
-		renderdIcons[string.lower(itemTable.model)] = true
+		renderdIcons[string.lower(itemTable.uniqueID)] = true
 		
 		panel.Icon:RebuildSpawnIconEx(
 			iconCam
@@ -306,7 +307,7 @@ PANEL = {}
 			panel.gridY = y
 			panel.gridW = w
 			panel.gridH = h
-
+			
 			local inventory = nut.item.inventories[self.invID]
 
 			if (!inventory) then
@@ -322,21 +323,83 @@ PANEL = {}
 				self.panels[itemTable:getID()]:Remove()
 			end
 			
-			if (itemTable.exRender) then
+			if (true) then --just made this the default for now. This allows me to set materials in the inventory.
 				panel.Icon:SetVisible(false)
 				panel.ExtraPaint = function(self, x, y)
 					local exIcon = ikon:getIcon(itemTable.uniqueID)
+					
+					if(itemTable:getData("customMdl") or itemTable:getData("customCol")) then
+						exIcon = ikon:getIcon(itemTable.id)
+					end
+					
+					--local outlineColor = Color(100,100,100)
+					
 					if (exIcon) then
 						surface.SetMaterial(exIcon)
 						surface.SetDrawColor(color_white)
 						surface.DrawTexturedRect(0, 0, x, y)
 					else
+						local iconName = itemTable.uniqueID
+						local ent = ikon.renderEntity --the entity so we can apply things to it.
+						if(ent) then
+							if(itemTable.material) then --changes the material if it's custom
+								ent:SetMaterial(itemTable.material)
+							else
+								ent:SetMaterial("") --default
+							end
+							
+							if(skin) then
+								ent:SetSkin(skin)
+							else
+								ent:SetSkin(0) --default
+							end
+						end
+						
+						local outlineColor = itemTable:getData("customCol") or itemTable.color or nut.config.get("color", Color(100,100,100))
+						
+						if(itemTable:getData("customCol")) then --things with custom colors need to be rerendered
+							iconName = itemTable.id --just uses the custom items id.
+						end
+						
+						local test
+						if(itemTable.iconCam) then
+							test = {
+								pos = itemTable.iconCam["pos"],
+								ang = itemTable.iconCam["ang"],
+								fov = itemTable.iconCam["fov"],
+								outline = true,
+								outlineColor = outlineColor
+							}
+						else --if no iconcam generate a default thing
+							if(ent) then
+								if(itemTable:getData("customMdl")) then --changes the model if the model is custom
+									iconName = itemTable.id --just uses the custom items id.
+									model = itemTable:getData("customMdl")
+								end
+							
+								ent = ikon.renderEntity
+								ent:SetModel(model)
+								
+								local pos = ent:GetPos()
+								local tab = PositionSpawnIcon(ent, pos)
+								
+								test = {
+									pos = tab.origin,
+									fov = tab.fov,
+									ang = tab.angles,
+									outline = true,
+									outlineColor = outlineColor
+								}
+							end
+						end
+						
+						--generates the actual icon
 						ikon:renderIcon(
-							itemTable.uniqueID,
+							iconName,
 							itemTable.width,
 							itemTable.height,
-							itemTable.model,
-							itemTable.iconCam
+							model,
+							test
 						)
 					end
 				end

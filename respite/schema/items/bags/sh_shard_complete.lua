@@ -11,6 +11,13 @@ ITEM.data = { shardcount = 10, chipcount = 0, echipcount = 0, producing2 = 0, ch
 ITEM.invWidth = 7
 ITEM.invHeight = 7
 ITEM.color = Color(255, 255, 255)
+ITEM.openTime = 5
+
+ITEM.iconCam = {
+	pos = Vector(142.9214630127, 125.8981628418, 91.33309173584),
+	ang = Angle(25, 220, 0),
+	fov = 4.5763000053135,
+}
 
 local otherBags = {
 	shard_complete = true
@@ -80,31 +87,38 @@ if (CLIENT) then
 end
 
 ITEM.functions.View = {
-	icon = "icon16/house.png",
+	icon = "icon16/briefcase.png",
 	onClick = function(item)
-		local index = item:getData("id")
+		nut.bar.actionStart = CurTime()
+		nut.bar.actionEnd = CurTime() + item.openTime
+		nut.bar.actionText = "Opening.."
+		LocalPlayer():ConCommand("play npc/turret_floor/click1.wav")
+		timer.Simple(item.openTime, 
+			function()
+				local index = item:getData("id")
 
-		if (index) then
-			local panel = nut.gui["inv"..index]
-			local parent = item.invID and nut.gui["inv"..item.invID] or nil
-			local inventory = nut.item.inventories[index]
-			
-			if (IsValid(panel)) then
-				panel:Remove()
+				if (index) then
+					local panel = nut.gui["inv"..index]
+					local parent = item.invID and nut.gui["inv"..item.invID] or nil
+					local inventory = nut.item.inventories[index]
+					
+					if (IsValid(panel)) then
+						panel:Remove()
+					end
+
+					if (inventory and inventory.slots) then
+						panel = vgui.Create("nutInventory", parent)
+						panel:setInventory(inventory)
+						panel:ShowCloseButton(true)
+						panel:SetTitle(item.name)
+
+						nut.gui["inv"..index] = panel
+					else
+						ErrorNoHalt("[NutScript] Attempt to view an uninitialized inventory '"..index.."'\n")
+					end
+				end
 			end
-
-			if (inventory and inventory.slots) then
-				panel = vgui.Create("nutInventory", parent)
-				panel:setInventory(inventory)
-				panel:ShowCloseButton(true)
-				panel:SetTitle(item.name)
-
-				nut.gui["inv"..index] = panel
-			else
-				ErrorNoHalt("[NutScript] Attempt to view an uninitialized inventory '"..index.."'\n")
-			end
-		end
-
+		)
 		return false
 	end,
 	onCanRun = function(item)

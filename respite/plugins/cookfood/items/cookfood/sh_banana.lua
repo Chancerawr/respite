@@ -8,14 +8,13 @@ ITEM.price = 2
 ITEM.width = 2
 ITEM.height = 1
 ITEM.cookable = false
-
 ITEM.container = "j_bananaskin"
-
-ITEM.iconCam = {
-	ang	= Angle(25.000, 40.000, 26),
-	fov	= 5,
-	pos	= Vector(-132.297, -109.493, 82.368)
-}
 
 --2 accuracy
 ITEM.attribBoosts = { ["perception"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 3),
+	ang = Angle(0, -0, 0),
+	fov = 6.5,
+}

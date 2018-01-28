@@ -9,17 +9,13 @@ ITEM.width = 1
 ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
-
 ITEM.skin = 1
-
 ITEM.container = "j_empty_water_blood"
- 
+
+ITEM.attribBoosts = { ["fortitude"] = 5 } 
 
 ITEM.iconCam = {
-	ang = Angle(25, 40, 0),
-	fov = 2.7777777777778,
-	pos = Vector(-138.84286499023, -116.50297546387, 84.516624450684)
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
 }
-
---5 fortitude
-ITEM.attribBoosts = { ["fortitude"] = 5 }

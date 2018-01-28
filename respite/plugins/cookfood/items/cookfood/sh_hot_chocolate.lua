@@ -8,9 +8,13 @@ ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
 ITEM.container = "j_empty_mug"
- 
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
---5 accuracy
 
 ITEM.attribBoosts = { ["accuracy"] = 5 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 0),
+	ang = Angle(0, 270, 0),
+	fov = 2,
+}

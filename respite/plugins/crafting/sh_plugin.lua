@@ -149,11 +149,13 @@ function RECIPES:Register( tbl )
 			for k, v in pairs( self.result ) do
 				--if (!player:getChar():getInv():add(k, v)) then
 					for i = 1, v do
-						nut.item.spawn(k, player:getItemDropPos(), 
-							function(item)
-								item:setData("quality", finQual)
-							end
-						)
+						if(!player:getChar():getInv():add(k)) then
+							nut.item.spawn(k, player:getItemDropPos(), 
+								function(item)
+									item:setData("quality", finQual)
+								end
+							)
+						end
 					end
 					player:getChar():updateAttrib("medical", 0.005)
 				--else

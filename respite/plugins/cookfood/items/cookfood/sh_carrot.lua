@@ -8,5 +8,10 @@ ITEM.price = 1
 ITEM.width = 1
 ITEM.height = 1
 
---1 accuracy
 ITEM.attribBoosts = { ["perception"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 1.25,
+}

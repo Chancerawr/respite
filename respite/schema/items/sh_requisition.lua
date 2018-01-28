@@ -1,7 +1,7 @@
 ITEM.name = "Device - Requisition"
 ITEM.uniqueID = "requisition"
 ITEM.model = "models/props_lab/citizenradio.mdl"
-ITEM.material = "models/props_lab/security_screens"
+ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.desc = ""
 ITEM.width = 2
 ITEM.height = 2
@@ -9,6 +9,12 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(140, 20, 140)
+
+ITEM.iconCam = {
+	pos = Vector(200, 0, 8),
+	ang = Angle(180, -0, 180),
+	fov = 10,
+}
 
 --from ji defenses
 local function findSky(pos)
@@ -84,7 +90,7 @@ ITEM.functions.Ammo = {
 				timer.Simple(40, 
 					function()
 						if (item != nil) then
-							local drop = ammo[math.random(1,table.Count(ammo))]
+							local drop = table.Random(ammo)
 							
 							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
 								client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
@@ -490,7 +496,7 @@ ITEM.functions.Firearm = {
 					timer.Simple(40, 
 						function()
 							if (item != nil) then
-								local drop = ammo[math.random(1,table.Count(ammo))]
+								local drop = table.Random(ammo)
 								
 								if(!IsValid(item:getEntity())) then --we have to do this twice just in case they pick it up or drop it or something
 									client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)

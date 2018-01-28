@@ -5,12 +5,17 @@ ITEM.hungerAmount = 30
 ITEM.foodDesc = "A foot that was once connected to a human being. \n You thought they smelled badly before."
 ITEM.quantity = 1
 ITEM.price = 100
-ITEM.width = 2
+ITEM.width = 1
 ITEM.height = 1
-
---10 fortitude
+ITEM.color = Color(150,50,50)
 
 ITEM.attribBoosts = { ["fortitude"] = 10 }
+
+ITEM.iconCam = {
+	pos = Vector(-2.5, 200, 1.5),
+	ang = Angle(0, 270, -90),
+	fov = 3,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

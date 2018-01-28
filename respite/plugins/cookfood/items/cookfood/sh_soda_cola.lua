@@ -11,8 +11,16 @@ ITEM.height = 1
 ITEM.cookable = false
 ITEM.skin = 1
 ITEM.container = "j_empty_soda_can"
- 
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
+ITEM.attribBoosts = { 
+	["accuracy"] = 4, 
+	["agility"] = 4, 
+	["luck"] = 3  
+}
 
-ITEM.attribBoosts = { ["accuracy"] = 4, ["agility"] = 4, ["luck"] = 3  }
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 2.5,
+}

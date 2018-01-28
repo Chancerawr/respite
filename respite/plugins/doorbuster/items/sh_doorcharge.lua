@@ -7,6 +7,12 @@ ITEM.uniqueID = "breach"
 ITEM.flag = "v"
 ITEM.desc = "An explosive device that can be used to blow open doors."
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
+}
+
 -- You can use hunger table? i guess? 
 ITEM.functions = ITEM.functions or {}
 ITEM.functions.throw = {

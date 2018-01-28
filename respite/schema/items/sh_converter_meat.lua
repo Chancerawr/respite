@@ -7,3 +7,9 @@ ITEM.flag = "v"
 ITEM.height = 2
 ITEM.category = "Machines"
 ITEM.color = Color(255, 50, 50)
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 6,
+}

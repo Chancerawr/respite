@@ -21,11 +21,11 @@ ITEM.model = "models/weapons/tfa_w_browning_auto.mdl"
 ITEM.width = 4
 ITEM.height = 1
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, -15, 3),
-	ang = Angle(0, 0, -9),
-	fov = 15
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Shotguns"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 15, 2),
+	ang = Angle(0, -0, 8.5),
+	fov = 14.5,
+}

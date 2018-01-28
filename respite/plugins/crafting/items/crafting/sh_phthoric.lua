@@ -7,8 +7,15 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.maxstack = 10
 ITEM.material = "models/combine_advisor/mask"
+
 ITEM.data = {
 	Amount = 1
+}
+
+ITEM.iconCam = {
+	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),
+	ang = Angle(25, 220, 0),
+	fov = 5,
 }
 
 ITEM.functions.use = { -- sorry, for name order.

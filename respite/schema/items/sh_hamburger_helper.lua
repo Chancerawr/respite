@@ -11,6 +11,12 @@ ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 ITEM.data = { producing2 = 0 }
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
+}
+
 local meats = {
 	"food_monster_meat",
 	"food_human_meat",
@@ -26,12 +32,6 @@ local meats = {
 	"food_human_arms",
 	"food_human_arm2",
 	"food_human_arm1"
-}
-
-ITEM.iconCam = {
-	ang = Angle(0, 270, 0),
-	fov	= 9.4,
-	pos	= Vector(0, 200, 0)
 }
 
 ITEM.functions.Activate = {

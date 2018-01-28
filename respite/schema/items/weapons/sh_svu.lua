@@ -15,17 +15,17 @@
 
 ITEM.name = "Dragunov SVU"
 ITEM.desc = "A modernized, bullpup marksman rifle, originally designed for use by Russia's internal security forces.\nThis weapon utilizes 7.62x54mm rounds."
+ITEM.model = "models/weapons/tfa_w_dragunov_svu.mdl"
 ITEM.class = "tfa_svt40"
 ITEM.weaponCategory = "primary"
-ITEM.model = "models/weapons/tfa_w_dragunov_svu.mdl"
 ITEM.width = 4
 ITEM.height = 1
 ITEM.price = 0
-ITEM.iconCam = {
-    pos = Vector(0, 200, 1),
-    ang = Angle(0, 270, 0),
-    fov = 10
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Snipers"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 7, 3.5),
+	ang = Angle(0, -0, 5),
+	fov = 11,
+}

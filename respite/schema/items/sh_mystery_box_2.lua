@@ -1,6 +1,6 @@
 ITEM.name = "Mystery Box II"
 ITEM.desc = "An even stranger box, I wonder what's inside?"
-ITEM.model = Model("models/Items/item_item_crate.mdl")
+ITEM.model = "models/Items/item_item_crate.mdl"
 ITEM.material = "models/props_lab/security_screens"
 ITEM.uniqueID = "mystery_box_2"
 ITEM.price = 500
@@ -9,6 +9,12 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.data = { customCol = Color(140, 20, 140) }
 ITEM.color = Color(140, 20, 140)
+
+ITEM.iconCam = {
+	pos = Vector(1, -1, 200),
+	ang = Angle(90, 0, 0),
+	fov = 13,
+}
 
 if (CLIENT) then
 	function ITEM:drawEntity(entity, item)

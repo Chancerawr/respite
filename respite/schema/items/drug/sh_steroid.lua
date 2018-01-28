@@ -4,8 +4,15 @@ ITEM.desc = "A small bottle filled with medical steroids."
 ITEM.uniqueID = "drug_steroid"
 ITEM.duration = 3600
 ITEM.price = 200
+
 ITEM.attribBoosts = {
 	["str"] = 5,
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3.75,
 }
 
 ITEM:hook("_use", function(item)

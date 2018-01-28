@@ -20,36 +20,6 @@ quality[8] = "Excellent"
 quality[9] = "Master"
 quality[10] = "Perfect"
 
-function ITEM:getDesc()
-	local desc = Format(self.desc, self.ammoAmount)
-	
-	if(self:getData("customDesc") != nil) then
-		desc = self:getData("customDesc")
-	end		
-	
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
-	end
-	
-	return Format(desc)
-end
-
-function ITEM:getName()
-	local name = self.name
-	
-	if(self:getData("customName") != nil) then
-		name = self:getData("customName")
-	end
-
-	return Format(name)
-end
-
-if (CLIENT) then
-	function ITEM:paintOver(item, w, h)
-		draw.SimpleText(item.ammoAmount, "DermaDefault", w , h - 5, color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, 1, color_black)
-	end
-end
-
 --extra function to make ammo saving more reliable, turned off for now.
 local function onLoad(item)
 	local plugin = nut.plugin.list["ammosave"]
@@ -84,7 +54,7 @@ ITEM.functions.use = { -- sorry, for name order.
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if (player:GetAmmoCount(item.ammo) >= item.ammoAmount * 2) then
+		if (player:GetAmmoCount(item.ammo) >= item.ammoAmount) then
 			return false
 		end
 	end
@@ -166,3 +136,33 @@ ITEM.functions.Phase = {
 		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("cube_chip_enhanced")
 	end
 }
+
+function ITEM:getDesc()
+	local desc = Format(self.desc, self.ammoAmount)
+	
+	if(self:getData("customDesc") != nil) then
+		desc = self:getData("customDesc")
+	end		
+	
+	if(self:getData("quality") != nil) then
+		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
+	end
+	
+	return Format(desc)
+end
+
+function ITEM:getName()
+	local name = self.name
+	
+	if(self:getData("customName") != nil) then
+		name = self:getData("customName")
+	end
+
+	return Format(name)
+end
+
+if (CLIENT) then
+	function ITEM:paintOver(item, w, h)
+		draw.SimpleText(item.ammoAmount, "DermaDefault", w , h - 5, color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM, 1, color_black)
+	end
+end

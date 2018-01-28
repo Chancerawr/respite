@@ -24,10 +24,11 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
+
 ITEM.iconCam = {
-	pos = Vector(-200, 5, 1.7000000476837),
-	ang = Angle(0, 0, 1),
-	fov = 4
+	pos = Vector(-200, -5, 1.5),
+	ang = Angle(0, -0, 0),
+	fov = 4.5,
 }
 
 ITEM.holsterDrawInfo = {

@@ -8,8 +8,12 @@ ITEM.price = 10
 ITEM.width = 1
 ITEM.height = 1
 ITEM.cookable = false
---3 agi 3 str 3 acc
 ITEM.container = "j_empty_mre"
  
-
 ITEM.attribBoosts = { ["stm"] = 3, ["str"] = 3, ["accuracy"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(4, -6, 200),
+	ang = Angle(90, 0, 0),
+	fov = 5.6,
+}

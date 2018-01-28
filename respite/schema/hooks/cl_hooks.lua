@@ -421,3 +421,11 @@ function SCHEMA:PlayerBindPress(client, bind, pressed)
 		end
 	end
 end
+
+function SCHEMA:SetupQuickMenu(menu)
+	local button = menu:addButton("Clear Icon Cache", function(panel, state)
+		RunConsoleCommand("nut_flushicon", "1")
+	end)
+				
+	menu:addSpacer()
+end

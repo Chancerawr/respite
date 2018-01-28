@@ -8,3 +8,9 @@ ITEM.category = "Storage"
 ITEM.flag = "v"
 ITEM.model = "models/warz/alicebackpack.mdl"
 ITEM.uniqueID = "pack_alice"
+
+ITEM.iconCam = {
+	pos = Vector(5, 200, 15),
+	ang = Angle(0, 270, 0),
+	fov = 8.5,
+}

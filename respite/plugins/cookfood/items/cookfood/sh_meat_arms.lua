@@ -5,12 +5,17 @@ ITEM.hungerAmount = 30
 ITEM.foodDesc = "The upper arm of a human being."
 ITEM.quantity = 4
 ITEM.price = 100
-ITEM.width = 4
-ITEM.height = 2
-
---10 fortitude
+ITEM.width = 3
+ITEM.height = 1
+ITEM.color = Color(150,50,50)
 
 ITEM.attribBoosts = { ["fortitude"] = 10 }
+
+ITEM.iconCam = {
+	pos = Vector(1, 22, 200),
+	ang = Angle(90, 0, 0),
+	fov = 9,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

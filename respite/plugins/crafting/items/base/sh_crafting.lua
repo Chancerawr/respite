@@ -93,7 +93,7 @@ end
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
-		local quantity = item:getData("Amount")
+		local quantity = item:getData("Amount", 1)
 
 		if (quantity > 1) then
 			draw.SimpleText(quantity, "DermaDefault", w - 12, h - 14, Color(50,50,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)

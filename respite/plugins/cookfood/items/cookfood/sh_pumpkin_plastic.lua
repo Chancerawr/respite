@@ -9,5 +9,10 @@ ITEM.width = 3
 ITEM.height = 2
 ITEM.material = "phoenix_storms/mrref2"
 
---1 agi 4 str
 ITEM.attribBoosts = { ["fortitude"] = 1 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 1),
+	ang = Angle(0, -0, 0),
+	fov = 6.5,
+}

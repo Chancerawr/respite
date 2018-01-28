@@ -24,8 +24,9 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
+
 ITEM.iconCam = {
-	pos = Vector(1, -200, 0),
-	ang = Angle(0, -270, 0),
-	fov = 17.222222222222
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 21,
 }

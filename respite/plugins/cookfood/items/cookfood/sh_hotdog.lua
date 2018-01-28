@@ -5,5 +5,11 @@ ITEM.hungerAmount = 20
 ITEM.foodDesc = "A tasty looking hot dog."
 ITEM.quantity = 2
 ITEM.price = 3
---3 str
+
 ITEM.attribBoosts = { ["str"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 4.75,
+}

@@ -14,6 +14,12 @@ ITEM.data = {
 	sTime = 0
 }
 
+ITEM.iconCam = {
+	pos = Vector(333.14343261719, 278.97738647461, 198.79190063477),
+	ang = Angle(25, 220, 0),
+	fov = 4,
+}
+
 --how long it takes for a charge to regenerate.
 local timeCharge = 120
 
@@ -87,6 +93,36 @@ ITEM.functions.Release = {
 	end
 }
 
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("j_skull", position)
+		nut.item.spawn("j_rib", position)
+		nut.item.spawn("j_rib", position)
+		nut.item.spawn("j_spine", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a blunt instrument made out of bone.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
+			return false
+		end
+	end
+}
 
 function ITEM:getDesc()
 	local desc = self.desc

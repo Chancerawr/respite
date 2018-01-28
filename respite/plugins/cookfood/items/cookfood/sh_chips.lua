@@ -8,8 +8,12 @@ ITEM.price = 3
 ITEM.width = 1
 ITEM.height = 1
 ITEM.container = "j_plastic_bag"
- 
 ITEM.cookable = false
---1 fortitude
 
 ITEM.attribBoosts = { ["fortitude"] = 1 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 170),
+	fov = 5.5,
+}

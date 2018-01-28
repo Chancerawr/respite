@@ -3,6 +3,13 @@ ITEM.desc = "A short introduction to the Plastic faction, this book is OOC.\nThi
 ITEM.uniqueID = "book_plastic"
 ITEM.price = 0
 ITEM.flag = "3"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 		<p align="center"><font color='red' size='6'>Plastic</font></p><br/>
 		<font color='black' size='3'>The Plastics are a type of creature that live in The Void (where the server takes place.) They have human like traits, personalities, and beliefs. However, their bodies are made entirely of plastic, similar to a mannequin. Most do not have mouths, or eyes. Their ears are also relatively simply. Despite this, they can still see, and hear. However, they cannot smell, and they cannot speak.

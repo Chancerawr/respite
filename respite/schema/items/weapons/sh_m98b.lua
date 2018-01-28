@@ -15,17 +15,17 @@
 
 ITEM.name = "Barrett M98B"
 ITEM.desc = "A long range, precision sniper rifle built from the ground up by Barrett Firearms.\nThis weapon utilizes .338 LM rounds."
+ITEM.model = "models/weapons/tfa_w_barrett_m98b.mdl"
 ITEM.class = "tfa_m98b"
 ITEM.weaponCategory = "primary"
-ITEM.model = "models/weapons/tfa_w_barrett_m98b.mdl"
 ITEM.width = 5
 ITEM.height = 2
 ITEM.price = 0
-ITEM.iconCam = {
-	pos = Vector(-200, -17, 3),
-	ang = Angle(0, 0, -3),
-	fov = 16
-}
 ITEM.flag = "v"
-
 ITEM.category = "Weapons - Snipers"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 17.5, 4),
+	ang = Angle(0, -0, 4),
+	fov = 15,
+}

@@ -11,6 +11,12 @@ ITEM.category = "Machines"
 ITEM.color = Color(135, 200, 255)
 ITEM.data = { purity = 10 }
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 3.5),
+	ang = Angle(0, -0, 0),
+	fov = 7,
+}
+
 local alcohols = {
 	"alc_beer",
 	"alc_whiskey",
@@ -139,7 +145,7 @@ ITEM.functions.Alcohol = {
 		local inventory = client:getChar():getInv()
 		local drink
 		
-		for k, v in pairs (alcohol) do
+		for k, v in pairs (alcohols) do
 			drink = inventory:hasItem(v)
 			if (drink) then
 				break
@@ -169,7 +175,7 @@ ITEM.functions.Alcohol = {
 			end
 		end
 		
-		if (item:getData("purity") >= 2 and drink) then -- <30% purity cannot purify alcohol
+		if (item:getData("purity") >= 2 and drink) then -- <20% purity cannot purify alcohol
 			return true
 		else
 			return false
@@ -209,6 +215,34 @@ ITEM.functions.Tablet = {
 		if (item:getData("purity") < 10) then -- 100% purity cannot be increased
 			return true
 		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("charged_cube", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a strange energy cube.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
 			return false
 		end
 	end

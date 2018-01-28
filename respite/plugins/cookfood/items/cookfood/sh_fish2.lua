@@ -7,6 +7,11 @@ ITEM.quantity = 2
 ITEM.price = 6
 ITEM.width = 2
 ITEM.height = 1
---4 agi
 
 ITEM.attribBoosts = { ["stm"] = 4 }
+
+ITEM.iconCam = {
+	pos = Vector(-3.5, 200, 0),
+	ang = Angle(0, 270, 0),
+	fov = 5,
+}

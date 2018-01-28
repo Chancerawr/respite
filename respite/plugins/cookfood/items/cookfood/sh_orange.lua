@@ -7,7 +7,12 @@ ITEM.quantity = 6
 ITEM.price = 1
 ITEM.width = 1
 ITEM.height = 1
---2 agi
 ITEM.cookable = false
 
 ITEM.attribBoosts = { ["accuracy"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(82.698043823242, 69.391883850098, 50.334232330322),
+	ang = Angle(25, 220, 0),
+	fov = 4.3176393460169,
+}

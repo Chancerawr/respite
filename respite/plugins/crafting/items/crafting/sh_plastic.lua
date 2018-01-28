@@ -9,8 +9,9 @@ ITEM.height = 1
 ITEM.data = {
 	Amount = 1
 }
---[[
-function ITEM:getDesc()
-	return Format(self.desc, self:getData("Amount"))
-end
---]]
+
+ITEM.iconCam = {
+	pos = Vector(-200, -2, -9),
+	ang = Angle(0, -0, 0),
+	fov = 4.75,
+}

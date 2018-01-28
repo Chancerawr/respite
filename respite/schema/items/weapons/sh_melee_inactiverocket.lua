@@ -9,14 +9,15 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
-ITEM.iconCam = {
-	pos = Vector(0, 200, 0),
-	ang = Angle(0, 270, 0),
-	fov = 4.8
-}
 
 ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "j_scrap_metals"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 5.5),
+	ang = Angle(0, -0, 0),
+	fov = 7,
+}
 
 ITEM.functions.Scrap = {
   tip = "Scrap this item",

@@ -10,6 +10,12 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(135, 200, 255)
 
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 2.5,
+}
+
 ITEM.functions.Activate = {
 	icon = "icon16/bullet_blue.png",
 	sound = "buttons/lightswitch2.wav",

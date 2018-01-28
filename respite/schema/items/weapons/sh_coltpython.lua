@@ -25,9 +25,9 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
 ITEM.iconCam = {
-	pos = Vector(-200, 7, 2),
-	ang = Angle(0, 0, 0),
-	fov = 4.5
+	pos = Vector(-200, -7.5, 2),
+	ang = Angle(0, -0, 0),
+	fov = 4.5,
 }
 
 function ITEM:onGetDropModel(self)

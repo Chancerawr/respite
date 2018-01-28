@@ -21,11 +21,11 @@ ITEM.uniqueID = "tfa_ch4rm"
 ITEM.weaponCategory = "primary"
 ITEM.width = 3
 ITEM.height = 2
-ITEM.price = 0
+ITEM.price = 100
 ITEM.flag = "v"
 ITEM.category = "Weapons - Misc"
 ITEM.iconCam = {
-	pos = Vector(-9, -200, 3),
-	ang = Angle(0, -270, 0),
-	fov = 12
+	pos = Vector(7, 3, 200),
+	ang = Angle(90, 0, 90),
+	fov = 15,
 }

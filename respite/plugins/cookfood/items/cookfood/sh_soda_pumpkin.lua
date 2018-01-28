@@ -8,10 +8,16 @@ ITEM.quantity = 2
 ITEM.price = 1
 ITEM.cookable = false
 ITEM.skin = 2
-
 ITEM.container = "j_empty_soda1"
- 
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
---3 agi
-ITEM.attribBoosts = { ["fortitude"] = 5 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 4,
+	["stm"] = 1,
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 2.5,
+}

@@ -40,6 +40,10 @@ if SERVER then
 				entity:setNetVar("private", private)
 				entity:setNetVar("text", text)
 				entity:setNetVar("owner", owner)
+				
+				if(v.frozen != nil) then --freezes the paper if it was frozen before
+					entity:GetPhysicsObject():EnableMotion(v.frozen)
+				end
 			end
 		end
 	end
@@ -48,12 +52,16 @@ if SERVER then
 		local data = {}
 
 		for k, v in pairs(ents.FindByClass("nut_paper")) do
+
+			local frozeCheck = v:GetPhysicsObject():IsMotionEnabled() --checks whether the paper is frozen
+			
 			data[#data + 1] = {
 				position = v:GetPos(),
 				angles = v:GetAngles(),
 				private = v:getNetVar("private"),
 				text = v:getNetVar("text"),
 				owner = v:getNetVar("owner"),
+				frozen = frozeCheck,
 			}
 		end
 

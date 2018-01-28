@@ -10,6 +10,12 @@ ITEM.material = "models/props_wasteland/tugboat02"
 ITEM.data = { scrapamount = 3 }
 ITEM.salvItem = "j_scrap_plastic"
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 3,
+}
+
 ITEM.functions.Fill = {
 	icon = "icon16/box.png",
 	sound = "ambient/water/distant_drip4.wav",

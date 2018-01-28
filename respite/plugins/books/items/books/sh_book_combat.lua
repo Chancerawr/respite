@@ -2,6 +2,13 @@ ITEM.name = "Combat (OOC)"
 ITEM.desc = "A book detailing the combat system, this book is OOC.\nThis book can be sold."
 ITEM.price = 0
 ITEM.flag = "3"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 
 <h3>Original System By 5ym5</h3>

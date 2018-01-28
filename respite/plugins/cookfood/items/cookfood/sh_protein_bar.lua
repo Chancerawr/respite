@@ -10,5 +10,10 @@ ITEM.height = 1
 ITEM.material = "models/props_c17/furniturefabric003a"
 ITEM.cookable = false
 
---3 str
 ITEM.attribBoosts = { ["str"] = 3 }
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
+}

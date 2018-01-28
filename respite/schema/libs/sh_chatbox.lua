@@ -198,35 +198,54 @@ do
 				return nut.config.get("chatColor")
 			end,
 			onCanHear = nut.config.get("chatRange", 280),
-			onChatAdd = function(speaker, text, anon)
+			onChatAdd = function(speaker, text)
 				local suffix = string.sub(text, text:len())
 				local teamColor = team.GetColor(speaker:getChar():getFaction())
 				local speako = hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
-				if(anon) then
-					speako = "Someone"
-				end
 				local pSay = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
 				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)-- fuck your period bullshit
+				local texCol = nut.config.get("chatColor")
+				
+				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+					texCol = nut.config.get("chatListenColor")
+				end
+				
+				--[[
+				if(LocalPlayer() == speaker) then
+					local tempCol = nut.config.get("chatListenColor")
+					nameCol = Color(tempCol.r, tempCol.b, tempCol.g)
+				else
+					nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 60)
+				end
+				--]]
+				
+				if(LocalPlayer() == speaker) then
+					local tempCol = nut.config.get("chatListenColor")
+					texCol = Color(tempCol.r + 20, tempCol.b + 20, tempCol.g + 20)
+				end
+				
+				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 60)
+				
 				if suffix == "?" then
 					if math.random(1, 2) == 1 then
-						chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " asks \""..pSay.."\"")
+						chat.AddText(nameCol, speako, texCol, " asks \""..pSay.."\"")
 					else
-						chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" asks ", nut.config.get("chatColor"), speako)
+						chat.AddText(texCol, "\""..pSay.."\" asks ", nameCol, speako)
 					end
 				elseif suffix == "!" then
 					if math.random(1, 2) == 1 then
-						chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " shouts \""..pSay.."\"")
+						chat.AddText(nameCol, speako, texCol, " exclaims \""..pSay.."\"")
 					else
-						chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" shouts ", nut.config.get("chatColor"), speako)
+						chat.AddText(texCol, "\""..pSay.."\" exclaims ", nameCol, speako)
 					end
 				elseif suffix == "." then
 					if math.random(1, 2) == 1 then
-						chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " says \""..pSay.."\"")
+						chat.AddText(nameCol, speako, texCol, " says \""..pSay.."\"")
 					else
-						chat.AddText(nut.config.get("chatColor"), "\""..pSay.."\" says ", nut.config.get("chatColor"), speako)
+						chat.AddText(texCol, "\""..pSay.."\" says ", nameCol, speako)
 					end
 				else
-					chat.AddText(nut.config.get("chatColor"), speako, nut.config.get("chatColor"), " says \""..pSayC.."\"")
+					chat.AddText(nameCol, speako, texCol, " says \""..pSayC.."\"")
 				end
 			end
 		})

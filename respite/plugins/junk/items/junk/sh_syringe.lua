@@ -8,3 +8,9 @@ ITEM.height = 1
 
 ITEM.data = { scrapamount = 1 }
 ITEM.salvItem = "j_scrap_glass"
+
+ITEM.iconCam = {
+	pos = Vector(-2, 200, -2),
+	ang = Angle(0, 270, 0),
+	fov = 4,
+}

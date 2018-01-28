@@ -15,7 +15,7 @@
 
 ITEM.name = "Concrete Slugs"
 ITEM.model = "models/items/boxbuckshot.mdl"
-ITEM.material = "models/props_debris/building_template010a"
+ITEM.material = "models/props/cs_militia/milceil001"
 ITEM.ammo = "AlyxGun" // type of the ammo
 ITEM.ammoAmount = 10 // amount of the ammo
 ITEM.desc = "A box that contains %s concrete slugs."
@@ -23,4 +23,9 @@ ITEM.category = "Ammunition"
 ITEM.flag = "v"
 ITEM.price = 0
 ITEM.uniqueID = "ammo_concrete"
-ITEM.material = "models/props/cs_militia/milceil001"
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 4,
+}

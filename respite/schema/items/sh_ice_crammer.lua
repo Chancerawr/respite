@@ -12,6 +12,12 @@ ITEM.color = Color(50, 150, 50)
 
 ITEM.data = { producing2 = 0 }
 
+ITEM.iconCam = {
+	pos = Vector(197.53092956543, 175.19358825684, 132.29721069336),
+	ang = Angle(25, 220, 0),
+	fov = 4.7979049387853,
+}
+
 ITEM.functions.Cream = {
 	name = "Ice Cream",
 	icon = "icon16/cup.png",
@@ -24,7 +30,7 @@ ITEM.functions.Cream = {
 		local amount = 1
 		
 		client:notifyLocalized("Converting has started.")
-		nut.chat.send(client, "itclose", "The machine accepts the cactus.")	
+		nut.chat.send(client, "itclose", "The machine accepts the milk.")	
 		
 		item:setData("producing2", CurTime())
 		
@@ -49,6 +55,7 @@ ITEM.functions.Cream = {
 						end
 					)
 				end
+				client:notify("Converting has finished.")
 				nut.chat.send(client, "itclose", "Ice Cream is released from the strange machine.")
 			end
 		)

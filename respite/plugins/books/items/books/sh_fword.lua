@@ -1,6 +1,13 @@
 ITEM.name = "The F. Word"
 ITEM.desc = "A book about dealing with children appropriately."
 ITEM.flag = "k"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 <h1>The F. Word</h1>
 <h3>By A Good Parent</h3>

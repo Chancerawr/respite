@@ -21,11 +21,13 @@ ITEM.model = "models/weapons/tfa_w_hk_psg1.mdl"
 ITEM.width = 5
 ITEM.height = 2
 ITEM.price = 0
+
 ITEM.iconCam = {
-	pos = Vector(-200, -14.5, 4),
-	ang = Angle(0, 0, -6),
-	fov = 15
+	pos = Vector(-200, 14, 3),
+	ang = Angle(0, -0, 6),
+	fov = 15,
 }
+
 ITEM.flag = "v"
 
 ITEM.category = "Weapons - Snipers"

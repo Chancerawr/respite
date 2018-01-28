@@ -11,6 +11,10 @@ ITEM.height = 1
 ITEM.sound = "vo/citadel/br_laugh01.wav"
 ITEM.container = "j_tinc"
  
+ITEM.iconCam = {
+	pos = Vector(-200, 0, -0.5),
+	ang = Angle(0, -0, 0),
+	fov = 2.25,
+}
 
--- 5 fort
 ITEM.attribBoosts = { ["fortitude"] = 5 }

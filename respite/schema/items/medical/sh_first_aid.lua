@@ -9,8 +9,9 @@ ITEM.desc = "A standard medical kit used to apply first aid."
 ITEM.flag = "v"
 ITEM.uniqueID = "medical_kit"
 ITEM.container = "j_used_first_aid_kit"
+
 ITEM.iconCam = {
-	ang	= Angle(91.549095153809, -0.070778094232082, 0),
-	fov	= 5.6779759435159,
-	pos	= Vector(0, 0, 200)
+	pos = Vector(5, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 5.8,
 }

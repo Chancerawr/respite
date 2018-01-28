@@ -9,18 +9,13 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_winchester73 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_acr = function(ang) return ang:Forward():Angle() end,
 		tfa_ak47 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_ak74 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, --weird
 		tfa_amd65 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_an94 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_f2000 = function(ang) return ang:Up():Angle() + Angle(0,180,90) end,
-		tfa_g36 = function(ang) print(ang:Up():Angle() + Angle(0,0,0)) return ang:Up():Angle() + Angle(0,0,0) end, --broke
 		tfa_l85 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_m16a4_acog = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_m4a1 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_auga3 = function(ang) print(ang:Up():Angle() + Angle(0,0,0)) return ang:Up():Angle() + Angle(0,0,0) end, --broke
 		tfa_fg42 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_minigun = function(ang) print(ang:Up():Angle() + Angle(0,180,90)) return (ang:Up():Angle() + Angle(0,180,90)) end, --broke
-		tfa_m1918bar = function(ang) print(ang:Up():Angle() + Angle(0,180,90)) return (ang:Up():Angle() + Angle(0,180,0)) end, --broke
 		tfa_glock = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_luger = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ragingbull = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
@@ -29,7 +24,6 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_model3russian = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_model627 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_m3 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_browningauto5 = function(ang) print(ang:Up():Angle() + Angle(0,180,90)) return (ang:Up():Angle() + Angle(0,180,90)) end, --broke
 		tfa_ithacam37 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_jackhammer = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_spas12 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
@@ -37,17 +31,14 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_usas = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_1897winchester = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_1887winchester = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_aw50 = function(ang) print(ang:Up():Angle() + Angle(0,180,90)) return (ang:Up():Angle() + Angle(0,180,90)) end, --broke
 		tfa_barret_m82 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_sl8 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_intervention = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_m24 = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broke
 		tfa_psg1 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_remington7615p = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_bizonp19 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_smgp90 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_mp5 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_mp7 = function(ang) print(ang:Up():Angle() + Angle(0,180,90)) return (ang:Up():Angle() + Angle(0,180,90)) end, --broke
 		tfa_ump45 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_usc = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_kac_pdw = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
@@ -58,13 +49,10 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_sten = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_tec9 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_thompson = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_ch00k = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, --broken
 		tfa_ch1l1 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ch34t = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ch3ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ch3m0 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_ch40s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, --broken
-		tfa_ch4rm = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, --broken
 		tfa_chafe = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_chalk = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_chunk = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
@@ -73,22 +61,38 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_cp1ks = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cr0c5 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cr0ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_cr1fa = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr1fb = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr1ka = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr1kb = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr2fa = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr2fb = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr2ka = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cr2kb = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
 		tfa_crass = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, 
-		tfa_criss = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_cross = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end, --broken
-		tfa_crunt = function(ang) return (ang:Up():Angle() + Angle(-90,0,0)) end --broken
 	}
 
 	local meleeWeapons = {
+
+	}
 	
+	local blackList = {
+		tfa_crunt = true,
+		tfa_cross = true,
+		tfa_criss = true,
+		tfa_cr1fa = true,
+		tfa_cr1fb = true,
+		tfa_cr1ka = true,
+		tfa_cr1kb = true,
+		tfa_cr2fa = true,
+		tfa_cr2fb = true,
+		tfa_cr2ka = true,
+		tfa_cr2kb = true,
+		tfa_ch40s = true,
+		tfa_ch4rm = true,
+		tfa_ch00k = true,
+		tfa_m24 = true,
+		tfa_mp7 = true,
+		tfa_aw50 = true,
+		tfa_browningauto5 = true,
+		tfa_m1918bar = true,
+		tfa_minigun = true,
+		tfa_auga3 = true,
+		tfa_g36 = true,
+		tfa_ak74 = true,
+		weapon_physgun = true,
 	}
 
 	local meta = FindMetaTable("Player")
@@ -202,6 +206,16 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 							if (att) then
 								pos, ang = TFA_CSGO(wep, vm)
 							end
+						elseif (blackList[wep:GetClass()]) then
+							--[[
+							local att = vm:GetAttachment(1)
+
+							if (att) then
+								pos, ang = att.Pos, att.Ang
+							end
+							--]]
+						elseif(wep:GetClass() == "nut_*" or wep:GetClass() == "mp_weapon_*") then
+						
 						elseif ((wep.IsTFA and wep:IsTFA()) and !wep.IsMelee) then
 							
 							local att = vm:GetAttachment(1)

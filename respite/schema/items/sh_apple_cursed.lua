@@ -7,6 +7,12 @@ ITEM.price = 1
 ITEM.flag = "v"
 ITEM.color = Color(20, 100, 20)
 
+ITEM.iconCam = {
+	pos = Vector(65.475090026855, 54.940116882324, 39.856090545654),
+	ang = Angle(25, 220, 0),
+	fov = 4.2514867803092,
+}
+
 ITEM.functions.Consume = {
 	icon = "icon16/cup.png",
 	sound = "npc/barnacle/neck_snap2.wav",

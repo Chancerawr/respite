@@ -1,6 +1,6 @@
 ITEM.name = "Paper Base"
 --ITEM.uniqueID = "misc_paper"
-ITEM.model = Model("models/props_c17/paper01.mdl")
+ITEM.model = "models/props_c17/paper01.mdl"
 ITEM.desc = "A piece of paper that you can write on.\nPrivate Note: Only you can edit texts.\nPublic Note: Anyone can edit texts."
 ITEM.flag = "v"
 ITEM.price = 1

@@ -2,9 +2,18 @@ ITEM.name = "The Black Cat"
 ITEM.desc = "A dark colored book with a black cat on it."
 ITEM.price = 25
 ITEM.flag = "k"
+
 ITEM.data = {
 chance = 30
 }
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
+
 ITEM.contents = [[
 <h1>The Black Cat</h1>
 <h3>By Edgar Allen Poe</h3>

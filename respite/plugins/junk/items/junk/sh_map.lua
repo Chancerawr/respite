@@ -9,6 +9,12 @@ ITEM.material = "models/props_canal/canalmap_sheet"
 
 ITEM.salvItem = "misc_paper"
 
+ITEM.iconCam = {
+	pos = Vector(0, -3.5, 200),
+	ang = Angle(90, 0, 0),
+	fov = 7,
+}
+
 ITEM.functions.Scrap = {
 	tip = "Scrap this item",
 	icon = "icon16/cross.png",

@@ -23,3 +23,9 @@ ITEM.category = "Ammunition"
 ITEM.flag = "v"
 ITEM.price = 0
 ITEM.uniqueID = "ammo_5728"
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 6),
+	ang = Angle(0, -0, 0),
+	fov = 6.5,
+}

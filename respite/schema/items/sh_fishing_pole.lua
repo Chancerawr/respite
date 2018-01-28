@@ -1,11 +1,17 @@
 ITEM.name = "Fishing Pole"
 ITEM.desc = "A pole with a line and a reel attached to it. \nUses chips for bait."
-ITEM.model = Model("models/props_junk/harpoon002a.mdl")
+ITEM.model = "models/props_junk/harpoon002a.mdl"
 ITEM.uniqueID = "fishing_pole"
 ITEM.price = 20
 ITEM.flag = "v"
 ITEM.data = { producing2 = 0 }
 ITEM.color = Color(128, 128, 128)
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 35,
+}
 
 ITEM.functions.FishBait = {
 	name = "Baited Fishing",
@@ -42,10 +48,10 @@ ITEM.functions.FishBait = {
 								catch = "food_fish2"
 							end
 						elseif (reward < 95) then
-							client:notifyLocalized("You catch a water purification tablet!.")	
+							client:notifyLocalized("You catch a water purification tablet!")	
 							catch = "purifier_water_tablet"	
 						elseif (reward <= 100) then
-							client:notifyLocalized("You catch a shard!.")	
+							client:notifyLocalized("You catch some shard dust!")	
 							catch = "shard_dust"
 						end		
 					

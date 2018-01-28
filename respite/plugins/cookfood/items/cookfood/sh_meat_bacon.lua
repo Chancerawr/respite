@@ -1,16 +1,21 @@
 ITEM.name = "Bacon"
-ITEM.uniqueID = "food_bacon"
-ITEM.hungerAmount = 15
 ITEM.model = "models/gibs/wood_gib01e.mdl"
 ITEM.foodDesc = "Some sort of bacon, it looks pretty tasty."
+ITEM.uniqueID = "food_bacon"
+ITEM.hungerAmount = 15
 ITEM.quantity = 2
 ITEM.price = 0
 ITEM.width = 1
 ITEM.height = 1
-ITEM.flag = "v"
 ITEM.material = "models/flesh"
 
 ITEM.attribBoosts = { ["fortitude"] = 8, ["str"] = 5}
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 4.5,
+}
 
 ITEM.functions.Convert = {
   tip = "Convert this item",

@@ -7,6 +7,7 @@ ITEM.width = 2
 ITEM.height = 2
 ITEM.isWeapon = true
 ITEM.weaponCategory = "sidearm"
+ITEM.color = Color(100,110,100)
 
 local quality = {}
 quality[0] = "Terrible"
@@ -160,29 +161,6 @@ ITEM.functions.Custom = {
 		client:requestString("Change Name", "What name do you want this item to have?", function(text)
 			item:setData("customName", text)
 			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
-				client:requestString("Change Color", "What Color do you want this item to have?\n1: Yellow. 2: Red. 3: Green. 4: Blue. 5: Orange. 6: Purple. 7: White. 8: Black. 9: Default", function(text) --start of model
-						local color
-						if(text == "1") then --yellow
-							color = Color(200, 200, 0)
-						elseif(text == "2")then --red
-							color = Color(255, 50, 50)
-						elseif(text == "3")then --green
-							color = Color(50, 255, 50)
-						elseif(text == "4")then --blue
-							color = Color(50, 50, 255)
-						elseif(text == "5")then --orange
-							color = Color(255, 100, 0)
-						elseif(text == "6")then --purple
-							color = Color(140, 20, 140)
-						elseif(text == "7")then --white
-							color = Color(255, 255, 255)
-						elseif(text == "8")then --black
-							color = Color(0, 0, 0)
-						else --default
-							color = nut.config.get("color")
-						end
-						item:setData("customCol", color)
-					end, 1) --end of color
 				item:setData("customDesc", text)
 			end, item:getDesc())
 		end, item:getName())
@@ -190,6 +168,41 @@ ITEM.functions.Custom = {
 	end,
 	onCanRun = function(item)
 		local client = item:getOwner() or item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomCol = {
+	name = "Customize Color",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+		local color = item:getData("customCol", nut.config.get("color"))
+		
+		client:requestString("Change Color", "Enter ', ' separated RGB values.", function(text) --start of model
+			local colorTbl = string.Split(text, ", ")
+			if(table.Count(colorTbl) == 3) then
+				red = tonumber(colorTbl[1])
+				green = tonumber(colorTbl[2])
+				blue = tonumber(colorTbl[3])
+				if(red and green and blue) then --i put in a lot of extra shit here to idiot proof it.
+					color.r = red
+					color.g = green
+					color.b = blue
+				end
+			end
+		
+			item:setData("customCol", color)
+		end, color.r .. ", " .. color.b .. ", " .. color.g) --end of color
+		
+		--hopefully resets the player's icons
+		client:ConCommand("nut_flushicon")
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
 		return client:getChar():hasFlags("1")
 	end
 }

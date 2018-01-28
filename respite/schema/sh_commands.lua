@@ -272,3 +272,49 @@ nut.command.add("plasticdust", {
 		end
 	end
 })
+
+nut.command.add("ammoeject", {
+	syntax = "[num amount]",
+	onRun = function(client, arguments)
+	
+		local char = client:getChar()
+		local inv = char:getInv()
+		local wep = client:GetActiveWeapon()
+		local ammoType = wep:GetPrimaryAmmoType()
+		local ammo = client:GetAmmoCount( ammoType )
+		if (arguments[1] and tonumber(arguments[1]) < ammo) then
+			ammo = tonumber(arguments[1])
+		end
+		ammoType = game.GetAmmoName(ammoType)
+
+		if (ammo > 0) then
+			client:SetAmmo(client:GetAmmoCount( ammoType ) - ammo, ammoType)
+			if(!inv:add("ammo_generic", 1, { am = ammoType, amt = ammo, customName = ammoType .. " Box"})) then
+				nut.item.spawn("ammo_generic", position,
+					function(item2)
+						item2:setData("am", ammoType)
+						item2:setData("amt", ammo)
+						item2:setData("customName", ammoType .. " Box")
+					end
+				)
+			end
+		else
+			client:notify("You don't have any ammo to eject!")
+			return false
+		end
+	end
+})
+
+--model print
+nut.command.add("chargetmodel", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			client:notifyLocalized(target:GetModel())
+		else
+			client:notifyLocalized("Invalid Target")
+		end
+	end
+})

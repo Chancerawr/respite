@@ -6,11 +6,17 @@ ITEM.desc = "A strange nostalgic object, it makes you feel an emotion when you t
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.color = Color(100, 100, 100)
+ITEM.color = Color(0, 128, 128)
 ITEM.maxstack = 10
 
 ITEM.data = {
 	Amount = 1
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
 }
 
 local function recursiveAdd(item, inventory, toStack, maxStack, emotion)

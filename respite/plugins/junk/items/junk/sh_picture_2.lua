@@ -9,3 +9,9 @@ ITEM.skin = 2
 
 ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "j_scrap_wood"
+
+ITEM.iconCam = {
+	pos = Vector(200, 0, 0),
+	ang = Angle(180, -0, 180),
+	fov = 10.5,
+}

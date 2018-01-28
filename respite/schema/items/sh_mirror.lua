@@ -11,13 +11,18 @@ ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 ITEM.data = { producing2 = 0, glass = 0 }
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 10.5,
+}
+
 ITEM.functions.Reflect = {
 	name = "Reflect",
 	icon = "icon16/picture.png",
 	sound = "physics/glass/glass_impact_bullet1.wav",
 	onRun = function(item)
 		local client = item.player
-		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		local glass = inventory:hasItem("j_scrap_glass")	
 
@@ -36,6 +41,7 @@ ITEM.functions.Reflect = {
 		item:setData("producing2", CurTime())
 		timer.Simple(101, 
 			function()
+				local position = client:getItemDropPos()
 				local emotions = {
 					"fear",
 					"anger",
@@ -95,7 +101,6 @@ ITEM.functions.EChip = {
 	sound = "physics/glass/glass_impact_bullet1.wav",
 	onRun = function(item)
 		local client = item.player
-		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		local chip = inventory:hasItem("cube_chip_enhanced")	
 		
@@ -107,12 +112,14 @@ ITEM.functions.EChip = {
 		item:setData("producing2", CurTime())
 		timer.Simple(202, 
 			function()
+				local position = client:getItemDropPos()
 				local rewards = {}
 					rewards[1] = "haze_bottled"
 					rewards[2] = "haze_bottled_pink"
-					rewards[3] = "food_apple_cursed"
+					rewards[3] = "haze_bottled_blood"
+					rewards[4] = "food_apple_cursed"
 			
-				local reward = rewards[math.random(1,3)]
+				local reward = rewards[math.random(1,4)]
 			
 				item:setData("producing2", 0)
 				if(!IsValid(item:getEntity())) then
@@ -141,6 +148,34 @@ ITEM.functions.EChip = {
 		end
 		
 		if (!chip) then --if item of importance isn't in the inventory.
+			return false
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("alc_cloud", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a bottle filled with a strange substance.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
 			return false
 		end
 	end

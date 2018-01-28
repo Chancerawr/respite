@@ -2,6 +2,13 @@ ITEM.name = "The Curse"
 ITEM.desc = "A book about a curse."
 ITEM.price = 0
 ITEM.flag = "3"
+
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 		<p align="center"><font color='red' size='6'>The Curse</font></p><br/>
 		<font color='black' size='3'>Do you believe in Fate? The gods of Fortune? Do you know that little bitch that calls itself Karma?

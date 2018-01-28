@@ -4,6 +4,12 @@ ITEM.uniqueID = "story_sun_shade1"
 ITEM.price = 0
 ITEM.flag = "3"
 
+ITEM.iconCam = {
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4.5,
+}
+
 ITEM.contents = [[
 	<p align="center"><font color='black' size='6'>The Book Of Spite</font></p><br/>
 	<p align="center"><font color='black' size='4'>The Ill of Will.</font></p><br/>
