@@ -5,12 +5,14 @@ ITEM.desc = "A lightweight protection device deployed by police and some militar
 ITEM.flag = "j"
 ITEM.width = 2
 ITEM.height = 3
-ITEM.data = { scrapamount = 4 }
+ITEM.data = { scrapamount = 8 }
 ITEM.salvItem = "j_scrap_plastics"
 ITEM.buffCategory = "accessory"
 
 ITEM.attribBoosts = {
-	["end"] = 5,
+	["end"] = 3,
+	["str"] = 10,
+	["stm"] = -10,
 }
 
 ITEM.iconCam = {
