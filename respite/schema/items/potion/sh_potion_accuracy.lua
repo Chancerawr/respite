@@ -1,17 +1,16 @@
-ITEM.name = "Potion - Strength"
+ITEM.name = "Potion - Accuracy"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.price = 75
-ITEM.desc = "A strange vial that is filled with some bright green liquid.\nThis potion enhances a user's muscle mass, making them far stronger for a short period of time."
+ITEM.desc = "A strange vial that is filled with some bright liquid.\nThis potion enhances a person's senses, and helps steady their hands."
 ITEM.flag = "V"
-ITEM.uniqueID = "potion_strength"
+ITEM.uniqueID = "potion_accuracy"
 ITEM.container = "j_empty_vial"
-ITEM.color = Color(50, 255, 50)
 ITEM.duration = 300
 ITEM.attribBoosts = {
-	["str"] = 20,
+	["accuracy"] = 20,
 }
 
 ITEM.iconCam = {

@@ -1,17 +1,17 @@
-ITEM.name = "Potion - Endurance"
+ITEM.name = "Potion - Agility"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.price = 75
-ITEM.desc = "A strange vial that is filled with some bright green liquid.\nDrinking this potion leaves the user feeling sturdier, and more resilient against pain."
+ITEM.desc = "A strange vial that is filled with some bright green liquid.\nThis potion enhances a person's agility, making them move more quickly temporarily."
 ITEM.flag = "V"
-ITEM.uniqueID = "potion_endurance"
+ITEM.uniqueID = "potion_agility"
 ITEM.container = "j_empty_vial"
 ITEM.color = Color(50, 255, 50)
 ITEM.duration = 300
 ITEM.attribBoosts = {
-	["end"] = 20,
+	["stm"] = 20,
 }
 
 ITEM.iconCam = {

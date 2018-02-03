@@ -1,17 +1,16 @@
-ITEM.name = "Potion - Agility"
+ITEM.name = "Potion - Perception"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.price = 75
-ITEM.desc = "A strange vial that is filled with some bright green liquid.\n\nThis potion enhances a person's agility, making them move more quickly temporarily."
+ITEM.desc = "A strange vial that is filled with some bright green liquid.\nDrinking this potion makes the user more perceptive, both in analysis and simple observation."
 ITEM.flag = "V"
-ITEM.uniqueID = "potion_agility"
+ITEM.uniqueID = "potion_perception"
 ITEM.container = "j_empty_vial"
-ITEM.color = Color(50, 255, 50)
 ITEM.duration = 300
 ITEM.attribBoosts = {
-	["stm"] = 20,
+	["perception"] = 20,
 }
 
 ITEM.iconCam = {

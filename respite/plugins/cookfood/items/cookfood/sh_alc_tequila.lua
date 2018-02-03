@@ -1,6 +1,7 @@
 ITEM.name = "Tequila"
 ITEM.uniqueID = "alc_tequila"
 ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.material = "models/props/cs_assault/pylon"
 ITEM.hungerAmount = 4
 ITEM.foodDesc = "A glass bottle filled with liquid, it smells of alcohol."
 ITEM.quantity = 2

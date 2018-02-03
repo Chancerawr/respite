@@ -8,6 +8,7 @@ local CHATCOLOR_RANGED = Color(130, 130, 150)
 local CHATCOLOR_REACT = Color(130, 150, 130)
 local CHATCOLOR_RESIST = Color(160, 150, 130)
 
+--potential parts to hit with random shots
 	bParts = {}
     bParts[1] = "Skull"
     bParts[2] = "Head Glance"
@@ -87,6 +88,85 @@ local CHATCOLOR_RESIST = Color(160, 150, 130)
 	bParts[76] = "Right Ear"
 	bParts[77] = "Weapon"
 
+--calculates rolls for most basic rolling commands.
+local function combatRollPart(client, attr, debuff, msg)
+	local char = client:getChar()
+	local crit = math.random(1, 1000)
+	local critmsg = ""
+	if (crit <= (char:getAttrib("luck") + 10)) then
+		crit = (1.5 + char:getAttrib("luck")/25)
+		critmsg = " (Crit!)"
+	else
+		if(math.random(0,100) < 5) then
+			crit = 0
+			critmsg = "(Fail!)"
+		else
+			crit = 1
+		end
+	end
+
+	local rolled = math.abs(attr + math.random(-10,10)) * crit
+	rolled = rolled * debuff --reduction for command
+	
+	local part = bParts[math.random(1, 77)]
+	
+	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
+	nut.chat.send(client, "firearms", "has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
+end
+
+--calculates rolls for most basic rolling commands.
+local function combatRoll(client, attr, debuff, msg, category)
+	local char = client:getChar()
+	local crit = math.random(1, 1000)
+	local critmsg = ""
+	if (crit <= (char:getAttrib("luck") + 10)) then
+		crit = (1.5 + char:getAttrib("luck")/25)
+		critmsg = " (Crit!)"
+	else
+		if(math.random(0,100) < 5) then
+			crit = 0
+			critmsg = "(Fail!)"
+		else
+			crit = 1
+		end
+	end
+
+	local rolled = math.abs(attr + math.random(-10,10)) * crit
+	rolled = rolled * debuff --reduction for command
+	
+	local part = bParts[math.random(1, 77)]
+	
+	nut.log.addRaw(client:Name().." rolled \""..rolled.."\".", 2)
+	nut.chat.send(client, category, "has rolled " .. rolled .. critmsg .. " for " .. msg)
+end
+
+--used for rolling for things other than yourself (drones, npcs, etc) VERY WIP
+local function combatRollOther(client, attr, debuff, name, msg)
+	local char = client:getChar()
+	local crit = math.random(1, 1000)
+	local critmsg = ""
+	if (crit <= (char:getAttrib("luck") + 10)) then
+		crit = (1.5 + char:getAttrib("luck")/25)
+		critmsg = " (Crit!)"
+	else
+		if(math.random(0,100) < 5) then
+			crit = 0
+			critmsg = "(Fail!)"
+		else
+			crit = 1
+		end
+	end
+
+	local rolled = math.abs(2.5 + math.random(-10,10)) * crit
+	rolled = rolled * debuff --reduction for command
+	
+	local part = bParts[math.random(1, 77)]
+	
+	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
+	nut.chat.send(client, "firearms", "'s " .. name .. " has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
+end
+	
+--chat for colors and formatting.
 nut.chat.register("melee", {
 	format = "%s %s",
 	color = CHATCOLOR_MELEE,
@@ -197,58 +277,14 @@ nut.chat.register("will", {
 	deadCanChat = true
 })
 
---calculates rolls for most basic rolling commands.
-local function combatRollPart(client, attr, debuff, msg)
-	local char = client:getChar()
-	local crit = math.random(1, 1000)
-	local critmsg = ""
-	if (crit <= (char:getAttrib("luck") + 10)) then
-		crit = (1.5 + char:getAttrib("luck")/25)
-		critmsg = " (Crit!)"
-	else
-		if(math.random(0,100) < 5) then
-			crit = 0
-			critmsg = "(Fail!)"
-		else
-			crit = 1
-		end
+--actual commands
+nut.command.add("drone", {
+	onRun = function(client, arguments)
+		local char = client:getChar()
+		local attr = 5 --just has preset stats
+		combatRollOther(client, attr, 1, "Drone", "a shot at target's ")
 	end
-
-	local rolled = math.abs(attr + math.random(-10,10)) * crit
-	rolled = rolled * debuff --reduction for command
-	
-	local part = bParts[math.random(1, 77)]
-	
-	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
-	nut.chat.send(client, "firearms", "has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
-end
-
---calculates rolls for most basic rolling commands.
-local function combatRoll(client, attr, debuff, msg, category)
-	local char = client:getChar()
-	local crit = math.random(1, 1000)
-	local critmsg = ""
-	if (crit <= (char:getAttrib("luck") + 10)) then
-		crit = (1.5 + char:getAttrib("luck")/25)
-		critmsg = " (Crit!)"
-	else
-		if(math.random(0,100) < 5) then
-			crit = 0
-			critmsg = "(Fail!)"
-		else
-			crit = 1
-		end
-	end
-
-	local rolled = math.abs(attr + math.random(-10,10)) * crit
-	rolled = rolled * debuff --reduction for command
-	
-	local part = bParts[math.random(1, 77)]
-	
-	nut.log.addRaw(client:Name().." rolled \""..rolled.."\".", 2)
-	nut.chat.send(client, category, "has rolled " .. rolled .. critmsg .. " for " .. msg)
-end
-
+})
 
 nut.command.add("reflexes", {
 	onRun = function(client, arguments)

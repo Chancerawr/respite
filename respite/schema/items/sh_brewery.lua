@@ -146,7 +146,18 @@ ITEM.functions.Potion2 = {
 			
 			potCore:remove()
 			object:remove()
-			nut.item.spawn("potion_" .. data, position)
+			
+			--calculates crafting quality of the item
+			local iness = client:getChar():getAttrib("medical", 0)
+			
+			local craftMod = math.Clamp((iness/10) + math.random(-2,2), 0, 10)
+			craftMod = math.Round(craftMod)
+			
+			nut.item.spawn("potion_" .. data, position,
+				function(item2)
+					item2:setData("quality", craftMod)
+				end
+			)
 			nut.chat.send(client, "itclose", "The objects move through the brewery quickly, and a liquid is dispensed into a vial.")	
 		else --for healing salve
 			object:remove()

@@ -1,17 +1,16 @@
-ITEM.name = "Potion - Craftiness"
+ITEM.name = "Potion - Strength"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.price = 75
-ITEM.desc = "A strange vial that is filled with some bright green liquid.\nDrinking this potion grants the user insight in the structure of objects temporarily."
+ITEM.desc = "A strange vial that is filled with some bright green liquid.\nThis potion enhances a user's muscle mass, making them far stronger for a short period of time."
 ITEM.flag = "V"
-ITEM.uniqueID = "potion_craftiness"
+ITEM.uniqueID = "potion_strength"
 ITEM.container = "j_empty_vial"
-ITEM.color = Color(50, 255, 50)
 ITEM.duration = 300
 ITEM.attribBoosts = {
-	["medical"] = 20,
+	["str"] = 20,
 }
 
 ITEM.iconCam = {

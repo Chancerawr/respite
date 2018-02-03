@@ -2786,3 +2786,33 @@ RECIPE156.result = {
 }
 RECIPES:Register( RECIPE156 )
 //
+local RECIPE157 = {}
+RECIPE157.uid = "nut_shield_wood"
+RECIPE157.name = "Makeshift Shield (Wood)"
+RECIPE157.category = "Accessories"
+RECIPE157.model = Model( "models/cloud/glassholdshield.mdl" )
+RECIPE157.desc = "A large wooden shield."
+RECIPE157.noBlueprint = true
+RECIPE157.items = {
+	["j_scrap_wood"] = 35
+}
+RECIPE157.result = {
+	["shield_wood"] = 1
+}
+RECIPES:Register( RECIPE157 )
+//
+local RECIPE158 = {}
+RECIPE158.uid = "nut_shield_metal"
+RECIPE158.name = "Makeshift Shield (Scrap Metal)"
+RECIPE158.category = "Accessories"
+RECIPE158.model = Model( "models/cloud/glassholdshield.mdl" )
+RECIPE158.desc = "A large metal shield."
+RECIPE158.noBlueprint = true
+RECIPE158.items = {
+	["j_scrap_metals"] = 30
+}
+RECIPE158.result = {
+	["shield_metal"] = 1
+}
+RECIPES:Register( RECIPE158 )
+//

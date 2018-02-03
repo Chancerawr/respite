@@ -341,6 +341,19 @@ PANEL = {}
 					else
 						local iconName = itemTable.uniqueID
 						local ent = ikon.renderEntity --the entity so we can apply things to it.
+						
+						if(!ent) then
+							print("Memes")
+							ikon:renderIcon(
+								"useless",
+								1,
+								1,
+								"models/props_junk/garbage_takeoutcarton001a.mdl",
+							)
+							
+							ent = ikon.renderEntity --the entity so we can apply things to it.
+						end
+						
 						if(ent) then
 							if(itemTable.material) then --changes the material if it's custom
 								ent:SetMaterial(itemTable.material)

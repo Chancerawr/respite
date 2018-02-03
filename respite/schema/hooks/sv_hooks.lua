@@ -46,8 +46,10 @@ player models
 Temporary Things (Like Maps)
 --]]
 
-200098715, --gm_coolsnow
-104484346 --gm_isles
+104484346, --gm_isles
+1214939693, --gm_krot
+1214964813 --gm_krot resources
+
 }
 
 for k, v in pairs(workshopIDs) do

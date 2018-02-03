@@ -15,7 +15,7 @@
 
 ITEM.name = "CH-3CK"
 ITEM.desc = "Makeshift rocket-launcher. While it seems simple in core design, the munitions are probably the expensive piece. Rumoured to be named after what you should do prior to firing lest you want to blow yourself up.\nThis weapon utilizes rockets."
-ITEM.model = "models/props_docks/dock01_pole01a_128.mdl"
+ITEM.model = "models/mechanics/solid_steel/box_beam_4.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_ch3ck"
 ITEM.uniqueID = "tfa_ch3ck"

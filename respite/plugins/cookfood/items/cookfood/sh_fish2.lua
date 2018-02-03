@@ -15,3 +15,23 @@ ITEM.iconCam = {
 	ang = Angle(0, 270, 0),
 	fov = 5,
 }
+
+ITEM.functions.Name = {
+	tip = "Name this item",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		local client = item.player
+		client:requestString("Change Name", "What do you want to name your plant? (This is final)", function(text)
+			item:setData("customName", text)
+		end, item.name)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		if (item:getData("customName") != nil) then
+			return false
+		else
+			return true
+		end
+	end
+}

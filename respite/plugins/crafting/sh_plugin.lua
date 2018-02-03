@@ -113,13 +113,7 @@ function RECIPES:Register( tbl )
 					end
 				end
 			end
-			local iness = player:getChar():getAttrib("medical")
-			
-			if(!iness) then
-				iness = 0
-				player:getChar():setAttrib("medical", 0)
-			end
-			
+			local iness = player:getChar():getAttrib("medical", 0)
 			local craftMod = math.Clamp((iness/10) + math.random(-2,2), 0, 10)
 			
 			--this will go into the thing for descriptions
@@ -144,6 +138,7 @@ function RECIPES:Register( tbl )
 				avgQual = craftMod
 			end
 			
+			--calculates the final qualtiy by averaging the average quality and the craftiness modifier
 			local finQual = math.Round((avgQual + craftMod)/2)
 			
 			for k, v in pairs( self.result ) do
