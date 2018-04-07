@@ -1,7 +1,7 @@
 ITEM.name = "Mystery Box"
 ITEM.desc = "A strange box, I wonder what's inside?"
 ITEM.model = "models/Items/item_item_crate.mdl"
-ITEM.material = "models/props_lab/security_screens"
+ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.uniqueID = "mystery_box"
 ITEM.price = 500
 ITEM.flag = "v"
@@ -65,12 +65,12 @@ ITEM.functions.Open = {
 				nut.item.spawn("farm_potato", position)
 			end
 		elseif(RContent < 60) then --cure device
-			contents = "ev_device"
+			contents = "cube_blight"
 			if(luckRoll < 50) then 
-				nut.item.spawn("cure", position)
-				nut.item.spawn("cure", position)
-				nut.item.spawn("cure", position)
-				nut.item.spawn("cure", position)
+				nut.item.spawn("blight", position)
+				nut.item.spawn("blight", position)
+				nut.item.spawn("blight", position)
+				nut.item.spawn("blight", position)
 			end
 		elseif(RContent < 70) then --chip generator
 			contents = "generator_chip"

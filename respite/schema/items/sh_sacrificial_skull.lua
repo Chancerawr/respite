@@ -87,8 +87,8 @@ ITEM.functions.Sacrifice = {
 					client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
 					rewardI = "drug_depress"
 				elseif (reward < 65) then
-					client:notifyLocalized("You receive a vial of cure for your sacrifice.")
-					rewardI = "cure"
+					client:notifyLocalized("You receive a vial of blight for your sacrifice.")
+					rewardI = "blight"
 				elseif (reward < 75) then
 					client:notifyLocalized("You receive a lamp?")
 					rewardI = "hl2_m_lamp_strange"

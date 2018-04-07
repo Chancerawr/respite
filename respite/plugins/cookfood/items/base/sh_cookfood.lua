@@ -40,10 +40,17 @@ ITEM.functions.use = {
 		
 		quantity = quantity - 1
 		
+		local buffAmt --amount of stats the thing gives you
+		local dur --duration of effect
+		
 		if (char and client:Alive()) then
 			if (item.attribBoosts) then
 				for k, v in pairs(item.attribBoosts) do
-					char:addBoost(item.uniqueID, k, v)
+					buffAmt = v
+					if(hasTrait(client, "glutton")) then
+						buffAmt = buffAmt * 1.2
+					end
+					char:addBoost(item.uniqueID, k, buffAmt)
 				end
 			end
 			
@@ -52,7 +59,12 @@ ITEM.functions.use = {
 			
 			--if we already have a thing for that buff, refresh it.
 			if(timer.Exists("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex())) then 
-				timer.Adjust("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), item.duration, 1, function()
+				dur = item.duration
+				if(TRAITS and hasTrait(client, "survival")) then
+					dur = dur * 1.2
+				end
+			
+				timer.Adjust("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), dur, 1, function()
 
 					if (client and IsValid(client)) then
 						local curChar = client:getChar()
@@ -68,8 +80,13 @@ ITEM.functions.use = {
 					end
 				end)
 			else
-				timer.Create("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), item.duration, 1, function()
-
+			
+				dur = item.duration
+				if(TRAITS and hasTrait(client, "survival")) then
+					dur = dur * 1.2
+				end
+				
+				timer.Create("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), dur, 1, function()
 					if (client and IsValid(client)) then
 						local curChar = client:getChar()
 						if (curChar and curChar:getID() == charID) then

@@ -1,6 +1,6 @@
 ITEM.name = "Lemon Soda"
 ITEM.uniqueID = "food_lemon_soda"
-ITEM.model = "models/props_junk/PopCan01a.mdl"
+ITEM.model = "models/props_junk/popcan01a.mdl"
 ITEM.hungerAmount = 3
 ITEM.foodDesc = "An aluminium can filled with a carbonated soda."
 ITEM.quantity = 2

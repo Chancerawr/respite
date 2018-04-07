@@ -26,6 +26,7 @@ ITEM.cures = {
 	["fort_migraine"] = true,
 	["fort_hall"] = true,
 	["fort_para"] = true,
+	["dis_wrai"] = true,
 }
 
 
@@ -69,15 +70,7 @@ ITEM.functions.use = { -- sorry, for name order.
 				end
 			end
 		end
-	end,
-	onCanRun = function(item)
-		local player = item.player or item:getOwner()
-		local char = player:getChar()
-
-		if (char:getFaction() == FACTION_PLASTIC) then
-			return false
-		end
-    end
+	end
 }
 
 // On player uneqipped the item, Removes a weapon from the player and keep the ammo in the item.

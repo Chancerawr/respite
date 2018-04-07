@@ -204,7 +204,6 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"j_pillow",
 		"j_pliers",
 		"j_old_rag",
-		--"j_riotshield",
 		"j_power_saw",
 		"j_old_shoe",
 		"j_soccerball",
@@ -233,13 +232,17 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"j_newspaper_stack",
 		"j_map",
 		"j_mounted_fish",
-		"j_pan",
+		"hl2_m_pot",
 		"j_wall_light",
 		"j_scrap_light",
+		"j_scrap_metals",
+		"j_scrap_wood",
+		"j_scrap_plastics",
 		"j_scrap_elecs",
 		"j_scrap_elastic",
 		"j_scrap_concrete",
 		"j_scrap_adhesive",
+		"j_scrap_battery",
 		"cube_chip",
 		"hl2_m_brokenbottle",
 		"hl2_m_claypot",
@@ -262,7 +265,7 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 
 PLUGIN.spawnrate = 180
 PLUGIN.maxitems = 100
-PLUGIN.itemsperspawn = 2
+PLUGIN.itemsperspawn = 1
 PLUGIN.spawneditems = PLUGIN.spawneditems or {}
 
 if SERVER then
@@ -309,7 +312,13 @@ if SERVER then
 			end
 
 			local idat = table.Random(self.spawngroups[v[2]]) or self.spawngroup["default"]
-			nut.item.spawn(idat[1], v[1] + Vector( math.Rand(-8,8), math.Rand(-8,8), 20 ), nil, AngleRand(), idat[2] or {})
+
+			nut.item.spawn(idat, v[1] + Vector( math.Rand(-8,8), math.Rand(-8,8), 20 ),
+			function(item, entity)
+				self.spawneditems[#self.spawneditems + 1] = entity
+			end,
+			AngleRand()
+			)
 		end
 	end
 

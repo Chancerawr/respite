@@ -83,6 +83,11 @@ function PLUGIN:PlayerLoadedChar(client)
 		if (!IsValid(client)) then
 			return
 		end
+		
+		--fix for people getting ammo from other characters.
+		for k, v in ipairs(self.ammoList) do
+			client:SetAmmo(0, tostring(k))
+		end
 
 		-- Get the saved ammo table from the character data.
 		local character = client:getChar()
@@ -92,7 +97,7 @@ function PLUGIN:PlayerLoadedChar(client)
 		end
 		
 		local ammoTable = character:getData("ammo")
-
+		
 		-- Check if the ammotable is exists.
 		if (ammoTable) then
 			for k, v in pairs(ammoTable) do

@@ -1,4 +1,4 @@
-ITEM.name = "Trap-scrap sword"
+ITEM.name = "Trap-scrap Sword"
 ITEM.desc = "An odd sword/cleaver type weapon made of scrap metal."
 ITEM.model = "models/props_c17/trappropeller_blade.mdl"
 ITEM.class = "hl2_m_trapscrap"
@@ -9,6 +9,9 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
+
+ITEM.data = { scrapamount = 5 }
+ITEM.salvItem = "j_scrap_metals"
 
 ITEM.iconCam = {
 	pos = Vector(0, -20, 200),

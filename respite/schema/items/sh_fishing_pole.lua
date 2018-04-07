@@ -2,6 +2,7 @@ ITEM.name = "Fishing Pole"
 ITEM.desc = "A pole with a line and a reel attached to it. \nUses chips for bait."
 ITEM.model = "models/props_junk/harpoon002a.mdl"
 ITEM.uniqueID = "fishing_pole"
+ITEM.width = 3
 ITEM.price = 20
 ITEM.flag = "v"
 ITEM.data = { producing2 = 0 }
@@ -126,7 +127,7 @@ ITEM.functions.FishNoBait = {
 			nut.chat.send(client, "itclose", "The unbaited hook is cast into the water.")		
 			item:setData("producing2", CurTime())
 			local oldPos = client:GetPos()
-			client:setAction("Fishing...", 80, 
+			client:setAction("Fishing...", 120, 
 				function()
 					if (item != nil and client:GetPos():Distance(oldPos) <= 500) then
 						item:setData("producing2", 0)

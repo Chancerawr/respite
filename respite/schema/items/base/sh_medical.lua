@@ -8,6 +8,7 @@ ITEM.healAmount = 50
 ITEM.healSeconds = 10
 ITEM.flag = "v"
 ITEM.category = "Medical"
+ITEM.color = Color(232, 0, 0)
 
 local function healPlayer(client, target, amount, seconds)
 	hook.Run("OnPlayerHeal", client, target, amount, seconds)

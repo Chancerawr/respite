@@ -25,6 +25,9 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
+ITEM.data = { scrapamount = 2}
+ITEM.salvItem = "j_scrap_metals"
+
 ITEM.iconCam = {
 	pos = Vector(0, 200, 1.75),
 	ang = Angle(0, 270, 92),

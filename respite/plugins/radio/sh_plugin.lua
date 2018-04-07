@@ -333,8 +333,8 @@ nut.chat.register("radio", {
 			finalMsg = text
 		else
 			radioMsg = string.Explode("",text)
-			if(dist > nut.config.get("chatRange", 280) * 4) then
-				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*3)) * text:len()/100) do
+			if(dist > nut.config.get("chatRange", 280) * 2.5) then
+				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*2.5)) * text:len()/100) do
 					local ranSpot = math.random(1,text:len())
 					if(radioMsg[ranSpot] != " ") then --dont replace empty spaces
 						radioMsg[ranSpot] = "-"
@@ -636,16 +636,15 @@ nut.chat.register("radioit", {
 	prefix = {"/rit", "/radioit"},
 })
 
-nut.command.add("distortion", {
+nut.command.add("distortiontoggle", {
 	adminOnly = true,
-	syntax = "<bool true/false>",
 	onRun = function(client, arguments)
-		if(arguments[1] != 0) then
-			nut.config.set("distortion", true)
-			client:notifyLocalized("Distortion has been turned on.")
-		else
+		if(nut.config.get("distortion", false)) then
 			nut.config.set("distortion", false)
-			client:notifyLocalized("Distortion has been turned off.")
+			client:notify("Distortion has been turned off.")
+		else
+			nut.config.set("distortion", true)
+			client:notify("Distortion has been turned on.")
 		end
 	end
 })

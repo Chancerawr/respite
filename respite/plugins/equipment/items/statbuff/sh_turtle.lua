@@ -16,5 +16,5 @@ ITEM.attribBoosts = {
 ITEM.iconCam = {
 	pos = Vector(0, 1, 200),
 	ang = Angle(90, 0, 0),
-	fov = 5,
+	fov = 6,
 }

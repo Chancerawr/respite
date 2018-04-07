@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Luck"
-ATTRIBUTE.desc = "You'd be pretty lucky if this did anything."
+ATTRIBUTE.desc = "Your character's mysterious power over random chance."

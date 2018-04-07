@@ -144,8 +144,8 @@ function RECIPES:Register( tbl )
 			for k, v in pairs( self.result ) do
 				--if (!player:getChar():getInv():add(k, v)) then
 					for i = 1, v do
-						if(!player:getChar():getInv():add(k)) then
-							nut.item.spawn(k, player:getItemDropPos(), 
+						if(!player:getChar():getInv():add(k, 1, { quality = finQual })) then
+							nut.item.spawn(k, player:getItemDropPos(),
 								function(item)
 									item:setData("quality", finQual)
 								end

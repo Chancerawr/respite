@@ -11,6 +11,7 @@ ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_water"
+ITEM.color = Color(100, 100, 100)
 
 ITEM.attribBoosts = { ["stm"] = 2 }
 

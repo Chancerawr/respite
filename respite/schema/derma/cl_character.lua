@@ -141,7 +141,7 @@ local PANEL = {}
 		end
 
 		local function ClearAllButtons(callback)
-			x, y = ScrW() * 0.1, ScrH() * 0.3
+			x, y = ScrW() * 0.1, ScrH() * 0.2
 
 			local i = 1
 			local max = table.Count(self.buttons)
@@ -225,10 +225,12 @@ local PANEL = {}
 										self.creation:SetAlpha(fadedIn and 255 or 0)
 										self.creation:setUp(v.index)
 										self.creation:AlphaTo(255, 0.5, 0)
+										
 										self.fadePanels[#self.fadePanels + 1] = self.creation
+										self.fadePanels[#self.fadePanels + 1] = self.attribs
 	
 										self.finish = self:Add("nutMenuButton")
-										self.finish:SetPos(ScrW() * 0.3 - 32, ScrH() * 0.3 + 16)
+										self.finish:SetPos(ScrW() * 0.47, ScrH() * 0.3 + 16)
 										self.finish:setText("finish")
 										self.finish:MoveBelow(self.creation, 4)
 										self.finish.DoClick = function(this)

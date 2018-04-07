@@ -1,7 +1,7 @@
 ITEM.name = "Refinery - Enhanced Chips"
 ITEM.uniqueID = "refinery_enhanced"
 ITEM.model = "models/props_lab/reciever01b.mdl"
-ITEM.material = "models/props_lab/security_screens"
+ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.desc = "A strange metal box, It has a large slot that is labelled 'MEMORIES', another slot labelled 'SHARD DUST', and a small output slot labelled 'ENHANCED CHIPS'."
 ITEM.width = 2
 ITEM.height = 1

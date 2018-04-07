@@ -1,6 +1,6 @@
 ITEM.name = "Pumpkin Soda"
 ITEM.uniqueID = "food_pumpkin_soda"
-ITEM.model = "models/props_junk/PopCan01a.mdl"
+ITEM.model = "models/props_junk/popcan01a.mdl"
 ITEM.material = "phoenix_storms/fender_wood"
 ITEM.hungerAmount = 3
 ITEM.foodDesc = "An aluminium can filled with a pumpkin soda?"

@@ -4,10 +4,15 @@ ITEM.model = "models/warz/melee/powerdrill.mdl"
 ITEM.desc = "An electric drill."
 ITEM.flag = "j"
 ITEM.width = 2
-ITEM.height = 2
+ITEM.height = 1
 
 ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_elecs"
+
+ITEM.salvItem = {
+	["j_scrap_elecs"] = 2,
+	["j_scrap_metals"] = 3,
+	["j_scrap_battery"] = 1
+}
 
 ITEM.iconCam = {
 	pos = Vector(2.5, 200, -2.5),

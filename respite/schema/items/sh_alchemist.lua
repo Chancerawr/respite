@@ -188,8 +188,8 @@ ITEM.functions.Yams = {
 	end
 }
 
-ITEM.functions.Apple = {
-	name = "Cursed Apple",
+ITEM.functions.Ichor = {
+	name = "Ichor",
 	icon = "icon16/box.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)

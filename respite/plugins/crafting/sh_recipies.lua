@@ -545,7 +545,7 @@ RECIPE34.desc = "A peculiar tool with a climb and a lever."
 RECIPE34.noBlueprint = true
 RECIPE34.items = {
 	["j_meat_grinder"] = 1,
-	["cure"] = 10,
+	["blight"] = 10,
 	["j_scrap_organic"] = 10
 }
 RECIPE34.result = {
@@ -684,7 +684,7 @@ RECIPE41.desc = "A small bottle filled with some pills."
 RECIPE41.noBlueprint = true
 RECIPE41.items = {
 	["drug_depress"] = 1,
-	["cure"] = 1
+	["blight"] = 1
 }
 RECIPE41.result = {
 	["drug_antidepressants"] = 1
@@ -1209,7 +1209,7 @@ RECIPE69.model = Model( "models/props_c17/suitcase_passenger_physics.mdl" )
 RECIPE69.desc = "A strange metallic device. It appears to be vibrating slightly."
 RECIPE69.noBlueprint = true
 RECIPE69.items = {
-	["cure"] = 5,
+	["blight"] = 5,
 	["hl2_m_wrench"] = 1,
 	["j_drill"] = 1,
 	["j_power_saw"] = 1,
@@ -1399,7 +1399,7 @@ RECIPE79.model = Model( "models/Gibs/HGIBS.mdl" )
 RECIPE79.desc = "???"
 RECIPE79.noBlueprint = true
 RECIPE79.items = {
-	["cure"] = 10,
+	["blight"] = 10,
 	["j_skull"] = 1
 }
 RECIPE79.result = {
@@ -1798,7 +1798,7 @@ RECIPE100.desc = "A bottle filled with numerous pills."
 RECIPE100.noBlueprint = true
 RECIPE100.items = {
 	["drug_psychotics"] = 1,
-	["cure"] = 1
+	["blight"] = 1
 }
 RECIPE100.result = {
 	["drug_antipsychotics"] = 1
@@ -2250,7 +2250,7 @@ RECIPE127.desc = "A small bottle filled with some sort of liquid."
 RECIPE127.noBlueprint = true
 RECIPE127.items = {
 	["drug_venom"] = 1,
-	["cure"] = 1
+	["blight"] = 1
 }
 RECIPE127.result = {
 	["drug_antivenom"] = 1
@@ -2815,4 +2815,36 @@ RECIPE158.result = {
 	["shield_metal"] = 1
 }
 RECIPES:Register( RECIPE158 )
+//
+local RECIPE159 = {}
+RECIPE159.uid = "nut_grenade_nail"
+RECIPE159.name = "Makeshift Nail Bomb"
+RECIPE159.category = "Grenades"
+RECIPE159.model = Model( "models/items/grenadeammo.mdl" )
+RECIPE159.desc = "A makeshift shrapnel bomb that uses nails and other sharp pieces of metal to damage foes."
+RECIPE159.noBlueprint = true
+RECIPE159.items = {
+	["j_scrap_nails"] = 1,
+	["j_scrap_metals"] = 10,
+	["j_scrap_chems"] = 1,
+}
+RECIPE159.result = {
+	["tfa_nailbomb"] = 1
+}
+RECIPES:Register( RECIPE159 )
+//
+local RECIPE160 = {}
+RECIPE160.uid = "nut_nails"
+RECIPE160.name = "Nails"
+RECIPE160.category = "Refined"
+RECIPE160.model = Model( "models/props_junk/garbage_metalcan002a.mdl" )
+RECIPE160.desc = "Metal nails for nailing."
+RECIPE160.noBlueprint = true
+RECIPE160.items = {
+	["j_scrap_metals"] = 3
+}
+RECIPE160.result = {
+	["j_scrap_nails"] = 1
+}
+RECIPES:Register( RECIPE160 )
 //

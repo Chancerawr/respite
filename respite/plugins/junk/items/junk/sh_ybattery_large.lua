@@ -8,7 +8,12 @@ ITEM.height = 2
 ITEM.category = "Miscellaneous"
 
 ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_elecs"
+
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 4,
+	["j_scrap_elecs"] = 2,
+	["j_scrap_battery"] = 1
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

@@ -104,23 +104,51 @@ ITEM.functions.Scrap = {
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
-	
-		if (item.attribBoosts) then
-			for k, v in pairs(item.attribBoosts) do
-				char:removeBoost(item.buffCategory, k)
-			end
+		local inv = char:getInv()
+		local position = client:getItemDropPos()
+		local scrap
+		local amt
+		
+		local roll = math.random(1,100)
+		local chance = item.multiChance
+		local multi = 1
+		
+		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+			chance = chance + 10
 		end
-	
-		if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-			item.player:getChar():getInv():add(item.salvItem, 1, { Amount = item:getData("scrapamount") })
-			item:remove()
+		
+		if(roll < chance) then
+			multi = 2
+		end
+		
+		if(istable(item.salvItem)) then
+			for i = 1, multi do
+				amt, scrap = table.Random(item.salvItem)
+				timer.Simple(i/2, function()
+					if(!inv:add(scrap, 1, { Amount = amt })) then
+						nut.item.spawn(scrap, position,
+							function(item2)
+								item2:setData("Amount", amt)
+							end
+						)
+					end
+				end)
+			end
 		else
-			item.player:notify("You don't have any room in your inventory!")
+			for i = 1, multi do
+				scrap = item.salvItem
+				if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
+					nut.item.spawn(scrap, position,
+						function(item2)
+							item2:setData("Amount", item:getData("scrapamount"))
+						end
+					)
+				end
+			end
 		end
 		
 		--Randomized sounds don't work up there so I had to do this.
-		item.player:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav")
-		return false
+		item.player:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
 	end,
 	onCanRun = function(item)
 		if(!item.salvItem) then
@@ -130,7 +158,6 @@ ITEM.functions.Scrap = {
 		return client:getChar():hasFlags("q") or client:getChar():getInv():hasItem("kit_salvager")
 	end
 }
-
 
 local quality = {}
 quality[0] = "Terrible"

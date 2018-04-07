@@ -9,6 +9,11 @@ ITEM.height = 2
 ITEM.data = { scrapamount = 5 }
 ITEM.salvItem = "j_scrap_chems"
 
+ITEM.salvItem = {
+	["j_scrap_chems"] = 5,
+	["j_scrap_plastics"] = 3
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

@@ -1,7 +1,7 @@
 ITEM.name = "Mystery Box II"
 ITEM.desc = "An even stranger box, I wonder what's inside?"
 ITEM.model = "models/Items/item_item_crate.mdl"
-ITEM.material = "models/props_lab/security_screens"
+ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.uniqueID = "mystery_box_2"
 ITEM.price = 500
 ITEM.flag = "v"

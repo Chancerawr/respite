@@ -6,7 +6,7 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 2
 
-ITEM.data = { scrapamount = 1 }
+ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "j_scrap_glass"
 
 ITEM.functions.Fill = {

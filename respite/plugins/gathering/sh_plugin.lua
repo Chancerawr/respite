@@ -52,6 +52,11 @@ local gatherItems = {
 		["default"] = {
 			["wood"] = 15
 		}
+	},	
+	["tree_dark"] = {
+		["default"] = {
+			["wood"] = 15
+		}
 	},
 	["car"] = {
 		["default"] = {
@@ -188,33 +193,6 @@ local function getItemEntity(item)
 	return nil
 end
 
---[[
-netstream.Hook("nut_lc_gather", function(client, ent, tool)
-	if (IsValid(ent)) then
-		if (ent:GetClass() == "nut_rock" and tool:GetClass() == "hl2_m_pickaxe") or (ent:GetClass() == "nut_tree" and tool:GetClass() == "hl2_m_axe") then
-			client:EmitSound( Format( "physics/concrete/rock_impact_hard%d.wav",math.random(1, 6)), 80, math.random(150,170))
-			local itemID = getGatheredItem(client, ent)
-			if (itemID != nil) then
-				local itemEntity = getItemEntity(itemID)
-				local position = client:getItemDropPos()
-				--if (give(client, itemEntity)) then
-					nut.item.spawn(itemID, position)
-					if (nut.config.get("gDamage")) then
-						ent:SetHealth(ent:Health() - nut.config.get("lifeDrain"))
-						if (ent:Health() < 0) then
-							ent:Remove()
-						end
-					end
-					client:notifyLocalized("lc_youGathered", itemEntity.name)
-				--else
-					--client:notifyLocalized("lc_noSpace")
-				--end
-			end
-		end
-	end
-end)
---]]
-
 netstream.Hook("nut_displayGatherSpawnPoints", function(data)
 	for k, v in pairs(data) do
 		local emitter = ParticleEmitter(v[1])
@@ -230,7 +208,7 @@ netstream.Hook("nut_displayGatherSpawnPoints", function(data)
 	end
 end)
 
-nut.command.add("gatheraddspawn", {
+nut.command.add("gatherspawnadd", {
 	adminOnly = true,
 	syntax = "<string entity> <string table>",
 	onRun = function(client, arguments)
@@ -255,7 +233,7 @@ nut.command.add("gatheraddspawn", {
 	end
 })
 
-nut.command.add("gatherremovespawn", {
+nut.command.add("gatherspawnremove", {
 	adminOnly = true,
 	syntax = "<number distance>",
 	onRun = function(client, arguments)
@@ -274,7 +252,7 @@ nut.command.add("gatherremovespawn", {
 	end
 })
 
-nut.command.add("gatherdisplayspawn", {
+nut.command.add("gatherspawndisplay", {
 	adminOnly = true,
 	onRun = function(client)
 		if SERVER then

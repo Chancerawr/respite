@@ -528,8 +528,6 @@ nut.command.add("doorsethiddenall", {
 			-- Validate it is a door.
 			if (IsValid(v) and v:isDoor()) then
 				local hidden = util.tobool(arguments[1] or true)
-				
-				print(v)
 
 				v:setNetVar("hidden", hidden)
 			

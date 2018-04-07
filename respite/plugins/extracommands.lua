@@ -97,7 +97,7 @@ nut.command.add("cleannpcs", {
 	onRun = function(client, arguments)
 
 	for k, v in pairs( ents.GetAll( ) ) do
-	if IsValid( v ) and ( v:IsNPC() or baseclass.Get( v:GetClass() ).Base == 'base_nextbot' or baseclass.Get( v:GetClass() ).Base == 'nz_base' or  baseclass.Get( v:GetClass() ).Base == 'nz_risen' ) and !IsFriendEntityName( v:GetClass() ) then
+	if IsValid( v ) and ( v:IsNPC() or baseclass.Get( v:GetClass() ).Base == 'chance_base') and !IsFriendEntityName( v:GetClass() ) then
 		
 		  v:Remove()
 		

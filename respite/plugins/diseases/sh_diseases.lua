@@ -97,9 +97,10 @@ DISEASE.phase = {
 	"Your hands are covered in blood, but when you blink they return to normal.",
 	"Out of the corner of your vision you see a someone approaching, but when you turn there is no one there.",
 	"You are suddenly falling from a great height, but a moment later find yourself back on your feet.",
-	"For a moment, everyone around you is a terrifying monster, but as you blink they return to normal.",
+	"For a moment, everyone around you is a terrifying monster, they seemingly return to normal a minute later.",
 	"You can see moving shapes in the shadows around you.",
 	"For a moment, there are insects all over your body, you can feel them crawling. They disappear shortly after.",
+	"You feel your skin crawling away from you, your bones screaming, and your head expanding. You feel normal a moment or so later.",
 }
 DISEASE.cure = {
 	"All of the hallucinations disappear, things feel normal again.",
@@ -140,6 +141,25 @@ DISEASE.phase = {
 }
 DISEASE.cure = {
 	"You feel normal again, the potion sickness fades away.",
+}
+
+DISEASES:Register( DISEASE )
+
+//
+local DISEASE = {}
+DISEASE.uid = "dis_wrai"
+DISEASE.name = "Soul Sickness"
+DISEASE.category = "Illness"
+DISEASE.phase = {
+	"You feel empty inside, like something is missing.",
+	"You feel hollow, you just want it back.",
+	"Your feel lightheaded, and it's hard to focus.",
+	"Your vision blurs, and you feel nauseous.",
+	"You long for something, but cannot picture what it is.",
+	"You feel like something was taken from you, but you can't picture what.",
+}
+DISEASE.cure = {
+	"You feel whole again.",
 }
 
 DISEASES:Register( DISEASE )

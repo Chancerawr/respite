@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Endurance"
-ATTRIBUTE.desc = "Affects how long you can run for."
+ATTRIBUTE.desc = "Your stubbornness and ability to resist status effects."

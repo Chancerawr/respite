@@ -1,5 +1,5 @@
-ITEM.name = "Device - ???"
-ITEM.uniqueID = "ev_device"
+ITEM.name = "Device - Blight"
+ITEM.uniqueID = "cube_blight"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
 ITEM.desc = "An unknown cubic device. There is a single button on it that says 'CURE'."
 ITEM.width = 3

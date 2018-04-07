@@ -52,7 +52,7 @@ function PLUGIN:LoadData()
 								local position = positions[itemID]
 								local item = nut.item.new(uniqueID, itemID)
 								item.data = data or {}
-								item:spawn(position).nutItemID = itemID
+								item:spawn(position, AngleRand()).nutItemID = itemID
 
 								item.invID = 0
 								table.insert(loadedItems, item)

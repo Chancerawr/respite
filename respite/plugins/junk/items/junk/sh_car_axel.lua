@@ -6,7 +6,7 @@ ITEM.flag = "j"
 ITEM.width = 5
 ITEM.height = 2
 
-ITEM.data = { scrapamount = 5 }
+ITEM.data = { scrapamount = 6 }
 ITEM.salvItem = "j_scrap_metals"
 
 ITEM.iconCam = {

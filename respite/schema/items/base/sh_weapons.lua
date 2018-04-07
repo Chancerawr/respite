@@ -9,6 +9,8 @@ ITEM.isWeapon = true
 ITEM.weaponCategory = "sidearm"
 ITEM.color = Color(100,110,100)
 
+ITEM.multiChance = 20 --for scrapping
+
 local quality = {}
 quality[0] = "Terrible"
 quality[1] = "Awful"
@@ -178,7 +180,7 @@ ITEM.functions.CustomCol = {
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
-		local color = item:getData("customCol", nut.config.get("color"))
+		local color = item:getData("customCol", Color(255,255,255))
 		
 		client:requestString("Change Color", "Enter ', ' separated RGB values.", function(text) --start of model
 			local colorTbl = string.Split(text, ", ")
@@ -242,8 +244,8 @@ ITEM.functions.Blight = {
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
-		local dust = client:getChar():getInv():hasItem("cure")
-		client:requestString("Blight", "Are you sure you want to CURE blight this weapon?",
+		local dust = client:getChar():getInv():hasItem("blight")
+		client:requestString("Blight", "Are you sure you want to blight this weapon?",
 		function(text)
 		dust:remove()
 		item:setData("customName", "Blighted " .. item:getName())
@@ -256,7 +258,7 @@ ITEM.functions.Blight = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("cure")
+		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("blight")
 	end
 }
 
@@ -279,6 +281,68 @@ ITEM.functions.Paint = {
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
 		return (client:getChar():getInv():hasItem("j_paint_can"))
+	end
+}
+
+ITEM.functions.Scrap = {
+	tip = "Scrap this item",
+	icon = "icon16/wrench.png",
+	--sound = "npc/manhack/grind"..math.random(1,5)..".wav",
+	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+		local inv = char:getInv()
+		local position = client:getItemDropPos()
+		local scrap
+		local amt
+		
+		local roll = math.random(1,100)
+		local chance = item.multiChance
+		local multi = 1
+		
+		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+			chance = chance + 10
+		end
+		
+		if(roll < chance) then
+			multi = 2
+		end
+		
+		if(istable(item.salvItem)) then
+			for i = 1, multi do
+				amt, scrap = table.Random(item.salvItem)
+				timer.Simple(i/2, function()
+					if(!inv:add(scrap, 1, { Amount = amt })) then
+						nut.item.spawn(scrap, position,
+							function(item2)
+								item2:setData("Amount", amt)
+							end
+						)
+					end
+				end)
+			end
+		else
+			for i = 1, multi do
+				scrap = item.salvItem
+				if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
+					nut.item.spawn(scrap, position,
+						function(item2)
+							item2:setData("Amount", item:getData("scrapamount"))
+						end
+					)
+				end
+			end
+		end
+		
+		--Randomized sounds don't work up there so I had to do this.
+		item.player:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+	end,
+	onCanRun = function(item)
+		if(!item.salvItem) then
+			return false
+		end
+		local client = item:getOwner() or item.player
+		return client:getChar():hasFlags("q") or client:getChar():getInv():hasItem("kit_salvager")
 	end
 }
 

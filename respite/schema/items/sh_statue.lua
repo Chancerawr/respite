@@ -25,7 +25,7 @@ ITEM.functions.CURE = {
 			local client = item.player
 			local position = client:getItemDropPos()
 			local inventory = client:getChar():getInv()
-			local cure = inventory:hasItem("cure")	
+			local cure = inventory:hasItem("blight")	
 			
 			if (cure) then
 				cure:remove()
@@ -34,7 +34,7 @@ ITEM.functions.CURE = {
 				client:TakeDamage(10, client, client)
 				item:setData("hatred", item:getData("hatred", 0) + 1)
 			else
-				client:notifyLocalized("You need CURE.")
+				client:notifyLocalized("You need blight.")
 			end
 			
 			return false

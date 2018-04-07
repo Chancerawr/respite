@@ -96,10 +96,11 @@ function ENT:Explosion()
 		ar2Explo:Activate()
 		ar2Explo:Fire( "Explode", "", 0 )
 
+	--[[
 	for k, v in pairs ( ents.FindInSphere( self.Entity:GetPos(), 250 ) ) do
 		v:Fire( "EnableMotion", "", math.random( 0, 0.5 ) )
 	end
-	
+	--]]
 end
 
 /*---------------------------------------------------------

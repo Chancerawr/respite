@@ -6,7 +6,7 @@ PLUGIN.author = "Chancer"
 PLUGIN.desc = "Always wear protection."
 
 PLUGIN.thinkTime = 1800 --time between running disease functions
-PLUGIN.chance = 10 --chance of a random disease happening
+PLUGIN.chance = 1 --chance of a random disease happening every thinkTime
 
 DISEASES = {}
 DISEASES.diseases = {}
@@ -35,20 +35,24 @@ function diseaseEffects(client, disease, diseaseT)
 			if(disTable.phase) then --one phase
 				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
 					function()
-						local symptom = table.Random(disTable.phase)
-					
-						nut.chat.send(client, "body", symptom)
+						if(char:getData(disease)) then --makes sure they still have the disease
+							local symptom = table.Random(disTable.phase)
+						
+							nut.chat.send(client, "body", symptom)
+						end
 					end
 				)
 			else --multiple phases
 				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
 					function()
-						local phase = math.Round( (CurTime() - iTime)/disTable.phaseTime )
-						phase = math.Clamp(phase, 0, table.Count(disTable.phases) - 1)
-						
-						local symptom = disTable.phases[phase]
-						
-						nut.chat.send(client, "body", symptom)
+						if(char:getData(disease)) then --makes sure they still have the disease
+							local phase = math.Round( (CurTime() - iTime)/disTable.phaseTime )
+							phase = math.Clamp(phase, 0, table.Count(disTable.phases) - 1)
+							
+							local symptom = disTable.phases[phase]
+							
+							nut.chat.send(client, "body", symptom)
+						end
 					end
 				)
 			end
@@ -78,9 +82,19 @@ function diseaseEffects(client, disease, diseaseT)
 				end
 			end
 			
+			if(disTable.duration) then
+				if(CurTime() > iTime + disTable.duration) then
+					char:setData(disease, nil)
+					
+					local cured = table.Random(disTable.cure)
+						
+					nut.chat.send(client, "body", cured)
+				end
+			end
+			
 			--custom effects
 			if(disTable.special) then
-			
+
 			end
 		end
 	end
@@ -123,6 +137,18 @@ if (SERVER) then
 					end
 				end
 			end
+			
+			if(math.random(1,1000) <= self.chance * 10) then
+				local posDis = { --table of potential diseases to randomly get
+					"dis_cold",
+					"dis_flu"
+				}
+			
+				local population = player.GetAll() --all players
+				local infectee = table.Random(population) --random person infected
+				
+				infectee:getChar():setData(table.Random(posDis), CurTime())
+			end
 		end
 	end
 end
@@ -152,7 +178,7 @@ nut.command.add("diseaseclear", {
 				char:setData(k, nil) --removes all diseases
 			end
 			
-			client:notify(client:GetName() .. " has been purged of all diseases")
+			client:notify(target:GetName() .. " has been purged of all diseases")
 		end
 	end
 })

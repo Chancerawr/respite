@@ -25,34 +25,14 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
+ITEM.salvItem = {
+	["j_scrap_memory"] = 1,
+	["j_scrap_metals"] = 2,
+	["j_scrap_cloth"] = 2
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 90),
 	fov = 20.5,
-}
-
-
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_memory"
-
-ITEM.functions.Scrap = {
-  tip = "Scrap this item",
-  icon = "icon16/cross.png",
-  onRun = function(item)
-    if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-		item.player:getChar():getInv():add(item.salvItem, 1, { Amount = item:getData("scrapamount"), feeling = "sadness" })
-		item:remove()
-		return false 
-    else
-		item.player:notify("You don't have any room in your inventory!")
-		return false 
-    end
-  end,
-  onCanRun = function(item)
-	if (item:getOwner() == nil) then
-		return item.player:getChar():hasFlags("q") or item.player:getChar():getInv():hasItem("kit_salvager")
-	else
-		return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():hasItem("kit_salvager")
-	end
-  end
 }

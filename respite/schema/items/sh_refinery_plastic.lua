@@ -1,12 +1,12 @@
 ITEM.name = "Refinery - Plastics"
 ITEM.uniqueID = "refinery_plastics"
 ITEM.model = "models/props_lab/reciever01b.mdl"
+ITEM.material = "phoenix_storms/mrref2"
 ITEM.desc = "A strange metal box, It has a large slot that is labelled 'WATERED DUST', and an output hatch labelled 'PLASTIC'."
 ITEM.width = 2
 ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 500
-ITEM.material = "phoenix_storms/mrref2"
 ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 

@@ -91,7 +91,12 @@ ITEM.functions.Feed = {
 			"food_human_foot",
 			"food_human_arms",
 			"food_human_arm2",
-			"food_human_arm1"
+			"food_human_arm1",
+			"food_brain",
+			"food_lung",
+			"food_liver",
+			"food_heart",
+			"food_eye"
 		}
 		
 		for k, v in pairs (meats) do

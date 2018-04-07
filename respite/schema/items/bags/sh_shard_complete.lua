@@ -1,4 +1,4 @@
-ITEM.name = "Crystalline Object"
+ITEM.name = "Respite Orb"
 ITEM.uniqueID = "shard_complete"
 ITEM.desc = "A peculiar crystalline object, it emits a bright white light."
 ITEM.model = "models/props_phx/misc/smallcannonball.mdl"
@@ -8,8 +8,8 @@ ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
 ITEM.data = { shardcount = 10, chipcount = 0, echipcount = 0, producing2 = 0, char = 0 }
-ITEM.invWidth = 7
-ITEM.invHeight = 7
+ITEM.invWidth = 5
+ITEM.invHeight = 5
 ITEM.color = Color(255, 255, 255)
 ITEM.openTime = 5
 

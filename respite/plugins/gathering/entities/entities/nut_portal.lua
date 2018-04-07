@@ -6,25 +6,27 @@ ENT.AdminOnly = true
 ENT.Category = "Gathering"
 
 
-local ranScrap = {}
-	ranScrap[1] = "j_scrap_adhesive"
-	ranScrap[2] = "j_scrap_battery"
-	ranScrap[3] = "j_scrap_bone"
-	ranScrap[4] = "drug_depress"
-	ranScrap[5] = "j_scrap_cloth"
-	ranScrap[6] = "j_scrap_concrete"
-	ranScrap[7] = "j_scrap_elastic"
-	ranScrap[8] = "j_scrap_elecs"
-	ranScrap[9] = "j_scrap_glass"
-	ranScrap[10] = "j_scrap_light"
-	ranScrap[11] = "j_scrap_metals"
-	ranScrap[12] = "j_scrap_nails"
-	ranScrap[13] = "j_scrap_organic"
-	ranScrap[14] = "j_scrap_plastics"
-	ranScrap[15] = "j_scrap_rubber"
-	ranScrap[16] = "j_scrap_memory"
-	ranScrap[17] = "j_scrap_wood"
-	--ranScrap[18] = "cube_chip"
+local ranScrap = {
+	"j_scrap_adhesive",
+	"j_scrap_battery",
+	"j_scrap_bone",
+	"drug_depress",
+	"j_scrap_cloth",
+	"j_scrap_concrete",
+	"j_scrap_elastic",
+	"j_scrap_elecs",
+	"j_scrap_glass",
+	"j_scrap_light",
+	"j_scrap_metals",
+	"j_scrap_nails",
+	"j_scrap_organic",
+	"j_scrap_plastics",
+	"j_scrap_rubber",
+	"j_scrap_memory",
+	"j_scrap_wood",
+	"j_dark_wood",
+	"cube_chip"
+}
 
 if (SERVER) then
 	function ENT:Initialize()
@@ -36,8 +38,8 @@ if (SERVER) then
 				"models/props_wasteland/rockcliff01j.mdl",
 				"models/props_wasteland/rockcliff01k.mdl",
 			}
-			local random = math.random(1,table.getn(rock))
-			return rock[random]
+
+			return table.Random(rock)
 		end
 		self:SetModel(getRandomModel())
 		self:SetMaterial("models/props_lab/security_screens")

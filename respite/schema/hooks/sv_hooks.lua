@@ -46,9 +46,7 @@ player models
 Temporary Things (Like Maps)
 --]]
 
-104484346, --gm_isles
-1214939693, --gm_krot
-1214964813 --gm_krot resources
+1253509370 --gm_terminal_10
 
 }
 
@@ -65,19 +63,23 @@ function SCHEMA:OnCharCreated(client, character)
 		if (character:getFaction() == FACTION_SURVIVOR) then
 			inventory:add("book_newchar", 1)
 			inventory:add("book_combat", 1)
-			inventory:add("food_water", 2)
-			inventory:add("food_yams", 2)	
+			--inventory:add("food_water", 2)
+			--inventory:add("food_yams", 2)	
 		elseif (character:getFaction() == FACTION_PLASTIC) then
 			inventory:add("book_newchar", 1)
 			inventory:add("book_combat", 1)
-			inventory:add("cube_chip", 3)
-			inventory:add("food_water_misc", 1)
-			inventory:add("food_apple_plastic", 2)
-			character:giveFlags("M")
+			--inventory:add("cube_chip", 3)
+			--inventory:add("food_water_misc", 1)
+			--inventory:add("food_apple_plastic", 2)
+			
+			--plastic language trait.
+			local traitData = {}
+			traitData["pla"] = 1
+			character:setData("traits", traitData)
 		elseif (character:getFaction() == FACTION_ABER) then
  			inventory:add("book_newchar", 1)
  			inventory:add("book_combat", 1)
- 			inventory:add("haze_bottled", 1)
+ 			--inventory:add("haze_bottled", 1)
  			inventory:add("food_banana", 1)
 		end
 	end

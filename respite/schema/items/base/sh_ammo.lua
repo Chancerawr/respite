@@ -96,8 +96,8 @@ ITEM.functions.Blight = {
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
-		local dust = client:getChar():getInv():hasItem("cure")
-		client:requestString("Blight", "Are you sure you want to CURE blight this ammo?",
+		local dust = client:getChar():getInv():hasItem("blight")
+		client:requestString("Blight", "Are you sure you want to blight this ammo?",
 		function(text)
 		dust:remove()
 		item:setData("customName", "Blighted " .. item:getName())
@@ -110,7 +110,7 @@ ITEM.functions.Blight = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("cure")
+		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("blight")
 	end
 }
 

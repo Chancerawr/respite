@@ -343,17 +343,21 @@ PANEL = {}
 						local ent = ikon.renderEntity --the entity so we can apply things to it.
 						
 						if(ent) then
+							--[[
 							if(itemTable.material) then --changes the material if it's custom
 								ent:SetMaterial(itemTable.material)
 							else
 								ent:SetMaterial("") --default
 							end
+							--]]
 							
+							--[[
 							if(skin) then
 								ent:SetSkin(skin)
 							else
 								ent:SetSkin(0) --default
 							end
+							--]]
 						end
 						
 						local outlineColor = itemTable:getData("customCol") or itemTable.color or nut.config.get("color", Color(100,100,100))
@@ -362,9 +366,9 @@ PANEL = {}
 							iconName = itemTable.id --just uses the custom items id.
 						end
 						
-						local test
+						local camera
 						if(itemTable.iconCam) then
-							test = {
+							camera = {
 								pos = itemTable.iconCam["pos"],
 								ang = itemTable.iconCam["ang"],
 								fov = itemTable.iconCam["fov"],
@@ -384,7 +388,7 @@ PANEL = {}
 								local pos = ent:GetPos()
 								local tab = PositionSpawnIcon(ent, pos)
 								
-								test = {
+								camera = {
 									pos = tab.origin,
 									fov = tab.fov,
 									ang = tab.angles,
@@ -395,12 +399,24 @@ PANEL = {}
 						end
 						
 						--generates the actual icon
+						local mat = false
+						if(itemTable.material) then
+							mat = itemTable.material
+						end
+						
+						local skin = false
+						if(itemTable.skin) then
+							skin = itemTable.skin
+						end
 						ikon:renderIcon(
 							iconName,
 							itemTable.width,
 							itemTable.height,
 							model,
-							test
+							camera,
+							false,
+							mat,
+							skin
 						)
 					end
 				end

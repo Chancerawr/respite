@@ -8,7 +8,7 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.material = "models/props_canal/canal_bridge_railing_01a"
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(50, 150, 50)
 ITEM.data = { producing2 = 0 }
 
 ITEM.iconCam = {

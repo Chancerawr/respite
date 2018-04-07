@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Fortitude"
-ATTRIBUTE.desc = "Your character's willpower to stand against fear."
+ATTRIBUTE.desc = "Your character's mental fortitude and strength."

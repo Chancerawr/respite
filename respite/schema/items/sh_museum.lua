@@ -71,7 +71,7 @@ ITEM.functions.Acquire = {
 						if(math.random(0,9) == 9) then --10% chance to give memory
 							reward = "j_scrap_memory"
 						else
-							reward = "cure"
+							reward = "blight"
 						end
 						for i = 1, worth do
 							if(!IsValid(item:getEntity())) then

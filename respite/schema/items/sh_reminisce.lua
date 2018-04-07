@@ -24,7 +24,7 @@ ITEM.functions.Remember = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local cure = inventory:hasItem("cure")
+		local cure = inventory:hasItem("blight")
 		local organic = inventory:hasItem("j_scrap_organic")
 
 		local emotions = {
@@ -56,7 +56,7 @@ ITEM.functions.Remember = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		local cure = player:getChar():getInv():hasItem("cure")
+		local cure = player:getChar():getInv():hasItem("blight")
 		local organic = player:getChar():getInv():hasItem("j_scrap_organic")
 		if(!cure or !organic) then
 			return false

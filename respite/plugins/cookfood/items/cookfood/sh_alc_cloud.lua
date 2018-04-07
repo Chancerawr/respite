@@ -20,8 +20,8 @@ ITEM.iconCam = {
 	fov = 3,
 }
 
-ITEM:hook("use", onUse)
-
 local function onUse(item)
 	item.player:ScreenFade(1, Color(150, 150, 150, 100), .4, 0)
 end
+
+ITEM:hook("use", onUse)

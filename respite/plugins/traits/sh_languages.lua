@@ -1,19 +1,12 @@
-local PLUGIN = PLUGIN
-PLUGIN.name = "Languages"
-PLUGIN.author = "Tazmily"
-PLUGIN.desc = "Adds some more languages for characters to speak."
-
 nut.chat.register("jpn", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("J")
+		return hasTrait(speaker, "lang_jap")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("J")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Japanese, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_jap")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Japanese.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Japanese.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -25,15 +18,13 @@ nut.chat.register("jpn", {
 
 nut.chat.register("jpnw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("J")
+		return hasTrait(speaker, "lang_jap")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("J")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Japanese, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_jap")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Japanese, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Japanese.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Japanese.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -46,15 +37,13 @@ nut.chat.register("jpnw", {
 
 nut.chat.register("jpny", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("J")
+		return hasTrait(speaker, "lang_jap")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("J")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Japanese, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_jap")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Japanese, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Japanese.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Japanese.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -67,15 +56,13 @@ nut.chat.register("jpny", {
 
 nut.chat.register("ita", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("I")
+		return hasTrait(speaker, "lang_ita")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("I")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Italian. "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ita")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Italian. "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Italian.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Italian.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -88,15 +75,13 @@ nut.chat.register("ita", {
 
 nut.chat.register("itaw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("I")
+		return hasTrait(speaker, "lang_ita")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("I")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Italian. "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ita")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Italian. "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Italian.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Italian.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -109,15 +94,13 @@ nut.chat.register("itaw", {
 
 nut.chat.register("itay", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("I")
+		return hasTrait(speaker, "lang_ita")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("I")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Italian. "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ita")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Italian. "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Italian.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Italian.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -130,15 +113,13 @@ nut.chat.register("itay", {
 
 nut.chat.register("spa", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("S")
+		return hasTrait(speaker, "lang_spa")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("S")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Spanish "'..text..'"')
-
+		if (hasTrait(speaker, "lang_spa")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Spanish "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Spanish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Spanish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -150,15 +131,13 @@ nut.chat.register("spa", {
 
 nut.chat.register("spaw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("S")
+		return hasTrait(speaker, "lang_spa")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("S")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Spanish, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_spa")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Spanish, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Spanish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Spanish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -171,15 +150,13 @@ nut.chat.register("spaw", {
 
 nut.chat.register("spay", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("S")
+		return hasTrait(speaker, "lang_spa")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("S")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Spanish, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_spa")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Spanish, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Spanish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Spanish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -192,15 +169,13 @@ nut.chat.register("spay", {
 
 nut.chat.register("chi", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("X")
+		return hasTrait(speaker, "lang_chi")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("X")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Chinese "'..text..'"')
-
+		if (hasTrait(speaker, "lang_chi")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Chinese "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Chinese.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Chinese.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -212,15 +187,13 @@ nut.chat.register("chi", {
 
 nut.chat.register("chiw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("X")
+		return hasTrait(speaker, "lang_chi")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("X")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Chinese, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_chi")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Chinese, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Chinese.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Chinese.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -233,15 +206,13 @@ nut.chat.register("chiw", {
 
 nut.chat.register("chiy", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("X")
+		return hasTrait(speaker, "lang_chi")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("X")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Chinese, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_chi")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Chinese, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Chinese.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Chinese.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -254,15 +225,13 @@ nut.chat.register("chiy", {
 
 nut.chat.register("ger", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("G")
+		return hasTrait(speaker, "lang_ger")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("G")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in German "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ger")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in German "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in German.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in German.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -274,15 +243,13 @@ nut.chat.register("ger", {
 
 nut.chat.register("gerw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("G")
+		return hasTrait(speaker, "lang_ger")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("G")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in German, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ger")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in German, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in German.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in German.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -295,15 +262,13 @@ nut.chat.register("gerw", {
 
 nut.chat.register("gery", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("G")
+		return hasTrait(speaker, "lang_ger")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("G")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in German, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ger")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in German, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in German.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in German.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -316,15 +281,13 @@ nut.chat.register("gery", {
 
 nut.chat.register("rus", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("R")
+		return hasTrait(speaker, "lang_rus")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("R")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Russian "'..text..'"')
-
+		if (hasTrait(speaker, "lang_rus")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Russian "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Russian.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Russian.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -336,15 +299,13 @@ nut.chat.register("rus", {
 
 nut.chat.register("rusw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("R")
+		return hasTrait(speaker, "lang_rus")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("R")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Russian, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_rus")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Russian, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Russian.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Russian.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -357,15 +318,13 @@ nut.chat.register("rusw", {
 
 nut.chat.register("rusy", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("R")
+		return hasTrait(speaker, "lang_rus")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("R")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Russian, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_rus")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Russian, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Russian.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Russian.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -378,15 +337,13 @@ nut.chat.register("rusy", {
 
 nut.chat.register("ara", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("A")
+		return hasTrait(speaker, "lang_ara")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("A")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Arabic "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ara")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Arabic "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Arabic.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Arabic.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -398,15 +355,13 @@ nut.chat.register("ara", {
 
 nut.chat.register("araw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("A")
+		return hasTrait(speaker, "lang_ara")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("A")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Arabic, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ara")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Arabic, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Arabic.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Arabic.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -419,15 +374,13 @@ nut.chat.register("araw", {
 
 nut.chat.register("aray", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("A")
+		return hasTrait(speaker, "lang_ara")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("A")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Arabic, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_ara")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Arabic, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Arabic.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Arabic.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -440,15 +393,13 @@ nut.chat.register("aray", {
 
 nut.chat.register("fre", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("F")
+		return hasTrait(speaker, "lang_fre")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("F")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in French "'..text..'"')
-
+		if (hasTrait(speaker, "lang_fre")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in French "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in French.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in French.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -460,15 +411,13 @@ nut.chat.register("fre", {
 
 nut.chat.register("frew", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("F")
+		return hasTrait(speaker, "lang_fre")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("F")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in French, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_fre")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in French, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in French.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in French.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -481,15 +430,13 @@ nut.chat.register("frew", {
 
 nut.chat.register("frey", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("F")
+		return hasTrait(speaker, "lang_fre")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("F")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in French, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_fre")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in French, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in French.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in French.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -502,15 +449,13 @@ nut.chat.register("frey", {
 
 nut.chat.register("afr", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("D")
+		return hasTrait(speaker, "lang_afr")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("D")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Afrikaans "'..text..'"')
-
+		if (hasTrait(speaker, "lang_afr")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Afrikaans "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Afrikaans.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Afrikaans.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -522,15 +467,13 @@ nut.chat.register("afr", {
 
 nut.chat.register("afrw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("D")
+		return hasTrait(speaker, "lang_afr")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("D")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Afrikaans, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_afr")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Afrikaans, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Afrikaans.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Afrikaans.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -543,15 +486,13 @@ nut.chat.register("afrw", {
 
 nut.chat.register("afry", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("D")
+		return hasTrait(speaker, "lang_afr")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("D")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Afrikaans, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_afr")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Afrikaans, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Afrikaans.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Afrikaans.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -564,15 +505,13 @@ nut.chat.register("afry", {
 
 nut.chat.register("kor", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("K")
+		return hasTrait(speaker, "lang_kor")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("K")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Korean "'..text..'"')
-
+		if (hasTrait(speaker, "lang_kor")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Korean "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Korean.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Korean.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -584,15 +523,13 @@ nut.chat.register("kor", {
 
 nut.chat.register("korw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("K")
+		return hasTrait(speaker, "lang_kor")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("K")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Korean, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_kor")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Korean, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Korean.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Korean.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -605,15 +542,13 @@ nut.chat.register("korw", {
 
 nut.chat.register("kory", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("K")
+		return hasTrait(speaker, "lang_kor")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("K")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Korean, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_kor")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Korean, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Korean.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Korean.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -626,15 +561,13 @@ nut.chat.register("kory", {
 
 nut.chat.register("fin", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("N")
+		return hasTrait(speaker, "lang_fin")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("N")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Finnish "'..text..'"')
-
+		if (hasTrait(speaker, "lang_fin")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Finnish "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Finnish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Finnish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -646,15 +579,13 @@ nut.chat.register("fin", {
 
 nut.chat.register("finw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("N")
+		return hasTrait(speaker, "lang_fin")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("N")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Finnish, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_fin")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Finnish, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Finnish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Finnish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -667,15 +598,13 @@ nut.chat.register("finw", {
 
 nut.chat.register("finy", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("N")
+		return hasTrait(speaker, "lang_fin")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("N")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Finnish, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_fin")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Finnish, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Finnish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Finnish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -688,15 +617,13 @@ nut.chat.register("finy", {
 
 nut.chat.register("pol", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("O")
+		return hasTrait(speaker, "lang_pol")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("O")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Polish "'..text..'"')
-
+		if (hasTrait(speaker, "lang_pol")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Polish "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Polish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Polish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -708,15 +635,13 @@ nut.chat.register("pol", {
 
 nut.chat.register("polw", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("O")
+		return hasTrait(speaker, "lang_pol")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("O")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Polish, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_pol")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' whispers in Polish, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Polish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." whispers something in Polish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * .25,
@@ -729,15 +654,13 @@ nut.chat.register("polw", {
 
 nut.chat.register("poly", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("O")
+		return hasTrait(speaker, "lang_pol")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("O")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Polish, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_pol")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' yells in Polish, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Polish.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." yells something in Polish.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -750,15 +673,13 @@ nut.chat.register("poly", {
 
 nut.chat.register("pla", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("M")
+		return hasTrait(speaker, "lang_pla")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("M")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' writes in the plastic written language, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_pla")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' writes in the plastic written language, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." writes something in the plastic written language.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." writes something in the plastic written language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -770,15 +691,13 @@ nut.chat.register("pla", {
 
 nut.chat.register("signp", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("M")
+		return hasTrait(speaker, "lang_pla")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("M")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' signs in plastic, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_pla")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' signs in plastic, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." is using Plastic sign language.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." is using Plastic sign language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -790,15 +709,13 @@ nut.chat.register("signp", {
 
 nut.chat.register("sign", {
     onCanSay =  function(speaker, text)
-		return speaker:getChar():hasFlags("H")
+		return hasTrait(speaker, "lang_sign_a")
 	end,
 	onChatAdd = function(speaker, text)
-		if (LocalPlayer():getChar():hasFlags("H")) then
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' signs in english, "'..text..'"')
-
+		if (hasTrait(speaker, "lang_sign_a")) then
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' signs in english, "'..text..'"')
 		else
-		 chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." is using American sign language.")
-
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." is using American sign language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -807,18 +724,3 @@ nut.chat.register("sign", {
 	end,
 	prefix = {"/sign"}
 })
-
-nut.flag.add("J", "Japanese language.")
-nut.flag.add("I", "Italian language.")
-nut.flag.add("X", "Chinese language.")
-nut.flag.add("R", "Russian language.")
-nut.flag.add("G", "German language.")
-nut.flag.add("S", "Spanish language.")
-nut.flag.add("A", "Arabic Language.")
-nut.flag.add("F", "French Language.")
-nut.flag.add("M", "Plastic Written and Sign Language.")
-nut.flag.add("D", "Afrikaans Language.")
-nut.flag.add("K", "Korean Language.")
-nut.flag.add("H", "American Sign Language.")
-nut.flag.add("O", "Polish Language.")
-nut.flag.add("N", "Finnish Language.")

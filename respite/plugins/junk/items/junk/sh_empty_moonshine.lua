@@ -7,7 +7,7 @@ ITEM.width = 1
 ITEM.height = 2
 ITEM.material = "models/props_wasteland/tugboat02"
 
-ITEM.data = { scrapamount = 3 }
+ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = "j_scrap_plastic"
 
 ITEM.iconCam = {

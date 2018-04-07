@@ -30,7 +30,7 @@ ITEM.functions.Stack = {
 	
 	local toStack = inventory:hasItem(item.uniqueID)
 	local unique = item.uniqueID
-	item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+	item.player:EmitSound("ambient/materials/dinnerplates1.wav", 60)
 	
 	while(toStack) do
 		if(toStack == item) then
