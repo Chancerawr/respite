@@ -10,9 +10,9 @@ ITEM.data = { scrapamount = 3 }
 
 ITEM.salvItem = {
 	["j_scrap_elecs"] = 3,
+	["j_scrap_screws"] = 2,
 	["j_scrap_metals"] = 2
 }
-
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

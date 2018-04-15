@@ -11,6 +11,7 @@ ITEM.data = { scrapamount = 2 }
 ITEM.salvItem = {
 	["j_scrap_elecs"] = 2,
 	["j_scrap_metals"] = 3,
+	["j_scrap_screws"] = 3,
 	["j_scrap_battery"] = 1
 }
 

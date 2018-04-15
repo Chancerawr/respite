@@ -11,6 +11,7 @@ ITEM.salvItem = "j_scrap_metals"
 
 ITEM.salvItem = {
 	["j_scrap_metals"] = 3,
+	["j_scrap_screws"] = 3,
 	["j_scrap_elecs"] = 3
 }
 

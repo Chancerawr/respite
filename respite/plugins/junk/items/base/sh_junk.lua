@@ -7,6 +7,7 @@ ITEM.category = "Junk"
 ITEM.data = { scrapamount = 1 } --this is in the form of data so that it can be modified by spawners
 ITEM.salvItem = "c_scrap"
 ITEM.multiChance = 20
+ITEM.flag = "j"
 	
 ITEM.functions.Scrap = {
 	tip = "Scrap this item",

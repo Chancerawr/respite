@@ -5,7 +5,7 @@ PLUGIN.name = "Diseases"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "Always wear protection."
 
-PLUGIN.thinkTime = 1800 --time between running disease functions
+PLUGIN.thinkTime = 2400 --time between running disease functions
 PLUGIN.chance = 1 --chance of a random disease happening every thinkTime
 
 DISEASES = {}

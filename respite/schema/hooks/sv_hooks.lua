@@ -46,7 +46,9 @@ player models
 Temporary Things (Like Maps)
 --]]
 
-1253509370 --gm_terminal_10
+1214964813, --gm_krot content
+249173125, --rp_pripyat_p
+249201983 --rp_pripyat_p content
 
 }
 
@@ -73,9 +75,9 @@ function SCHEMA:OnCharCreated(client, character)
 			--inventory:add("food_apple_plastic", 2)
 			
 			--plastic language trait.
-			local traitData = {}
+			local traitData = character:getData("traits")
 			traitData["pla"] = 1
-			character:setData("traits", traitData)
+			character:setData("traits", traitData, false, player.GetAll())
 		elseif (character:getFaction() == FACTION_ABER) then
  			inventory:add("book_newchar", 1)
  			inventory:add("book_combat", 1)

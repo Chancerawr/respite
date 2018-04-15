@@ -32,6 +32,20 @@ function PLUGIN:OnCharCreated(client, character)
 	end
 end 
 
+if (SERVER) then
+    function PLUGIN:PlayerLoadedChar(client)
+        --this just makes sure everything is properly networked to clients.
+        --kind of annoying and gross, but might not work properly otherwise.
+        for k, v in pairs(player.GetAll()) do
+            local char = v:getChar()
+            if(char) then
+                local traitData = char:getData("traits", {})
+                char:setData("traits", traitData, false, player.GetAll())
+            end
+        end
+    end
+end
+
 --these don't use hasTrait because that function requires the trait ID, these use the name of the Trait. Easier for admin use.
 nut.command.add("traitadd", {
 	adminOnly = true,
@@ -48,7 +62,7 @@ nut.command.add("traitadd", {
 					local traitData = char:getData("traits", {})
 					traitData[v.uid] = 1 --sets the actual trait to being enabled.
 					
-					char:setData("traits", traitData)
+					char:setData("traits", traitData, false, player.GetAll())
 					
 					client:notify(" You have given " .. target:GetName() .. " the " .. v.name .. " trait.")
 					
@@ -74,7 +88,7 @@ nut.command.add("traitremove", {
 					local traitData = char:getData("traits", {})
 					traitData[v.uid] = nil --sets the actual trait to nothing.
 					
-					char:setData("traits", traitData)
+					char:setData("traits", traitData, false, player.GetAll())
 					
 					client:notify("You have removed the " .. v.name .. " trait from " .. target:GetName() .. ".")
 					
@@ -95,9 +109,15 @@ nut.command.add("traitcheck", {
 			local char = target:getChar()
 			if(!char) then return end
 		
+			local traitData = char:getData("traits")
+		
 			for k, v in pairs(TRAITS.traits) do
 				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
-					client:notify(target:GetName() .. " has the " .. v.name .. " trait.")
+					if(traitData[v.uid]) then
+						client:notify(target:GetName() .. " has the " .. v.name .. " trait.")
+					else
+						client:notify(target:GetName() .. " does not have the " .. v.name .. " trait.")
+					end
 					
 					break --only want the first one.
 				end
@@ -112,7 +132,11 @@ function hasTrait(client, trait)
 	if(char) then
 		local traitData = char:getData("traits")
 		if(traitData) then
-			return traitData[trait]
+			if(traitData[trait]) then
+				return true
+			else
+				return false
+			end
 		end
 	end
 	return false
@@ -121,6 +145,28 @@ end
 function PLUGIN:GetStartTraitPoints()
 	return 2
 end
+
+nut.command.add("blood", {
+	onRun = function(client, arguments)
+		local char = client:getChar()
+		
+		if(!hasTrait(client, "donor")) then
+			client:notifyLocalized("You do not have the Blood Donor Trait.")
+			return false
+		end
+
+		local lastDust = char:getData("lastDonor", 0)
+		
+		if(math.abs(tonumber(lastDust) - tonumber(os.date("%d"))) >= 3) then -- once every 7 days.
+			char:setData("lastDonor", os.date("%d"))
+			nut.item.spawn("food_blood", client:getItemDropPos())
+			client:notifyLocalized("You have extracted blood from yourself.")
+		else
+			client:notifyLocalized("You can only extract blood from yourself once every 7 days.")
+		end
+	end
+})
+
 
 nut.util.include("sh_trait.lua")
 nut.util.include("sh_languages.lua")

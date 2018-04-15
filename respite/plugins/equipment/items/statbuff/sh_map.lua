@@ -9,6 +9,11 @@ ITEM.material = "models/props_canal/canalmap_sheet"
 
 ITEM.salvItem = "misc_paper"
 
+ITEM.attribBoosts = {
+	["perception"] = 2,
+	["medical"] = 2
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, -3.5, 200),
 	ang = Angle(90, 0, 0),
@@ -34,4 +39,13 @@ ITEM.functions.Scrap = {
 			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():hasItem("kit_salvager")
 		end
 	end
-	}
+}
+
+ITEM.functions.View = {
+	tip = "View the map",
+	icon = "icon16/map.png",
+	onRun = function(item)
+		item.player:SendLua([[gui.OpenURL("http://spite.boards.net/thread/1547/map")]])
+		return false
+	end
+}

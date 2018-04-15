@@ -25,6 +25,13 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Illumination"
 
+ITEM.salvItem = {
+	["j_scrap_metals"] = 4,
+	["j_scrap_adhesive"] = 1,
+	["j_scrap_battery"] = 1,
+	["j_scrap_light"] = 1
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 1.5, 0),
 	ang = Angle(0, -0, 0),

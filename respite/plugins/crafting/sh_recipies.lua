@@ -561,7 +561,7 @@ RECIPE35.model = Model( "models/props_lab/jar01a.mdl" )
 RECIPE35.desc = "A resource used for crafting and other things."
 RECIPE35.noBlueprint = true
 RECIPE35.items = {
-	["j_scrap_organic"] = 10
+	["j_scrap_organic"] = 15
 }
 RECIPE35.result = {
 	["j_scrap_adhesive"] = 1

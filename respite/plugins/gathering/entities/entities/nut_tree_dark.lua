@@ -31,7 +31,7 @@ if (SERVER) then
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetUseType(SIMPLE_USE)
-		self:SetHealth(nut.config.get("treeLife"))
+		self:SetHealth(nut.config.get("treeLife") * 2)
 		local pos = self:GetPos()
 		self:SetPos(Vector(pos.X,pos.Y,pos.Z - 10))
 		local physicsObject = self:GetPhysicsObject()

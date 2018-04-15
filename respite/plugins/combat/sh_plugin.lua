@@ -96,7 +96,7 @@ local function traitModify(client, command, rolled)
 	if(charTraits) then 
 		for k, v in pairs(charTraits) do --go through all of char's traits
 			local traitData = traits[k] --the actual info of the trait
-			if(traitData.modifier and traitData.modifier[command]) then --if the trait has a modifier for this command
+			if(traitData and traitData.modifier and traitData.modifier[command]) then --if the trait has a modifier for this command
 				rolled = rolled * traitData.modifier[command] --modify it
 			end
 		end
@@ -156,7 +156,7 @@ local function combatRollPart(client, attr, debuff, msg, command)
 end
 
 --calculates rolls for most basic rolling commands.
-local function combatRoll(client, attr, debuff, msg, category, command) --this is way too many parameters, it's killing me.
+local function combatRoll(client, attr, debuff, msg, category, command, noPrint) --this is way too many parameters, it's killing me.
 	local char = client:getChar()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
@@ -180,7 +180,11 @@ local function combatRoll(client, attr, debuff, msg, category, command) --this i
 	local part = bParts[math.random(1, 77)]
 	
 	nut.log.addRaw(client:Name().." rolled \""..rolled.."\".", 2)
-	nut.chat.send(client, category, "has rolled " .. rolled .. critmsg .. " for " .. msg)
+	if(!noPrint) then
+		nut.chat.send(client, category, "has rolled " .. rolled .. critmsg .. " for " .. msg)
+	end
+	
+	return rolled
 end
 
 --used for rolling for things other than yourself (drones, npcs, etc) VERY WIP
@@ -209,6 +213,38 @@ local function combatRollOther(client, attr, debuff, name, msg)
 	
 	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
 	nut.chat.send(client, "firearms", "'s " .. name .. " has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
+end
+
+local function autoResolve(client, target, rollA, category, command)
+	local char = target:getChar()
+	local roll
+	
+	local dodge = char:getAttrib("stm")* 0.5
+	local block = (char:getAttrib("end") * 0.3) + (char:getAttrib("str") * 0.2)
+	
+	local evade
+	
+	dodge = combatRoll(target, dodge, 0.8, "a dodge/miss.", "react", "dodge", true)
+	block = combatRoll(target, block, 0.8, "a block attempt.", "react", "block", true)
+	
+	--chooses better potential roll
+	if(dodge > block) then --dodge
+		roll = dodge
+		evade = true
+	else --block
+		roll = block
+		evade = false
+	end
+	
+	if(rollA > roll) then
+		nut.chat.send(client, category, "has hit " .. target:GetName() .. " with a " ..command.. " attack. (" .. rollA .. " : " .. roll .. ")")
+	else
+		if(evade) then
+			nut.chat.send(target, "react", "has dodged " .. client:GetName() .. "'s " ..command.. " attack. (" .. rollA .. " : " .. roll .. ")")
+		else
+			nut.chat.send(target, "react", "has blocked " .. client:GetName() .. "'s " ..command.. " attack. (" .. rollA .. " : " .. roll .. ")")
+		end
+	end
 end
 	
 --chat for colors and formatting.
@@ -351,15 +387,15 @@ nut.command.add("dodge", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = (char:getAttrib("stm")* 0.5)
-		combatRoll(client, attr, 0.75, "a dodge/miss.", "react", "dodge")
+		combatRoll(client, attr, 0.8, "a dodge/miss.", "react", "dodge")
 	end
 })
 
 nut.command.add("block", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.35) + (char:getAttrib("accuracy") * 0.15))
-		combatRoll(client, attr, 0.85, "a block attempt.", "react", "block")
+		local attr = ((char:getAttrib("end") * 0.3) + (char:getAttrib("str") * 0.2))
+		combatRoll(client, attr, 0.8, "a block attempt.", "react", "block")
 	end
 })
 
@@ -547,7 +583,23 @@ nut.command.add("melee", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
-		combatRoll(client, attr, 1, "a melee attack.", "melee", "melee")
+	
+		if(!arguments[1]) then -- no target specified
+			local char = client:getChar()
+			local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
+			combatRoll(client, attr, 1, "a melee attack.", "melee", "melee")
+		else
+			local target = nut.command.findPlayer(client, arguments[1])
+			--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
+			local rollA = combatRoll(client, attr, 1, "a melee attack.", "melee", "melee", true)
+			local rollB = combatRoll(client, attr, 1, "a melee attack.", "melee", "melee", true)
+			
+			if(rollB > rollA) then
+				rollA = rollB
+			end
+			
+			autoResolve(client, target, rollA, "melee", "melee")
+		end
 	end
 })
 
@@ -555,18 +607,46 @@ nut.command.add("meleedual", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
-		combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
-		combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
+		
+		if(!arguments[1]) then -- no target specified
+			combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
+			combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
+		else
+			for i = 1, 2 do
+				local target = nut.command.findPlayer(client, arguments[1])
+				--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
+				local rollA = combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual", true)
+				local rollB = combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual", true)
+				
+				if(rollB > rollA) then
+					rollA = rollB
+				end
+				
+				autoResolve(client, target, rollA, "melee", "dual melee")
+			end
+		end
 	end
 })
 
 nut.command.add("flail", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr
+		local attr = ((math.random(0,char:getAttrib("luck")) * 0.5))
 		for i=0, math.random(1,2) do
-			attr = ((math.random(0,char:getAttrib("luck")) * 0.5))
-			combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail")
+			if(!arguments[1]) then -- no target specified
+				combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail")
+			else
+				local target = nut.command.findPlayer(client, arguments[1])
+				--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
+				local rollA = combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail", true)
+				local rollB = combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail", true)
+				
+				if(rollB > rollA) then
+					rollA = rollB
+				end
+				
+				autoResolve(client, target, rollA, "melee", "flailing melee")
+			end
 		end
 	end
 })
@@ -591,7 +671,21 @@ nut.command.add("grapple", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
-		combatRoll(client, attr, 1, "a grapple.", "melee", "grapple")
+		
+		if(!arguments[1]) then -- no target specified
+			combatRoll(client, attr, 1, "a grapple.", "melee", "grapple")
+		else
+			local target = nut.command.findPlayer(client, arguments[1])
+			--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
+			local rollA = combatRoll(client, attr, 1, "a grapple.", "melee", "grapple", true)
+			local rollB = combatRoll(client, attr, 1, "a grapple.", "melee", "grapple", true)
+			
+			if(rollB > rollA) then
+				rollA = rollB
+			end
+			
+			autoResolve(client, target, rollA, "melee", "grappling")
+		end
 	end
 })
 
@@ -613,18 +707,6 @@ nut.command.add("perception", {
 	end
 })
 
-nut.command.add("scavenge", {
-	onRun = function(client, arguments)
-		local char = client:getChar()
-		local luckroll = math.random(0, math.Clamp(char:getAttrib("luck"), 0, 100))
-		local rolled = math.random(luckroll, 100)
-
-		rolled = traitModify(client, "scavenge", rolled) --trait modifier
-		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)		
-		nut.chat.send(client, "scavenge", rolled)
-	end
-})
 --for resisting mental attacks (hallucinations, panic, etc)
 nut.command.add("fortitude", {
 	onRun = function(client, arguments)
@@ -649,7 +731,7 @@ nut.command.add("endure", {
 		
 		rolled = traitModify(client, "endure", rolled) --trait modifier
 		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)		
+		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
 		nut.chat.send(client, "endure", rolled)
 	end
 })
@@ -774,7 +856,6 @@ nut.command.add("chargetattrib", {
 	end
 })
 
---stat print
 nut.command.add("train", {
 	syntax = "<string attribute>",
 	onRun = function(client, arguments)
@@ -840,6 +921,419 @@ nut.command.add("statcheck", {
 			else
 				client:notifyLocalized("Invalid Attribute")
 			end
+		end
+	end
+})
+
+--I'll put this somewhere better later
+local lootTable = {
+	["garbage"] = {
+		"hl2_m_rock",
+		"hl2_m_stick",
+		"hl2_m_branch",
+		"j_old_shoe",
+		"j_bananaskin",
+		"j_empty_bread_box",
+		"j_dollar",
+		"j_bucket",
+		"j_cereal_box",
+		"j_empty_antidepressants",
+		"j_empty_bandage",
+		"j_empty_beer",
+		"j_empty_beer2",
+		"j_empty_bleach",
+		"j_empty_soda_can",
+		"j_empty_soda2",
+		"j_empty_soda1",
+		"j_plastic_bag",
+		"j_empty_chocolate_box",
+		"j_used_first_aid_kit",
+		"j_empty_juice_bottle",
+		"j_empty_milk_carton",
+		"j_empty_milk_jug",
+		"j_empty_mountain_spring",
+		"j_empty_mre",
+		"j_empty_soda_bottle",
+		"j_empty_takeout",
+		"j_empty_vegetable_oil",
+		"j_empty_vial",
+		"j_empty_vodka",
+		"j_empty_water",
+		"j_empty_water_blood",
+		"j_empty_whiskey",
+		"j_empty_paint_can",
+		"j_baby_doll",
+		"j_empty_wine"
+	},	
+	["junk"] = {
+		"j_blanket",
+		"j_cactus_plant",
+		"j_cigs",
+		"j_cinder_block",
+		"j_fire_extinguisher",
+		"j_gear",
+		"j_glasses",
+		"j_goggles",
+		"j_goggles2",
+		"j_guitar",
+		"j_headphones",
+		"j_hula",
+		"j_industrial_fan",
+		"j_life_preserver",
+		"j_meat_grinder",
+		"j_computer_mouse",
+		"j_paint_can",
+		"j_painting1",
+		"j_pickaxe_head",
+		"j_picture_1",
+		"j_picture_2",
+		"j_picture_3",
+		"j_picture_4",
+		"j_picture_5",
+		"j_pillow",
+		"j_pliers",
+		"j_old_rag",
+		"j_soccerball",
+		"j_syringe",
+		"j_telephone",
+		"j_tbrushes",
+		"j_traffic_cone",
+		"j_traffic_light",
+		"j_tshirts",
+		"j_stuffed_turtle",
+		"j_broken_tv",
+		"j_empty_gas_can",
+		"j_dollar",
+		"j_holster",
+		"j_empty_mug",
+		"j_empty_teapot",
+		"j_family_picture",
+		"j_paper_towels",
+		"j_broken_receiver",
+		"j_remote_control",
+		"j_newspaper",
+		"j_newspaper_stack",
+		"j_map",
+		"j_mounted_fish",
+		"j_wall_light",
+		"hl2_m_brokenbottle",
+		"hl2_m_claypot",
+		"hl2_m_fencepost",
+		"hl2_m_hhradio",
+		"hl2_m_keyboard",
+		"hl2_m_steeringwheel",
+		"hl2_m_valve",
+		"hl2_m_weirdvase",
+		"hl2_m_woodensign",
+		"j_cards",
+		"j_baseball_cap"
+	},
+	["food"] = {
+		"food_water",
+		"food_beans",
+		"food_instant_potatoes",
+		"food_canned_1",
+		"food_tuna",
+		"food_mre",
+		"food_asparagus",
+		"food_chicken",
+		"food_chili",
+		"food_corn",
+		"food_mushrooms",
+		"food_peaches",
+		"food_pears",
+		"food_peas",
+		"food_ravioli",
+		"food_sausage",
+		"food_chickennoodle",
+		"food_chowder",
+		"food_spam",
+		"food_tomatoes",
+		"food_yams",
+		"food_bread_box"
+	},		
+	["food2"] = {
+		"food_soda_bottled",
+		"food_water",
+		"food_water_mountain",
+		"food_chinese",
+		"food_cereal",
+		"food_chips",
+		"food_chocolate",
+		"food_egg",
+		"food_fish",
+		"food_fish2",
+		"food_milk_carton",
+		"food_milk_jug",
+		"food_mre",
+		"food_tea",
+		"food_donut",
+		"food_hamburger",
+		"food_hotdog",
+		"food_orange",
+		"food_lemon",
+		"food_potato",
+		"food_pumpkin",
+		"food_soda_blueberry",
+		"food_soda_cherry",
+		"food_soda_lemon",
+		"food_melon",
+		"food_apple",
+		"food_banana"
+	},	
+	["resources"] = {
+		"j_scrap_light",
+		"j_scrap_nails",
+		"j_scrap_cloth",
+		"j_scrap_rubber",
+		"j_scrap_glass",
+		"j_scrap_metals",
+		"j_scrap_wood",
+		"j_scrap_plastics",
+		"j_scrap_elecs",
+		"j_scrap_elastic",
+		"j_scrap_concrete",
+		"j_scrap_adhesive",
+		"j_scrap_screws",
+		"j_scrap_battery"
+	},
+	["weapon"] = {
+		"hl2_m_lamp",
+		"flashlight",
+		"hl2_m_bat",
+		"hl2_m_crowbar",
+		"hl2_m_crowbar_alt",
+		"hl2_m_monsterclaw",
+		"hl2_m_monstertalon",
+		"hl2_m_frying_pan",
+		"melee_paddle",
+		"hl2_m_pipe",
+		"hl2_m_pot",
+		"hl2_m_suitcase"
+	},
+	["weapon2"] = {
+		"hl2_m_knife",
+		"hl2_m_machete",
+		"hl2_m_meathook",
+		"hl2_m_pickaxe",
+		"hl2_m_pickaxe_alt",
+		"hl2_m_pitchfork",
+		"hl2_m_hatchet",
+		"hl2_m_shovel",
+		"hl2_m_shovel_alt",
+		"hl2_m_lumberaxe",
+		"melee_fireaxe"
+	},	
+	["tool"] = { --all scav kit items
+		"hl2_m_wrench",
+		"hl2_m_hammer",
+		"j_drill",
+		"j_power_saw"
+	},	
+	["med"] = {
+		"medical_bandages",
+		"medical_plastic",
+		"drug_disinfectant",
+		"drug_rubbingalcohol",
+		"drug_antivenom",
+		"drug_burnointment"
+	},		
+	["drug"] = {
+		"drug_depress",
+		"drug_psychotics",
+		"drug_sleepingpills",
+		"drug_venom"
+	},	
+	["med2"] = {
+		"medical_bandages",
+		"medical_gauze",
+		"medical_kit",
+		"medical_iv",
+		"medical_suture",
+		"medical_plastic",
+		"drug_antibiotics",
+		"drug_antivenom",
+		"drug_burnointment",
+		"drug_disinfectant",
+		"drug_rubbingalcohol",
+		"drug_painkillers",
+		"drug_antipsychotics",
+		"drug_antidepressants",
+		"drug_steroid"
+	},	
+	["weird"] = {
+		"purifier_water_tablet",
+		"salve_healing",
+		"cube_chip_enhanced",
+		"ammo_battery",
+		"ammo_sawblade",
+		"haze_bottled_blood",
+		"haze_bottled",
+		"haze_bottled_pink",
+		"drug_energy",
+		"food_apple_cursed",
+		"potion_agility",
+		"potion_strength",
+		"potion_accuracy",
+		"potion_endurance",
+		"potion_luck",
+		"potion_craftiness",
+		"potion_perception",
+		"potion_fortitude"
+	}
+}
+
+function lootRoll(roll)
+	local item = "food_banana"
+	
+	if(roll < 10) then
+		item = table.Random(lootTable["garbage"])
+	elseif(roll < 20) then
+		local ran = math.random(1,2)
+		if(ran == 1) then
+			item = table.Random(lootTable["garbage"])
+		else
+			item = table.Random(lootTable["junk"])
+		end
+	elseif(roll < 30) then
+		local ran = math.random(1,2)
+		if(ran == 1) then
+			item = table.Random(lootTable["junk"])
+		else
+			item = table.Random(lootTable["food"])
+		end
+	elseif(roll < 40) then
+		local ran = math.random(1,2)
+		if(ran == 1) then
+			item = table.Random(lootTable["junk"])
+		else
+			item = table.Random(lootTable["food"])
+		end
+	elseif(roll < 50) then
+		local ran = math.random(1,3)
+		if(ran == 1) then
+			item = table.Random(lootTable["resources"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["food"])
+		else
+			item = table.Random(lootTable["drug"])
+		end
+	elseif(roll < 60) then
+		local ran = math.random(1,4)
+		if(ran == 1) then
+			item = table.Random(lootTable["resources"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["med"])
+		elseif(ran == 3) then
+			item = table.Random(lootTable["weapon"])
+		else
+			item = table.Random(lootTable["tool"])
+		end
+	elseif(roll < 70) then
+		local ran = math.random(1,5)
+		if(ran == 1) then
+			item = table.Random(lootTable["resources"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["food2"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["med"])
+		elseif(ran == 3) then
+			item = table.Random(lootTable["tool"])
+		elseif(ran == 4) then
+			item = table.Random(lootTable["weapon"])
+		else
+			item = "blight"
+		end
+	elseif(roll < 80) then
+		local ran = math.random(1,5)
+		if(ran == 1) then
+			item = table.Random(lootTable["resources"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["food2"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["med2"])
+		elseif(ran == 3) then
+			item = table.Random(lootTable["tool"])
+		elseif(ran == 4) then
+			item = table.Random(lootTable["weapon"])
+		else
+			item = "blight"
+		end
+	elseif(roll < 90) then
+		local ran = math.random(1,5)
+		if(ran == 1) then
+			item = table.Random(lootTable["resources"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["med2"])
+		elseif(ran == 4) then
+			item = table.Random(lootTable["tool"])
+		elseif(ran == 3) then
+			item = table.Random(lootTable["weapon2"])
+		else
+			item = "blight"
+		end
+	elseif(roll < 100) then
+		local ran = math.random(1,4)
+		if(ran == 1) then
+			item = table.Random(lootTable["resources"])
+		elseif(ran == 2) then
+			item = table.Random(lootTable["med2"])
+		elseif(ran == 3) then
+			item = table.Random(lootTable["weapon2"])
+		else
+			item = table.Random(lootTable["tool"])
+		end
+	elseif(roll < 101 and roll > 99) then
+		local ran = math.random(1,3)
+		if(ran == 1) then
+			item = "shard_dust"
+		elseif(ran == 2) then
+			item = "chip_escape"
+		else
+			item = "cube_chip_enhanced"
+		end
+	elseif(roll < 200) then
+		item = table.Random(lootTable["weird"])
+	end
+
+	return item
+end
+
+nut.command.add("scavenge", {
+	onRun = function(client, arguments)
+		local char = client:getChar()
+		local luckroll = math.random(0, math.Clamp(char:getAttrib("luck"), 0, 100))
+		local rolled = math.random(luckroll, 100)
+
+		rolled = traitModify(client, "scavenge", rolled) --trait modifier
+		
+		local lastScav = char:getData("lastScav", 0)
+			
+		if(lastScav > 0 and lastScav != tonumber(os.date("%d"))) then --once per day.
+			lastScav = 0
+		end
+			
+		if(lastScav <= 0 and lastScav > -4) then --4 per day for now
+			local position = client:getItemDropPos()
+		
+			char:setData("lastScav", char:getData("lastScav", 0) - 1)
+			
+			local foundItem = lootRoll(rolled)
+			local niceName = nut.item.list[foundItem].name
+			
+			nut.item.spawn(foundItem, position) --if not, drop it on the ground
+			
+			local niceName = nut.item.list[foundItem].name
+			if(niceName) then
+				client:notifyLocalized("You have found a " .. niceName .. ".")
+				
+				nut.log.addRaw(client:Name().." rolled \""..rolled.."\" and received a " ..niceName.. ".", 2)		
+				nut.chat.send(client, "scavenge", rolled)
+			end
+		elseif(lastScav < -4) then
+			char:setData("lastScav", tonumber(os.date("%d")))
+		else
+			client:notifyLocalized("You can only scavenge four times every day.")
 		end
 	end
 })

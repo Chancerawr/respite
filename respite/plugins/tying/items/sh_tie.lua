@@ -6,7 +6,7 @@ ITEM.flag = "v"
 ITEM.uniqueID = "ziptie"
 
 ITEM.data = {
-chance = 10
+	chance = 10
 }
 
 ITEM.iconCam = {

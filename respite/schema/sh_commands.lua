@@ -378,3 +378,19 @@ nut.command.add("chargetmodel", {
 		end
 	end
 })
+
+--model print
+nut.command.add("syncinv", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+		
+			target:getChar();getInv():sync(target, true)
+			client:notifyLocalized("Inventory has been synchronized.")
+		else
+			client:notifyLocalized("Invalid Target")
+		end
+	end
+})

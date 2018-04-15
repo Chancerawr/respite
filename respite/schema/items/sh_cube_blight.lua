@@ -1,7 +1,7 @@
 ITEM.name = "Device - Blight"
 ITEM.uniqueID = "cube_blight"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
-ITEM.desc = "An unknown cubic device. There is a single button on it that says 'CURE'."
+ITEM.desc = "An unknown cubic device. There is a single button on it that says 'BLIGHT'."
 ITEM.width = 3
 ITEM.height = 3
 ITEM.flag = "v"
@@ -31,8 +31,8 @@ ITEM.functions.Activate = {
 			
 			chip:remove()
 			
-			if(!inventory:add("cure")) then --if the inventory has space, put it in the inventory
-				nut.item.spawn("cure", position) --if not, drop it on the ground
+			if(!inventory:add("blight")) then --if the inventory has space, put it in the inventory
+				nut.item.spawn("blight", position) --if not, drop it on the ground
 			end	
 
 			nut.chat.send(client, "itclose", "The door on the machine opens up, producing a vial.")	

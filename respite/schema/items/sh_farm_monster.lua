@@ -179,8 +179,8 @@ ITEM.functions.Harvest = { --shard
 		local position = client:getItemDropPos()
 		local inventory = char:getInv()
 		
-		if(!inventory:add("shard")) then --if the inventory has space, put it in the inventory
-			nut.item.spawn("shard", position) --if not, drop it on the ground
+		if(!inventory:add("shard_dust")) then --if the inventory has space, put it in the inventory
+			nut.item.spawn("shard_dust", position) --if not, drop it on the ground
 		end	
 		
 		item:setData("growth", 0)

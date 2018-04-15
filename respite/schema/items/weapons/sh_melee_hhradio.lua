@@ -12,6 +12,7 @@ ITEM.category = "Weapons - Melee"
 
 ITEM.salvItem = {
 	["j_scrap_elecs"] = 2,
+	["j_scrap_screws"] = 2,
 	["j_scrap_plastics"] = 3
 }
 

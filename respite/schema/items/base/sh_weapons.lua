@@ -247,11 +247,11 @@ ITEM.functions.Blight = {
 		local dust = client:getChar():getInv():hasItem("blight")
 		client:requestString("Blight", "Are you sure you want to blight this weapon?",
 		function(text)
-		dust:remove()
-		item:setData("customName", "Blighted " .. item:getName())
-		item:setData("customDesc", item:getDesc() .. "\nThis weapon makes you nostalgic.")
-		item:setData("customCol", Color(0, 0, 0))
-		item:setData("infused", true)
+			dust:remove()
+			item:setData("customName", "Blighted " .. item:getName())
+			item:setData("customDesc", item:getDesc() .. "\nThis weapon makes you nostalgic.")
+			item:setData("customCol", Color(0, 0, 0))
+			item:setData("infused", true)
 		end
 		)
 		return false
@@ -296,6 +296,9 @@ ITEM.functions.Scrap = {
 		local scrap
 		local amt
 		
+		client:requestString("Scrap", "Are you sure you want to scrap this weapon?", function(text) --confirmation message
+		--they dont need to enter anything, just not hit cancel.
+		
 		local roll = math.random(1,100)
 		local chance = item.multiChance
 		local multi = 1
@@ -335,7 +338,12 @@ ITEM.functions.Scrap = {
 		end
 		
 		--Randomized sounds don't work up there so I had to do this.
-		item.player:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+		
+		item:remove()
+		end)
+		
+		return false
 	end,
 	onCanRun = function(item)
 		if(!item.salvItem) then

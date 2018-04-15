@@ -82,23 +82,24 @@ ITEM.functions.Sacrifice = {
 				local rewardI
 				
 				if(reward < 5) then
-					client:notifyLocalized("You receive nothing.")
-				elseif (reward < 50) then
+					client:notifyLocalized("You receive an ailment.")
+					char:setData("fort_nost", CurTime()) --nostalgia ailment
+				elseif (reward < 60) then
 					client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
 					rewardI = "drug_depress"
-				elseif (reward < 65) then
+				elseif (reward < 70) then
 					client:notifyLocalized("You receive a vial of blight for your sacrifice.")
 					rewardI = "blight"
 				elseif (reward < 75) then
 					client:notifyLocalized("You receive a lamp?")
 					rewardI = "hl2_m_lamp_strange"
-				elseif (reward < 80) then
+				elseif (reward < 85) then
 					client:notifyLocalized("You receive a can of yams?")
 					rewardI = "food_yams"
-				elseif (reward < 94) then
+				elseif (reward < 95) then
 					client:notifyLocalized("You receive a baby doll.")
 					rewardI = "j_baby_doll"
-				elseif (reward < 97) then
+				elseif (reward < 98) then
 					client:notifyLocalized("You receive a bottle of blue haze for your sacrifice.")
 					rewardI = "haze_bottled"
 				elseif (reward <= 99) then
@@ -150,7 +151,7 @@ ITEM.functions.Battery = {
 
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some strange vials..")
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some strange vials.")
 
 		return false
 	end,

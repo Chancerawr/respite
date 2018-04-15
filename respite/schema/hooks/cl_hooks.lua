@@ -330,29 +330,6 @@ function SCHEMA:HUDDrawTargetID()
 	return false
 end
 
-function SCHEMA:SetupQuickMenu(menu)	 
-	
-		 local button = menu:addCheck("Color Modification", function(panel, state)
-				if (state) then
-					RunConsoleCommand("nut_postprocess", "1")
-				else
-					RunConsoleCommand("nut_postprocess", "0")
-				end
-			end, NUT_CVAR_POSTPROCESS:GetBool())
-			
-	  menu:addSpacer()
-	  
-	  	  local button = menu:addCheck("Letterbox", function(panel, state)
-				if (state) then
-					RunConsoleCommand("nut_letterbox", "1")
-				else
-					RunConsoleCommand("nut_letterbox", "0")
-				end
-			end, NUT_CVAR_LETTERBOX:GetBool())
-			
-	  menu:addSpacer()	  
-end
-
 function SCHEMA:ShowPlayerCard( client, me )
 	self.F3 = vgui.Create( "DFrame" );
 	self.F3:SetSize( 500, 700 );
@@ -423,6 +400,26 @@ function SCHEMA:PlayerBindPress(client, bind, pressed)
 end
 
 function SCHEMA:SetupQuickMenu(menu)
+	local button = menu:addCheck("Color Modification", function(panel, state)
+		if (state) then
+			RunConsoleCommand("nut_postprocess", "1")
+		else
+			RunConsoleCommand("nut_postprocess", "0")
+		end
+	end, NUT_CVAR_POSTPROCESS:GetBool())
+			
+	menu:addSpacer()
+	  
+	local button = menu:addCheck("Letterbox", function(panel, state)
+		if (state) then
+			RunConsoleCommand("nut_letterbox", "1")
+		else
+			RunConsoleCommand("nut_letterbox", "0")
+		end
+	end, NUT_CVAR_LETTERBOX:GetBool())
+			
+	menu:addSpacer()	  
+
 	local button = menu:addButton("Clear Icon Cache", function(panel, state)
 		RunConsoleCommand("nut_flushicon", "1")
 	end)

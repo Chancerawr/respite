@@ -235,6 +235,10 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"hl2_m_pot",
 		"j_wall_light",
 		"j_scrap_light",
+		"j_scrap_nails",
+		"j_scrap_cloth",
+		"j_scrap_rubber",
+		"j_scrap_glass",
 		"j_scrap_metals",
 		"j_scrap_wood",
 		"j_scrap_plastics",
@@ -246,6 +250,8 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"cube_chip",
 		"hl2_m_brokenbottle",
 		"hl2_m_claypot",
+		"melee_paddle",
+		"melee_fireaxe",
 		"hl2_m_fencepost",
 		"hl2_m_hhradio",
 		"hl2_m_keyboard",
@@ -260,11 +266,12 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"hl2_m_pole",
 		"hl2_m_bat",
 		"j_cards",
+		"j_baseball_cap"
 	}
 }
 
-PLUGIN.spawnrate = 180
-PLUGIN.maxitems = 100
+PLUGIN.spawnrate = 120
+PLUGIN.maxitems = 500
 PLUGIN.itemsperspawn = 1
 PLUGIN.spawneditems = PLUGIN.spawneditems or {}
 

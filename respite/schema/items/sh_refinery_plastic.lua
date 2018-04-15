@@ -34,10 +34,11 @@ ITEM.functions.Refine = {
 			client:notifyLocalized("You need water to create plastic!") return false
 		end
 			
-		nut.chat.send(client, "itclose", "The machine accepts the plastic dust and water, makes loud metallic noises, and then outputs plastic.")	
-		inventory:add("j_scrap_plastics", 1, { Amount = 7 })
 		dust:remove()
 		water:remove()
+			
+		nut.chat.send(client, "itclose", "The machine accepts the plastic dust and water, makes loud metallic noises, and then outputs plastic.")	
+		inventory:add("j_scrap_plastics", 1, { Amount = 7 })
 
 		return false
 	end

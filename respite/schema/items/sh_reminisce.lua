@@ -2,13 +2,13 @@ ITEM.name = "Reminiscence"
 ITEM.uniqueID = "reminiscence"
 ITEM.model = "models/props_lab/frame002a.mdl"
 ITEM.material = "models/props_lab/security_screens"
-ITEM.desc = "A strange picture frame. By looking through it you can see your own past.\nRequires 1 CURE, 2 Organic Material."
+ITEM.desc = "A strange picture frame. By looking through it you can see your own past.\nRequires 1 Blight, 2 Organic Material."
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(100, 100, 100)
+ITEM.color = Color(0, 128, 128)
 
 ITEM.iconCam = {
 	pos = Vector(143.77166748047, 121.48292541504, 94),
@@ -79,7 +79,7 @@ ITEM.functions.Battery = {
 		local required = inventory:hasItem("ammo_battery")
 			
 		required:remove()
-		nut.item.spawn("chip_escape", position)
+		nut.item.spawn("medical_memory", position)
 
 		inventory:add("j_battery_dead")
 		

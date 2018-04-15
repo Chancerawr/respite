@@ -7,11 +7,7 @@ ITEM.width = 2
 ITEM.height = 1
 
 ITEM.data = { scrapamount = 1 }
-
-ITEM.salvItem = {
-	["j_scrap_cloth"] = 2,
-	["misc_paper"] = 1
-}
+ITEM.salvItem = "misc_paper"
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
@@ -39,4 +35,4 @@ ITEM.functions.Scrap = {
 			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():hasItem("kit_salvager")
 		end
 	end
-	}
+}
