@@ -1,4 +1,4 @@
-ITEM.name = "Device - naC"
+ITEM.name = "naC"
 ITEM.uniqueID = "nac"
 ITEM.model = "models/props/de_nuke/emergency_lighta.mdl"
 ITEM.material = "models/props_wasteland/quarryobjects01"
@@ -41,8 +41,8 @@ local canned = {
 
 ITEM.functions.Store = {
 	name = "Store Can",
-	icon = "icon16/box.png",
-	sound = "buttons/lightswitch2.wav",
+	icon = "icon16/database.png",
+	sound = "physics/metal/metal_barrel_impact_soft1.wav",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
@@ -80,8 +80,8 @@ ITEM.functions.Store = {
 
 ITEM.functions.Create = {
 	name = "Create Can",
-	icon = "icon16/box.png",
-	sound = "buttons/lightswitch2.wav",
+	icon = "icon16/database_go.png",
+	sound = "ambient/machines/electric_machine.wav",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()

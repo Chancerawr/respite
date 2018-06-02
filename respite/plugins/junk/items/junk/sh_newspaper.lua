@@ -33,4 +33,4 @@ ITEM.functions.Scrap = {
 			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():hasItem("kit_salvager")
 		end
 	end
-	}
+}

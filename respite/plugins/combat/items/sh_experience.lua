@@ -75,7 +75,7 @@ ITEM.functions.Luck = {
 	end
 }
 
-ITEM.functions.Medical = {
+ITEM.functions.Craftiness = {
 	icon = "icon16/box.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)

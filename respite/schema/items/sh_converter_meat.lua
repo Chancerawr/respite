@@ -1,4 +1,4 @@
-ITEM.name = "Converter - Organic"
+ITEM.name = "Organic Converter"
 ITEM.uniqueID = "converter_meat"
 ITEM.desc = "A peculiar tool with a climb and a lever."
 ITEM.model = "models/props_c17/grinderclamp01a.mdl"

@@ -1,5 +1,6 @@
 ITEM.name = "Rubbing Alcohol"
 ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.material = "models/xqm/cinderblock_tex"
 ITEM.desc = "A bottle filled with rubbing alcohol."
 ITEM.uniqueID = "drug_rubbingalcohol"
 ITEM.duration = 3600

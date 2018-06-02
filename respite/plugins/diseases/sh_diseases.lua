@@ -151,6 +151,30 @@ DISEASES:Register( DISEASE )
 
 //
 local DISEASE = {}
+DISEASE.uid = "fort_noia"
+DISEASE.name = "Paranoia"
+DISEASE.category = "Mental"
+DISEASE.phase = {
+	"You feel like someone is watching you.",
+	"Someone is following you.",
+	"You feel like something is watching you from the ceiling.",
+	"Out of the corner of your eye you spot something watching you.",
+	"You feel someone breathing down your neck.",
+	"Someone touches your left shoulder.",
+	"You hear footsteps behind you.",
+	"You see something in the distance looking at you, but when you look again you see nothing.",
+	"Something is coming for you.",
+	"You swear you hear someone whisper your name.",
+	"Something is right behind you."
+}
+DISEASE.cure = {
+	"Your body returns to normal, and you feel like you can move freely again.",
+}
+
+DISEASES:Register( DISEASE )
+
+//
+local DISEASE = {}
 DISEASE.uid = "dis_poti"
 DISEASE.name = "Potion Sickness"
 DISEASE.category = "Illness"
@@ -193,8 +217,8 @@ DISEASE.uid = "dis_shad"
 DISEASE.name = "Shadow Plague"
 DISEASE.category = "Illness"
 DISEASE.phaseTime = 1800
-DISEASE.spreadChance = 25
-DISEASE.spreadRange = 500
+--DISEASE.spreadChance = 25
+--DISEASE.spreadRange = 500
 DISEASE.cure = {
 	"The darkness covering your body slowly disappears, and you begin to feel normal again.",
 }
@@ -206,6 +230,44 @@ DISEASE.phases = {
 	[4] = "Everything up to your neck is covered in a dark shadowy substance, it cannot be removed and it feels numb.\nYou feel incredibly nostalgic.",
 	[5] = "Everything but your head is covered in a dark shadowy substance, it cannot be removed and it feels numb.\nYour consciousness is fading into your own memories.",
 	[6] = "Your entire body is covered in a dark shadowy substance, you slowly start to fade away. After a few moments, nothing is left of you. Nobody will even remember who you were.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "dis_eyes"
+DISEASE.name = "Watcher"
+DISEASE.category = "Illness"
+DISEASE.duration = 7200
+DISEASE.spreadChance = 30
+DISEASE.spreadRange = 500
+DISEASE.cure = {
+	"You go back to normal, and no longer feel like something is watching you."
+}
+DISEASE.phase = {
+	"You see someone in the distance, they appear to be watching you from afar.",
+	"You see someone watching you from above for a moment, but there's nothing there.",
+	"You feel eyes peering at you from behind.",
+	"Someone is watching you.",
+	"Something is watching you.",
+	"They are watching you.",
+	"'We are watching you.'",
+	"He is watching you.",
+	"She is watching you.",
+	"It is watching you.",
+	"It watches you from the darkness.",
+	"You think you see something in the corner of you vision, but as you turn there is nothing there.",
+	"You suddenly feel very paranoid, like there's something right behind you.",
+	"You spot someone from the corner of your eye, watching you.",
+	"Your eyes hurt slightly, as if they've dried out somehow.",
+	"Every time you blink, you feel as though something bad is going to happen.",
+	"You blink, and right before your eyes close, you see someone staring at you.",
+	"Your eyes suddenly get dry, and you have the urge to blink, but you feel as though something bad will happen if you do.",
+	"As your eyes blink closed, you feel as though something is right in front of you, you can feel it there, staring at you.",
+	"A quiet, whispering voice comes from behind you.\nIt says, 'You aren't real.'\nAs you turn, you see no one there.\n'You're just like me.'",
+	"A quiet, whispering voice comes from your left side.\nIt says, 'I know what you are.'\nAs you turn, you see no one there.",
+	"A quiet, whispering voice comes from your right side.\nIt says, 'You are empty inside.'\nAs you turn, you see no one there.",
+	"You hear some sort of incomprehensible whispering behind you, but there is nothing there."
 }
 
 DISEASES:Register( DISEASE )
@@ -293,6 +355,71 @@ DISEASE.phase = {
 }
 DISEASE.cure = {
 	"Your extreme headache has been removed.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "trait_clumsy"
+DISEASE.name = "Clumsy"
+DISEASE.category = "Trait"
+DISEASE.phase = {
+	"You have a hard time holding onto whatever you are currently holding.",
+	"You suddenly feel like you're losing your balance, if you're walking you might trip.",
+	"You accidentally bump into something nearby.",
+	"If you're near an object, you accidentally bump your elbow on it.",
+	"You find yourself gazing into space, and lose track of what you're doing.",
+	"You forget about the object you are currently holding in your hands, and then wonder what happened to it. Eventually you realize that it's right there.",
+	"You stumble in your step, tripping on air."
+}
+DISEASE.cure = {
+	"Your extreme headache has been removed.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "trait_paranoid"
+DISEASE.name = "Constant Paranoia"
+DISEASE.category = "Trait"
+DISEASE.phase = {
+	"You feel like someone is watching you.",
+	"Someone is following you.",
+	"You feel like something is watching you from the ceiling.",
+	"Out of the corner of your eye you spot something watching you.",
+	"You feel someone breathing down your neck.",
+	"Someone touches your left shoulder.",
+	"You hear footsteps behind you.",
+	"You see something in the distance looking at you, but when you look again you see nothing.",
+	"Something is coming for you.",
+	"You swear you hear someone whisper your name.",
+	"Something is right behind you."
+}
+DISEASE.cure = {
+	"Your constant paranoia has been removed.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "trait_zealot"
+DISEASE.name = "Zealot"
+DISEASE.category = "Trait"
+DISEASE.phase = {
+	"You feel god watching over you, it is comforting.",
+	"Your actions are righteous, you know it to be true.",
+	"You stand for the light.",
+	"Evil must be purged.",
+	"Demons must be exterminated.",
+	"You must endure this trial.",
+	"You feel god's might within you.",
+	"The light is your strength.",
+	"Justice shall be done.",
+	"The light will guide your path.",
+	"The light will give you strength."
+}
+DISEASE.cure = {
+	"Your blind devotion to god has been purged.",
 }
 
 DISEASES:Register( DISEASE )

@@ -10,7 +10,9 @@ ITEM.height = 1
 ITEM.container = "j_plastic_bag"
 ITEM.cookable = false
 
-ITEM.attribBoosts = { ["fortitude"] = 1 }
+ITEM.attribBoosts = { 
+	["end"] = 5,
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

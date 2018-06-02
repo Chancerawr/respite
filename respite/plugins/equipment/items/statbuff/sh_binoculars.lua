@@ -1,6 +1,6 @@
 ITEM.name = "Binoculars"
 ITEM.uniqueID = "j_binoculars"
-ITEM.model = "models/props_junk/cardboard_box004a.mdl"
+ITEM.model = "models/warz/items/binocs.mdl"
 ITEM.desc = "A pair of binoculars."
 ITEM.flag = "j"
 ITEM.width = 1
@@ -14,7 +14,7 @@ ITEM.attribBoosts = {
 }
 
 ITEM.iconCam = {
-	pos = Vector(0, 0, 200),
+	pos = Vector(1, 0, 200),
 	ang = Angle(90, 0, 0),
-	fov = 4.5,
+	fov = 5,
 }

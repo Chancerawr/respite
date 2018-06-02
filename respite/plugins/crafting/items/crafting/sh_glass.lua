@@ -13,7 +13,7 @@ ITEM.data = {
 }
 
 ITEM.iconCam = {
-	pos = Vector(0, 0, 200),
-	ang = Angle(90, 0, 90),
-	fov = 7,
+	pos = Vector(82.60001373291, 70.64037322998, 52.150852203369),
+	ang = Angle(25, 220, 0),
+	fov = 4.3222649865396
 }

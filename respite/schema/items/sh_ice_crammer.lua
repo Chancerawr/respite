@@ -1,4 +1,4 @@
-ITEM.name = "Device - Ice Crammer"
+ITEM.name = "Ice Crammer"
 ITEM.uniqueID = "ice_crammer"
 ITEM.model = "models/props_wasteland/prison_toiletchunk01c.mdl"
 ITEM.material = "models/props/cs_office/snowmana"
@@ -70,6 +70,34 @@ ITEM.functions.Cream = {
 		if (milk and can (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
 			return true 
 		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("food_brain", position)
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces- That can't be normal.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
 			return false
 		end
 	end

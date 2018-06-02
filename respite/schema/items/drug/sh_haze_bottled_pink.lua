@@ -1,7 +1,7 @@
 ITEM.name = "Bottled Pink Haze"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.material = "models/props_combine/tprings_globe"
-ITEM.desc = "A gaseous substance that disorients the user and distorts their senses severely. This can be very painful for the afflicted's entire body. Those afflicted may have their senses 'swapped'."
+ITEM.desc = "A gaseous substance that disorients the user and distorts their senses severely. This can be very painful for the afflicted's entire body. Those who inhale this substance may have their senses 'swapped' for a few hours before returning to normal."
 ITEM.duration = 3600
 ITEM.uniqueID = "haze_bottled_pink"
 ITEM.price = 200

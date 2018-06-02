@@ -26,6 +26,5 @@ ITEM.functions.Storage = {
   	local position = item.player:getItemDropPos()
 		
 	nut.item.spawn("stor_suitcase", position)
-	item:remove()
   end
 }

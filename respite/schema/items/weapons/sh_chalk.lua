@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = "CH-ALK"
-ITEM.desc = "Looks like an I-beam that someone decided to use as a base for their highschool science fair project. Awkward to hold, but doesn't recoil like your typical conventional rifle.\nThis weapon utilizes batteries."
+ITEM.desc = "Looks like an I-beam that someone decided to use as a base for their highschool science fair project. Awkward to hold, but doesn't recoil like your typical conventional rifle.\nThis weapon utilizes charged batteries."
 ITEM.model = "models/weapons/tfa_w_usas_12.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_chalk"

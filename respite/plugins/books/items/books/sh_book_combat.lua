@@ -1,7 +1,8 @@
 ITEM.name = "Combat (OOC)"
-ITEM.desc = "A book detailing the combat system, this book is OOC.\nThis book can be sold."
+ITEM.desc = "A book detailing the combat system.\nThis book is OOC."
 ITEM.price = 0
 ITEM.flag = "3"
+ITEM.value = 10
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),
@@ -136,5 +137,25 @@ You may move the full movement distance (Small prop) in addition to any actions 
 		If you have any questions or concerns you can ask an admin and they should be able to help you.
 		You can also see this information under Community Info on the forums. Which you can get to by typing /forums.
 		<br/><br/>		
-		</font>
-		]]
+</font>
+]]
+		
+		
+ITEM.functions.Destroy = {
+	name = "Destroy",
+	icon = "icon16/lorry.png",
+	sound = "ambient/materials/cupdrop.wav",
+	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+
+		client:notify("You have received "..item.value.." scrap coins.")
+		char:giveMoney(item.value)
+	end
+}
+
+if (CLIENT) then
+	function ITEM:paintOver(item, w, h)
+		draw.SimpleText("OOC", "DermaDefault", w - 25, h - 14, Color(125,125,125), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
+	end
+end

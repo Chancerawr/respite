@@ -16,8 +16,8 @@ ITEM.iconCam = {
 
 ITEM.functions.FishBait = {
 	name = "Baited Fishing",
-	icon = "icon16/box.png",
-	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
+	icon = "icon16/anchor.png",
+	sound = "ambient/machines/spinup.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
@@ -96,8 +96,8 @@ ITEM.functions.FishBait = {
 
 ITEM.functions.FishNoBait = {
 	name = "Fishing",
-	icon = "icon16/box.png",
-	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
+	icon = "icon16/anchor.png",
+	sound = "ambient/machines/spinup.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
@@ -152,6 +152,42 @@ ITEM.functions.FishNoBait = {
 		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
 			return true 
 		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		
+		local roll = math.random(1,2)
+		if(roll == 1) then
+			nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a bottle of blue haze.")
+			nut.item.spawn("haze_bottled", position)
+		else
+			nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a bottle of pink haze.")		
+			nut.item.spawn("haze_bottled_pink", position)
+		end
+
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces- That can't be normal.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
 			return false
 		end
 	end

@@ -17,20 +17,21 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Activate = {
-	icon = "icon16/bullet_blue.png",
+	name = "Purify Water",
+	icon = "icon16/bullet_white.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
-			local client = item.player
-			local position = client:getItemDropPos()
-			local inventory = client:getChar():getInv()
-			local corwater = inventory:hasItem("food_water_misc")	
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local corwater = inventory:hasItem("food_water_misc")	
 			
-			if (!corwater) then
-				client:notifyLocalized("You don't have any Corrupted Water!") return false
-			end
+		if (!corwater) then
+			client:notifyLocalized("You don't have any Corrupted Water!") return false
+		end
 
-			nut.item.spawn("food_water", position)
-			corwater:remove()
-			nut.chat.send(client, "itclose", "The tablet is dropped into the liquid, and it is slowly purified.")
+		nut.item.spawn("food_water", position)
+		corwater:remove()
+		nut.chat.send(client, "itclose", "The tablet is dropped into the liquid, and it is slowly purified.")
 	end
 }

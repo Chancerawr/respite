@@ -1,4 +1,4 @@
-ITEM.name = "Device - Food"
+ITEM.name = "Cube - Food"
 ITEM.uniqueID = "cube_b"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
 ITEM.material = "models/props_canal/canal_bridge_railing_01a"
@@ -16,8 +16,8 @@ ITEM.iconCam = {
 	pos	= Vector(0, 200, 0)
 }
 
-ITEM.functions.Activate = {
-	icon = "icon16/box.png",
+ITEM.functions.Chip = {
+	icon = "icon16/arrow_down.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 			local client = item.player
@@ -58,6 +58,31 @@ ITEM.functions.Activate = {
 			end	
 			nut.chat.send(client, "itclose", "The door on the machine opens up, dropping out a " ..rewardN.. ".")				
 			return false
+	end
+}
+
+ITEM.functions.Chip2 = {
+	name = "Enhanced Chip",
+	icon = "icon16/box.png",
+	sound = "buttons/lightswitch2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local chip = inventory:hasItem("cube_chip_enhanced")	
+			
+		if (!chip) then
+			client:notifyLocalized("You need an enhanced chip to insert!") return false
+		end
+			
+		nut.item.spawn("food_apple_cursed", position)
+		nut.item.spawn("food_apple_cursed", position)
+		nut.item.spawn("food_apple_cursed", position)
+			
+		chip:remove()
+		nut.chat.send(client, "itclose", "The machine accepts the chip, and begins to dispenses three strange apples.")
+			
+		return false
 	end
 }
 

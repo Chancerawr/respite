@@ -1,4 +1,4 @@
-ITEM.name = "Device - Rib Cage"
+ITEM.name = "Rib Cage"
 ITEM.uniqueID = "ribcage"
 ITEM.model = "models/skeleton/skeleton_torso2_noskins.mdl"
 ITEM.material = "models/xqm/squaredmatinverted"
@@ -48,8 +48,9 @@ end
 
 
 ITEM.functions.Release = {
-	icon = "icon16/box.png",
-	sound = "npc/barnacle/neck_snap2.wav",
+	name = "Release Bone",
+	icon = "icon16/contrast_high.png",
+	sound = "ambient/materials/metal_rattle1.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

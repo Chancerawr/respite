@@ -1,5 +1,6 @@
 ITEM.name = "Antivenom"
 ITEM.model = "models/props_lab/jar01b.mdl"
+ITEM.material = "models/combine_advisor/body9"
 ITEM.desc = "A small bottle filled with some kind of liquid."
 ITEM.duration = 100
 ITEM.price = 30

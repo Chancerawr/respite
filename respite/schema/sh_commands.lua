@@ -358,6 +358,22 @@ nut.command.add("ammoeject", {
 					end
 				)
 			end
+			
+			local plugin = nut.plugin.list["ammosave"]
+			if(client and client:getChar()) then
+				local ammoTable = {}
+				
+				for k, v in ipairs(plugin.ammoList) do
+					local ammo = client:GetAmmoCount(v)
+					--print(v .. ammo)
+					
+					if (ammo > 0) then
+						ammoTable[v] = ammo
+					end
+				end
+				client:getChar():setData("ammo", ammoTable)
+			end
+			
 		else
 			client:notify("You don't have any ammo to eject!")
 			return false
@@ -387,7 +403,7 @@ nut.command.add("syncinv", {
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then
 		
-			target:getChar();getInv():sync(target, true)
+			target:getChar():getInv():sync(target, true)
 			client:notifyLocalized("Inventory has been synchronized.")
 		else
 			client:notifyLocalized("Invalid Target")

@@ -663,7 +663,7 @@ ITEM.functions.Weather = {
 			reward = "haze_bottled"
 		elseif (weather == "black haze") then
 			client:notify("Black Haze has arrived in your Respite.")
-			reward = "cure"
+			reward = "blight"
 		elseif (weather == "pink haze") then
 			client:notify("Pink Haze has arrived in your Respite.")
 			reward = "haze_bottled_pink"
@@ -755,7 +755,7 @@ ITEM.functions.Portal = {
 					elseif (portal == "green") then
 						reward = {"food_yams", "food_beans", "food_peas", "food_canned_1", "food_peaches", "food_corn", "j_cactus_plant"}
 					elseif (portal == "black") then
-						reward = {"cure", "j_scrap_memory", "drug_depress"}
+						reward = {"blight", "j_scrap_memory", "drug_depress"}
 					elseif (portal == "yellow") then
 						reward = {"nut_flare", "nut_flare_b", "nut_flare_g", "nut_flare_o", "nut_flare_p", "nut_flare_t", "nut_flare_w", "nut_flare_y", "molotov", "flashlight"}
 					elseif (portal == "orange") then
@@ -763,7 +763,7 @@ ITEM.functions.Portal = {
 					elseif (portal == "brown") then
 						reward = {"food_tea", "food_whiskey", "j_scrap_wood", "food_potato", "food_soda_cola"}
 					elseif (portal == "gray") then
-						reward = {"drug_depress", "cube_chip", "drug_sleepingpills", "drug_painkillers", "food_apple_cursed", "cure"}
+						reward = {"drug_depress", "cube_chip", "drug_sleepingpills", "drug_painkillers", "food_apple_cursed", "blight"}
 					end
 					
 					for i=1, math.ceil(amount/3) do 

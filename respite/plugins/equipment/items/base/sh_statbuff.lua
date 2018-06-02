@@ -24,7 +24,7 @@ ITEM:hook("drop", function(item)
 		item:setData("equip", nil)
 		if (item.attribBoosts) then
 			for k, v in pairs(item.attribBoosts) do
-				item.player:getChar():removeBoost(item.buffCategory, k)
+				item.player:getChar():removeBoost(item.uniqueID, k)
 			end
 		end
 	end
@@ -34,7 +34,7 @@ end)
 ITEM.functions.EquipUn = { -- sorry, for name order.
 	name = "Unequip",
 	icon = "icon16/cross.png",
-	sound = "physics/plastic/plastic_barrel_impact_soft4.wav",
+	sound = "npc/roller/blade_in.wav",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -43,7 +43,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		--buffs the specified attributes.
 		if (item.attribBoosts) then
 			for k, v in pairs(item.attribBoosts) do
-				char:removeBoost(item.buffCategory, k)
+				char:removeBoost(item.uniqueID, k)
 			end
 		end
 
@@ -58,7 +58,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 ITEM.functions.Equip = {
 	name = "Equip",
 	icon = "icon16/tick.png",
-	sound = "physics/plastic/plastic_barrel_impact_soft3.wav",
+	sound = "npc/roller/blade_in.wav",
 	onRun = function(item)		
 		local client = item.player
 		local char = client:getChar()
@@ -87,7 +87,7 @@ ITEM.functions.Equip = {
 		--buffs the specified attributes.
 		if (item.attribBoosts) then
 			for k, v in pairs(item.attribBoosts) do
-				char:addBoost(item.buffCategory, k, v)
+				char:addBoost(item.uniqueID, k, v)
 			end
 		end
 		
@@ -145,6 +145,12 @@ ITEM.functions.Scrap = {
 						end
 					)
 				end
+			end
+		end
+		
+		if (item.attribBoosts) then
+			for k, v in pairs(item.attribBoosts) do
+				item.player:getChar():removeBoost(item.uniqueID, k)
 			end
 		end
 		
@@ -231,6 +237,10 @@ quality[10] = "Perfect"
 function ITEM:getDesc()
 	local desc = self.desc
 	
+	if(self.buffCategory) then
+		desc = desc .. "\nSlot: " .. self.buffCategory .. "."
+	end
+		
 	if(self:getData("quality") != nil) then
 		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
 	end

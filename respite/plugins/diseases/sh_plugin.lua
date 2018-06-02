@@ -27,7 +27,7 @@ function diseaseEffects(client, disease, diseaseT)
 	
 	local disTable = DISEASES.diseases[disease] --disease table
 	if(disTable) then --if the disease exists
-		local iTime = char:getData(disease) --time of infection (could be used for phases, used for nothing atm)
+		local iTime = char:getData(disease) --time of infection
 		
 		if(iTime) then
 			--symptom chat printing
@@ -35,7 +35,7 @@ function diseaseEffects(client, disease, diseaseT)
 			if(disTable.phase) then --one phase
 				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
 					function()
-						if(char:getData(disease)) then --makes sure they still have the disease
+						if(client:getChar():getData(disease)) then --makes sure they still have the disease
 							local symptom = table.Random(disTable.phase)
 						
 							nut.chat.send(client, "body", symptom)
@@ -45,7 +45,7 @@ function diseaseEffects(client, disease, diseaseT)
 			else --multiple phases
 				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
 					function()
-						if(char:getData(disease)) then --makes sure they still have the disease
+						if(client:getChar():getData(disease)) then --makes sure they still have the disease
 							local phase = math.Round( (CurTime() - iTime)/disTable.phaseTime )
 							phase = math.Clamp(phase, 0, table.Count(disTable.phases) - 1)
 							
@@ -62,7 +62,7 @@ function diseaseEffects(client, disease, diseaseT)
 				local players = player.GetAll()
 				
 				for k, v in pairs(players) do
-					if(!v:getChar():getData(disease)) then --if the player does not have the disease
+					if(v:getChar() and !v:getChar():getData(disease)) then --if the player does not have the disease
 						table.remove(players, k) --removes player from the list
 					end
 				end
@@ -94,7 +94,7 @@ function diseaseEffects(client, disease, diseaseT)
 			
 			--custom effects
 			if(disTable.special) then
-
+				disTable.special(client)
 			end
 		end
 	end
@@ -106,7 +106,7 @@ if (SERVER) then
 	--[[
 	function PLUGIN:DoPlayerDeath( client )
 		for k, v in pairs(DISEASES) do
-			client:getChar():setData(v, 0) --if the player dies, set his diseases to 0.
+			client:getChar():setData(v, nil) --if the player dies, set his diseases to 0.
 		end
 	end
 	--]]
@@ -151,6 +151,23 @@ if (SERVER) then
 			end
 		end
 	end
+	
+	function cureDisease(client, disease)
+		local char = client:getChar()
+		
+		if(char:getData(disease)) then
+			local disTable = DISEASES.diseases[disease]
+			
+			if(disTable.effectC) then
+				disTable.effectC(client, char)
+			end
+			
+			char:setData(disease, nil)
+
+			local cured = table.Random(disTable.cure)			
+			nut.chat.send(client, "body", cured)
+		end
+	end
 end
 
 -- command for easy body status updates
@@ -159,16 +176,17 @@ nut.chat.register("body", {
 		local color = nut.chat.classes.ic.onGetColor(speaker, text)
 		chat.AddText(Color(120, 120, 170), "**"..text)
 	end,
-	onCanHear = 1,
+	onCanHear = 2,
 	prefix = {"/body"},
 	font = "nutChat",
 	filter = "actions",
 	deadCanChat = true
 })
 
+--[[
 nut.command.add("diseaseclear", {
 	adminOnly = true,
-	syntax = "<string target>",
+	syntax = "<string target> [this will clear literally everything, don't use this]",
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
@@ -182,17 +200,52 @@ nut.command.add("diseaseclear", {
 		end
 	end
 })
+--]]
 
-nut.command.add("diseaseinfect", {
+nut.command.add("diseaseremove", {
 	adminOnly = true,
 	syntax = "<string target> <string disease>",
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
-	
+
 		if(target) then
 			local char = target:getChar()
-			char:setData(arguments[2], CurTime()) --gives the target a specified disease.
-			client:notify(target:GetName() .. " has been afflicted with " .. arguments[2])
+			if(!char) then return end
+		
+			for k, v in pairs(DISEASES.diseases) do
+				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
+					if(char:getData(v.uid, false)) then
+						char:setData(v.uid, nil) --remove it
+						client:notify("You removed " ..v.name.. " from " .. target:GetName())
+					else
+						client:notify(target:GetName() .. " does not have the " .. v.name .. " effect.")
+					end
+					
+					break --only want the first one.
+				end
+			end
+		end
+	end
+})
+
+nut.command.add("diseaseadd", {
+	adminOnly = true,
+	syntax = "<string target> <string disease>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1]) or client	
+
+		if(target) then
+			local char = target:getChar()
+			if(!char) then return end
+		
+			for k, v in pairs(DISEASES.diseases) do
+				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
+					char:setData(v.uid, CurTime())
+					client:notify("You gave " ..v.name.. " to " .. target:GetName())
+					
+					break --only want the first one.
+				end
+			end
 		end
 	end
 })

@@ -17,9 +17,9 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Refine = {
-	name = "Use Plastic",
+	name = "Refine Chemicals",
 	icon = "icon16/cog.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "ambient/machines/machine6.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

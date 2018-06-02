@@ -17,8 +17,9 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Refine = {
+	name = "Refine Battery",
 	icon = "icon16/cog.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "ambient/machines/machine6.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
@@ -48,5 +49,43 @@ ITEM.functions.Refine = {
 		end
 
 		return false
+	end
+}
+
+ITEM.functions.Refine = {
+	name = "Refine Ichor Battery",
+	icon = "icon16/cog.png",
+	sound = "buttons/lightswitch2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local metals = inventory:hasItem("j_scrap_metals")	
+		local chems = inventory:hasItem("ichor")	
+			
+		if (!metals or !chems) then
+			client:notifyLocalized("You need 5 metal, and 1 vial of ichor to refine a battery!") return false
+		end
+			
+		local amount = metals:getData("Amount")
+		local amount2 = chems:getData("Amount")
+		if (amount >= 5 and amount2 >= 1) then
+			nut.chat.send(client, "itclose", "The machine accepts the materials, and then outputs a single battery.")
+			nut.item.spawn("j_scrap_battery", position)
+			metals:setData("Amount", amount - 5)
+			chems:remove()
+		else
+			client:notifyLocalized("You need 5 metal, and 1 vial of ichor to refine a battery!")
+		end
+
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		local inventory = client:getChar():getInv()
+		
+		if(!inventory:hasItem("ichor")) then
+			return false
+		end
 	end
 }

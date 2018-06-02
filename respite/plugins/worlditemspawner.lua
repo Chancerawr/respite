@@ -265,12 +265,21 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"hl2_m_hammer",
 		"hl2_m_pole",
 		"hl2_m_bat",
+		"hl2_m_bat_metal",
 		"j_cards",
-		"j_baseball_cap"
+		"j_baseball_cap",
+		"j_military_cap",
+		"j_binoculars",
+		"helmet_hard",
+		"helmet_fire",
+		"j_beanie",
+		"j_gloves",
+		"armor_football",
+		"coin_10"
 	}
 }
 
-PLUGIN.spawnrate = 120
+PLUGIN.spawnrate = 60
 PLUGIN.maxitems = 500
 PLUGIN.itemsperspawn = 1
 PLUGIN.spawneditems = PLUGIN.spawneditems or {}

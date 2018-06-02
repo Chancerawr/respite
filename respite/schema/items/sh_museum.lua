@@ -46,7 +46,7 @@ ITEM.functions.Acquire = {
 				if (memory) then
 					if (memory.uniqueID == "j_painting") then
 						worth = 3
-					elseif (memory.uniqueID == "j_painting") then
+					elseif (string.find(memory.uniqueID, "picture")) then
 						worth = 2
 					end
 					memory:remove()
@@ -68,7 +68,7 @@ ITEM.functions.Acquire = {
 						local position = client:getItemDropPos()
 						--if (!IsValid(item:getEntity())) then
 						local reward
-						if(math.random(0,9) == 9) then --10% chance to give memory
+						if(math.random(1,5) == 5) then --10% chance to give memory
 							reward = "j_scrap_memory"
 						else
 							reward = "blight"

@@ -14,6 +14,20 @@ PLUGIN.spawngroups = {
 		"amputated",
 		"pack"
 	},
+	["outside"] = {
+		"nz_freak",
+		"spore",
+		"nz_drum",
+		"resp_chimera",
+		"resp_babu"
+	},
+	["inside"] = {
+		"nz_freak",
+		"amputated",
+		"pack",
+		"resp_dolly",
+		"resp_baby"
+	},
 	["shade"] = {
 		"nz_freak_shade",
 		"amputated_shade",

@@ -1,4 +1,4 @@
-ITEM.name = "Device - Breakfaster"
+ITEM.name = "Breakfaster"
 ITEM.uniqueID = "breakfaster"
 ITEM.model = "models/props_lab/filecabinet02.mdl"
 ITEM.material = "phoenix_storms/plastic"
@@ -99,7 +99,7 @@ ITEM.functions.Milk = {
 ITEM.functions.Egg = {
 	name = "Egg",
 	icon = "icon16/cup.png",
-	sound = "HL1/fvox/hiss.wav",
+	sound = "physics/metal/metal_box_impact_soft3.wav",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
@@ -129,7 +129,6 @@ ITEM.functions.Egg = {
 		else --if five, just remove the item.
 			organic:remove()
 		end
-		
 		
 		client:notify("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the objects, and begins to make some strange squishing noises.")	
@@ -170,3 +169,34 @@ ITEM.functions.Egg = {
 		end
 	end
 }
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("food_bacon", position)
+		nut.item.spawn("food_bacon", position)
+		nut.item.spawn("food_bacon", position)
+		
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some bacon.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
+			return false
+		end
+	end
+}
+

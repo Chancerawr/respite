@@ -24,8 +24,10 @@ ITEM.functions.Scrap = {
   icon = "icon16/cross.png",
   onRun = function(item)
     if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-		if(math.random(0,1) == 1) then
-			item.player:getChar():getInv():add("blight")
+		if(math.random(0,3) == 0) then
+			for i = 0, math.Clamp(math.Round(item:getData("Amount", 1) / 4), 1, 4) do
+				nut.item.spawn("blight", item.player:getItemDropPos())
+			end
 		else
 			item.player:getChar():getInv():add("j_scrap_wood", 1, { Amount = item:getData("Amount") })
 		end

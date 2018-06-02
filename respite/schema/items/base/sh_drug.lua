@@ -11,7 +11,7 @@ ITEM.duration = 30
 ITEM.functions._use = { 
 	name = "Use",
 	tip = "useTip",
-	icon = "icon16/bug.png",
+	icon = "icon16/pill.png",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -38,7 +38,13 @@ ITEM.functions._use = {
 					end
 				end
 			end)
-			return true
+			
+			if(item:getData("Amount", 0) > 1) then --for drugs that stack
+				item:setData("Amount", item:getData("Amount") - 1)
+				return false
+			else
+				return true
+			end
 		end
 		return false
 	end,

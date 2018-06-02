@@ -25,7 +25,7 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
-ITEM.data = { scrapamount = 4}
+ITEM.data = { scrapamount = 2}
 ITEM.salvItem = "j_scrap_glass"
 
 ITEM.iconCam = {

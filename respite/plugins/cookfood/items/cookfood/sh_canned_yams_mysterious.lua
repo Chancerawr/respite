@@ -36,9 +36,12 @@ ITEM.functions.use = {
 		local char = client:getChar()
 
 		quantity = quantity - 1
-		client:notify("Your mind fills with images of another person's life.")
-		client:notify("You are having vivid hallucinations.")
-		client:notify("It is hard to focus.")
+		
+		nut.chat.send(client, "body", "Your mind fills with nothingness.")
+		nut.chat.send(client, "body", "You see an empty white space, a cold room with only yourself in it.")
+		nut.chat.send(client, "body", "You feel incomplete.")		
+		
+		client:setData("fort_nost", CurTime())
 		
 		if (char and client:Alive()) then
 			if (item.attribBoosts) then

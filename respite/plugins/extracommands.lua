@@ -87,7 +87,7 @@ nut.command.add("cleanitems", {
 		
 		v:Remove()
 		
-	end;
+	end
 		client:notify("All items have been cleaned up from the map.")
 	end
 })

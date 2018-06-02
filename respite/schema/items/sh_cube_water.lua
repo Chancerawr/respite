@@ -1,4 +1,4 @@
-ITEM.name = "Device - Water"
+ITEM.name = "Cube - Water"
 ITEM.uniqueID = "cube_water"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
 ITEM.desc = "A strange metal box, it would be seemingly vibrating lightly. The box appears to have only a single button, labelled 'WATER', and a slot in the top for some sort of chip."
@@ -16,8 +16,8 @@ ITEM.iconCam = {
 	pos	= Vector(0, 200, 0)
 }
 
-ITEM.functions.Activate = {
-	icon = "icon16/box.png",
+ITEM.functions.Chip = {
+	icon = "icon16/arrow_down.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 			local client = item.player
@@ -39,6 +39,29 @@ ITEM.functions.Activate = {
 			nut.chat.send(client, "itclose", "The machine accepts the chip, and begins to dispense multiple bottles of corrupted water.")
 			
 			return false
+	end
+}
+
+ITEM.functions.Chip2 = {
+	name = "Enhanced Chip",
+	icon = "icon16/box.png",
+	sound = "buttons/lightswitch2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local chip = inventory:hasItem("cube_chip_enhanced")	
+			
+		if (!chip) then
+			client:notifyLocalized("You need an enhanced chip to insert!") return false
+		end
+			
+		nut.item.spawn("voltaic", position)
+			
+		chip:remove()
+		nut.chat.send(client, "itclose", "The machine accepts the chip, and begins to dispenses a single bottle of liquid.")
+			
+		return false
 	end
 }
 

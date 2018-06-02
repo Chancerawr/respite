@@ -1,6 +1,7 @@
-ITEM.name = "Device - Charger"
+ITEM.name = "Charger"
 ITEM.uniqueID = "charger"
 ITEM.model = "models/props_combine/suit_charger001.mdl"
+ITEM.material = "models/props_wasteland/quarryobjects01"
 ITEM.desc = "A strange metal box, It has a large slot that is labelled 'BATTERY', another slot labelled 'COINS', and a small output slot labelled 'CHARGED'."
 ITEM.width = 2
 ITEM.height = 2
@@ -17,8 +18,8 @@ ITEM.iconCam = {
 
 ITEM.functions.Charge = {
 	name = "Charge Battery",
-	icon = "icon16/box.png",
-	sound = "buttons/lightswitch2.wav",
+	icon = "icon16/lightning.png",
+	sound = "ambient/energy/zap9.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

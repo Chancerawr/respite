@@ -1,5 +1,5 @@
 ITEM.name = "Wooden Pole"
-ITEM.desc = "A long beefy wooden pole. Great for cracking people over the head."
+ITEM.desc = "A long wooden pole. Great for cracking people over the head."
 ITEM.model = "models/props_c17/signpole001.mdl"
 ITEM.material = "models/props/cs_militia/roofbeams01"
 ITEM.class = "hl2_m_woodenpole"

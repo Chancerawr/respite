@@ -10,8 +10,7 @@ ITEM.salvItem = "j_scrap_plastics"
 ITEM.buffCategory = "accessory"
 
 ITEM.attribBoosts = {
-	["end"] = 3,
-	["str"] = 10,
+	["end"] = 10,
 	["stm"] = -10,
 }
 

@@ -11,7 +11,16 @@ ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_teapot"
 
-ITEM.attribBoosts = { ["stm"] = 3, ["perception"] = 5 }
+ITEM.attribBoosts = { 
+	["end"] = 1, 
+	["stm"] = 1, 
+	["str"] = 1, 
+	["perception"] = 1, 
+	["fortitude"] = 1, 
+	["luck"] = 1, 
+	["accuracy"] = 1, 
+	["medical"] = 1
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

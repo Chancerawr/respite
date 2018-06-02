@@ -1,6 +1,6 @@
 ITEM.name = "Shovel"
 ITEM.desc = "A long common garden shovel."
-ITEM.model = "models/props_junk/Shovel01a.mdl"
+ITEM.model = "models/props_junk/shovel01a.mdl"
 ITEM.class = "hl2_m_shovel_alt"
 ITEM.uniqueID = "hl2_m_shovel_alt"
 ITEM.weaponCategory = "melee"

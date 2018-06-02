@@ -26,7 +26,9 @@ ITEM.cures = {
 	["fort_migraine"] = true,
 	["fort_hall"] = true,
 	["fort_para"] = true,
+	["fort_noia"] = true,
 	["dis_wrai"] = true,
+	["dis_eyes"] = true
 }
 
 
@@ -45,7 +47,6 @@ local function healPlayer(client, target, amount, seconds)
 	end
 end
 
-// On player uneqipped the item, Removes a weapon from the player and keep the ammo in the item.
 ITEM.functions.use = { -- sorry, for name order.
 	name = "Use",
 	tip = "useTip",
@@ -62,7 +63,7 @@ ITEM.functions.use = { -- sorry, for name order.
 				nut.item.spawn(item.container, position)
 			end	
 			
-			for k, v in pairs(DISEASES.diseases) do --removes all of them for now
+			for k, v in pairs(DISEASES.diseases) do
 				if(char:getData(k) and item.cures[k]) then
 					char:setData(k, nil) --removes fort diseases
 					

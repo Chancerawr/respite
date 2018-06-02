@@ -18,7 +18,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Water = {
-	icon = "icon16/box.png",
+	icon = "icon16/picture.png",
 	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
 	onRun = function(item)
 		local client = item.player
@@ -72,7 +72,7 @@ ITEM.functions.Water = {
 
 ITEM.functions.Feed = {
 	icon = "icon16/box.png",
-	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
+	sound = "npc/barnacle/barnacle_crunch3.wav",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -144,7 +144,7 @@ ITEM.functions.Feed = {
 
 ITEM.functions.Cut = { --monster meat
 	icon = "icon16/box.png",
-	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
+	sound = "ambient/machines/slicer4.wav",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -172,7 +172,7 @@ ITEM.functions.Cut = { --monster meat
 
 ITEM.functions.Harvest = { --shard
 	icon = "icon16/box.png",
-	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
+	sound = "ambient/machines/slicer2.wav",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -200,7 +200,7 @@ ITEM.functions.Harvest = { --shard
 
 ITEM.functions.Name = {
 	tip = "Name this item",
-	icon = "icon16/add.png",
+	icon = "icon16/heart.png",
 	onRun = function(item)
 		local client = item.player
 		client:requestString("Change Name", "What do you want to name your plant? (This is final)", function(text)

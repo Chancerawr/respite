@@ -19,7 +19,7 @@ ITEM.iconCam = {
 --1 cure, 2 organic material.
 ITEM.functions.Remember = {
 	icon = "icon16/picture.png",
-	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
+	sound = "ambient/water/wave5.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

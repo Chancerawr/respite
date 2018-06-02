@@ -18,7 +18,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Gnome = {
-	icon = "icon16/box.png",
+	icon = "icon16/status_online.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player

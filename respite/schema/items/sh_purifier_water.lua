@@ -84,7 +84,7 @@ ITEM.functions.Haze = {
 			
 		item:setData("purity", item:getData("purity") - 5)
 		corWater:remove()
-		inventory:add("voltaic")
+		inventory:add("food_apple_cursed")
 		nut.chat.send(client, "itclose", "The container passes through the object, and the substance inside of it is purified.")
 
 		return false
@@ -116,7 +116,7 @@ ITEM.functions.HazePink = {
 			
 		item:setData("purity", item:getData("purity") - 5)
 		corWater:remove()
-		inventory:add("food_apple_cursed")
+		inventory:add("voltaic")
 		nut.chat.send(client, "itclose", "The container passes through the object, and an apple comes out?")
 
 		return false
@@ -184,8 +184,8 @@ ITEM.functions.Alcohol = {
 }
 
 ITEM.functions.Tablet = {
-	icon = "icon16/box.png",
-	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
+	icon = "icon16/bullet_white.png",
+	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

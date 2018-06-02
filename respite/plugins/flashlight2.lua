@@ -54,7 +54,6 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_ch3ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ch3m0 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_chafe = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		tfa_chalk = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_chunk = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cp1ch = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cp1cs = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
@@ -70,6 +69,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 	
 	local blackList = {
 		tfa_crunt = true,
+		tfa_chalk = true,
 		tfa_cross = true,
 		tfa_criss = true,
 		tfa_cr1fa = true,

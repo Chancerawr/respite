@@ -1,4 +1,4 @@
-ITEM.name = "Device - Soda Stream"
+ITEM.name = "Soda Stream"
 ITEM.uniqueID = "soda_stream"
 ITEM.model = "models/props/cs_assault/ventilationduct02.mdl"
 ITEM.material = "models/props_pipes/pipesystem01a_skin3"
@@ -19,7 +19,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Ichor = {
-	name = "Ichor",
+	name = "Produce Ichor",
 	icon = "icon16/cup.png",
 	sound = "HL1/fvox/hiss.wav",
 	onRun = function(item)
@@ -94,6 +94,71 @@ ITEM.functions.Ichor = {
 		local player = item.player or item:getOwner()
 		
 		if(!player:getChar():getInv():hasItem("j_scrap_memory")) then --check if they have the item of interest
+			return false
+		end
+		
+		local endTime = item:getData("producing2") + 60
+		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
+			return true 
+		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Depress = {
+	name = "Depressant",
+	icon = "icon16/cup.png",
+	sound = "HL1/fvox/hiss.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local depress = inventory:hasItem("drug_depress")
+		if(!depress) then
+			client:notify("You need a depressant.")
+			return false
+		end
+		
+		local amount = depress:getData("Amount", 1)
+		if(amount > 1) then
+			depress:setData("Amount", amount - 1)
+		else
+			depress:remove()
+		end
+		
+		
+		client:notify("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the object, and begins to make some strange squishing noises.")	
+		
+		item:setData("producing2", CurTime())
+		
+		food:remove()
+		
+		timer.Simple(60, 
+			function()
+				timer.Simple(amount, 
+					function()
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("food_soda_depress")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("food_soda_depress", client:getItemDropPos()) --if not, drop it on the ground
+							end
+						else --if the item is on the ground
+							nut.item.spawn("food_soda_depress", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+						end
+					end
+				)
+				client:notify("Converting has finished.")
+				nut.chat.send(client, "itclose", "A strangely sad soda comes out of the machine in a container.")
+			end
+		)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local player = item.player or item:getOwner()
+		
+		if(!player:getChar():getInv():hasItem("drug_depress")) then --check if they have the item of interest
 			return false
 		end
 		

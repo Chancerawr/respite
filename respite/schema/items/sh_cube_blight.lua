@@ -1,7 +1,7 @@
-ITEM.name = "Device - Blight"
+ITEM.name = "Cube - Blight"
 ITEM.uniqueID = "cube_blight"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
-ITEM.desc = "An unknown cubic device. There is a single button on it that says 'BLIGHT'."
+ITEM.desc = "An unknown cubic device. There is a single button on it that says 'BLIGHT' and a slot for chips."
 ITEM.width = 3
 ITEM.height = 3
 ITEM.flag = "v"
@@ -17,7 +17,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Activate = {
-	icon = "icon16/box.png",
+	icon = "icon16/arrow_down.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
 			local client = item.player
@@ -39,6 +39,35 @@ ITEM.functions.Activate = {
 			return false
 	end
 }
+
+ITEM.functions.Chip2 = {
+	name = "Enhanced Chip",
+	icon = "icon16/box.png",
+	sound = "buttons/lightswitch2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local chip = inventory:hasItem("cube_chip_enhanced")	
+			
+		if (!chip) then
+			client:notifyLocalized("You need an enhanced chip to insert!") return false
+		end
+		
+		if(math.random(1,4) == 4) then --25% chance to get a rarer item
+			nut.item.spawn("medical_purge", position)
+			nut.chat.send(client, "itclose", "The machine accepts the chip, and dispenses a strange vial.")
+		else
+			nut.item.spawn("s_musicbox", position)
+			nut.chat.send(client, "itclose", "The machine accepts the chip, and it dispenses a music box.")
+		end
+			
+		chip:remove()
+			
+		return false
+	end
+}
+
 
 ITEM.functions.Battery = {
 	name = "Charged Battery",

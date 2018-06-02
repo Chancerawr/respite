@@ -11,7 +11,7 @@ ITEM.salvItem = "j_scrap_wood"
 ITEM.buffCategory = "shield"
 
 ITEM.attribBoosts = {
-	["str"] = 5,
+	["end"] = 5,
 	["stm"] = -5,
 }
 

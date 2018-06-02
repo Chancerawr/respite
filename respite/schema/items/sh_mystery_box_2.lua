@@ -24,7 +24,7 @@ if (CLIENT) then
 end
 
 ITEM.functions.Open = {
-	icon = "icon16/box.png",
+	icon = "icon16/briefcase.png",
 	sound = "items/ammocrate_open.wav",
 	onRun = function(item)
 		local client = item.player
@@ -36,85 +36,111 @@ ITEM.functions.Open = {
 		local luckRoll = math.random(math.random(luck,100), 100) 
 		
 		local RContent = math.random(0,100)
-		local contents = "j_porn_gay" --used to drop item at the end. Defaulted to gay porn?
 		
 		--sorry for the big complicated mess.
-		if(RContent <= 20) then --luck up
-			contents = "food_carrot"
-			client:notifyLocalized("You feel somewhat unlucky.")
-			--char:updateAttrib("luck", 0.5)
-		elseif(RContent < 30) then --shard
-			contents = "farm_monster"
+		if(RContent < 10) then --brewery
+			client:notify("You receive a device that smells alcoholic.")
+		
+			nut.item.spawn("brewery", position)
+		
 			if(luckRoll > 50) then 
-				nut.item.spawn("food_monster_meat", position)
-				nut.item.spawn("food_monster_meat", position)
-				nut.item.spawn("food_monster_meat", position)
-				nut.item.spawn("food_monster_meat", position)
-			end
-		elseif(RContent < 40) then --shard
-			contents = "shard"
-			if(luckRoll > 70) then --potential bonus
-				nut.item.spawn("shard", position)
-			end
-		elseif(RContent < 50) then --water device
-			contents = "bakery"
+				nut.item.spawn("alc_wine", position)
+				nut.item.spawn("alc_wine", position)
+			end				
+		elseif(RContent < 20) then --ice crammer
+			client:notify("You receive a cold device.")
+		
+			nut.item.spawn("ice_crammer", position)
+
 			if(luckRoll > 50) then 
-				nut.item.spawn("food_donut", position)
+				nut.item.spawn("food_ice_cream", position)
+				nut.item.spawn("food_ice_cream", position)
+			end			
+		elseif(RContent < 30) then --museum
+			client:notify("You receive a historic looking device.")
+		
+			nut.item.spawn("museum", position)
+
+			if(luckRoll > 50) then 
+				nut.item.spawn("blight", position)
+				nut.item.spawn("blight", position)
+				nut.item.spawn("blight", position)
+				nut.item.spawn("j_scrap_memory", position)
+			end
+		elseif(RContent < 40) then --purifier
+			client:notify("You receive a clean looking device.")
+		
+			nut.item.spawn("purifier_water", position)
+
+			if(luckRoll > 50) then
+				nut.item.spawn("food_water", position)
+				nut.item.spawn("food_water", position)
+				nut.item.spawn("food_water", position)
+				nut.item.spawn("food_water", position)
+			end
+		elseif(RContent < 50) then --bakery
+			client:notify("You receive a device that smells of pastries.")
+		
+			nut.item.spawn("bakery", position)
+			
+			if(luckRoll > 50) then 
 				nut.item.spawn("food_donut", position)
 				nut.item.spawn("food_donut", position)
 				nut.item.spawn("food_donut_giant", position)
 			end
-		elseif(RContent < 60) then --water device
-			contents = "cube_water"
+		elseif(RContent < 60) then --soda stream
+			client:notify("You receive a device that somehow makes you thirsty.")
+		
+			nut.item.spawn("soda_stream", position)
+
 			if(luckRoll > 50) then 
-				nut.item.spawn("food_water_misc", position)
-				nut.item.spawn("food_water_misc", position)
-				nut.item.spawn("food_water_misc", position)
-				nut.item.spawn("food_water_misc", position)
+				nut.item.spawn("food_apple_soda", position)
+				nut.item.spawn("food_orange_soda", position)
+				nut.item.spawn("food_apple_juice", position)
 			end
-		elseif(RContent < 70) then --purifier device
-			contents = "nac"
+		elseif(RContent < 70) then --requisition device
+			client:notify("You receive an expensive looking device.")
+		
+			nut.item.spawn("requisition", position)
+
 			if(luckRoll > 50) then 
-				nut.item.spawn("food_laugh", position)
-				nut.item.spawn("food_laugh", position)
-				nut.item.spawn("food_laugh", position)
-				nut.item.spawn("food_laugh", position)
+				nut.item.spawn("cube_chip_enhanced", position)
+				nut.item.spawn("cube_chip_enhanced", position)
 			end
-		elseif(RContent < 80) then --purifier device
-			contents = "purifier_water"
+		elseif(RContent < 80) then --shattered mirror
+			client:notify("You receive a broken looking device.")
+		
+			nut.item.spawn("mirror", position)
+
 			if(luckRoll > 50) then 
-				nut.item.spawn("purifier_water_tablet", position)
-				nut.item.spawn("purifier_water_tablet", position)
-				nut.item.spawn("purifier_water_tablet", position)
+				nut.item.spawn("j_scrap_memory", position)
+				nut.item.spawn("haze_bottled", position)
+				nut.item.spawn("j_scrap_memory", position)
 			end
-		elseif(RContent < 90) then --currency refinery
-			contents = "museum"
-				if(luckRoll > 50) then 
-					nut.item.spawn("j_picture1", position)
-					nut.item.spawn("j_picture2", position)
-					nut.item.spawn("j_picture3", position)
-					nut.item.spawn("j_picture4", position)
-					nut.item.spawn("j_picture5", position)
-				end
-		elseif(RContent < 100) then --currency refinery
-			contents = "refinery_currency"
-			if(luckRoll > 30) then 
-				nut.currency.spawn(position, 50, Angle(0,0,0))	
-				nut.currency.spawn(position, 50, Angle(0,0,0))	
-				nut.currency.spawn(position, 50, Angle(0,0,0))	
+		elseif(RContent < 90) then --breakfaster
+			client:notify("You receive a device that smells like breakfast.")
+		
+			nut.item.spawn("breakfaster", position)
+			
+			if(luckRoll > 50) then 
+				nut.item.spawn("food_milk_jug", position)
+				nut.item.spawn("food_milk_carton", position)
+				nut.item.spawn("food_milk_carton", position)
+			end			
+		elseif(RContent < 100) then --hamburger helper
+			client:notify("You receive a device that smells like bacon.")
+			
+			nut.item.spawn("hamburger_helper", position)
+
+			if(luckRoll > 50) then 
+				nut.item.spawn("food_hotdog", position)
+				nut.item.spawn("food_hamburger", position)
+				nut.item.spawn("food_bacon", position)
 			end
-		elseif(RContent == 100) then --the northern lion
-			client:notify("Jackpot?")
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
-			nut.item.spawn("food_egg", position)
+		elseif(RContent == 100) then --scary
+			client:notify("You receive a clearly dangerous object.")
+			
+			nut.item.spawn("portal_explosives", position)
 		end
 		
 		nut.item.spawn(contents, position)

@@ -83,7 +83,19 @@ ITEM.functions.Sacrifice = {
 				
 				if(reward < 5) then
 					client:notifyLocalized("You receive an ailment.")
-					char:setData("fort_nost", CurTime()) --nostalgia ailment
+					
+					local ails = {
+						"fort_nost",
+						"fort_pani",
+						"fort_noia",
+						"fort_para",
+						"fort_hall",
+						"fort_migraine",
+						"fort_headache",
+						"fort_conf"
+					}
+					
+					char:setData(table.Random(ails), CurTime()) --random fort ailment
 				elseif (reward < 60) then
 					client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
 					rewardI = "drug_depress"

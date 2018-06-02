@@ -1,6 +1,7 @@
-ITEM.name = "Device - Medicator"
+ITEM.name = "Medicator"
 ITEM.uniqueID = "medicator"
 ITEM.model = "models/props_combine/health_charger001.mdl"
+ITEM.material = "models/props_wasteland/quarryobjects01"
 ITEM.desc = "A strange metal object, It has a large slot that is labelled 'DEPRESSANTS', another slot labelled 'ORGANICS', and a small output slot labelled 'MEDICATION'."
 ITEM.width = 2
 ITEM.height = 2
@@ -17,8 +18,8 @@ ITEM.iconCam = {
 
 ITEM.functions.Medical = {
 	name = "Create Medical Supplies",
-	icon = "icon16/box.png",
-	sound = "buttons/lightswitch2.wav",
+	icon = "icon16/heart.png",
+	sound = "items/smallmedkit1.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

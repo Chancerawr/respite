@@ -18,6 +18,14 @@ ITEM.iconCam = {
 }
 
 ITEM:hook("_use", function(item)
-	item.player:EmitSound("hl1/ambience/steamburst1.wav")
-	item.player:ScreenFade(1, Color(100, 255, 100, 255), 10, 0)
+	local client = item.player
+
+	client:EmitSound("hl1/ambience/steamburst1.wav")
+	client:ScreenFade(1, Color(100, 255, 100, 255), 10, 0)
+	
+	timer.Simple(item.duration, function()
+		if(math.random(1,10) == 1) then
+			client:getChar():setData("addict_bh", CurTime())
+		end
+	end)
 end)

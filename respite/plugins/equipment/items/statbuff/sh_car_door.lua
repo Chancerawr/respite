@@ -5,9 +5,14 @@ ITEM.desc = "A large metal door that was once attached to a car."
 ITEM.flag = "j"
 ITEM.width = 3
 ITEM.height = 3
-
 ITEM.data = { scrapamount = 5 }
 ITEM.salvItem = "j_scrap_metals"
+ITEM.buffCategory = "shield"
+
+ITEM.attribBoosts = {
+	["end"] = 6,
+	["stm"] = -10,
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 0),

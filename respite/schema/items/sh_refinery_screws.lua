@@ -17,8 +17,9 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Refine = {
+	name = "Refine Screws",
 	icon = "icon16/cog.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "ambient/machines/machine6.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
@@ -63,13 +64,17 @@ ITEM.functions.Nails = {
 		end
 			
 		local amount = metal:getData("Amount")
+		local amount2 = nail:getData("Amount")
 		if (amount >= 3) then
 			nut.chat.send(client, "itclose", "The machine accepts the metal scraps and nail, makes loud metallic noises, and outputs a screw after a short amount of time.")
 			nut.item.spawn("j_scrap_screws", position)
 			metal:setData("Amount", amount - 3)
-			nail:remove()
+			nail:setData("Amount", amount2 - 1)
 			if (metal:getData("Amount") == 0) then
 				metal:remove()
+			end
+			if (nail:getData("Amount") == 0) then
+				nail:remove()
 			end
 		else
 			client:notifyLocalized("You need 3 scrap metal and 1 nail to refine a screw!")

@@ -1,8 +1,8 @@
-ITEM.name = "Device - Mirror"
+ITEM.name = "Shattered Mirror"
 ITEM.uniqueID = "mirror"
 ITEM.model = "models/props_c17/Frame002a.mdl"
 ITEM.material = "models/props_c17/frostedglass_01a"
-ITEM.desc = "A framed slab of glass. It appears to be a mirror, but it doesn't reflect any Drifter that stands in front of it."
+ITEM.desc = "A framed slab of glass. Various cracks can be seen in its surface. It appears to be a mirror, but it doesn't reflect any Drifter that stands in front of it."
 ITEM.width = 2
 ITEM.height = 2
 ITEM.flag = "v"
@@ -56,10 +56,11 @@ ITEM.functions.Reflect = {
 				local emotion = emotions[math.random(0,8)]
 			
 				if(!IsValid(item:getEntity())) then
-					if(!inventory:add("j_scrap_memory", 1, { Amount = 1, feeling = emotion})) then --if the inventory has space, put it in the inventory
+					if(!inventory:add("j_scrap_memory", 1, { Amount = 5, feeling = emotion})) then --if the inventory has space, put it in the inventory
 						nut.item.spawn("j_scrap_memory", position,
 							function(item2)
 								item2:setData("feeling", emotion)
+								item2:setData("Amount", 5)
 							end
 						)
 					end
@@ -68,6 +69,7 @@ ITEM.functions.Reflect = {
 					nut.item.spawn("j_scrap_memory", item:getEntity():GetPos() + item:getEntity():GetUp()*50,
 						function(item2)
 							item2:setData("feeling", emotion)
+							item2:setData("Amount", 5)
 						end
 					)
 				end
@@ -98,7 +100,7 @@ ITEM.functions.Reflect = {
 ITEM.functions.EChip = {
 	name = "Enhanced Chip",
 	icon = "icon16/map.png",
-	sound = "physics/glass/glass_impact_bullet1.wav",
+	sound = "ambient/water/distant_drip4.wav",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()

@@ -1,4 +1,4 @@
-ITEM.name = "Device - Converter"
+ITEM.name = "Plastic Converter"
 ITEM.uniqueID = "converter"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
 ITEM.material = "phoenix_storms/mrref2"
@@ -32,7 +32,7 @@ ITEM.iconCam = {
 ITEM.functions.Convert = {
 	name = "Convert",
 	icon = "icon16/arrow_refresh.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "physics/plastic/plastic_barrel_break1.wav",
 	onRun = function(item)
 			local client = item.player
 			local position = client:getItemDropPos()
@@ -85,7 +85,7 @@ ITEM.functions.Convert = {
 
 ITEM.functions.Cactus = {
 	icon = "icon16/arrow_refresh.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "physics/plastic/plastic_barrel_break1.wav",
 	onRun = function(item)
 			local client = item.player
 			local position = client:getItemDropPos()

@@ -1,5 +1,6 @@
 ITEM.name = "Venom"
 ITEM.model = "models/props_lab/jar01b.mdl"
+ITEM.material = "models/xqm/woodtexture_1"
 ITEM.desc = "A small bottle filled with some kind of liquid, it doesn't look safe."
 ITEM.duration = 1
 ITEM.price = 30

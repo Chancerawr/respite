@@ -9,7 +9,7 @@ ITEM.height = 1
 ITEM.data = { scrapamount = 3, paint = nil }
 
 ITEM.salvItem = {
-	["j_scrap_chems"] = 3,
+	["j_scrap_chems"] = 2,
 	["j_scrap_metals"] = 2
 }
 
@@ -32,14 +32,18 @@ end
 local emotions = {
 	"White",
 	"Orange",
+	"Copper",
 	"Red",
 	"Green",
+	"Dark Green",
 	"Blue",
+	"Dark Blue",
 	"Teal",
 	"Brown",
 	"Black",
 	"Gold",
 	"Silver",
+	"Purple",
 	"Pink",
 }
 	

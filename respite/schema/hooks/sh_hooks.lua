@@ -39,3 +39,15 @@ function SCHEMA:EntityFireBullets(ent, bulletTable)
 
 	return true
 end
+
+local playerMeta = FindMetaTable("Player")
+
+-- Sends a Derma string request to the client.
+function playerMeta:requestQuery(query, title, callback)
+	local time = math.floor(os.time())
+
+	self.nutQueryReqs = self.nutQueryReqs or {}
+	self.nutQueryReqs[time] = callback
+
+	netstream.Start(self, "strQuery", time, query, title, callback)
+end

@@ -17,7 +17,7 @@ ITEM.iconCam = {
 }
 
 --how long it takes for a charge to regenerate.
-local timeCharge = 3600
+local timeCharge = 7200
 
 local function chargeTimer(startTime)
 
@@ -38,25 +38,27 @@ local function chargeTimer(startTime)
 	if(charges > maxCharges) then
 		charges = maxCharges
 	end
-	
+
 	return math.Round(charges)
 end
 
 ITEM.functions.Charge = {
 	name = "Charge Battery",
 	icon = "icon16/box.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "ambient/energy/zap9.wav",
 	onRun = function(item)
 		local client = item.player
+		local char = client:getChar()
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
+		
 		local battery = inventory:hasItem("j_battery_dead")	
-		local char = client:getChar()
+		local charges = chargeTimer(item:getData("sTime", CurTime()))
 		
 		nut.chat.send(client, "itclose", "The object accepts the dead battery and the money, vibrates intensely, and outputs a freshly charged battery.")
 		
 		battery:remove()
-		item:setData("sTime", CurTime() - timeCharge*(charges-1)) 
+		item:setData("sTime", CurTime() - timeCharge*(charges-1))
 		
 		if(!inventory:add("ammo_battery")) then
 			nut.item.spawn("ammo_battery", position)
@@ -65,6 +67,10 @@ ITEM.functions.Charge = {
 		return false
 	end,
 	onCanRun = function(item)
+		if(item:getData("sTime", 0) + timeCharge > CurTime()) then
+			return false
+		end
+	
 		local player = item.player or item:getOwner()
 		
 		if (!player:getChar():getInv():hasItem("j_battery_dead")) then --if item of importance isn't in the inventory.
@@ -76,7 +82,7 @@ ITEM.functions.Charge = {
 function ITEM:getDesc()
 	local desc = self.desc
 	
-	local charges = chargeTimer(self:getData("sTime"))
+	local charges = chargeTimer(self:getData("sTime", CurTime()))
 	if(charges) then
 		if(charges == 0) then
 			desc = desc .. "\nThe cube is not charged."

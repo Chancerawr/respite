@@ -132,11 +132,11 @@ local function combatRollPart(client, attr, debuff, msg, command)
 	local char = client:getChar()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (char:getAttrib("luck") + 10)) then
-		crit = (1.5 + char:getAttrib("luck")/25)
+	if (crit <= (char:getAttrib("luck", 0) + 10)) then
+		crit = (1.5 + char:getAttrib("luck", 0)/25)
 		critmsg = " (Crit!)"
 	else
-		if(math.random(0,100) < 5) then
+		if(math.random(1,100) <= 5) then
 			crit = 0
 			critmsg = "(Fail!)"
 		else
@@ -160,11 +160,11 @@ local function combatRoll(client, attr, debuff, msg, category, command, noPrint)
 	local char = client:getChar()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (char:getAttrib("luck") + 10)) then
-		crit = (1.5 + char:getAttrib("luck")/25)
+	if (crit <= (char:getAttrib("luck", 0) + 10)) then
+		crit = (1.5 + char:getAttrib("luck", 0)/25)
 		critmsg = " (Crit!)"
 	else
-		if(math.random(0,100) < 5) then
+		if(math.random(1,100) <= 5) then
 			crit = 0
 			critmsg = "(Fail!)"
 		else
@@ -192,11 +192,11 @@ local function combatRollOther(client, attr, debuff, name, msg)
 	local char = client:getChar()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (char:getAttrib("luck") + 10)) then
-		crit = (1.5 + char:getAttrib("luck")/25)
+	if (crit <= (char:getAttrib("luck", 0) + 10)) then
+		crit = (1.5 + char:getAttrib("luck", 0)/25)
 		critmsg = " (Crit!)"
 	else
-		if(math.random(0,100) < 5) then
+		if(math.random(1,100) <= 5) then
 			crit = 0
 			critmsg = "(Fail!)"
 		else
@@ -219,8 +219,8 @@ local function autoResolve(client, target, rollA, category, command)
 	local char = target:getChar()
 	local roll
 	
-	local dodge = char:getAttrib("stm")* 0.5
-	local block = (char:getAttrib("end") * 0.3) + (char:getAttrib("str") * 0.2)
+	local dodge = char:getAttrib("stm", 0)* 0.5
+	local block = (char:getAttrib("end", 0) * 0.3) + (char:getAttrib("str", 0) * 0.2)
 	
 	local evade
 	
@@ -370,7 +370,7 @@ nut.command.add("drone", {
 nut.command.add("reflexes", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = (char:getAttrib("stm")* 0.5)
+		local attr = (char:getAttrib("stm", 0)* 0.5)
 		combatRoll(client, attr, 1, "reflexes.", "react", "reflexes")
 	end
 })
@@ -378,7 +378,7 @@ nut.command.add("reflexes", {
 nut.command.add("flee", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = (char:getAttrib("stm")* 0.5)
+		local attr = (char:getAttrib("stm", 0)* 0.5)
 		combatRoll(client, attr, 1, "a flee attempt.", "react", "flee")
 	end
 })
@@ -386,7 +386,7 @@ nut.command.add("flee", {
 nut.command.add("dodge", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = (char:getAttrib("stm")* 0.5)
+		local attr = (char:getAttrib("stm", 0)* 0.5)
 		combatRoll(client, attr, 0.8, "a dodge/miss.", "react", "dodge")
 	end
 })
@@ -394,7 +394,7 @@ nut.command.add("dodge", {
 nut.command.add("block", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("end") * 0.3) + (char:getAttrib("str") * 0.2))
+		local attr = ((char:getAttrib("end", 0) * 0.3) + (char:getAttrib("str", 0) * 0.2))
 		combatRoll(client, attr, 0.8, "a block attempt.", "react", "block")
 	end
 })
@@ -402,7 +402,7 @@ nut.command.add("block", {
 nut.command.add("defend", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.15) + (char:getAttrib("accuracy") * 0.15) + (char:getAttrib("stm") * 0.15))
+		local attr = ((char:getAttrib("str", 0) * 0.15) + (char:getAttrib("accuracy", 0) * 0.15) + (char:getAttrib("stm", 0) * 0.15))
 		combatRoll(client, attr, 0.85, "defending a target.", "react", "defend")
 	end
 })
@@ -428,11 +428,11 @@ nut.command.add("firearms", {
 				--compares accuracy and strength to target's agility. Forms a roll based on the discrepancy.
 				--accuracy / tarAgility = chance to hit (capped at a max of 85%) and then multiplied by range factor.
 				--crit and crit fail
-				local rangeRoll = math.Clamp(char:getAttrib("accuracy") / tarChar:getAttrib("stm") * (200 / distance), 0, 0.85)
+				local rangeRoll = math.Clamp(char:getAttrib("accuracy", 0) / tarChar:getAttrib("stm", 0) * (200 / distance), 0, 0.85)
 				
 				if(math.random(1,100) <= rangeRoll * 100) then
 					--uses target's luck to determine critical miss (luck save)
-					if(rangeRoll != 0.85 and math.random(1,1000) < tarChar:getAttrib("luck") + 10) then
+					if(rangeRoll != 0.85 and math.random(1,1000) < tarChar:getAttrib("luck", 0) + 10) then
 						--print("LuckSave!")
 						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (unfortunately) MISSED! ("..math.Round(rangeRoll*100).."%)")
 						nut.log.addRaw(client:Name().." missed \""..target:Name(), 2)
@@ -444,7 +444,7 @@ nut.command.add("firearms", {
 					end
 				else
 					--uses own luck to dtermine lucky shot if first attempt misses. (luck save)
-					if(rangeRoll != 0 and math.random(1,1000) < char:getAttrib("luck") + 10) then
+					if(rangeRoll != 0 and math.random(1,1000) < char:getAttrib("luck", 0) + 10) then
 						--print("LuckHit!")
 						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (luckily) HIT! ("..math.Round(rangeRoll*100)..")")
 						nut.log.addRaw(client:Name().." hit(luck) \""..target:Name().. " in " .. part .. "\"", 2)
@@ -460,7 +460,7 @@ nut.command.add("firearms", {
 				return false
 			end
 		else --firearms without specified target
-			local attr = ((char:getAttrib("accuracy") * 0.4) + (char:getAttrib("str") * 0.1))
+			local attr = ((char:getAttrib("accuracy", 0) * 0.4) + (char:getAttrib("str", 0) * 0.1))
 			combatRollPart(client, attr, 0.85, "a shot at target's ", "firearms")
 		end
 	end
@@ -469,7 +469,7 @@ nut.command.add("firearms", {
 nut.command.add("quickdraw", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy") * 0.25) + (char:getAttrib("stm") * 0.25))
+		local attr = ((char:getAttrib("accuracy", 0) * 0.25) + (char:getAttrib("stm", 0) * 0.25))
 		combatRollPart(client, attr, 0.5, "a quickdraw shot at target's ", "quickdraw")
 	end
 })
@@ -477,7 +477,7 @@ nut.command.add("quickdraw", {
 nut.command.add("firearmsaimed", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy") * 0.4) + (char:getAttrib("str") * 0.1))
+		local attr = ((char:getAttrib("accuracy", 0) * 0.4) + (char:getAttrib("str", 0) * 0.1))
 		combatRoll(client, attr, 1.2, "an aimed shot.", "firearms", "firearmsaimed")
 	end
 })
@@ -485,7 +485,7 @@ nut.command.add("firearmsaimed", {
 nut.command.add("execute", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy") * 0.4) + (char:getAttrib("str") * 0.1))
+		local attr = ((char:getAttrib("accuracy", 0) * 0.4) + (char:getAttrib("str", 0) * 0.1))
 		combatRoll(client, attr, 2, "an execution shot.", "firearms", "execute")
 	end
 })
@@ -493,7 +493,7 @@ nut.command.add("execute", {
 nut.command.add("throw", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy") * 0.25) + (char:getAttrib("str") * 0.25))
+		local attr = ((char:getAttrib("accuracy", 0) * 0.25) + (char:getAttrib("str", 0) * 0.25))
 		combatRollPart(client, attr, 1, "throwing an object at target's ", "throw")
 	end
 })
@@ -501,7 +501,7 @@ nut.command.add("throw", {
 nut.command.add("akimbo", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy") * 0.3) + (char:getAttrib("str") * 0.2))
+		local attr = ((char:getAttrib("accuracy", 0) * 0.3) + (char:getAttrib("str", 0) * 0.2))
 		combatRollPart(client, attr, 0.4, "an akimbo shot at target's ", "akimbo")
 		combatRollPart(client, attr, 0.4, "an akimbo shot at target's ", "akimbo")
 	end
@@ -512,13 +512,13 @@ nut.command.add("firearmsburst", {
 		local char = client:getChar()
 		local crit = math.random(1, 1000)
 		local critmsg = ""
-		if (crit <= (char:getAttrib("luck") + 10)) then
-			crit = (1.5 + char:getAttrib("luck")/25)
+		if (crit <= (char:getAttrib("luck", 0) + 10)) then
+			crit = (1.5 + char:getAttrib("luck", 0)/25)
 			critmsg = " (Crit!)"
 		else
 			crit = 1
 		end
-		local rolled = ((char:getAttrib("accuracy") * 0.35) + math.random(-10, 10)) * crit
+		local rolled = ((char:getAttrib("accuracy", 0) * 0.35) + math.random(-10, 10)) * crit
 		local part = bParts[math.random(1, 77)]
 		if(math.random(0,100) < 5) then
 			rolled = 0
@@ -532,13 +532,13 @@ nut.command.add("firearmsburst", {
 		nut.chat.send(client, "firearmsburst", rolled .. critmsg)
 		nut.chat.send(client, "partb", part)
 	
-		rolled = rolled * math.Clamp((0.6 + ((char:getAttrib("str") * 4) / 1000)), 0, 1)
+		rolled = rolled * math.Clamp((0.6 + ((char:getAttrib("str", 0) * 4) / 1000)), 0, 1)
 		part = bParts[math.random(1, 77)]
 		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"", 2)	
 		nut.chat.send(client, "firearmsburst", rolled)
 		nut.chat.send(client, "partb", part)
 	
-		rolled = rolled * math.Clamp((0.4 + ((char:getAttrib("str") * 6) / 1000)), 0, 1)
+		rolled = rolled * math.Clamp((0.4 + ((char:getAttrib("str", 0) * 6) / 1000)), 0, 1)
 		part = bParts[math.random(1, 77)]
 		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"", 2)		
 		nut.chat.send(client, "firearmsburst", rolled)
@@ -551,13 +551,13 @@ nut.command.add("firearmsburstaimed", {
 		local char = client:getChar()
 		local crit = math.random(1, 1000)
 		local critmsg = ""
-		if (crit <= (char:getAttrib("luck") + 10)) then
-			crit = (1.5 + char:getAttrib("luck")/25)
+		if (crit <= (char:getAttrib("luck", 0) + 10)) then
+			crit = (1.5 + char:getAttrib("luck", 0)/25)
 			critmsg = " (Crit!)"
 		else
 			crit = 1
 		end
-		local rolled = ((char:getAttrib("accuracy") * 0.35) + math.random(-10, 10)) * crit
+		local rolled = ((char:getAttrib("accuracy", 0) * 0.35) + math.random(-10, 10)) * crit
 		if(math.random(0,100) < 3) then
 			rolled = 0
 			critmsg = "(Fail!)"
@@ -569,11 +569,11 @@ nut.command.add("firearmsburstaimed", {
 		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)	
 		nut.chat.send(client, "firearmsburst", rolled .. critmsg)
 	
-		rolled = rolled * math.Clamp((0.6 + ((char:getAttrib("str") * 4) / 1000)), 0, 1)
+		rolled = rolled * math.Clamp((0.6 + ((char:getAttrib("str", 0) * 4) / 1000)), 0, 1)
 		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
 		nut.chat.send(client, "firearmsburst", rolled)
 	
-		rolled = rolled * math.Clamp((0.4 + ((char:getAttrib("str") * 6) / 1000)), 0, 1)
+		rolled = rolled * math.Clamp((0.4 + ((char:getAttrib("str", 0) * 6) / 1000)), 0, 1)
 		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
 		nut.chat.send(client, "firearmsburst", rolled)
 	end
@@ -582,11 +582,11 @@ nut.command.add("firearmsburstaimed", {
 nut.command.add("melee", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
+		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 	
 		if(!arguments[1]) then -- no target specified
 			local char = client:getChar()
-			local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
+			local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 			combatRoll(client, attr, 1, "a melee attack.", "melee", "melee")
 		else
 			local target = nut.command.findPlayer(client, arguments[1])
@@ -606,7 +606,7 @@ nut.command.add("melee", {
 nut.command.add("meleedual", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
+		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 		
 		if(!arguments[1]) then -- no target specified
 			combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
@@ -631,7 +631,7 @@ nut.command.add("meleedual", {
 nut.command.add("flail", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((math.random(0,char:getAttrib("luck")) * 0.5))
+		local attr = ((math.random(0,char:getAttrib("luck", 0)) * 0.5))
 		for i=0, math.random(1,2) do
 			if(!arguments[1]) then -- no target specified
 				combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail")
@@ -654,15 +654,23 @@ nut.command.add("flail", {
 nut.command.add("parry", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.15) + (char:getAttrib("accuracy") * 0.15) + (char:getAttrib("stm") * 0.15) + (char:getAttrib("perception") * 0.1))
-		combatRoll(client, attr, 0.85, "parrying.", "react", "parry")
+		local attr = ((char:getAttrib("str", 0) * 0.15) + (char:getAttrib("accuracy", 0) * 0.15) + (char:getAttrib("stm") * 0.15) + (char:getAttrib("perception") * 0.1))
+		combatRoll(client, attr, 0.8, "parrying.", "react", "parry")
+	end
+})
+
+nut.command.add("disarm", {
+	onRun = function(client, arguments)
+		local char = client:getChar()
+		local attr = ((char:getAttrib("medical", 0) * 0.2) + (char:getAttrib("accuracy", 0) * 0.2))
+		combatRoll(client, attr, 1, "disarming.", "melee", "disarm")
 	end
 })
 
 nut.command.add("suppress", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.15))
+		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.15))
 		combatRoll(client, attr, 1.1, "suppressing fire.", "firearms", "suppress")
 	end
 })
@@ -670,7 +678,7 @@ nut.command.add("suppress", {
 nut.command.add("grapple", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("str") * 0.4) + (char:getAttrib("accuracy") * 0.1))
+		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 		
 		if(!arguments[1]) then -- no target specified
 			combatRoll(client, attr, 1, "a grapple.", "melee", "grapple")
@@ -693,7 +701,7 @@ nut.command.add("grapple", {
 nut.command.add("sneak", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = ((char:getAttrib("stm")* 0.5))
+		local attr = ((char:getAttrib("stm", 0)* 0.5))
 		combatRoll(client, attr, 0.75, "sneaking.", "react", "sneak")
 	end
 })
@@ -702,7 +710,7 @@ nut.command.add("sneak", {
 nut.command.add("perception", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local attr = (char:getAttrib("perception") * 0.5)
+		local attr = (char:getAttrib("perception", 0) * 0.5)
 		combatRoll(client, attr, 1, "perceiving.", "react", "perception")
 	end
 })
@@ -712,7 +720,7 @@ nut.command.add("fortitude", {
 	onRun = function(client, arguments)
 		--these rolls cannot crit
 		local char = client:getChar()
-		local rolled = (((char:getAttrib("fortitude") * 0.4) + (char:getAttrib("end") * 0.1)) + math.random(-10, 10))
+		local rolled = (((char:getAttrib("fortitude", 0) * 0.4) + (char:getAttrib("end", 0) * 0.1)) + math.random(-10, 10))
 		rolled = math.abs(rolled)-- this is probably bad
 		
 		rolled = traitModify(client, "fortitude", rolled) --trait modifier
@@ -726,7 +734,7 @@ nut.command.add("endure", {
 	onRun = function(client, arguments)
 		--these rolls cannot crit
 		local char = client:getChar()
-		local rolled = (((char:getAttrib("end") * 0.4) + (char:getAttrib("fortitude") * 0.1)) + math.random(-10, 10))
+		local rolled = (((char:getAttrib("end", 0) * 0.4) + (char:getAttrib("fortitude", 0) * 0.1)) + math.random(-10, 10))
 		rolled = math.abs(rolled)-- this is probably bad
 		
 		rolled = traitModify(client, "endure", rolled) --trait modifier
@@ -741,7 +749,7 @@ nut.command.add("will", {
 	onRun = function(client, arguments)
 		--these rolls cannot crit
 		local char = client:getChar()
-		local rolled = (((char:getAttrib("end") * 0.25) + (char:getAttrib("fortitude") * 0.25)) + math.random(-10, 10))
+		local rolled = (((char:getAttrib("end", 0) * 0.25) + (char:getAttrib("fortitude", 0) * 0.25)) + math.random(-10, 10))
 		rolled = math.abs(rolled)-- this is probably bad
 		
 		rolled = traitModify(client, "will", rolled) --trait modifier
@@ -757,7 +765,7 @@ nut.command.add("fortattack", {
 	onRun = function(client, arguments)
 		--these rolls cannot crit
 		local char = client:getChar()
-		local rolled = ((char:getAttrib("fortitude") * 0.6) + math.random(-10, 10))
+		local rolled = ((char:getAttrib("fortitude", 0) * 0.6) + math.random(-10, 10))
 		rolled = math.abs(rolled)-- this is probably bad
 		
 		rolled = traitModify(client, "fortattack", rolled) --trait modifier
@@ -846,7 +854,7 @@ nut.command.add("chargetattrib", {
 				end
 			end
 			if(attribName) then
-				local value = target:getChar():getAttrib(attribName)
+				local value = target:getChar():getAttrib(attribName, 0)
 			
 				client:notifyLocalized(target:Name() .." ".. findAtt .. ": " .. value)
 			else
@@ -857,7 +865,7 @@ nut.command.add("chargetattrib", {
 })
 
 nut.command.add("train", {
-	syntax = "<string attribute>",
+	syntax = "<string attribute> <Roleplay training before using this>",
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local findAtt = arguments[1]
@@ -877,7 +885,7 @@ nut.command.add("train", {
 			end
 			
 			if(lastTrain and math.abs(tonumber(lastTrain) - tonumber(os.date("%d"))) >= 2) then -- train once every 2 days.
-				local value = char:getAttrib(attribName)
+				local value = char:getAttrib(attribName, 0)
 				char:setData("lastTrain", os.date("%d"))
 				char:updateAttrib(attribName, 1)
 
@@ -1026,7 +1034,17 @@ local lootTable = {
 		"hl2_m_weirdvase",
 		"hl2_m_woodensign",
 		"j_cards",
-		"j_baseball_cap"
+		"j_baseball_cap",
+		"j_military_cap",
+		"j_ushanka",
+		"j_binoculars",
+		"helmet_hard",
+		"helmet_fire",
+		"j_boonie",
+		"j_beanie",
+		"j_gloves",
+		"armor_football",
+		"coin_10"
 	},
 	["food"] = {
 		"food_water",
@@ -1095,12 +1113,19 @@ local lootTable = {
 		"j_scrap_concrete",
 		"j_scrap_adhesive",
 		"j_scrap_screws",
-		"j_scrap_battery"
+		"j_scrap_battery",
+		"coin_10"
+	},	
+	["resources2"] = {
+		"j_scrap_adhesive",
+		"j_scrap_screws",
+		"j_scrap_chems"
 	},
 	["weapon"] = {
 		"hl2_m_lamp",
 		"flashlight",
 		"hl2_m_bat",
+		"hl2_m_bat_metal",
 		"hl2_m_crowbar",
 		"hl2_m_crowbar_alt",
 		"hl2_m_monsterclaw",
@@ -1247,7 +1272,7 @@ function lootRoll(roll)
 	elseif(roll < 80) then
 		local ran = math.random(1,5)
 		if(ran == 1) then
-			item = table.Random(lootTable["resources"])
+			item = table.Random(lootTable["resources2"])
 		elseif(ran == 2) then
 			item = table.Random(lootTable["food2"])
 		elseif(ran == 2) then
@@ -1262,20 +1287,18 @@ function lootRoll(roll)
 	elseif(roll < 90) then
 		local ran = math.random(1,5)
 		if(ran == 1) then
-			item = table.Random(lootTable["resources"])
+			item = table.Random(lootTable["resources2"])
 		elseif(ran == 2) then
 			item = table.Random(lootTable["med2"])
 		elseif(ran == 4) then
 			item = table.Random(lootTable["tool"])
 		elseif(ran == 3) then
 			item = table.Random(lootTable["weapon2"])
-		else
-			item = "blight"
 		end
 	elseif(roll < 100) then
 		local ran = math.random(1,4)
 		if(ran == 1) then
-			item = table.Random(lootTable["resources"])
+			item = table.Random(lootTable["resources2"])
 		elseif(ran == 2) then
 			item = table.Random(lootTable["med2"])
 		elseif(ran == 3) then
@@ -1292,7 +1315,7 @@ function lootRoll(roll)
 		else
 			item = "cube_chip_enhanced"
 		end
-	elseif(roll < 200) then
+	elseif(roll < 500) then
 		item = table.Random(lootTable["weird"])
 	end
 
@@ -1300,28 +1323,25 @@ function lootRoll(roll)
 end
 
 nut.command.add("scavenge", {
+	syntax = "<Roleplay scavenging before using this>",
 	onRun = function(client, arguments)
 		local char = client:getChar()
-		local luckroll = math.random(0, math.Clamp(char:getAttrib("luck"), 0, 100))
+		local luckroll = math.random(0, math.Clamp(char:getAttrib("luck", 0), 0, 100))
 		local rolled = math.random(luckroll, 100)
 
 		rolled = traitModify(client, "scavenge", rolled) --trait modifier
 		
-		local lastScav = char:getData("lastScav", 0)
-			
-		if(lastScav > 0 and lastScav != tonumber(os.date("%d"))) then --once per day.
-			lastScav = 0
-		end
-			
-		if(lastScav <= 0 and lastScav > -4) then --4 per day for now
+		local lastScav = char:getData("ScavD", 0) --the last day that they scavenged
+		local scavNum = char:getData("Scavs", 0) --number of times they've scavenged
+		
+		if(lastScav != tonumber(os.date("%d"))) then --once per day.		
 			local position = client:getItemDropPos()
 		
-			char:setData("lastScav", char:getData("lastScav", 0) - 1)
+			char:setData("ScavD", lastScav - 1)
 			
 			local foundItem = lootRoll(rolled)
-			local niceName = nut.item.list[foundItem].name
 			
-			nut.item.spawn(foundItem, position) --if not, drop it on the ground
+			nut.item.spawn(foundItem, position)
 			
 			local niceName = nut.item.list[foundItem].name
 			if(niceName) then
@@ -1330,8 +1350,13 @@ nut.command.add("scavenge", {
 				nut.log.addRaw(client:Name().." rolled \""..rolled.."\" and received a " ..niceName.. ".", 2)		
 				nut.chat.send(client, "scavenge", rolled)
 			end
-		elseif(lastScav < -4) then
-			char:setData("lastScav", tonumber(os.date("%d")))
+			
+			if(scavNum < 3) then
+				char:setData("Scavs", char:getData("Scavs", 0) + 1)
+			else
+				char:setData("Scavs", 0)
+				char:setData("ScavD", tonumber(os.date("%d"))) --they scavenged today
+			end
 		else
 			client:notifyLocalized("You can only scavenge four times every day.")
 		end

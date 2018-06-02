@@ -1,4 +1,4 @@
-ITEM.name = "Device - Hamburger Helper"
+ITEM.name = "Hamburger Helper"
 ITEM.uniqueID = "hamburger_helper"
 ITEM.model = "models/props_junk/metal_paintcan001a.mdl"
 ITEM.desc = "A strange metallic cylinder, it has a large opening at the top and a door on the side."
@@ -57,15 +57,23 @@ ITEM.functions.Activate = {
 			
 			local kind = math.random(1,3)
 			local result
+			local num
 			if(kind == 1) then
 				result = "food_hamburger"
+				num = 1
 				client:notifyLocalized("Hamburger Helping has begun.")
 			elseif(kind == 2) then
 				result = "food_hotdog"
+				num = 2
 				client:notifyLocalized("Hot Dogging has begun.")
-			else
+			elseif(kind == 3) then
 				result = "food_bacon"
+				num = 3
 				client:notifyLocalized("Baconating has begun.")
+			else
+				result = "food_nuggets"
+				num = 2
+				client:notifyLocalized("Nuggeting has begun.")
 			end
 			item:setData("producing2", CurTime())
 			timer.Simple(300, 
@@ -81,8 +89,12 @@ ITEM.functions.Activate = {
 							position = item:getEntity():GetPos() + item:getEntity():GetUp()*50
 						end
 						
-						for i = 0, math.random(1,kind) do --1 if hamburger, 2 if hot dog, 3 if bacon. (For upper range)
-							nut.item.spawn(result, position)
+						for i = 0, math.random(1,num) do --1 if hamburger, 2 if hot dog, 3 if bacon. (For upper range)
+							nut.item.spawn(result, position,
+								function(item2)
+									item2:setData("cooked", math.random(3,4))
+								end
+							)
 						end
 					end
 				end
@@ -115,7 +127,7 @@ ITEM.functions.Battery = {
 
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some raw meat.")
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some raw human meat.")
 
 		return false
 	end,

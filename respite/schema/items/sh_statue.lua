@@ -18,20 +18,20 @@ ITEM.iconCam = {
 	pos	= Vector(0, 200, 0)
 }
 
-ITEM.functions.CURE = {
+ITEM.functions.Blight = {
 	icon = "icon16/eye.png",
 	sound = "ambient/creatures/rats4.wav",
 	onRun = function(item)
 			local client = item.player
 			local position = client:getItemDropPos()
 			local inventory = client:getChar():getInv()
-			local cure = inventory:hasItem("blight")	
+			local blight = inventory:hasItem("blight")	
 			
-			if (cure) then
-				cure:remove()
+			if (blight) then
+				blight:remove()
 				nut.item.spawn("food_blood", position)
 				nut.chat.send(client, "itclose", "The statue begins crying blood.")	
-				client:TakeDamage(10, client, client)
+				client:TakeDamage(7, client, client)
 				item:setData("hatred", item:getData("hatred", 0) + 1)
 			else
 				client:notifyLocalized("You need blight.")

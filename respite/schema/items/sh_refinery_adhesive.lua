@@ -1,7 +1,7 @@
 ITEM.name = "Refinery - Adhesive"
 ITEM.uniqueID = "refinery_adhesive"
 ITEM.model = "models/props_lab/reciever01b.mdl"
-ITEM.material = "phoenix_storms/mrref2"
+ITEM.material = "models/props_wasteland/metal_tram001a"
 ITEM.desc = "A strange metal box, It has a large slot that is labelled 'ORGANIC MATERIAL', and an output hatch labelled 'ADHESIVE'."
 ITEM.width = 2
 ITEM.height = 1
@@ -17,8 +17,9 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Refine = {
+	name = "Refine Adhesive",
 	icon = "icon16/cog.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "ambient/machines/machine6.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()

@@ -1,5 +1,5 @@
 ITEM.name = "Wooden Sign"
-ITEM.desc = "A wooden sign with 'BEWARE OF DOG' written in big red letters across it."
+ITEM.desc = "A wooden sign with something written in big red letters across it."
 ITEM.model = "models/props_lab/bewaredog.mdl"
 ITEM.class = "hl2_m_woodensign"
 ITEM.uniqueID = "hl2_m_woodensign"

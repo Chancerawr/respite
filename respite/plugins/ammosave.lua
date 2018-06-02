@@ -86,7 +86,7 @@ function PLUGIN:PlayerLoadedChar(client)
 		
 		--fix for people getting ammo from other characters.
 		for k, v in ipairs(self.ammoList) do
-			client:SetAmmo(0, tostring(k))
+			client:SetAmmo(0, tostring(v))
 		end
 
 		-- Get the saved ammo table from the character data.

@@ -17,7 +17,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Farm = {
-	icon = "icon16/box.png",
+	icon = "icon16/picture.png",
 	sound = "npc/barnacle/barnacle_tongue_pull1.wav",
 	onRun = function(item)
 		local client = item.player

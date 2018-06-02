@@ -18,7 +18,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Depressant = {
-	icon = "icon16/box.png",
+	icon = "icon16/arrow_refresh.png",
 	sound = "physics/concrete/rock_impact_soft3.wav",
 	onRun = function(item)
 		local client = item.player
@@ -86,7 +86,7 @@ ITEM.functions.Depressant = {
 }
 
 ITEM.functions.Memory = {
-	icon = "icon16/box.png",
+	icon = "icon16/arrow_refresh.png",
 	sound = "physics/concrete/rock_impact_soft3.wav",
 	onRun = function(item)
 		local client = item.player
@@ -94,9 +94,10 @@ ITEM.functions.Memory = {
 		local inventory = client:getChar():getInv()
 		local object = inventory:hasItem("j_scrap_memory")
 		local ranScrap = {}
-			ranScrap[1] = "cure"
-			ranScrap[2] = "food_water"
-			ranScrap[3] = "food_yams"
+			ranScrap[1] = "blight"
+			ranScrap[2] = "ichor"
+			ranScrap[3] = "food_water"
+			ranScrap[4] = "food_yams"
 			
 		if(object:getData("Amount") > 1) then
 			object:setData("Amount", object:getData("Amount") - 1)
@@ -104,7 +105,7 @@ ITEM.functions.Memory = {
 			object:remove()
 		end
 		
-		nut.item.spawn(ranScrap[math.random(1,3)], position)
+		nut.item.spawn(ranScrap[math.random(1,4)], position)
 		nut.chat.send(client, "itclose", "When nobody is looking, the object in front of the alchemist changes.")		
 		
 		return false
@@ -119,7 +120,7 @@ ITEM.functions.Memory = {
 }
 
 ITEM.functions.Chunk = {
-	icon = "icon16/box.png",
+	icon = "icon16/arrow_refresh.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -129,10 +130,10 @@ ITEM.functions.Chunk = {
 		local amount = object:getData("Amount", 1)
 		
 		local ranScrap = {}
-			ranScrap[1] = "shard"
-			ranScrap[2] = "cube_chip_enhanced"
-			ranScrap[3] = "food_apple_cursed"
-			ranScrap[4] = "portal_explosives"
+			ranScrap[1] = "shard_dust"
+			ranScrap[2] = "chip_escape"
+			ranScrap[3] = "voltaic"
+			ranScrap[4] = "charged_cube"
 			
 		if(amount > 1) then
 			object:setData("Amount", amount - 1)
@@ -156,7 +157,7 @@ ITEM.functions.Chunk = {
 
 ITEM.functions.Yams = {
 	name = "Mysterious Yams",
-	icon = "icon16/box.png",
+	icon = "icon16/arrow_refresh.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player
@@ -190,7 +191,7 @@ ITEM.functions.Yams = {
 
 ITEM.functions.Ichor = {
 	name = "Ichor",
-	icon = "icon16/box.png",
+	icon = "icon16/arrow_refresh.png",
 	sound = "ambient/levels/canals/toxic_slime_sizzle2.wav",
 	onRun = function(item)
 		local client = item.player

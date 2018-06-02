@@ -1,4 +1,4 @@
-ITEM.name = "Device - Brewery"
+ITEM.name = "Brewery"
 ITEM.uniqueID = "brewery"
 ITEM.model = "models/props_c17/trappropeller_engine.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
@@ -11,7 +11,7 @@ ITEM.category = "Machines"
 ITEM.color = Color(128, 128, 128)
 
 ITEM.functions.Brew = {
-	icon = "icon16/box.png",
+	icon = "icon16/drink.png",
 	sound = "ambient/machines/thumper_amb.wav",
 	onRun = function(item)
 		local client = item.player
@@ -91,6 +91,7 @@ ITEM.functions.Potion2 = {
     name = "Potions",
     tip = "useTip",
     icon = "icon16/star.png",
+	sound = "ambient/machines/thumper_amb.wav",
     isMulti = true,
     multiOptions = function(item, client)
         local targets = {
@@ -167,4 +168,34 @@ ITEM.functions.Potion2 = {
 	 
         return false
     end,
+}
+
+ITEM.functions.Battery = {
+	name = "Charged Battery",
+	icon = "icon16/asterisk_orange.png",
+	sound = "ambient/energy/zap9.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local required = inventory:hasItem("ammo_battery")
+			
+		required:remove()
+		nut.item.spawn("drug_antibiotics", position)
+		nut.item.spawn("drug_disinfectant", position)
+		nut.item.spawn("bleach", position)
+		
+		inventory:add("j_battery_dead")
+		
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces bleach, disinfectant, and antibiotics.")
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		
+		if !player:getChar():getInv():hasItem("ammo_battery") then 
+			return false
+		end
+	end
 }

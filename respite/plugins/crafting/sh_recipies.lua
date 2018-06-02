@@ -1,228 +1,263 @@
 local PLUGIN = PLUGIN
 
-local RECIPE1 = {}
-RECIPE1.uid = "nut_flare_red"
-RECIPE1.name = "Flare - Red"
-RECIPE1.category = "Light Sources"
-RECIPE1.model = Model( "models/Items/grenadeAmmo.mdl" )
-RECIPE1.desc = "A flare."
-RECIPE1.noBlueprint = true
-RECIPE1.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_flare_red"
+RECIPE.name = "Flare - Red"
+RECIPE.category = "Light Sources"
+RECIPE.model = Model( "models/Items/grenadeAmmo.mdl" )
+RECIPE.desc = "A flare."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 1,
 	["j_scrap_metals"] = 10,
 	["j_scrap_adhesive"] = 1,
 }
-RECIPE1.result = {
+RECIPE.result = {
 	["nut_flare"] = 1
 }
-RECIPES:Register( RECIPE1 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE2 = {}
-RECIPE2.uid = "nut_glowstick_red"
-RECIPE2.name = "Glowstick - Red"
-RECIPE2.category = "Light Sources"
-RECIPE2.model = Model( "models/glowstick/stick_red.mdl" )
-RECIPE2.desc = "A glowstick."
-RECIPE2.noBlueprint = true
-RECIPE2.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_glowstick_red"
+RECIPE.name = "Glowstick - Red"
+RECIPE.category = "Light Sources"
+RECIPE.model = Model( "models/glowstick/stick_red.mdl" )
+RECIPE.desc = "A glowstick."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 1,
 	["j_scrap_plastics"] = 10,
 	["j_scrap_adhesive"] = 1,
 }
-RECIPE2.result = {
+RECIPE.result = {
 	["weapon_glowstick_red"] = 1
 }
-RECIPES:Register( RECIPE2 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE3 = {}
-RECIPE3.uid = "nut_grenade_flash"
-RECIPE3.name = "Flashbang"
-RECIPE3.category = "Grenades"
-RECIPE3.model = Model( "models/Items/grenadeAmmo.mdl" )
-RECIPE3.desc = "A grenade used for stunning and disorienting those affected."
-RECIPE3.noBlueprint = true
-RECIPE3.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_flash"
+RECIPE.name = "Flash Grenade"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/Items/grenadeAmmo.mdl" )
+RECIPE.desc = "A grenade used for stunning and disorienting those affected."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 2,
 	["j_scrap_metals"] = 20,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_adhesive"] = 2
 }
-RECIPE3.result = {
+RECIPE.result = {
 	["nut_flashgrenade"] = 1
 }
-RECIPES:Register( RECIPE3 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE4 = {}
-RECIPE4.uid = "nut_radio_station"
-RECIPE4.name = "Stationary Radio"
-RECIPE4.category = "Communication"
-RECIPE4.model = Model( "models/props_lab/citizenradio.mdl" )
-RECIPE4.desc = "A stationary radio."
-RECIPE4.noBlueprint = true
-RECIPE4.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_dark"
+RECIPE.name = "Dark Grenade"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/Items/grenadeammo.mdl" )
+RECIPE.desc = "A grenade that will temporarily prevent all light from entering an area."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 1,
+	["j_scrap_metals"] = 20,
+	["j_scrap_adhesive"] = 2,
+	["blight"] = 4
+}
+RECIPE.result = {
+	["nut_darkgrenade"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_radio_station"
+RECIPE.name = "Stationary Radio"
+RECIPE.category = "Communication"
+RECIPE.model = Model( "models/props_lab/citizenradio.mdl" )
+RECIPE.desc = "A stationary radio."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_elecs"] = 12,
 	["j_scrap_metals"] = 25,
 	["j_scrap_adhesive"] = 5,
 	["j_scrap_screws"] = 6,
 	["cube_chip"] = 5
 }
-RECIPE4.result = {
+RECIPE.result = {
 	["comm_radio_stationary"] = 1
 }
-RECIPES:Register( RECIPE4 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE5 = {}
-RECIPE5.uid = "nut_ziptie"
-RECIPE5.name = "Zip Ties"
-RECIPE5.category = "Miscellaneous"
-RECIPE5.model = Model( "models/Items/CrossbowRounds.mdl" )
-RECIPE5.desc = "Some zip ties."
-RECIPE5.noBlueprint = true
-RECIPE5.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ziptie"
+RECIPE.name = "Zip Ties"
+RECIPE.category = "Miscellaneous"
+RECIPE.model = Model( "models/Items/CrossbowRounds.mdl" )
+RECIPE.desc = "Some zip ties."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_plastics"] = 10
 }
-RECIPE5.result = {
+RECIPE.result = {
 	["ziptie"] = 1
 }
-RECIPES:Register( RECIPE5 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE6 = {}
-RECIPE6.uid = "nut_flashlight"
-RECIPE6.name = "Flashlight"
-RECIPE6.category = "Light Sources"
-RECIPE6.model = Model( "models/warz/melee/flashlight.mdl" )
-RECIPE6.desc = "A flashlight."
-RECIPE6.noBlueprint = true
-RECIPE6.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_flashlight"
+RECIPE.name = "Flashlight"
+RECIPE.category = "Light Sources"
+RECIPE.model = Model( "models/warz/melee/flashlight.mdl" )
+RECIPE.desc = "A flashlight."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 14,
 	["j_scrap_adhesive"] = 1,
 	["j_scrap_battery"] = 2,
 	["j_scrap_light"] = 1,
 	["cube_chip"] = 1
 }
-RECIPE6.result = {
+RECIPE.result = {
 	["flashlight"] = 1
 }
-RECIPES:Register( RECIPE6 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE7 = {}
-RECIPE7.uid = "nut_radio"
-RECIPE7.name = "Handheld Radio"
-RECIPE7.category = "Communication"
-RECIPE7.model = Model( "models/gibs/shield_scanner_gib1.mdl" )
-RECIPE7.desc = "A handheld radio."
-RECIPE7.noBlueprint = true
-RECIPE7.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_radio"
+RECIPE.name = "Handheld Radio"
+RECIPE.category = "Communication"
+RECIPE.model = Model( "models/gibs/shield_scanner_gib1.mdl" )
+RECIPE.desc = "A handheld radio."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["cube_chip"] = 5,
 	["comm_signal"] = 1
 }
-RECIPE7.result = {
+RECIPE.result = {
 	["comm_radio"] = 1
 }
-RECIPES:Register( RECIPE7 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE8 = {}
-RECIPE8.uid = "nut_grenade_smoke"
-RECIPE8.name = "Smoke Grenade"
-RECIPE8.category = "Grenades"
-RECIPE8.model = Model( "models/Items/grenadeAmmo.mdl" )
-RECIPE8.desc = "A smoke grenade."
-RECIPE8.noBlueprint = true
-RECIPE8.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_radio_booster"
+RECIPE.name = "Radio Booster"
+RECIPE.category = "Communication"
+RECIPE.model = Model( "models/items/combine_rifle_cartridge01.mdl" )
+RECIPE.desc = "A useful piece of equipment that can be attached to radios to reduce or remove distortion."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["cube_chip"] = 10,
+	["j_scrap_elecs"] = 20,
+	["j_scrap_metals"] = 10
+}
+RECIPE.result = {
+	["radio_booster"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_smoke"
+RECIPE.name = "Smoke Grenade"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/Items/grenadeAmmo.mdl" )
+RECIPE.desc = "A smoke grenade."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 1,
 	["j_scrap_metals"] = 8,
 	["j_scrap_adhesive"] = 2,
 }
-RECIPE8.result = {
+RECIPE.result = {
 	["nut_smokegrenade"] = 1
 }
-RECIPES:Register( RECIPE8 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE9 = {}
-RECIPE9.uid = "nut_grenade_tear"
-RECIPE9.name = "Tear Gas Grenade"
-RECIPE9.category = "Grenades"
-RECIPE9.model = Model( "models/Items/grenadeAmmo.mdl" )
-RECIPE9.desc = "A tear gas grenade."
-RECIPE9.noBlueprint = true
-RECIPE9.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_tear"
+RECIPE.name = "Tear Gas Grenade"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/Items/grenadeAmmo.mdl" )
+RECIPE.desc = "A tear gas grenade."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 5,
 	["j_scrap_metals"] = 15,
 	["j_scrap_adhesive"] = 2,
 }
-RECIPE9.result = {
+RECIPE.result = {
 	["nut_teargas"] = 1
 }
-RECIPES:Register( RECIPE9 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE10 = {}
-RECIPE10.uid = "nut_grenade_frag"
-RECIPE10.name = "Explosive Grenade"
-RECIPE10.category = "Grenades"
-RECIPE10.model = Model( "models/Items/grenadeAmmo.mdl" )
-RECIPE10.desc = "An explosive grenade."
-RECIPE10.noBlueprint = true
-RECIPE10.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_frag"
+RECIPE.name = "Explosive Grenade"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/Items/grenadeAmmo.mdl" )
+RECIPE.desc = "An explosive grenade."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 10,
 	["j_scrap_metals"] = 20,
 	["j_scrap_adhesive"] = 10,
 }
-RECIPE10.result = {
+RECIPE.result = {
 	["nut_explosivegrenade"] = 1
 }
-RECIPES:Register( RECIPE10 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE11 = {}
-RECIPE11.uid = "nut_bat_nailed"
-RECIPE11.name = "Nailed Bat"
-RECIPE11.category = "Weapons - Melee"
-RECIPE11.model = Model( "models/warz/melee/baseballbat_spike.mdl" )
-RECIPE11.desc = "A nailed bat."
-RECIPE11.noBlueprint = true
-RECIPE11.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_bat_nailed"
+RECIPE.name = "Nailed Bat"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/warz/melee/baseballbat_spike.mdl" )
+RECIPE.desc = "A nailed bat."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_nails"] = 10,
 	["hl2_m_bat"] = 1
 }
-RECIPE11.result = {
+RECIPE.result = {
 	["hl2_m_batnail"] = 1
 }
-RECIPES:Register( RECIPE11 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE12 = {}
-RECIPE12.uid = "nut_lantern"
-RECIPE12.name = "Lantern"
-RECIPE12.category = "Light Sources"
-RECIPE12.model = Model( "models/weapons/cof/w_lantern.mdl" )
-RECIPE12.desc = "A lantern."
-RECIPE12.noBlueprint = true
-RECIPE12.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_lantern"
+RECIPE.name = "Lantern"
+RECIPE.category = "Light Sources"
+RECIPE.model = Model( "models/weapons/cof/w_lantern.mdl" )
+RECIPE.desc = "A lantern."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_light"] = 2,
 	["j_scrap_metals"] = 15,
 	["j_scrap_adhesive"] = 3,
 	["j_scrap_battery"] = 5,
 	["cube_chip"] = 2
 }
-RECIPE12.result = {
+RECIPE.result = {
 	["coflantern"] = 1
 }
-RECIPES:Register( RECIPE12 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE13 = {}
-RECIPE13.uid = "nut_beacon_red"
-RECIPE13.name = "Beacon - Red"
-RECIPE13.category = "Light Sources"
-RECIPE13.model = Model( "models/Items/grenadeammo.mdl" )
-RECIPE13.desc = "A red beacon used for signalling or illumination."
-RECIPE13.noBlueprint = true
-RECIPE13.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_beacon_red"
+RECIPE.name = "Beacon - Red"
+RECIPE.category = "Light Sources"
+RECIPE.model = Model( "models/Items/grenadeammo.mdl" )
+RECIPE.desc = "A red beacon used for signalling or illumination."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 1,
 	["j_scrap_metals"] = 10,
 	["j_scrap_adhesive"] = 1,
 	["j_scrap_screws"] = 2
 }
-RECIPE13.result = {
+RECIPE.result = {
 	["nut_beacon"] = 1
 }
-RECIPES:Register( RECIPE13 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE14 = {}
 RECIPE14.uid = "nut_grenade_molotov"
@@ -405,53 +440,68 @@ RECIPE25.result = {
 }
 RECIPES:Register( RECIPE25 )
 //
-local RECIPE26 = {}
-RECIPE26.uid = "nut_pipe"
-RECIPE26.name = "Metal Pipe"
-RECIPE26.category = "Refined"
-RECIPE26.model = Model( "models/props_canal/mattpipe.mdl" )
-RECIPE26.desc = "A pipe made out of metal."
-RECIPE26.noBlueprint = true
-RECIPE26.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_pipe"
+RECIPE.name = "Metal Pipe"
+RECIPE.category = "Refined"
+RECIPE.model = Model( "models/props_canal/mattpipe.mdl" )
+RECIPE.desc = "A pipe made out of metal."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 10
 }
-RECIPE26.result = {
+RECIPE.result = {
 	["hl2_m_pipe"] = 1
 }
-RECIPES:Register( RECIPE26 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE27 = {}
-RECIPE27.uid = "nut_slamfire"
-RECIPE27.name = "Slamfire Shotgun"
-RECIPE27.category = "Weapons"
-RECIPE27.model = Model( "models/props_lab/pipesystem01b.mdl" )
-RECIPE27.desc = "A makeshift shotgun fashioned out of two pipes."
-RECIPE27.noBlueprint = true
-RECIPE27.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_nails"
+RECIPE.name = "Nails"
+RECIPE.category = "Resources"
+RECIPE.model = Model( "models/props_junk/garbage_metalcan002a.mdl" )
+RECIPE.desc = "Nails made out of metal."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 2
+}
+RECIPE.result = {
+	["j_scrap_nails"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_slamfire"
+RECIPE.name = "Slamfire Shotgun"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/props_lab/pipesystem01b.mdl" )
+RECIPE.desc = "A makeshift shotgun fashioned out of two pipes."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["hl2_m_pipe"] = 2,
 	["j_scrap_adhesive"] = 2,
 	["j_scrap_screws"] = 2,
 	["cube_chip"] = 5	
 }
-RECIPE27.result = {
+RECIPE.result = {
 	["makeshift_slamfire"] = 1
 }
-RECIPES:Register( RECIPE27 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE28 = {}
-RECIPE28.uid = "nut_makeshift_sword"
-RECIPE28.name = "Makeshift Sword"
-RECIPE28.category = "Weapons - Melee"
-RECIPE28.model = Model( "models/props_debris/wood_chunk03e.mdl" )
-RECIPE28.desc = "A hunk of sharpened scrap metal."
-RECIPE28.noBlueprint = true
-RECIPE28.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_makeshift_sword"
+RECIPE.name = "Makeshift Sword"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_debris/wood_chunk03e.mdl" )
+RECIPE.desc = "A hunk of sharpened scrap metal."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 25
 }
-RECIPE28.result = {
+RECIPE.result = {
 	["hl2_m_makeshift_sword"] = 1
 }
-RECIPES:Register( RECIPE28 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE29 = {}
 RECIPE29.uid = "nut_makeshift_shiv_glass"
@@ -468,14 +518,14 @@ RECIPE29.result = {
 }
 RECIPES:Register( RECIPE29 )
 //
-local RECIPE30 = {}
-RECIPE30.uid = "nut_cr1ka"
-RECIPE30.name = "CR-1KA"
-RECIPE30.category = "Weapons"
-RECIPE30.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
-RECIPE30.desc = "A makeshift rifle made out of scrap parts."
-RECIPE30.noBlueprint = true
-RECIPE30.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_cr1ka"
+RECIPE.name = "CR-1KA"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel.\nThis weapon utilizes 7.62x51mm rounds."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_screws"] = 3,
 	["j_scrap_wood"] = 25,
 	["j_scrap_metals"] = 25,
@@ -485,10 +535,115 @@ RECIPE30.items = {
 	["cube_chip"] = 8,	
 	["comp_reinforced_barrel"] = 1
 }
-RECIPE30.result = {
+RECIPE.result = {
 	["tfa_cr1ka"] = 1
 }
-RECIPES:Register( RECIPE30 )
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_cr1kb"
+RECIPE.name = "CR-1KB"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel.\nThis weapon utilizes 7.62x51mm rounds."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_screws"] = 3,
+	["j_scrap_wood"] = 25,
+	["j_scrap_metals"] = 50,
+	["j_scrap_plastics"] = 8,
+	["j_scrap_adhesive"] = 3,
+	["j_scrap_chems"] = 2,
+	["cube_chip"] = 8,	
+	["comp_reinforced_barrel"] = 1
+}
+RECIPE.result = {
+	["tfa_cr1kb"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_cr1fa"
+RECIPE.name = "CR-1FA"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel and a short butt-stock.\nThis weapon utilizes 7.62x51mm rounds."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_screws"] = 3,
+	["j_scrap_wood"] = 25,
+	["j_scrap_metals"] = 50,
+	["j_scrap_plastics"] = 8,
+	["j_scrap_adhesive"] = 3,
+	["j_scrap_chems"] = 2,
+	["cube_chip"] = 8,	
+	["comp_reinforced_barrel"] = 1
+}
+RECIPE.result = {
+	["tfa_cr1fa"] = 1
+}
+RECIPES:Register( RECIPE )//
+local RECIPE = {}
+RECIPE.uid = "nut_cr1fb"
+RECIPE.name = "CR-1FB"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel and a short butt-stock.\nThis weapon utilizes 7.62x51mm rounds."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_screws"] = 3,
+	["j_scrap_wood"] = 25,
+	["j_scrap_metals"] = 75,
+	["j_scrap_plastics"] = 8,
+	["j_scrap_adhesive"] = 3,
+	["j_scrap_chems"] = 2,
+	["cube_chip"] = 8,	
+	["comp_reinforced_barrel"] = 1
+}
+RECIPE.result = {
+	["tfa_cr1fb"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_cr2fa"
+RECIPE.name = "CR-2FA"
+RECIPE.category = "Weapons - Modifications"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a full length barrel and a short butt-stock.\nThis weapon utilizes 7.62x51mm rounds."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["tfa_cr1fa"] = 1,
+	["j_scrap_wood"] = 4,
+	["j_scrap_metals"] = 8,
+	["j_scrap_plastics"] = 6,
+	["comp_reinforced_barrel"] = 1,
+	["cube_chip"] = 8
+}
+RECIPE.result = {
+	["tfa_cr2fa"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_cr2fb"
+RECIPE.name = "CR-2FB"
+RECIPE.category = "Weapons - Modifications"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a full length barrel, short butt-stock and a proper magazine feed.\nThis weapon utilizes 7.62x51mm rounds."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["tfa_cr1fb"] = 1,
+	["j_scrap_wood"] = 4,
+	["j_scrap_metals"] = 8,
+	["j_scrap_plastics"] = 6,
+	["comp_reinforced_barrel"] = 1,
+	["cube_chip"] = 8
+}
+RECIPE.result = {
+	["tfa_cr2fb"] = 1
+}
+RECIPES:Register( RECIPE )
 //
 local RECIPE31 = {}
 RECIPE31.uid = "nut_splint"
@@ -521,37 +676,37 @@ RECIPE32.result = {
 }
 RECIPES:Register( RECIPE32 )
 //
-local RECIPE33 = {}
-RECIPE33.uid = "nut_gauze"
-RECIPE33.name = "Gauze"
-RECIPE33.category = "Medical"
-RECIPE33.model = Model( "models/props_lab/box01a.mdl" )
-RECIPE33.desc = "Some makeshift gauze."
-RECIPE33.noBlueprint = true
-RECIPE33.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_gauze"
+RECIPE.name = "Gauze"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_lab/box01a.mdl" )
+RECIPE.desc = "Some makeshift gauze."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_cloth"] = 20
 }
-RECIPE33.result = {
+RECIPE.result = {
 	["medical_gauze"] = 1
 }
-RECIPES:Register( RECIPE33 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE34 = {}
-RECIPE34.uid = "nut_orgconverter"
-RECIPE34.name = "Organic Converter"
-RECIPE34.category = "Machines"
-RECIPE34.model = Model( "models/props_c17/grinderclamp01a.mdl" )
-RECIPE34.desc = "A peculiar tool with a climb and a lever."
-RECIPE34.noBlueprint = true
-RECIPE34.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_orgconverter"
+RECIPE.name = "Organic Converter"
+RECIPE.category = "Machines"
+RECIPE.model = Model( "models/props_c17/grinderclamp01a.mdl" )
+RECIPE.desc = "A peculiar tool with a climb and a lever."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_meat_grinder"] = 1,
-	["blight"] = 10,
+	["blight"] = 5,
 	["j_scrap_organic"] = 10
 }
-RECIPE34.result = {
+RECIPE.result = {
 	["converter_meat"] = 1
 }
-RECIPES:Register( RECIPE34 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE35 = {}
 RECIPE35.uid = "nut_adhesive"
@@ -593,7 +748,7 @@ local RECIPE37 = {}
 RECIPE37.uid = "nut_crunt"
 RECIPE37.name = "CR-UNT"
 RECIPE37.category = "Weapons - Modifications"
-RECIPE37.model = Model( "models/weapons/tfa_w_snip_m24_6.mdl" )
+RECIPE37.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
 RECIPE37.desc = "A makeshift triple barrel bolt action shotgun looking to be built by retrofitting and installing new and more complex parts to the more common CR series rifle. Designed to help deal alot of damage to large creatures in one hit."
 RECIPE37.noBlueprint = true
 RECIPE37.items = {
@@ -611,14 +766,14 @@ RECIPE37.result = {
 }
 RECIPES:Register( RECIPE37 )
 //
-local RECIPE38 = {}
-RECIPE38.uid = "nut_cross"
-RECIPE38.name = "CR-OSS"
-RECIPE38.category = "Weapons - Modifications"
-RECIPE38.model = Model( "models/weapons/tfa_w_snip_m24_6.mdl" )
-RECIPE38.desc = "A rigid robust high calibre rifle looking to be built by retrofitting and installing new and more complex parts to the more common CR series rifle. Designed to deliver a single precise and accurate shot at range."
-RECIPE38.noBlueprint = true
-RECIPE38.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_cross"
+RECIPE.name = "CR-OSS"
+RECIPE.category = "Weapons - Modifications"
+RECIPE.model = Model( "models/weapons/tfa_w_snip_m24_6.mdl" )
+RECIPE.desc = "A rigid robust high calibre rifle looking to be built by retrofitting and installing new and more complex parts to the more common CR series rifle. Designed to deliver a single precise and accurate shot at range."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["tfa_cr2ka"] = 1,
 	["j_scrap_adhesive"] = 2,
 	["j_scrap_rubber"] = 8,
@@ -628,10 +783,10 @@ RECIPE38.items = {
 	["cube_chip"] = 5,	
 	["comp_reinforced_barrel"] = 2
 }
-RECIPE38.result = {
+RECIPE.result = {
 	["tfa_cross"] = 1
 }
-RECIPES:Register( RECIPE38 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE39 = {}
 RECIPE39.uid = "nut_cr3st"
@@ -1031,234 +1186,234 @@ RECIPE58.result = {
 }
 RECIPES:Register( RECIPE58 )
 //
-local RECIPE59 = {}
-RECIPE59.uid = "nut_disinfectant"
-RECIPE59.name = "Disinfectant"
-RECIPE59.category = "Medical"
-RECIPE59.model = Model( "models/props_junk/glassjug01.mdl" )
-RECIPE59.desc = "A bottle filled with some kind of disinfectant."
-RECIPE59.noBlueprint = true
-RECIPE59.items = {
-	["j_scrap_chems"] = 5,
+local RECIPE = {}
+RECIPE.uid = "nut_disinfectant"
+RECIPE.name = "Disinfectant"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_junk/glassjug01.mdl" )
+RECIPE.desc = "A bottle filled with some kind of disinfectant."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 3,
 	["food_water"] = 1,
 	["drug_depress"] = 2
 }
-RECIPE59.result = {
+RECIPE.result = {
 	["drug_disinfectant"] = 1
 }
-RECIPES:Register( RECIPE59 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE60 = {}
-RECIPE60.uid = "nut_burnointment"
-RECIPE60.name = "Burn Ointment"
-RECIPE60.category = "Medical"
-RECIPE60.model = Model( "models/props_junk/glassjug01.mdl" )
-RECIPE60.desc = "A bottle filled with burn ointment."
-RECIPE60.noBlueprint = true
-RECIPE60.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_burnointment"
+RECIPE.name = "Burn Ointment"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_junk/glassjug01.mdl" )
+RECIPE.desc = "A bottle filled with burn ointment."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 2,
 	["food_water"] = 1,
 	["drug_depress"] = 2
 }
-RECIPE60.result = {
+RECIPE.result = {
 	["drug_burnointment"] = 1
 }
-RECIPES:Register( RECIPE60 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE61 = {}
-RECIPE61.uid = "nut_painkillers"
-RECIPE61.name = "Painkillers"
-RECIPE61.category = "Medical"
-RECIPE61.model = Model( "models/props_lab/jar01b.mdl" )
-RECIPE61.desc = "A small bottle filled with some pills."
-RECIPE61.noBlueprint = true
-RECIPE61.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_painkillers"
+RECIPE.name = "Painkillers"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_lab/jar01b.mdl" )
+RECIPE.desc = "A small bottle filled with some pills."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 3,
 	["food_water"] = 1,
 	["drug_depress"] = 3
 }
-RECIPE61.result = {
+RECIPE.result = {
 	["drug_painkillers"] = 1
 }
-RECIPES:Register( RECIPE61 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE62 = {}
-RECIPE62.uid = "nut_sleepingpills"
-RECIPE62.name = "Sleeping Pills"
-RECIPE62.category = "Medical"
-RECIPE62.model = Model( "models/props_lab/jar01b.mdl" )
-RECIPE62.desc = "A small bottle filled with some pills."
-RECIPE62.noBlueprint = true
-RECIPE62.items = {
-	["j_scrap_chems"] = 2,
+local RECIPE = {}
+RECIPE.uid = "nut_sleepingpills"
+RECIPE.name = "Sleeping Pills"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_lab/jar01b.mdl" )
+RECIPE.desc = "A small bottle filled with some pills."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 1,
 	["food_water"] = 1,
 	["drug_depress"] = 2
 }
-RECIPE62.result = {
+RECIPE.result = {
 	["drug_sleepingpills"] = 1
 }
-RECIPES:Register( RECIPE62 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE63 = {}
-RECIPE63.uid = "nut_rubbingalcohol"
-RECIPE63.name = "Rubbing Alcohol"
-RECIPE63.category = "Medical"
-RECIPE63.model = Model( "models/props_junk/glassjug01.mdl" )
-RECIPE63.desc = "A bottle filled with rubbing alcohol."
-RECIPE63.noBlueprint = true
-RECIPE63.items = {
-	["j_scrap_chems"] = 2,
+local RECIPE = {}
+RECIPE.uid = "nut_rubbingalcohol"
+RECIPE.name = "Rubbing Alcohol"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_junk/glassjug01.mdl" )
+RECIPE.desc = "A bottle filled with rubbing alcohol."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 1,
 	["food_water"] = 1,
 	["drug_depress"] = 2
 }
-RECIPE63.result = {
+RECIPE.result = {
 	["drug_rubbingalcohol"] = 1
 }
-RECIPES:Register( RECIPE63 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE64 = {}
-RECIPE64.uid = "nut_steroid"
-RECIPE64.name = "Steroid"
-RECIPE64.category = "Medical"
-RECIPE64.model = Model( "models/props_lab/jar01b.mdl" )
-RECIPE64.desc = "A bottle filled with medical steroids."
-RECIPE64.noBlueprint = true
-RECIPE64.items = {
-	["j_scrap_chems"] = 3,
+local RECIPE = {}
+RECIPE.uid = "nut_steroid"
+RECIPE.name = "Steroid"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_lab/jar01b.mdl" )
+RECIPE.desc = "A bottle filled with medical steroids."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 2,
 	["food_water"] = 2,
 	["drug_depress"] = 2
 }
-RECIPE64.result = {
+RECIPE.result = {
 	["drug_steroid"] = 1
 }
-RECIPES:Register( RECIPE64 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE65 = {}
-RECIPE65.uid = "nut_antibiotics"
-RECIPE65.name = "Antibiotics"
-RECIPE65.category = "Medical"
-RECIPE65.model = Model( "models/healthvial.mdl" )
-RECIPE65.desc = "A bottle filled with antibiotics."
-RECIPE65.noBlueprint = true
-RECIPE65.items = {
-	["j_scrap_chems"] = 4,
+local RECIPE = {}
+RECIPE.uid = "nut_antibiotics"
+RECIPE.name = "Antibiotics"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/healthvial.mdl" )
+RECIPE.desc = "A bottle filled with antibiotics."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 3,
 	["food_water"] = 2,
 	["drug_depress"] = 3
 }
-RECIPE65.result = {
+RECIPE.result = {
 	["drug_antibiotics"] = 1
 }
-RECIPES:Register( RECIPE65 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE66 = {}
-RECIPE66.uid = "nut_purification_tablet"
-RECIPE66.name = "Water Purification Tablet"
-RECIPE66.category = "Medical"
-RECIPE66.model = Model( "models/gibs/metal_gib4.mdl" )
-RECIPE66.desc = "A small tablet, it says 'PURIFY' on the side of it."
-RECIPE66.noBlueprint = true
-RECIPE66.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_purification_tablet"
+RECIPE.name = "Water Purification Tablet"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/gibs/metal_gib4.mdl" )
+RECIPE.desc = "A small tablet, it says 'PURIFY' on the side of it."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 4,
 	["drug_depress"] = 1
 }
-RECIPE66.result = {
+RECIPE.result = {
 	["purifier_water_tablet"] = 1
 }
-RECIPES:Register( RECIPE66 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE67 = {}
-RECIPE67.uid = "nut_yams_mysterious"
-RECIPE67.name = "Mysterious Yams"
-RECIPE67.category = "Mysterious"
-RECIPE67.model = Model( "models/props_junk/garbage_metalcan001a.mdl" )
-RECIPE67.desc = "???"
-RECIPE67.noBlueprint = true
-RECIPE67.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_yams_mysterious"
+RECIPE.name = "Mysterious Yams"
+RECIPE.category = "Mysterious"
+RECIPE.model = Model( "models/props_junk/garbage_metalcan001a.mdl" )
+RECIPE.desc = "???"
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["food_yams"] = 4,
 	["j_scrap_memory"] = 1
 }
-RECIPE67.result = {
+RECIPE.result = {
 	["food_yams_mysterious"] = 1
 }
-RECIPES:Register( RECIPE67 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE68 = {}
-RECIPE68.uid = "nut_medicalkit"
-RECIPE68.name = "First-Aid Kit"
-RECIPE68.category = "Medical"
-RECIPE68.model = Model( "models/items/healthkit.mdl" )
-RECIPE68.desc = "A standard medical kit used to apply first aid."
-RECIPE68.noBlueprint = true
-RECIPE68.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_medicalkit"
+RECIPE.name = "First-Aid Kit"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/items/healthkit.mdl" )
+RECIPE.desc = "A standard medical kit used to apply first aid."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_chems"] = 2,
 	["j_scrap_adhesive"] = 2,
 	["medical_bandages"] = 2,
 	["medical_gauze"] = 1
 }
-RECIPE68.result = {
+RECIPE.result = {
 	["medical_kit"] = 1
 }
-RECIPES:Register( RECIPE68 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE69 = {}
-RECIPE69.uid = "nut_salvager"
-RECIPE69.name = "Salvager Kit"
-RECIPE69.category = "Machines"
-RECIPE69.model = Model( "models/props_c17/suitcase_passenger_physics.mdl" )
-RECIPE69.desc = "A strange metallic device. It appears to be vibrating slightly."
-RECIPE69.noBlueprint = true
-RECIPE69.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_salvager"
+RECIPE.name = "Salvager Kit"
+RECIPE.category = "Machines"
+RECIPE.model = Model( "models/props_c17/suitcase_passenger_physics.mdl" )
+RECIPE.desc = "A strange metallic device. It appears to be vibrating slightly."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["blight"] = 5,
 	["hl2_m_wrench"] = 1,
 	["j_drill"] = 1,
 	["j_power_saw"] = 1,
 	["hl2_m_hammer"] = 1
 }
-RECIPE69.result = {
+RECIPE.result = {
 	["kit_salvager"] = 1
 }
-RECIPES:Register( RECIPE69 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE70 = {}
-RECIPE70.uid = "nut_hammer"
-RECIPE70.name = "Carpenter Hammer"
-RECIPE70.category = "Tools"
-RECIPE70.model = Model( "models/warz/melee/hammer.mdl" )
-RECIPE70.desc = "A tool used to apply blunt force."
-RECIPE70.noBlueprint = true
-RECIPE70.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_hammer"
+RECIPE.name = "Carpenter Hammer"
+RECIPE.category = "Tools"
+RECIPE.model = Model( "models/warz/melee/hammer.mdl" )
+RECIPE.desc = "A tool used to apply blunt force."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 10,
 	["j_scrap_wood"] = 10
 }
-RECIPE70.result = {
+RECIPE.result = {
 	["hl2_m_hammer"] = 1
 }
-RECIPES:Register( RECIPE70 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE71 = {}
-RECIPE71.uid = "nut_wrench"
-RECIPE71.name = "Wrench"
-RECIPE71.category = "Tools"
-RECIPE71.model = Model( "models/warz/melee/wrench.mdl" )
-RECIPE71.desc = "A useful metal tool."
-RECIPE71.noBlueprint = true
-RECIPE71.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_wrench"
+RECIPE.name = "Wrench"
+RECIPE.category = "Tools"
+RECIPE.model = Model( "models/warz/melee/wrench.mdl" )
+RECIPE.desc = "A useful metal tool."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 15
 }
-RECIPE71.result = {
+RECIPE.result = {
 	["hl2_m_wrench"] = 1
 }
-RECIPES:Register( RECIPE71 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE72 = {}
-RECIPE72.uid = "nut_cr33k"
-RECIPE72.name = "CR-33K"
-RECIPE72.category = "Weapons"
-RECIPE72.model = Model( "models/weapons/tfa_w_dmg_vikhr.mdl" )
-RECIPE72.desc = "A fully automatic assault rifle made out of various scrap parts. Has no real stock and is a real pain to control even with a lower rate of fire, but atleast offers. high capacity automatic rifle fire."
-RECIPE72.noBlueprint = true
-RECIPE72.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_cr33k"
+RECIPE.name = "CR-33K"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/tfa_w_dmg_vikhr.mdl" )
+RECIPE.desc = "A fully automatic assault rifle made out of various scrap parts. Has no real stock and is a real pain to control even with a lower rate of fire, but atleast offers. high capacity automatic rifle fire."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_screws"] = 2,
 	["j_scrap_rubber"] = 8,
 	["j_scrap_adhesive"] = 6,
@@ -1269,10 +1424,10 @@ RECIPE72.items = {
 	["comp_reinforced_barrel"] = 2,
 	["cube_chip"] = 10,
 }
-RECIPE72.result = {
+RECIPE.result = {
 	["tfa_cr33k"] = 1
 }
-RECIPES:Register( RECIPE72 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE73 = {}
 RECIPE73.uid = "nut_cr33D"
@@ -1462,14 +1617,14 @@ RECIPE82.result = {
 }
 RECIPES:Register( RECIPE82 )
 //
-local RECIPE83 = {}
-RECIPE83.uid = "nut_cr2ka"
-RECIPE83.name = "CR-2KA"
-RECIPE83.category = "Weapons - Modifications"
-RECIPE83.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
-RECIPE83.desc = "A makeshift bolt action rifle assembled from various scraps. It'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a full length barrel."
-RECIPE83.noBlueprint = true
-RECIPE83.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_cr2ka"
+RECIPE.name = "CR-2KA"
+RECIPE.category = "Weapons - Modifications"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps. It'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a full length barrel."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["tfa_cr1ka"] = 1,
 	["j_scrap_wood"] = 4,
 	["j_scrap_metals"] = 8,
@@ -1477,10 +1632,30 @@ RECIPE83.items = {
 	["comp_reinforced_barrel"] = 1,
 	["cube_chip"] = 8
 }
-RECIPE83.result = {
+RECIPE.result = {
 	["tfa_cr2ka"] = 1
 }
-RECIPES:Register( RECIPE83 )
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_cr2kb"
+RECIPE.name = "CR-2KB"
+RECIPE.category = "Weapons - Modifications"
+RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
+RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps. It'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a full length barrel."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["tfa_cr1kb"] = 1,
+	["j_scrap_wood"] = 4,
+	["j_scrap_metals"] = 8,
+	["j_scrap_plastics"] = 6,
+	["comp_reinforced_barrel"] = 1,
+	["cube_chip"] = 8
+}
+RECIPE.result = {
+	["tfa_cr2kb"] = 1
+}
+RECIPES:Register( RECIPE )
 //
 local RECIPE84 = {}
 RECIPE84.uid = "nut_cp1kh"
@@ -1597,7 +1772,7 @@ RECIPES:Register( RECIPE89 )
 local RECIPE90 = {}
 RECIPE90.uid = "nut_meat_stew"
 RECIPE90.name = "Meaty Stew"
-RECIPE90.category = "Cooking"
+RECIPE90.category = "Food"
 RECIPE90.model = Model( "models/props/cs_militia/paintbucket01.mdl" )
 RECIPE90.desc = "A big bucket of meaty stew."
 RECIPE90.noBlueprint = true
@@ -1607,6 +1782,21 @@ RECIPE90.items = {
 }
 RECIPE90.result = {
 	["food_meat_stew"] = 1
+}
+RECIPES:Register( RECIPE90 )
+//
+local RECIPE90 = {}
+RECIPE90.uid = "nut_chips"
+RECIPE90.name = "Potato Chips"
+RECIPE90.category = "Food"
+RECIPE90.model = Model( "models/props_junk/garbage_bag001a.mdl" )
+RECIPE90.desc = "A sealed plastic bag filled with semi-crushed potato chips."
+RECIPE90.noBlueprint = true
+RECIPE90.items = {
+	["food_potato"] = 2
+}
+RECIPE90.result = {
+	["food_chips"] = 1
 }
 RECIPES:Register( RECIPE90 )
 //
@@ -1649,14 +1839,14 @@ RECIPE92.result = {
 }
 RECIPES:Register( RECIPE92 )
 //
-local RECIPE93 = {}
-RECIPE93.uid = "nut_cp1km"
-RECIPE93.name = "CP-1KM"
-RECIPE93.category = "Weapons - Modifications"
-RECIPE93.model = Model( "models/weapons/tfa_w_dmgf_co1911.mdl" )
-RECIPE93.desc = "Low capacity high calibre pistol with an extended barrel made out of various pieces of scrap. This one has an integral suppressor built into it."
-RECIPE93.noBlueprint = true
-RECIPE93.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_cp1km"
+RECIPE.name = "CP-1KM"
+RECIPE.category = "Weapons - Modifications"
+RECIPE.model = Model( "models/weapons/tfa_w_dmgf_co1911.mdl" )
+RECIPE.desc = "Low capacity high calibre pistol with an extended barrel made out of various pieces of scrap. This one has an integral suppressor built into it."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_screws"] = 4,
 	["j_scrap_metals"] = 20,
 	["j_scrap_plastics"] = 4,
@@ -1666,54 +1856,54 @@ RECIPE93.items = {
 	["tfa_cp1kl"] = 1,
 	["cube_chip"] = 10
 }
-RECIPE93.result = {
+RECIPE.result = {
 	["tfa_cp1km"] = 1
 }
-RECIPES:Register( RECIPE93 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE94 = {}
-RECIPE94.uid = "nut_medicalkitrefill"
-RECIPE94.name = "Refill First-Aid Kit"
-RECIPE94.category = "Medical"
-RECIPE94.model = Model( "models/items/healthkit.mdl" )
-RECIPE94.desc = "Refill an empty first aid kit with new supplies."
-RECIPE94.noBlueprint = true
-RECIPE94.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_medicalkitrefill"
+RECIPE.name = "Refill First-Aid Kit"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/items/healthkit.mdl" )
+RECIPE.desc = "Refill an empty first aid kit with new supplies."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_used_first_aid_kit"] = 1,
 	["j_scrap_chems"] = 2,
 	["j_scrap_adhesive"] = 2,
 	["medical_bandages"] = 2,
 	["medical_gauze"] = 1
 }
-RECIPE94.result = {
+RECIPE.result = {
 	["medical_kit"] = 1
 }
-RECIPES:Register( RECIPE94 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE95 = {}
-RECIPE95.uid = "nut_fuel"
-RECIPE95.name = "Fuel"
-RECIPE95.category = "Refined"
-RECIPE95.model = Model( "models/props_junk/gascan001a.mdl" )
-RECIPE95.desc = "A can of fuel for anything that needs to be fueled."
-RECIPE95.noBlueprint = true
-RECIPE95.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_fuel"
+RECIPE.name = "Fuel"
+RECIPE.category = "Refined"
+RECIPE.model = Model( "models/props_junk/gascan001a.mdl" )
+RECIPE.desc = "A can of fuel for anything that needs to be fueled."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_chems"] = 10,
 	["cube_chip"] = 2
 }
-RECIPE95.result = {
+RECIPE.result = {
 	["j_gas_can"] = 1
 }
-RECIPES:Register( RECIPE95 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE96 = {}
-RECIPE96.uid = "nut_chafe"
-RECIPE96.name = "CH-AFE"
-RECIPE96.category = "Weapons"
-RECIPE96.model = Model( "models/weapons/w_rocket_launcher.mdl" )
-RECIPE96.desc = "A janky flamethrower that looks like a set of pipes tubes and steel cannisters connected and reinforced with bits of scrap.\nRequires both the weapon mounted tank and an external tank connected by a thick boost hose to run.\nRequires fuel to use."
-RECIPE96.noBlueprint = true
-RECIPE96.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_chafe"
+RECIPE.name = "CH-AFE"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/w_rocket_launcher.mdl" )
+RECIPE.desc = "A janky flamethrower that looks like a set of pipes tubes and steel cannisters connected and reinforced with bits of scrap.\nRequires both the weapon mounted tank and an external tank connected by a thick boost hose to run.\nRequires fuel to use."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["ziptie"] = 4,
 	["j_syringe"] = 1,
 	["comp_fuel_tank"] = 1,
@@ -1727,19 +1917,19 @@ RECIPE96.items = {
 	["hl2_m_pipe"] = 3,
 	["cube_chip"] = 8
 }
-RECIPE96.result = {
+RECIPE.result = {
 	["tfa_chafe"] = 1
 }
-RECIPES:Register( RECIPE96 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE97 = {}
-RECIPE97.uid = "nut_fuel_tank"
-RECIPE97.name = "Fuel Tank"
-RECIPE97.category = "Components"
-RECIPE97.model = Model( "models/props_junk/gascan001a.mdl" )
-RECIPE97.desc = "A container that can be used to hold dangerous materials in all sorts of situations. It is resistant to most physical attacks. Firearms may penetrate it."
-RECIPE97.noBlueprint = true
-RECIPE97.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_fuel_tank"
+RECIPE.name = "Fuel Tank"
+RECIPE.category = "Components"
+RECIPE.model = Model( "models/props_junk/gascan001a.mdl" )
+RECIPE.desc = "A container that can be used to hold dangerous materials in all sorts of situations. It is resistant to most physical attacks. Firearms may penetrate it."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_screws"] = 6,
 	["j_scrap_metals"] = 15,
 	["j_scrap_plastics"] = 25,
@@ -1747,10 +1937,10 @@ RECIPE97.items = {
 	["j_scrap_chems"] = 25,
 	["cube_chip"] = 15
 }
-RECIPE97.result = {
+RECIPE.result = {
 	["comp_fuel_tank"] = 1
 }
-RECIPES:Register( RECIPE97 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE98 = {}
 RECIPE98.uid = "nut_firing_mechanism"
@@ -1771,39 +1961,39 @@ RECIPE98.result = {
 }
 RECIPES:Register( RECIPE98 )
 //
-local RECIPE99 = {}
-RECIPE99.uid = "nut_mystery_box"
-RECIPE99.name = "Mystery Box"
-RECIPE99.category = "Mysterious"
-RECIPE99.model = Model( "models/Items/item_item_crate.mdl" )
-RECIPE99.desc = "???"
-RECIPE99.noBlueprint = true
-RECIPE99.items = {
-	["cube_chip"] = 10,
+local RECIPE = {}
+RECIPE.uid = "nut_mystery_box"
+RECIPE.name = "Mystery Box"
+RECIPE.category = "Mysterious"
+RECIPE.model = Model( "models/Items/item_item_crate.mdl" )
+RECIPE.desc = "???"
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["cube_chip"] = 5,
 	["cube_chip_enhanced"] = 1,
-	["j_scrap_wood"] = 25,
-	["j_scrap_metals"] = 25
+	["j_scrap_wood"] = 15,
+	["j_scrap_metals"] = 15
 }
-RECIPE99.result = {
+RECIPE.result = {
 	["mystery_box"] = 1
 }
-RECIPES:Register( RECIPE99 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE100 = {}
-RECIPE100.uid = "nut_antipsychotics"
-RECIPE100.name = "Antipsychotics"
-RECIPE100.category = "Medical"
-RECIPE100.model = Model( "models/props_junk/glassjug01.mdl" )
-RECIPE100.desc = "A bottle filled with numerous pills."
-RECIPE100.noBlueprint = true
-RECIPE100.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_antipsychotics"
+RECIPE.name = "Antipsychotics"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_junk/glassjug01.mdl" )
+RECIPE.desc = "A bottle filled with numerous pills."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["drug_psychotics"] = 1,
 	["blight"] = 1
 }
-RECIPE100.result = {
+RECIPE.result = {
 	["drug_antipsychotics"] = 1
 }
-RECIPES:Register( RECIPE100 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE101 = {}
 RECIPE101.uid = "nut_reinforced_barrel"
@@ -1884,42 +2074,88 @@ RECIPE104.result = {
 }
 RECIPES:Register( RECIPE104 )
 //
-local RECIPE105 = {}
-RECIPE105.uid = "nut_gearmace"
-RECIPE105.name = "Gear Mace"
-RECIPE105.category = "Weapons - Melee"
-RECIPE105.model = Model( "models/props_vehicles/carparts_muffler01a.mdl" )
-RECIPE105.desc = "A makeshift weapon made out of a gear and car parts."
-RECIPE105.noBlueprint = true
-RECIPE105.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_gearmace"
+RECIPE.name = "Gear Mace"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_vehicles/carparts_muffler01a.mdl" )
+RECIPE.desc = "A makeshift weapon made out of a gear and car parts."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_adhesive"] = 5,
 	["cube_chip"] = 2,
 	["j_gear"] = 1,
 	["j_car_muffler"] = 1
 }
-RECIPE105.result = {
+RECIPE.result = {
 	["hl2_m_gearmace"] = 1
 }
-RECIPES:Register( RECIPE105 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE106 = {}
-RECIPE106.uid = "nut_makeshift_glaive"
-RECIPE106.name = "Makeshift Glaive"
-RECIPE106.category = "Weapons - Melee"
-RECIPE106.model = Model( "models/props_c17/signpole001.mdl" )
-RECIPE106.desc = "A makeshift glaive made out of multiple pieces of scrap."
-RECIPE106.noBlueprint = true
-RECIPE106.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_makeshift_glaive"
+RECIPE.name = "Makeshift Glaive"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_c17/signpole001.mdl" )
+RECIPE.desc = "A makeshift glaive made out of multiple pieces of scrap."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_adhesive"] = 6,
 	["j_scrap_metals"] = 20,
 	["cube_chip"] = 4,
 	["hl2_m_pole"] = 1,
 	["hl2_m_machate"] = 1
 }
-RECIPE106.result = {
+RECIPE.result = {
 	["hl2_m_makeshift_glaive"] = 1
 }
-RECIPES:Register( RECIPE106 )
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_pole_metal"
+RECIPE.name = "Metal Pole"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_c17/signpole001.mdl" )
+RECIPE.desc = "A long metallic pole, it is very heavy."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 25
+}
+RECIPE.result = {
+	["hl2_m_pole"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_harpoon"
+RECIPE.name = "Harpoon"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_junk/harpoon002a.mdl" )
+RECIPE.desc = "A long spear-like instrument."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["hl2_m_pole"] = 1,
+	["j_scrap_metals"] = 15
+}
+RECIPE.result = {
+	["hl2_m_harpoon"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_pole_wood"
+RECIPE.name = "Wooden Pole"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_c17/signpole001.mdl" )
+RECIPE.desc = "A long wooden pole. Great for cracking people over the head."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_wood"] = 25
+}
+RECIPE.result = {
+	["hl2_m_woodenpole"] = 1
+}
+RECIPES:Register( RECIPE )
 //
 local RECIPE107 = {}
 RECIPE107.uid = "nut_bone_shiv"
@@ -2423,36 +2659,36 @@ RECIPE136.result = {
 }
 RECIPES:Register( RECIPE136 )
 //
-local RECIPE137 = {}
-RECIPE137.uid = "nut_medical_plastic"
-RECIPE137.name = "Plastic Dust"
-RECIPE137.category = "Medical"
-RECIPE137.model = Model( "models/props_lab/box01a.mdl" )
-RECIPE137.desc = "A small box filled with some sort of plasic dust."
-RECIPE137.noBlueprint = true
-RECIPE137.items = {
-	["j_scrap_plastics"] = 10
+local RECIPE = {}
+RECIPE.uid = "nut_medical_plastic"
+RECIPE.name = "Plastic Dust"
+RECIPE.category = "Medical"
+RECIPE.model = Model( "models/props_lab/box01a.mdl" )
+RECIPE.desc = "A small box filled with some sort of plasic dust."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_plastics"] = 7
 }
-RECIPE137.result = {
+RECIPE.result = {
 	["medical_plastic"] = 1
 }
-RECIPES:Register( RECIPE137 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE138 = {}
-RECIPE138.uid = "nut_ammo_battery"
-RECIPE138.name = "Charged Battery"
-RECIPE138.category = "Ammunition"
-RECIPE138.model = Model( "models/items/battery.mdl" )
-RECIPE138.desc = "A single, seemingly enhanced battery."
-RECIPE138.noBlueprint = true
-RECIPE138.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ammo_battery"
+RECIPE.name = "Charged Battery"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/items/battery.mdl" )
+RECIPE.desc = "A single, seemingly enhanced battery."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_battery"] = 6,
 	["cube_chip"] = 2
 }
-RECIPE138.result = {
+RECIPE.result = {
 	["ammo_battery"] = 1
 }
-RECIPES:Register( RECIPE138 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE139 = {}
 RECIPE139.uid = "nut_ammo_rpg"
@@ -2720,131 +2956,525 @@ RECIPE152.result = {
 }
 RECIPES:Register( RECIPE152 )
 //
-local RECIPE153 = {}
-RECIPE153.uid = "nut_plastics"
-RECIPE153.name = "Plastic"
-RECIPE153.category = "Resources"
-RECIPE153.model = Model( "models/props_wasteland/prison_toiletchunk01a.mdl" )
-RECIPE153.desc = "A chunk of plastic."
-RECIPE153.noBlueprint = true
-RECIPE153.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_plastics"
+RECIPE.name = "Plastic"
+RECIPE.category = "Resources"
+RECIPE.model = Model( "models/props_wasteland/prison_toiletchunk01a.mdl" )
+RECIPE.desc = "A chunk of plastic."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["medical_plastic"] = 1
 }
-RECIPE153.result = {
+RECIPE.result = {
 	["j_scrap_plastics"] = 1
 }
-RECIPES:Register( RECIPE153 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE154 = {}
-RECIPE154.uid = "nut_rebar_club"
-RECIPE154.name = "Rebar Club"
-RECIPE154.category = "Weapons - Melee"
-RECIPE154.model = Model( "models/props_debris/rebar003b_48.mdl" )
-RECIPE154.desc = "A spike of rebar with a chunk of concrete on it."
-RECIPE154.noBlueprint = true
-RECIPE154.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_rebar_club"
+RECIPE.name = "Rebar Club"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_debris/rebar003b_48.mdl" )
+RECIPE.desc = "A spike of rebar with a chunk of concrete on it."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_concrete"] = 20,
 	["j_scrap_metals"] = 10
 }
-RECIPE154.result = {
+RECIPE.result = {
 	["hl2_m_rebar"] = 1
 }
-RECIPES:Register( RECIPE154 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE155 = {}
-RECIPE155.uid = "nut_farm_cactus"
-RECIPE155.name = "Farm - Cactus"
-RECIPE155.category = "Farms"
-RECIPE155.model = Model( "models/props_junk/terracotta01.mdl" )
-RECIPE155.desc = "A strange pot, the dirt in it gives off a dim light."
-RECIPE155.noBlueprint = true
-RECIPE155.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_farm_cactus"
+RECIPE.name = "Farm - Cactus"
+RECIPE.category = "Farms"
+RECIPE.model = Model( "models/props_junk/terracotta01.mdl" )
+RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
 	["j_cactus_plant"] = 2,
 	["shard_dust"] = 1
 }
-RECIPE155.result = {
+RECIPE.result = {
 	["farm_cactus"] = 1
 }
-RECIPES:Register( RECIPE155 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE156 = {}
-RECIPE156.uid = "nut_sledgehammer"
-RECIPE156.name = "Makeshift Sledgehammer"
-RECIPE156.category = "Weapons - Melee"
-RECIPE156.model = Model( "models/props_debris/wood_board02a.mdl" )
-RECIPE156.desc = "A large hammer usually used to distribute force over a wide area."
-RECIPE156.noBlueprint = true
-RECIPE156.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_sledgehammer"
+RECIPE.name = "Makeshift Sledgehammer"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_debris/wood_board02a.mdl" )
+RECIPE.desc = "A large hammer usually used to distribute force over a wide area."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_concrete"] = 20,
 	["j_scrap_wood"] = 15
 }
-RECIPE156.result = {
+RECIPE.result = {
 	["hl2_m_sledgehammer"] = 1
 }
-RECIPES:Register( RECIPE156 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE157 = {}
-RECIPE157.uid = "nut_shield_wood"
-RECIPE157.name = "Makeshift Shield (Wood)"
-RECIPE157.category = "Accessories"
-RECIPE157.model = Model( "models/cloud/glassholdshield.mdl" )
-RECIPE157.desc = "A large wooden shield."
-RECIPE157.noBlueprint = true
-RECIPE157.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_shield_wood"
+RECIPE.name = "Makeshift Shield (Wood)"
+RECIPE.category = "Shields"
+RECIPE.model = Model( "models/cloud/glassholdshield.mdl" )
+RECIPE.desc = "A large wooden shield."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_wood"] = 35
 }
-RECIPE157.result = {
+RECIPE.result = {
 	["shield_wood"] = 1
 }
-RECIPES:Register( RECIPE157 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE158 = {}
-RECIPE158.uid = "nut_shield_metal"
-RECIPE158.name = "Makeshift Shield (Scrap Metal)"
-RECIPE158.category = "Accessories"
-RECIPE158.model = Model( "models/cloud/glassholdshield.mdl" )
-RECIPE158.desc = "A large metal shield."
-RECIPE158.noBlueprint = true
-RECIPE158.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_shield_metal"
+RECIPE.name = "Makeshift Shield (Scrap Metal)"
+RECIPE.category = "Shields"
+RECIPE.model = Model( "models/cloud/glassholdshield.mdl" )
+RECIPE.desc = "A large metal shield."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 30
 }
-RECIPE158.result = {
+RECIPE.result = {
 	["shield_metal"] = 1
 }
-RECIPES:Register( RECIPE158 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE159 = {}
-RECIPE159.uid = "nut_grenade_nail"
-RECIPE159.name = "Makeshift Nail Bomb"
-RECIPE159.category = "Grenades"
-RECIPE159.model = Model( "models/items/grenadeammo.mdl" )
-RECIPE159.desc = "A makeshift shrapnel bomb that uses nails and other sharp pieces of metal to damage foes."
-RECIPE159.noBlueprint = true
-RECIPE159.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_nail"
+RECIPE.name = "Makeshift Nail Bomb"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/items/grenadeammo.mdl" )
+RECIPE.desc = "A makeshift shrapnel bomb that uses nails and other sharp pieces of metal to damage foes."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_nails"] = 1,
 	["j_scrap_metals"] = 10,
 	["j_scrap_chems"] = 1,
 }
-RECIPE159.result = {
+RECIPE.result = {
 	["tfa_nailbomb"] = 1
 }
-RECIPES:Register( RECIPE159 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE160 = {}
-RECIPE160.uid = "nut_nails"
-RECIPE160.name = "Nails"
-RECIPE160.category = "Refined"
-RECIPE160.model = Model( "models/props_junk/garbage_metalcan002a.mdl" )
-RECIPE160.desc = "Metal nails for nailing."
-RECIPE160.noBlueprint = true
-RECIPE160.items = {
-	["j_scrap_metals"] = 3
+local RECIPE = {}
+RECIPE.uid = "nut_grenade_yin"
+RECIPE.name = "Yin Yang"
+RECIPE.category = "Grenades"
+RECIPE.model = Model( "models/items/grenadeammo.mdl" )
+RECIPE.desc = "A makeshift shrapnel bomb that uses nails and other sharp pieces of metal to damage foes."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["ichor"] = 4,
+	["blight"] = 4,
+	["j_scrap_metals"] = 10,
 }
-RECIPE160.result = {
-	["j_scrap_nails"] = 1
+RECIPE.result = {
+	["tfa_yinyang"] = 1
 }
-RECIPES:Register( RECIPE160 )
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_lightbulb"
+RECIPE.name = "Light Bulb"
+RECIPE.category = "Resources"
+RECIPE.model = Model( "models/props_lab/box01a.mdl" )
+RECIPE.desc = "A bulb that creates light when hooked to a power source."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_elecs"] = 2,
+	["j_scrap_glass"] = 2
+}
+RECIPE.result = {
+	["j_scrap_light"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_makeshift_shiv_metal"
+RECIPE.name = "Metal Shiv"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/gibs/glass_shard04.mdl" )
+RECIPE.desc = "A shiv made out of scrap metal."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 8
+}
+RECIPE.result = {
+	["hl2_m_shiv_metal"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_makeshift_pickaxe"
+RECIPE.name = "Pick-axe"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_mining/pickaxe01.mdl" )
+RECIPE.desc = "A long pick-axe commonly used to assist extracting valuable ores from the earth."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_pickaxe_head"] = 1,
+	["j_scrap_wood"] = 10
+}
+RECIPE.result = {
+	["hl2_m_pickaxe_alt"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_crowbar"
+RECIPE.name = "Crowbar"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/warz/melee/crowbar.mdl" )
+RECIPE.desc = "A tool made out of metal, used for prying."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 15
+}
+RECIPE.result = {
+	["hl2_m_crowbar"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_shovel"
+RECIPE.name = "Shovel"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_junk/shovel01a.mdl" )
+RECIPE.desc = "A long common garden shovel."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 10,
+	["j_scrap_wood"] = 14
+}
+RECIPE.result = {
+	["hl2_m_shovel_alt"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_meat_hook"
+RECIPE.name = "Meat Hook"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_junk/meathook001a.mdl" )
+RECIPE.desc = "A metal instrument usually used to hang meat."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 15
+}
+RECIPE.result = {
+	["hl2_m_meathook"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_armor_chain"
+RECIPE.name = "Makeshift Chain Armor"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/shirt_rebel_molle.mdl" )
+RECIPE.desc = "A crude vest crafted in a style similar to that of medieval chain mail.\nInstead of using individual chain links, circular pieces of scrap metal with hole drilled through them have been woven into the fabric, providing a fair amount of chest protection against slashing and low-velocity munitions."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 50,
+	["j_scrap_elastic"] = 8,
+	["j_scrap_cloth"] = 25,
+	["j_tshirts"] = 1
+}
+RECIPE.result = {
+	["armor_chain"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_armor_gambeson"
+RECIPE.name = "Crude Gambeson"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/shirt_rebelmetrocop.mdl" )
+RECIPE.desc = "A simple jacket that has been reinforced by quilting additional layers of fabric underneath the exterior, with scraps of cloth and cotton stuffed in.\nIt provides a fair amount of protection against blunt strikes and light slashing, while remaining comfortable for the wearer."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 60,
+	["j_tshirts"] = 4
+}
+RECIPE.result = {
+	["armor_gambeson"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_armor_tread"
+RECIPE.name = "Tread Warrior's Guard"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/shirt_rebel1.mdl" )
+RECIPE.desc = "A rubber chestplate that covers the breast and shoulders of the wearer through the ingenious use of repurposed tires.\nThe thick treads covering the chest stop most melee attacks, but are vulnerable to strong thrusts and ranged weapons."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_rubber"] = 25,
+	["j_scrap_screws"] = 6,
+	["j_scrap_elastic"] = 2,
+	["j_scrap_metals"] = 5,
+	["j_tire"] = 2
+}
+RECIPE.result = {
+	["armor_tread"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_armor_pauldrons"
+RECIPE.name = "PL-8 Pauldrons"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/shirt_rebel1.mdl" )
+RECIPE.desc = "Pauldrons that protect the shoulders crafted from old license plates.\nThe plates are fastened together through the use of zipties in holes that once housed screws, and provide a small amount of protection against firearms on the shoulders.  The plates are vulnerable to blunt strikes, but impervious to stabbing and slashing."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_rubber"] = 10,
+	["j_scrap_cloth"] = 10,
+	["j_scrap_plastics"] = 10,
+	["j_scrap_elastic"] = 2,
+	["j_scrap_metals"] = 60
+}
+RECIPE.result = {
+	["armor_pauldrons"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_armor_wood"
+RECIPE.name = "Drifter-Wood"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/shirt_rebel1.mdl" )
+RECIPE.desc = "The simplest armor that man can come up with. Dried scraps of wood are cut and strapped together to provide some protection against slashes from light blades, light stabs, and lower velocity ammunition.\nBlunt strikes, axe swings, thrusts into a grain, and larger calibers may cause the armor to splinter, rendering that panel useless until repaired."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_rubber"] = 20,
+	["j_scrap_wood"] = 10,
+	["j_scrap_cloth"] = 12,
+	["j_scrap_elastic"] = 1
+}
+RECIPE.result = {
+	["armor_wood"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_armor_sapper"
+RECIPE.name = "Sapper's Friend"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/shirt_rebeloverwatch.mdl" )
+RECIPE.desc = "A modern-ish take on the medieval cuirass, this 2.6MM thick steel breastplate clocks in at just under 8 pounds.\nAt a range of 100 meters, the plate can easily stop any pistol caliber munitions fired at it and may even stop a rifle-caliber cartridge.\nUnfortunately, the substantial protection offered comes at the cost of limited mobility and the retention of vulnerabilities on the backside. Most importantly however, it protects your crotch."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 60,
+	["j_scrap_rubber"] = 8,
+	["j_scrap_cloth"] = 20,
+	["j_scrap_screws"] = 5,
+	["j_car_door"] = 1
+}
+RECIPE.result = {
+	["armor_sapper"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_tshirt"
+RECIPE.name = "T-Shirt"
+RECIPE.category = "Clothing"
+RECIPE.model = Model( "models/props/de_tides/vending_tshirt.mdl" )
+RECIPE.desc = "A simple piece of clothing that covers the upper body."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 6
+}
+RECIPE.result = {
+	["j_tshirts"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_axe_lumber"
+RECIPE.name = "Lumber Axe"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props/cs_militia/axe.mdl" )
+RECIPE.desc = "A tool used for chopping lumber."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_wood"] = 15,
+	["j_scrap_metals"] = 10
+}
+RECIPE.result = {
+	["hl2_m_lumberaxe"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_axe_lumber_2"
+RECIPE.name = "Double Axe"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props/cs_militia/axe.mdl" )
+RECIPE.desc = "A double bitted axe, useful for cutting."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["hl2_m_lumberaxe"] = 1,
+	["j_scrap_metals"] = 10
+}
+RECIPE.result = {
+	["hl2_m_lumberaxe_2"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_axe_hatchet"
+RECIPE.name = "Hatchet"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/warz/melee/hatchet.mdl" )
+RECIPE.desc = "A sharp tool made out of metal and wood, used for chopping."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_wood"] = 10,
+	["j_scrap_metals"] = 10
+}
+RECIPE.result = {
+	["hl2_m_axe"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_helmet_makeshift"
+RECIPE.name = "Makeshift Helmet"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/helm_04.mdl" )
+RECIPE.desc = "A crude helmet fashioned out of scrap cloth and scrap metal.\nMay protect the head from weaker melee blows to some extent, but likely not very bullet resistant."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 10,
+	["j_scrap_cloth"] = 10
+}
+RECIPE.result = {
+	["helmet_makeshift"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_helmet_gasmask"
+RECIPE.name = "Gas Mask"
+RECIPE.category = "Armor"
+RECIPE.model = Model( "models/tnb/items/gasmask.mdl" )
+RECIPE.desc = "A mask used to protect the user from inhaling airborne pollutants and toxic gases."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 10,
+	["j_scrap_plastics"] = 10,
+	["j_scrap_elastic"] = 2,
+	["j_scrap_glass"] = 4
+}
+RECIPE.result = {
+	["gasmask"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_beanie"
+RECIPE.name = "Beanie"
+RECIPE.category = "Clothing"
+RECIPE.model = Model( "models/tnb/items/beanie.mdl" )
+RECIPE.desc = "A warm winter beanie."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 15
+}
+RECIPE.result = {
+	["j_beanie"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_ushanka"
+RECIPE.name = "Ushanka"
+RECIPE.category = "Clothing"
+RECIPE.model = Model( "models/ushanka.mdl" )
+RECIPE.desc = "A Russian fur cap with ear flaps that can be tied up to the crown of the cap."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 30
+}
+RECIPE.result = {
+	["j_ushanka"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_boonie"
+RECIPE.name = "Leather Boonie"
+RECIPE.category = "Clothing"
+RECIPE.model = Model( "models/warz/leatherboonie.mdl" )
+RECIPE.desc = "A form of wide-brim hat commonly used by military forces. Its design is similar to a bucket hat but with a stiffer brim."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 20,
+	["j_scrap_organic"] = 10
+}
+RECIPE.result = {
+	["j_boonie"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_gloves"
+RECIPE.name = "Gloves"
+RECIPE.category = "Clothing"
+RECIPE.model = Model( "models/tnb/items/gloves.mdl" )
+RECIPE.desc = "A warm pair of gloves to protect against the cold."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 10
+}
+RECIPE.result = {
+	["j_gloves"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_binoculars"
+RECIPE.name = "Binoculars"
+RECIPE.category = "Miscellaneous"
+RECIPE.model = Model( "models/warz/items/binocs.mdl" )
+RECIPE.desc = "A pair of binoculars."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_plastics"] = 10,
+	["j_scrap_glass"] = 15,
+}
+RECIPE.result = {
+	["j_binoculars"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+local RECIPE = {}
+RECIPE.uid = "nut_nightmare"
+RECIPE.name = "Nightmare"
+RECIPE.category = "Mysterious"
+RECIPE.model = Model( "models/props_lab/jar01b.mdl" )
+RECIPE.desc = "???"
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["drug_sleepingpills"] = 4,
+	["j_scrap_memory"] = 5,
+}
+RECIPE.result = {
+	["drug_nightmare"] = 1
+}
+RECIPES:Register( RECIPE )
 //

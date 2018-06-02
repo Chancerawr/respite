@@ -1,4 +1,4 @@
-ITEM.name = "Device - Bakery"
+ITEM.name = "Bakery"
 ITEM.uniqueID = "bakery"
 ITEM.model = "models/props_c17/FurnitureCupboard001a.mdl"
 ITEM.desc = "A strange wooden cupboard, the left door is labelled 'ORGANIC', and the right door is labelled 'WATER'."
@@ -18,7 +18,7 @@ ITEM.iconCam = {
 
 ITEM.functions.Bake = {
 	icon = "icon16/cake.png",
-	sound = "buttons/lightswitch2.wav",
+	sound = "ambient/fire/mtov_flame2.wav",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
@@ -26,7 +26,7 @@ ITEM.functions.Bake = {
 		local water = inventory:hasItem("food_water_misc") or inventory:hasItem("food_water") or inventory:hasItem("food_blood") or inventory:hasItem("food_water_mountain")
 		
 		if (!organic or !water) then
-			client:notifyLocalized("You need 2 organic materials and one bottle of water!") return false
+			client:notify("You need 2 organic materials and one bottle of water!") return false
 		end
 			
 		local amount = organic:getData("Amount")

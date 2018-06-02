@@ -21,7 +21,7 @@ ITEM.functions.Name = {
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
-		client:requestString("Change Name", "What do you want to name your plant? (This is final)", function(text)
+		client:requestString("Change Name", "What do you want to name your fish? (This is final)", function(text)
 			item:setData("customName", text)
 		end, item.name)
 		

@@ -16,7 +16,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Open = {
-	icon = "icon16/box.png",
+	icon = "icon16/briefcase.png",
 	sound = "items/ammocrate_open.wav",
 	onRun = function(item)
 		local client = item.player
@@ -28,88 +28,160 @@ ITEM.functions.Open = {
 		local luckRoll = math.random(math.random(luck,100), 100) 
 		
 		local RContent = math.random(0,100)
-		local contents = "shard" --used to drop item at the end. Defaulted to shard.
+
 		--sorry for the big complicated mess.
 		if(RContent == 0) then
-			client:notifyLocalized("You feel very unlucky.")
-			--char:updateAttrib("luck", 1)
+			client:notify("You receive a strange can-like device.")
+			
+			nut.item.spawn("nac", position)
+			
+			if(luckRoll > 50) then --potential bonus
+				nut.item.spawn("food_yams", position)
+				nut.item.spawn("food_laugh", position)
+				nut.item.spawn("food_ravioli", position)
+				nut.item.spawn("food_corn", position)
+			end
 		elseif(RContent < 10) then --shard
-			if(luckRoll > 70) then --potential bonus
-				nut.item.spawn("shard", position)
-				nut.item.spawn("shard", position)
+			client:notify("You receive a rib-like device.")
+			
+			nut.item.spawn("ribcage", position)
+			
+			if(luckRoll > 50) then --potential bonus
+				nut.item.spawn("j_scrap_bone", position)
+				nut.item.spawn("j_scrap_bone", position)
+				nut.item.spawn("j_scrap_bone", position)
+				nut.item.spawn("j_scrap_bone", position)
 			end
-		elseif(RContent < 20) then --battery refinery
-			contents = "refinery_battery"
-			if(luckRoll > 50) then 
-				nut.item.spawn("j_scrap_battery", position)
-				nut.item.spawn("j_scrap_battery", position)
-				nut.item.spawn("j_scrap_battery", position)
-			end
-		elseif(RContent < 30) then --chemical refinery
-			contents = "refinery_chems"
-			if(luckRoll > 50) then 
-				nut.item.spawn("j_scrap_chems", position)
-				nut.item.spawn("j_scrap_chems", position)
-				nut.item.spawn("j_scrap_chems", position)
-			end
-		elseif(RContent < 40) then --chemical refinery 2
-			contents = "refinery_chems2"
-			if(luckRoll > 50) then 
-				nut.item.spawn("j_scrap_chems", position)
-				nut.item.spawn("j_scrap_chems", position)
-				nut.item.spawn("j_scrap_chems", position)
-			end
-		elseif(RContent < 50) then --food cube
-			contents = "cube_b"
-			if(luckRoll > 50) then 
-				nut.item.spawn("farm_potato", position)
-			end
-		elseif(RContent < 60) then --cure device
-			contents = "cube_blight"
-			if(luckRoll < 50) then 
-				nut.item.spawn("blight", position)
-				nut.item.spawn("blight", position)
-				nut.item.spawn("blight", position)
-				nut.item.spawn("blight", position)
-			end
-		elseif(RContent < 70) then --chip generator
-			contents = "generator_chip"
-			if(luckRoll < 50) then --4 chips if we roll less than 50
-				nut.item.spawn("cube_chip", position)
-				nut.item.spawn("cube_chip", position)
-				nut.item.spawn("cube_chip", position)
-				nut.item.spawn("cube_chip", position)
-			elseif(luckRoll > 80) then --chip pouch if we roll more than 80
-				nut.item.spawn("cube_chip_pouch", position)
-			end
-		elseif(RContent < 80) then --screw refinery
-			contents = "refinery_screws"
+		elseif(RContent < 20) then --refinery
+			client:notify("You receive a refinery.")
+		
+			local refinery = {
+				"refinery_battery",
+				"refinery_chems",
+				"refinery_screws",
+				"refinery_currency",
+				"refinery_enhanced",
+				"refinery_plastic",
+				"refinery_adhesive"
+			}
+			
+			nut.item.spawn(table.Random(refinery)) -- random refinery
+			
 			if(luckRoll > 60) then 
-				nut.item.spawn("j_scrap_screws", position)
-				nut.item.spawn("j_scrap_screws", position)
-				nut.item.spawn("j_scrap_screws", position)
-				nut.item.spawn("j_scrap_screws", position)
+				nut.item.spawn("cube_chip_enhanced", position)
+				nut.item.spawn("hl2_m_wrench", position)
+			end
+		elseif(RContent < 30) then --farms
+			client:notify("You receive a pot of soil.")
+			
+			local farm = {
+				"farm_apple",
+				"farm_banana",
+				"farm_cactus",
+				"farm_lemon",
+				"farm_melon",
+				"farm_monster",
+				"farm_orange",
+				"farm_potato",
+				"farm_pumpkin"
+			}		
+		
+			nut.item.spawn(table.Random(farm)) -- random farm
+			
+			if(luckRoll > 70) then
+				nut.item.spawn("shard_dust", position)
+			end
+		elseif(RContent < 40) then --generator
+			client:notify("You receive a strange looking device.")
+		
+			nut.item.spawn("generator_chip", position)
+		
+			if(luckRoll > 50) then 
+				nut.item.spawn("generator_repair", position)
+				nut.item.spawn("generator_repair", position)
+			end
+		elseif(RContent < 50) then --cube
+			client:notify("You receive some kind of cube.")
+		
+			local cube = {
+				"cube_b",
+				"cube_water",
+				"cube_blight",
+			}
+			
+			if(luckRoll > 50) then 
+				nut.item.spawn("cube_chip", position)
+				nut.item.spawn("cube_chip", position)
+				nut.item.spawn("cube_chip", position)
+				nut.item.spawn("cube_chip", position)
+			end
+		elseif(RContent < 60) then --medicator or charger
+			if(math.random(0,1) == 1) then
+				client:notify("You receive a strange device that seems somehow medical.")			
+			
+				nut.item.spawn("medicator", position)
+				if(luckRoll < 50) then 
+					nut.item.spawn("medical_kit", position)
+					nut.item.spawn("medical_kit", position)
+				end
+			else
+				client:notify("You receive a strange device that seems hums with electricity.")
+			
+				nut.item.spawn("charger", position)
+				if(luckRoll < 50) then 
+					nut.item.spawn("ammo_battery", position)
+					nut.item.spawn("ammo_battery", position)
+				end				
+			end
+		elseif(RContent < 70) then --remini
+			client:notify("You receive a nostalgic device.")
+		
+			nut.item.spawn("reminiscence", position)
+			
+			if(luckRoll > 50) then
+				nut.item.spawn("j_scrap_memory", position)
+				nut.item.spawn("j_scrap_memory", position)
+				nut.item.spawn("j_scrap_memory", position)
+				nut.item.spawn("j_scrap_memory", position)
+			elseif(luckRoll > 90) then
+				nut.item.spawn("chip_escape", position)
+			end
+		elseif(RContent < 80) then --empty frame
+			client:notify("You receive a large picture frame.")
+		
+			nut.item.spawn("frame", position)
+			
+			if(luckRoll > 60) then 
+				nut.item.spawn("j_paint_can", position)
+				nut.item.spawn("j_paint_can", position)
+				nut.item.spawn("j_paint_can", position)
 			end
 		elseif(RContent < 90) then --converter
-			contents = "converter"
+			client:notify("You receive some kind of cube.")
+		
+			nut.item.spawn("converter", position)
+			
 			if(luckRoll > 50) then 
 				nut.item.spawn("food_apple_plastic", position)
 				nut.item.spawn("food_orange_plastic", position)
 				nut.item.spawn("food_lemon_plastic", position)
 				nut.item.spawn("food_banana_plastic", position)
+				nut.item.spawn("food_melon_plastic", position)
 			end
 		elseif(RContent <= 100) then --peculiar statue
-			contents = "statue"
+			client:notify("You receive an angry looking statue.")
+		
+			nut.item.spawn("statue", position)
+			
 			if(luckRoll > 50) then 
 				nut.item.spawn("food_blood", position)
 				nut.item.spawn("food_blood", position)
 				nut.item.spawn("food_blood", position)
 			end	
 		end
-		if(math.random(1,10) == 10) then --random chance to drop a smaller mystery box
+		if(math.random(1,5) == 5) then --random chance to drop a smaller mystery box
 			client:notify("Another box?")
 			nut.item.spawn("mystery_box_2", position)
 		end
-		nut.item.spawn(contents, position)
 	end
 }

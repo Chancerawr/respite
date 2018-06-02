@@ -425,4 +425,30 @@ function SCHEMA:SetupQuickMenu(menu)
 	end)
 				
 	menu:addSpacer()
+	
+	local button = menu:addCheck("Multi-core Rendering", function(panel, state)
+		if (state) then
+			RunConsoleCommand("gmod_mcore_test", "1")
+		else
+			RunConsoleCommand("gmod_mcore_test", "0")
+		end
+	end, GetConVar("gmod_mcore_test"):GetBool())
 end
+
+netstream.Hook("strQuery", function(time, query, title, default)
+	--[[
+	if (title:sub(1, 1) == "@") then
+		title = L(title:sub(2))
+	end
+
+	if (subTitle:sub(1, 1) == "@") then
+		subTitle = L(subTitle:sub(2))
+	end
+	--]]
+
+	Derma_Query(query, title, "Yes", function(text)
+		netstream.Start("strQuery", time, text)
+	end,
+	"No"
+	)
+end)

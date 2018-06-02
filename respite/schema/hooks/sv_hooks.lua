@@ -46,9 +46,9 @@ player models
 Temporary Things (Like Maps)
 --]]
 
-1214964813, --gm_krot content
-249173125, --rp_pripyat_p
-249201983 --rp_pripyat_p content
+215338015, --rp_v_torrington content
+1210441505, --rp_necro_evocity
+959711385 --rp_neverlosehopehospital_bi
 
 }
 
@@ -68,7 +68,7 @@ function SCHEMA:OnCharCreated(client, character)
 			--inventory:add("food_water", 2)
 			--inventory:add("food_yams", 2)	
 		elseif (character:getFaction() == FACTION_PLASTIC) then
-			inventory:add("book_newchar", 1)
+			inventory:add("book_newchar_plastic", 1)
 			inventory:add("book_combat", 1)
 			--inventory:add("cube_chip", 3)
 			--inventory:add("food_water_misc", 1)
