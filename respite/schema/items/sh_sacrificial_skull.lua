@@ -89,6 +89,7 @@ ITEM.functions.Sacrifice = {
 						"fort_pani",
 						"fort_noia",
 						"fort_para",
+						"fort_insa",
 						"fort_hall",
 						"fort_migraine",
 						"fort_headache",

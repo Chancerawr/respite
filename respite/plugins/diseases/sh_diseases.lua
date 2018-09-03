@@ -16,6 +16,26 @@ DISEASE.cure = {
 }
 
 DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "fort_insa"
+DISEASE.name = "Insanity"
+DISEASE.category = "Mental"
+DISEASE.phase = {
+	"Something is wrong with you, your feel unstable, and uncertain.",
+	"You hear dozens of voices screaming in your head, and they just won't stop.",
+	"You have a terrible urge to do something damaging to yourself.",
+	"You don't feel like you're controlling yourself, like you're some kind of puppet.",
+	"You just want to go home.",
+	"You just want to be safe.",
+	"A voice whispers to you quietly, 'It doesn't have to be this way.'",
+	"Your head spins into madness, you can't tell right from wrong, and you can't tell yourself from others anymore. Everything is just a big mess."
+}
+DISEASE.cure = {
+	"Your insanity dissipates.",
+}
+
+DISEASES:Register( DISEASE )
 
 //
 local DISEASE = {}
@@ -35,27 +55,7 @@ DISEASE.cure = {
 }
 
 DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_dark"
-DISEASE.name = "Afraid of the Dark"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"The shadows in the room stretch strangely, and seemingly reach towards you.",
-	"You feel something watching you from the darkness.",
-	"Something scuttles around in a nearby shadow.",
-	"You feel something in the darkness calling to you.",
-	"Your lights flicker momentarily, allowing the darkness to get dangerously close.",
-	"Every time you blink, the darkness draws closer and closer. It returns to normal a minute later.",
-	"You need more light, it's too dark.",
-	"A pair of eyes is watching you from the darkness.",
-	"In the corner of your eye you see a person made of darkness, he watches you silently.",
-}
-DISEASE.cure = {
-	"Your curse of darkness has been removed.",
-}
 
-DISEASES:Register( DISEASE )
 
 //
 local DISEASE = {}
@@ -168,7 +168,7 @@ DISEASE.phase = {
 	"Something is right behind you."
 }
 DISEASE.cure = {
-	"Your body returns to normal, and you feel like you can move freely again.",
+	"Your body returns to normal, and you don't feel as paranoid anymore.",
 }
 
 DISEASES:Register( DISEASE )
@@ -239,7 +239,7 @@ DISEASE.uid = "dis_eyes"
 DISEASE.name = "Watcher"
 DISEASE.category = "Illness"
 DISEASE.duration = 7200
-DISEASE.spreadChance = 30
+DISEASE.spreadChance = 15
 DISEASE.spreadRange = 500
 DISEASE.cure = {
 	"You go back to normal, and no longer feel like something is watching you."
@@ -271,6 +271,64 @@ DISEASE.phase = {
 }
 
 DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "dis_touch"
+DISEASE.name = "Feeling"
+DISEASE.category = "Illness"
+DISEASE.duration = 7200
+DISEASE.spreadChance = 45
+DISEASE.spreadRange = 100
+DISEASE.cure = {
+	"You go back to normal, and no longer feel any strange sensations."
+}
+DISEASE.phase = {
+	"You feel something touch your back for a brief moment.",
+	"Your nose itches.",
+	"You get a strange sensation on the front of your neck, like something just brushed past it.",
+	"It feels like someone just poked you in the side.",
+	"Scratches appear on your left arm, they are somewhat painful.",
+	"Suddenly, you feel like your back is being clawed open, but there is no wound to be found.",
+	"You feel hands wrap around your neck, and it becomes hard to breathe. This stops after a short amount of time.",
+	"You hear some sort of incomprehensible whispering behind you, but there is nothing there.",
+	"Your entire body begins to feel cold, you start to shiver uncontrollably. The cold leaves you after a few minutes.",
+	"Your entire body begins to feel very hot, you start to sweat and find it hard to breathe. The heat leaves you after a few minutes.",
+	"You start to feel very itchy all over, the urge to scratch yourself becomes hard to resist. This feeling fades away after a minute or so.",
+	"A quiet, whispering voice comes from in front of you. You see some kind of dark, wispy figure directly in front of you. Its head is only inches away from yours, but you find it hard to make out any significant details.\nIt says, 'Time is running out.'\nSomething covers your eyes from behind you, and a feeling of dread fills you.\nNo matter what you try, you cannot move what is covering your eyes, leaving you essentially blind for around a minute.\nOnce your vision returns, the figure in front of you is gone, and you feel sick to your stomach."
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "dis_mind"
+DISEASE.name = "Mind"
+DISEASE.category = "Illness"
+DISEASE.duration = 7200
+DISEASE.spreadChance = 20
+DISEASE.spreadRange = 300
+DISEASE.cure = {
+	"You go back to normal, and your mind is no longer feel as mentally unstable."
+}
+DISEASE.phase = {
+	"You feel like something is inside your head, moving around and changing you somehow.",
+	"Your head hurts slightly, as if you had a mild headache.",
+	"Suddenly, dozens of voices begin talking at once in your head, it's hard to think clearly or focus on anything.",
+	"You feel unstable, uncertain, and unbalanced. Something feels wrong, very wrong.",
+	"You suddenly feel like everything is really funny around you, and you have the urge to laugh. You feel scared that you're having these thoughts, but that somehow becomes funny too.",
+	"You have the urge to cry, like something sad just happened.",
+	"Your emotions vanish, and you feel nothing at all for a short period of time.",
+	"The world terrifies you suddenly, everything is startling, everything is horrific. You just want to go home.",
+	"You feel an uncomfortable twist of despair deep within you, it hurts to even exist.",
+	"Anger rises up within you, but not at anything in particular. The world itself is infuriating for a small amount of time.",
+	"Your mind goes blank for awhile, everything seems tranquil and peaceful, there are no worries, no dangers. Everything is fine.",
+	"Your heart fills to the brim with your own happiness. Everything is simply wonderful for awhile.",
+	"Your own voice speaks to you, but nobody else can hear it, 'There are cracks in our empty vessel. Once it breaks there's no going back.'",
+	"You hear your own voice begin to speak, though nobody else can hear it.\n'We don't deserve this- This future is cursed, our past is broken. We don't exist, we don't belong.'\nI can feel it watching us, I can feel it touching us. I want to escape.'\n'We can't forget ourselves.'",
+	"You imagine a white box, the box has a simple white door.\nYou move to open the door, but it opens with just a thought.\nInside the box is nothing but a pitch black darkness. Something inside calls your name, and you walk straight into the dark."
+}
+
+DISEASES:Register( DISEASE )
+
 //
 local DISEASE = {}
 DISEASE.uid = "trait_curse"
@@ -423,6 +481,52 @@ DISEASE.cure = {
 }
 
 DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "trait_dark"
+DISEASE.name = "Afraid of the Dark"
+DISEASE.category = "Trait"
+DISEASE.phase = {
+	"The shadows in the room stretch strangely, and seemingly reach towards you.",
+	"You feel something watching you from the darkness.",
+	"Something scuttles around in a nearby shadow.",
+	"You feel something in the darkness calling to you.",
+	"Your lights flicker momentarily, allowing the darkness to get dangerously close.",
+	"Every time you blink, the darkness draws closer and closer. It returns to normal a minute later.",
+	"You need more light, it's too dark.",
+	"A pair of eyes is watching you from the darkness.",
+	"In the corner of your eye you see a person made of darkness, he watches you silently.",
+}
+DISEASE.cure = {
+	"Your curse of darkness has been removed.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "trait_digger"
+DISEASE.name = "Gravedigger"
+DISEASE.category = "Trait"
+DISEASE.phase = {
+	"You feel safer underground.",
+	"You feel exposed above ground.",
+	"The soil will protect you.",
+	"The soil will protect it.",
+	"You want to bury it.",
+	"The ground will protect everyone.",
+	"You want to dig a hole.",
+	"You want to dig some holes.",
+	"The dead must be put to rest.",
+	"The dead must be treated with respect.",
+	"You alone can bury the sins of the dead.",
+	"It is your duty to provide rest to those who can no longer sleep."
+}
+DISEASE.cure = {
+	"Your obsession with digging has been removed.",
+}
+
+DISEASES:Register( DISEASE )
+
 //
 local DISEASE = {}
 DISEASE.uid = "addict_bh"

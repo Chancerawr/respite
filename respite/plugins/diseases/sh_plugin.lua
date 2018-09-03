@@ -5,7 +5,7 @@ PLUGIN.name = "Diseases"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "Always wear protection."
 
-PLUGIN.thinkTime = 2400 --time between running disease functions
+PLUGIN.thinkTime = 1800 --time between running disease functions
 PLUGIN.chance = 1 --chance of a random disease happening every thinkTime
 
 DISEASES = {}
@@ -19,6 +19,18 @@ function DISEASES:GetAll()
 end
 
 local thinkTime = CurTime()
+
+local function canInfect(infectee, disease)
+	local char = infectee:getChar()
+	local mem = CurTime() - char:getData("memory_wrap", -14400)
+	
+	if(char and !char:getData(disease) and (mem > 14400 or mem < 0)) then --only want to infect people who don't already have the disease.
+		char:setData("memory_wrap", nil)
+		return true
+	else
+		return false
+	end
+end
 
 --the actual effects having a disease has on you, if you want to add a disease, pretty much all of it will be in this function.
 function diseaseEffects(client, disease, diseaseT)		
@@ -35,7 +47,7 @@ function diseaseEffects(client, disease, diseaseT)
 			if(disTable.phase) then --one phase
 				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
 					function()
-						if(client:getChar():getData(disease)) then --makes sure they still have the disease
+						if(client:getChar():getData(disease) and IsValid(client)) then --makes sure they still have the disease
 							local symptom = table.Random(disTable.phase)
 						
 							nut.chat.send(client, "body", symptom)
@@ -46,6 +58,8 @@ function diseaseEffects(client, disease, diseaseT)
 				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
 					function()
 						if(client:getChar():getData(disease)) then --makes sure they still have the disease
+							if(!client:GetPos()) then return end
+						
 							local phase = math.Round( (CurTime() - iTime)/disTable.phaseTime )
 							phase = math.Clamp(phase, 0, table.Count(disTable.phases) - 1)
 							
@@ -62,19 +76,19 @@ function diseaseEffects(client, disease, diseaseT)
 				local players = player.GetAll()
 				
 				for k, v in pairs(players) do
-					if(v:getChar() and !v:getChar():getData(disease)) then --if the player does not have the disease
+					if(v:getChar() and !v:getChar():getData(disease) or v:GetMoveType() != MOVETYPE_NOCLIP) then --if the player does not have the disease
 						table.remove(players, k) --removes player from the list
 					end
 				end
 				
+				--use everyone else
 				for k, v in pairs(players) do
 					for k2, infectee in pairs(ents.FindInSphere(v:GetPos(), disTable.spreadRange or 500)) do --finds all players around all infected players
-						if(infectee:IsPlayer() and infectee != v) then --only want to infect players, and also not self.
+						if(infectee:IsPlayer() and infectee != v and infectee:GetMoveType() != MOVETYPE_NOCLIP) then --only want to infect players, and also not self.
 							local roll = math.random(1,100)
 							if(roll <= disTable.spreadChance) then --rolls to see if the disease spreads
-								local char = infectee:getChar()
-								if(char and !char:getData(disease)) then --only want to infect people who don't already have the disease.
-									char:setData(disease, CurTime())
+								if(canInfect(infectee, disease)) then
+									infectee:getChar():setData(disease, CurTime())
 								end
 							end
 						end

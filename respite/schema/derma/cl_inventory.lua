@@ -360,7 +360,7 @@ PANEL = {}
 							--]]
 						end
 						
-						local outlineColor = itemTable:getData("customCol") or itemTable.color or nut.config.get("color", Color(100,100,100))
+						local outlineColor2 = itemTable:getData("customCol") or itemTable.color or nut.config.get("color", Color(100,100,100))
 						
 						if(itemTable:getData("customCol")) then --things with custom colors need to be rerendered
 							iconName = itemTable.id --just uses the custom items id.
@@ -373,7 +373,7 @@ PANEL = {}
 								ang = itemTable.iconCam["ang"],
 								fov = itemTable.iconCam["fov"],
 								outline = true,
-								outlineColor = outlineColor
+								outlineColor = outlineColor2
 							}
 						else --if no iconcam generate a default thing
 							if(ent) then
@@ -393,7 +393,7 @@ PANEL = {}
 									fov = tab.fov,
 									ang = tab.angles,
 									outline = true,
-									outlineColor = outlineColor
+									outlineColor = outlineColor2
 								}
 							end
 						end

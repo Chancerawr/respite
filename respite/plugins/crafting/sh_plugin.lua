@@ -19,6 +19,29 @@ phrases["craft_menu_tip1"] = "You can craft items by clicking the icons in the l
 phrases["craft_menu_tip2"] = "The icon with book means that item needs a blueprint to be crafted."
 phrases["crft_text"] = "Crafting %s\n%s\n\nRequirements:\n"
 
+--generates random boosts based on the final crafting quality.
+local function randomBoosts(finQual)
+	local boosts = {}
+	local attribs = {
+		"str",
+		"stm",
+		"end",
+		"accuracy",
+		"luck",
+		"perception",
+		"fortitude",
+		"medical"
+	}
+	
+	for i=1, finQual do
+		local attrib = table.Random(attribs)
+		
+		boosts[attrib] = (boosts[attrib] or 0) + 1
+	end
+	
+	return boosts
+end
+
 RECIPES = {}
 RECIPES.recipes = {}
 function RECIPES:Register( tbl )
@@ -144,10 +167,13 @@ function RECIPES:Register( tbl )
 			for k, v in pairs( self.result ) do
 				--if (!player:getChar():getInv():add(k, v)) then
 					for i = 1, v do
-						if(!player:getChar():getInv():add(k, 1, { quality = finQual })) then
+						local boosts = randomBoosts(finQual)
+					
+						if(!player:getChar():getInv():add(k, 1, { quality = finQual, attrib = boosts })) then
 							nut.item.spawn(k, player:getItemDropPos(),
 								function(item)
 									item:setData("quality", finQual)
+									item:setData("attrib", boosts)
 								end
 							)
 						end

@@ -17,7 +17,7 @@ local workshopIDs = {
 727161410, --witcher gates
 685130934, --serverguard content
 774729099, --respite npc content
-778916461, --respite misc content
+1450252748, --respite extra content
 288026358, --tank
 771487490, --simfphys vehicles
 831680603, --simfphys armed vehicles
@@ -47,8 +47,7 @@ Temporary Things (Like Maps)
 --]]
 
 215338015, --rp_v_torrington content
-1210441505, --rp_necro_evocity
-959711385 --rp_neverlosehopehospital_bi
+436653780, --radar map
 
 }
 
@@ -75,7 +74,7 @@ function SCHEMA:OnCharCreated(client, character)
 			--inventory:add("food_apple_plastic", 2)
 			
 			--plastic language trait.
-			local traitData = character:getData("traits")
+			local traitData = character:getData("traits", {})
 			traitData["pla"] = 1
 			character:setData("traits", traitData, false, player.GetAll())
 		elseif (character:getFaction() == FACTION_ABER) then
@@ -128,5 +127,14 @@ function SCHEMA:ScalePlayerDamage(client, hitGroup, dmgInfo)
 		elseif (LIMB_GROUPS[hitGroup]) then
 			dmgInfo:ScaleDamage(0.5)
 		end
+	end
+end
+
+--i dont even know what this does but hopefully it does something good
+function SCHEMA:Think()
+	local function onSuccess( ret )	
+		wzsql.Query( "SHOW STATUS LIKE 'Uptime'", onSuccess );
+		
+		self.NextCheck = RealTime() + 10;
 	end
 end

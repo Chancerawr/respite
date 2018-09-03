@@ -128,7 +128,7 @@ local emotions = {
 	"neutral",
 }
 
---makes it so it randomizes the paint's color. Couldn't find a good function to hook this onto so it just happens when picked up or dropped.
+--makes it so it randomizes the emotion. Couldn't find a good function to hook this onto so it just happens when picked up or dropped.
 local function onUse(item)
 	if(!item:getData("feeling")) then
 		item:setData("feeling", table.Random(emotions))

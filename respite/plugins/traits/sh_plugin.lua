@@ -212,3 +212,8 @@ nut.command.add("traits", {
 	end
 })
 
+function PLUGIN:CanDeleteChar( client, character )
+    if( character.vars.traits["finedollar"] and character.vars.money < 200 ) then
+        return true;
+    end
+end

@@ -27,8 +27,11 @@ ITEM.cures = {
 	["fort_hall"] = true,
 	["fort_para"] = true,
 	["fort_noia"] = true,
+	["fort_insa"] = true,
 	["dis_wrai"] = true,
-	["dis_eyes"] = true
+	["dis_eyes"] = true,
+	["dis_mind"] = true,
+	["dis_touch"] = true
 }
 
 
@@ -66,6 +69,7 @@ ITEM.functions.use = { -- sorry, for name order.
 			for k, v in pairs(DISEASES.diseases) do
 				if(char:getData(k) and item.cures[k]) then
 					char:setData(k, nil) --removes fort diseases
+					char:setData("memory_wrap", CurTime())
 					
 					nut.chat.send(client, "body", table.Random(v.cure)) --sends them a message about being cured
 				end
@@ -95,6 +99,7 @@ ITEM.functions.usef = { -- sorry, for name order.
 		for k, v in pairs(DISEASES.diseases) do --removes all of them for now
 			if(char:getData(k) and item.cures[k]) then
 				char:setData(k, nil) --removes fort diseases
+				char:setData("memory_wrap", CurTime())
 				
 				nut.chat.send(client, "body", table.Random(v.cure)) --sends them a message about being cured
 			end

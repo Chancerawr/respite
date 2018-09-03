@@ -7,6 +7,7 @@ local CHATCOLOR_MELEE = Color(155, 130, 130)
 local CHATCOLOR_RANGED = Color(130, 130, 150)
 local CHATCOLOR_REACT = Color(130, 150, 130)
 local CHATCOLOR_RESIST = Color(160, 150, 130)
+local CHATCOLOR_SPECIAL = Color(150, 120, 100)
 
 --potential parts to hit with random shots
 	bParts = {}
@@ -127,66 +128,6 @@ local function critModify(client, command) --ran when crits are computed
 	return base, multi
 end
 	
---calculates rolls for most basic rolling commands.
-local function combatRollPart(client, attr, debuff, msg, command)
-	local char = client:getChar()
-	local crit = math.random(1, 1000)
-	local critmsg = ""
-	if (crit <= (char:getAttrib("luck", 0) + 10)) then
-		crit = (1.5 + char:getAttrib("luck", 0)/25)
-		critmsg = " (Crit!)"
-	else
-		if(math.random(1,100) <= 5) then
-			crit = 0
-			critmsg = "(Fail!)"
-		else
-			crit = 1
-		end
-	end
-
-	local rolled = math.abs(attr + math.random(-10,10)) * crit
-	rolled = rolled * debuff --reduction for command
-	
-	rolled = traitModify(client, command, rolled)
-	
-	local part = bParts[math.random(1, 77)]
-	
-	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
-	nut.chat.send(client, "firearms", "has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
-end
-
---calculates rolls for most basic rolling commands.
-local function combatRoll(client, attr, debuff, msg, category, command, noPrint) --this is way too many parameters, it's killing me.
-	local char = client:getChar()
-	local crit = math.random(1, 1000)
-	local critmsg = ""
-	if (crit <= (char:getAttrib("luck", 0) + 10)) then
-		crit = (1.5 + char:getAttrib("luck", 0)/25)
-		critmsg = " (Crit!)"
-	else
-		if(math.random(1,100) <= 5) then
-			crit = 0
-			critmsg = "(Fail!)"
-		else
-			crit = 1
-		end
-	end
-
-	local rolled = math.abs(attr + math.random(-10,10)) * crit
-	rolled = rolled * debuff --reduction for command
-	
-	rolled = traitModify(client, command, rolled)
-	
-	local part = bParts[math.random(1, 77)]
-	
-	nut.log.addRaw(client:Name().." rolled \""..rolled.."\".", 2)
-	if(!noPrint) then
-		nut.chat.send(client, category, "has rolled " .. rolled .. critmsg .. " for " .. msg)
-	end
-	
-	return rolled
-end
-
 --used for rolling for things other than yourself (drones, npcs, etc) VERY WIP
 local function combatRollOther(client, attr, debuff, name, msg)
 	local char = client:getChar()
@@ -196,7 +137,7 @@ local function combatRollOther(client, attr, debuff, name, msg)
 		crit = (1.5 + char:getAttrib("luck", 0)/25)
 		critmsg = " (Crit!)"
 	else
-		if(math.random(1,100) <= 5) then
+		if(math.random(1,100) <= 3) then
 			crit = 0
 			critmsg = "(Fail!)"
 		else
@@ -213,38 +154,104 @@ local function combatRollOther(client, attr, debuff, name, msg)
 	
 	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
 	nut.chat.send(client, "firearms", "'s " .. name .. " has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
+	
+	return rolled, part
 end
 
-local function autoResolve(client, target, rollA, category, command)
-	local char = target:getChar()
-	local roll
-	
-	local dodge = char:getAttrib("stm", 0)* 0.5
-	local block = (char:getAttrib("end", 0) * 0.3) + (char:getAttrib("str", 0) * 0.2)
-	
-	local evade
-	
-	dodge = combatRoll(target, dodge, 0.8, "a dodge/miss.", "react", "dodge", true)
-	block = combatRoll(target, block, 0.8, "a block attempt.", "react", "block", true)
-	
-	--chooses better potential roll
-	if(dodge > block) then --dodge
-		roll = dodge
-		evade = true
-	else --block
-		roll = block
-		evade = false
-	end
-	
-	if(rollA > roll) then
-		nut.chat.send(client, category, "has hit " .. target:GetName() .. " with a " ..command.. " attack. (" .. rollA .. " : " .. roll .. ")")
+
+CMBT = {}
+CMBT.commands = {}
+function CMBT:Register( tbl )
+	self.commands[ tbl.uid ] = tbl
+end
+
+function CMBT:GetAll()
+	return self.commands
+end
+
+local function critCalc(char)
+	local crit = math.random(1, 1000)
+	local critmsg = ""
+	if (crit <= (char:getAttrib("luck", 0) + 10)) then
+		crit = (1.5 + char:getAttrib("luck", 0)/25)
+		critmsg = " (Crit!)"
 	else
-		if(evade) then
-			nut.chat.send(target, "react", "has dodged " .. client:GetName() .. "'s " ..command.. " attack. (" .. rollA .. " : " .. roll .. ")")
+		if(math.random(1,100) <= 5) then
+			crit = 0
+			critmsg = "(Fail!)"
 		else
-			nut.chat.send(target, "react", "has blocked " .. client:GetName() .. "'s " ..command.. " attack. (" .. rollA .. " : " .. roll .. ")")
+			crit = 1
 		end
 	end
+	
+	return crit, critmsg
+end
+
+local function rollHandle(client, command, noPrint)
+	local comTable = CMBT.commands[command]
+	local char = client:getChar()
+	
+	local part
+	local crit, critmsg = 1, ""
+	
+	local base = 0
+	for k, v in pairs(comTable.stats) do
+		base = base + char:getAttrib(k, 0) * v
+	end
+	
+	local attribs = {}
+	for k, v in pairs(nut.attribs.list) do
+		attribs[k] = char:getAttrib(k, 0)
+	end
+	
+	if(base < 0) then
+		base = 0
+	end
+	
+	local rolls = comTable.rolls(base, attribs)
+	for k, roll in pairs(rolls) do
+		roll = roll * comTable.mult
+		roll = traitModify(client, command, roll)
+		
+		if(comTable.parts) then
+			part = table.Random(bParts)
+		end
+		
+		if(!comTable.noCrit) then
+			crit, critmsg = critCalc(char)
+			roll = roll * crit
+		end
+		
+		if(!noPrint) then
+			if(!comTable.print) then	
+				--detects the currently held weapon and (hopefully) the item it's associated with
+				local weapon = ""
+				if(comTable.category == "melee" or comTable.category == "firearms") then
+					local curWeapon = client:GetActiveWeapon():GetClass()
+					if(curWeapon != "nut_hands" and curWeapon != "nut_keys") then
+						local items = char:getInv():getItems()
+						for k, v in pairs(items) do
+							if(v.base == "base_weapons" and curWeapon == v.class and v:getData("equip", nil)) then
+								weapon = " (" ..v:getName().. ")"
+							end
+						end
+					end
+				end
+			
+				if(!part) then
+					nut.log.addRaw(client:Name().." rolled \""..roll.."\".", 2)
+					nut.chat.send(client, comTable.category, "has rolled " ..roll..critmsg.. " for " ..comTable.attackString .. "." .. weapon)
+				else
+					nut.log.addRaw(client:Name().." has rolled \""..roll .." ".. part.."\".", 2)
+					nut.chat.send(client, comTable.category, "has rolled " ..roll..critmsg.. " for " ..comTable.attackString.. " at target's " ..part.. "." .. weapon)
+				end
+			else
+				comTable.print(rolls, part)
+			end
+		end
+	end
+	
+	return rolls
 end
 	
 --chat for colors and formatting.
@@ -253,7 +260,7 @@ nut.chat.register("melee", {
 	color = CHATCOLOR_MELEE,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -262,7 +269,16 @@ nut.chat.register("react", { --reaction roll
 	color = CHATCOLOR_REACT,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
+	deadCanChat = true
+})
+
+nut.chat.register("resist", {
+	format = "%s %s",
+	color = CHATCOLOR_RESIST,
+	filter = "actions",
+	font = "nutChatFontItalics",
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 	
@@ -272,7 +288,16 @@ nut.chat.register("firearms", {
 	color = CHATCOLOR_RANGED,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
+	deadCanChat = true
+})	
+
+nut.chat.register("special", {
+	format = "%s %s",
+	color = CHATCOLOR_SPECIAL,
+	filter = "actions",
+	font = "nutChatFontItalics",
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -281,7 +306,7 @@ nut.chat.register("firearmsburst", {
 	color = CHATCOLOR_RANGED,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -290,7 +315,7 @@ nut.chat.register("firearmsburstaimed", {
 	color = CHATCOLOR_RANGED,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -299,7 +324,7 @@ nut.chat.register("part", {
 	color = CHATCOLOR_RANGED,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -308,7 +333,7 @@ nut.chat.register("partb", {
 	color = CHATCOLOR_RANGED,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -317,16 +342,7 @@ nut.chat.register("scavenge", {
 	color = CHATCOLOR_REACT,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
-	deadCanChat = true
-})
-
-nut.chat.register("fortitude", {
-	format = "%s has rolled %s for fortitude.",
-	color = CHATCOLOR_RESIST,
-	filter = "actions",
-	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -336,32 +352,13 @@ nut.chat.register("fortattack", {
 	color = Color(200,200,200),
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
-	deadCanChat = true
-})
-
-nut.chat.register("endure", {
-	format = "%s has rolled %s for enduring.",
-	color = CHATCOLOR_RESIST,
-	filter = "actions",
-	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
-	deadCanChat = true
-})
-
-nut.chat.register("will", {
-	format = "%s has rolled %s for willpower.",
-	color = CHATCOLOR_RESIST,
-	filter = "actions",
-	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
 --actual commands
 nut.command.add("drone", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
 		local attr = 5 --just has preset stats
 		combatRollOther(client, attr, 1, "Drone", "a shot at target's ")
 	end
@@ -369,213 +366,149 @@ nut.command.add("drone", {
 
 nut.command.add("reflexes", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = (char:getAttrib("stm", 0)* 0.5)
-		combatRoll(client, attr, 1, "reflexes.", "react", "reflexes")
+		rollHandle(client, "reflexes")
 	end
 })
 
 nut.command.add("flee", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = (char:getAttrib("stm", 0)* 0.5)
-		combatRoll(client, attr, 1, "a flee attempt.", "react", "flee")
+		rollHandle(client, "flee")
 	end
 })
 
 nut.command.add("dodge", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = (char:getAttrib("stm", 0)* 0.5)
-		combatRoll(client, attr, 0.8, "a dodge/miss.", "react", "dodge")
+		rollHandle(client, "dodge")
 	end
 })
 
 nut.command.add("block", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("end", 0) * 0.3) + (char:getAttrib("str", 0) * 0.2))
-		combatRoll(client, attr, 0.8, "a block attempt.", "react", "block")
+		rollHandle(client, "block")
 	end
 })
 
 nut.command.add("defend", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("str", 0) * 0.15) + (char:getAttrib("accuracy", 0) * 0.15) + (char:getAttrib("stm", 0) * 0.15))
-		combatRoll(client, attr, 0.85, "defending a target.", "react", "defend")
+		if(!hasTrait(client, "defender")) then
+			client:notify("You do not have the Defender trait.")
+			return false
+		end	
+	
+		rollHandle(client, "defend")
 	end
 })
 
 nut.command.add("firearms", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		
-		if(arguments[1]) then
-			local target = nut.command.findPlayer(client, arguments[1])
-			
-			if(!target) then
-				client:notify("Target does not exist!")
-				return false
-			end
-			
-			local distance = client:GetPos():Distance(target:GetPos())
-			
-			local tarChar = target:getChar()
-			local char = client:getChar()
-			if(tarChar) then
-				local part = bParts[math.random(1, 77)]
-				--compares accuracy and strength to target's agility. Forms a roll based on the discrepancy.
-				--accuracy / tarAgility = chance to hit (capped at a max of 85%) and then multiplied by range factor.
-				--crit and crit fail
-				local rangeRoll = math.Clamp(char:getAttrib("accuracy", 0) / tarChar:getAttrib("stm", 0) * (200 / distance), 0, 0.85)
-				
-				if(math.random(1,100) <= rangeRoll * 100) then
-					--uses target's luck to determine critical miss (luck save)
-					if(rangeRoll != 0.85 and math.random(1,1000) < tarChar:getAttrib("luck", 0) + 10) then
-						--print("LuckSave!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (unfortunately) MISSED! ("..math.Round(rangeRoll*100).."%)")
-						nut.log.addRaw(client:Name().." missed \""..target:Name(), 2)
-						--format = "%s has fired %s.",
-					else
-						--print("Success!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and HIT! ("..math.Round(rangeRoll*100)..")")
-						nut.log.addRaw(client:Name().." hit \""..target:Name().. " in " .. part .. "\"", 2)
-					end
-				else
-					--uses own luck to dtermine lucky shot if first attempt misses. (luck save)
-					if(rangeRoll != 0 and math.random(1,1000) < char:getAttrib("luck", 0) + 10) then
-						--print("LuckHit!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and (luckily) HIT! ("..math.Round(rangeRoll*100)..")")
-						nut.log.addRaw(client:Name().." hit(luck) \""..target:Name().. " in " .. part .. "\"", 2)
-					else
-						--print("Failure!")
-						nut.chat.send(client, "firearms", "has fired at " .. target:getChar():getName() .. " and MISSED! ("..math.Round(rangeRoll*100)..")")
-						nut.log.addRaw(client:Name().." missed \""..target:Name(), 2)
-					end
-				end
-				nut.chat.send(client, "part", part)
-			else
-				client:notify("Target does not exist!")
-				return false
-			end
-		else --firearms without specified target
-			local attr = ((char:getAttrib("accuracy", 0) * 0.4) + (char:getAttrib("str", 0) * 0.1))
-			combatRollPart(client, attr, 0.85, "a shot at target's ", "firearms")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "firearms", true)
+			entity:reaction(client, rollA, "firearms", "shot", true)
+		else
+			rollHandle(client, "firearms")
 		end
 	end
 })
 
 nut.command.add("quickdraw", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy", 0) * 0.25) + (char:getAttrib("stm", 0) * 0.25))
-		combatRollPart(client, attr, 0.5, "a quickdraw shot at target's ", "quickdraw")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "quickdraw", true)
+			entity:reaction(client, rollA, "firearms", "quickdraw shot", true)
+		else
+			rollHandle(client, "quickdraw")
+		end
 	end
 })
 
 nut.command.add("firearmsaimed", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy", 0) * 0.4) + (char:getAttrib("str", 0) * 0.1))
-		combatRoll(client, attr, 1.2, "an aimed shot.", "firearms", "firearmsaimed")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "firearmsaimed", true)
+			entity:reaction(client, rollA, "firearms", "aimed shot")
+		else
+			rollHandle(client, "firearmsaimed")
+		end
 	end
 })
 
 nut.command.add("execute", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy", 0) * 0.4) + (char:getAttrib("str", 0) * 0.1))
-		combatRoll(client, attr, 2, "an execution shot.", "firearms", "execute")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "execute", true)
+			entity:reaction(client, rollA, "firearms", "execution shot")
+		else	
+			rollHandle(client, "execute")
+		end
 	end
 })
 
 nut.command.add("throw", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy", 0) * 0.25) + (char:getAttrib("str", 0) * 0.25))
-		combatRollPart(client, attr, 1, "throwing an object at target's ", "throw")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "throw", true)
+			entity:reaction(client, rollA, "firearms", "thrown object", true)
+		else
+			rollHandle(client, "throw")
+		end
 	end
 })
 
 nut.command.add("akimbo", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("accuracy", 0) * 0.3) + (char:getAttrib("str", 0) * 0.2))
-		combatRollPart(client, attr, 0.4, "an akimbo shot at target's ", "akimbo")
-		combatRollPart(client, attr, 0.4, "an akimbo shot at target's ", "akimbo")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "akimbo", true)
+			entity:reaction(client, rollA, "firearms", "akimbo shot", true)
+		else
+			rollHandle(client, "akimbo")
+		end
 	end
 })
 
 nut.command.add("firearmsburst", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local crit = math.random(1, 1000)
-		local critmsg = ""
-		if (crit <= (char:getAttrib("luck", 0) + 10)) then
-			crit = (1.5 + char:getAttrib("luck", 0)/25)
-			critmsg = " (Crit!)"
-		else
-			crit = 1
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "firearmsburst", true)
+			entity:reaction(client, rollA, "firearms", "burst shot", true)
+		else			
+			rollHandle(client, "firearmsburst")
 		end
-		local rolled = ((char:getAttrib("accuracy", 0) * 0.35) + math.random(-10, 10)) * crit
-		local part = bParts[math.random(1, 77)]
-		if(math.random(0,100) < 5) then
-			rolled = 0
-			critmsg = "(Fail!)"
+	end
+})
+
+nut.command.add("revolverburst", {
+	onRun = function(client, arguments)
+		if(!hasTrait(client, "fanthehammer")) then
+			client:notify("You do not have the Fan the Hammer trait.")
+			return false
 		end
-		rolled = math.abs(rolled)-- this is probably bad
-		
-		rolled = traitModify(client, "firearmsburst", rolled) --trait modifier
-		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"", 2)	
-		nut.chat.send(client, "firearmsburst", rolled .. critmsg)
-		nut.chat.send(client, "partb", part)
 	
-		rolled = rolled * math.Clamp((0.6 + ((char:getAttrib("str", 0) * 4) / 1000)), 0, 1)
-		part = bParts[math.random(1, 77)]
-		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"", 2)	
-		nut.chat.send(client, "firearmsburst", rolled)
-		nut.chat.send(client, "partb", part)
-	
-		rolled = rolled * math.Clamp((0.4 + ((char:getAttrib("str", 0) * 6) / 1000)), 0, 1)
-		part = bParts[math.random(1, 77)]
-		nut.log.addRaw(client:Name().." rolled \""..rolled.. " " .. part .. "\"", 2)		
-		nut.chat.send(client, "firearmsburst", rolled)
-		nut.chat.send(client, "partb", part)
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "revolverburst", true)
+			entity:reaction(client, rollA, "firearms", "revolver rapid fire shot", true)
+		else			
+			rollHandle(client, "revolverburst")
+		end
 	end
 })
 
 nut.command.add("firearmsburstaimed", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local crit = math.random(1, 1000)
-		local critmsg = ""
-		if (crit <= (char:getAttrib("luck", 0) + 10)) then
-			crit = (1.5 + char:getAttrib("luck", 0)/25)
-			critmsg = " (Crit!)"
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "firearmsburstaimed", true)
+			entity:reaction(client, rollA, "firearms", "aimed burst shot")
 		else
-			crit = 1
+			rollHandle(client, "firearmsburstaimed")
 		end
-		local rolled = ((char:getAttrib("accuracy", 0) * 0.35) + math.random(-10, 10)) * crit
-		if(math.random(0,100) < 3) then
-			rolled = 0
-			critmsg = "(Fail!)"
-		end
-		rolled = math.abs(rolled)-- this is probably bad
-		
-		rolled = traitModify(client, "firearmsburstaimed", rolled) --trait modifier
-		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)	
-		nut.chat.send(client, "firearmsburst", rolled .. critmsg)
-	
-		rolled = rolled * math.Clamp((0.6 + ((char:getAttrib("str", 0) * 4) / 1000)), 0, 1)
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
-		nut.chat.send(client, "firearmsburst", rolled)
-	
-		rolled = rolled * math.Clamp((0.4 + ((char:getAttrib("str", 0) * 6) / 1000)), 0, 1)
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
-		nut.chat.send(client, "firearmsburst", rolled)
 	end
 })
 
@@ -584,21 +517,12 @@ nut.command.add("melee", {
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 	
-		if(!arguments[1]) then -- no target specified
-			local char = client:getChar()
-			local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
-			combatRoll(client, attr, 1, "a melee attack.", "melee", "melee")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "melee", true)
+			entity:reaction(client, rollA, "melee", "melee attack")
 		else
-			local target = nut.command.findPlayer(client, arguments[1])
-			--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
-			local rollA = combatRoll(client, attr, 1, "a melee attack.", "melee", "melee", true)
-			local rollB = combatRoll(client, attr, 1, "a melee attack.", "melee", "melee", true)
-			
-			if(rollB > rollA) then
-				rollA = rollB
-			end
-			
-			autoResolve(client, target, rollA, "melee", "melee")
+			rollHandle(client, "melee")
 		end
 	end
 })
@@ -608,22 +532,12 @@ nut.command.add("meleedual", {
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 		
-		if(!arguments[1]) then -- no target specified
-			combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
-			combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual")
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "meleedual", true)
+			entity:reaction(client, rollA, "melee", "dual melee attack")
 		else
-			for i = 1, 2 do
-				local target = nut.command.findPlayer(client, arguments[1])
-				--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
-				local rollA = combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual", true)
-				local rollB = combatRoll(client, attr, 0.4, "a dual melee attack.", "melee", "meleedual", true)
-				
-				if(rollB > rollA) then
-					rollA = rollB
-				end
-				
-				autoResolve(client, target, rollA, "melee", "dual melee")
-			end
+			rollHandle(client, "meleedual")
 		end
 	end
 })
@@ -632,30 +546,19 @@ nut.command.add("flail", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((math.random(0,char:getAttrib("luck", 0)) * 0.5))
-		for i=0, math.random(1,2) do
-			if(!arguments[1]) then -- no target specified
-				combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail")
-			else
-				local target = nut.command.findPlayer(client, arguments[1])
-				--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
-				local rollA = combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail", true)
-				local rollB = combatRoll(client, attr, .25, "a flailing melee attack.", "melee", "flail", true)
-				
-				if(rollB > rollA) then
-					rollA = rollB
-				end
-				
-				autoResolve(client, target, rollA, "melee", "flailing melee")
-			end
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "flail", true)
+			entity:reaction(client, rollA, "melee", "flailing melee attack")
+		else
+			rollHandle(client, "flail")
 		end
 	end
 })
 
 nut.command.add("parry", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("str", 0) * 0.15) + (char:getAttrib("accuracy", 0) * 0.15) + (char:getAttrib("stm") * 0.15) + (char:getAttrib("perception") * 0.1))
-		combatRoll(client, attr, 0.8, "parrying.", "react", "parry")
+		rollHandle(client, "parry")
 	end
 })
 
@@ -663,7 +566,14 @@ nut.command.add("disarm", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((char:getAttrib("medical", 0) * 0.2) + (char:getAttrib("accuracy", 0) * 0.2))
-		combatRoll(client, attr, 1, "disarming.", "melee", "disarm")
+		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "disarm", true)
+			entity:reaction(client, rollA, "other", "disarming maneuver")
+		else
+			rollHandle(client, "disarm")
+		end
 	end
 })
 
@@ -671,7 +581,14 @@ nut.command.add("suppress", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.15))
-		combatRoll(client, attr, 1.1, "suppressing fire.", "firearms", "suppress")
+		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "suppress", true)
+			entity:reaction(client, rollA, "firearms", "suppression")
+		else
+			rollHandle(client, "suppress")
+		end
 	end
 })
 
@@ -680,19 +597,11 @@ nut.command.add("grapple", {
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 		
-		if(!arguments[1]) then -- no target specified
-			combatRoll(client, attr, 1, "a grapple.", "melee", "grapple")
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "grapple", true)
+			entity:reaction(client, rollA, "melee", "grapple")
 		else
-			local target = nut.command.findPlayer(client, arguments[1])
-			--i do this since it rolls twice up there for both dodge and block, pretty stupid but i dont know a better solution atm.
-			local rollA = combatRoll(client, attr, 1, "a grapple.", "melee", "grapple", true)
-			local rollB = combatRoll(client, attr, 1, "a grapple.", "melee", "grapple", true)
-			
-			if(rollB > rollA) then
-				rollA = rollB
-			end
-			
-			autoResolve(client, target, rollA, "melee", "grappling")
+			rollHandle(client, "grapple")
 		end
 	end
 })
@@ -700,62 +609,35 @@ nut.command.add("grapple", {
 --should integrate fear meter here
 nut.command.add("sneak", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = ((char:getAttrib("stm", 0)* 0.5))
-		combatRoll(client, attr, 0.75, "sneaking.", "react", "sneak")
+		rollHandle(client, "sneak")
 	end
 })
 
 --This is used for detecting sneaking targets, or for finding secrets
 nut.command.add("perception", {
 	onRun = function(client, arguments)
-		local char = client:getChar()
-		local attr = (char:getAttrib("perception", 0) * 0.5)
-		combatRoll(client, attr, 1, "perceiving.", "react", "perception")
+		rollHandle(client, "perception")
 	end
 })
 
 --for resisting mental attacks (hallucinations, panic, etc)
 nut.command.add("fortitude", {
 	onRun = function(client, arguments)
-		--these rolls cannot crit
-		local char = client:getChar()
-		local rolled = (((char:getAttrib("fortitude", 0) * 0.4) + (char:getAttrib("end", 0) * 0.1)) + math.random(-10, 10))
-		rolled = math.abs(rolled)-- this is probably bad
-		
-		rolled = traitModify(client, "fortitude", rolled) --trait modifier
-		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)		
-		nut.chat.send(client, "fortitude", rolled)
+		rollHandle(client, "fortitude")
 	end
 })
+
 --for resisting physical things (drugs, sound attacks, knockouts, etc)
 nut.command.add("endure", {
 	onRun = function(client, arguments)
-		--these rolls cannot crit
-		local char = client:getChar()
-		local rolled = (((char:getAttrib("end", 0) * 0.4) + (char:getAttrib("fortitude", 0) * 0.1)) + math.random(-10, 10))
-		rolled = math.abs(rolled)-- this is probably bad
-		
-		rolled = traitModify(client, "endure", rolled) --trait modifier
-		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)
-		nut.chat.send(client, "endure", rolled)
+		rollHandle(client, "endure")
 	end
 })
 
 --for controlling forged (drifter created) aberrations and tamed abominations
 nut.command.add("will", {
 	onRun = function(client, arguments)
-		--these rolls cannot crit
-		local char = client:getChar()
-		local rolled = (((char:getAttrib("end", 0) * 0.25) + (char:getAttrib("fortitude", 0) * 0.25)) + math.random(-10, 10))
-		rolled = math.abs(rolled)-- this is probably bad
-		
-		rolled = traitModify(client, "will", rolled) --trait modifier
-		
-		nut.log.addRaw(client:Name().." rolled \""..rolled.."\"", 2)		
-		nut.chat.send(client, "will", rolled)
+		rollHandle(client, "will")
 	end
 })
 
@@ -888,7 +770,8 @@ nut.command.add("train", {
 				local value = char:getAttrib(attribName, 0)
 				char:setData("lastTrain", os.date("%d"))
 				char:updateAttrib(attribName, 1)
-
+				nut.log.addRaw(client:Name().." trained \""..attribName.."\".", 2)	
+				
 				client:notifyLocalized("You have increased your " .. findAtt .. ".")
 			else
 				client:notifyLocalized("You can only train once every 2 days.")
@@ -904,7 +787,7 @@ nut.chat.register("statcheck", {
 	color = CHATCOLOR_REACT,
 	filter = "actions",
 	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
 
@@ -933,436 +816,10 @@ nut.command.add("statcheck", {
 	end
 })
 
---I'll put this somewhere better later
-local lootTable = {
-	["garbage"] = {
-		"hl2_m_rock",
-		"hl2_m_stick",
-		"hl2_m_branch",
-		"j_old_shoe",
-		"j_bananaskin",
-		"j_empty_bread_box",
-		"j_dollar",
-		"j_bucket",
-		"j_cereal_box",
-		"j_empty_antidepressants",
-		"j_empty_bandage",
-		"j_empty_beer",
-		"j_empty_beer2",
-		"j_empty_bleach",
-		"j_empty_soda_can",
-		"j_empty_soda2",
-		"j_empty_soda1",
-		"j_plastic_bag",
-		"j_empty_chocolate_box",
-		"j_used_first_aid_kit",
-		"j_empty_juice_bottle",
-		"j_empty_milk_carton",
-		"j_empty_milk_jug",
-		"j_empty_mountain_spring",
-		"j_empty_mre",
-		"j_empty_soda_bottle",
-		"j_empty_takeout",
-		"j_empty_vegetable_oil",
-		"j_empty_vial",
-		"j_empty_vodka",
-		"j_empty_water",
-		"j_empty_water_blood",
-		"j_empty_whiskey",
-		"j_empty_paint_can",
-		"j_baby_doll",
-		"j_empty_wine"
-	},	
-	["junk"] = {
-		"j_blanket",
-		"j_cactus_plant",
-		"j_cigs",
-		"j_cinder_block",
-		"j_fire_extinguisher",
-		"j_gear",
-		"j_glasses",
-		"j_goggles",
-		"j_goggles2",
-		"j_guitar",
-		"j_headphones",
-		"j_hula",
-		"j_industrial_fan",
-		"j_life_preserver",
-		"j_meat_grinder",
-		"j_computer_mouse",
-		"j_paint_can",
-		"j_painting1",
-		"j_pickaxe_head",
-		"j_picture_1",
-		"j_picture_2",
-		"j_picture_3",
-		"j_picture_4",
-		"j_picture_5",
-		"j_pillow",
-		"j_pliers",
-		"j_old_rag",
-		"j_soccerball",
-		"j_syringe",
-		"j_telephone",
-		"j_tbrushes",
-		"j_traffic_cone",
-		"j_traffic_light",
-		"j_tshirts",
-		"j_stuffed_turtle",
-		"j_broken_tv",
-		"j_empty_gas_can",
-		"j_dollar",
-		"j_holster",
-		"j_empty_mug",
-		"j_empty_teapot",
-		"j_family_picture",
-		"j_paper_towels",
-		"j_broken_receiver",
-		"j_remote_control",
-		"j_newspaper",
-		"j_newspaper_stack",
-		"j_map",
-		"j_mounted_fish",
-		"j_wall_light",
-		"hl2_m_brokenbottle",
-		"hl2_m_claypot",
-		"hl2_m_fencepost",
-		"hl2_m_hhradio",
-		"hl2_m_keyboard",
-		"hl2_m_steeringwheel",
-		"hl2_m_valve",
-		"hl2_m_weirdvase",
-		"hl2_m_woodensign",
-		"j_cards",
-		"j_baseball_cap",
-		"j_military_cap",
-		"j_ushanka",
-		"j_binoculars",
-		"helmet_hard",
-		"helmet_fire",
-		"j_boonie",
-		"j_beanie",
-		"j_gloves",
-		"armor_football",
-		"coin_10"
-	},
-	["food"] = {
-		"food_water",
-		"food_beans",
-		"food_instant_potatoes",
-		"food_canned_1",
-		"food_tuna",
-		"food_mre",
-		"food_asparagus",
-		"food_chicken",
-		"food_chili",
-		"food_corn",
-		"food_mushrooms",
-		"food_peaches",
-		"food_pears",
-		"food_peas",
-		"food_ravioli",
-		"food_sausage",
-		"food_chickennoodle",
-		"food_chowder",
-		"food_spam",
-		"food_tomatoes",
-		"food_yams",
-		"food_bread_box"
-	},		
-	["food2"] = {
-		"food_soda_bottled",
-		"food_water",
-		"food_water_mountain",
-		"food_chinese",
-		"food_cereal",
-		"food_chips",
-		"food_chocolate",
-		"food_egg",
-		"food_fish",
-		"food_fish2",
-		"food_milk_carton",
-		"food_milk_jug",
-		"food_mre",
-		"food_tea",
-		"food_donut",
-		"food_hamburger",
-		"food_hotdog",
-		"food_orange",
-		"food_lemon",
-		"food_potato",
-		"food_pumpkin",
-		"food_soda_blueberry",
-		"food_soda_cherry",
-		"food_soda_lemon",
-		"food_melon",
-		"food_apple",
-		"food_banana"
-	},	
-	["resources"] = {
-		"j_scrap_light",
-		"j_scrap_nails",
-		"j_scrap_cloth",
-		"j_scrap_rubber",
-		"j_scrap_glass",
-		"j_scrap_metals",
-		"j_scrap_wood",
-		"j_scrap_plastics",
-		"j_scrap_elecs",
-		"j_scrap_elastic",
-		"j_scrap_concrete",
-		"j_scrap_adhesive",
-		"j_scrap_screws",
-		"j_scrap_battery",
-		"coin_10"
-	},	
-	["resources2"] = {
-		"j_scrap_adhesive",
-		"j_scrap_screws",
-		"j_scrap_chems"
-	},
-	["weapon"] = {
-		"hl2_m_lamp",
-		"flashlight",
-		"hl2_m_bat",
-		"hl2_m_bat_metal",
-		"hl2_m_crowbar",
-		"hl2_m_crowbar_alt",
-		"hl2_m_monsterclaw",
-		"hl2_m_monstertalon",
-		"hl2_m_frying_pan",
-		"melee_paddle",
-		"hl2_m_pipe",
-		"hl2_m_pot",
-		"hl2_m_suitcase"
-	},
-	["weapon2"] = {
-		"hl2_m_knife",
-		"hl2_m_machete",
-		"hl2_m_meathook",
-		"hl2_m_pickaxe",
-		"hl2_m_pickaxe_alt",
-		"hl2_m_pitchfork",
-		"hl2_m_hatchet",
-		"hl2_m_shovel",
-		"hl2_m_shovel_alt",
-		"hl2_m_lumberaxe",
-		"melee_fireaxe"
-	},	
-	["tool"] = { --all scav kit items
-		"hl2_m_wrench",
-		"hl2_m_hammer",
-		"j_drill",
-		"j_power_saw"
-	},	
-	["med"] = {
-		"medical_bandages",
-		"medical_plastic",
-		"drug_disinfectant",
-		"drug_rubbingalcohol",
-		"drug_antivenom",
-		"drug_burnointment"
-	},		
-	["drug"] = {
-		"drug_depress",
-		"drug_psychotics",
-		"drug_sleepingpills",
-		"drug_venom"
-	},	
-	["med2"] = {
-		"medical_bandages",
-		"medical_gauze",
-		"medical_kit",
-		"medical_iv",
-		"medical_suture",
-		"medical_plastic",
-		"drug_antibiotics",
-		"drug_antivenom",
-		"drug_burnointment",
-		"drug_disinfectant",
-		"drug_rubbingalcohol",
-		"drug_painkillers",
-		"drug_antipsychotics",
-		"drug_antidepressants",
-		"drug_steroid"
-	},	
-	["weird"] = {
-		"purifier_water_tablet",
-		"salve_healing",
-		"cube_chip_enhanced",
-		"ammo_battery",
-		"ammo_sawblade",
-		"haze_bottled_blood",
-		"haze_bottled",
-		"haze_bottled_pink",
-		"drug_energy",
-		"food_apple_cursed",
-		"potion_agility",
-		"potion_strength",
-		"potion_accuracy",
-		"potion_endurance",
-		"potion_luck",
-		"potion_craftiness",
-		"potion_perception",
-		"potion_fortitude"
-	}
-}
-
-function lootRoll(roll)
-	local item = "food_banana"
-	
-	if(roll < 10) then
-		item = table.Random(lootTable["garbage"])
-	elseif(roll < 20) then
-		local ran = math.random(1,2)
-		if(ran == 1) then
-			item = table.Random(lootTable["garbage"])
-		else
-			item = table.Random(lootTable["junk"])
-		end
-	elseif(roll < 30) then
-		local ran = math.random(1,2)
-		if(ran == 1) then
-			item = table.Random(lootTable["junk"])
-		else
-			item = table.Random(lootTable["food"])
-		end
-	elseif(roll < 40) then
-		local ran = math.random(1,2)
-		if(ran == 1) then
-			item = table.Random(lootTable["junk"])
-		else
-			item = table.Random(lootTable["food"])
-		end
-	elseif(roll < 50) then
-		local ran = math.random(1,3)
-		if(ran == 1) then
-			item = table.Random(lootTable["resources"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["food"])
-		else
-			item = table.Random(lootTable["drug"])
-		end
-	elseif(roll < 60) then
-		local ran = math.random(1,4)
-		if(ran == 1) then
-			item = table.Random(lootTable["resources"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["med"])
-		elseif(ran == 3) then
-			item = table.Random(lootTable["weapon"])
-		else
-			item = table.Random(lootTable["tool"])
-		end
-	elseif(roll < 70) then
-		local ran = math.random(1,5)
-		if(ran == 1) then
-			item = table.Random(lootTable["resources"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["food2"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["med"])
-		elseif(ran == 3) then
-			item = table.Random(lootTable["tool"])
-		elseif(ran == 4) then
-			item = table.Random(lootTable["weapon"])
-		else
-			item = "blight"
-		end
-	elseif(roll < 80) then
-		local ran = math.random(1,5)
-		if(ran == 1) then
-			item = table.Random(lootTable["resources2"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["food2"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["med2"])
-		elseif(ran == 3) then
-			item = table.Random(lootTable["tool"])
-		elseif(ran == 4) then
-			item = table.Random(lootTable["weapon"])
-		else
-			item = "blight"
-		end
-	elseif(roll < 90) then
-		local ran = math.random(1,5)
-		if(ran == 1) then
-			item = table.Random(lootTable["resources2"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["med2"])
-		elseif(ran == 4) then
-			item = table.Random(lootTable["tool"])
-		elseif(ran == 3) then
-			item = table.Random(lootTable["weapon2"])
-		end
-	elseif(roll < 100) then
-		local ran = math.random(1,4)
-		if(ran == 1) then
-			item = table.Random(lootTable["resources2"])
-		elseif(ran == 2) then
-			item = table.Random(lootTable["med2"])
-		elseif(ran == 3) then
-			item = table.Random(lootTable["weapon2"])
-		else
-			item = table.Random(lootTable["tool"])
-		end
-	elseif(roll < 101 and roll > 99) then
-		local ran = math.random(1,3)
-		if(ran == 1) then
-			item = "shard_dust"
-		elseif(ran == 2) then
-			item = "chip_escape"
-		else
-			item = "cube_chip_enhanced"
-		end
-	elseif(roll < 500) then
-		item = table.Random(lootTable["weird"])
-	end
-
-	return item
-end
-
-nut.command.add("scavenge", {
-	syntax = "<Roleplay scavenging before using this>",
-	onRun = function(client, arguments)
-		local char = client:getChar()
-		local luckroll = math.random(0, math.Clamp(char:getAttrib("luck", 0), 0, 100))
-		local rolled = math.random(luckroll, 100)
-
-		rolled = traitModify(client, "scavenge", rolled) --trait modifier
-		
-		local lastScav = char:getData("ScavD", 0) --the last day that they scavenged
-		local scavNum = char:getData("Scavs", 0) --number of times they've scavenged
-		
-		if(lastScav != tonumber(os.date("%d"))) then --once per day.		
-			local position = client:getItemDropPos()
-		
-			char:setData("ScavD", lastScav - 1)
-			
-			local foundItem = lootRoll(rolled)
-			
-			nut.item.spawn(foundItem, position)
-			
-			local niceName = nut.item.list[foundItem].name
-			if(niceName) then
-				client:notifyLocalized("You have found a " .. niceName .. ".")
-				
-				nut.log.addRaw(client:Name().." rolled \""..rolled.."\" and received a " ..niceName.. ".", 2)		
-				nut.chat.send(client, "scavenge", rolled)
-			end
-			
-			if(scavNum < 3) then
-				char:setData("Scavs", char:getData("Scavs", 0) + 1)
-			else
-				char:setData("Scavs", 0)
-				char:setData("ScavD", tonumber(os.date("%d"))) --they scavenged today
-			end
-		else
-			client:notifyLocalized("You can only scavenge four times every day.")
-		end
-	end
-})
-
 function PLUGIN:GetStartAttribPoints()
 	return 25
 end
+
+nut.util.include("sh_combat.lua")
+nut.util.include("sh_scav.lua")
+nut.util.include("sh_commands.lua")

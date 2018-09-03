@@ -22,8 +22,19 @@ end
 ITEM:hook("drop", function(item)
 	if (item:getData("equip")) then
 		item:setData("equip", nil)
-		if (item.attribBoosts) then
+		
+		if (item.attribBoosts or item:getData("attrib", nil)) then
+			local temp = {}		
+			--combines both boost lists
+			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
+				temp[k] = v
+			end		
+			for k, v in pairs(customBoosts) do
+				temp[k] = (temp[k] or 0) + v
+			end	
+		
+			for k, v in pairs(temp) do
 				item.player:getChar():removeBoost(item.uniqueID, k)
 			end
 		end
@@ -40,9 +51,20 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		local char = client:getChar()
 	
 		item:setData("equip", false)
-		--buffs the specified attributes.
-		if (item.attribBoosts) then
+		
+		--removes the buffs
+		if (item.attribBoosts or item:getData("attrib", nil)) then
+			local temp = {}		
+			--combines both boost lists
+			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
+				temp[k] = v
+			end		
+			for k, v in pairs(customBoosts) do
+				temp[k] = (temp[k] or 0) + v
+			end
+			
+			for k, v in pairs(temp) do
 				char:removeBoost(item.uniqueID, k)
 			end
 		end
@@ -85,8 +107,18 @@ ITEM.functions.Equip = {
 		
 		item:setData("equip", true)
 		--buffs the specified attributes.
-		if (item.attribBoosts) then
+		if (item.attribBoosts or item:getData("attrib", nil)) then
+			local temp = {}		
+			--combines both boost lists
+			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
+				temp[k] = v
+			end		
+			for k, v in pairs(customBoosts) do
+				temp[k] = (temp[k] or 0) + v
+			end		
+		
+			for k, v in pairs(temp) do
 				char:addBoost(item.uniqueID, k, v)
 			end
 		end
@@ -109,6 +141,9 @@ ITEM.functions.Scrap = {
 		local position = client:getItemDropPos()
 		local scrap
 		local amt
+		
+		client:requestString("Scrap", "Are you sure you want to scrap this weapon?", function(text) --confirmation message
+		--they dont need to enter anything, just not hit cancel.
 		
 		local roll = math.random(1,100)
 		local chance = item.multiChance
@@ -148,14 +183,29 @@ ITEM.functions.Scrap = {
 			end
 		end
 		
-		if (item.attribBoosts) then
+		if (item.attribBoosts or item:getData("attrib", nil)) then			
+			local temp = {}		
+			--combines both boost lists
+			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
-				item.player:getChar():removeBoost(item.uniqueID, k)
+				temp[k] = v
+			end		
+			for k, v in pairs(customBoosts) do
+				temp[k] = (temp[k] or 0) + v
+			end
+			
+			for k, v in pairs(temp) do
+				client:getChar():removeBoost(item.uniqueID, k)
 			end
 		end
 		
 		--Randomized sounds don't work up there so I had to do this.
-		item.player:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+				
+		item:remove()
+		end)
+		
+		return false
 	end,
 	onCanRun = function(item)
 		if(!item.salvItem) then
@@ -221,6 +271,42 @@ ITEM.functions.CustomCol = {
 	end
 }
 
+ITEM.functions.CustomAtr = {
+	name = "Customize Attributes",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	isMulti = true,
+	multiOptions = function(item, client)
+        local targets = {
+            {name = "accuracy", data = "accuracy"},
+            {name = "agility", data = "stm"},
+            {name = "craftiness", data = "medical"},
+            {name = "endurance", data = "end"},
+            {name = "fortitude", data = "fortitude"},
+            {name = "luck", data = "luck"},
+            {name = "perception", data = "perception"},
+            {name = "strength", data = "str"},
+        }
+       
+        return targets
+    end,
+	onRun = function(item, data)
+		local client = item.player
+		local attribs = item:getData("attrib", {})
+		
+		client:requestString("Input Attribute", nut.attribs.list[data].name, function(text)
+			attribs[data] = tonumber(text)
+			item:setData("attrib", attribs)
+		end, attribs[data] or 0)
+	
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
 local quality = {}
 quality[0] = "Terrible"
 quality[1] = "Awful"
@@ -247,8 +333,21 @@ function ITEM:getDesc()
 	
 	if(self.attribBoosts) then
 		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+		
+		local temp = {}		
+		--combines both boost lists
+		local customBoosts = self:getData("attrib", {})
 		for k, v in pairs(self.attribBoosts) do
-			desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+			temp[k] = v
+		end		
+		for k, v in pairs(customBoosts) do
+			temp[k] = (temp[k] or 0) + v
+		end
+		
+		for k, v in pairs(temp) do
+			if(v != 0) then
+				desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+			end
 		end
 	end
 	

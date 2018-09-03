@@ -54,7 +54,7 @@ ITEM.functions.Chip2 = {
 			client:notifyLocalized("You need an enhanced chip to insert!") return false
 		end
 		
-		if(math.random(1,4) == 4) then --25% chance to get a rarer item
+		if(math.random(1,9) == 9) then --10% chance to get a rarer item
 			nut.item.spawn("medical_purge", position)
 			nut.chat.send(client, "itclose", "The machine accepts the chip, and dispenses a strange vial.")
 		else

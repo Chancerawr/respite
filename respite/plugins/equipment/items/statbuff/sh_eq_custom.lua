@@ -29,8 +29,6 @@ ITEM.functions.Equip = {
 		local char = client:getChar()
 		
 		local items = client:getChar():getInv():getItems()
-
-		local boosts = item:getData("attrib")
 		
 		for k, v in pairs(items) do --checks if they have that slot filled already
 			if (v.id != item.id) then
@@ -51,6 +49,8 @@ ITEM.functions.Equip = {
 		end
 		
 		item:setData("equip", true)
+		
+		local boosts = item:getData("attrib")
 		--buffs the specified attributes.
 		if (boosts) then
 			for k, v in pairs(boosts) do
@@ -236,7 +236,6 @@ function ITEM:getDesc()
 	end
 	
 	local boosts = self:getData("attrib")
-
 	if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
 		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
 		for k, v in pairs(boosts) do

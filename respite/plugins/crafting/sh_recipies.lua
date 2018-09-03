@@ -111,11 +111,9 @@ RECIPE.model = Model( "models/warz/melee/flashlight.mdl" )
 RECIPE.desc = "A flashlight."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 14,
-	["j_scrap_adhesive"] = 1,
+	["j_scrap_metals"] = 5,
 	["j_scrap_battery"] = 2,
 	["j_scrap_light"] = 1,
-	["cube_chip"] = 1
 }
 RECIPE.result = {
 	["flashlight"] = 1
@@ -218,7 +216,7 @@ RECIPE.items = {
 	["hl2_m_bat"] = 1
 }
 RECIPE.result = {
-	["hl2_m_batnail"] = 1
+	["melee_bat_nail"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -307,110 +305,110 @@ RECIPE17.result = {
 }
 RECIPES:Register( RECIPE17 )
 //
-local RECIPE18 = {}
-RECIPE18.uid = "nut_breach"
-RECIPE18.name = "Explosive Breach"
-RECIPE18.category = "Explosive"
-RECIPE18.model = Model( "models/props_lab/powerbox02c.mdl" )
-RECIPE18.desc = "An explosive device that can be used to blow open doors."
-RECIPE18.noBlueprint = true
-RECIPE18.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_breach"
+RECIPE.name = "Explosive Breach"
+RECIPE.category = "Explosive"
+RECIPE.model = Model( "models/props_lab/powerbox02c.mdl" )
+RECIPE.desc = "An explosive device that can be used to blow open doors."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 10,
 	["nut_explosivegrenade"] = 1
 }
-RECIPE18.result = {
+RECIPE.result = {
 	["breach"] = 1
 }
-RECIPES:Register( RECIPE18 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE19 = {}
-RECIPE19.uid = "nut_ammo_919"
-RECIPE19.name = "9x19mm Ammo"
-RECIPE19.category = "Ammunition"
-RECIPE19.model = Model( "models/Items/boxsrounds.mdl" )
-RECIPE19.desc = "Makeshift 9x19mm Ammo suitable for a variety of firearms."
-RECIPE19.noBlueprint = true
-RECIPE19.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ammo_919"
+RECIPE.name = "9x19mm Ammo"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/Items/boxsrounds.mdl" )
+RECIPE.desc = "Makeshift 9x19mm Ammo suitable for a variety of firearms."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 10,
 	["cube_chip"] = 2
 }
-RECIPE19.result = {
+RECIPE.result = {
 	["ammo_919"] = 1
 }
-RECIPES:Register( RECIPE19 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE20 = {}
-RECIPE20.uid = "nut_ammo_45"
-RECIPE20.name = ".45 ACP Ammo"
-RECIPE20.category = "Ammunition"
-RECIPE20.model = Model( "models/items/boxmrounds.mdl" )
-RECIPE20.desc = "Makeshift .45 ACP ammo."
-RECIPE20.noBlueprint = true
-RECIPE20.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ammo_45"
+RECIPE.name = ".45 ACP Ammo"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/items/boxmrounds.mdl" )
+RECIPE.desc = "Makeshift .45 ACP ammo."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 12,
 	["cube_chip"] = 2
 }
-RECIPE20.result = {
+RECIPE.result = {
 	["ammo_45"] = 1
 }
-RECIPES:Register( RECIPE20 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE21 = {}
-RECIPE21.uid = "nut_ammo_40sw"
-RECIPE21.name = ".40 S&W Ammo"
-RECIPE21.category = "Ammunition"
-RECIPE21.model = Model( "models/items/357ammo.mdl" )
-RECIPE21.desc = "Makeshift .40 S&W ammo."
-RECIPE21.noBlueprint = true
-RECIPE21.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ammo_40sw"
+RECIPE.name = ".40 S&W Ammo"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/items/357ammo.mdl" )
+RECIPE.desc = "Makeshift .40 S&W ammo."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 10,
 	["cube_chip"] = 2
 }
-RECIPE21.result = {
+RECIPE.result = {
 	["ammo_40sw"] = 1
 }
-RECIPES:Register( RECIPE21 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE22 = {}
-RECIPE22.uid = "nut_ammo_5728"
-RECIPE22.name = "5.7x28mm Ammo"
-RECIPE22.category = "Ammunition"
-RECIPE22.model = Model( "models/items/boxmrounds.mdl" )
-RECIPE22.desc = "Makeshift 5.7x28mm ammo made from scrap materials."
-RECIPE22.noBlueprint = true
-RECIPE22.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ammo_5728"
+RECIPE.name = "5.7x28mm Ammo"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/items/boxmrounds.mdl" )
+RECIPE.desc = "Makeshift 5.7x28mm ammo made from scrap materials."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 12,
 	["cube_chip"] = 2
 }
-RECIPE22.result = {
+RECIPE.result = {
 	["ammo_5728"] = 1
 }
-RECIPES:Register( RECIPE22 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE23 = {}
-RECIPE23.uid = "nut_ammo_357"
-RECIPE23.name = ".357 Ammo"
-RECIPE23.category = "Ammunition"
-RECIPE23.model = Model( "models/items/357ammo.mdl" )
-RECIPE23.desc = "Makeshift .357 rounds made from scrap materials."
-RECIPE23.noBlueprint = true
-RECIPE23.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_ammo_357"
+RECIPE.name = ".357 Ammo"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/items/357ammo.mdl" )
+RECIPE.desc = "Makeshift .357 rounds made from scrap materials."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 12,
 	["cube_chip"] = 3
 }
-RECIPE23.result = {
+RECIPE.result = {
 	["ammo_357"] = 1
 }
-RECIPES:Register( RECIPE23 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE24 = {}
-RECIPE24.uid = "nut_colt1911"
-RECIPE24.name = "Makeshift Colt 1911"
-RECIPE24.category = "Weapons"
-RECIPE24.model = Model( "models/weapons/tfa_w_dmgf_co1911.mdl" )
-RECIPE24.desc = "A pistol made out of scrap metal and other odds and ends."
-RECIPE24.noBlueprint = true
-RECIPE24.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_colt1911"
+RECIPE.name = "Makeshift Colt 1911"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/weapons/tfa_w_dmgf_co1911.mdl" )
+RECIPE.desc = "A pistol made out of scrap metal and other odds and ends."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 15,
 	["j_scrap_rubber"] = 10,
 	["j_scrap_plastics"] = 10,
@@ -418,27 +416,27 @@ RECIPE24.items = {
 	["j_scrap_chems"] = 10,
 	["cube_chip"] = 20
 }
-RECIPE24.result = {
+RECIPE.result = {
 	["tfa_colt1911_makeshift"] = 1
 }
-RECIPES:Register( RECIPE24 )
+RECIPES:Register( RECIPE )
 //
-local RECIPE25 = {}
-RECIPE25.uid = "nut_flashlight_shard"
-RECIPE25.name = "Shardlight"
-RECIPE25.category = "Light Sources"
-RECIPE25.model = Model( "models/warz/melee/flashlight.mdl" )
-RECIPE25.desc = "A flashlight that uses a shard as a power source, rather than a battery."
-RECIPE25.noBlueprint = true
-RECIPE25.items = {
+local RECIPE = {}
+RECIPE.uid = "nut_flashlight_shard"
+RECIPE.name = "Shardlight"
+RECIPE.category = "Light Sources"
+RECIPE.model = Model( "models/warz/melee/flashlight.mdl" )
+RECIPE.desc = "A flashlight that uses a shard as a power source, rather than a battery."
+RECIPE.noBlueprint = true
+RECIPE.items = {
 	["j_scrap_metals"] = 6,
 	["j_scrap_adhesive"] = 4,
 	["shard_dust"] = 1
 }
-RECIPE25.result = {
+RECIPE.result = {
 	["flashlight_shard"] = 1
 }
-RECIPES:Register( RECIPE25 )
+RECIPES:Register( RECIPE )
 //
 local RECIPE = {}
 RECIPE.uid = "nut_pipe"
@@ -3074,7 +3072,7 @@ RECIPE.uid = "nut_grenade_yin"
 RECIPE.name = "Yin Yang"
 RECIPE.category = "Grenades"
 RECIPE.model = Model( "models/items/grenadeammo.mdl" )
-RECIPE.desc = "A makeshift shrapnel bomb that uses nails and other sharp pieces of metal to damage foes."
+RECIPE.desc = "A makeshift bomb that creates a large shockwave from its detonation area. Generally non-lethal, but typically stunning and disorienting, capable of knocking down most drifters and even fairly large creatures."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["ichor"] = 4,

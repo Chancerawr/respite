@@ -50,6 +50,13 @@ ITEM:hook("drop", function(item)
 			item.player.carryWeapons[item.weaponCategory] = nil
 			item.player:EmitSound("items/ammo_pickup.wav", 80)
 		end
+		
+		local boosts = item:getData("attrib", nil)
+		if (boosts) then
+			for k, v in pairs(boosts) do
+				item.player:getChar():removeBoost(item.uniqueID, k)
+			end
+		end
 	end
 end)
 
@@ -84,6 +91,13 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 			item:onUnequipWeapon(client, weapon)
 		end
 
+		local boosts = item:getData("attrib", nil)
+		if (boosts) then
+			for k, v in pairs(boosts) do
+				item.player:getChar():removeBoost(item.uniqueID, k)
+			end
+		end		
+		
 		return false
 	end,
 	onCanRun = function(item)
@@ -137,11 +151,19 @@ ITEM.functions.Equip = {
 				client:RemoveAmmo(weapon:Clip1(), weapon:GetPrimaryAmmoType())
 			end
 			item:setData("equip", true)
-
+			
 			weapon:SetClip1(item:getData("ammo", 0))
 
 			if (item.onEquipWeapon) then
 				item:onEquipWeapon(client, weapon)
+			end
+			
+			local boosts = item:getData("attrib")
+			--buffs the specified attributes.
+			if (boosts) then
+				for k, v in pairs(boosts) do
+					client:getChar():addBoost(item.uniqueID, k, v)
+				end
 			end
 		else
 			print(Format("[Nutscript] Weapon %s does not exist!", item.class))
@@ -201,6 +223,42 @@ ITEM.functions.CustomCol = {
 		--hopefully resets the player's icons
 		client:ConCommand("nut_flushicon")
 		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomAtr = {
+	name = "Customize Attributes",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	isMulti = true,
+	multiOptions = function(item, client)
+        local targets = {
+            {name = "accuracy", data = "accuracy"},
+            {name = "agility", data = "stm"},
+            {name = "craftiness", data = "medical"},
+            {name = "endurance", data = "end"},
+            {name = "fortitude", data = "fortitude"},
+            {name = "luck", data = "luck"},
+            {name = "perception", data = "perception"},
+            {name = "strength", data = "str"},
+        }
+       
+        return targets
+    end,
+	onRun = function(item, data)
+		local client = item.player
+		local attribs = item:getData("attrib", {})
+		
+		client:requestString("Input Attribute", nut.attribs.list[data].name, function(text)
+			attribs[data] = tonumber(text)
+			item:setData("attrib", attribs)
+		end, attribs[data] or 0)
+	
 		return false
 	end,
 	onCanRun = function(item)
@@ -337,6 +395,13 @@ ITEM.functions.Scrap = {
 			end
 		end
 		
+		local boosts = item:getData("attrib", nil)
+		if(boosts) then			
+			for k, v in pairs(boosts) do
+				client:getChar():removeBoost(item.uniqueID, k)
+			end
+		end
+		
 		--Randomized sounds don't work up there so I had to do this.
 		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
 		
@@ -356,6 +421,11 @@ ITEM.functions.Scrap = {
 
 function ITEM:onCanBeTransfered(oldInventory, newInventory)
 	if (newInventory and self:getData("equip")) then
+		return false
+	end
+	
+	local client = self.player
+	if(client and IsValid(client.nutRagdoll)) then
 		return false
 	end
 
@@ -418,6 +488,16 @@ function ITEM:getDesc()
 	if(self:getData("quality") != nil) then
 		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
 	end
+	
+	local boosts = self:getData("attrib")
+	if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
+		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+		for k, v in pairs(boosts) do
+			if(v != 0) then --dont want to display 0 values.
+				desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+			end
+		end
+	end	
 	
 	return Format(desc)
 end

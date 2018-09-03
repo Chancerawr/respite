@@ -2,13 +2,14 @@ ITEM.name = "First Aid Kit"
 ITEM.model = "models/items/healthkit.mdl"
 ITEM.width = 2
 ITEM.height = 2
-ITEM.healAmount = 100
+ITEM.healAmount = 20
 ITEM.healSeconds = 10
 ITEM.price = 0
 ITEM.desc = "A standard medical kit used to apply first aid."
 ITEM.flag = "v"
 ITEM.uniqueID = "medical_kit"
 ITEM.container = "j_used_first_aid_kit"
+ITEM.quantity = 6
 
 ITEM.iconCam = {
 	pos = Vector(5, 0, 200),

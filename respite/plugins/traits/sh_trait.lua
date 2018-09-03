@@ -202,6 +202,14 @@ TRAIT.modifier = {
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
+TRAIT.uid = "fanthehammer" 
+TRAIT.name = "Fan the Hammer"
+TRAIT.desc = "We're a long way from Texas.\nYou gain the ability to burst fire revolvers (/revolverburst)."
+TRAIT.category = "Char Abilities"
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
 TRAIT.uid = "marksman"
 TRAIT.name = "Marksman"
 TRAIT.desc = "You aren't the quickest shot, but you are the deadliest.\nQuick draw, akimbo, and regular firearms rolls decreased to 0.7x.\nAimed rolls increased to 1.2x."
@@ -542,13 +550,24 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "bodyguard" 
 TRAIT.name = "Bodyguard"
-TRAIT.desc = "You specialize in guarding bodies.\nStart with a T1 armored vest.\nDefend rolls increased by 1.05x.\nDodge rolls reduced by 0.9x."
+TRAIT.desc = "You specialize in guarding bodies.\nStart with a T1 armored vest.\nBlock and defend rolls increased by 1.05x.\nDodge rolls reduced by 0.9x."
 TRAIT.category = "Character"
 TRAIT.func = function(client, character)
 	character:getInv():add("armor_t1", 1)
 end
 TRAIT.modifier = {
-	["defend"] = 1.05,
+	["block"] = 1.05,
+	["dodge"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "defender" 
+TRAIT.name = "Defender"
+TRAIT.desc = "Those who stand with you, stand behind you.\nStart with a T1 armored vest.\nYou gain the ability to defend others from attacks (/defend).\nDodge rolls reduced by 0.9x."
+TRAIT.category = "Char Abilities"
+TRAIT.modifier = {
 	["dodge"] = 0.9
 }
 
@@ -816,6 +835,23 @@ TRAIT.func = function(client, character)
 	character:getInv():add("coflantern", 1)
 	
 	character:setData("trait_dark", CurTime()) --fort debuff
+end
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "digger" 
+TRAIT.name = "Gravedigger"
+TRAIT.desc = "You must give them the gift of rest."
+TRAIT.category = "Peculiar"
+TRAIT.func = function(client, character)
+	if(math.random(0,1) == 1) then
+		character:getInv():add("hl2_m_shovel", 1)
+	else
+		character:getInv():add("hl2_m_shovel_alt", 1)
+	end
+	
+	character:setData("trait_digger", CurTime()) --fort debuff
 end
 
 TRAITS:Register( TRAIT )
@@ -1091,8 +1127,8 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "donor" 
 TRAIT.name = "Blood Donor"
-TRAIT.desc = "You pride yourself in giving whatever you can to those in need.\nYou can bottle your own blood once every week.\nUse /blood."
-TRAIT.category = "Character"
+TRAIT.desc = "You pride yourself in giving whatever you can to those in need.\nYou can bottle your own blood once every week (/blood)."
+TRAIT.category = "Char Abilities"
 
 TRAITS:Register( TRAIT )
 

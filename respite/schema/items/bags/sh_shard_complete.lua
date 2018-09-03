@@ -148,7 +148,7 @@ ITEM.functions.Claim = {
 	onRun = function(item)
 		item:setData("char", item.player:getChar():getID())
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(IsValid(item.entity)) then
 			return false

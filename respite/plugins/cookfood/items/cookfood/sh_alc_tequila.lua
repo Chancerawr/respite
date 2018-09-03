@@ -15,7 +15,7 @@ ITEM.container = "j_empty_tequila"
 ITEM.attribBoosts = { ["str"] = 5 }
 
 ITEM.iconCam = {
-	pos = Vector(-200, 0, 6),
-	ang = Angle(0, -0, 0),
-	fov = 2.5,
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4,
 }

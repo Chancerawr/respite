@@ -11,6 +11,6 @@ ITEM.salvItem = "j_scrap_cloth"
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 16),
-	ang = Angle(0, 270, 0),
+	ang = Angle(0, -90, 0),
 	fov = 10,
 }

@@ -61,11 +61,11 @@ ITEM.functions.Open = {
 				"refinery_screws",
 				"refinery_currency",
 				"refinery_enhanced",
-				"refinery_plastic",
+				"refinery_plastics",
 				"refinery_adhesive"
 			}
 			
-			nut.item.spawn(table.Random(refinery)) -- random refinery
+			nut.item.spawn(table.Random(refinery), position) -- random refinery
 			
 			if(luckRoll > 60) then 
 				nut.item.spawn("cube_chip_enhanced", position)
@@ -86,7 +86,7 @@ ITEM.functions.Open = {
 				"farm_pumpkin"
 			}		
 		
-			nut.item.spawn(table.Random(farm)) -- random farm
+			nut.item.spawn(table.Random(farm), position) -- random farm
 			
 			if(luckRoll > 70) then
 				nut.item.spawn("shard_dust", position)
@@ -108,6 +108,8 @@ ITEM.functions.Open = {
 				"cube_water",
 				"cube_blight",
 			}
+			
+			nut.item.spawn(table.Random(cube), position) -- random CUBE
 			
 			if(luckRoll > 50) then 
 				nut.item.spawn("cube_chip", position)

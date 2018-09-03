@@ -29,9 +29,10 @@ ITEM.functions.Activate = {
 		if (!corwater) then
 			client:notifyLocalized("You don't have any Corrupted Water!") return false
 		end
-
-		nut.item.spawn("food_water", position)
+		
 		corwater:remove()
+		inventory:add("food_water", 1)
+		
 		nut.chat.send(client, "itclose", "The tablet is dropped into the liquid, and it is slowly purified.")
 	end
 }

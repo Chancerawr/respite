@@ -9,9 +9,9 @@ ITEM.attribBoosts = {
 }
 
 ITEM.iconCam = {
-	pos = Vector(-200, 0, 6),
-	ang = Angle(0, -0, 0),
-	fov = 2.5,
+	pos = Vector(0, 200, 6),
+	ang = Angle(0, 270, 0),
+	fov = 4,
 }
 
 ITEM:hook("_use", function(item)

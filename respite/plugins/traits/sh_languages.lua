@@ -3,7 +3,7 @@ nut.chat.register("jpn", {
 		return hasTrait(speaker, "jap")
 	end,
 	onChatAdd = function(speaker, text)
-		if (hasTrait(speaker, "jap")) then
+		if (hasTrait(LocalPlayer(), "jap")) then
 			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 		else
 			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." says something in Japanese.")

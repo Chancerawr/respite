@@ -5,27 +5,10 @@ ITEM.desc = "An empty bottle made of glass, it smells like vodka.\nThis containe
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 2
+ITEM.fillable = true
 
 ITEM.data = { scrapamount = 2}
 ITEM.salvItem = "j_scrap_glass"
-
-ITEM.functions.Fill = {
-	icon = "icon16/box.png",
-	sound = "ambient/water/distant_drip4.wav",
-	onRun = function(item)
-		local client = item.player
-		local position = client:getItemDropPos()
-			
-		nut.item.spawn("food_water_misc", position) 
-		client:notifyLocalized("Your container has been filled.")
-	end,
-	onCanRun = function(item)
-		local client = item:getOwner() or item.player
-		if(client:WaterLevel() < 1) then
-			return false
-		end
-	end
-}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 6),

@@ -30,7 +30,7 @@ ITEM.salvItem = {
 }
 
 ITEM.iconCam = {
-	pos = Vector(-200, 0, 5),
-	ang = Angle(0, -0, 90),
-	fov = 8.5,
+	pos = Vector(0, 200, -7),
+	ang = Angle(0, 270, 90),
+	fov = 9,
 }

@@ -17,12 +17,12 @@ ITEM.iconCam = {
 }
 
 --how long it takes for a charge to regenerate.
-local timeCharge = 7200
+local timeCharge = 18000
 
 local function chargeTimer(startTime)
 
 	if(!startTime) then
-		return false
+		return 0
 	end
 	
 	local maxCharges = 1
@@ -31,7 +31,7 @@ local function chargeTimer(startTime)
 	
 	--generally happens after server restarts.
 	if(passed < 0) then
-		return false
+		return 1
 	end
 
 	charges = passed / timeCharge
@@ -53,7 +53,7 @@ ITEM.functions.Charge = {
 		local inventory = client:getChar():getInv()
 		
 		local battery = inventory:hasItem("j_battery_dead")	
-		local charges = chargeTimer(item:getData("sTime", CurTime()))
+		local charges = chargeTimer(item:getData("sTime", 0))
 		
 		nut.chat.send(client, "itclose", "The object accepts the dead battery and the money, vibrates intensely, and outputs a freshly charged battery.")
 		
@@ -67,7 +67,7 @@ ITEM.functions.Charge = {
 		return false
 	end,
 	onCanRun = function(item)
-		if(item:getData("sTime", 0) + timeCharge > CurTime()) then
+		if(chargeTimer(item:getData("sTime", 0)) < 1) then
 			return false
 		end
 	
@@ -82,7 +82,8 @@ ITEM.functions.Charge = {
 function ITEM:getDesc()
 	local desc = self.desc
 	
-	local charges = chargeTimer(self:getData("sTime", CurTime()))
+	local charges = chargeTimer(self:getData("sTime", 0))
+
 	if(charges) then
 		if(charges == 0) then
 			desc = desc .. "\nThe cube is not charged."

@@ -161,7 +161,7 @@ ITEM.functions.Battery = {
 			
 		required:remove()
 
-		nut.item.spawn("j_painting1")
+		nut.item.spawn("j_painting1", position)
 
 		inventory:add("j_battery_dead")
 		

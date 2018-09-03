@@ -27,6 +27,7 @@ ITEM.functions.Cream = {
 		local inventory = client:getChar():getInv()
 		
 		local milk = inventory:hasItem("food_milk_carton") or inventory:hasItem("food_milk_jug")
+		local can = player:getChar():getInv():hasItem("food_soda_cold")
 		local amount = 1
 		
 		client:notifyLocalized("Converting has started.")
@@ -39,6 +40,7 @@ ITEM.functions.Cream = {
 		end
 		
 		milk:remove()
+		can:remove()
 		
 		timer.Simple(45, 
 			function()
@@ -67,7 +69,8 @@ ITEM.functions.Cream = {
 		local endTime = item:getData("producing2") + 45
 		local milk = player:getChar():getInv():hasItem("food_milk_carton") or player:getChar():getInv():hasItem("food_milk_jug")
 		local can = player:getChar():getInv():hasItem("food_soda_cold")
-		if (milk and can (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
+		
+		if (milk and can and (CurTime() > endTime or item:getData("producing2", 0) > CurTime() or item:getData("producing2", 0) == 0)) then
 			return true 
 		else
 			return false

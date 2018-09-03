@@ -47,6 +47,7 @@ ITEM.functions.Medical = {
 			meds[17] = "drug_steroid"
 
 		local amount = organic:getData("Amount")
+		local amount2 = depress:getData("Amount")
 		
 		nut.chat.send(client, "itclose", "The machine accepts the materials, vibrates intensely, and outputs a something medical after a short period of time.")
 
@@ -54,8 +55,13 @@ ITEM.functions.Medical = {
 			organic:setData("Amount", amount - 10)
 		else
 			organic:remove()
+		end		
+		
+		if(amount2 > 1) then
+			depress:setData("Amount", amount2 - 1)
+		else
+			depress:remove()
 		end
-		depress:remove()
 		
 		nut.item.spawn(meds[math.random(1,17)], position)
 		

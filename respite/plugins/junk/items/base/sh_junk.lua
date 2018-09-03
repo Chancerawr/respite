@@ -49,13 +49,15 @@ ITEM.functions.Scrap = {
 		else
 			for i = 1, multi do
 				scrap = item.salvItem
-				if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
-					nut.item.spawn(scrap, position,
-						function(item2)
-							item2:setData("Amount", item:getData("scrapamount"))
-						end
-					)
-				end
+				timer.Simple(i/2, function()
+					if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
+						nut.item.spawn(scrap, position,
+							function(item2)
+								item2:setData("Amount", item:getData("scrapamount"))
+							end
+						)
+					end
+				end)
 			end
 		end
 		
@@ -123,6 +125,32 @@ ITEM.functions.CustomCol = {
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
 		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.Fill = {
+	icon = "icon16/box.png",
+	sound = "ambient/water/distant_drip4.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		
+		if(!inventory:add("food_water_misc", 1)) then
+			nut.item.spawn("food_water_misc", position)
+		end
+		
+		client:notifyLocalized("Your container has been filled.")
+	end,
+	onCanRun = function(item)
+		if(!item.fillable) then
+			return false
+		end
+	
+		local client = item:getOwner() or item.player
+		if(client:WaterLevel() < 1) then
+			return false
+		end
 	end
 }
 

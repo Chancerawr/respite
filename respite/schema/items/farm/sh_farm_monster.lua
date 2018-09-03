@@ -218,6 +218,18 @@ ITEM.functions.Name = {
 	end
 }
 
+ITEM.functions.Farm = {
+	tip = "Name this item",
+	icon = "icon16/heart.png",
+	onRun = function(item)
+		--this is a thing to turn off this function in the base, it shouldnt need to be here but im stupid.
+		return false
+	end,
+	onCanRun = function(item)
+		return false
+	end
+}
+
 function ITEM:getName()
 	local name = self.name
 	
