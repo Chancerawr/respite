@@ -184,7 +184,7 @@ ITEM.functions.CustomAtr = {
     end,
 	onRun = function(item, data)
 		local client = item.player
-		local attribs = item:getData("attrib")
+		local attribs = item:getData("attrib", {})
 		
 		client:requestString("Input Attribute", nut.attribs.list[data].name, function(text)
 			attribs[data] = tonumber(text)
