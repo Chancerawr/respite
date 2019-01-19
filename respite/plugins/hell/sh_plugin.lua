@@ -144,13 +144,15 @@ if(CLIENT) then
 				  DrawToyTown(Const * 8, ScrH())
 				end)
 
+			--[[
 			local snd = CreateSound(LocalPlayer(), "horror/fz_frenzy1.wav")
 			snd:Play()
 			snd:ChangePitch(110, 0)
 
 			timer.Simple(14, function()
-			  snd:ChangeVolume(0, 5)
+				snd:ChangeVolume(0, 5)
 			end)
+			--]]
 
 			util.ScreenShake(LocalPlayer():GetPos(), 3, 55, 5, 1000)
 			surface.PlaySound("ambient/machines/machine1_hit2.wav")
@@ -244,7 +246,7 @@ if(CLIENT) then
 					local ang = newAng
 					ang.p = 0
 					
-					screamer = CreateModel("models/Zombie/Poison.mdl")
+					screamer = CreateModel("models/zombie/poison.mdl")
 					screamer:SetPos(pos - Vector(0, 0, 60) - ang:Forward() * 50)
 					screamer:SetAngles(ang)
 					screamer:SetModelScale(1.2, 0)
@@ -341,8 +343,15 @@ if(CLIENT) then
 
 			local pos = tr.HitPos - tr.HitNormal * 8
 
-			local mdl = CreateModel("models/Humans/Charple02.mdl")
-			mdl:SetAngles(Angle(-70, math.random(0, 360), 0))
+			local corpses = {
+				"models/humans/charple02.mdl",
+				"models/humans/charple03.mdl",
+				"models/humans/charple04.mdl",
+				"models/humans/charple01.mdl"
+			}
+			
+			local mdl = CreateModel(corpses[math.random(#corpses)])
+			mdl:SetAngles(Angle(-45, math.random(0, 360), 0))
 			mdl:SetNoDraw(false)
 			mdl:DrawShadow(true)
 			mdl:SetPos(pos)
@@ -490,9 +499,22 @@ if(CLIENT) then
 				LocalPlayer():DrawViewModel(false)
 
 				for i = 1, 300 do
-					local e = CreateModel("models/weapons/w_bugbait.mdl")
-					e:SetModelScale(math.random(200, 300), 0)
-					e:SetAngles(Angle(90, 0, 0))
+					local floating = {
+						"models/dismemberment/gibs/legs/lower_leg.mdl",
+						"models/dismemberment/gibs/legs/upper_leg.mdl",
+						"models/dismemberment/gibs/arms/lower_arm.mdl",
+						"models/dismemberment/gibs/arms/upper_arm.mdl",
+						"models/dismemberment/gibs/torso/torso_pelvis.mdl",
+						"models/dismemberment/gibs/torso/torso_left_lower.mdl",
+						"models/dismemberment/gibs/torso/torso_left_upper.mdl",
+						"models/dismemberment/gibs/torso/torso_right_upper.mdl",
+						"models/gibs/humans/eye_gib.mdl",
+						"models/gibs/humans/heart_gib.mdl"
+					}
+				
+					local e = CreateModel(floating[math.random(#floating)])
+					e:SetModelScale(math.random(30, 60), 0)
+					e:SetAngles(AngleRand())
 				
 					local vec = VectorRand() * 12000
 					vec.z = math.abs(vec.z) / 3
@@ -951,6 +973,298 @@ nut.command.add("hellend", {
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target)) then
 			target:ConCommand("hellend")
+		end
+	end
+})
+
+if CLIENT then
+    
+	local Darkness = false
+	
+    local cache = { }
+	timercache = { }
+	soundcache = { }
+	modelcache = { }
+	
+	    local CreatePhysModel = function(mdl)
+	    local ent = ents.CreateClientProp()
+		ent:SetModel(mdl)
+		ent:PhysicsInit(SOLID_VPHYSICS)
+		ent:SetMoveType(MOVETYPE_VPHYSICS)
+		ent:SetSolid(SOLID_VPHYSICS)
+
+		table.insert(modelcache, ent)
+
+		return ent
+	end
+	
+
+	local CreateModel = function(mdl, isragdoll)
+		local ent
+
+		if isragdoll then
+			ent = ClientsideRagdoll(mdl)
+		else
+			ent = ClientsideModel(mdl, RENDERGROUP_OTHER)
+		end
+	  
+		table.insert(modelcache, ent)
+	  
+		return ent
+	end
+
+	local AddSound = function(name)
+		local snd = CreateSound(LocalPlayer(), name)
+	  
+		table.insert(soundcache, snd)
+	  
+		return snd
+	end
+
+	local NewHookAdd = function(str, name, func)
+		--name = "dronesrewrite_hell_hooks" .. name
+		hook.Add(str, name, func)
+	  
+		table.insert(cache, {
+			str = str,
+			name = name
+		})
+	end
+
+	local NewTimerSimple = function(time, func)
+		local name = "dronesrewrite_hell_timers" .. table.Count(timercache)
+		timer.Create(name, time, 1, func)
+	  
+		table.insert(timercache, {
+			name = name
+		})
+	end
+
+	local StopTimers = function() for k, v in pairs(timercache) do timer.Destroy(v.name) end end
+	local RemoveHooks = function() for k, v in pairs(cache) do hook.Remove(v.str, v.name) end end
+	local StopSounds = function() for k, v in pairs(soundcache) do if v then v:Stop() end end end
+	local RemoveModels = function() for k, v in pairs(modelcache) do SafeRemoveEntity(v) end end
+
+		
+		local function MakeNoise()
+		-- local crying
+		-- crying = AddSound("ambient/voices/crying_loop1.wav")
+		-- crying:Play()
+		
+		sound.PlayURL("https://puu.sh/BRy17/9221799e30.mp3", "mono noblock",function(sts)
+			if IsValid(sts) then 
+			Noise = sts
+			Noise:EnableLooping(true)
+			end
+			end)
+			  
+		end
+		local function EndDarkness()
+		
+		if IsValid(Noise) then Noise:Stop() end
+		RemoveHooks()
+		StopTimers()
+		StopSounds()
+		RemoveModels()
+	
+		LocalPlayer():ScreenFade( SCREENFADE.IN, Color( 0, 0, 0, 255 ), 1, 1 )
+		-- timer.Destroy("dronesrewrite_loopscreamer")
+		  
+		Darkness = false
+	end
+		
+		local function EnableDarkness()
+		local Models = { }
+		local Scrap = { }
+	  
+		local Const = 0.6
+		local function AddRender()
+			NewHookAdd("RenderScreenspaceEffects", "dronesrewrite_hell_render", function()
+				local eff_tab = {
+					["$pp_colour_addr"] = Const * 0.1,
+					["$pp_colour_addg"] = Const * 0.1,
+					["$pp_colour_addb"] = Const * 0.1,
+					["$pp_colour_brightness"] = -0.1,
+					["$pp_colour_contrast"] = 1 + Const * 0.9,
+					["$pp_colour_colour"] = 0.4,
+					["$pp_colour_mulr"] = 1,
+					["$pp_colour_mulg"] = 1,
+					["$pp_colour_mulb"] = 1
+				}
+			  
+				DrawColorModify(eff_tab)
+			  
+				DrawBloom(Const * 1, Const, Const, Const, Const, Const, Const, Const, Const)
+				DrawSharpen(Const * 0.7, Const * 4)
+				DrawMotionBlur(Const * 0.3, Const, Const * 0.01)
+			end)
+		end
+		
+		local function Flicker()
+			NewHookAdd("PreDrawHUD", "dronesrewrite_hell_flicker", function()
+			  local TEMP_BLUR = Material("effects/flicker_256")
+		
+			cam.Start2D()
+				local x, y = 0, 0
+				local scrW, scrH = ScrW(), ScrH()
+				surface.SetDrawColor(255, 255, 255)
+				surface.SetMaterial( TEMP_BLUR )		
+				for i = 1, 3 do
+					TEMP_BLUR:SetFloat("$blur", (i / 2) * 3)
+					TEMP_BLUR:Recompute()
+					render.UpdateScreenEffectTexture()
+					surface.DrawTexturedRect(x * -1, y * -1, scrW, scrH)
+				end
+			cam.End2D()
+			end)
+		end
+		
+		local function MakeGuys()
+
+			local tr = util.TraceLine({
+				start = LocalPlayer():GetPos(),
+				endpos = LocalPlayer():GetPos() + Vector(0, 0, 10000),
+				filter = LocalPlayer()
+			})
+
+			local x = math.random(0, 360)
+			local tr = util.TraceLine({
+				start = tr.HitPos + tr.HitNormal * 32,
+				endpos = tr.HitPos + Vector(math.cos(x), math.sin(x), 0) * math.random(1000, 2000),
+				filter = LocalPlayer()
+			})
+
+			local tr = util.TraceLine({
+				start = tr.HitPos + tr.HitNormal * 32,
+				endpos = tr.HitPos - vector_up * 20000,
+				filter = LocalPlayer()
+			})
+
+			local pos = tr.HitPos
+
+			--ParticleEffect("fire_test2", pos, Angle(0, 0, 0))
+
+				--sound.Play("vo/npc/male01/no02.wav", LocalPlayer():GetPos(), 75, math.random(70, 90), 1)
+				local mdl = CreateModel("models/Humans/Group01/Male_Cheaple.mdl")
+				mdl:SetModelScale(2, 0)
+				mdl:SetAngles(Angle(0, (LocalPlayer():GetPos() - tr.HitPos):Angle().y, 0))
+				mdl:SetPos(pos)
+				-- mdl:SetRenderMode(RENDERMODE_TRANSALPHA)
+				-- mdl:SetMaterial("models/angelsaur/ghosts/shadow")
+				mdl:SetColor(Color(0,0,0))
+	            mdl:SetRenderFX(kRenderFxDistort)
+				-- mdl:SetMaterial("models/flesh")
+				-- mdl:SetColor(Color(255, 0, 0))
+				mdl:Spawn()
+	 end
+
+	
+		local function MakeCorpse(amount)
+			-- sound.Play("npc/zombie/zombie_alert1.wav", LocalPlayer():GetPos(), 90, math.random(40, 70))
+
+			local tr = util.TraceLine({
+				start = LocalPlayer():GetPos(),
+				endpos = LocalPlayer():GetPos() + vector_up * 5000,
+				filter = LocalPlayer()
+			})
+
+			local x = math.random(0, 360)
+			local tr = util.TraceLine({
+				start = tr.HitPos,
+				endpos = tr.HitPos + Vector(math.cos(x), math.sin(x), 0) * math.random(1000, 2000),
+				filter = LocalPlayer()
+			})
+
+			local tr = util.TraceLine({
+				start = tr.HitPos,
+				endpos = tr.HitPos - vector_up * 20000,
+				filter = LocalPlayer()
+			})
+
+			local pos = tr.HitPos - tr.HitNormal * 8
+			
+			local corpses = {
+				"models/humans/charple02.mdl",
+				"models/humans/charple03.mdl",
+				"models/humans/charple04.mdl",
+				"models/humans/charple01.mdl"
+			}
+			
+			local mdl = CreateModel(corpses[math.random(#corpses)])
+			mdl:SetAngles(Angle(-90, math.random(0, 360), 0))
+			mdl:SetNoDraw(false)
+			mdl:DrawShadow(true)
+			mdl:SetPos(pos)
+		end
+		
+	    for i = 1, 200 do
+			MakeCorpse()
+		end
+		
+		for i = 1, 200 do
+			MakeGuys()
+		end
+
+        MakeNoise()
+		Flicker()
+		AddRender()
+			
+    for k, v in pairs(Models) do 
+      local pos = v:GetPos()
+      pos.z = pos.z + math.sin(CurTime() * v.ZSpeed) * v.ZDist
+      
+      v:SetPos(pos)
+      
+      v:SetAngles(Angle(0, CurTime() * 15 * v.RotDir, 0))
+    end
+    
+    for k, v in pairs(Scrap) do
+      if v:IsValid() then
+        v:SetPos(v:GetPos() - Vector(0, 0, v.Speed))
+        if v:GetPos().z <= LocalPlayer():GetPos().z then v:Remove() end
+		end
+      end
+  end
+	
+	local function DoDarkness()
+		if Darkness then return end
+		Darkness = true
+		LocalPlayer():ScreenFade( SCREENFADE.IN, Color( 0, 0, 0, 255 ), 1, 0 )		
+		EnableDarkness()
+	end
+	
+	
+	concommand.Add("mat_corrupt", DoDarkness)
+	concommand.Add("mat_repair", EndDarkness)
+end
+
+nut.command.add("scdarkness", {
+	adminOnly = true,
+	syntax = "<string name> [num length]",
+	onRun = function(client, arguments, amount)
+		local target = nut.command.findPlayer(client, arguments[1])
+		local length = tonumber(arguments[2]) or 3
+		
+		if (IsValid(target)) then
+			if (length > 2) then	
+				target:ConCommand("mat_corrupt")	  	
+				timer.Simple(length, function() 
+					target:ConCommand("mat_repair")
+				end)
+			else
+				client:notifyLocalized("The length needs to be more than 2 seconds!")
+			end
+		end
+	end
+})
+
+nut.command.add("darknessend", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target)) then
+			target:ConCommand("mat_repair")
 		end
 	end
 })

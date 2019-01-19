@@ -93,11 +93,15 @@ ITEM.functions.Memory = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		local object = inventory:hasItem("j_scrap_memory")
-		local ranScrap = {}
-			ranScrap[1] = "blight"
-			ranScrap[2] = "ichor"
-			ranScrap[3] = "food_water"
-			ranScrap[4] = "food_yams"
+		
+		local ranScrap = {
+			"blight",
+			"ichor",
+			"food_water",
+			"food_water_misc",
+			"food_yams",
+			"j_rib"
+		}
 			
 		if(object:getData("Amount") > 1) then
 			object:setData("Amount", object:getData("Amount") - 1)
@@ -105,7 +109,7 @@ ITEM.functions.Memory = {
 			object:remove()
 		end
 		
-		nut.item.spawn(ranScrap[math.random(1,4)], position)
+		nut.item.spawn(table.Random(ranScrap), position)
 		nut.chat.send(client, "itclose", "When nobody is looking, the object in front of the alchemist changes.")		
 		
 		return false

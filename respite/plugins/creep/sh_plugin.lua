@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "Creep"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "A weird experimental thing that grows."
@@ -32,7 +33,7 @@ nut.command.add("cleancreep", {
 	onRun = function(client, arguments)
 		for k, v in pairs(ents.FindByClass("nut_creep")) do
 			v:Remove()
-		end		
+		end
 		
 		for k, v in pairs(ents.FindByClass("nut_creepspread")) do
 			v:Remove()
@@ -42,16 +43,18 @@ nut.command.add("cleancreep", {
 	end
 })
 
-function PLUGIN:Think()
-	if(!self.nextCheck) then self.nextCheck = CurTime() end
-	
-	if(CurTime() > self.nextCheck) then
-		for k, v in pairs(self.spawns) do
-			if !IsValid(v) then
-				table.remove(k)
-			end
-		end
+if(SERVER) then
+	function PLUGIN:Think()
+		if(!self.nextCheck) then self.nextCheck = CurTime() end
 		
-		self.nextCheck = CurTime() + 1200
+		if(CurTime() > self.nextCheck) then
+			for k, v in pairs(self.spawns) do
+				if !IsValid(v) then
+					table.remove(self.spawns, k)
+				end
+			end
+			
+			self.nextCheck = CurTime() + 60
+		end
 	end
 end

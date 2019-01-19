@@ -25,7 +25,7 @@ ITEM:hook("_use", function(item)
 	client:ScreenFade(1, Color(148, 0, 210, 255), 5, 0)
 	
 	if(client:getChar():getFaction() == FACTION_SURVIVOR) then --only happens to drifters
-		client:getChar():setData("dis_eyes", CurTime())
+		giveDisease(client, "dis_eyes")
 		
 		if(math.random(1,5) == 5) then --20% chance of a secret.
 			timer.Simple(1, function()

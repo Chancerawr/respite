@@ -23,7 +23,6 @@ ITEM.functions.Sacrifice = {
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
-		local position = client:getItemDropPos()
 		local inventory = char:getInv()
 
 		local potential = { --potential sacrifices
@@ -62,17 +61,19 @@ ITEM.functions.Sacrifice = {
 		end
 		
 		if(!sacrifice) then
-			client:notifyLocalized("You don't have anything to sacrifice!") return false
+			client:notify("You don't have anything to sacrifice!") return false
 		end
 		
 		sacrifice:remove()
-		item:setData("producing2", CurTime())
+
+		client:notify("The skull accepts your sacrifice.")
 		
-		client:notifyLocalized("The skull takes the sacrifice, and begins to consume it.")
-		
+		item:setData("producing", CurTime())
 		timer.Simple(40, --RATTLE ME BONES 
 			function()
-				position = client:getItemDropPos()
+				item:setData("producing", nil)
+			
+				local position = client:getItemDropPos()
 				nut.chat.send(client, "itclose", client:Name().. "'s sacrificial skull rattles gently.")
 				
 				local fort = math.Clamp(math.floor(char:getAttrib("fortitude")), 0, 100)
@@ -81,7 +82,7 @@ ITEM.functions.Sacrifice = {
 				local reward = math.random(fortRan, 100) -- rolls from character's fortitude attribute to 100.
 				local rewardI
 				
-				if(reward < 5) then
+				if(reward < 8) then
 					client:notifyLocalized("You receive an ailment.")
 					
 					local ails = {
@@ -93,14 +94,15 @@ ITEM.functions.Sacrifice = {
 						"fort_hall",
 						"fort_migraine",
 						"fort_headache",
+						"fort_enrage",
 						"fort_conf"
 					}
 					
-					char:setData(table.Random(ails), CurTime()) --random fort ailment
+					giveDisease(client, table.Random(ails))
 				elseif (reward < 60) then
 					client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
 					rewardI = "drug_depress"
-				elseif (reward < 70) then
+				elseif (reward < 73) then
 					client:notifyLocalized("You receive a vial of blight for your sacrifice.")
 					rewardI = "blight"
 				elseif (reward < 75) then
@@ -111,13 +113,16 @@ ITEM.functions.Sacrifice = {
 					rewardI = "food_yams"
 				elseif (reward < 95) then
 					client:notifyLocalized("You receive a baby doll.")
-					rewardI = "j_baby_doll"
+					rewardI = "j_baby_doll"				
 				elseif (reward < 98) then
+					client:notifyLocalized("You receive a bottle of blood.")
+					rewardI = "food_blood"
+				elseif (reward < 99) then
 					client:notifyLocalized("You receive a bottle of blue haze for your sacrifice.")
 					rewardI = "haze_bottled"
-				elseif (reward <= 99) then
+				elseif (reward == 99) then
 					client:notifyLocalized("You receive an enhanced chip for your sacrifice.")
-					rewardI = "cube_chip_enhanced"					
+					rewardI = "cube_chip_enhanced"		
 				elseif (reward == 100) then
 					client:notifyLocalized("You feel like you've changed somehow.")	
 					char:updateAttrib("fortitude", 0.5)
@@ -133,17 +138,16 @@ ITEM.functions.Sacrifice = {
 						nut.item.spawn(rewardI, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
 					end
 				end
-				
-				item:setData("producing2", 0)
 			end
 		)
 		return false
 	end,
 	onCanRun = function(item)
-		local endTime = item:getData("producing2") + 40
-		if(CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-		else
-			return false
+		local prodTime = 40
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -176,3 +180,13 @@ ITEM.functions.Battery = {
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nThe skull is full."
+	end
+	
+	return Format(desc)
+end

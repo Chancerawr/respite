@@ -5,7 +5,7 @@ PLUGIN.name = "Diseases"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "Always wear protection."
 
-PLUGIN.thinkTime = 1800 --time between running disease functions
+PLUGIN.thinkTime = 3600 --time between running disease functions
 PLUGIN.chance = 1 --chance of a random disease happening every thinkTime
 
 DISEASES = {}
@@ -18,13 +18,26 @@ function DISEASES:GetAll()
 	return self.diseases
 end
 
-local thinkTime = CurTime()
-
 local function canInfect(infectee, disease)
 	local char = infectee:getChar()
+	if(!char) then return false end
+	
 	local mem = CurTime() - char:getData("memory_wrap", -14400)
 	
-	if(char and !char:getData(disease) and (mem > 14400 or mem < 0)) then --only want to infect people who don't already have the disease.
+	local infectious = {
+		"dis_eyes",
+		"dis_touch",
+		"dis_mind"
+	}
+	
+	--doesn't let them get infected if they have any sort of infectious disease.
+	for k, v in pairs(infectious) do
+		if(hasDisease(infectee, v)) then
+			return false
+		end
+	end
+
+	if(!hasDisease(infectee, disease) and (mem > 14400 or mem < 0)) then --only want to infect people who don't already have the disease.
 		char:setData("memory_wrap", nil)
 		return true
 	else
@@ -39,36 +52,34 @@ function diseaseEffects(client, disease, diseaseT)
 	
 	local disTable = DISEASES.diseases[disease] --disease table
 	if(disTable) then --if the disease exists
-		local iTime = char:getData(disease) --time of infection
+		local disData = char:getData("diseases", {})
+	
+		local iTime = disData[disease] --time of infection
 		
 		if(iTime) then
 			--symptom chat printing
 			
-			if(disTable.phase) then --one phase
-				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
-					function()
-						if(client:getChar():getData(disease) and IsValid(client)) then --makes sure they still have the disease
-							local symptom = table.Random(disTable.phase)
+			if(disTable.phase) then --no phase progression, random symptoms
+				timer.Simple(math.random(0, PLUGIN.thinkTime), function()
+					if(client and hasDisease(client, disease)) then
+						local symptom = table.Random(disTable.phase)
 						
-							nut.chat.send(client, "body", symptom)
+						if(symptom) then
+							nut.chat.send(client, "body", symptom) --symptom printing
 						end
 					end
-				)
-			else --multiple phases
-				timer.Simple(math.random(0, PLUGIN.thinkTime), --randomizes the time so multiple diseases don't print at once.
-					function()
-						if(client:getChar():getData(disease)) then --makes sure they still have the disease
-							if(!client:GetPos()) then return end
-						
-							local phase = math.Round( (CurTime() - iTime)/disTable.phaseTime )
-							phase = math.Clamp(phase, 0, table.Count(disTable.phases) - 1)
+				end)
+			else --progressive phases
+				timer.Simple(math.random(0, PLUGIN.thinkTime), function()
+					if(IsValid(client) and hasDisease(client, disease)) then --makes sure they still have the disease
+						local phase = math.Round((CurTime() - iTime) / disTable.phaseTime)
+						phase = math.Clamp(phase, 0, table.Count(disTable.phases) - 1)
 							
-							local symptom = disTable.phases[phase]
+						local symptom = disTable.phases[phase]
 							
-							nut.chat.send(client, "body", symptom)
-						end
+						nut.chat.send(client, "body", symptom)
 					end
-				)
+				end)
 			end
 		
 			--contagion
@@ -76,7 +87,7 @@ function diseaseEffects(client, disease, diseaseT)
 				local players = player.GetAll()
 				
 				for k, v in pairs(players) do
-					if(v:getChar() and !v:getChar():getData(disease) or v:GetMoveType() != MOVETYPE_NOCLIP) then --if the player does not have the disease
+					if(v and v:GetMoveType() != MOVETYPE_NOCLIP or !hasDisease(v, disease)) then --checks if player is is a potential spreader of disease.
 						table.remove(players, k) --removes player from the list
 					end
 				end
@@ -88,7 +99,7 @@ function diseaseEffects(client, disease, diseaseT)
 							local roll = math.random(1,100)
 							if(roll <= disTable.spreadChance) then --rolls to see if the disease spreads
 								if(canInfect(infectee, disease)) then
-									infectee:getChar():setData(disease, CurTime())
+									giveDisease(infectee, disease)
 								end
 							end
 						end
@@ -98,11 +109,7 @@ function diseaseEffects(client, disease, diseaseT)
 			
 			if(disTable.duration) then
 				if(CurTime() > iTime + disTable.duration) then
-					char:setData(disease, nil)
-					
-					local cured = table.Random(disTable.cure)
-						
-					nut.chat.send(client, "body", cured)
+					cureDisease(client, disease)
 				end
 			end
 			
@@ -115,10 +122,8 @@ function diseaseEffects(client, disease, diseaseT)
 end
 
 if (SERVER) then
-
-	--dont want diseases to go away on death right now
 	--[[
-	function PLUGIN:DoPlayerDeath( client )
+	function PLUGIN:DoPlayerDeath( client ) --clears diseases on death
 		for k, v in pairs(DISEASES) do
 			client:getChar():setData(v, nil) --if the player dies, set his diseases to 0.
 		end
@@ -126,17 +131,44 @@ if (SERVER) then
 	--]]
 
 	function PLUGIN:PlayerLoadedChar(client)
+		local char = client:getChar()
+		
+		--this is to update older characters with older diseases. You don't need it if you never used the older system.
 		for k, v in pairs(DISEASES.diseases) do
-			local char = client:getChar()
-			if(char:getData(v) != nil) then --if the player loads in after disconnecting with a disease,
-				char:setData(v, CurTime()) --set his disease at the start again, just a safety measure mostly.
+			if(char:getData(v.uid)) then
+				giveDisease(client, v.uid)
+				char:setData(v.uid, nil)
 			end
 		end
+		
+		local disData = char:getData("diseases", {})
+		for k, v in pairs(disData) do
+			if(v) then
+				v = CurTime() --set disease at the start again, just a safety measure mostly.
+				
+				local disTable = DISEASES.diseases[k]
+				if(disTable.buff) then --reapply buffs/debuffs
+					for k2, v2 in pairs(disTable.buff) do
+						char:addBoost(disTable.uid, k2, v2)
+					end
+				end
+				
+				--for scaling debuffs/buffs
+				if(disTable.buffScale) then
+					for k2, v2 in pairs(disTable.buffScale) do			
+						char:addBoost(disTable.uid .. "s", k2, v2 * char:getAttrib(k2, 0))
+					end
+				end
+			end
+		end
+		
+		char:setData("diseases", disData)
 	end
 	
-	function PLUGIN:Think()
-		if (thinkTime < CurTime()) then
-			thinkTime = CurTime() + self.thinkTime
+	function PLUGIN:Think()	
+		if(!self.nextThink) then self.nextThink = 0 end
+	
+		if (self.nextThink < CurTime()) then
 			for k, client in pairs(player.GetAll()) do
 				local char = client:getChar()
 			
@@ -144,43 +176,112 @@ if (SERVER) then
 					continue
 				end
 				
-				--time of infection used to determine what happens to them based on the specific disease
-				for k2, v in pairs(DISEASES.diseases) do 
-					if(char:getData(k2)) then --they have the disease
-						diseaseEffects(client, k2, v) --k2 is the disease id, v is the infection time.
-					end
+				local disData = char:getData("diseases", {})
+				for k2, v in pairs(disData) do --goes through each character's disease.
+					diseaseEffects(client, k2, v) --k2 is disease id, v is time of infection.
 				end
 			end
 			
+			--handles diseases being randomly given to people.
 			if(math.random(1,1000) <= self.chance * 10) then
-				local posDis = { --table of potential diseases to randomly get
-					"dis_cold",
-					"dis_flu"
-				}
+				local posDiseases = {}
 			
-				local population = player.GetAll() --all players
-				local infectee = table.Random(population) --random person infected
-				
-				infectee:getChar():setData(table.Random(posDis), CurTime())
+				for k, v in pairs(DISEASES.diseases) do
+					if(v.randomChance) then --if the disease can be randomly caught for no reason.
+						table.insert(posDiseases, v.uid)
+					end
+				end
+			
+				if(posDiseases != {}) then
+					local population = player.GetAll() --all players
+					local infectee = table.Random(population) --random person infected
+					
+					giveDisease(infectee, table.Random(posDiseases))
+				end
 			end
+			
+			self.nextThink = CurTime() + self.thinkTime
 		end
 	end
 	
 	function cureDisease(client, disease)
 		local char = client:getChar()
+
+		local disData = char:getData("diseases", {}) --get their diseases
 		
-		if(char:getData(disease)) then
+		if(disData[disease]) then --check if they have the disease
+			disData[disease] = nil --remove disease
+			
 			local disTable = DISEASES.diseases[disease]
 			
-			if(disTable.effectC) then
+			if(disTable.effectC) then --cure effect
 				disTable.effectC(client, char)
 			end
 			
-			char:setData(disease, nil)
-
-			local cured = table.Random(disTable.cure)			
-			nut.chat.send(client, "body", cured)
+			if(disTable.cure) then --cure chat message
+				local cured = table.Random(disTable.cure)			
+				nut.chat.send(client, "body", cured)
+			end
+			
+			--for straight +/- attribute debuffs
+			if(disTable.buff) then
+				for k, v in pairs(disTable.buff) do
+					char:removeBoost(disTable.uid, k)
+				end
+			end
+			
+			--for scaling debuffs/buffs
+			if(disTable.buffScale) then
+				for k, v in pairs(disTable.buffScale) do			
+					char:removeBoost(disTable.uid .. "s", k)
+				end
+			end
+			
+			char:setData("diseases", disData)
 		end
+	end
+	
+	function giveDisease(client, disease)
+		local char = client:getChar()
+		
+		local disData = char:getData("diseases", {})
+		disData[disease] = CurTime()
+		
+		local disTable = DISEASES.diseases[disease]
+		--for straight +/- attribute debuffs
+		if(disTable.buff) then
+			for k, v in pairs(disTable.buff) do
+				char:addBoost(disTable.uid, k, v)
+			end
+		end
+		
+		--for scaling debuffs/buffs
+		if(disTable.buffScale) then
+			for k, v in pairs(disTable.buffScale) do			
+				char:addBoost(disTable.uid .. "s", k, v * char:getAttrib(k, 0))
+			end
+		end
+		
+		char:setData("diseases", disData)
+	end
+	
+	function hasDisease(client, disease)
+		if(!client) then return false end
+	
+		local char = client:getChar()
+		
+		if(!char) then --cant have disease if you arent on a character.
+			return false
+		end
+		
+		local disData = char:getData("diseases", {})
+		for k, v in pairs(disData) do
+			if(k == disease) then
+				return true
+			end
+		end
+		
+		return false
 	end
 end
 
@@ -190,9 +291,15 @@ nut.chat.register("body", {
 		local color = nut.chat.classes.ic.onGetColor(speaker, text)
 		chat.AddText(Color(120, 120, 170), "**"..text)
 	end,
-	onCanHear = 2,
+	onCanHear = function(speaker, listener)
+		if(speaker == listener) then
+			return true
+		else
+			return false
+		end
+	end,
 	prefix = {"/body"},
-	font = "nutChat",
+	font = "nutChatFontItalics",
 	filter = "actions",
 	deadCanChat = true
 })
@@ -228,16 +335,18 @@ nut.command.add("diseaseremove", {
 		
 			for k, v in pairs(DISEASES.diseases) do
 				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
-					if(char:getData(v.uid, false)) then
-						char:setData(v.uid, nil) --remove it
-						client:notify("You removed " ..v.name.. " from " .. target:GetName())
+					if(hasDisease(target, v.uid)) then
+						cureDisease(target, v.uid)
+						client:notify("You removed " ..v.name.. " from " .. target:GetName() .. ".")
 					else
-						client:notify(target:GetName() .. " does not have the " .. v.name .. " effect.")
+						client:notify("Target does not have this disease.")
 					end
-					
-					break --only want the first one.
+
+					return --only want the first one.
 				end
 			end
+			
+			client:notify("Invalid disease.")
 		end
 	end
 })
@@ -249,19 +358,77 @@ nut.command.add("diseaseadd", {
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
 		if(target) then
-			local char = target:getChar()
-			if(!char) then return end
-		
 			for k, v in pairs(DISEASES.diseases) do
 				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
-					char:setData(v.uid, CurTime())
+					giveDisease(target, v.uid)
 					client:notify("You gave " ..v.name.. " to " .. target:GetName())
 					
-					break --only want the first one.
+					return --only want the first one.
 				end
 			end
+			
+			client:notify("Invalid disease.") --if we didnt find it
 		end
 	end
 })
 
+if(CLIENT) then
+	netstream.Hook("ShowDiseases", function(target, illnesses)	
+		local diseaseText = ""
+		
+		for k, v in pairs(illnesses or {}) do
+			diseaseText = diseaseText .. v.name .. ": " .. v.desc .. "\n\n"
+		end
+	
+		local diseaseMenu = vgui.Create( "DFrame" );
+		diseaseMenu:SetSize( 500, 700 );
+		diseaseMenu:Center();
+
+		diseaseMenu:SetTitle(target:Name());
+
+		diseaseMenu:MakePopup();
+
+		diseaseMenu.DS = vgui.Create( "DScrollPanel", diseaseMenu );
+		diseaseMenu.DS:SetPos( 10, 50 );
+		diseaseMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 );
+		function diseaseMenu.DS:Paint( w, h ) end
+		
+		diseaseMenu.B = vgui.Create( "DLabel", diseaseMenu.DS );
+		diseaseMenu.B:SetPos( 0, 40 );
+		diseaseMenu.B:SetFont( "nutSmallFont" );
+		diseaseMenu.B:SetText( diseaseText );
+		diseaseMenu.B:SetAutoStretchVertical( true );
+		diseaseMenu.B:SetWrap( true );
+		diseaseMenu.B:SetSize( 500 - 20, 10 );
+		diseaseMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) );
+	end)
+end
+
+nut.command.add("diagnose", {
+	onRun = function(client, arguments)
+		if(!hasTrait(client, "diagnose")) then
+			client:notify("You do not have the Pathologist trait.")
+			return false
+		end	
+	
+		local target = client:GetEyeTrace().Entity
+
+		if(!IsValid(target)) then
+			client:notify("Look at a valid target.")
+			return false
+		end
+
+		local illnesses = {}
+		
+		for k, v in pairs (DISEASES.diseases) do
+			if(hasDisease(target, v.uid)) then
+				table.insert(illnesses, v)
+			end
+		end
+		
+		netstream.Start(client, "ShowDiseases", target, illnesses)
+	end
+})
+
 nut.util.include("sh_diseases.lua")
+nut.util.include("sh_diseasetrait.lua")

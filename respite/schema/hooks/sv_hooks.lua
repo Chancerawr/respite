@@ -1,7 +1,6 @@
 
 local workshopIDs = { 
 132470017, --lantern
-104648051, --hl2 drivable
 121438260, --glowsticks
 415143062, --tfa base
 296202013, --prosp content 1
@@ -18,7 +17,6 @@ local workshopIDs = {
 685130934, --serverguard content
 774729099, --respite npc content
 1450252748, --respite extra content
-288026358, --tank
 771487490, --simfphys vehicles
 831680603, --simfphys armed vehicles
 207739713, --nutscript content
@@ -47,41 +45,50 @@ Temporary Things (Like Maps)
 --]]
 
 215338015, --rp_v_torrington content
-436653780, --radar map
+1105819667 --rp_stateline
 
 }
 
 for k, v in pairs(workshopIDs) do
-
 	resource.AddWorkshop(v)
-
 end
 
 function SCHEMA:OnCharCreated(client, character)
 	local inventory = character:getInv()
 
 	if (inventory) then		
-		if (character:getFaction() == FACTION_SURVIVOR) then
-			inventory:add("book_newchar", 1)
-			inventory:add("book_combat", 1)
-			--inventory:add("food_water", 2)
-			--inventory:add("food_yams", 2)	
+		local items = {}
+	
+		if (character:getFaction() == FACTION_DRIFTER) then
+			items = {
+				"book_newchar",
+				"book_combat"
+			}		
+		elseif (character:getFaction() == FACTION_SURVIVOR) then
+			items = {
+				"book_combat"
+			}
 		elseif (character:getFaction() == FACTION_PLASTIC) then
-			inventory:add("book_newchar_plastic", 1)
-			inventory:add("book_combat", 1)
-			--inventory:add("cube_chip", 3)
-			--inventory:add("food_water_misc", 1)
-			--inventory:add("food_apple_plastic", 2)
-			
-			--plastic language trait.
+			items = {
+				"book_newchar_plastic",
+				"book_combat"
+			}
+
 			local traitData = character:getData("traits", {})
 			traitData["pla"] = 1
 			character:setData("traits", traitData, false, player.GetAll())
 		elseif (character:getFaction() == FACTION_ABER) then
- 			inventory:add("book_newchar", 1)
- 			inventory:add("book_combat", 1)
- 			--inventory:add("haze_bottled", 1)
- 			inventory:add("food_banana", 1)
+			items = {
+				"book_combat",
+				"food_banana"
+			}
+		end
+		
+		local i = 7
+		for k, v in pairs(items) do
+			timer.Simple(i + k, function()
+				inventory:add(v)
+			end)
 		end
 	end
 end 
@@ -94,10 +101,12 @@ function SCHEMA:PrePlayerLoadedChar(client, character, currentChar)
 	end
 end
 
+--if players can spawn effect props or not
 function SCHEMA:PlayerSpawnEffect(client, weapon, info)
 	return client:IsAdmin() or client:getChar():hasFlags("E")
 end
 
+--turns off sprays
 function SCHEMA:PlayerSpray(client)
     return true
 end
@@ -130,11 +139,13 @@ function SCHEMA:ScalePlayerDamage(client, hitGroup, dmgInfo)
 	end
 end
 
---i dont even know what this does but hopefully it does something good
+--someone gave me this but I don't think it does anything the way it is now
+--[[
 function SCHEMA:Think()
 	local function onSuccess( ret )	
 		wzsql.Query( "SHOW STATUS LIKE 'Uptime'", onSuccess );
 		
-		self.NextCheck = RealTime() + 10;
+		self.NextCheck = RealTime() + 10
 	end
 end
+--]]

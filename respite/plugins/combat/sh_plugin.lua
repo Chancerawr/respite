@@ -172,7 +172,7 @@ end
 local function critCalc(char)
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (char:getAttrib("luck", 0) + 10)) then
+	if (crit <= (char:getAttrib("luck", 0)*2 + 15)) then
 		crit = (1.5 + char:getAttrib("luck", 0)/25)
 		critmsg = " (Crit!)"
 	else
@@ -227,12 +227,14 @@ local function rollHandle(client, command, noPrint)
 				--detects the currently held weapon and (hopefully) the item it's associated with
 				local weapon = ""
 				if(comTable.category == "melee" or comTable.category == "firearms") then
-					local curWeapon = client:GetActiveWeapon():GetClass()
-					if(curWeapon != "nut_hands" and curWeapon != "nut_keys") then
-						local items = char:getInv():getItems()
-						for k, v in pairs(items) do
-							if(v.base == "base_weapons" and curWeapon == v.class and v:getData("equip", nil)) then
-								weapon = " (" ..v:getName().. ")"
+					if(IsValid(client:GetActiveWeapon())) then
+						local curWeapon = client:GetActiveWeapon():GetClass()
+						if(curWeapon != "nut_hands" and curWeapon != "nut_keys") then
+							local items = char:getInv():getItems()
+							for k, v in pairs(items) do
+								if(v.base == "base_weapons" and curWeapon == v.class and v:getData("equip", nil)) then
+									weapon = " (" ..v:getName().. ")"
+								end
 							end
 						end
 					end
@@ -399,6 +401,23 @@ nut.command.add("defend", {
 	end
 })
 
+nut.command.add("throwaimed", {
+	onRun = function(client, arguments)
+		if(!hasTrait(client, "thrower")) then
+			client:notify("You do not have the Throwing Specialist trait.")
+			return false
+		end	
+	
+		rollHandle(client, "throwaimed")
+	end
+})
+
+nut.command.add("interact", {
+	onRun = function(client, arguments)
+		rollHandle(client, "interact")
+	end
+})
+
 nut.command.add("firearms", {
 	onRun = function(client, arguments)
 		local entity = client:GetEyeTrace().Entity
@@ -437,6 +456,11 @@ nut.command.add("firearmsaimed", {
 
 nut.command.add("execute", {
 	onRun = function(client, arguments)
+		if(!hasTrait(client, "executioner")) then
+			client:notify("You do not have the Executioner trait.")
+			return false
+		end
+	
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			local rollA = rollHandle(client, "execute", true)
@@ -483,6 +507,18 @@ nut.command.add("firearmsburst", {
 	end
 })
 
+nut.command.add("gatling", {
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "gatling", true)
+			entity:reaction(client, rollA, "firearms", "gatling shot", true)
+		else			
+			rollHandle(client, "gatling")
+		end
+	end
+})
+
 nut.command.add("revolverburst", {
 	onRun = function(client, arguments)
 		if(!hasTrait(client, "fanthehammer")) then
@@ -496,6 +532,23 @@ nut.command.add("revolverburst", {
 			entity:reaction(client, rollA, "firearms", "revolver rapid fire shot", true)
 		else			
 			rollHandle(client, "revolverburst")
+		end
+	end
+})
+
+nut.command.add("backstab", {
+	onRun = function(client, arguments)
+		if(!hasTrait(client, "rogue")) then
+			client:notify("You do not have the Rogue trait.")
+			return false
+		end
+	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local rollA = rollHandle(client, "backstab", true)
+			entity:reaction(client, rollA, "backstab", "backstab", true)
+		else
+			rollHandle(client, "backstab")
 		end
 	end
 })
@@ -597,6 +650,7 @@ nut.command.add("grapple", {
 		local char = client:getChar()
 		local attr = ((char:getAttrib("str", 0) * 0.4) + (char:getAttrib("accuracy", 0) * 0.1))
 		
+		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			local rollA = rollHandle(client, "grapple", true)
 			entity:reaction(client, rollA, "melee", "grapple")
@@ -641,7 +695,7 @@ nut.command.add("will", {
 	end
 })
 
---for resisting mental attacks (hallucinations, panic, etc)
+--for mental attacks (hallucinations, panic, etc)
 nut.command.add("fortattack", {
 	syntax = "<string type>",
 	onRun = function(client, arguments)
@@ -670,6 +724,8 @@ nut.command.add("fortattack", {
 			hallucination = 0.1,
 			suggestion = 0.1,
 			migraine = 0.1,
+			insanity = 0.1,
+			enrage = 0.1,
 			emotion = 0.1,
 			sensory = 0.1,
 			telekinesis = 0.1,
@@ -721,6 +777,57 @@ nut.command.add("fortattack", {
 	end
 })
 
+--oh look it's this menu again big surprise
+if(CLIENT) then
+	netstream.Hook("ShowAttribs", function(client, attribs)
+		local attribText = ""
+		
+		for k, v in pairs(attribs) do
+			attribText = attribText .. nut.attribs.list[k].name .. ": " .. v .. "\n\n"
+		end
+	
+		local attribMenu = vgui.Create( "DFrame" );
+		attribMenu:SetSize( 500, 700 );
+		attribMenu:Center();
+		if( me ) then
+			attribMenu:SetTitle( "Player Menu" );
+		else
+			attribMenu:SetTitle( client:Name() );
+		end
+		attribMenu:MakePopup();
+
+		attribMenu.DS = vgui.Create( "DScrollPanel", attribMenu );
+		attribMenu.DS:SetPos( 10, 50 );
+		attribMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 );
+		function attribMenu.DS:Paint( w, h ) end
+		
+		attribMenu.B = vgui.Create( "DLabel", attribMenu.DS );
+		attribMenu.B:SetPos( 0, 40 );
+		attribMenu.B:SetFont( "nutSmallFont" );
+		attribMenu.B:SetText( attribText );
+		attribMenu.B:SetAutoStretchVertical( true );
+		attribMenu.B:SetWrap( true );
+		attribMenu.B:SetSize( 500 - 20, 10 );
+		attribMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) );
+	end)
+end
+
+
+--stat prints
+nut.command.add("chargetattribs", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(IsValid(target) and target:getChar()) then
+			local attribs = target:getChar():getAttribs()
+		
+			netstream.Start(client, "ShowAttribs", target, attribs)
+		end
+	end
+})
+
 --stat print
 nut.command.add("chargetattrib", {
 	adminOnly = true,
@@ -766,15 +873,20 @@ nut.command.add("train", {
 				lastTrain = 0
 			end
 			
-			if(lastTrain and math.abs(tonumber(lastTrain) - tonumber(os.date("%d"))) >= 2) then -- train once every 2 days.
+			local cooldown = math.abs(math.floor(char:getAttrib(attribName, 0) / 15)) + 1
+			cooldown = math.Clamp(cooldown, 1, 7)
+			
+			if(lastTrain and math.abs(tonumber(lastTrain) - tonumber(os.date("%d"))) >= cooldown) then -- train once every 2 days.
 				local value = char:getAttrib(attribName, 0)
 				char:setData("lastTrain", os.date("%d"))
 				char:updateAttrib(attribName, 1)
 				nut.log.addRaw(client:Name().." trained \""..attribName.."\".", 2)	
 				
-				client:notifyLocalized("You have increased your " .. findAtt .. ".")
+				client:notify("You have trained your " .. findAtt .. ".")
+				client:notify("You will be able to train again in " ..cooldown.. " days.")
 			else
-				client:notifyLocalized("You can only train once every 2 days.")
+				local remaining = cooldown - (tonumber(lastTrain) - tonumber(os.date("%d")))
+				client:notify("You cannot train for " ..remaining.. " day(s).")
 			end
 		else
 			client:notifyLocalized("Invalid Attribute")
@@ -793,7 +905,6 @@ nut.chat.register("statcheck", {
 
 --stat print
 nut.command.add("statcheck", {
-	adminOnly = true,
 	syntax = "<string attribute>",
 	onRun = function(client, arguments)
 		if(IsValid(client) and client:getChar()) then
@@ -808,7 +919,7 @@ nut.command.add("statcheck", {
 				local value = client:getChar():getAttrib(attribName, 0)
 				local name = nut.attribs.list[attribName].name
 		
-				nut.chat.send(client, "statcheck", "has " .. value .. " for " .. name)
+				nut.chat.send(client, "statcheck", "has " .. value .. " " .. name)
 			else
 				client:notifyLocalized("Invalid Attribute")
 			end
@@ -821,5 +932,5 @@ function PLUGIN:GetStartAttribPoints()
 end
 
 nut.util.include("sh_combat.lua")
-nut.util.include("sh_scav.lua")
 nut.util.include("sh_commands.lua")
+nut.util.include("sh_scav.lua")

@@ -210,7 +210,8 @@ local PANEL = {}
 				end
 			end
 
-			if (count > 0 and #nut.characters < nut.config.get("maxChars", 5) and hook.Run("ShouldMenuButtonShow", "create") != false) then
+			local maxChars = hook.Run("GetMaxPlayerCharacter", LocalPlayer()) or nut.config.get("maxChars", 5)
+			if (count > 0 and #nut.characters < maxChars and hook.Run("ShouldMenuButtonShow", "create") != false) then
 				AddMenuLabel("Create New Character", function()
 					ClearAllButtons(function()
 						CreateReturnButton()

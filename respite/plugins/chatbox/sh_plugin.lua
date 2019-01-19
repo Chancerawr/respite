@@ -6,17 +6,17 @@ if (CLIENT) then
 	NUT_CVAR_CHATALT = CreateClientConVar("nut_chatalt", 1, true, true)
 
 	function PLUGIN:SetupQuickMenu(menu)	 
-			  local button = menu:addCheck("Text Outlines", function(panel, state)
-					if (state) then
-						RunConsoleCommand("fixchatplz")
-						RunConsoleCommand("nut_chatalt", "1")
-					else
-						RunConsoleCommand("fixchatplz")
-						RunConsoleCommand("nut_chatalt", "0")
-					end
-				end, NUT_CVAR_CHATALT:GetBool())
+		local button = menu:addCheck("Text Outlines", function(panel, state)
+			if (state) then
+				RunConsoleCommand("fixchatplz")
+				RunConsoleCommand("nut_chatalt", "1")
+			else
+				RunConsoleCommand("fixchatplz")
+				RunConsoleCommand("nut_chatalt", "0")
+			end
+		end, NUT_CVAR_CHATALT:GetBool())
 				
-		  menu:addSpacer()
+		menu:addSpacer()
 	end
 
 	NUT_CVAR_CHATFILTER = CreateClientConVar("nut_chatfilter", "", true, false)

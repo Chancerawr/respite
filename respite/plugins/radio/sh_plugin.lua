@@ -22,6 +22,22 @@ function PLUGIN:PluginLoaded()
 	table.Merge(nut.lang.stored[langkey], langTable)
 end
 
+if (SERVER) then
+    function PLUGIN:PlayerLoadedChar(client)
+        --this just makes sure everything is properly networked to clients.
+        --kind of annoying and gross, but might not work properly otherwise.
+        for k, v in pairs(player.GetAll()) do
+            local char = v:getChar()
+            if(char) then
+				local boost = char:getData("boost", false)
+				if(boost) then
+					char:setData("boost", true, false, player.GetAll())
+				end
+            end
+        end
+    end
+end
+
 if (CLIENT) then
 	local PANEL = {}
 	function PANEL:Init()
@@ -256,7 +272,7 @@ nut.chat.register("radio", {
 					local itemTable = v:getItemTable()
 
 					for id, far in pairs(find) do
-						if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
+						if (far and itemTable and itemTable.uniqueID == id and v:getData("power", false) == true) then
 							if (CURFREQ == v:getData("freq", "000.0")) then
 								endChatter(listener)
 
@@ -486,8 +502,8 @@ nut.chat.register("radiow", {
 			finalMsg = text
 		else			
 			radioMsg = string.Explode("",text)
-			if(dist > nut.config.get("chatRange", 280) * 4) then
-				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*3)) * text:len()/100) do
+			if(dist > nut.config.get("chatRange", 280) * 2.5) then
+				for i = 1, math.Round((dist/(nut.config.get("chatRange", 280)*2.5)) * text:len()/100) do
 					local ranSpot = math.random(1,text:len())
 					if(radioMsg[ranSpot] != " ") then --dont replace empty spaces
 						radioMsg[ranSpot] = "-"

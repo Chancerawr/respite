@@ -60,6 +60,8 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_cp1ks = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cr0c5 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cr0ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_cr1ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_cr4ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_crass = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, 
 	}
 

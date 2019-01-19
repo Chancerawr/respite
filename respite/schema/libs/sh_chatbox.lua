@@ -203,28 +203,21 @@ do
 				local teamColor = team.GetColor(speaker:getChar():getFaction())
 				local speako = hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 				local pSay = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
-				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)-- fuck your period bullshit
+				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
 				local texCol = nut.config.get("chatColor")
 				
 				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
 					texCol = nut.config.get("chatListenColor")
 				end
-				
-				--[[
-				if(LocalPlayer() == speaker) then
-					local tempCol = nut.config.get("chatListenColor")
-					nameCol = Color(tempCol.r, tempCol.b, tempCol.g)
-				else
-					nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 60)
-				end
-				--]]
+
+				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
 				
 				if(LocalPlayer() == speaker) then
 					local tempCol = nut.config.get("chatListenColor")
+					
 					texCol = Color(tempCol.r + 20, tempCol.b + 20, tempCol.g + 20)
+					nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
 				end
-				
-				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 60)
 				
 				if suffix == "?" then
 					if math.random(1, 2) == 1 then
@@ -255,6 +248,24 @@ do
 			format = "**%s %s",
 			onGetColor = nut.chat.classes.ic.onGetColor,
 			onCanHear = nut.config.get("chatRange", 280),
+			onChatAdd = function(speaker, text, anonymous)
+				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+				local texCol = nut.config.get("chatColor")
+				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+					texCol = nut.config.get("chatListenColor")
+				end
+				
+				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+				if(LocalPlayer() == speaker) then
+					local tempCol = nut.config.get("chatListenColor")
+							
+					texCol = Color(tempCol.r + 20, tempCol.b + 20, tempCol.g + 20)
+					nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+				end
+				
+				chat.AddText(nameCol, "**"..speako, texCol, " " ..text)
+			end,
 			prefix = {"/me", "/action"},
 			font = "nutChatFontItalics",
 			filter = "actions",
@@ -282,6 +293,27 @@ do
 				-- Make the whisper chat slightly darker than IC chat.
 				return Color(color.r - 35, color.g - 35, color.b - 35)
 			end,
+			onChatAdd = function(speaker, text, anonymous)
+				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
+				local texCol = nut.config.get("chatColor")
+				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+					texCol = nut.config.get("chatListenColor")
+				end
+				
+				texCol = Color(texCol.r - 35, texCol.g - 35, texCol.b - 35)
+				
+				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+				if(LocalPlayer() == speaker) then
+					local tempCol = nut.config.get("chatListenColor")
+					
+					texCol = Color(tempCol.r - 15, tempCol.b - 15, tempCol.g - 15)
+					nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+				end
+				
+				chat.AddText(nameCol, speako, texCol, " whispers \""..pSayC.."\"")
+			end,
 			onCanHear = nut.config.get("chatRange", 280) * 0.25,
 			prefix = {"/w", "/whisper"}
 		})
@@ -294,6 +326,28 @@ do
 
 				-- Make the yell chat slightly brighter than IC chat.
 				return Color(color.r + 35, color.g + 35, color.b + 35)
+			end,
+			onChatAdd = function(speaker, text, anonymous)
+				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
+				local texCol = nut.config.get("chatColor")
+				
+				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+					texCol = nut.config.get("chatListenColor")
+				end
+
+				texCol = Color(texCol.r + 35, texCol.g + 35, texCol.b + 35)
+				
+				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+				if(LocalPlayer() == speaker) then
+					local tempCol = nut.config.get("chatListenColor")
+					
+					texCol = Color(tempCol.r + 55, tempCol.b + 55, tempCol.g + 55)
+					nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+				end
+				
+				chat.AddText(nameCol, speako, texCol, " yells \""..pSayC.."\"")
 			end,
 			onCanHear = nut.config.get("chatRange", 280) * 2,
 			prefix = {"/y", "/yell"}

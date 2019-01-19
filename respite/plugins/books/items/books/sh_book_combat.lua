@@ -16,75 +16,79 @@ ITEM.contents = [[
 <p align="center"><font color='red' size='6'>Combat Rules</font></p><br/>
 <font color='black' size='3'>
 Commands: 
+		/reflexes : Used at the beginning of the fight to determine turn order.
 	<br/><br/>	
-/reflexes : Used at the beginning of the fight to determine turn order.
+		/dodge : Determines if an attack is dodged, or if the projectile fired at you will miss. Can also be used to avoid /grapple. Uses agility and perception.
 	<br/><br/>	
-/dodge : Determines if an attack is dodged, or if the projectile fired at you will miss. Can also be used to avoid /grapple. Uses agility.
+        /block : Determines if an attack is blocked. Cannot be used against bullets. If a thrown object is blocked, it cannot be reflected. Uses endurance and strength.
 	<br/><br/>	
-/block : Determines if an attack is blocked. Cannot be used against bullets. If a thrown object is blocked, it cannot be reflected. Mostly uses strength, uses some accuracy.
+		/parry : Determines if an attack is blocked, and allows for a counterattack. Cannot be used against bullets. If a thrown object is blocked, it can be reflected. IF /parry succeeds against a /melee, attacker must 
+        roll /dodge against previous /parry roll. If the same /parry roll wins again, a counterattack occurs. If the /dodge succeeds, the attack is only blocked and the counterattack misses. Can only counterattack with 
+        melee attacks (including /parry) ICly. If a /throw is parried successfully, roll /throw and use the previous /parry roll and the new /throw part, send attack towards any enemy in reasonable range. Target can 
+        /block, /dodge, but cannot /parry. Uses agility, strength, endurance, perception, and accuracy in equal parts.
 	<br/><br/>	
-/parry : Determines if an attack is blocked, and allows for a counterattack. Cannot be used against bullets. If a thrown object is blocked, it can be reflected. IF /parry succeeds against a /melee, attacker must 
-roll /dodge against previous /parry roll. If the same /parry roll wins again, a counterattack occurs. If the /dodge succeeds, the attack is only blocked and the counterattack misses. Can only counterattack with 
-melee attacks (including /parry) ICly. If a /throw is parried successfully, roll /throw and use the previous /parry roll and the new /throw part, send attack towards any enemy in reasonable range. Target can 
-/block, /dodge, but cannot /parry. Uses agility, strength, and accuracy in equal parts.
+        /defend : Defend allows you to block an incoming attack on an alley, either with a weapon or your body. You must be near the target you wish to defend. A failure of this roll means that you will be hit instead. 
+        This roll cannot be used against bullets unless you are already blocking the trajectory. In that case, you are taking the bullet for someone else. This ability requires the Defender trait. It uses agility, 
+        endurance, and perception
 	<br/><br/>	
-/defend : Determines if an ally is defended. Allows you to defend an ally in combat. Can only be done if you are close to them. /defend is rolled during your turn. If an enemy attacks the one you are defending, 
-they must roll /dodge to avoid your counterattack. If they are hit by your /defend roll, they cannot attack this turn. Melee attacks are used for defense ICly. Attackers can use /block or /parry here, but they 
-cannot attack their original target if they do so. (You cannot defend by shooting, but you can melee with your firearm.) If the one you are defending is attacked multiple times, only the first attack will be 
-defended against. Uses agility, strength, and accuracy in equal parts. Do not use this in engagements with lots of people or it may be forgotten.
+        /throw : Determines if a thrown object hits its target. Can be blocked like a melee attack (unlike firearms). If the object has a sharp edge, like a knife, it will only cut if the /throw roll is at least 2 higher than the 
+        reaction roll (/dodge, /block, /parry, etc.) Uses strength and accuracy.
 	<br/><br/>	
-/throw : Determines if a thrown object hits its target. Rolled against /dodge, /block, or /defend. If the object has a sharp edge, like a knife, it will only cut if the /throw roll is at least 2 higher than the 
-reaction roll (/dodge, /block, /parry, etc.)
+        /throwaimed : Requires "Throwing Specialist" trait. Can be blocked like a melee attack (unlike firearms). Requires two turns to complete, first turn to aim, second turn to fire. Allows for player to decide what body part to target. If the object has a sharp edge, like a knife, it will always land on the sharp edge 
+		with this command.
 	<br/><br/>	
-/firearms : Determines if and where your weapon's single shot will hit. Rolled against /dodge. Chooses a random body part to hit. Mostly uses accuracy, uses a little strength.
+		/firearms : Determines if and where your weapon's single shot will hit. Rolled against a single /dodge. Chooses a random body part to hit. Mostly uses accuracy, uses a little strength.
 	<br/><br/>	
-/firearmsaimed : Determines if an aimed shot will hit. Rolled against dodge. Requires two turns to complete, first turn to aim, second turn to fire. Allows for player to decide what body part to target. Bullets 
-cannot be blocked by melee weapons. Mostly uses accuracy, uses a little strength.
+		/firearmsaimed : Determines if an aimed shot will hit. Rolled against dodge. Requires two turns to complete, first turn to aim, second turn to fire. Allows for player to decide what body part to target. Bullets 
+        cannot be blocked by melee weapons. Uses primarily accuracy, and some perception.
 	<br/><br/>	
-/firearmsburst : Fires three shots with decreasing accuracy, can only be used with automatic weapons or burst fire weapons (not semi automatic.) Accuracy decreases based on your strength (Higher strength = less 
-reduction.
+		/firearmsburst : Fires three shots with decreasing accuracy, can only be used with automatic weapons or burst fire weapons (not semi automatic.) Accuracy decreases based on your strength (Higher strength = less 
+		reduction.
 	<br/><br/>	
-/firearmsburstaimed : Same as /firearmsaimed, but for burst.
+		/firearmsburstaimed : Same as /firearmsaimed, but for burst.
 	<br/><br/>	
-/disarm : Melee command used to disarm a target. Cannot be used if target's weapon is not easily removed (attached to body, claws, etc.) Uses accuracy and craftiness. Requires you to be in melee range. Rolled 
-against /dodge, /block, or /parry.
+        /revolverburst : same as /firearmsburst except with revolvers, requires the Fan the Hammer trait.
 	<br/><br/>	
-/akimbo : Used when dual wielding pistols. Multiple targets can be chosen. Has a roll penalty (40%). Uses accuracy and strength.
+        /disarm : Melee command used to disarm a target. Cannot be used if target's weapon is not easily removed (attached to body, claws, etc.) Uses accuracy and craftiness. Requires you to be in melee range. Rolled 
+        against /dodge, /block, or /parry.
 	<br/><br/>	
-/quickdraw : Used to draw your weapon and fire it in the same turn. Can only be used with SMGs or Pistols. Has a roll penalty (30%). Uses accuracy and agility.
+        /akimbo : Used when dual wielding [b]pistols[/b]. Multiple targets can be chosen. Has a roll penalty (40%). Uses accuracy and strength.
 	<br/><br/>	
-/suppress : Determines if an enemy is hit by suppressing fire. A player rolls suppression against an enemy in cover. If the enemy attempts to use a weapon or move into the open, it will have to /dodge to avoid 
-being hit. /dodge is rolled against the /suppress roll. Can only suppress one target at a time unless all parties agree otherwise in a case where it would make sense. If that is the case, suppression is only 
-rolled once, and every /dodge is compared to that roll. Mostly uses strength and some accuracy.
+        /quickdraw : Used to draw your weapon and fire it in the same turn. Can only be used with SMGs or Pistols. Has a roll penalty (30%). Uses accuracy and agility.
 	<br/><br/>	
-/execute : Used in point blank firearm conditions where target has a low chance of avoiding the hit, likely multiple limbs incapacitated or mobility severely reduced (successful grapple by ally or limbs broken or 
-destroyed). Double a normal firearms aimed. If this roll fails, it is assumed that the target has diverted the aim of the executioner, if that is impossible (They are unconscious, no movement capabilities 
-whatsoever, etc. you don't need to use this roll.
+        /suppress : Determines if an enemy is hit by suppressing fire. A player rolls suppression against an enemy in cover. If the enemy attempts to use a weapon or move into the open, it will have to /dodge to avoid 
+        being hit. /dodge is rolled against the /suppress roll. Can only suppress one target at a time unless all parties agree otherwise in a case where it would make sense. If that is the case, suppression is only 
+        rolled once, and every /dodge is compared to that roll. Mostly uses strength and some accuracy.
 	<br/><br/>	
-/melee : For melee attacks, mostly uses strength with a little bit of accuracy.
+		/execute : Used in point blank firearm conditions where target is unlikely to be able to avoid it. You can use them when they are being restrained by an ally, incredibly incapacitated, stunned, or completely unable to move. You cannot use them just because you are very close or they got knocked down. You also cannot use this on targets that you yourself grappled.
+		This roll uses similar attributes as firearms, with a very high overall multiplier. It is generally assumed that in using this, you will hit your target. However, if you lose the roll, you can attribute it to a misfire or an erratic movement by the thing you're trying to execute.
+	<br/><br/>			
+		/backstab : Used when behind a target that is not aware of you (is engaged with something else, can't react to you, or doesn't know you're there.)
 	<br/><br/>	
-/flail : For melee attacks, uses a luck roll instead of accuracy. Not the smartest thing to use.
+		/melee : For melee attacks, mostly uses strength with a little bit of accuracy.
 	<br/><br/>	
-/grapple : Used to grab a target, preventing them from escaping unless they use their turn to try and break free (/grapple vs /grapple). After a successful grapple, the next successful melee attack on an 
-opponent will be stronger, (+5). Bonus applies to those other than grappler (Allies.) Mostly uses strength, uses a little accuracy.
+        /flail : For melee attacks, uses a luck roll instead of accuracy. Not the smartest thing to use.
 	<br/><br/>	
-/sneak : Used for sneaking by a target. Rolled against /perception. Only works if it makes sense in the situation. No sneak attack bonus is provided, but you can use it to get to a better position. If sneaking by 
-multiple targets, all targets will roll /perception.
+		/grapple : Used to grab a target, preventing them from escaping unless they use their turn to try and break free (/grapple vs /grapple). After a successful grapple, the next successful melee attack on an 
+        opponent will be stronger, (+5). Bonus applies to those other than grappler (Allies.) Mostly uses strength, uses a little accuracy.
 	<br/><br/>	
-/perception : Used to detect sneaking targets. If successful, detector is alerted and can act accordingly. Uses perception.
+		/sneak : Used for sneaking by a target. Rolled against /perception. Only works if it makes sense in the situation. No sneak attack bonus is provided, but you can use it to get to a better position. If sneaking by 
+		multiple targets, all targets will roll /perception.
 	<br/><br/>	
-/flee : Used to attempt to leave combat when far enough away from all enemies in the situation. /flee is rolled during your enemies' turns. Rolled against ranged rolls that could potentially incapacitate (/throw, 
-/firearms, etc.) The attack roll is compared to the /flee roll. If you are hit by this attack in any significant way (not just a glance or a graze), you cannot flee until your next turn. If you succeed, you are 
-no long in the combat, but cannot reenter it or come back until after it is over due to timescale. Also advise caution as successfully running away from combat does not mean you are free to just disconnect if 
-you're being pursued or anything like that. Please ask an admin if you're in such a situation.
+		/perception : Used to detect sneaking targets. If successful, detector is alerted and can act accordingly. Uses perception.
 	<br/><br/>	
-/fortitude : Used to roll resistance against mental and hallucination based effects like blue haze grenades, ongoing hallucinogens, fortitude based attacks, etc. See: 
-spite.boards.net/thread/684/status-effects
+		/flee : Used to attempt to leave combat when far enough away from all enemies in the situation. /flee is rolled during your enemies' turns. Rolled against ranged rolls that could potentially incapacitate (/throw, 
+		/firearms, etc.) The attack roll is compared to the /flee roll. If you are hit by this attack in any significant way (not just a glance or a graze), you cannot flee until your next turn. If you succeed, you are 
+        no long in the combat, but cannot reenter it or come back until after it is over due to timescale. Also advise caution as successfully running away from combat does not mean you are free to just disconnect if 
+        you're being pursued or anything like that. Please ask an admin if you're in such a situation.
 	<br/><br/>	
-/endure : Used to roll resistance against physical effects like flashbangs, tear gas, fire, poison, etc. See: spite.boards.net/thread/684/status-effects
+        /fortitude : Used to roll resistance against mental and hallucination based effects like blue haze grenades, ongoing hallucinogens, fortitude based attacks, etc. See: 
+        http://spite.boards.net/thread/684/status-effects
 	<br/><br/>	
-/scavenge : Upon use, will spawn an item based on what you roll. This is affected by your luck and a few traits. You must roleplay scavenging if you are to use this command. Not doing this or refusing to may lead 
-to being banned. It has a limit of uses per day to avoid people abusing it.
+        /endure : Used to roll resistance against physical effects like flashbangs, tear gas, fire, poison, etc. See: http://spite.boards.net/thread/684/status-effects
+	<br/><br/>	
+        /scavenge : Upon use, will spawn an item based on what you roll. This is affected by your luck and a few traits. You must roleplay scavenging if you are to use this command. Not doing this or refusing to may lead 
+        to being banned. It has a limit of uses per day to avoid people abusing it.
 	<br/><br/>	
 Combat is done in a number of easy steps.
 	<br/><br/>	

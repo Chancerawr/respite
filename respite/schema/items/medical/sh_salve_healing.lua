@@ -1,4 +1,4 @@
-ITEM.name = "Healing Salve"
+ITEM.name = "Recovery Salve"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.width = 1

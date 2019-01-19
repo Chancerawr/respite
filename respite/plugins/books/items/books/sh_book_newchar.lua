@@ -16,15 +16,9 @@ ITEM.contents = [[
 		
 A drifter is essentially a regular human. They will generally have memories of the regular, modern world, and are probably a functioning adult. 
 	<br/><br/>	
-As for how your character ended up here, he/she would have one day awoke in some sort of insidious facility. The amount of time your character spent in the facility is up to you, it can be anywhere from several years to only a day or two. The longer your character spent there, the more terrible experiences they will have in memory.
+As for how your character ended up here, he/she would have had a dream where they somehow ended up opening a door. Upon walking through said door, they would have woken up in this world with no explanation or anything else.
 	<br/><br/>	
-The staff of this facility included strange humanoids made entirely out of plastic, and shadowy beings called shades. The temperament of the staff would largely depend on your character's behavior, but it is reasonable for your character to hate them or anything that resembles them.
-	<br/><br/>	
-While your character was in the facility, he/she would have been put through something the facility staff called “blight extraction”. Blight extraction is a very painful process that leaves the body temporarily weak and exhausted. This would have been performed almost daily. Your character may have also been subjected to a variety of experiments that could have left mental or physical scars.
-	<br/><br/>	
-That is not to say that all time spent in the facility was torture, only about half. When your character was not being tortured, they were likely socializing with other prisoners, eating, or maybe just sleeping.
-	<br/><br/>	
-Eventually, the drifters kept in the facility escaped, including your character. The escape included heavy fighting, and lots of running. Eventually, your character arrived at a large portal, and stepped through it, teleporting them to the current area. 
+Furthermore, some characters may find themselves with behaviours of afflictions that they did not have before winding up here. (These are represented by the “Curse” traits at the bottom of the traits list in character creation, but it is perfectly fine for your character to have had them before as well.)
 	<br/><br/>	
 An unfamiliar and strange world full of nonsensical constructs and horrors awaits you, and you will need teamwork and ingenuity to survive. There will be many challenges ahead of you, and one misstep could bring about your death.
 	<br/><br/>	

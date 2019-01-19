@@ -8,9 +8,7 @@ ITEM.flag = "v"
 ITEM.color = Color(35, 140, 35)
 ITEM.duration = 360
 
-local sicknessTime = 3600
 
--- sorry, for name order.
 ITEM.functions._use = { 
 	name = "Use",
 	tip = "useTip",
@@ -39,22 +37,8 @@ ITEM.functions._use = {
 							end
 							
 							if(math.random(0,4) == 0) then --20% chance of potion sickness.
-								char:setData("dis_poti", CurTime()) --potion sickness
+								giveDisease(client, "dis_poti") --potion sickness
 								client:notify("You have been afflicted with potion sickness.")
-								
-								for k, v in pairs(item.attribBoosts) do
-									char:addBoost(item.uniqueID, k, -v)
-								end
-								
-								timer.Simple(sicknessTime, --removes the sickness after awhile
-									function()
-										char:setData("dis_poti", nil) --removes potion sickness
-										
-										for k, v in pairs(item.attribBoosts) do
-											char:removeBoost(item.uniqueID, k)
-										end
-									end
-								)
 							end
 						end
 					end

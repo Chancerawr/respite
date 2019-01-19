@@ -71,10 +71,10 @@ if (SERVER) then
 	end
 
 	function ENT:Use(activator)
-		if(activator:getChar():getFaction() == FACTION_SURVIVOR or activator:getChar():getFaction() == FACTION_SHADE) then
+		if(activator:getChar():getFaction() == FACTION_SURVIVOR or activator:getChar():getFaction() == FACTION_SHADE or activator:getChar():getFaction() == FACTION_DRIFTER) then
 			self:OpenInv(activator)
 		else
-			activator:notify("Only Drifters or Shades can use this.")
+			activator:notify("Your faction cannot use this.")
 		end
 	end
 else

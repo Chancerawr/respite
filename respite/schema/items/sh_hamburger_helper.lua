@@ -9,29 +9,11 @@ ITEM.price = 500
 ITEM.material = "models/props_canal/canal_bridge_railing_01a"
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
-ITEM.data = { producing2 = 0 }
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
 	fov = 5,
-}
-
-local meats = {
-	"food_monster_meat",
-	"food_human_meat",
-	"food_human_torso3",
-	"food_human_torso2",
-	"food_human_torso1",
-	"food_human_pelvis",
-	"food_human_legs",
-	"food_human_leg2",
-	"food_human_leg1",
-	"food_human_hand",
-	"food_human_foot",
-	"food_human_arms",
-	"food_human_arm2",
-	"food_human_arm1"
 }
 
 ITEM.functions.Activate = {
@@ -42,6 +24,22 @@ ITEM.functions.Activate = {
 			local inventory = client:getChar():getInv()
 
 			local meat
+			local meats = {
+				"food_monster_meat",
+				"food_human_meat",
+				"food_human_torso3",
+				"food_human_torso2",
+				"food_human_torso1",
+				"food_human_pelvis",
+				"food_human_legs",
+				"food_human_leg2",
+				"food_human_leg1",
+				"food_human_hand",
+				"food_human_foot",
+				"food_human_arms",
+				"food_human_arm2",
+				"food_human_arm1"
+			}
 			
 			for k, v in pairs (meats) do
 				meat = inventory:hasItem(v)
@@ -75,11 +73,12 @@ ITEM.functions.Activate = {
 				num = 2
 				client:notifyLocalized("Nuggeting has begun.")
 			end
-			item:setData("producing2", CurTime())
+			
+			item:setData("producing", CurTime())
 			timer.Simple(300, 
 				function()
 					if (item != nil) then
-						item:setData("producing2", 0)
+						item:setData("producing", nil)
 						client:notifyLocalized("Meat has been refined.")
 						
 						local position
@@ -103,11 +102,11 @@ ITEM.functions.Activate = {
 			return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 300
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 300
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -139,3 +138,13 @@ ITEM.functions.Battery = {
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nA delicious smell emits from the device, something is cooking."
+	end
+	
+	return Format(desc)
+end

@@ -187,7 +187,7 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "gunslinger" 
 TRAIT.name = "Gunslinger"
-TRAIT.desc = "Fire first, die last.\nQuick draw, akimbo, and regular firearms rolls increased to 1.2x.\nAimed rolls reduced to 0.7x."
+TRAIT.desc = "Fire first, die last.\nQuick draw, akimbo, revolver burst, and regular firearms rolls increased to 1.2x.\nAimed rolls reduced to 0.7x."
 TRAIT.category = "Character"
 TRAIT.blacklist = "marksman"
 
@@ -196,6 +196,7 @@ TRAIT.modifier = {
 	["firearmsburstaimed"] = 0.7,
 	["firearms"] = 1.2,
 	["quickdraw"] = 1.2,
+	["revolverburst"] = 1.2,
 	["akimbo"] = 1.2
 }
 
@@ -286,9 +287,9 @@ TRAIT.uid = "businessman"
 TRAIT.name = "Business Man"
 TRAIT.desc = "You have places to be, and things to be doing.\nStart with a suitcase."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("hl2_m_suitcase") --suitcase
-end
+TRAIT.items = {
+	"hl2_m_suitcase"
+}
 
 TRAITS:Register( TRAIT )
 //
@@ -297,9 +298,9 @@ TRAIT.uid = "student"
 TRAIT.name = "Student"
 TRAIT.desc = "On the bright side, there's no debt here.\nStart with a backpack.\nPerception rolls increased to 1.15x.\nMelee attack rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("pack")
-end
+TRAIT.items = {
+	"pack"
+}
 TRAIT.modifier = {
 	["melee"] = 0.9,
 	["meleedual"] = 0.9,
@@ -315,10 +316,10 @@ TRAIT.uid = "computer"
 TRAIT.name = "Computer Nerd"
 TRAIT.desc = "You're ready to level up.\nStart with a mouse and keyboard.\nAimed firearms rolls increased to 1.05x.\nGrapple rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_mouse")
-	character:getInv():add("hl2_m_keyboard")
-end
+TRAIT.items = {
+	"j_mouse",
+	"hl2_m_keyboard"
+}
 TRAIT.modifier = {
 	["firearmsaimed"] = 1.05,
 	["grapple"] = 0.9
@@ -331,24 +332,24 @@ TRAIT.uid = "night_light"
 TRAIT.name = "Night Light"
 TRAIT.desc = "Start with a flashlight."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("flashlight")
-end
+TRAIT.items = {
+	"flashlight"
+}
 
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
 TRAIT.uid = "berserk" 
 TRAIT.name = "Berserk"
-TRAIT.desc = "Your therapist can't stop you now.\nYour non-firearm offensive rolls are increased to 1.2x.\nYour defensive rolls are 0.7x."
+TRAIT.desc = "Your therapist can't stop you now.\nYour non-firearm offensive rolls are increased to 1.2x.\nYour defensive rolls are 0.7x.\nEndure rolls are increased to 1.2x."
 TRAIT.category = "Character"
 TRAIT.modifier = {
-	["endure"] = 0.7,
 	["dodge"] = 0.7,
 	["block"] = 0.7,
 	["parry"] = 0.7,
 	["defend"] = 0.7,
 	["fortitude"] = 0.7,
+	["endure"] = 1.2,
 	["melee"] = 1.2,
 	["meleedual"] = 1.2,
 	["throw"] = 1.2,
@@ -382,14 +383,14 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "lightfeet" 
 TRAIT.name = "Light Feet"
-TRAIT.desc = "You're a bit of a pushover, but you're pretty good at sneaking around.\nYour sneak and dodge rolls are increased to 1.1x.\nBlock, parry, and defend rolls reduced to 0.7x."
+TRAIT.desc = "You're a bit of a pushover, but you're pretty good at sneaking around.\nYour sneak and dodge rolls are increased to 1.1x.\nBlock, parry, and defend rolls reduced to 0.8x."
 TRAIT.category = "Character"
 TRAIT.modifier = {
 	["sneak"] = 1.1,
 	["dodge"] = 1.1,
-	["block"] = 0.7,
-	["parry"] = 0.7,
-	["defend"] = 0.7
+	["block"] = 0.8,
+	["parry"] = 0.8,
+	["defend"] = 0.8
 }
 
 TRAITS:Register( TRAIT )
@@ -399,17 +400,20 @@ TRAIT.uid = "fisher"
 TRAIT.name = "Fisherman"
 TRAIT.desc = "A calm day on the lake is where you'd rather be right now.\nStart with a fishing rod."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("fishing_pole") --fishing pole
-end
+TRAIT.items = {
+	"fishing_pole"
+}
 
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
 TRAIT.uid = "farmer" 
 TRAIT.name = "Farmer"
-TRAIT.desc = "You're a grower, not a shower.\nStart with a random regular farm device."
+TRAIT.desc = "You're a grower, not a shower.\nStart with a random regular farm device and a pitchfork."
 TRAIT.category = "Character"
+TRAIT.items = {
+	"melee_pitchfork"
+}
 TRAIT.func = function(client, character)
 	local ranItems = {
 		"farm_apple",
@@ -420,8 +424,10 @@ TRAIT.func = function(client, character)
 		"farm_orange",
 		"farm_potato",
 		"farm_pumpkin",
+		"farm_onion",
 		"farm_monster"
 	}
+	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
 end
 
@@ -430,13 +436,31 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "junkrat" 
 TRAIT.name = "Junk Rat"
-TRAIT.desc = "You hate throwing things away, especially the broken things.\nStart with a broken peculiar generator.\nFortitude rolls reduced to 0.95x."
+TRAIT.desc = "You hate throwing things away, especially the broken things.\nStart with two broken peculiar generator.\nFortitude rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("generator_broken", 1)
-end
+TRAIT.items = {
+	"generator_broken",
+	"generator_broken"
+}
+TRAIT.modifier = {
+	["fortitude"] = 0.9,
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "pyro" 
+TRAIT.name = "Pyromaniac"
+TRAIT.desc = "Build a man a fire, he'll be warm for a night. Set a man on fire, he'll be warm for the rest of his life.\nStart with a can of fuel and two molotovs.\nEndure and Fortitude rolls reduced to 0.95x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"j_gas_can",
+	"molotov",
+	"molotov"
+}
 TRAIT.modifier = {
 	["fortitude"] = 0.95,
+	["endure"] = 0.95
 }
 
 TRAITS:Register( TRAIT )
@@ -446,12 +470,14 @@ TRAIT.uid = "crafter"
 TRAIT.name = "Craftsman"
 TRAIT.desc = "You are skilled at working with odds and ends.\nYour starting Craftiness is boosted by 25."
 TRAIT.category = "Character"
+TRAIT.items = {
+	"j_scrap_metals",
+	"j_scrap_plastics",
+	"j_scrap_elecs",
+	"j_scrap_wood"
+}
 TRAIT.func = function(client, character)
 	character:updateAttrib("medical", 25)
-	character:getInv():add("j_scrap_metals", 2)
-	character:getInv():add("j_scrap_plastics", 2)
-	character:getInv():add("j_scrap_wood", 2)
-	character:getInv():add("j_scrap_elecs", 2)
 end
 
 TRAITS:Register( TRAIT )
@@ -459,13 +485,30 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "handy" 
 TRAIT.name = "Handy Man"
-TRAIT.desc = "You know your way around a tool or two.\nStart with a salvager kit.\nScavenge rolls reduced by 0.8x."
+TRAIT.desc = "You know your way around a tool or two.\nStart with a salvager kit.\nScavenge rolls reduced to 0.85x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("kit_salvager", 1)
-end
+TRAIT.items = {
+	"kit_salvager"
+}
 TRAIT.modifier = {
-	["scavenge"] = 0.8,
+	["scavenge"] = 0.85,
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "loudclear" 
+TRAIT.name = "Loud & Clear"
+TRAIT.desc = "There are some things that just have to be said.\nStart with two radios, and a radio booster.\nPerception, scavenge rolls reduced by 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"comm_radio",
+	"comm_radio",
+	"radio_booster"
+}
+TRAIT.modifier = {
+	["perception"] = 0.9,
+	["scavenge"] = 0.9
 }
 
 TRAITS:Register( TRAIT )
@@ -475,9 +518,9 @@ TRAIT.uid = "carto"
 TRAIT.name = "Cartographer"
 TRAIT.desc = "You really know your way around.\nStart with a map.\nPerception rolls increased by 1.1x.\nReflex rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_map", 1)
-end
+TRAIT.items = {
+	"j_map"
+}
 TRAIT.modifier = {
 	["perception"] = 1.1,
 	["reflexes"] = 0.9
@@ -490,9 +533,9 @@ TRAIT.uid = "photo"
 TRAIT.name = "Photographer"
 TRAIT.desc = "You know how to get the perfect shot.\nStart with a camera.\nAimed firearms rolls increased by 1.1x.\nFortitude rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_camera", 1)
-end
+TRAIT.items = {
+	"j_camera"
+}
 TRAIT.modifier = {
 	["firearmsaimed"] = 1.05,
 	["fortitude"] = 0.9
@@ -505,9 +548,9 @@ TRAIT.uid = "glasses"
 TRAIT.name = "Impaired Sight"
 TRAIT.desc = "Your eyesight isn't the best.\nStart with a pair of glasses.\nFortitude rolls increased by 1.1x.\nPerception rolls reduced by 0.8x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_glasses", 1)
-end
+TRAIT.items = {
+	"j_glasses"
+}
 TRAIT.modifier = {
 	["fortitude"] = 1.1,
 	["perception"] = 0.8,
@@ -520,9 +563,9 @@ TRAIT.uid = "construct"
 TRAIT.name = "Construction Worker"
 TRAIT.desc = "Someone's gotta do it.\nStart with a hard hat.\nEndurance rolls increased by 1.05x.\nFortitude rolls reduced by 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("helmet_hard", 1)
-end
+TRAIT.items = {
+	"helmet_hard"
+}
 TRAIT.modifier = {
 	["endure"] = 1.05,
 	["fortitude"] = 0.9
@@ -533,11 +576,12 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "fireman" 
 TRAIT.name = "Fireman"
-TRAIT.desc = "If you can't stand the heat, put on your protective equipment.\nStart with a fireman's hat.\nEndurance and fortitude rolls increased by 1.05x.\nBlock and parry rolls reduced by 0.9x."
+TRAIT.desc = "If you can't stand the heat, put on your protective equipment.\nStart with a fireman's hat and a fireaxe.\nEndurance and fortitude rolls increased by 1.05x.\nBlock and parry rolls reduced by 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("helmet_fire", 1)
-end
+TRAIT.items = {
+	"helmet_fire",
+	"melee_fireaxe"
+}
 TRAIT.modifier = {
 	["endure"] = 1.05,
 	["fortitude"] = 1.05,
@@ -548,15 +592,143 @@ TRAIT.modifier = {
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
+TRAIT.uid = "lumberjack" 
+TRAIT.name = "Lumberjack"
+TRAIT.desc = "What rolls down stairs, and travels in pairs?\nStart with a lumber axe and some wood.\nMelee rolls increased by 1.05x.\nDodge rolls reduced by 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"hl2_m_lumberaxe",
+	"j_scrap_wood",
+	"j_scrap_wood",
+	"j_scrap_wood"
+}
+TRAIT.modifier = {
+	["melee"] = 1.05,
+	["dodge"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "cozy" 
+TRAIT.name = "Cozy"
+TRAIT.desc = "At least you'll be warm.\nStart with a pair of gloves and an ushanka.\nEndure rolls increased by 1.1x.\nReflex rolls reduced by 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"j_ushanka",
+	"j_gloves"
+}
+TRAIT.modifier = {
+	["endure"] = 1.1,
+	["reflex"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "carpenter" 
+TRAIT.name = "Carpenter"
+TRAIT.desc = "Some problems are best solved with a hammer and nails.\nStart with a carpenter's hammer, some nails, and some wood.\nIncrease craftiness by 3.\nInteract rolls increased by 1.05x.\nFortitude rolls reduced by 0.95x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"hl2_m_hammer",
+	"j_scrap_nails",
+	"j_scrap_nails",
+	"j_scrap_wood",
+	"j_scrap_wood"
+}
+TRAIT.func = function(client, character)
+	character:updateAttrib("medical", 3)
+end
+TRAIT.modifier = {
+	["interact"] = 1.1,
+	["fortitude"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "carpenter" 
+TRAIT.name = "Carpenter"
+TRAIT.desc = "Some problems are best solved with a hammer and nails.\nStart with a carpenter's hammer, some nails, and some wood.\nInteract rolls increased by 1.05x.\nFortitude rolls reduced by 0.95x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"hl2_m_hammer",
+	"j_scrap_nails",
+	"j_scrap_nails",
+	"j_scrap_wood",
+	"j_scrap_wood"
+}
+TRAIT.modifier = {
+	["interact"] = 1.1,
+	["fortitude"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "breacher" 
+TRAIT.name = "Breacher"
+TRAIT.desc = "If there isn't a door, just make one.\nInteract rolls increased by 1.05x.\nDodge and flee rolls reduced by 0.95x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"hl2_m_sledgehammer",
+	"breach"
+}
+TRAIT.modifier = {
+	["interact"] = 1.05,
+	["dodge"] = 0.9,
+	["flee"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "nerveagent" 
+TRAIT.name = "Nerve Agent"
+TRAIT.desc = "Don't be nervous\nStart with a gas mask and two tear gas grenades.\nPerception rolls reduced by 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"gasmask",
+	"nut_teargas",
+	"nut_teargas"
+}
+TRAIT.modifier = {
+	["perception"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "veteran" 
+TRAIT.name = "Veteran"
+TRAIT.desc = "Don't worry, that's just the tinnitus.\nStart with a holster.\nFirearms, Firearms Aimed, and Endure rolls are increased by 1.05x.\nFortitude, will, and perception rolls reduced by 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"j_holster",
+}
+TRAIT.modifier = {
+	["firearms"] = 1.05,
+	["firearmsaimed"] = 1.05,
+	["endure"] = 1.05,
+	["fortitude"] = 0.9,
+	["will"] = 0.9,
+	["perception"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
 TRAIT.uid = "bodyguard" 
 TRAIT.name = "Bodyguard"
 TRAIT.desc = "You specialize in guarding bodies.\nStart with a T1 armored vest.\nBlock and defend rolls increased by 1.05x.\nDodge rolls reduced by 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("armor_t1", 1)
-end
+TRAIT.items = {
+	"armor_t1"
+}
 TRAIT.modifier = {
 	["block"] = 1.05,
+	["defend"] = 1.05,
 	["dodge"] = 0.9
 }
 
@@ -565,11 +737,41 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "defender" 
 TRAIT.name = "Defender"
-TRAIT.desc = "Those who stand with you, stand behind you.\nStart with a T1 armored vest.\nYou gain the ability to defend others from attacks (/defend).\nDodge rolls reduced by 0.9x."
+TRAIT.desc = "Those who stand with you, stand behind you.\nYou gain the ability to defend others from attacks (/defend).\nDodge rolls reduced by 0.95x."
 TRAIT.category = "Char Abilities"
 TRAIT.modifier = {
-	["dodge"] = 0.9
+	["dodge"] = 0.95
 }
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "thrower" 
+TRAIT.name = "Throwing Specialist"
+TRAIT.desc = "Finally your party trick comes in handy.\nYou gain the ability to throw accurately (/throwaimed).\nMelee rolls reduced by 0.9x."
+TRAIT.category = "Char Abilities"
+TRAIT.modifier = {
+	["melee"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "rogue" 
+TRAIT.name = "Rogue"
+TRAIT.desc = "You really like to get behind.\nYou gain the ability to backstab enemies with a melee weapon. (/backstab).\nSneak rolls increased by 1.05x."
+TRAIT.category = "Char Abilities"
+TRAIT.modifier = {
+	["sneak"] = 1.05
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "executioner" 
+TRAIT.name = "Executioner"
+TRAIT.desc = "You really like to get behind.\nYou gain the ability to execute enemies with a firearms weapon in certain situations. (/execute)."
+TRAIT.category = "Char Abilities"
 
 TRAITS:Register( TRAIT )
 //
@@ -578,9 +780,9 @@ TRAIT.uid = "scout"
 TRAIT.name = "Scout"
 TRAIT.desc = "You really like to get ahead.\nStart with binoculars.\nPerception rolls increased by 1.05x.\nEndure rolls reduced by 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_binoculars", 1)
-end
+TRAIT.items = {
+	"j_binoculars"
+}
 TRAIT.modifier = {
 	["perception"] = 1.05,
 	["endure"] = 0.9
@@ -591,10 +793,14 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "ace" 
 TRAIT.name = "Ace"
-TRAIT.desc = "You brought some cards, at least you won't be bored.\nStart with a deck of cards."
+TRAIT.desc = "You brought some cards, at least you won't be bored.\nStart with a deck of cards and a box of dice.\nYou start with three extra luck."
 TRAIT.category = "Character"
+TRAIT.items = {
+	"j_cards",
+	"j_dice"
+}
 TRAIT.func = function(client, character)
-	character:getInv():add("j_cards", 1)
+	character:updateAttrib("luck", 3)
 end
 
 TRAITS:Register( TRAIT )
@@ -604,9 +810,9 @@ TRAIT.uid = "butcher"
 TRAIT.name = "Butcher"
 TRAIT.desc = "You work with meat on a daily basis.\nStart with an organic converter."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("converter_meat", 1)
-end
+TRAIT.items = {
+	"converter_meat"
+}
 
 TRAITS:Register( TRAIT )
 //
@@ -615,11 +821,40 @@ TRAIT.uid = "brewery"
 TRAIT.name = "Homebrewer"
 TRAIT.desc = "You're your own favorite customer.\nStart with a brewery device.\nPerception rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("brewery", 1)
-end
+TRAIT.items = {
+	"brewery"
+}
 TRAIT.modifier = {
 	["perception"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "brewery_soda" 
+TRAIT.name = "Carbonation Expert"
+TRAIT.desc = "Life is more exciting with a little fizz.\nStart with a soda stream device.\nFortitude rolls reduced to 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"soda_stream"
+}
+TRAIT.modifier = {
+	["fortitude"] = 0.9
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "medicator" 
+TRAIT.name = "Chemist"
+TRAIT.desc = "Let's get chemical.\nStart with a medicator device.\nWill and Endure rolls reduced to 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"medicator"
+}
+TRAIT.modifier = {
+	["will"] = 0.9,
+	["endure"] = 0.9
 }
 
 TRAITS:Register( TRAIT )
@@ -629,10 +864,10 @@ TRAIT.uid = "drunk"
 TRAIT.name = "Drunk"
 TRAIT.desc = "The bottle solves all problems.\nStart with a broken bottle.\nEndure rolls set to 1.1x.\nPerception rolls lowered to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("hl2_m_brokenbottle", 1)
-	character:getInv():add("alc_beer", 1)
-end
+TRAIT.items = {
+	"hl2_m_brokenbottle",
+	"alc_beer"
+}
 TRAIT.modifier = {
 	["perception"] = 0.9,
 	["endure"] = 1.1,
@@ -645,9 +880,9 @@ TRAIT.uid = "wonderwall"
 TRAIT.name = "Wonderwall"
 TRAIT.desc = "Anyway, here's Wonderwall.\nStart with a guitar.\nWill rolls increased to 1.1x.\nPerception rolls reduced to 0.95x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_guitar", 1)
-end
+TRAIT.items = {
+	"j_guitar"
+}
 TRAIT.modifier = {
 	["perception"] = 0.95,
 	["will"] = 1.1
@@ -680,45 +915,13 @@ TRAIT.uid = "protester"
 TRAIT.name = "Protester"
 TRAIT.desc = "Some people wait for a sign from above, you made your own sign.\nStart with a sign.\nWill rolls increased to 1.05x.\nEndure rolls reduced to 0.9x"
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("hl2_m_woodensign", 1) --one random item from above pool
-end
+TRAIT.items = {
+	"hl2_m_woodensign"
+}
 TRAIT.modifier = {
 	["will"] = 1.05,
 	["endure"] = 0.9
 }
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "peculiar" 
-TRAIT.name = "???"
-TRAIT.desc = "???"
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	local ranItems = {
-		"mystery_box",
-		"food_banana",
-		"j_gnome",
-		"voltaic"
-	}
-	
-	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
-	character:setData("fort_hall", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "zealot" 
-TRAIT.name = "Zealot"
-TRAIT.desc = "God watches over you."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_bible", 1)
-	
-	character:setData("trait_zealot", CurTime()) --fort debuff
-end
 
 TRAITS:Register( TRAIT )
 //
@@ -731,58 +934,19 @@ TRAIT.category = "Character"
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
-TRAIT.uid = "cursed" 
-TRAIT.name = "Cursed"
-TRAIT.desc = "Suffering awaits."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("chip_escape", 1)
-	character:getInv():add("cube_chip_enhanced", 1)
-	
-	character:setData("trait_curse", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
 TRAIT.uid = "family" 
 TRAIT.name = "Family Man"
 TRAIT.desc = "Your family is waiting for you."
 TRAIT.category = "Peculiar"
+TRAIT.items = {
+	"j_scrap_memory",
+	"j_scrap_memory",
+	"j_scrap_memory",
+	"j_family_picture",
+	"reminiscence"
+}
 TRAIT.func = function(client, character)
-	character:getInv():add("j_scrap_memory", 3)
-	character:getInv():add("j_family_picture", 1)
-	character:getInv():add("reminiscence", 1)
-	
 	character:setData("fort_nost", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "lost" 
-TRAIT.name = "Lost"
-TRAIT.desc = "Something was taken from you."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("ichor", 3)
-
-	character:setData("trait_soul", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "purge" 
-TRAIT.name = "PURGE"
-TRAIT.desc = "All must be wiped clean."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("medical_purge", 1)
-	character:getInv():add("bleach", 1)
-	character:getInv():add("bleach", 1)
-
-	character:setData("trait_purge", CurTime()) --fort debuff
 end
 
 TRAITS:Register( TRAIT )
@@ -792,12 +956,11 @@ TRAIT.uid = "vain"
 TRAIT.name = "Vain"
 TRAIT.desc = "Pride is a sin."
 TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("mirror", 1)
-	timer.Simple(1, function() --delayed to prevent item collisions
-		character:getInv():add("j_scrap_glass", 2)
-	end)
-end
+TRAIT.items = {
+	"mirror",
+	"j_scrap_glass",
+	"j_scrap_glass"
+}
 
 TRAITS:Register( TRAIT )
 //
@@ -806,10 +969,20 @@ TRAIT.uid = "yams"
 TRAIT.name = "Yams"
 TRAIT.desc = "Just start with a bunch of yams, that's what you want isn't it?"
 TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("nac", 1)
-	character:getInv():add("food_yams", 12)
-end
+TRAIT.items = {
+	"nac",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams",
+	"food_yams"
+}
 
 TRAITS:Register( TRAIT )
 //
@@ -818,111 +991,8 @@ TRAIT.uid = "rock"
 TRAIT.name = "Rock"
 TRAIT.desc = "Rock and Roll, man.\nYou start with a single rock."
 TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("hl2_m_rock", 1)
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "dark" 
-TRAIT.name = "Afraid of the Dark"
-TRAIT.desc = "Darkness is dangerous, the light is safe."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("nut_flare", 1)
-	character:getInv():add("nut_flare_w", 1)
-	character:getInv():add("coflantern", 1)
-	
-	character:setData("trait_dark", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "digger" 
-TRAIT.name = "Gravedigger"
-TRAIT.desc = "You must give them the gift of rest."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	if(math.random(0,1) == 1) then
-		character:getInv():add("hl2_m_shovel", 1)
-	else
-		character:getInv():add("hl2_m_shovel_alt", 1)
-	end
-	
-	character:setData("trait_digger", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "headache" 
-TRAIT.name = "Extreme Headache"
-TRAIT.desc = "What did you do to deserve this?"
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("drug_painkillers", 4)
-	
-	character:setData("trait_headache", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "addict" 
-TRAIT.name = "Addict"
-TRAIT.desc = "This will be the last time."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("haze_bottled", 2)
-	
-	character:setData("addict_bh", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "clumsy" 
-TRAIT.name = "Clumsy"
-TRAIT.desc = "You are a walking accident."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("medical_bandages", 1)
-	character:getInv():add("medical_bandages", 1)
-	character:getInv():add("medical_gauze", 1)
-	
-	character:setData("trait_clumsy", CurTime()) --fort debuff
-end
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "paranoia" 
-TRAIT.name = "Extreme Paranoia"
-TRAIT.desc = "Don't look behind you."
-TRAIT.category = "Peculiar"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_blanket", 1)
-	character:getInv():add("j_turtle", 1)
-	
-	character:setData("trait_paranoid", CurTime()) --fort debuff
-end
-TRAIT.modifier = {
-	["perception"] = 1.1,
-	["fortitude"] = 0.9
-}
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "blind" 
-TRAIT.name = "Blind"
-TRAIT.desc = "Your eyes no longer properly function, whether this condition is recent or from birth is up to you."
-TRAIT.category = "Peculiar"
-TRAIT.modifier = {
-	["perception"] = 0,
-	["fortitude"] = 2
+TRAIT.items = {
+	"hl2_m_rock"
 }
 
 TRAITS:Register( TRAIT )
@@ -932,20 +1002,20 @@ TRAIT.uid = "trinket"
 TRAIT.name = "Trinket Collector"
 TRAIT.desc = "You enjoy your strange collectables.\nStart with a Hula Doll, Stuffed Turtle, and Baby Doll."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_baby_doll", 1)
-	character:getInv():add("j_stuffed_turtle", 1)
-	character:getInv():add("j_hula", 1)
-end
+TRAIT.items = {
+	"j_baby_doll",
+	"j_stuffed_turtle",
+	"j_hula"
+}
 //
 local TRAIT = {}
 TRAIT.uid = "baker" 
 TRAIT.name = "Baker"
 TRAIT.desc = "You know how to cook it by the books.\nStart with a bakery device.\nFortitude rolls reduced to 0.95x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("bakery", 1)
-end
+TRAIT.items = {
+	"bakery"
+}
 TRAIT.modifier = {
 	["fortitude"] = 0.95
 }
@@ -957,9 +1027,9 @@ TRAIT.uid = "cultist"
 TRAIT.name = "Cultist"
 TRAIT.desc = "You'll believe anything, but sometimes that's just the ticket.\nStart with a sacrificial skull.\nFortitude rolls reduced to 0.8x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("sacrificial_skull", 1)
-end
+TRAIT.items = {
+	"sacrificial_skull"
+}
 TRAIT.modifier = {
 	["fortitude"] = 0.8
 }
@@ -971,9 +1041,11 @@ TRAIT.uid = "target"
 TRAIT.name = "Designated Target"
 TRAIT.desc = "People have been beating you up for so long, you got pretty good at taking hits.\nBlock and endure rolls increased to 1.1x.\nFortitude rolls reduced to 0.8x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_scrap_rubber", 3)
-end
+TRAIT.items = {
+	"j_scrap_rubber",
+	"j_scrap_rubber",
+	"j_scrap_rubber"
+}
 TRAIT.modifier = {
 	["block"] = 1.1,
 	["endure"] = 1.1,
@@ -997,6 +1069,7 @@ TRAIT.func = function(client, character)
 		"refinery_adhesive",
 		"refinery_screws"
 	}
+	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
 end
 
@@ -1005,8 +1078,11 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "librarian" 
 TRAIT.name = "Librarian"
-TRAIT.desc = "Read a book.\nStart with a random useless book."
+TRAIT.desc = "Read a book.\nStart with a random useless book.\nPerception rolls increased by 1.05x."
 TRAIT.category = "Character"
+TRAIT.modifier = {
+	["perception"] = 1.05
+}
 TRAIT.func = function(client, character)
 	local ranItems = {
 		"blackcat",
@@ -1018,6 +1094,7 @@ TRAIT.func = function(client, character)
 		"grog_boat",
 		"sun_shade1"
 	}
+	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
 end
 
@@ -1046,11 +1123,13 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "authority" 
 TRAIT.name = "Authority"
-TRAIT.desc = "Criminals must be apprehended.\nStart with two zip ties.\nGrapple rolls increased 1.05x.\nFortitude rolls reduced to 0.9x."
+TRAIT.desc = "Criminals must be apprehended.\nStart with two zip ties and a baton.\nGrapple rolls increased 1.05x.\nFortitude rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("ziptie", 2)
-end
+TRAIT.items = {
+	"ziptie",
+	"ziptie",
+	"melee_baton"
+}
 TRAIT.modifier = {
 	["grapple"] = 1.05,
 	["fortitude"] = 0.9
@@ -1061,15 +1140,17 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "trucker" 
 TRAIT.name = "Trucker"
-TRAIT.desc = "Your truck is a beautiful machine, too bad it's not here.\nStart with a steering wheel and energy pills.\nEndure increased to 1.05x.\nFortitude decreased to 0.9x."
+TRAIT.desc = "Your truck is a beautiful machine, too bad it's not here.\nStart with a steering wheel and energy pills.\nEndure increased to 1.05x.\nWill decreased to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("hl2_m_steeringwheel", 1)
-	character:getInv():add("drug_energy", 1)
-end
+TRAIT.items = {
+	"hl2_m_steeringwheel",
+	"drug_energy",
+	"drug_energy",
+	"drug_energy"
+}
 TRAIT.modifier = {
 	["endure"] = 1.05,
-	["fortitude"] = 0.9
+	["will"] = 0.9
 }
 
 TRAITS:Register( TRAIT )
@@ -1079,10 +1160,12 @@ TRAIT.uid = "mechanic"
 TRAIT.name = "Mechanic"
 TRAIT.desc = "You fix vehicles and drive a piece of shit.\nStart with a wrench and some scrap.\nCraftiness increased by 5 points.\nSneak decreased to 0.9x."
 TRAIT.category = "Character"
+TRAIT.items = {
+	"j_scrap_metals",
+	"j_scrap_metals",
+	"hl2_m_wrench"
+}
 TRAIT.func = function(client, character)
-	character:getInv():add("j_scrap_metals", 2)
-	character:getInv():add("hl2_m_wrench", 1)
-	
 	character:updateAttrib("medical", 5)
 end
 TRAIT.modifier = {
@@ -1097,9 +1180,9 @@ TRAIT.uid = "smoker"
 TRAIT.name = "Smoker"
 TRAIT.desc = "You enjoy spending money on destroying your health.\nStart with a pack of cigarettes.\nFortitude rolls increased to 1.05x.\nEndure reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_cigs", 1)
-end
+TRAIT.items = {
+	"j_cigs"
+}
 TRAIT.modifier = {
 	["fortitude"] = 1.05,
 	["endure"] = 0.9
@@ -1112,9 +1195,10 @@ TRAIT.uid = "painter"
 TRAIT.name = "Painter"
 TRAIT.desc = "This is no place for a happy little tree.\nStart with two cans of paint.\nFortitude and perception rolls increased to 1.05x.\nSneak and reflex rolls reduced to 0.9x."
 TRAIT.category = "Character"
-TRAIT.func = function(client, character)
-	character:getInv():add("j_paint_can", 2)
-end
+TRAIT.items = {
+	"j_paint_can",
+	"j_paint_can"
+}
 TRAIT.modifier = {
 	["fortitude"] = 1.05,
 	["perception"] = 1.05,
@@ -1128,6 +1212,14 @@ local TRAIT = {}
 TRAIT.uid = "donor" 
 TRAIT.name = "Blood Donor"
 TRAIT.desc = "You pride yourself in giving whatever you can to those in need.\nYou can bottle your own blood once every week (/blood)."
+TRAIT.category = "Char Abilities"
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "diagnose" 
+TRAIT.name = "Pathologist"
+TRAIT.desc = "You know exactly what's wrong with everyone else.\nYou can diagnose the afflictions of others (/diagnose)."
 TRAIT.category = "Char Abilities"
 
 TRAITS:Register( TRAIT )

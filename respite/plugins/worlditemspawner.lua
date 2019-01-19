@@ -276,6 +276,7 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"j_beanie",
 		"j_gloves",
 		"armor_football",
+		"plastic_core",
 		"coin_10"
 	}
 }

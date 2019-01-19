@@ -3,13 +3,13 @@ ITEM.model = "models/healthvial.mdl"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.desc = "A Medical Stuff"
-ITEM.container = ""
+--ITEM.container = ""
 ITEM.healAmount = 50
 ITEM.healSeconds = 10
 ITEM.flag = "v"
 ITEM.category = "Medical"
 ITEM.color = Color(232, 0, 0)
-ITEM.quantity = 1
+ITEM.quantity2 = 1
 
 local function healPlayer(client, target, amount, seconds)
 	hook.Run("OnPlayerHeal", client, target, amount, seconds)
@@ -34,7 +34,6 @@ end
 ITEM:hook("use", onUse)
 ITEM:hook("usef", onUse)
 
-// On player uneqipped the item, Removes a weapon from the player and keep the ammo in the item.
 ITEM.functions.use = { -- sorry, for name order.
 	name = "Use",
 	tip = "useTip",
@@ -43,7 +42,8 @@ ITEM.functions.use = { -- sorry, for name order.
 		if (item.player:Alive()) then
 			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
 			
-			local quantity = item:getData("quantity", item.quantity)
+			local quantity = item:getData("quantity", item.quantity2)
+
 			if(quantity > 1) then
 				item:setData("quantity", quantity - 1)
 				return false
@@ -128,9 +128,9 @@ end
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
-		local quantity = item:getData("quantity", item.quantity)
+		local quantity = item:getData("quantity", item.quantity2)
 
-		if (quantity) then
+		if (quantity and quantity > 1) then
 			draw.SimpleText(quantity, "DermaDefault", w - 12, h - 14, Color(255,50,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
 		end
 	end

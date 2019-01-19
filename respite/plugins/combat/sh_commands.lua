@@ -52,7 +52,7 @@ COMMAND.stats = {
 	["str"] = 0.4,
 	["accuracy"] = 0.1
 }
-COMMAND.mult = 0.4
+COMMAND.mult = 0.6
 COMMAND.attackString = "a dual melee attack"
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -73,7 +73,7 @@ COMMAND.category = "melee"
 COMMAND.stats = {
 	["luck"] = 0.5
 }
-COMMAND.mult = 0.25
+COMMAND.mult = 0.35
 COMMAND.attackString = "a flailing melee attack"
 COMMAND.rolls = function(base)
 	local rolls = {}
@@ -158,10 +158,10 @@ COMMAND.uid = "firearmsaimed"
 COMMAND.name = "Aimed Shot"
 COMMAND.category = "firearms"
 COMMAND.stats = {
-	["str"] = 0.1,
+	["perception"] = 0.1,
 	["accuracy"] = 0.4
 }
-COMMAND.mult = 1.2
+COMMAND.mult = 1.5
 COMMAND.attackString = "an aimed shot"
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -197,6 +197,32 @@ COMMAND.rolls = function(base, attribs)
 end
 
 CMBT:Register( COMMAND )
+//
+local COMMAND = {}
+COMMAND.uid = "gatling"
+COMMAND.name = "Gatling Shot"
+COMMAND.category = "firearms"
+COMMAND.stats = {
+	["accuracy"] = 0.35
+}
+COMMAND.mult = 1
+COMMAND.attackString = "a gatling shot"
+COMMAND.parts = true
+COMMAND.rolls = function(base, attribs)
+	local roll = math.abs(base + math.random(-10,10))
+
+	local rolls = { 
+		roll * math.Clamp((0.55 + ((attribs["str"] * 4) / 1000)), 0, 1),
+		roll * math.Clamp((0.5 + ((attribs["str"] * 4) / 1000)), 0, 1),
+		roll * math.Clamp((0.45 + ((attribs["str"] * 4) / 1000)), 0, 1),
+		roll * math.Clamp((0.4 + ((attribs["str"] * 4) / 1000)), 0, 1),
+		roll * math.Clamp((0.35 + ((attribs["str"] * 4) / 1000)), 0, 1)
+	}
+	
+	return rolls
+end
+
+CMBT:Register( COMMAND )
 
 //
 local COMMAND = {}
@@ -204,7 +230,8 @@ COMMAND.uid = "firearmsburstaimed"
 COMMAND.name = "Aimed Burst Shot"
 COMMAND.category = "firearms"
 COMMAND.stats = {
-	["accuracy"] = 0.35
+	["accuracy"] = 0.25,
+	["perception"] = 0.1
 }
 COMMAND.mult = 1
 COMMAND.attackString = "an aimed burst shot"
@@ -231,7 +258,7 @@ COMMAND.stats = {
 	["stm"] = 0.25,
 	["accuracy"] = 0.25
 }
-COMMAND.mult = 0.5
+COMMAND.mult = 0.6
 COMMAND.attackString = "a quickdraw shot"
 COMMAND.parts = true
 COMMAND.rolls = function(base)
@@ -250,8 +277,8 @@ COMMAND.uid = "throw"
 COMMAND.name = "Throw"
 COMMAND.category = "firearms"
 COMMAND.stats = {
-	["str"] = 0.1,
-	["accuracy"] = 0.4
+	["str"] = 0.2,
+	["accuracy"] = 0.3
 }
 COMMAND.mult = 1
 COMMAND.attackString = "a thrown object"
@@ -270,12 +297,12 @@ CMBT:Register( COMMAND )
 local COMMAND = {}
 COMMAND.uid = "execute"
 COMMAND.name = "Execution Shot"
-COMMAND.category = "firearms"
+COMMAND.category = "special"
 COMMAND.stats = {
 	["str"] = 0.1,
 	["accuracy"] = 0.4
 }
-COMMAND.mult = 2
+COMMAND.mult = 2.5
 COMMAND.attackString = "an execution shot"
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -296,7 +323,7 @@ COMMAND.stats = {
 	["str"] = 0.2,
 	["accuracy"] = 0.3
 }
-COMMAND.mult = 0.4
+COMMAND.mult = 0.85
 COMMAND.attackString = "an akimbo shot"
 COMMAND.parts = true
 COMMAND.rolls = function(base)
@@ -423,9 +450,10 @@ COMMAND.uid = "dodge"
 COMMAND.name = "Dodge"
 COMMAND.category = "react"
 COMMAND.stats = {
-	["stm"] = 0.5
+	["stm"] = 0.35,
+	["perception"] = 0.2
 }
-COMMAND.mult = 0.8
+COMMAND.mult = 0.85
 COMMAND.attackString = "a dodge/miss"
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -446,29 +474,8 @@ COMMAND.stats = {
 	["end"] = 0.3,
 	["str"] = 0.2
 }
-COMMAND.mult = 0.8
+COMMAND.mult = 0.85
 COMMAND.attackString = "a block"
-COMMAND.rolls = function(base)
-	local rolls = { 
-		math.abs(base + math.random(-10,10))
-	}
-	
-	return rolls
-end
-
-CMBT:Register( COMMAND )
-
-//
-local COMMAND = {}
-COMMAND.uid = "defend"
-COMMAND.name = "Defend"
-COMMAND.category = "special"
-COMMAND.stats = {
-	["end"] = 0.2,
-	["stm"] = 0.2
-}
-COMMAND.mult = 0.8
-COMMAND.attackString = "defending a target"
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -485,9 +492,10 @@ COMMAND.uid = "parry"
 COMMAND.name = "Parry"
 COMMAND.category = "react"
 COMMAND.stats = {
-	["str"] = 0.15,
-	["accuracy"] = 0.15,
-	["stm"] = 0.15,
+	["str"] = 0.1,
+	["accuracy"] = 0.1,
+	["stm"] = 0.1,
+	["end"] = 0.1,
 	["perception"] = 0.1
 }
 COMMAND.mult = 0.8
@@ -561,6 +569,91 @@ COMMAND.rolls = function(base, attribs)
 		roll,
 		roll * math.Clamp((0.6 + ((attribs["str"] * 4) / 1000)), 0, 1),
 		roll * math.Clamp((0.4 + ((attribs["str"] * 6) / 1000)), 0, 1)
+	}
+	
+	return rolls
+end
+
+CMBT:Register( COMMAND )
+
+//
+local COMMAND = {}
+COMMAND.uid = "backstab"
+COMMAND.name = "Backstab"
+COMMAND.category = "special"
+COMMAND.stats = {
+	["str"] = 0.1,
+	["perception"] = 0.15,
+	["stm"] = 0.25
+}
+COMMAND.mult = 1.5
+COMMAND.attackString = "a backstab"
+COMMAND.rolls = function(base, attribs)
+	local rolls = { 
+		math.abs(base + math.random(-10,10))
+	}
+	
+	return rolls
+end
+
+CMBT:Register( COMMAND )
+
+//
+local COMMAND = {}
+COMMAND.uid = "defend"
+COMMAND.name = "Defend"
+COMMAND.category = "special"
+COMMAND.stats = {
+	["perception"] = 0.1,
+	["end"] = 0.2,
+	["stm"] = 0.2
+}
+COMMAND.mult = 0.8
+COMMAND.attackString = "defending a target"
+COMMAND.rolls = function(base)
+	local rolls = { 
+		math.abs(base + math.random(-10,10))
+	}
+	
+	return rolls
+end
+
+CMBT:Register( COMMAND )
+//
+local COMMAND = {}
+COMMAND.uid = "throwaimed"
+COMMAND.name = "Aimed Throw"
+COMMAND.category = "firearms"
+COMMAND.stats = {
+	["str"] = 0.2,
+	["accuracy"] = 0.3
+}
+COMMAND.mult = 1.2
+COMMAND.attackString = "an aimed throw"
+COMMAND.rolls = function(base)
+	local rolls = { 
+		math.abs(base + math.random(-10,10))
+	}
+	
+	return rolls
+end
+
+CMBT:Register( COMMAND )
+//
+local COMMAND = {}
+COMMAND.uid = "interact"
+COMMAND.name = "Interact"
+COMMAND.category = "special"
+COMMAND.stats = {
+	["medical"] = 0.3,
+	["perception"] = 0.3,
+	["luck"] = 0.1,
+}
+COMMAND.mult = 1
+COMMAND.attackString = "interacting with something"
+COMMAND.rolls = function(base)
+	local rolls = { 
+		math.abs(base + math.random(-10,10))
 	}
 	
 	return rolls

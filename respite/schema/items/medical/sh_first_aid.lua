@@ -9,7 +9,7 @@ ITEM.desc = "A standard medical kit used to apply first aid."
 ITEM.flag = "v"
 ITEM.uniqueID = "medical_kit"
 ITEM.container = "j_used_first_aid_kit"
-ITEM.quantity = 6
+ITEM.quantity2 = 6
 
 ITEM.iconCam = {
 	pos = Vector(5, 0, 200),

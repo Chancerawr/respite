@@ -63,6 +63,7 @@ ITEM.functions.Ammo = {
 			"ammo_44",
 			"ammo_40sw",
 			"ammo_12g",
+			"ammo_22lr",
 			"ammo_concrete",
 			"ammo_sawblade",
 			"ammo_xbow"
@@ -162,6 +163,7 @@ ITEM.functions.Armor = {
 			"armor_t1",
 			"armor_t2",
 			"armor_sapper",
+			"armor_charged",
 			"armor_football",
 			"armor_pauldrons",
 			"armor_wood",
@@ -246,7 +248,7 @@ ITEM.functions.Armor = {
 			player = item:getOwner()
 		end
 		
-		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 100) then 
+		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 200) then 
 			return false
 		end
 	end
@@ -282,6 +284,7 @@ ITEM.functions.Device = {
 			"breakfaster",
 			"bakery",
 			"alchemist",
+			"curator",
 			"statue"
 		}
 		
@@ -290,7 +293,7 @@ ITEM.functions.Device = {
 		client:requestString("Purchase", "This costs 300 scrap coins. Are you sure? Type 'yes' to proceed.", 
 		function(text)
 			if(text == "yes") then
-				char:takeMoney(300)
+				char:takeMoney(350)
 				chip:remove()
 				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
 				
@@ -359,7 +362,7 @@ ITEM.functions.Device = {
 			player = item:getOwner()
 		end
 		
-		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 100) then 
+		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 300) then 
 			return false
 		end
 	end

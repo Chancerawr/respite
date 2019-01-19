@@ -136,6 +136,54 @@ nut.command.add("spawnitem", {
 	end
 })
 
+nut.command.add("chargiveitem", {
+	adminOnly = true,
+	syntax = "<string name> <string item> <integer amount>",
+	onRun = function(client, arguments)
+		if (!arguments[2]) then
+			return L("invalidArg", client, 2)
+		end
+
+		local target = nut.command.findPlayer(client, arguments[1])
+
+		if (IsValid(target) and target:getChar()) then
+			local uniqueID = arguments[2]:lower()
+			local amount = tonumber(arguments[3])
+
+			if (!nut.item.list[uniqueID]) then
+				for k, v in SortedPairs(nut.item.list) do
+					if (nut.util.stringMatches(v.name, uniqueID)) then
+						uniqueID = k
+
+						break
+					end
+				end
+			end
+
+			if (arguments[3] and arguments[3] != "") then
+				if (!amount) then
+					return L("invalidArg", client, 3)
+				end
+			end
+
+			local inv = target:getChar():getInv()
+			local succ, err = target:getChar():getInv():add(uniqueID, amount or 1)
+
+			if (succ) then
+				target:notifyLocalized("itemCreated")
+				if(target != client) then
+					client:notifyLocalized("itemCreated")
+				end
+			else
+				client:notifyLocalized(tostring(err))
+				if(target != client) then
+					target:notifyLocalized(tostring(err))
+				end
+			end
+		end
+	end
+})
+
 nut.command.add("forums", {
     syntax = "<No Input>",
 	onRun = function(client, arguments)

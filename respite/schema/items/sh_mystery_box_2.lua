@@ -143,6 +143,6 @@ ITEM.functions.Open = {
 			nut.item.spawn("portal_explosives", position)
 		end
 		
-		nut.item.spawn(contents, position)
+		--nut.item.spawn(contents, position)
 	end
 }

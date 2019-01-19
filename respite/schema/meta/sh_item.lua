@@ -7,13 +7,14 @@ ITEM.uniqueID = "undefined"
 
 function ITEM:getData(key, default)
 	self.data = self.data or {}
-
-	if (self.data) then
+	local itemData = table.Copy(self.data)
+	
+	if (itemData) then
 		if (key == true) then
-			return self.data
+			return itemData
 		end
 
-		local value = self.data[key]
+		local value = itemData[key]
 
 		if (value != nil) then
 			return value
@@ -26,19 +27,19 @@ function ITEM:getData(key, default)
 			end
 		end
 	else
-		self.data = {}
+		itemData = {}
 	end
-
+	
 	if (default != nil) then
 		return default
 	end
 	
 	local itemTable = nut.item.list[self.uniqueID]
-
-	if (itemTable and itemTable.data) then
-		return itemTable.data[key]
-	end
 	
+	if (itemTable and itemTable.data) then
+		itemData = table.Copy(itemTable.data)
+		return itemData[key]
+	end
 end
 
 function ITEM:getOwner()

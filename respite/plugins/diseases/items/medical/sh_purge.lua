@@ -13,9 +13,9 @@ ITEM.container = "j_empty_vial"
 ITEM.color = Color(232, 0, 0)
 
 ITEM.iconCam = {
-	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),
-	ang = Angle(25, 220, 0),
-	fov = 5,
+	pos = Vector(-200, 0, 4.75),
+	ang = Angle(0, -0, 0),
+	fov = 3.6,
 }
 
 local function healPlayer(client, target, amount, seconds)
@@ -40,10 +40,8 @@ ITEM.functions.use = { -- sorry, for name order.
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
-		local char = client:getChar()
-	
-		if (item.player:Alive()) then
-		
+
+		if (client:Alive()) then
 			local position = item.player:getItemDropPos()
 			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
 			if(item.container) then
@@ -51,10 +49,8 @@ ITEM.functions.use = { -- sorry, for name order.
 			end	
 			
 			for k, v in pairs(DISEASES.diseases) do --removes all of them for now
-				if(char:getData(k)) then
-					char:setData(k, nil) --removes fort diseases
-					
-					nut.chat.send(client, "body", table.Random(v.cure)) --sends them a message about being cured
+				if(hasDisease(client, v.uid)) then
+					cureDisease(client, v.uid)
 				end
 			end
 		end
@@ -78,12 +74,9 @@ ITEM.functions.usef = { -- sorry, for name order.
 			return true
 		end
 		
-		local char = target:getChar()
 		for k, v in pairs(DISEASES.diseases) do --removes all of them for now
-			if(char:getData(k)) then
-				char:setData(k, nil) --removes fort diseases
-				
-				nut.chat.send(client, "body", table.Random(v.cure)) --sends them a message about being cured
+			if(hasDisease(target, v.uid)) then
+				cureDisease(target, v.uid)
 			end
 		end
 

@@ -47,7 +47,7 @@ ITEM.functions.Acquire = {
 					if (memory.uniqueID == "j_painting") then
 						worth = 3
 					elseif (string.find(memory.uniqueID, "picture")) then
-						worth = 2
+						worth = 1
 					end
 					memory:remove()
 					break
@@ -59,20 +59,27 @@ ITEM.functions.Acquire = {
 			end	
 			
 			client:notifyLocalized("The museum has taken the item.")
-			item:setData("producing2", CurTime())
+			item:setData("producing", CurTime())
 			timer.Simple(66, 
 				function()
 					if (item != nil) then
-						client:notifyLocalized("The museum has finished.")
-						item:setData("producing2", 0)
 						local position = client:getItemDropPos()
-						--if (!IsValid(item:getEntity())) then
+					
+						client:notifyLocalized("The museum has finished.")
+						item:setData("producing", nil)
+
 						local reward
-						if(math.random(1,5) == 5) then --10% chance to give memory
-							reward = "j_scrap_memory"
-						else
+						if(math.random(1,2) == 1) then --50/50 chance
 							reward = "blight"
+						else
+							reward = "j_scrap_memory"
 						end
+						
+						if(math.random(1,10) == 10) then --10% chance to get an ailment
+							giveDisease(client, "fort_nost")
+							client:notify("You feel nostalgic")
+						end
+						
 						for i = 1, worth do
 							if(!IsValid(item:getEntity())) then
 								if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
@@ -89,11 +96,11 @@ ITEM.functions.Acquire = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 66
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 66
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -112,6 +119,8 @@ ITEM.functions.Battery = {
 		nut.item.spawn("drug_depress", position)
 		nut.item.spawn("drug_depress", position)
 		nut.item.spawn("drug_depress", position)
+		nut.item.spawn("drug_depress", position)
+		nut.item.spawn("drug_depress", position)
 
 		inventory:add("j_battery_dead")
 		
@@ -127,3 +136,13 @@ ITEM.functions.Battery = {
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nThe museum's colors are shifting slowly."
+	end
+	
+	return Format(desc)
+end

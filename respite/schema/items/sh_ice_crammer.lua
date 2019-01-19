@@ -27,13 +27,11 @@ ITEM.functions.Cream = {
 		local inventory = client:getChar():getInv()
 		
 		local milk = inventory:hasItem("food_milk_carton") or inventory:hasItem("food_milk_jug")
-		local can = player:getChar():getInv():hasItem("food_soda_cold")
+		local can = client:getChar():getInv():hasItem("food_soda_cold")
 		local amount = 1
 		
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the milk.")	
-		
-		item:setData("producing2", CurTime())
 		
 		if(milk.uniqueID == "food_milk_jug") then
 			amount = 2
@@ -42,35 +40,43 @@ ITEM.functions.Cream = {
 		milk:remove()
 		can:remove()
 		
-		timer.Simple(45, 
-			function()
-				for i = 1, amount do
-					timer.Simple(amount, 
-						function()
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								if(!inventory:add("food_ice_cream")) then --if the inventory has space, put it in the inventory
-									nut.item.spawn("food_ice_cream", client:getItemDropPos()) --if not, drop it on the ground
-								end
-							else --if the item is on the ground
-								nut.item.spawn("food_ice_cream", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-							end
+		item:setData("producing", CurTime())
+		
+		timer.Simple(45, function()
+			item:setData("producing", nil)
+		
+			for i = 1, amount do
+				timer.Simple(amount, function()
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						if(!inventory:add("food_ice_cream")) then --if the inventory has space, put it in the inventory
+							nut.item.spawn("food_ice_cream", client:getItemDropPos()) --if not, drop it on the ground
 						end
-					)
-				end
-				client:notify("Converting has finished.")
-				nut.chat.send(client, "itclose", "Ice Cream is released from the strange machine.")
+					else --if the item is on the ground
+						nut.item.spawn("food_ice_cream", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+					end
+				end)
 			end
-		)
+			
+			client:notify("Converting has finished.")
+			nut.chat.send(client, "itclose", "Ice Cream is released from the strange machine.")
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local endTime = item:getData("producing2") + 45
+
 		local milk = player:getChar():getInv():hasItem("food_milk_carton") or player:getChar():getInv():hasItem("food_milk_jug")
 		local can = player:getChar():getInv():hasItem("food_soda_cold")
 		
-		if (milk and can and (CurTime() > endTime or item:getData("producing2", 0) > CurTime() or item:getData("producing2", 0) == 0)) then
+		local prodTime = 45
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
+		end
+		
+		if (milk and can) then
 			return true 
 		else
 			return false
@@ -105,3 +111,13 @@ ITEM.functions.Battery = {
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nThe device is cold to the touch."
+	end
+	
+	return Format(desc)
+end

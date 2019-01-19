@@ -1,6 +1,7 @@
-FACTION.name = "Drifters"
-FACTION.desc = "Not all who wander are lost, but you definitely are."
+FACTION.name = "Lost"
+FACTION.desc = "You aren't what you used to be."
 FACTION.color = Color(150, 170, 170)
+FACTION.isDefault = false
 
 FACTION.models = {
 "models/tnb/citizens/male_01.mdl",

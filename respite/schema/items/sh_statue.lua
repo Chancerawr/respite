@@ -22,22 +22,53 @@ ITEM.functions.Blight = {
 	icon = "icon16/eye.png",
 	sound = "ambient/creatures/rats4.wav",
 	onRun = function(item)
-			local client = item.player
-			local position = client:getItemDropPos()
-			local inventory = client:getChar():getInv()
-			local blight = inventory:hasItem("blight")	
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local blight = inventory:hasItem("blight")	
 			
-			if (blight) then
-				blight:remove()
-				nut.item.spawn("food_blood", position)
-				nut.chat.send(client, "itclose", "The statue begins crying blood.")	
-				client:TakeDamage(7, client, client)
-				item:setData("hatred", item:getData("hatred", 0) + 1)
-			else
-				client:notifyLocalized("You need blight.")
+		if (blight) then
+			blight:remove()
+			nut.item.spawn("food_blood", position)
+			nut.chat.send(client, "itclose", "The statue begins crying blood.")	
+			client:TakeDamage(9, client, client)
+			
+			local hatred = item:getData("hatred", 0)
+			if(hatred > 9) then
+				client:notify("A feeling of dread comes over you.")
+			
+				local posSummons = {
+					"resp_teleporter",
+					"shade_crawlsmoke"
+				}
+			
+				local ent = ents.Create(table.Random(posSummons))
+				
+				if (ent:IsValid()) then
+					ent:SetPos(client:GetPos())
+					local pos = ent:FindSpot( "random", { type = 'hiding', radius = 5000 } )
+					if(pos) then
+						ent:SetPos(pos)
+						ent:Spawn()
+						ent:SetOwner( self )
+						
+						timer.Simple(0.5,
+							function()
+								ent:SetEnemy(client)
+							end
+						)
+					else
+						ent:Remove()
+					end
+				end
 			end
 			
-			return false
+			item:setData("hatred", hatred + 1)
+		else
+			client:notify("You need blight.")
+		end
+			
+		return false
 	end
 }
 

@@ -28,6 +28,8 @@ ITEM.cures = {
 	["fort_para"] = true,
 	["fort_noia"] = true,
 	["fort_insa"] = true,
+	["fort_enrage"] = true,
+	["dis_poti"] = true,
 	["dis_wrai"] = true,
 	["dis_eyes"] = true,
 	["dis_mind"] = true,
@@ -67,11 +69,9 @@ ITEM.functions.use = { -- sorry, for name order.
 			end	
 			
 			for k, v in pairs(DISEASES.diseases) do
-				if(char:getData(k) and item.cures[k]) then
-					char:setData(k, nil) --removes fort diseases
+				if(hasDisease(client, v.uid) and item.cures[v.uid]) then
+					cureDisease(client, v.uid)
 					char:setData("memory_wrap", CurTime())
-					
-					nut.chat.send(client, "body", table.Random(v.cure)) --sends them a message about being cured
 				end
 			end
 		end
@@ -85,27 +85,22 @@ ITEM.functions.usef = { -- sorry, for name order.
 	icon = "icon16/arrow_up.png",
 	onRun = function(item)
 		local client = item.player
-		local position = client:getItemDropPos()
 		local trace = client:GetEyeTraceNoCursor() -- We don't need cursors.
 		local target = trace.Entity
 
 		if (target and target:IsValid() and target:IsPlayer() and target:Alive()) then
 			healPlayer(item.player, target, item.healAmount, item.healSeconds)
-
-			return true
+		else
+			client:notify("Look at a valid player.")
+			return false
 		end
 		
-		local char = target:getChar()
-		for k, v in pairs(DISEASES.diseases) do --removes all of them for now
-			if(char:getData(k) and item.cures[k]) then
-				char:setData(k, nil) --removes fort diseases
-				char:setData("memory_wrap", CurTime())
-				
-				nut.chat.send(client, "body", table.Random(v.cure)) --sends them a message about being cured
+		for k, v in pairs(DISEASES.diseases) do
+			if(hasDisease(target, v.uid) and item.cures[v.uid]) then
+				cureDisease(target, v.uid)
+				target:getChar():setData("memory_wrap", CurTime())
 			end
 		end
-
-		return false
 	end,
 	onCanRun = function(item)
 		return (!IsValid(item.entity))

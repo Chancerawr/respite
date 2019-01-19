@@ -4,7 +4,7 @@ ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
 ITEM.material = "models/props_lab/security_screens2"
 ITEM.hungerAmount = 10
 ITEM.foodDesc = "Something's wrong.."
-ITEM.quantity = 3
+ITEM.quantity2 = 3
 ITEM.price = 4
 ITEM.width = 1
 ITEM.height = 1
@@ -29,19 +29,19 @@ ITEM.functions.use = {
 	icon = "icon16/cup.png",
 	onRun = function(item)
 		local cooked = item:getData("cooked", 1)
-		local quantity = item:getData("quantity", item.quantity)
+		local quantity2 = item:getData("quantity2", item.quantity2)
 		local mul = COOKLEVEL[cooked][2]
 		local position = item.player:getItemDropPos()
 		local client = item.player
 		local char = client:getChar()
 
-		quantity = quantity - 1
+		quantity2 = quantity2 - 1
 		
 		nut.chat.send(client, "body", "Your mind fills with nothingness.")
 		nut.chat.send(client, "body", "You see an empty white space, a cold room with only yourself in it.")
 		nut.chat.send(client, "body", "You feel incomplete.")		
 		
-		client:setData("fort_nost", CurTime())
+		giveDisease(client, "fort_nost")
 		
 		if (char and client:Alive()) then
 			if (item.attribBoosts) then
@@ -69,8 +69,8 @@ ITEM.functions.use = {
 			end)
 		end
 		
-		if (quantity >= 1) then
-			item:setData("quantity", quantity)
+		if (quantity2 >= 1) then
+			item:setData("quantity2", quantity2)
 			return false
 		else
 			if(item.container) then

@@ -237,8 +237,8 @@ function SCHEMA:LoadFonts(font)
 end
 
 function SCHEMA:RenderScreenspaceEffects()
-if ( nut.gui.char and nut.gui.char:IsVisible() ) then
-	    local mat_Overlay = Material("pp/blurscreen")
+	if ( nut.gui.char and nut.gui.char:IsVisible() ) then
+		local mat_Overlay = Material("pp/blurscreen")
 
 		local scrW, scrH = ScrW(), ScrH()		
 			for i = 1, 3 do
@@ -249,6 +249,7 @@ if ( nut.gui.char and nut.gui.char:IsVisible() ) then
 			render.SetMaterial( mat_Overlay )
 			render.DrawScreenQuad()
 		end
+		
 		local x, y = nut.gui.char:LocalToScreen(0, 0)
 		local w, h = nut.gui.char:GetWide(), ScrH()
 		render.SetStencilEnable(true)
@@ -258,44 +259,39 @@ if ( nut.gui.char and nut.gui.char:IsVisible() ) then
 		render.SetStencilEnable(1)
 		render.SetStencilEnable(false)
 
-menu = {}
-menu["$pp_colour_addr"] = -23/255
-menu["$pp_colour_addg"] = -16/255
-menu["$pp_colour_addb"] = 5/255
-menu["$pp_colour_brightness"] = -0.07
-menu["$pp_colour_contrast"] = 0.8
-menu["$pp_colour_colour"] = 0.2
-menu["$pp_colour_mulr"] = 0
-menu["$pp_colour_mulg"] = 0
-menu["$pp_colour_mulb"] = 0
-DrawColorModify( menu ) 
+		menu = {}
+		menu["$pp_colour_addr"] = -15/255
+		menu["$pp_colour_addg"] = -15/255
+		menu["$pp_colour_addb"] = -15/255
+		menu["$pp_colour_brightness"] = -0.05
+		menu["$pp_colour_contrast"] = 1
+		menu["$pp_colour_colour"] = 0.35
+		menu["$pp_colour_mulr"] = 0
+		menu["$pp_colour_mulg"] = 0
+		menu["$pp_colour_mulb"] = 0
+		DrawColorModify( menu ) 
+	end
 
- end
+	if ( nut.gui.char and !nut.gui.char:IsVisible() ) then
+		if NUT_CVAR_POSTPROCESS:GetBool() then
+			local colorMod = {}
+			colorMod[ "$pp_colour_addr" ]           = -16/255
+			colorMod[ "$pp_colour_addg" ]           = -14/255
+			colorMod[ "$pp_colour_addb" ]           = 3/255
+			colorMod[ "$pp_colour_brightness" ]     = 0
+			colorMod[ "$pp_colour_contrast" ]       =  1.20
+			colorMod[ "$pp_colour_colour" ]         = 0.55
+			colorMod[ "$pp_colour_mulr" ]           = 0.05
+			colorMod[ "$pp_colour_mulg" ]           = 0.05
+			colorMod[ "$pp_colour_mulb" ]           = 0.05
 
-if ( nut.gui.char and !nut.gui.char:IsVisible() ) then
-if NUT_CVAR_POSTPROCESS:GetBool() then
-
-ingame = {}
-ingame["$pp_colour_addr"] = -10/255
-ingame["$pp_colour_addg"] = -5/255
-ingame["$pp_colour_addb"] = 15/255
-ingame["$pp_colour_brightness"] = -0.03
-ingame["$pp_colour_contrast"] = 1.2
-ingame["$pp_colour_colour"] = 0.40
-ingame["$pp_colour_mulr"] = 0
-ingame["$pp_colour_mulg"] = 0
-ingame["$pp_colour_mulb"] = 0
--- DrawSunbeams( 2, 2, 2, 2, 2 )
-DrawColorModify( ingame ) 
-DrawBloom( .75, 1, 9, 9, 1, .65, 2, 2, 2 )
-DrawToyTown( 1, ScrH()/2 )
-end
-end
+			DrawColorModify( colorMod ) 
+		end
+	end
 end
 
 function SCHEMA:HUDPaint()
-if NUT_CVAR_LETTERBOX:GetBool() or IsValid(nut.char.gui) then
- 
+	if NUT_CVAR_LETTERBOX:GetBool() or IsValid(nut.gui.char) then
 		local w,h = ScrW(),ScrH()
 		surface.SetDrawColor ( 0, 0, 0, 255 )
 		surface.DrawRect ( 0, 0, w, h / 6 )
@@ -303,8 +299,7 @@ if NUT_CVAR_LETTERBOX:GetBool() or IsValid(nut.char.gui) then
 		local w,h = ScrW(),ScrH()
 		surface.SetDrawColor ( 0, 0, 0, 255 )
 		surface.DrawRect ( 0, 930, w, h / 6 )
-		
-		end 
+	end 
 end
 
 NUT_CVAR_POSTPROCESS = CreateClientConVar("nut_postprocess", 0, true, true)
@@ -417,8 +412,20 @@ function SCHEMA:SetupQuickMenu(menu)
 			RunConsoleCommand("nut_letterbox", "0")
 		end
 	end, NUT_CVAR_LETTERBOX:GetBool())
-			
+		
 	menu:addSpacer()	  
+	
+	--[[
+	local button = menu:addCheck("Headbob", function(panel, state)
+		if (state) then
+			RunConsoleCommand("nut_headbob", "1")
+		else
+			RunConsoleCommand("nut_headbob", "0")
+		end
+	end, NUT_CVAR_HEADBOB:GetBool())
+	
+	menu:addSpacer()
+	--]]
 
 	local button = menu:addButton("Clear Icon Cache", function(panel, state)
 		RunConsoleCommand("nut_flushicon", "1")
@@ -434,21 +441,3 @@ function SCHEMA:SetupQuickMenu(menu)
 		end
 	end, GetConVar("gmod_mcore_test"):GetBool())
 end
-
-netstream.Hook("strQuery", function(time, query, title, default)
-	--[[
-	if (title:sub(1, 1) == "@") then
-		title = L(title:sub(2))
-	end
-
-	if (subTitle:sub(1, 1) == "@") then
-		subTitle = L(subTitle:sub(2))
-	end
-	--]]
-
-	Derma_Query(query, title, "Yes", function(text)
-		netstream.Start("strQuery", time, text)
-	end,
-	"No"
-	)
-end)

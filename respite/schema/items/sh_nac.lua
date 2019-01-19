@@ -36,7 +36,8 @@ local canned = {
 	"food_canned_1",
 	"food_tuna",
 	"food_yams",
-	"food_laugh" --hahaha
+	"food_laugh", --hahaha
+	"food_madness" --hAhAHa
 }
 
 ITEM.functions.Store = {
@@ -104,7 +105,7 @@ ITEM.functions.Create = {
 			if(math.random(0,10) != 10) then
 				nut.item.spawn(item:getData("can"), position) --creates a duplicate of the currently stored can item.
 			else
-				nut.item.spawn(canned[math.random(1,18)], position) --small chance to spawn random canned food
+				nut.item.spawn(table.Random(canned), position) --small chance to spawn random canned food
 			end
 		else
 			client:notifyLocalized("You need 4 scrap metal!") return false

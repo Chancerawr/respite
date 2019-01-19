@@ -6,6 +6,7 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.material = "models/props_canal/canalmap_sheet"
+ITEM.buffCategory = "accessory"
 
 ITEM.salvItem = "misc_paper"
 

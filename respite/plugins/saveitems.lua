@@ -22,10 +22,12 @@ function PLUGIN:LoadData()
 	if (items) then
 		local idRange = {}
 		local positions = {}
+		local angles = {}
 
 		for k, v in ipairs(items) do
 			idRange[#idRange + 1] = v[1]
 			positions[v[1]] = v[2]
+			angles[v[1]] = v[3]
 		end
 
 		if (#idRange > 0) then
@@ -47,12 +49,14 @@ function PLUGIN:LoadData()
 							local uniqueID = v._uniqueID
 							local itemTable = nut.item.list[uniqueID]
 							local position = positions[itemID]
-
+							
 							if (itemTable and itemID) then
 								local position = positions[itemID]
+								local angle = angles[itemID] or AngleRand()
 								local item = nut.item.new(uniqueID, itemID)
 								item.data = data or {}
-								item:spawn(position, AngleRand()).nutItemID = itemID
+								
+								item:spawn(position, angle).nutItemID = itemID
 
 								item.invID = 0
 								table.insert(loadedItems, item)
@@ -72,7 +76,7 @@ function PLUGIN:SaveData()
 
 	for k, v in ipairs(ents.FindByClass("nut_item")) do
 		if (v.nutItemID and !v.temp) then
-			items[#items + 1] = {v.nutItemID, v:GetPos()}
+			items[#items + 1] = {v.nutItemID, v:GetPos(), v:GetAngles()}
 		end
 	end
 

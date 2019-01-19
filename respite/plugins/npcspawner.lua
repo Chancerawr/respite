@@ -18,20 +18,49 @@ PLUGIN.spawngroups = {
 		"nz_freak",
 		"spore",
 		"nz_drum",
+		"nz_dog",
 		"resp_chimera",
+		"resp_leecher_small",
+		"resp_spider",
 		"resp_babu"
 	},
 	["inside"] = {
 		"nz_freak",
+		"nz_reanimated",
 		"amputated",
 		"pack",
+		"spore",
 		"resp_dolly",
+		"resp_baby"
+	},
+	["hiders"] = {
+		"amputated",
+		"pack",
+		"spore",
+		"nz_reanimated",
+		"resp_dolly",
+		"doll_walker",
+		"doll_runner",
 		"resp_baby"
 	},
 	["shade"] = {
 		"nz_freak_shade",
 		"amputated_shade",
-		"pack_shade",
+		"nz_undead_shade",
+		"resp_babu_shade",
+		"resp_dolly_shade",
+		"resp_chimera_shade",
+		"resp_vomit_shade",
+		"shade_crawlsmoke",
+		"pack_shade"
+	},	
+	["wraith"] = {
+		"resp_belmer",
+		"amputated_flame",
+		"nz_demon_flame",
+		"nz_horror_red",
+		"nz_reanimated_flame",
+		"nz_wraith"
 	},
 	["abom"] = {
 		"amputated",
@@ -39,7 +68,7 @@ PLUGIN.spawngroups = {
 	},
 }
 
-PLUGIN.spawnrate = 120
+PLUGIN.spawnrate = 90
 PLUGIN.maxnpcs = 40
 PLUGIN.spawnedNPCs = PLUGIN.spawnedNPCs or {}
 
@@ -91,7 +120,7 @@ if SERVER then
 					continue
 				end
 			
-				if v:GetPos():Distance(data.endpos) < 1000 then
+				if v:GetPos():DistToSqr(data.endpos) < 1000 * 1000 then --squared is more efficient
 					nearby = true
 					break
 				end
@@ -157,8 +186,8 @@ nut.command.add("npcspawnremove", {
 		local range = arguments[1] or 128
 		local mt = 0
 		for k, v in pairs( PLUGIN.spawnpoints ) do
-			local distance = v[1]:Distance( hitpos )
-			if distance <= tonumber(range) then
+			local distance = v[1]:DistToSqr(hitpos)
+			if distance <= tonumber(range) * tonumber(range) then
 				PLUGIN.spawnpoints[k] = nil
 				mt = mt + 1
 			end

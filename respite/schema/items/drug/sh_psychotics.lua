@@ -18,4 +18,6 @@ ITEM.iconCam = {
 ITEM:hook("_use", function(item)
 	item.player:EmitSound("npc/barnacle/barnacle_gulp1.wav")
 	item.player:ScreenFade(1, Color(255, 255, 255, 255), 3, 0)
+	
+	giveDisease(item.player, "fort_insa")
 end)

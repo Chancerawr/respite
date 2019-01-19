@@ -127,6 +127,7 @@ local lootTable = {
 		"j_beanie",
 		"j_gloves",
 		"armor_football",
+		"plastic_core",
 		"coin_10"
 	},
 	["food"] = {
@@ -269,7 +270,15 @@ local lootTable = {
 		"drug_antidepressants",
 		"drug_steroid"
 	},	
-	["weird"] = {
+	["weird1"] = {
+		"food_laugh",
+		"food_madness",
+		"food_yams_mysterious",
+		"drug_nightmare",
+		"medical_memory",
+		"food_soda_cold"
+	},
+	["weird2"] = {
 		"purifier_water_tablet",
 		"salve_healing",
 		"cube_chip_enhanced",
@@ -398,8 +407,10 @@ function lootRoll(roll)
 		else
 			item = "cube_chip_enhanced"
 		end
+	elseif(roll < 110) then
+		item = table.Random(lootTable["weird1"])
 	elseif(roll < 500) then
-		item = table.Random(lootTable["weird"])
+		item = table.Random(lootTable["weird2"])
 	end
 
 	return item

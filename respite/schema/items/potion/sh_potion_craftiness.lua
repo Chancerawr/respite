@@ -8,7 +8,8 @@ ITEM.desc = "A strange vial that is filled with some bright green liquid.\nDrink
 ITEM.flag = "V"
 ITEM.uniqueID = "potion_craftiness"
 ITEM.container = "j_empty_vial"
-ITEM.duration = 300
+ITEM.color = Color(50, 255, 50)
+ITEM.duration = 3000
 ITEM.attribBoosts = {
 	["medical"] = 20,
 }

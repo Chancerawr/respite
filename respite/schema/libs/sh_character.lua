@@ -268,7 +268,7 @@ do
 
 			local y2 = 0
 			local total = 0
-			local maximum = hook.Run("GetStartTraitPoints", LocalPlayer(), panel.payload) or nut.config.get("maxTraits", 5)
+			local maximum = nut.config.get("maxTraits", 2) or hook.Run("GetStartTraitPoints", LocalPlayer(), panel.payload)
 
 			panel.payload.traits = {}
 

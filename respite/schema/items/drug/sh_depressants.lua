@@ -10,6 +10,9 @@ ITEM.attribBoosts = {
 	["fortitude"] = -3,
 }
 
+ITEM.data = { Amount = 1 }
+ITEM.maxstack = 5
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
@@ -20,9 +23,6 @@ ITEM:hook("_use", function(item)
 	item.player:EmitSound("npc/barnacle/barnacle_gulp1.wav")
 	item.player:ScreenFade(1, Color(255, 255, 255, 255), 3, 0)
 end)
-
-ITEM.data = { Amount = 1 }
-ITEM.maxstack = 5
 
 local function recursiveAdd(item, inventory, toStack, maxStack)
 	timer.Simple(.2,
@@ -43,7 +43,7 @@ ITEM.functions.Stack = {
   onRun = function(item)
 	local client = item.player
 	local inventory = client:getChar():getInv()
-	local stack = item:getData("Amount")
+	local stack = item:getData("Amount", 1)
 	
 	item:remove()
 	
@@ -55,7 +55,7 @@ ITEM.functions.Stack = {
 		if(toStack == item) then
 			toStack:remove()
 		elseif (toStack) then
-			stack = stack + toStack:getData("Amount")
+			stack = stack + toStack:getData("Amount", 1)
 			toStack:remove()
 		else
 			return false
@@ -82,7 +82,8 @@ ITEM.functions.Unstack = {
   onRun = function(item)
 	local client = item.player
 	local inventory = client:getChar():getInv()
-	local stack = item:getData("Amount")
+	local stack = item:getData("Amount", 1)
+	
 	if (stack > 1 and inventory:findEmptySlot(1, 1) != nil) then
 		inventory:add(item.uniqueID, 1)
 		item:setData("Amount", item:getData("Amount") - 1)
@@ -103,7 +104,7 @@ function ITEM:getDesc()
 	local desc = self.desc
 	
 	if(self:getData("Amount") != nil) then
-		desc = desc .. "\nQuantity: " .. self:getData("Amount") .. "."
+		desc = desc .. "\nQuantity: " .. self:getData("Amount", 1) .. "."
 	end
 	
 	return Format(desc)
@@ -112,7 +113,7 @@ end
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
-		local quantity = item:getData("Amount")
+		local quantity = item:getData("Amount", 1)
 
 		if (quantity > 1) then
 			draw.SimpleText(quantity, "DermaDefault", w - 12, h - 14, Color(85,85,85), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)

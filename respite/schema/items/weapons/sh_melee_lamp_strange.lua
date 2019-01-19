@@ -1,18 +1,3 @@
---[[
-    NutScript is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    NutScript is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with NutScript.  If not, see <http://www.gnu.org/licenses/>.
---]]
-
 ITEM.name = "Strange Lamp"
 ITEM.desc = "You can't quite put your finger on it, but there's something odd about this lamp."
 ITEM.model = "models/props_interiors/furniture_lamp01a.mdl"
@@ -29,6 +14,20 @@ ITEM.salvItem = {
 	["j_scrap_memory"] = 1,
 	["j_scrap_metals"] = 2,
 	["j_scrap_cloth"] = 2
+}
+
+ITEM.functions.Place = {
+	name = "Deploy",
+	tip = "useTip",
+	icon = "icon16/arrow_up.png",
+	onRun = function(item)
+		local client = item.player
+		local grd = ents.Create( "nut_combat_lamp" )
+		grd:SetPos(client:getItemDropPos())
+		grd:SetAngles(client:GetAngles())
+		grd:Spawn()
+		grd:SetCreator(client)
+	end,
 }
 
 ITEM.iconCam = {

@@ -21,8 +21,12 @@ ITEM.functions.Scrap = {
 	onRun = function(item)
 		local position = item.player:getItemDropPos()
 		
-		nut.item.spawn(item.salvItem, position)
-		nut.item.spawn(item.salvItem, position)
+		if(math.random(0,1) == 1) then
+			nut.item.spawn(item.salvItem, position)
+			nut.item.spawn(item.salvItem, position)
+		else
+			nut.item.spawn(item.salvItem, position)
+		end
 
 		return true
 	end,

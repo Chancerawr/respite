@@ -26,7 +26,7 @@ if (SERVER) then
 					end
 
 					if (client:KeyDown(IN_SPEED) and length2D >= (runSpeed - 10)) then
-						offset = -2 + (character:getAttrib("end", 0) / 60)
+						offset = -1 + (character:getAttrib("end", 0) / 200)
 					elseif (offset > 0.5) then
 						offset = 1
 					else

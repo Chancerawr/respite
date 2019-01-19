@@ -29,7 +29,7 @@ ITEM.functions.Charge = {
 		
 		nut.chat.send(client, "itclose", "The machine accepts the dead battery and the money, vibrates intensely, and outputs a freshly charged battery.")
 		
-		char:takeMoney(40)
+		char:takeMoney(30)
 		battery:remove()
 		
 		if(!inventory:add("ammo_battery")) then

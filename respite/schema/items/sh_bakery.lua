@@ -69,13 +69,14 @@ ITEM.functions.Bake = {
 				organic:remove()
 			end
 			
-			item:setData("producing2", CurTime())
+			item:setData("producing", CurTime())
+			
 			timer.Simple(60, 
 				function()
 					if (item != nil) then
 						local position 
 						
-						item:setData("producing2", 0)
+						item:setData("producing", nil)
 						
 						if(water.uniqueID == "food_water_misc") then --if our water is dirty, only 1 item
 							num = 1
@@ -102,11 +103,11 @@ ITEM.functions.Bake = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 60
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 60
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -138,3 +139,13 @@ ITEM.functions.Battery = {
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nA delicious smell is coming out of the device."
+	end
+	
+	return Format(desc)
+end

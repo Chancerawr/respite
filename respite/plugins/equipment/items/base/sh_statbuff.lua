@@ -320,8 +320,22 @@ quality[8] = "Excellent"
 quality[9] = "Master"
 quality[10] = "Perfect"
 
+function ITEM:getName()
+	local name = self.name
+	
+	if(self:getData("customName") != nil) then
+		name = self:getData("customName")
+	end
+	
+	return Format(name)
+end
+
 function ITEM:getDesc()
 	local desc = self.desc
+	
+	if(self:getData("customDesc") != nil) then
+		desc = self:getData("customDesc")
+	end	
 	
 	if(self.buffCategory) then
 		desc = desc .. "\nSlot: " .. self.buffCategory .. "."

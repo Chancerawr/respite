@@ -106,8 +106,7 @@ if (SERVER) then
 				local victimName = victim:Name().." ("..victim:SteamID()..")"
 
 				if (attacker:IsPlayer()) then
-				
-					nut.log.addRaw(attacker:Name().. L(" killed %s with %s", victimName, inflictor:GetActiveWeapon()))
+					nut.log.addRaw(attacker:Name().. L(" killed %s with %s", victimName, attacker:GetActiveWeapon()))
 				else
 					nut.log.addRaw(L("%s killed %s with %s.", tostring(attacker), victimName, inflictor:GetClass()))
 				end

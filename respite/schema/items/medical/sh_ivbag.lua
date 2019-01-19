@@ -9,7 +9,7 @@ ITEM.price = 0
 ITEM.desc = "A small bag that can be used for IV therapy."
 ITEM.uniqueID = "medical_iv"
 ITEM.flag = "v"
-ITEM.quantity = 2
+ITEM.quantity2 = 2
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

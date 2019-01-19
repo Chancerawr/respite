@@ -25,27 +25,27 @@ ITEM.functions.Refine = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		local memory = inventory:hasItem("j_scrap_memory")	
-		local dust = inventory:hasItem("shard_dust")	
+		local idea = inventory:hasItem("j_scrap_idea")	
 			
-		if (!memory or !dust) then
-			client:notifyLocalized("You need 6 memories and 1 shard dust to refine an enhanced chip!") return false
+		if (!memory or !idea) then
+			client:notifyLocalized("You need 6 memories and 1 idea to create an enhanced chip!") return false
 		end
 			
 		local amount = memory:getData("Amount")
-		local amount2 = dust:getData("Amount")
+		local amount2 = idea:getData("Amount")
 		if (amount >= 6 and amount2 >= 1) then
 			nut.chat.send(client, "itclose", "The machine accepts the strange materials, vibrates intensely, and outputs an enhanced chip after a short period of time.")
 			nut.item.spawn("cube_chip_enhanced", position)
 			memory:setData("Amount", amount - 6)
-			dust:setData("Amount", amount2 - 1)
+			idea:setData("Amount", amount2 - 1)
 			if (memory:getData("Amount") == 0) then
 				memory:remove()
 			end		
-			if (dust:getData("Amount") == 0) then
-				dust:remove()
+			if (idea:getData("Amount") == 0) then
+				idea:remove()
 			end
 		else
-			client:notifyLocalized("You need 6 memories and 1 shard dust to refine an enhanced chip!")
+			client:notifyLocalized("You need 6 memories and 1 idea to create an enhanced chip!")
 		end
 
 		return false

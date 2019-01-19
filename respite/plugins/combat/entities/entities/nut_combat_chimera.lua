@@ -1,9 +1,11 @@
 ENT.Type = "anim"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Chimera"
-ENT.Category = "NutScript - Combat"
+ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
+
+ENT.model = "models/ninja/signalvariance/monsters/chimera.mdl"
 
 --all attributes
 ENT.agil = 20
@@ -16,28 +18,5 @@ ENT.perc = 10
 ENT.fort = 5
 
 function ENT:Initialize()
-	if (SERVER) then
-		self:SetModel("models/ninja/signalvariance/monsters/chimera.mdl")
-		self:SetUseType(SIMPLE_USE)
-		self:SetMoveType(MOVETYPE_PUSH)
-		self:DrawShadow(true)
-		self:SetSolid(SOLID_BBOX)
-		--self:PhysicsInit(SOLID_BBOX)
-		
-		self:setNetVar("name", "Mannequin")
-		self:setNetVar("desc", "")
-
-		local physObj = self:GetPhysicsObject()
-
-		if (IsValid(physObj)) then
-			physObj:EnableMotion(false)
-			physObj:Sleep()
-		end
-	end
-
-	timer.Simple(1, function()
-		if (IsValid(self)) then
-			self:setAnim()
-		end
-	end)
+	self:basicSetup()
 end

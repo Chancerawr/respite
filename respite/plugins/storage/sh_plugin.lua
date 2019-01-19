@@ -58,7 +58,7 @@ if (SERVER) then
   		if (hook.Run("CanSaveStorage", v, v:getInv()) != false) then
   			if (v:getInv()) then
   				data[#data + 1] = {v:GetPos(), v:GetAngles(), v:getNetVar("id"), v:GetModel(), v.password}
-				end
+			end
   		end
   	end
 
@@ -75,8 +75,6 @@ if (SERVER) then
 
 	function PLUGIN:StorageCanTransfer(inventory, client, oldX, oldY, x, y, newInvID)
 		local inventory2 = nut.item.inventories[newInvID]
-
-		print(inventory2)
 	end
 
 	function PLUGIN:LoadData()
@@ -100,13 +98,19 @@ if (SERVER) then
 						storage:setNetVar("locked", true)
 					end
 					
-					nut.item.restoreInv(v[3], data2.width, data2.height, function(inventory)
-						inventory.vars.isStorage = true
-						if (IsValid(storage)) then
-							storage:setInventory(inventory)
-						end
-					end)
-
+					if (type(v[3]) != "number" or v[3] < 0) then
+						ErrorNoHalt("Attempt to restore inventory with an invalid ID!")
+					end
+					
+					if (type(v[3]) == "number" and v[3] >= 0) then
+						nut.item.restoreInv(v[3], data2.width, data2.height, function(inventory)
+							inventory.vars.isStorage = true
+							if (IsValid(storage)) then
+								storage:setInventory(inventory)
+							end
+						end)
+					end
+						
 					local physObject = storage:GetPhysicsObject()
 
 					if (physObject) then

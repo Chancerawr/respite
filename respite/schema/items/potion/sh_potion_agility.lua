@@ -9,7 +9,7 @@ ITEM.flag = "V"
 ITEM.uniqueID = "potion_agility"
 ITEM.container = "j_empty_vial"
 ITEM.color = Color(50, 255, 50)
-ITEM.duration = 300
+ITEM.duration = 3000
 ITEM.attribBoosts = {
 	["stm"] = 20,
 }

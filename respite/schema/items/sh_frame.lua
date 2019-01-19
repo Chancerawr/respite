@@ -22,54 +22,53 @@ ITEM.functions.Ichor = {
 	icon = "icon16/picture_empty.png",
 	sound = "ambient/water/distant_drip4.wav",
 	onRun = function(item)
-			local client = item.player
-			local inventory = client:getChar():getInv()
-			
-			local ichor = inventory:hasItem("ichor")
-			
-			if(!ichor) then
-				client:notify("You require ichor for this.")
-				return false
-			end
-			
-			local amount = ichor:getData("Amount")
-			ichor:setData("Amount", amount - 1) --costs 5
-			if (ichor:getData("Amount") == 0) then
-				ichor:remove()
-			end
-			
-			nut.chat.send(client, "itclose", "The ichor seeps into the frame.")
-			item:setData("producing2", CurTime())
-			timer.Simple(22, 
-				function()
-					if (item != nil) then
-						client:notifyLocalized("The frame has finished.")
-						item:setData("producing2", 0)
-						local position = client:getItemDropPos()
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local ichor = inventory:hasItem("ichor")
+		
+		if(!ichor) then
+			client:notify("You require ichor for this.")
+			return false
+		end
+		
+		local amount = ichor:getData("Amount")
+		ichor:setData("Amount", amount - 1) --costs 5
+		if (ichor:getData("Amount") == 0) then
+			ichor:remove()
+		end
+		
+		nut.chat.send(client, "itclose", "The ichor seeps into the frame.")
+		item:setData("producing", CurTime())
+		timer.Simple(22, function()
+			if (item != nil) then
+				client:notifyLocalized("The frame has finished.")
+				item:setData("producing", 0)
+				
+				local position = client:getItemDropPos()
 
-						local paintings = {
-							"j_picture_1",
-							"j_picture_2",
-							"j_picture_3",
-							"j_picture_4",
-							"j_picture_5"
-						}
-						
-						local reward = table.Random(paintings)
-						if(!IsValid(item:getEntity())) then
-							nut.chat.send(client, "itclose", "A picture has appeared in the frame.")
-							if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-								nut.item.spawn(reward, position) --if not, drop it on the ground
-							end
-						else
-							nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the reward item above the entity
-						end
-						
-						item:setData("last", "ichor")
+				local paintings = {
+					"j_picture_1",
+					"j_picture_2",
+					"j_picture_3",
+					"j_picture_4",
+					"j_picture_5"
+				}
+				
+				local reward = table.Random(paintings)
+				if(!IsValid(item:getEntity())) then
+					nut.chat.send(client, "itclose", "A picture has appeared in the frame.")
+					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
+						nut.item.spawn(reward, position) --if not, drop it on the ground
 					end
+				else
+					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the reward item above the entity
 				end
-			)
-			
+				
+				item:setData("last", "ichor")
+			end
+		end)
+		
 		return false
 	end,
 	onCanRun = function(item)
@@ -80,11 +79,11 @@ ITEM.functions.Ichor = {
 			return false
 		end
 	
-		local endTime = item:getData("producing2") + 22
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 22
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -94,41 +93,42 @@ ITEM.functions.Blight = {
 	icon = "icon16/picture_empty.png",
 	sound = "ambient/water/distant_drip4.wav",
 	onRun = function(item)
-			local client = item.player
-			local inventory = client:getChar():getInv()
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local blight = inventory:hasItem("blight")
+		
+		if(!blight) then
+			client:notify("You require blight for this.")
+			return false
+		end
+		
+		blight:remove()
+		
+		nut.chat.send(client, "itclose", "The blight seeps into the frame.")
+		
+		item:setData("producing", CurTime())
+		timer.Simple(22, function()
+			if (item != nil) then
+				item:setData("producing", nil)
 			
-			local blight = inventory:hasItem("blight")
-			
-			if(!blight) then
-				client:notify("You require blight for this.")
-				return false
-			end
-			
-			blight:remove()
-			
-			nut.chat.send(client, "itclose", "The blight seeps into the frame.")
-			item:setData("producing2", CurTime())
-			timer.Simple(22, 
-				function()
-					if (item != nil) then
-						client:notifyLocalized("The frame has finished.")
-						item:setData("producing2", 0)
-						local position = client:getItemDropPos()
+				client:notify("The frame has finished.")
 
-						local reward = "j_paint_can"
-						if(!IsValid(item:getEntity())) then
-							nut.chat.send(client, "itclose", "Paint begins to leak from the frame.")
-							if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-								nut.item.spawn(reward, position) --if not, drop it on the ground
-							end
-						else
-							nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the reward item above the entity
-						end
-						
-						item:setData("last", "blight")
+				local position = client:getItemDropPos()
+
+				local reward = "j_paint_can"
+				if(!IsValid(item:getEntity())) then
+					nut.chat.send(client, "itclose", "Paint begins to leak from the frame.")
+					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
+						nut.item.spawn(reward, position) --if not, drop it on the ground
 					end
+				else
+					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the reward item above the entity
 				end
-			)
+				
+				item:setData("last", "blight")
+			end
+		end)
 			
 		return false
 	end,
@@ -140,11 +140,11 @@ ITEM.functions.Blight = {
 			return false
 		end
 	
-		local endTime = item:getData("producing2") + 22
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 22
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -165,7 +165,7 @@ ITEM.functions.Battery = {
 
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The frame flickers with light, and a smaller painting comes out of it.")
+		nut.chat.send(client, "itclose", "The frame flickers with light, and a painting comes out of it.")
 
 		return false
 	end,
@@ -177,3 +177,17 @@ ITEM.functions.Battery = {
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		if(self:getData("last", "blight") == "blight") then
+			desc = desc .. "\nThe frame is black."
+		else
+			desc = desc .. "\nThe frame is white."
+		end
+	end
+	
+	return Format(desc)
+end

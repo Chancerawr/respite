@@ -64,6 +64,24 @@ nut.chat.register("me's", {
 	format = "**%s's %s",
 	onGetColor = nut.chat.classes.ic.onGetColor,
 	onCanHear = nut.config.get("chatRange", 280),
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+			
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+					
+			texCol = Color(tempCol.r + 20, tempCol.b + 20, tempCol.g + 20)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako.."'s", texCol, " " ..text)
+	end,
 	prefix = {"/me's", "/action's"},
 	font = "nutChatFontItalics",
 	filter = "actions",
@@ -80,6 +98,26 @@ nut.chat.register("meclose", {
 		return Color(color.r - 35, color.g - 35, color.b - 35)
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 0.25,
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+				
+		texCol = Color(texCol.r - 35, texCol.g - 35, texCol.b - 35)
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+			
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+					
+			texCol = Color(tempCol.r - 15, tempCol.b - 15, tempCol.g - 15)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako, texCol, " " ..text)
+	end,
 	prefix = {"/meclose", "/actionw", "/mew"},
 	font = "nutChatFontItalics",
 	filter = "actions",
@@ -95,6 +133,26 @@ nut.chat.register("meclose's", {
 		return Color(color.r - 35, color.g - 35, color.b - 35)
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 0.1,
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+				
+		texCol = Color(texCol.r - 35, texCol.g - 35, texCol.b - 35)
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+			
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+					
+			texCol = Color(tempCol.r - 15, tempCol.b - 15, tempCol.g - 15)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako.."'s", texCol, " " ..text)
+	end,
 	prefix = {"/meclose's", "/actionw's", "/mew's"},
 	font = "nutChatFontItalics",
 	filter = "actions",
@@ -111,6 +169,27 @@ nut.chat.register("mefar", {
 		return Color(color.r + 35, color.g + 35, color.b + 35)
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+				
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+
+		texCol = Color(texCol.r + 35, texCol.g + 35, texCol.b + 35)
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+			
+			texCol = Color(tempCol.r + 55, tempCol.b + 55, tempCol.g + 55)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako, texCol, " " ..text)
+	end,
 	prefix = {"/mefar", "/actiony", "/mey"},
 	font = "nutChatFontItalics",
 	filter = "actions",
@@ -126,6 +205,27 @@ nut.chat.register("mefar's", {
 		return Color(color.r + 35, color.g + 35, color.b + 35)
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 2,
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+				
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+
+		texCol = Color(texCol.r + 35, texCol.g + 35, texCol.b + 35)
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+			
+			texCol = Color(tempCol.r + 55, tempCol.b + 55, tempCol.g + 55)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako.."'s", texCol, " " ..text)
+	end,
 	prefix = {"/mefar's", "/actiony's", "/mey's"},
 	font = "nutChatFontItalics",
 	filter = "actions",
@@ -140,6 +240,27 @@ nut.chat.register("mefarfar", {
 
 				-- Make the whisper chat slightly darker than IC chat.
 		return Color(color.r + 45, color.g + 45, color.b + 45)
+	end,
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+				
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+
+		texCol = Color(texCol.r + 45, texCol.g + 45, texCol.b + 45)
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+			
+			texCol = Color(tempCol.r + 65, tempCol.b + 65, tempCol.g + 65)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako, texCol, " " ..text)
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 4,
 	prefix = {"/mefarfar", "/actionyy", "/meyy"},
@@ -157,6 +278,27 @@ nut.chat.register("mefarfar's", {
 		return Color(color.r + 45, color.g + 45, color.b + 45)
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 4,
+	onChatAdd = function(speaker, text, anonymous)
+		local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+		local texCol = nut.config.get("chatColor")
+				
+		if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+			texCol = nut.config.get("chatListenColor")
+		end
+
+		texCol = Color(texCol.r + 45, texCol.g + 45, texCol.b + 45)
+				
+		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
+				
+		if(LocalPlayer() == speaker) then
+			local tempCol = nut.config.get("chatListenColor")
+			
+			texCol = Color(tempCol.r + 65, tempCol.b + 65, tempCol.g + 65)
+			nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
+		end
+				
+		chat.AddText(nameCol, "**"..speako.."'s", texCol, " " ..text)
+	end,
 	prefix = {"/mefarfar's", "/actionyy's", "/meyy's"},
 	font = "nutChatFontItalics",
 	filter = "actions",
@@ -212,57 +354,69 @@ nut.chat.register("pm", {
 })
 
 -- Out of character.
-		nut.chat.register("ooc", {
-			onCanSay =  function(speaker, text)
-				local delay = nut.config.get("oocDelay", 10)
-				
-				if (speaker:getChar():hasFlags("u")) then --ooc banning
-					return false
-				end
+nut.chat.register("ooc", {
+	onCanSay =  function(speaker, text)
+		local delay = nut.config.get("oocDelay", 10)
+		
+		if (speaker:getChar():hasFlags("u")) then --ooc banning
+			return false
+		end
 
-				-- Only need to check the time if they have spoken in OOC chat before.
-				if (delay > 0 and speaker.nutLastOOC) then
-					local lastOOC = CurTime() - speaker.nutLastOOC
+		-- Only need to check the time if they have spoken in OOC chat before.
+		if (delay > 0 and speaker.nutLastOOC) then
+			local lastOOC = CurTime() - speaker.nutLastOOC
 
-					-- Use this method of checking time in case the oocDelay config changes.
-					if (lastOOC <= delay) then
-						speaker:notifyLocalized("oocDelay", delay - math.ceil(lastOOC))
+			-- Use this method of checking time in case the oocDelay config changes.
+			if (lastOOC <= delay) then
+				speaker:notifyLocalized("oocDelay", delay - math.ceil(lastOOC))
 
-						return false
-					end
-				end
+				return false
+			end
+		end
 
-				-- Save the last time they spoke in OOC.
-				speaker.nutLastOOC = CurTime()
-			end,
-			onChatAdd = function(speaker, text)
-				local icon = "icon16/user.png"
-				local rank = "  "
-				if (speaker:SteamID() == "STEAM_0:1:34930764") then
-					icon = "icon16/script_gear.png"
-					--rank = " "
-				elseif (speaker:SteamID() == "STEAM_0:0:19814083") then
-					icon = "icon16/gun.png"
-					--rank = " "
-				elseif (speaker:IsSuperAdmin()) then
-					icon = "icon16/shield.png"
-					--rank = "S"
-				elseif (speaker:IsAdmin()) then
-					icon = "icon16/star.png"
-					--rank = "A"
-				elseif (speaker:IsUserGroup("moderator") or speaker:IsUserGroup("operator")) then
-					icon = "icon16/wrench.png"
-					--rank = "M"
-				elseif (speaker:IsUserGroup("vip") or speaker:IsUserGroup("donator") or speaker:IsUserGroup("donor")) then
-					icon = "icon16/heart.png"
-					--rank = "D"
-				end
+		-- Save the last time they spoke in OOC.
+		speaker.nutLastOOC = CurTime()
+	end,
+	onChatAdd = function(speaker, text)
+		local icon = "icon16/user.png"
+		local rank = "  "
+		if (speaker:SteamID() == "STEAM_0:1:34930764") then
+			icon = "icon16/script_gear.png"
+			--rank = " "
+		elseif (speaker:SteamID() == "STEAM_0:0:19814083") then
+			icon = "icon16/gun.png"
+			--rank = " "
+		elseif (speaker:IsSuperAdmin()) then
+			icon = "icon16/shield.png"
+			--rank = "S"
+		elseif (speaker:IsAdmin()) then
+			icon = "icon16/star.png"
+			--rank = "A"
+		elseif (speaker:IsUserGroup("moderator") or speaker:IsUserGroup("operator")) then
+			icon = "icon16/wrench.png"
+			--rank = "M"
+		elseif (speaker:IsUserGroup("vip") or speaker:IsUserGroup("donator") or speaker:IsUserGroup("donor")) then
+			icon = "icon16/heart.png"
+			--rank = "D"
+		end
 
-				icon = Material(hook.Run("GetPlayerIcon", speaker) or icon)
+		icon = Material(hook.Run("GetPlayerIcon", speaker) or icon)
 
-				chat.AddText(icon, Color(255, 50, 50), " [OOC] ", speaker, color_white, ": "..text)
-			end,
-			prefix = {"//", "/ooc"},
-			noSpaceAfter = true,
-			filter = "ooc"
-		})
+		chat.AddText(icon, Color(255, 50, 50), " [OOC] ", speaker, color_white, ": "..text)
+	end,
+	prefix = {"//", "/ooc"},
+	noSpaceAfter = true,
+	filter = "ooc"
+})
+		
+-- Global events.
+nut.chat.register("lev", {
+	onCanSay =  function(speaker, text)
+		return speaker:IsAdmin()
+	end,
+	onCanHear = nut.config.get("chatRange", 280) * 8,
+	onChatAdd = function(speaker, text)
+		chat.AddText(Color(225, 150, 20), text)
+	end,
+	prefix = {"/eventlocal", "/levent", "/lev"}
+})

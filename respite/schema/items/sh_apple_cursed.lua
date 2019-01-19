@@ -43,5 +43,11 @@ ITEM.functions.Consume = {
 			client:notify("The apple is rotten to the core, you feel like you lost something.")
 			char:updateAttrib(ranAttrib, -1.05)
 		end
+	end,
+	onCanRun = function(item)
+		--prevents people accidentally eating it when it's on the ground.
+		if(IsValid(item.entity)) then
+			return false
+		end
 	end
 }

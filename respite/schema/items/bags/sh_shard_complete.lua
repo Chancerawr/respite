@@ -24,8 +24,8 @@ local otherBags = {
 }
 
 function getDelay(item)
-	local eChips = item:getData("echipcount")
-	local size = item:getData("shardcount") / 4
+	local eChips = item:getData("echipcount", 0)
+	local size = item:getData("shardcount", 10) / 4
 	local plasDiv = 25
 	
 	if(eChips and eChips > 0) then
@@ -33,7 +33,7 @@ function getDelay(item)
 	end
 	
 	size = (size * size / 2.5) --increases exponentially
-	local plastics = math.floor(item:getData("chipcount") / plasDiv)
+	local plastics = math.floor(item:getData("chipcount", 0) / plasDiv)
 	if(plastics > (math.floor(size / 2.5) * 3)) then
 		plastics = (math.floor(size / 2.5) * 3)
 	end	
@@ -41,8 +41,8 @@ function getDelay(item)
 end
 
 function orbTimerCheck(item)
-	local endTime = item:getData("producing2") + getDelay(item)
-	if (item:getOwner() != nil and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) and (item:getData("chipcount") / 25) >= 1) then
+	local endTime = item:getData("producing2", 0) + getDelay(item)
+	if (item:getOwner() != nil and (CurTime() > endTime or item:getData("producing2", 0) > CurTime() or item:getData("producing2", 0) == 0) and (item:getData("chipcount", 0) / 25) >= 1) then
 		return true
 	else
 		return false
@@ -50,7 +50,7 @@ function orbTimerCheck(item)
 end
 
 local function getAmount(item)
-	return math.floor((item:getData("shardcount") / 4) / 2.5) -- for every 2.5 square meters of room space, one item is produced.
+	return math.floor((item:getData("shardcount", 10) / 4) / 2.5) -- for every 2.5 square meters of room space, one item is produced.
 end
 
 --this function is only necessary if using a shitty external db like I am, if you're using an internal db it's not important
@@ -168,10 +168,10 @@ ITEM.functions.AbsorbShards = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local shardstack = item:getData("shardcount")
+		local shardstack = item:getData("shardcount", 10)
 		local shard = inventory:hasItem("shard")	
 		while(shard) do
-			shardstack = shardstack + shard:getData("shardcount")
+			shardstack = shardstack + shard:getData("shardcount", 10)
 			shard:remove()
 			shard = inventory:hasItem("shard")
 		end
@@ -199,7 +199,7 @@ ITEM.functions.AbsorbChips = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chipstack = item:getData("chipcount")
+		local chipstack = item:getData("chipcount", 0)
 		local chip = inventory:hasItem("cube_chip")	
 		while(chip) do
 			chipstack = chipstack + 1
@@ -324,7 +324,6 @@ ITEM.functions.Fish = {
 				if (item != nil) then
 					local index = item:getData("id")
 					local roomspace = nut.item.inventories[index]
-					local unique
 
 					for i=1, amount do 
 						timer.Simple(i/2, 
@@ -822,6 +821,7 @@ function ITEM:getDesc()
 		size = (size * size / 2.5) --increases exponentially
 		str = str .. "\nRespite Size: "..size.." square meters."
 	end
+	
 	if (self:getData("chipcount")) then
 		plastics = math.floor(self:getData("chipcount") / plasDiv)
 		if(plastics > (math.floor(size / 2.5)) * 3) then --we dont want more plastics than the room can fit. at most 3 plastics for every 2.5 cubic meters.
@@ -831,6 +831,7 @@ function ITEM:getDesc()
 			str = str .. "\nPlastics: "..plastics.."."
 		end
 	end	
+	
 	if (eChips > 0) then
 		str = str .. "\nEnhanced Chips: "..eChips.."."
 	end

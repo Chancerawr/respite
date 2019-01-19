@@ -40,6 +40,7 @@ ITEM.functions.Brew = {
 				water:remove()
 				chip:remove()
 				nut.chat.send(client, "itclose", "The machine takes the water and the chip, and begins to brew.")
+				
 				timer.Simple(30, 
 					function()
 						if (item != nil) then
@@ -108,19 +109,6 @@ ITEM.functions.Potion2 = {
        
         return targets
     end,
-    onCanRun = function(item)      
-		local player = item.player or item:getOwner()
-		
-		--item doesn't work when on the ground, so make them have to pick it up I guess.
-		if(IsValid(item.entity)) then
-			return false
-		end
-		
-		if(!player:getChar():getInv():hasItem("food_apple_cursed")) then
-			return false
-		end
-        --return (!IsValid(item.entity))
-    end,
     onRun = function(item, data)
         local client = item.player
 		local position = client:getItemDropPos()
@@ -168,6 +156,19 @@ ITEM.functions.Potion2 = {
 	 
         return false
     end,
+	    onCanRun = function(item)      
+		local player = item.player or item:getOwner()
+		
+		--item doesn't work when on the ground, so make them have to pick it up I guess.
+		if(IsValid(item.entity)) then
+			return false
+		end
+		
+		if(!player:getChar():getInv():hasItem("food_apple_cursed")) then
+			return false
+		end
+        --return (!IsValid(item.entity))
+    end
 }
 
 ITEM.functions.Battery = {

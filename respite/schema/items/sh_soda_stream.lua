@@ -10,8 +10,6 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
 
-ITEM.data = { producing2 = 0 }
-
 ITEM.iconCam = {
 	pos = Vector(9.5, 0, 200),
 	ang = Angle(90, 0, 0),
@@ -34,6 +32,7 @@ ITEM.functions.Ichor = {
 			"food_melon",
 			"food_banana",
 			"food_pumpkin",
+			"food_onion",
 			"food_cactus"
 		}
 		
@@ -66,12 +65,14 @@ ITEM.functions.Ichor = {
 		client:notify("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the objects, and begins to make some strange squishing noises.")	
 		
-		item:setData("producing2", CurTime())
+		item:setData("producing", CurTime())
 		
 		food:remove()
 		
 		timer.Simple(60, 
 			function()
+				item:setData("producing", nil)
+			
 				timer.Simple(amount, 
 					function()
 						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -92,16 +93,17 @@ ITEM.functions.Ichor = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
+		local memory = player:getChar():getInv():hasItem("j_scrap_memory")
 		
-		if(!player:getChar():getInv():hasItem("j_scrap_memory")) then --check if they have the item of interest
+		if(!memory) then
 			return false
 		end
 		
-		local endTime = item:getData("producing2") + 60
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 60
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -131,12 +133,12 @@ ITEM.functions.Depress = {
 		client:notify("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the object, and begins to make some strange squishing noises.")	
 		
-		item:setData("producing2", CurTime())
-		
-		food:remove()
+		item:setData("producing", CurTime())
 		
 		timer.Simple(60, 
 			function()
+				item:setData("producing", nil)
+			
 				timer.Simple(amount, 
 					function()
 						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -157,16 +159,17 @@ ITEM.functions.Depress = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
+		local depress = player:getChar():getInv():hasItem("drug_depress")
 		
-		if(!player:getChar():getInv():hasItem("drug_depress")) then --check if they have the item of interest
+		if(!depress) then
 			return false
 		end
 		
-		local endTime = item:getData("producing2") + 60
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 60
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -183,7 +186,8 @@ ITEM.functions.Juice = {
 			"food_orange",
 			"food_potato",
 			"food_pumpkin",
-			"food_cactus",
+			"food_onion",
+			"food_cactus"
 		}
 	
 		local client = item.player
@@ -205,11 +209,13 @@ ITEM.functions.Juice = {
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the plant matter.")	
 		
-		item:setData("producing2", CurTime())
+		item:setData("producing", CurTime())
 		fruit:remove()
 		
 		timer.Simple(60, 
 			function()
+				item:setData("producing", nil)
+			
 				local cans = 1 --this is left over from soda
 				
 				local soda = fruit.uniqueID .. "_juice"
@@ -233,11 +239,11 @@ ITEM.functions.Juice = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 60
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 60
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -254,7 +260,8 @@ ITEM.functions.Soda = {
 			"food_orange",
 			"food_potato",
 			"food_pumpkin",
-			"food_cactus",
+			"food_onion",
+			"food_cactus"
 		}
 	
 		local client = item.player
@@ -275,11 +282,13 @@ ITEM.functions.Soda = {
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the plant matter.")	
 		
-		item:setData("producing2", CurTime())
+		item:setData("producing", CurTime())
 		fruit:remove()
 		
 		timer.Simple(30, 
 			function()
+				item:setData("producing", nil)
+			
 				local cans = 1
 				if (fruit.uniqueID == "food_pumpkin") then
 					cans = 3
@@ -319,11 +328,11 @@ ITEM.functions.Soda = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 30
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 30
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -340,11 +349,13 @@ ITEM.functions.Cactus = {
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the cactus.")	
 		
-		item:setData("producing2", CurTime())
+		item:setData("producing", CurTime())
 		cactus:remove()
 		
 		timer.Simple(45, 
 			function()
+				item:setData("producing", nil)
+			
 				local soda = "food_cactus_soda"
 
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -363,12 +374,17 @@ ITEM.functions.Cactus = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local endTime = item:getData("producing2") + 45
 		local cactus = player:getChar():getInv():hasItem("j_cactus_plant")
-		if (cactus and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
-			return true 
-		else
+		
+		if(!cactus) then
 			return false
+		end
+		
+		local prodTime = 45
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -381,16 +397,18 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local cactus = inventory:hasItem("ammo_battery")
+		local battery = inventory:hasItem("ammo_battery")
 		
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the battery.")	
 		
-		item:setData("producing2", CurTime())
-		cactus:remove()
+		item:setData("producing", CurTime())
+		battery:remove()
 		
 		timer.Simple(45, 
 			function()
+				item:setData("producing", nil)
+				
 				local soda = "food_soda_cold"
 
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -418,12 +436,27 @@ ITEM.functions.Battery = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local endTime = item:getData("producing2") + 45
 		local battery = player:getChar():getInv():hasItem("ammo_battery")
-		if (battery and (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0)) then
-			return true 
-		else
+
+		if(!battery) then
 			return false
+		end
+		
+		local prodTime = 45
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nThe device is activated."
+	end
+	
+	return Format(desc)
+end

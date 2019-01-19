@@ -45,9 +45,14 @@ function ENT:Think()
 			else
 				util.Decal("Blood", self:GetPos() - Vector(0,0,20), self:GetPos() - Vector(0,0,20))
 			end
+
+			local creatures = {
+				"resp_leecher_small",
+				"nz_thrasher",
+			}
+			local creature = table.Random(creatures)
 			
-			--prevents fire from being placed inside other fire
-			local fire = ents.Create("resp_leecher_small")
+			local fire = ents.Create(creature)
 			fire:SetPos(self:GetPos())
 			fire:Spawn()
 			table.insert(nut.plugin.list["creep"].spawns, fire)

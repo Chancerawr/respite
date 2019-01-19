@@ -5,8 +5,8 @@ ITEM.uniqueID = "quest_equip"
 ITEM.buffCategory = "accessory"
 
 ITEM.data = {
-	attrib = { --these are just there for reference
 	--[[
+	attrib = { --these are just there for reference
 		["str"] = 0,
 		["stm"] = 0,
 		["end"] = 0,
@@ -15,8 +15,8 @@ ITEM.data = {
 		["perception"] = 0,
 		["fortitude"] = 0,
 		["medical"] = 0,
-	--]]
 	}
+	--]]
 }
 
 -- On player eqipped the item, Gives a weapon to player and load the ammo data from the item.
@@ -54,7 +54,7 @@ ITEM.functions.Equip = {
 		--buffs the specified attributes.
 		if (boosts) then
 			for k, v in pairs(boosts) do
-				char:addBoost(item.buffCategory, k, v)
+				char:addBoost(item.uniqueID, k, v)
 			end
 		end
 		
@@ -79,7 +79,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		--buffs the specified attributes.
 		if (boosts) then
 			for k, v in pairs(boosts) do
-				char:removeBoost(item.buffCategory, k)
+				char:removeBoost(item.uniqueID, k)
 			end
 		end
 
@@ -195,7 +195,11 @@ ITEM.functions.CustomAtr = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return client:getChar():hasFlags("1")
+		if(!IsValid(item.entity) and client:getChar():hasFlags("1")) then
+			return true
+		else
+			return false
+		end
 	end
 }
 
@@ -208,7 +212,7 @@ ITEM:hook("drop", function(item)
 		
 		if (boosts) then
 			for k, v in pairs(boosts) do
-				item.player:getChar():removeBoost(item.buffCategory, k)
+				item.player:getChar():removeBoost(item.uniqueID, k)
 			end
 		end
 	end
@@ -239,7 +243,7 @@ function ITEM:getDesc()
 	if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
 		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
 		for k, v in pairs(boosts) do
-			if(v > 0) then --dont want to display 0 values.
+			if(v != 0) then --dont want to display 0 values.
 				desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
 			end
 		end

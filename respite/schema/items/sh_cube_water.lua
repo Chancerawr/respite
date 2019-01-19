@@ -29,7 +29,7 @@ ITEM.functions.Chip = {
 				client:notifyLocalized("You need a chip to insert!") return false
 			end
 			
-			for i = 1,4 do 
+			for i = 1,8 do 
 				--if(!inventory:add("food_water_misc")) then --if the inventory has space, put it in the inventory
 					nut.item.spawn("food_water_misc", position) --if not, drop it on the ground
 				--end				
@@ -76,12 +76,12 @@ ITEM.functions.Battery = {
 		local required = inventory:hasItem("ammo_battery")
 			
 		required:remove()
-		nut.item.spawn("food_water_mountain", position)
-		nut.item.spawn("food_water_mountain", position)
+		nut.item.spawn("food_soda_cola", position)
+		nut.item.spawn("food_soda_cola", position)
 		
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some clean water.")
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some kind of soda.")
 
 		return false
 	end,

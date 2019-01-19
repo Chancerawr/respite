@@ -7,7 +7,7 @@ ITEM.width = 2
 ITEM.height = 3
 ITEM.data = { scrapamount = 8 }
 ITEM.salvItem = "j_scrap_plastics"
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "shield"
 
 ITEM.attribBoosts = {
 	["end"] = 10,

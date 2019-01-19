@@ -231,11 +231,12 @@ ITEM.functions.Battery = {
 		local required = inventory:hasItem("ammo_battery")
 			
 		required:remove()
-		nut.item.spawn("charged_cube", position)
+		nut.item.spawn("drug_venom", position)
+		nut.item.spawn("drug_venom", position)
 
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a strange energy cube.")
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some kind of liquid.")
 
 		return false
 	end,

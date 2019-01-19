@@ -56,42 +56,40 @@ ITEM.functions.Milk = {
 		client:notify("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the objects, and begins to make some strange squishing noises.")	
 		
-		item:setData("producing2", CurTime())
-		
 		water:remove()
 		
-		timer.Simple(30, 
-			function()
-				timer.Simple(amount, 
-					function()
-						local reward = "food_milk_carton"
-						if(math.random(0,3) == 3) then --25% chance to get milk jug
-							reward = "food_milk_jug"
-						end
-					
-						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-							if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-								nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
-							end
-						else --if the item is on the ground
-							nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-						end
+		item:setData("producing", CurTime())		
+		
+		timer.Simple(30, function()
+			item:setData("producing", nil)
+		
+			timer.Simple(amount, function()
+				local reward = "food_milk_carton"
+				if(math.random(0,3) == 3) then --25% chance to get milk jug
+					reward = "food_milk_jug"
+				end
+			
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
+						nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
 					end
-				)
-				client:notify("Converting has finished.")
-				nut.chat.send(client, "itclose", "A container filled with milk comes out of the device.")
-			end
-		)
+				else --if the item is on the ground
+					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				end
+			end)
+			
+			client:notify("Converting has finished.")
+			nut.chat.send(client, "itclose", "A container filled with milk comes out of the device.")
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
-		local endTime = item:getData("producing2") + 45
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 45
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -124,7 +122,7 @@ ITEM.functions.Egg = {
 			return false
 		end
 		
-		if(amount > 2) then --if more than five, subtract from the stack.
+		if(amount > 2) then 
 			organic:setData("Amount", amount - 2)
 		else --if five, just remove the item.
 			organic:remove()
@@ -133,39 +131,35 @@ ITEM.functions.Egg = {
 		client:notify("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the objects, and begins to make some strange squishing noises.")	
 		
-		item:setData("producing2", CurTime())
+		item:setData("producing", CurTime())
 		
 		water:remove()
 		
-		timer.Simple(45, 
-			function()
-				timer.Simple(amount, 
-					function()
-						local reward = "food_egg"
-					
-						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-							if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-								nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
-							end
-						else --if the item is on the ground
-							nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-						end
-					end
-				)
-				client:notify("Converting has finished.")
-				nut.chat.send(client, "itclose", "A single egg comes out of the device.")
+		timer.Simple(45, function()
+			item:setData("producing", nil)
+			
+			local reward = "food_egg"
+		
+			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+				if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
+					nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
+				end
+			else --if the item is on the ground
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 			end
-		)
+			
+			client:notify("Converting has finished.")
+			nut.chat.send(client, "itclose", "A single egg comes out of the device.")
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
-		local endTime = item:getData("producing2") + 45
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 45
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
 	end
 }
@@ -200,3 +194,12 @@ ITEM.functions.Battery = {
 	end
 }
 
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nA tasty smell is coming out of the device."
+	end
+	
+	return Format(desc)
+end

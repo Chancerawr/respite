@@ -19,9 +19,15 @@ end
 
 function PLUGIN:OnCharCreated(client, character)
 	local traitData = character:getData("traits", {})
-	local dumbIt = 1
+	local traitItems = {}
+
+	local dumbIt = 0.5
 	if(traitData) then
 		for k, v in pairs(traitData) do
+			if(TRAITS.traits[k].items) then
+				table.Merge(traitItems, (TRAITS.traits[k].items or {}))
+			end
+			
 			dumbIt = dumbIt + 1
 			timer.Simple(dumbIt, function()
 				if(TRAITS.traits[k].func) then
@@ -30,7 +36,15 @@ function PLUGIN:OnCharCreated(client, character)
 			end)
 		end
 	end
-end 
+	
+	dumbIt = 0
+	for k, v in pairs(traitItems) do
+		dumbIt = dumbIt + 1
+		timer.Simple(dumbIt, function()
+			character:getInv():add(v)
+		end)
+	end
+end
 
 if (SERVER) then
     function PLUGIN:PlayerLoadedChar(client)
@@ -101,7 +115,7 @@ nut.command.add("traitremove", {
 
 nut.command.add("traitcheck", {
 	adminOnly = true,
-	syntax = "<string target> <string disease>",
+	syntax = "<string target> <string trait>",
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
@@ -143,7 +157,7 @@ function hasTrait(client, trait)
 end
 
 function PLUGIN:GetStartTraitPoints()
-	return 2
+	return 3
 end
 
 --for blood donor trait
@@ -158,12 +172,12 @@ nut.command.add("blood", {
 
 		local lastDust = char:getData("lastDonor", 0)
 		
-		if(math.abs(tonumber(lastDust) - tonumber(os.date("%d"))) >= 3) then -- once every 7 days.
+		if(math.abs(tonumber(lastDust) - tonumber(os.date("%d"))) >= 2) then -- once every 2 days.
 			char:setData("lastDonor", os.date("%d"))
 			nut.item.spawn("food_blood", client:getItemDropPos())
 			client:notifyLocalized("You have extracted blood from yourself.")
 		else
-			client:notifyLocalized("You can only extract blood from yourself once every 7 days.")
+			client:notifyLocalized("You can only extract blood from yourself once every 2 days.")
 		end
 	end
 })
@@ -171,6 +185,7 @@ nut.command.add("blood", {
 
 nut.util.include("sh_trait.lua")
 nut.util.include("sh_languages.lua")
+nut.util.include("sh_curses.lua")
 
 if(CLIENT) then
 	netstream.Hook("ShowTraits", function(client)
@@ -209,6 +224,18 @@ end
 nut.command.add("traits", {
 	onRun = function(client, arguments)
 		netstream.Start(client, "ShowTraits", client)
+	end
+})
+
+nut.command.add("traitall", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1]) or client	
+
+		if(target) then
+			netstream.Start(client, "ShowTraits", target)
+		end	
 	end
 })
 

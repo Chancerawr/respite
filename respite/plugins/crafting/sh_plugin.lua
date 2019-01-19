@@ -36,7 +36,7 @@ local function randomBoosts(finQual)
 	for i=1, finQual do
 		local attrib = table.Random(attribs)
 		
-		boosts[attrib] = (boosts[attrib] or 0) + 1
+		boosts[attrib] = (boosts[attrib] or 0) + 0.75
 	end
 	
 	return boosts
@@ -50,11 +50,12 @@ function RECIPES:Register( tbl )
 			local mult --used to check if we have multiple of the same item, rather than a stack.
 			for k, v in pairs( self.items ) do
 				local inv = player:getChar():getInv()
-				local item = inv:hasItem( k )
+				local item = inv:hasItem(k)
 				
-				if !inv:hasItem( k ) then
+				if !inv:hasItem(k) then
 					return false
 				end
+				
 				if (inv:hasItem(k) and item:getData("Amount") == nil) then
 					local count = inv:getItemCount(k)
 					if (count >= v) then
@@ -63,6 +64,7 @@ function RECIPES:Register( tbl )
 						return false
 					end
 				end
+				
 				if (inv:hasItem(k)) then
 					if (!mult and tonumber(item:getData("Amount")) < v and allStacks(inv, k) < v) then
 						return false
@@ -70,7 +72,6 @@ function RECIPES:Register( tbl )
 						mult = false
 					end
 				end
-				
 			end
 			return true
 		end
@@ -90,7 +91,7 @@ function RECIPES:Register( tbl )
 				local itemObj = player:getChar():getInv():hasItem( k )
 				local inventory = player:getChar():getInv()	
 				
-				if (inventory:hasItem( k )) then
+				if(inventory:hasItem(k)) then
 					if (itemObj:getData("Amount") == nil) then --non stack items
 					
 						if(itemObj:getData("quality")) then 
@@ -113,6 +114,7 @@ function RECIPES:Register( tbl )
 							count = count + 1
 						end
 					end
+					
 					if (itemObj:getData("Amount") != nil) then --if we're dealing with quantities
 						if (tonumber(itemObj:getData("Amount")) >= v) then --necessary stacks are all in one item
 							itemObj:setData("Amount", tonumber(itemObj:getData("Amount")) - v)
@@ -194,6 +196,7 @@ end
 function allStacks(inventory, uid)
 	local all = inventory:getItems()
 	local quantity = 0
+	
 	for k, v in pairs (all) do
 		if (uid == v.uniqueID) then
 			local amount = v:getData("Amount")
@@ -202,6 +205,7 @@ function allStacks(inventory, uid)
 			end
 		end
 	end
+	
 	return quantity
 end
 

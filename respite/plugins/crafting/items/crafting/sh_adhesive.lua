@@ -5,7 +5,7 @@ ITEM.desc = "Some adhesive."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.maxstack = 100
+ITEM.maxstack = 25
 
 ITEM.data = {
 	Amount = 1
@@ -16,3 +16,4 @@ ITEM.iconCam = {
 	ang = Angle(0, -0, 0),
 	fov = 5,
 }
+

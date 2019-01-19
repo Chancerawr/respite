@@ -54,12 +54,20 @@ ITEM.functions.Chip2 = {
 			client:notifyLocalized("You need an enhanced chip to insert!") return false
 		end
 		
-		if(math.random(1,9) == 9) then --10% chance to get a rarer item
+		local roll = math.random(1,9)
+		if(roll == 9) then --10% chance to get a rarer item
 			nut.item.spawn("medical_purge", position)
 			nut.chat.send(client, "itclose", "The machine accepts the chip, and dispenses a strange vial.")
-		else
+		elseif(roll > 6) then
 			nut.item.spawn("s_musicbox", position)
 			nut.chat.send(client, "itclose", "The machine accepts the chip, and it dispenses a music box.")
+		else
+			nut.item.spawn("medical_memory", position)
+			nut.item.spawn("medical_memory", position)
+			nut.item.spawn("medical_memory", position)
+			nut.item.spawn("medical_memory", position)
+			nut.item.spawn("medical_memory", position)
+			nut.chat.send(client, "itclose", "The machine accepts the chip, and it dispenses a few memory wraps.")
 		end
 			
 		chip:remove()

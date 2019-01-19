@@ -77,7 +77,7 @@ function ENT:Think()
 	if(SERVER) then
 		--spreading
 		if(CurTime() > self.nextSpread) then
-			if(self.size == 20) then
+			if(self.size == 15) then
 				self:createSpread() --makes the fire spread
 			
 				if(!nut.plugin.list["creep"].heart) then
@@ -97,6 +97,10 @@ function ENT:Think()
 					end
 					
 					self:SetHealth(self:Health() + 1000)
+				else
+					if(self.size > 3) then
+						self.size = 3
+					end
 				end
 			elseif(self.size >= 3) then
 				self:createSpread() --makes the fire spread
@@ -174,7 +178,7 @@ function ENT:createSpread()
 			ang:RotateAroundAxis(ang:Forward(), math.random(-15, 15))
 			ang:RotateAroundAxis(ang:Up(), math.random(-15, 15))
 			ang:RotateAroundAxis(ang:Right(), math.random(-15, 15))
-			phys:SetVelocityInstantaneous(ang:Up() * (math.random(500, 550) + (10 * self.size)))
+			phys:SetVelocityInstantaneous(ang:Up() * (math.random(500, 550) + (15 * self.size)))
 		end
 	end
 end
@@ -209,18 +213,24 @@ function ENT:OnTakeDamage( dmginfo )
 	
 	self:SetHealth(self:Health() - dmginfo:GetDamage())
 	
-	if(self:Health() <= 0) then
+	if(self:Health() <= 0 and !self.dead) then
 		if(self.size >= 3) then
-			local spread = ents.Create("nz_freak")
-			spread:SetPos(self:GetPos() + Vector(0,0,30))
-			spread:Spawn()
-			spread:SetOwner(self)
-			spread:SetMaterial("models/flesh")
+			if(self.heart) then
+				local spread = ents.Create("nz_leecher")
+				spread:SetPos(self:GetPos() + Vector(0,0,30))
+				spread:Spawn()
+				spread:SetOwner(self)
+			else
+				local spread = ents.Create("nz_freak")
+				spread:SetPos(self:GetPos() + Vector(0,0,30))
+				spread:Spawn()
+				spread:SetOwner(self)
+				spread:SetMaterial("models/flesh")
+			end
+			self.dead = true
 		end
 		
 		if(self.size > 1) then
-			nut.item.spawn("food_monster_meat", self:GetPos() + Vector(0,0,30))
-			nut.item.spawn("food_monster_meat", self:GetPos() + Vector(0,0,30))
 			nut.item.spawn("food_monster_meat", self:GetPos() + Vector(0,0,30))
 		end
 		

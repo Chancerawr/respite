@@ -7,7 +7,7 @@ ITEM.cookable = true
 ITEM.foodDesc = "This is test food."
 ITEM.category = "Consumable"
 ITEM.mustCooked = false
-ITEM.quantity = 1
+ITEM.quantity2 = 1
 ITEM.container = ""
 ITEM.flag = "v"
 ITEM.sound = "npc/barnacle/barnacle_crunch2.wav"
@@ -34,11 +34,11 @@ ITEM.functions.use = {
 		end	
 	
 		local cooked = item:getData("cooked", 1)
-		local quantity = item:getData("quantity", item.quantity)
+		local quantity2 = item:getData("quantity2", item.quantity2)
 		local mul = COOKLEVEL[cooked][2]
 		local position = item.player:getItemDropPos()
 		
-		quantity = quantity - 1
+		quantity2 = quantity2 - 1
 		
 		local buffAmt --amount of stats the thing gives you
 		local dur --duration of effect
@@ -105,8 +105,8 @@ ITEM.functions.use = {
 		
 		item.player:EmitSound(item.sound)
 		
-		if (quantity >= 1) then
-			item:setData("quantity", quantity)
+		if (quantity2 >= 1) then
+			item:setData("quantity2", quantity2)
 			return false
 		else
 			if(item.container != "") then
@@ -202,8 +202,8 @@ function ITEM:getDesc()
 		str = str .. "\nFood Status: %s."
 	end
 
-	if(self.quantity) then
-		str = str .. "\nPortions remaining: " .. self:getData("quantity", self.quantity)
+	if(self.quantity2) then
+		str = str .. "\nPortions remaining: " .. self:getData("quantity2", self.quantity2)
 	end
 		
 	return Format(str, COOKLEVEL[(self:getData("cooked") or 1)][1])
@@ -222,10 +222,10 @@ end
 if (CLIENT) then --draws a square on the food item for how well cooked it is.
 	function ITEM:paintOver(item, w, h)
 		local cooked = item:getData("cooked", 1)
-		local quantity = item:getData("quantity", item.quantity)
+		local quantity2 = item:getData("quantity2", item.quantity2)
 
-		if (quantity > 1) then
-			draw.SimpleText(quantity, "DermaDefault", 6, h - 16, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
+		if (quantity2 > 1) then
+			draw.SimpleText(quantity2, "DermaDefault", 6, h - 16, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
 		end
 
 		if (cooked > 1) then

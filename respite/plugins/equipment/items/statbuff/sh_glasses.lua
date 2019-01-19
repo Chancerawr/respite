@@ -10,8 +10,9 @@ ITEM.salvItem = "j_scrap_glass"
 ITEM.buffCategory = "accessory"
 
 ITEM.attribBoosts = {
-	["perception"] = 2,
-	["medical"] = 2,
+	["perception"] = 4,
+	["medical"] = 4,
+	["end"] = -2
 }
 
 ITEM.iconCam = {

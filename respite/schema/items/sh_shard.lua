@@ -7,7 +7,9 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
-ITEM.data = { shardcount = 1 }
+ITEM.data = { 
+	shardcount = 1 
+}
 ITEM.color = Color(255, 255, 255)
 
 ITEM.iconCam = {
@@ -43,19 +45,21 @@ ITEM.functions.Merge = {
   onRun = function(item)
 	local client = item.player
 	local inventory = client:getChar():getInv()
-	local shardcount = item:getData("shardcount")	
+	local shardcount = item:getData("shardcount", 1)	
 	local items = inventory:getItems()
 	for k, v in pairs(items) do
 		if(v.uniqueID == "shard" and v != item) then
-			shardcount = shardcount + v:getData("shardcount")
+			shardcount = shardcount + v:getData("shardcount", 1)
 			v:remove()
 		end
 	end
 	
-	if (shardcount >= 10) then
-		if(!inventory:hasItem("shard_complete")) then
-			shardcount = shardcount - 10
-			inventory:add("shard_complete", 1, { char = client:getChar():getID() })
+	if(client:getChar():getFaction() == FACTION_DRIFTER) then
+		if (shardcount >= 10) then
+			if(!inventory:hasItem("shard_complete")) then
+				shardcount = shardcount - 10
+				inventory:add("shard_complete", 1, { char = client:getChar():getID() })
+			end
 		end
 	end
 	
@@ -63,6 +67,7 @@ ITEM.functions.Merge = {
 		inventory:add("shard", 1, { shardcount = 9 })
 		shardcount = shardcount - 9
 	end
+	
 	inventory:add("shard", 1, { shardcount = shardcount })
 	
 	item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
@@ -82,7 +87,7 @@ ITEM.functions.Scrap = {
   icon = "icon16/cross.png",
   onRun = function(item)
     if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-		item.player:getChar():getInv():add("shard_dust", 1, { Amount = item:getData("shardcount")*5 })
+		item.player:getChar():getInv():add("shard_dust", 1, { Amount = item:getData("shardcount", 1)*5 })
 		item:remove()
 		return false 
     else
@@ -103,5 +108,5 @@ function ITEM:getDesc()
 	else
 		str = "A peculiar crystalline shard, it emits a dim white light."
 	end
-	return Format(str, (self:getData("shardcount")))
+	return Format(str, (self:getData("shardcount", 1)))
 end

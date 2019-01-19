@@ -2,7 +2,7 @@ ITEM.name = "Reminiscence"
 ITEM.uniqueID = "reminiscence"
 ITEM.model = "models/props_lab/frame002a.mdl"
 ITEM.material = "models/props_lab/security_screens"
-ITEM.desc = "A strange picture frame. By looking through it you can see your own past.\nRequires 1 Blight, 2 Organic Material."
+ITEM.desc = "A strange picture frame. By looking through it you can see your own past.\nRequires 1 Blight, 3 Organic Material."
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "v"
@@ -24,7 +24,7 @@ ITEM.functions.Remember = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local cure = inventory:hasItem("blight")
+		local blight = inventory:hasItem("blight")
 		local organic = inventory:hasItem("j_scrap_organic")
 
 		local emotions = {
@@ -39,12 +39,12 @@ ITEM.functions.Remember = {
 			"neutral",
 		}
 		
-		cure:remove()
+		blight:remove()
 		local amount = organic:getData("Amount")
-		if(amount <= 2) then
+		if(amount <= 3) then
 			organic:remove()
 		else
-			organic:setData("Amount", amount - 2)
+			organic:setData("Amount", amount - 3)
 		end
 		local emotion = emotions[math.random(0,8)]
 		inventory:add("j_scrap_memory", 1, { Amount = 1, feeling = emotion})
@@ -83,7 +83,7 @@ ITEM.functions.Battery = {
 
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a strange chip.")
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a memory wrap.")
 
 		return false
 	end,

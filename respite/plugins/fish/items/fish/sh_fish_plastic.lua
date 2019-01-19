@@ -8,6 +8,8 @@ ITEM.price = 6
 ITEM.width = 2
 ITEM.height = 1
 ITEM.material = "phoenix_storms/mrref2"
+ITEM.plastic = true
+ITEM.cookable = false
 
 ITEM.attribBoosts = { ["stm"] = 2 }
 

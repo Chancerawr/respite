@@ -27,24 +27,25 @@ ITEM.functions.Medical = {
 		local organic = inventory:hasItem("j_scrap_organic")	
 		local depress = inventory:hasItem("drug_depress")	
 		
-		local meds = {}
-			meds[1] = "medical_kit"
-			meds[2] = "medical_bandages"
-			meds[3] = "medical_gauze"
-			meds[4] = "medical_iv"
-			meds[5] = "medical_splint"
-			meds[6] = "medical_suture"
-			meds[7] = "drug_antibiotics"
-			meds[8] = "drug_antidepressants"
-			meds[9] = "drug_antipsychotics"
-			meds[10] = "drug_antivenom"
-			meds[11] = "drug_burnointment"
-			meds[12] = "drug_disinfectant"
-			meds[13] = "drug_painkillers"
-			meds[14] = "pills_energy"
-			meds[15] = "drug_rubbingalcohol"
-			meds[16] = "drug_sleepingpills"
-			meds[17] = "drug_steroid"
+		local meds = {
+			"medical_kit",
+			"medical_bandages",
+			"medical_gauze",
+			"medical_iv",
+			"medical_splint",
+			"medical_suture",
+			"drug_antibiotics",
+			"drug_antidepressants",
+			"drug_antipsychotics",
+			"drug_antivenom",
+			"drug_burnointment",
+			"drug_disinfectant",
+			"drug_painkillers",
+			"drug_energy",
+			"drug_rubbingalcohol",
+			"drug_sleepingpills",
+			"drug_steroid"
+		}
 
 		local amount = organic:getData("Amount")
 		local amount2 = depress:getData("Amount")
@@ -63,7 +64,7 @@ ITEM.functions.Medical = {
 			depress:remove()
 		end
 		
-		nut.item.spawn(meds[math.random(1,17)], position)
+		nut.item.spawn(table.Random(meds), position)
 		
 		return false
 	end,

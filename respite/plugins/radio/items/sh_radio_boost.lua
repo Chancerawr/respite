@@ -18,7 +18,7 @@ ITEM.iconCam = {
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
 		local char = LocalPlayer():getChar()
-		if (char and char:getData("boost") == true) then
+		if (char and char:getData("boost")) then
 			surface.SetDrawColor(110, 255, 110, 100)
 			surface.DrawRect(w - 14, h - 14, 8, 8)
 		end
@@ -29,7 +29,7 @@ end
 ITEM:hook("drop", function(item)
 	local char = item.player:getChar()
 	if (char and char:getData("boost")) then
-		char:setData("boost", false, false, player.GetAll())
+		char:setData("boost", nil)
 	end
 end)
 
@@ -43,7 +43,6 @@ ITEM.functions.Equip = {
 		
 		if (!char:getData("boost")) then
 			char:setData("boost", true, false, player.GetAll())
-			print(char:getData("boost"))
 		end
 		
 		return false
@@ -63,7 +62,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 	onRun = function(item)
 		local char = item.player:getChar()
 		if (char:getData("boost", false) == true) then
-			char:setData("boost", false, false, player.GetAll())
+			char:setData("boost", nil)
 		end
 		return false
 	end,
@@ -77,9 +76,11 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 function ITEM:onCanBeTransfered(oldInventory, newInventory)
 	local player = self.player or self:getOwner()
 	local char = false
-	if(player) then
+	
+	if(player and IsValid(player)) then
 		char = player:getChar()
 	end
+	
 	if (newInventory and char and char:getData("boost")) then
 		return false
 	end

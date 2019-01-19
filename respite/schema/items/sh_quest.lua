@@ -72,6 +72,54 @@ ITEM.functions.CustomCol = {
 	end
 }
 
+ITEM.functions.CustomPic = {
+	name = "Customize Image",
+	tip = "Customize this item's image",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local image = item:getData("img", "")
+		client:requestString("Change Image", "Enter an image URL.", function(text) --start of model
+			item:setData("img", text)
+		end, image) --end of color
+	
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.Inspect = {
+	name = "Inspect",
+	tip = "Inspect this item",
+	icon = "icon16/wrench.png",
+	onClick = function(item)
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(540, 680)
+		frame:SetTitle(item.name)
+		frame:MakePopup()
+		frame:Center()
+
+		frame.html = frame:Add("DHTML")
+		frame.html:Dock(FILL)
+		
+		local imageCode = [[<img src = "]]..item:getData("img", "")..[["/>]]
+		
+		frame.html:SetHTML([[<html><body style="background-color: #000000; color: #282B2D; font-family: 'Book Antiqua', Palatino, 'Palatino Linotype', 'Palatino LT STD', Georgia, serif; font-size 16px; text-align: justify;">]]..imageCode..[[</body></html>]])
+	end,
+	onRun = function(item)
+		return false
+	end,
+	onCanRun = function(item)
+		if(!item:getData("img", false)) then
+			return false
+		end
+	end
+}
+
 function ITEM:getDesc()
 	local desc = self.desc
 	

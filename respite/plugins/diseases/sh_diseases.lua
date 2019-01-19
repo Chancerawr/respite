@@ -3,7 +3,12 @@ local PLUGIN = PLUGIN
 local DISEASE = {}
 DISEASE.uid = "fort_pani"
 DISEASE.name = "Panic"
+DISEASE.desc = "In a state of near constant panic."
 DISEASE.category = "Mental"
+DISEASE.buffScale = {
+	["stm"] = 0.2,
+	["accuracy"] = -0.5
+}
 DISEASE.phase = {
 	"Your mind is racing, and you suddenly feel like something terrible is going to happen.",
 	"Your mind fills with panic, you can't help but be anxious.",
@@ -15,12 +20,21 @@ DISEASE.cure = {
 	"Your panic slowly melts away.",
 }
 
+
 DISEASES:Register( DISEASE )
 //
 local DISEASE = {}
 DISEASE.uid = "fort_insa"
 DISEASE.name = "Insanity"
+DISEASE.desc = "Greatly lowered mental stability, may act on impulse."
 DISEASE.category = "Mental"
+DISEASE.buff = {
+	["fortitude"] = 10,
+	["end"] = -10,
+	["accuracy"] = -5,
+	["str"] = -5,
+	["perception"] = -10
+}
 DISEASE.phase = {
 	"Something is wrong with you, your feel unstable, and uncertain.",
 	"You hear dozens of voices screaming in your head, and they just won't stop.",
@@ -36,12 +50,44 @@ DISEASE.cure = {
 }
 
 DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "fort_enrage"
+DISEASE.name = "Enraged"
+DISEASE.desc = "Greatly increased irritability and brute strength."
+DISEASE.category = "Mental"
+DISEASE.buff = {
+	["str"] = 15,
+	["end"] = -10,
+	["accuracy"] = -15,
+	["stm"] = -10,
+}
+DISEASE.phase = {
+	"You really want to hit something.",
+	"You're very angry, but you don't know why.",
+	"You are nearly overcome by your fury, and you just want to destroy something.",
+	"You want your enemies to be destroyed, and you want to be the one to do it.",
+	"Your anger overcomes your good sense, and you feel like you're physically stronger than normal.",
+	"You dream of battle where you can crush your enemies.",
+	"You feel a glimpse of fatigue, but this somehow only makes you angry, and you push yourself passed it.",
+	"You temporarily find it hard to understand complex concepts."
+}
+DISEASE.cure = {
+	"You calm down, and are no longer enraged.",
+}
+
+DISEASES:Register( DISEASE )
 
 //
 local DISEASE = {}
 DISEASE.uid = "fort_nost"
 DISEASE.name = "Nostalgia"
+DISEASE.desc = "Lost in the memories of the past, it may be hard to see the present."
 DISEASE.category = "Mental"
+DISEASE.buffScale = {
+	["fortitude"] = -0.5,
+	["perception"] = -0.5
+}
 DISEASE.phase = {
 	"Your mind fills with images of those you used to know.",
 	"You feel an intense longing for home.",
@@ -55,13 +101,22 @@ DISEASE.cure = {
 }
 
 DISEASES:Register( DISEASE )
-
-
 //
 local DISEASE = {}
 DISEASE.uid = "fort_conf"
 DISEASE.name = "Confusion"
+DISEASE.desc = "Prevents thorough understanding of many simple concepts, leading to anxiety and other issues."
 DISEASE.category = "Mental"
+DISEASE.buff = {
+	["accuracy"] = -5,
+	["str"] = -5,
+	["end"] = -5,
+	["stm"] = -5,
+}
+DISEASE.buffScale = {
+	["fortitude"] = 0.2,
+	["perception"] = -0.2
+}
 DISEASE.phase = {
 	"You feel very confused, simple concepts become very difficult.",
 	"You don't understand your surroundings, you feel lost.",
@@ -73,12 +128,17 @@ DISEASE.cure = {
 }
 
 DISEASES:Register( DISEASE )
-
 //
 local DISEASE = {}
 DISEASE.uid = "fort_headache"
 DISEASE.name = "Headache"
+DISEASE.desc = "A constant throbbing headache."
 DISEASE.category = "Mental"
+DISEASE.buff = {
+	["perception"] = -15,
+	["accuracy"] = -15,
+	["medical"] = 10,
+}
 DISEASE.phase = {
 	"Your head aches and throbs, you have difficulty focusing.",
 	"Your head throbs and aches, the pain is agitating.",
@@ -93,7 +153,14 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "fort_migraine"
 DISEASE.name = "Migraine"
+DISEASE.desc = "An excruciating pain."
 DISEASE.category = "Mental"
+DISEASE.buff = {
+	["perception"] = -30,
+	["accuracy"] = -30,
+	["medical"] = 10,
+	["fortitude"] = 10
+}
 DISEASE.phase = {
 	"Your head hurts very badly, your eyes are very sensitive to the light.",
 	"Your vision blurs, and you feel like you're going to vomit.",
@@ -108,7 +175,15 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "fort_hall"
 DISEASE.name = "Hallucination"
+DISEASE.desc = "Afflicted may hallucinate at random."
 DISEASE.category = "Mental"
+DISEASE.buff = {
+	["str"] = -10
+}
+DISEASE.buffScale = {
+	["perception"] = -0.5,
+	["accuracy"] = -0.5
+}
 DISEASE.phase = {
 	"You see strange objects in the corner of your vision.",
 	"You hear someone call your name.",
@@ -135,7 +210,15 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "fort_para"
 DISEASE.name = "Paralysis"
+DISEASE.desc = "Afflicted will have difficulty moving their body parts."
 DISEASE.category = "Mental"
+DISEASE.buff = {
+	["accuracy"] = -10,
+	["str"] = -10
+}
+DISEASE.buffScale = {
+	["stm"] = -0.75,
+}
 DISEASE.phase = {
 	"Your body is heavy, and it's hard to move.",
 	"Your left leg gives out, and refuses to move for the time being.",
@@ -153,7 +236,12 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "fort_noia"
 DISEASE.name = "Paranoia"
+DISEASE.desc = "Damaged mental state, may involve hallucinations."
 DISEASE.category = "Mental"
+DISEASE.buffScale = {
+	["perception"] = 0.5,
+	["fortitude"] = -0.5
+}
 DISEASE.phase = {
 	"You feel like someone is watching you.",
 	"Someone is following you.",
@@ -177,7 +265,18 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "dis_poti"
 DISEASE.name = "Potion Sickness"
+DISEASE.desc = "Abuse of potions can lead to downsides, mostly physical."
 DISEASE.category = "Illness"
+DISEASE.buff = {
+	["stm"] = -5,
+	["str"] = -5,
+	["end"] = -5,
+	["fortitude"] = -5,
+	["accuracy"] = -5,
+	["luck"] = -5,
+	["perception"] = -5,
+	["medical"] = -5,
+}
 DISEASE.phase = {
 	"Your body is heavy, and you feel weak.",
 	"Your mind feels sluggish and slow.",
@@ -196,6 +295,7 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "dis_wrai"
 DISEASE.name = "Soul Sickness"
+DISEASE.desc = "Commonly seen among those attacked by wraiths, thought to be a weakening of a person's consciousness."
 DISEASE.category = "Illness"
 DISEASE.phase = {
 	"You feel empty inside, like something is missing.",
@@ -215,6 +315,7 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "dis_shad"
 DISEASE.name = "Shadow Plague"
+DISEASE.desc = "This person is doomed."
 DISEASE.category = "Illness"
 DISEASE.phaseTime = 1800
 --DISEASE.spreadChance = 25
@@ -237,9 +338,10 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "dis_eyes"
 DISEASE.name = "Watcher"
+DISEASE.desc = "A contagious disease involving sight related hallucinations."
 DISEASE.category = "Illness"
 DISEASE.duration = 7200
-DISEASE.spreadChance = 15
+DISEASE.spreadChance = 3
 DISEASE.spreadRange = 500
 DISEASE.cure = {
 	"You go back to normal, and no longer feel like something is watching you."
@@ -264,10 +366,11 @@ DISEASE.phase = {
 	"You blink, and right before your eyes close, you see someone staring at you.",
 	"Your eyes suddenly get dry, and you have the urge to blink, but you feel as though something bad will happen if you do.",
 	"As your eyes blink closed, you feel as though something is right in front of you, you can feel it there, staring at you.",
-	"A quiet, whispering voice comes from behind you.\nIt says, 'You aren't real.'\nAs you turn, you see no one there.\n'You're just like me.'",
-	"A quiet, whispering voice comes from your left side.\nIt says, 'I know what you are.'\nAs you turn, you see no one there.",
-	"A quiet, whispering voice comes from your right side.\nIt says, 'You are empty inside.'\nAs you turn, you see no one there.",
+	--"A quiet, whispering voice comes from behind you.\nIt says, 'You aren't real.'\nAs you turn, you see no one there.\n'You're just like me.'",
+	--"A quiet, whispering voice comes from your left side.\nIt says, 'I know what you are.'\nAs you turn, you see no one there.",
+	--"A quiet, whispering voice comes from your right side.\nIt says, 'You are empty inside.'\nAs you turn, you see no one there.",
 	"You hear some sort of incomprehensible whispering behind you, but there is nothing there."
+	--"'You don't deserve to be called a Drifter.'"
 }
 
 DISEASES:Register( DISEASE )
@@ -275,9 +378,10 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "dis_touch"
 DISEASE.name = "Feeling"
+DISEASE.desc = "A contagious disease involving touch related hallucinations."
 DISEASE.category = "Illness"
 DISEASE.duration = 7200
-DISEASE.spreadChance = 45
+DISEASE.spreadChance = 10
 DISEASE.spreadRange = 100
 DISEASE.cure = {
 	"You go back to normal, and no longer feel any strange sensations."
@@ -293,8 +397,8 @@ DISEASE.phase = {
 	"You hear some sort of incomprehensible whispering behind you, but there is nothing there.",
 	"Your entire body begins to feel cold, you start to shiver uncontrollably. The cold leaves you after a few minutes.",
 	"Your entire body begins to feel very hot, you start to sweat and find it hard to breathe. The heat leaves you after a few minutes.",
-	"You start to feel very itchy all over, the urge to scratch yourself becomes hard to resist. This feeling fades away after a minute or so.",
-	"A quiet, whispering voice comes from in front of you. You see some kind of dark, wispy figure directly in front of you. Its head is only inches away from yours, but you find it hard to make out any significant details.\nIt says, 'Time is running out.'\nSomething covers your eyes from behind you, and a feeling of dread fills you.\nNo matter what you try, you cannot move what is covering your eyes, leaving you essentially blind for around a minute.\nOnce your vision returns, the figure in front of you is gone, and you feel sick to your stomach."
+	"You start to feel very itchy all over, the urge to scratch yourself becomes hard to resist. This feeling fades away after a minute or so."
+	--"A quiet, whispering voice comes from in front of you. You see some kind of dark, wispy figure directly in front of you. Its head is only inches away from yours, but you find it hard to make out any significant details.\nIt says, 'Time is running out.'\nSomething covers your eyes from behind you, and a feeling of dread fills you.\nNo matter what you try, you cannot move what is covering your eyes, leaving you essentially blind for around a minute.\nOnce your vision returns, the figure in front of you is gone, and you feel sick to your stomach."
 }
 
 DISEASES:Register( DISEASE )
@@ -302,12 +406,13 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "dis_mind"
 DISEASE.name = "Mind"
+DISEASE.desc = "A contagious disease involving emotional swings, hallucinations, and strange visions."
 DISEASE.category = "Illness"
 DISEASE.duration = 7200
-DISEASE.spreadChance = 20
+DISEASE.spreadChance = 5
 DISEASE.spreadRange = 300
 DISEASE.cure = {
-	"You go back to normal, and your mind is no longer feel as mentally unstable."
+	"You go back to normal, and your mind is no longer as unstable."
 }
 DISEASE.phase = {
 	"You feel like something is inside your head, moving around and changing you somehow.",
@@ -322,8 +427,8 @@ DISEASE.phase = {
 	"Anger rises up within you, but not at anything in particular. The world itself is infuriating for a small amount of time.",
 	"Your mind goes blank for awhile, everything seems tranquil and peaceful, there are no worries, no dangers. Everything is fine.",
 	"Your heart fills to the brim with your own happiness. Everything is simply wonderful for awhile.",
-	"Your own voice speaks to you, but nobody else can hear it, 'There are cracks in our empty vessel. Once it breaks there's no going back.'",
-	"You hear your own voice begin to speak, though nobody else can hear it.\n'We don't deserve this- This future is cursed, our past is broken. We don't exist, we don't belong.'\nI can feel it watching us, I can feel it touching us. I want to escape.'\n'We can't forget ourselves.'",
+	--"Your own voice speaks to you, but nobody else can hear it, 'There are cracks in our empty vessel. Once it breaks there's no going back.'",
+	--"You hear your own voice begin to speak, though nobody else can hear it.\n'We don't deserve this- This future is cursed, our past is broken. We don't exist, we don't belong.'\nI can feel it watching us, I can feel it touching us. I want to escape.'\n'We can't forget ourselves.'",
 	"You imagine a white box, the box has a simple white door.\nYou move to open the door, but it opens with just a thought.\nInside the box is nothing but a pitch black darkness. Something inside calls your name, and you walk straight into the dark."
 }
 
@@ -331,219 +436,26 @@ DISEASES:Register( DISEASE )
 
 //
 local DISEASE = {}
-DISEASE.uid = "trait_curse"
-DISEASE.name = "Cursed"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"Your mind fills with images of those you used to know.",
-	"You feel an intense longing for home.",
-	"You hear a familiar voice calling your name.",
-	"You smell something familiar.",
-	"You hunger for your favorite food.",
-	"Out of the corner of your vision you can see someone you used to know, but as you turn there's nothing there.",
-	"You feel very confused, simple concepts become very difficult.",
-	"You don't understand your surroundings, you feel lost.",
-	"For a short amount of time you completely forget what you're doing.",
-	"Operating your body becomes confusing, and it's hard to move properly.",
-	"Your mind is racing, and you suddenly feel like something terrible is going to happen.",
-	"Your mind fills with panic, you can't help but be anxious.",
-	"You feel like something is coming for you, and there's no way to stop it.",
-	"You get the feeling that someone is right behind you.",
-	"You feel like you're surrounded by some invisible force, it's closing in.",
-	"Your body is heavy, and you feel weak.",
-	"Your mind feels sluggish and slow.",
-	"Your vision blurs, and it's hard to see things in detail.",
-	"Your feel somewhat out of it mentally.",
-	"You feel slow, and sluggish.",
-	"You feel unlucky."
-}
+DISEASE.uid = "dis_past"
+DISEASE.name = "Past"
+DISEASE.desc = "???"
+DISEASE.category = "Illness"
+DISEASE.duration = 8000
 DISEASE.cure = {
-	"Your curse has been removed.",
+	"You return to normal."
 }
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_soul"
-DISEASE.name = "Soulless"
-DISEASE.category = "Trait"
 DISEASE.phase = {
-	"You feel empty inside, like something is missing.",
-	"You feel hollow, you just want it back.",
-	"Your feel light headed, and it's hard to focus.",
-	"Your vision blurs, and you feel nauseous.",
-	"You long for something, but cannot picture what it is.",
-	"You feel like something was taken from you, but you can't picture what."
-}
-DISEASE.cure = {
-	"You feel whole again.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_purge"
-DISEASE.name = "PURGE"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"Everything around you is filty- disgusting even.",
-	"The smell of the wretched world around you makes you want to gag.",
-	"Everything is so dirty, you want to clean it.",
-	"You can't stand the filth, it must be cleaned.",
-	"You feel it absolutely necessary to wash your hands.",
-	"The thought of touching anything in this room disturbs you."
-}
-DISEASE.cure = {
-	"Your curse of cleanliness has been removed.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_headache"
-DISEASE.name = "Extreme Headache"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"Your head aches and throbs, you have difficulty focusing.",
-	"Your head throbs and aches, the pain is agitating.",
-	"Your head hurts very badly, your eyes are very sensitive to the light.",
-	"Your vision blurs, and you feel like you're going to vomit.",
-	"Your head hurts incredibly badly, it is difficult to even stand.",
-	"Your head hurts so much that you just don't want to do anything, you just want it to stop."
-}
-DISEASE.cure = {
-	"Your extreme headache has been removed.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_clumsy"
-DISEASE.name = "Clumsy"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"You have a hard time holding onto whatever you are currently holding.",
-	"You suddenly feel like you're losing your balance, if you're walking you might trip.",
-	"You accidentally bump into something nearby.",
-	"If you're near an object, you accidentally bump your elbow on it.",
-	"You find yourself gazing into space, and lose track of what you're doing.",
-	"You forget about the object you are currently holding in your hands, and then wonder what happened to it. Eventually you realize that it's right there.",
-	"You stumble in your step, tripping on air."
-}
-DISEASE.cure = {
-	"Your extreme headache has been removed.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_paranoid"
-DISEASE.name = "Constant Paranoia"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"You feel like someone is watching you.",
-	"Someone is following you.",
-	"You feel like something is watching you from the ceiling.",
-	"Out of the corner of your eye you spot something watching you.",
-	"You feel someone breathing down your neck.",
-	"Someone touches your left shoulder.",
-	"You hear footsteps behind you.",
-	"You see something in the distance looking at you, but when you look again you see nothing.",
-	"Something is coming for you.",
-	"You swear you hear someone whisper your name.",
-	"Something is right behind you."
-}
-DISEASE.cure = {
-	"Your constant paranoia has been removed.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_zealot"
-DISEASE.name = "Zealot"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"You feel god watching over you, it is comforting.",
-	"Your actions are righteous, you know it to be true.",
-	"You stand for the light.",
-	"Evil must be purged.",
-	"Demons must be exterminated.",
-	"You must endure this trial.",
-	"You feel god's might within you.",
-	"The light is your strength.",
-	"Justice shall be done.",
-	"The light will guide your path.",
-	"The light will give you strength."
-}
-DISEASE.cure = {
-	"Your blind devotion to god has been purged.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_dark"
-DISEASE.name = "Afraid of the Dark"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"The shadows in the room stretch strangely, and seemingly reach towards you.",
-	"You feel something watching you from the darkness.",
-	"Something scuttles around in a nearby shadow.",
-	"You feel something in the darkness calling to you.",
-	"Your lights flicker momentarily, allowing the darkness to get dangerously close.",
-	"Every time you blink, the darkness draws closer and closer. It returns to normal a minute later.",
-	"You need more light, it's too dark.",
-	"A pair of eyes is watching you from the darkness.",
-	"In the corner of your eye you see a person made of darkness, he watches you silently.",
-}
-DISEASE.cure = {
-	"Your curse of darkness has been removed.",
-}
-
-DISEASES:Register( DISEASE )
-//
-local DISEASE = {}
-DISEASE.uid = "trait_digger"
-DISEASE.name = "Gravedigger"
-DISEASE.category = "Trait"
-DISEASE.phase = {
-	"You feel safer underground.",
-	"You feel exposed above ground.",
-	"The soil will protect you.",
-	"The soil will protect it.",
-	"You want to bury it.",
-	"The ground will protect everyone.",
-	"You want to dig a hole.",
-	"You want to dig some holes.",
-	"The dead must be put to rest.",
-	"The dead must be treated with respect.",
-	"You alone can bury the sins of the dead.",
-	"It is your duty to provide rest to those who can no longer sleep."
-}
-DISEASE.cure = {
-	"Your obsession with digging has been removed.",
-}
-
-DISEASES:Register( DISEASE )
-
-//
-local DISEASE = {}
-DISEASE.uid = "addict_bh"
-DISEASE.name = "Blue Haze Addiction"
-DISEASE.category = "Addiction"
-DISEASE.phase = {
-	"You feel very itchy, it looks like your skin is wiggling. This stops after a minute or so.",
-	"For a minute, everything in the world is shifted blue, you feel sick.",
-	"Your vision blurs, and you swear you see a couple of the walls smile at you.",
-	"The floor suddenly engulfs you, you are slowly being consumed. You hear it call you tasty. Shortly after everything goes back to normal.",
-	"Your left hand is suddenly replaced with a hook, somehow this fills you with great joy, and you can't help but laugh to yourself. It returns to normal later, and you feel mildly disconcerted.",
-	"You hear a bell toll in the distance, and feel a shiver run down your spine.",
-	"You feel like you know the future suddenly, and it isn't bright. A door has been closed.",
-	"The world turns incredibly gray, and disappointing. You feel like you know everything that's going to happen, like there's no surprises left. You somehow know that something blue will make you feel better."
-}
-DISEASE.cure = {
-	"Your blue haze addiction has been removed.",
+	"For a moment, everything goes dark. Your vision returns to normal shortly after.",
+	"A thought enters your mind, you want everyone to come together, and work together. Together.",
+	"You don't want to be alone.",
+	"You feel very lonely for a few moments.",
+	"You feel singled out for a moment, as if everyone has left you behind.",
+	"An abnormal hunger arises in your stomach, you've never been this hungry before.",
+	"An extreme thirst comes over you, you really want to drink something.",
+	"Your vision distorts, and you suddenly see from the perspective of someone else.\nBefore you can get your bearings, it switches again, and again, and again.\nThis happens dozens of times, you become so dizzy and mixed up that you barely notice that you've returned to normal.",
+	"Your head suddenly fills with the voices of dozens of people. You can't understand anything any of them are saying, and it's very hard to concentrate. This dissipates after a minute or so.",
+	"When you close your eyes, you see a world of blinding light. Your hands are interlinked with two people beside you. You feel complete.\nWhen you open your eyes the image, and the feeling is gone. You feel very lonely.",
+	"You blink, and the world around you has changed. You are surrounded by a swirling white mass. It spins into the sky endlessly. When you blink everything is back to normal."
 }
 
 DISEASES:Register( DISEASE )

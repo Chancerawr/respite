@@ -1,9 +1,11 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.PrintName = "Combat Base"
 ENT.Category = "NutScript"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 ENT.combat = true
+ENT.AutomaticFrameAdvance = true
+ENT.model = "models/tnb/citizens/male_04.mdl"
 
 --all attributes
 ENT.agil = 0
@@ -16,31 +18,57 @@ ENT.perc = 0
 ENT.fort = 0
 
 function ENT:Initialize()
-	if (SERVER) then
-		self:SetModel("models/tnb/citizens/male_04.mdl")
+	self.name = "Plastic"
+	self:basicSetup()
+	if(SERVER) then
 		self:SetMaterial("phoenix_storms/mrref2")
-		self:SetUseType(SIMPLE_USE)
-		self:SetMoveType(MOVETYPE_PUSH)
-		self:DrawShadow(true)
-		self:SetSolid(SOLID_BBOX)
-		--self:PhysicsInit(SOLID_BBOX)
+	end
+end
 
-		self:setNetVar("name", "Plastic")
-		self:setNetVar("desc", "")
+function ENT:basicSetup()
+	if (SERVER) then
+		self.inv = {}
+	
+		self:SetModel(self.model)
+		self:SetUseType(SIMPLE_USE)
+		self:SetMoveType(MOVETYPE_NONE)
+		self:DrawShadow(true)
+		self:PhysicsInit(SOLID_VPHYSICS)
+		self:SetSolid(SOLID_BBOX)
+
+		self:setNetVar("name", self.name or self.PrintName)
+		self:setNetVar("desc", self.desc or "")
 
 		local physObj = self:GetPhysicsObject()
-
+		
 		if (IsValid(physObj)) then
 			physObj:EnableMotion(false)
-			physObj:Sleep()
+			physObj:EnableGravity(false)
+			--physObj:Sleep()
+			physObj:EnableCollisions(false)
 		end
 	end
 
+	self:SetCollisionBounds(Vector(-30,-30,0), Vector(30,30,100))
+	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+	
 	timer.Simple(1, function()
 		if (IsValid(self)) then
 			self:setAnim()
 		end
 	end)
+end
+
+function ENT:Think()
+	if(SERVER) then
+		if(!self:IsPlayerHolding()) then
+			local physObj = self:GetPhysicsObject()
+			
+			if(!physObj:IsAsleep()) then
+				physObj:Sleep()
+			end
+		end
+	end
 end
 
 function ENT:setAnim()
@@ -79,7 +107,7 @@ local function critModify(client, command) --ran when crits are computed
 	return base, multi
 end
 	
-function ENT:runCMD(client, command)
+function ENT:runCMD(client, command, extra)
 	if(self:rollHandle(client, command)) then
 		return true
 	else
@@ -90,7 +118,7 @@ end
 function ENT:critCalc()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (self.luck + 10)) then
+	if (crit <= (self.luck*2 + 15)) then
 		crit = (1.5 + self.luck/25)
 		critmsg = " (Crit!)"
 	else
@@ -186,7 +214,6 @@ function ENT:combatRoll(client, attr, debuff, msg, category, command, noPrint) -
 	
 	--rolled = traitModify(client, command, rolled)
 	
-	--nut.log.addRaw(client:Name().." rolled \""..rolled.."\".", 2)
 	if(!noPrint) then
 		nut.chat.send(client, "react_npc", "has rolled " .. rolled .. critmsg .. " for " .. msg)
 	end
@@ -272,6 +299,7 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 			--"bob's melee attack on joe was successful"
 		end
 		
+		nut.log.addRaw(fullString, 1)
 		nut.chat.send(client, "react_success", fullString)
 	else
 		if(isstring(part)) then
@@ -282,6 +310,7 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 			--joe has dodged bob's melee attack.
 		end
 		
+		nut.log.addRaw(fullString, 3)
 		nut.chat.send(client, "react_fail", fullString)
 	end
 end
@@ -303,44 +332,52 @@ function ENT:rollCheck(smart, dodge, block)
 end
 
 function ENT:die()
-	local ragdoll = ents.Create("prop_ragdoll")
-	if ragdoll:IsValid() then 
-		ragdoll:SetPos(self:GetPos())
-		ragdoll:SetModel(self:GetModel())
-		ragdoll:SetAngles(self:GetAngles())
-		ragdoll:Spawn()
-		ragdoll:SetSkin(self:GetSkin())
-		ragdoll:SetColor(self:GetColor())
-		ragdoll:SetMaterial(self:GetMaterial())
-		ragdoll:SetBloodColor(self:GetBloodColor())
-			
-		local num = ragdoll:GetPhysicsObjectCount()-1
-   
-		for i=0, num do
-			local bone = ragdoll:GetPhysicsObjectNum(i)
+	if(!self.noRag) then
+		local ragdoll = ents.Create("prop_ragdoll")
+		if ragdoll:IsValid() then 
+			ragdoll:SetPos(self:GetPos())
+			ragdoll:SetModel(self:GetModel())
+			ragdoll:SetAngles(self:GetAngles())
+			ragdoll:Spawn()
+			ragdoll:SetSkin(self:GetSkin())
+			ragdoll:SetColor(self:GetColor())
+			ragdoll:SetMaterial(self:GetMaterial())
+			ragdoll:SetBloodColor(self:GetBloodColor())
+				
+			local num = ragdoll:GetPhysicsObjectCount()-1
+	   
+			for i=0, num do
+				local bone = ragdoll:GetPhysicsObjectNum(i)
 
-			if IsValid(bone) then
-				local bp, ba = self:GetBonePosition(ragdoll:TranslatePhysBoneToBone(i))
-				if bp and ba then
-					bone:SetPos(bp)
-					bone:SetAngles(ba)
+				if IsValid(bone) then
+					local bp, ba = self:GetBonePosition(ragdoll:TranslatePhysBoneToBone(i))
+					if bp and ba then
+						bone:SetPos(bp)
+						bone:SetAngles(ba)
+					end
 				end
 			end
+				
+				--I hate this
+			ragdoll:SetBodygroup( 1, self:GetBodygroup(1) )
+			ragdoll:SetBodygroup( 2, self:GetBodygroup(2) )
+			ragdoll:SetBodygroup( 3, self:GetBodygroup(3) )
+			ragdoll:SetBodygroup( 4, self:GetBodygroup(4) )
+			ragdoll:SetBodygroup( 5, self:GetBodygroup(5) )
+			ragdoll:SetBodygroup( 6, self:GetBodygroup(6) )
+			
+			ragdoll:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
 		end
 			
-			--I hate this
-		ragdoll:SetBodygroup( 1, self:GetBodygroup(1) )
-		ragdoll:SetBodygroup( 2, self:GetBodygroup(2) )
-		ragdoll:SetBodygroup( 3, self:GetBodygroup(3) )
-		ragdoll:SetBodygroup( 4, self:GetBodygroup(4) )
-		ragdoll:SetBodygroup( 5, self:GetBodygroup(5) )
-		ragdoll:SetBodygroup( 6, self:GetBodygroup(6) )
-		
-		ragdoll:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+		if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.
+			ragdoll:Ignite(10,20)
+		end
 	end
-		
-	if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.
-		ragdoll:Ignite(10,20)
+	
+	if(self.inv) then
+		for k, v in pairs(self.inv) do
+			nut.item.spawn(v, self:GetPos())
+		end
 	end
 	
 	SafeRemoveEntity( self )
@@ -351,7 +388,7 @@ if (CLIENT) then
 		self:DrawModel()
 	end
 
-	local TEXT_OFFSET = Vector(0, 0, 20)
+	local TEXT_OFFSET = Vector(0, 0, 0)
 	local toScreen = FindMetaTable("Vector").ToScreen
 	local colorAlpha = ColorAlpha
 	local drawText = nut.util.drawText
@@ -360,12 +397,95 @@ if (CLIENT) then
 	ENT.DrawEntityInfo = true
 
 	function ENT:onDrawEntityInfo(alpha)
-		local position = toScreen(self.LocalToWorld(self, self.OBBCenter(self)) + TEXT_OFFSET)
+		--local position = toScreen(self:LocalToWorld(self, self:WorldSpaceCenter(self)) + TEXT_OFFSET)
+		local position = toScreen(self:WorldSpaceCenter(self))
 		local x, y = position.x, position.y
-		drawText(self:getNetVar("name", "John Doe"), x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 0.65)
+		drawText(self:getNetVar("name", ""), x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 0.65)
 
 		if (self:getNetVar("desc")) then
 			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 		end
 	end
+end
+
+function ENT:fortAttack(attackName)
+	--these rolls cannot crit
+	local rolled = ((self.fort * 0.6) + math.random(-10, 10))
+	rolled = math.abs(rolled)-- this is probably bad
+	
+	--rolled = traitModify(client, "fortattack", rolled) --trait modifier
+	
+	local ability = {
+		confusion = 0,
+		nostalgia = 0,
+		panic = 0,
+		headache = 0,
+		whisper = 0,
+		echo = 0,
+
+		phase = 0.05,
+		simple_weapon = 0.05,
+		blight = 0.05,
+		blight_blast = 0.05,
+		blight_suicide = 0.05,
+		direct = 0.05,
+
+		hallucination = 0.1,
+		suggestion = 0.1,
+		migraine = 0.1,
+		insanity = 0.1,
+		enrage = 0.1,
+		emotion = 0.1,
+		sensory = 0.1,
+		telekinesis = 0.1,
+		conjure_firearm = 0.1,
+		blight_chains = 0.1,
+		blight_shockwave = 0.1,
+		shadow_meld = 0.1,
+		open_portal = 0.1,
+
+		paralyze = 0.2,
+		sleep = 0.2,
+		illusions = 0.2,
+		cloak = 0.2,
+		teleport = 0.2,
+		temperature = 0.2,
+		lesser_shade = 0.2,
+		darkness = 0.2,
+		conjure_special = 0.2,
+		
+		betray = 0.4,
+		regenerate = 0.4,
+		smokescreen = 0.4,
+		minor_shade = 0.4,
+		lights_out = 0.4,
+		possession = 0.4,
+		haze = 0.4,
+		open_respite = 0.4,
+
+		reality_bend = 0.75,
+		moderate_shade = 0.75,
+		time_reversal = 0.75,
+		shadow_plague = 0.75
+	}
+	
+	local fancyStr = attackName
+	
+	if(ability[attackName]) then
+		local fancyStr = attackName
+		fancyStr = string.gsub(fancyStr, "_", " ") --replaces _ with a space.
+		fancyStr = string.upper(fancyStr) --capitalizes all of it
+		fancyStr = "'" .. fancyStr .. "'" --puts apostrophes around it i guess
+		fancyStr = self:getNetVar("name", "CEnt").. " has attempted to use an ability: " .. fancyStr
+		
+		rolled = tonumber(rolled) * (1 - tonumber(ability[attackName]))
+		rolled = fancyStr ..", and rolled ".. rolled
+	else
+		return false
+	end
+	
+	--Bob has attempted to use an ability: genital strike, and rolled 69
+	nut.log.addRaw(rolled, 2)
+	--nut.chat.send(client, "fortattack", rolled)
+	nut.chat.send(self, "fort_npc", rolled)
 end

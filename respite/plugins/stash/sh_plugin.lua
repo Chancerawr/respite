@@ -5,7 +5,7 @@ PLUGIN.desc = "You save your stuffs in the stash."
 PLUGIN.stashData = PLUGIN.stashData or {}
 
 nut.config.add("maxStash", 20, "Maximum storage of Permanant Stash.", nil, {
-	data = {min = 1, max = 40},
+	data = {min = 1, max = 100},
 	category = "stash"
 })
 
