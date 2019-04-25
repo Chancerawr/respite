@@ -16,7 +16,6 @@ nut.util.includeDir("meta")
 nut.util.includeDir("hooks")
 nut.util.includeDir("derma")
 
-
 --[[nut.flag.add("F", "Access to food/drink items.")
 nut.flag.add("A", "Access to armor/clothing items.")
 nut.flag.add("G", "Access to general items.")

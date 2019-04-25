@@ -60,6 +60,7 @@ ITEM.functions.Brew = {
 									item:getEntity():EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 								end
 							end
+							
 							if(clean) then
 								if(math.random(0,9) == 0) then
 									if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -79,10 +80,10 @@ ITEM.functions.Brew = {
 					end
 				)
 			else			
-				client:notifyLocalized("You don't have a chip!") return false
+				client:notify("You don't have a chip!") return false
 			end
 		else
-			client:notifyLocalized("You don't have any water!") return false
+			client:notify("You don't have any water!") return false
 		end
 		return false
 	end

@@ -152,6 +152,10 @@ function ITEM:onCanBeTransfered(oldInventory, newInventory)
 			return false
 		end
 
+		if(newInventory.vars and newInventory.vars.invType and string.find(newInventory.vars.invType, "safe")) then
+			return false
+		end
+		
 		local index2 = newInventory:getID()
 
 		if (index == index2) then

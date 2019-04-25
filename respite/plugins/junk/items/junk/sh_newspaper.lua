@@ -35,19 +35,7 @@ ITEM.functions.Scrap = {
 	end
 }
 
-local emotions = {
-	"fear",
-	"anger",
-	"sadness",
-	"joy",
-	"disgust",
-	"surprise",
-	"trust",
-	"anticipation",
-	"neutral",
-}
-
---makes it so it randomizes the emotion. Couldn't find a good function to hook this onto so it just happens when picked up or dropped.
+--makes it so it randomizes the story. Couldn't find a good function to hook this onto so it just happens when picked up or dropped.
 local function onUse(item)
 	if(!item:getData("customDesc")) then
 		local news = {
@@ -66,7 +54,11 @@ local function onUse(item)
 			"Top scientists say that we're all going to die and it's your fault.",
 			"#ASD !SD) M(ASDM A(SDIU_(SA (S5DU*A S&*D HELPE *)$ @M (XC **PL%T#XKO NO.",
 			"Sunny skies for the next month.",
+			"Parents thrilled when missing child found in his room with no injuries.",
 			"The rain won't stop.",
+			"Your shadow is watching you.",
+			"The sky is falling.",
+			"Latest reports indicate that the ocean is full of incomprehensible monsters.",
 			"Police arrest local drug dealer for not selling enough drugs.",
 			"Amphibious monster deemed unstoppable, navy surrendering."
 		}

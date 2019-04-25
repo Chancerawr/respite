@@ -2,13 +2,17 @@ ITEM.name = "Chinese Food"
 ITEM.uniqueID = "food_chinese"
 ITEM.model = "models/props_junk/garbage_takeoutcarton001a.mdl"
 ITEM.hungerAmount = 10
-ITEM.foodDesc = "A takeout carton filled with chinese food."
+ITEM.desc = "A takeout carton filled with chinese food."
 ITEM.quantity2 = 2
 ITEM.price = 5
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.attribBoosts = { ["perception"] = 4 }
+ITEM.attribBoosts = { 
+	["perception"] = 3, 
+	["fortitude"] = 3,
+	["end"] = 3
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

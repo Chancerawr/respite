@@ -2,10 +2,10 @@ ITEM.name = "Onion"
 ITEM.uniqueID = "food_onion"
 ITEM.model = "models/props/de_inferno/crate_fruit_break_gib2.mdl"
 ITEM.material = "models/props_c17/furnituremetal001a"
-ITEM.foodDesc = "A bulbous plant known to have layers."
+ITEM.desc = "A bulbous plant known to have layers."
 ITEM.hungerAmount = 15
 ITEM.quantity2 = 3
-ITEM.price = 1
+ITEM.price = 3
 ITEM.width = 1
 ITEM.height = 1
 

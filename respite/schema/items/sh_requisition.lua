@@ -71,71 +71,64 @@ ITEM.functions.Ammo = {
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
 	
-		client:requestString("Purchase", "This costs 100 scrap coins. Are you sure? Type 'yes' to proceed.", 
-		function(text)
-			if(text == "yes") then
-				char:takeMoney(100)
-				chip:remove()
-				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+		client:requestQuery("This costs 100 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(100)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			entity:EmitSound("music/radio1.mp3")
 				
-				local entity = item:getEntity() or client
-				entity:EmitSound("music/radio1.mp3")
-				
-				timer.Simple(40, 
-					function()
-						if (item != nil) then
-							local dropPos --place to drop the box
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								dropPos = findSky(client:GetPos())
-							else --if the item it on the ground
-								dropPos = findSky(item:getEntity():GetPos())
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end
+					
+					local drop = table.Random(ammo)
+					
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
+					
+					if(dropPos) then
+						local contents = {
+							drop,
+							drop,
+							drop,
+							drop,
+							drop
+						}
+						
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 							end
-							
-							local drop = table.Random(ammo)
-							
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							else --if the item it on the ground
-								item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							end
-							
-							if(dropPos) then
-								local contents = {
-									drop,
-									drop,
-									drop,
-									drop,
-									drop
-								}
-								
-								local Pack=ents.Create("ent_chance_aidbox")
-								Pack:SetPos(dropPos-Vector(0,0,100))
-								Pack.InitialVel=Vector(0,0,-2000)
-								Pack.Contents = contents
-								Pack:Spawn()
-								Pack:Activate()
-								client:notify("Supply Drop inbound.")
-							else
-								client:notify("No sky found, enhanced chip refunded.")
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
-										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
-									end
-									char:giveMoney(100)	
-								else --if the item it on the ground
-									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(100)
-								end
-							end
+							char:giveMoney(100)	
+						else --if the item it on the ground
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+							char:giveMoney(100)
 						end
 					end
-				)
-			else
-				client:notify("Transaction cancelled.")
-				return false
-			end
+				end
+			end)
 		end)
-	return false
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player
@@ -176,69 +169,62 @@ ITEM.functions.Armor = {
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
 	
-		client:requestString("Purchase", "This costs 200 scrap coins. Are you sure? Type 'yes' to proceed.", 
-		function(text)
-			if(text == "yes") then
-				char:takeMoney(200)
-				chip:remove()
-				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+		client:requestQuery("This costs 200 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(200)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			entity:EmitSound("music/radio1.mp3")
 				
-				local entity = item:getEntity() or client
-				entity:EmitSound("music/radio1.mp3")
-				
-				timer.Simple(40, 
-					function()
-						if (item != nil) then
-							local dropPos --place to drop the box
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								dropPos = findSky(client:GetPos())
-							else --if the item it on the ground
-								dropPos = findSky(item:getEntity():GetPos())
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end
+					
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
+					
+					local drop1 = table.Random(ammo)
+					local drop2 = table.Random(ammo)
+					
+					if(dropPos) then
+						local contents = {
+							drop1,
+							drop2
+						}
+						
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 							end
-							
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							else --if the item it on the ground
-								item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							end
-							
-							local drop1 = table.Random(ammo)
-							local drop2 = table.Random(ammo)
-							
-							if(dropPos) then
-								local contents = {
-									drop1,
-									drop2
-								}
-								
-								local Pack=ents.Create("ent_chance_aidbox")
-								Pack:SetPos(dropPos-Vector(0,0,100))
-								Pack.InitialVel=Vector(0,0,-2000)
-								Pack.Contents = contents
-								Pack:Spawn()
-								Pack:Activate()
-								client:notify("Supply Drop inbound.")
-							else
-								client:notify("No sky found, enhanced chip refunded.")
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
-										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
-									end
-									char:giveMoney(200)	
-								else --if the item it on the ground
-									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(200)
-								end
-							end
+							char:giveMoney(200)	
+						else --if the item it on the ground
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+							char:giveMoney(200)
 						end
 					end
-				)
-			else
-				client:notify("Transaction cancelled.")
-				return false
-			end
+				end
+			end)
 		end)
-	return false
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player
@@ -278,81 +264,81 @@ ITEM.functions.Device = {
 			"museum",
 			"purifier_water",
 			"reminiscence",
+			"farm_monster",
 			"ribcage",
 			"sacrificial_skull",
 			"soda_stream",
 			"breakfaster",
+			"brewery",
 			"bakery",
 			"alchemist",
+			"frame",
+			"fountain",
 			"curator",
+			"nac",
+			"broadcaster",
+			"kit_sentry",
 			"statue"
 		}
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
 	
-		client:requestString("Purchase", "This costs 300 scrap coins. Are you sure? Type 'yes' to proceed.", 
-		function(text)
-			if(text == "yes") then
-				char:takeMoney(350)
-				chip:remove()
-				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+		client:requestQuery("This costs 350 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(350)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			entity:EmitSound("music/radio1.mp3")
 				
-				local entity = item:getEntity() or client
-				entity:EmitSound("music/radio1.mp3")
-				
-				timer.Simple(40, 
-					function()
-						if (item != nil) then
-							local dropPos --place to drop the box
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								dropPos = findSky(client:GetPos())
-							else --if the item it on the ground
-								dropPos = findSky(item:getEntity():GetPos())
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end
+					
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
+					
+					local drop1 = table.Random(ammo)
+					local drop2 = table.Random(ammo)
+					
+					if(dropPos) then
+						local contents = {
+							drop1,
+							drop2
+						}
+						
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 							end
-							
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							else --if the item it on the ground
-								item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							end
-							
-							local drop1 = table.Random(ammo)
-							local drop2 = table.Random(ammo)
-							
-							if(dropPos) then
-								local contents = {
-									drop1,
-									drop2
-								}
-								
-								local Pack=ents.Create("ent_chance_aidbox")
-								Pack:SetPos(dropPos-Vector(0,0,100))
-								Pack.InitialVel=Vector(0,0,-2000)
-								Pack.Contents = contents
-								Pack:Spawn()
-								Pack:Activate()
-								client:notify("Supply Drop inbound.")
-							else
-								client:notify("No sky found, enhanced chip refunded.")
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
-										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
-									end
-									char:giveMoney(300)	
-								else --if the item it on the ground
-									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(300)
-								end
-							end
+							char:giveMoney(350)	
+						else --if the item it on the ground
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+							char:giveMoney(350)
 						end
 					end
-				)
-			else
-				client:notify("Transaction cancelled.")
-				return false
-			end
+				end
+			end)
 		end)
-	return false
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player
@@ -362,7 +348,108 @@ ITEM.functions.Device = {
 			player = item:getOwner()
 		end
 		
-		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 300) then 
+		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 350) then 
+			return false
+		end
+	end
+}
+
+ITEM.functions.Strange = {
+	icon = "icon16/package.png",
+	--sound = "music/radio1.mp3",
+	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+		local inventory = char:getInv()
+
+		local ammo = { --pretty much every existing ammo item
+			"nightmare",
+			"bars",
+			"bell",
+			"food_apple_cursed",
+			"alc_cloud",
+			"food_laugh",
+			"food_madness",
+			"food_yams_mysterious",
+			"food_heart",
+			"food_brain",
+			"j_gnome",
+			"reflective",
+			"food_soda_cold",
+			"potion_luck",
+			"salve_healing",
+			"drug_psychotics",
+			"tfa_chunk"
+		}
+		
+		local chip = inventory:hasItem("cube_chip_enhanced")
+	
+		client:requestQuery("This costs 150 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(150)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			entity:EmitSound("music/radio1.mp3")
+				
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end
+					
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
+					
+					local drop1 = table.Random(ammo)
+					local drop2 = table.Random(ammo)
+					
+					if(dropPos) then
+						local contents = {
+							drop1,
+							drop2
+						}
+						
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
+							end
+							char:giveMoney(150)	
+						else --if the item it on the ground
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+							char:giveMoney(150)
+						end
+					end
+				end
+			end)
+		end)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local player
+		if(item:getOwner() == nil) then --so we can do this on the ground or in the inventory
+			player = item.player
+		else
+			player = item:getOwner()
+		end
+		
+		if (!player:getChar():getInv():hasItem("cube_chip_enhanced") or player:getChar():getMoney() < 150) then 
 			return false
 		end
 	end
@@ -378,78 +465,84 @@ ITEM.functions.Food = {
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
 
-		client:requestString("Purchase", "This costs 25 scrap coins. Are you sure? Type 'yes' to proceed.", 
-		function(text)
-			if(text == "yes") then
-				char:takeMoney(25)
-				chip:remove()
-				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+		client:requestQuery("This costs 25 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(25)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			entity:EmitSound("music/radio1.mp3")
+			
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end
 				
-				local entity = item:getEntity() or client
-				entity:EmitSound("music/radio1.mp3")
-				
-				timer.Simple(40, 
-					function()
-						if (item != nil) then
-							local dropPos --place to drop the box
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								dropPos = findSky(client:GetPos())
-							else --if the item it on the ground
-								dropPos = findSky(item:getEntity():GetPos())
-							end
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
+					
+					local foods = {
+						"food_mre",
+						"food_chinese",
+					}
+					
+					local drinks = {
+						"food_water_mountain",
+						"food_soda_bottled",
+					}
+					
+					local food = table.Random(foods)
+					local drink = table.Random(drinks)
+					
+					if(dropPos) then
+						local contents = {
+							food,
+							food,
+							food,
+							food,
+							food,
+							food,
+							food,
+							drink,
+							drink,
+							drink,
+							drink,
+							drink,
+							drink,
+							drink
+						}
 						
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							else --if the item it on the ground
-								item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 							end
-							
-							if(dropPos) then
-								local contents = {
-									"food_mre",
-									"food_mre",
-									"food_mre",
-									"food_mre",
-									"food_mre",
-									"food_mre",
-									"food_mre",
-									"food_water",
-									"food_water",
-									"food_water",
-									"food_water",
-									"food_water",
-									"food_water",
-									"food_water"
-								}
-								
-								local Pack=ents.Create("ent_chance_aidbox")
-								Pack:SetPos(dropPos-Vector(0,0,100))
-								Pack.InitialVel=Vector(0,0,-2000)
-								Pack.Contents = contents
-								Pack:Spawn()
-								Pack:Activate()
-								client:notify("Supply Drop inbound.")
-							else
-								client:notify("No sky found, enhanced chip refunded.")
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
-										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
-									end
-									char:giveMoney(25)
-								else --if the item it on the ground
-									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(25)
-								end
-							end
+							char:giveMoney(25)
+						else --if the item it on the ground
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+							char:giveMoney(25)
 						end
 					end
-				)
-			else
-				client:notify("Transaction cancelled.")
-				return false
-			end
+				end
+			end)
 		end)
-	return false
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player
@@ -474,82 +567,75 @@ ITEM.functions.Medical = {
 		local inventory = char:getInv()
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
-		client:requestString("Purchase", "This costs 50 scrap coins. Are you sure? Type 'yes' to proceed.", 
-		function(text)
-			if(text == "yes") then
-				char:takeMoney(50)
-				chip:remove()
-				nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+		client:requestQuery("This costs 50 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(50)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			entity:EmitSound("music/radio1.mp3")
+			
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end
 				
-				local entity = item:getEntity() or client
-				entity:EmitSound("music/radio1.mp3")
-				
-				timer.Simple(40, 
-					function()
-						if (item != nil) then
-							local dropPos --place to drop the box
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								dropPos = findSky(client:GetPos())
-							else --if the item it on the ground
-								dropPos = findSky(item:getEntity():GetPos())
-							end
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
+					
+					if(dropPos) then
+						local contents = {
+							"medical_bandages",
+							"medical_bandages",
+							"medical_bandages",
+							"medical_bandages",
+							"medical_bandages",
+							"medical_kit",
+							"medical_kit",
+							"medical_gauze",
+							"medical_gauze",
+							"medical_gauze",
+							"medical_suture",
+							"medical_splint",
+							"medical_splint",
+							"medical_iv",
+							"drug_disinfectant",
+							"drug_antibiotics",
+							"drug_antibiotics",
+							"drug_burnointment"
+						}
 						
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-							else --if the item it on the ground
-								item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 							end
-							
-							if(dropPos) then
-								local contents = {
-									"medical_bandages",
-									"medical_bandages",
-									"medical_bandages",
-									"medical_bandages",
-									"medical_bandages",
-									"medical_kit",
-									"medical_kit",
-									"medical_gauze",
-									"medical_gauze",
-									"medical_gauze",
-									"medical_suture",
-									"medical_splint",
-									"medical_splint",
-									"medical_iv",
-									"drug_disinfectant",
-									"drug_antibiotics",
-									"drug_antibiotics",
-									"drug_burnointment"
-								}
-								
-								local Pack=ents.Create("ent_chance_aidbox")
-								Pack:SetPos(dropPos-Vector(0,0,100))
-								Pack.InitialVel=Vector(0,0,-2000)
-								Pack.Contents = contents
-								Pack:Spawn()
-								Pack:Activate()
-								client:notify("Supply Drop inbound.")
-							else
-								client:notify("No sky found, enhanced chip refunded.")
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
-										nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
-									end
-									char:giveMoney(50)
-								else --if the item it on the ground
-									nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									char:giveMoney(50)
-								end
-							end
+							char:giveMoney(50)
+						else --if the item it on the ground
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+							char:giveMoney(50)
 						end
 					end
-				)
-			else
-				client:notify("Transaction cancelled.")
-				return false
-			end
+				end
+			end)
 		end)
-	return false
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player
@@ -580,6 +666,7 @@ ITEM.functions.Firearm = {
 			"tfa_chalk",
 			"tfa_cpr09",
 			"tfa_cr33k",
+			"tfa_wasteland_geiger",
 			"1887winchester",
 			"1897winchester",
 			"acr",
@@ -669,68 +756,60 @@ ITEM.functions.Firearm = {
 		}
 		
 		local chip = inventory:hasItem("cube_chip_enhanced")
-		client:requestString("Purchase", "This costs 5,000 scrap coins. Are you sure? Type 'yes' to proceed.", 
-			function(text)
-				if(text == "yes") then
-					char:takeMoney(5000)
-					chip:remove()
-					nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+		client:requestQuery("This costs 5,000 scrap coins. Are you sure?", "Purchase", function(text)
+			char:takeMoney(5000)
+			chip:remove()
+			nut.chat.send(client, "itclose", "The strange device begins to emit some sort of noise.")
+			
+			local entity = item:getEntity() or client
+			
+			entity:EmitSound("music/radio1.mp3")
+			timer.Simple(40, function()
+				if (item != nil) then
+					local dropPos --place to drop the box
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						dropPos = findSky(client:GetPos())
+					else --if the item it on the ground
+						dropPos = findSky(item:getEntity():GetPos())
+					end		
+				
+					local drop = table.Random(ammo)
 					
-					local entity = item:getEntity() or client
+					if(!IsValid(item:getEntity())) then --we have to do this twice just in case they pick it up or drop it or something
+						client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					else --if the item it on the ground
+						item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+					end
 					
-					entity:EmitSound("music/radio1.mp3")
-					timer.Simple(40, 
-						function()
-							if (item != nil) then
-								local dropPos --place to drop the box
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									dropPos = findSky(client:GetPos())
-								else --if the item it on the ground
-									dropPos = findSky(item:getEntity():GetPos())
-								end		
-							
-								local drop = table.Random(ammo)
-								
-								if(!IsValid(item:getEntity())) then --we have to do this twice just in case they pick it up or drop it or something
-									client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-								else --if the item it on the ground
-									item:getEntity():EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
-								end
-								
-								if(dropPos) then
-									local contents = {
-										drop,
-									}
-									
-									local Pack=ents.Create("ent_chance_aidbox")
-									Pack:SetPos(dropPos-Vector(0,0,100))
-									Pack.InitialVel=Vector(0,0,-2000)
-									Pack.Contents = contents
-									Pack:Spawn()
-									Pack:Activate()
-									client:notify("Supply Drop inbound.")
-								else
-									client:notify("No sky found, enhanced chip refunded.")
-									if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-										if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
-											nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
-										end
-										char:giveMoney(5000)
-									else --if the item it on the ground
-										char:giveMoney(5000)
-										nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									end
-								end
+					if(dropPos) then
+						local contents = {
+							drop,
+						}
+						
+						local Pack=ents.Create("ent_chance_aidbox")
+						Pack:SetPos(dropPos-Vector(0,0,100))
+						Pack.InitialVel=Vector(0,0,-2000)
+						Pack.Contents = contents
+						Pack:Spawn()
+						Pack:Activate()
+						client:notify("Supply Drop inbound.")
+					else
+						client:notify("No sky found, enhanced chip refunded.")
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add("cube_chip_enhanced")) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("cube_chip_enhanced", client:getItemDropPos()) --if not, drop it on the ground
 							end
+							char:giveMoney(5000)
+						else --if the item it on the ground
+							char:giveMoney(5000)
+							nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
 						end
-					)
-				else
-					client:notify("Transaction cancelled.")
-					return false
+					end
 				end
-			end
-		)
-	return false
+			end)
+		end)
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player

@@ -485,13 +485,13 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "handy" 
 TRAIT.name = "Handy Man"
-TRAIT.desc = "You know your way around a tool or two.\nStart with a salvager kit.\nScavenge rolls reduced to 0.85x."
+TRAIT.desc = "You know your way around a tool or two.\nStart with a salvager kit.\nScavenge rolls reduced to 0.9x."
 TRAIT.category = "Character"
 TRAIT.items = {
 	"kit_salvager"
 }
 TRAIT.modifier = {
-	["scavenge"] = 0.85,
+	["scavenge"] = 0.9,
 }
 
 TRAITS:Register( TRAIT )
@@ -499,7 +499,7 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "loudclear" 
 TRAIT.name = "Loud & Clear"
-TRAIT.desc = "There are some things that just have to be said.\nStart with two radios, and a radio booster.\nPerception, scavenge rolls reduced by 0.9x."
+TRAIT.desc = "There are some things that just have to be said.\nStart with two radios, and a radio booster.\nPerception, scavenge rolls reduced by 0.95x."
 TRAIT.category = "Character"
 TRAIT.items = {
 	"comm_radio",
@@ -507,8 +507,24 @@ TRAIT.items = {
 	"radio_booster"
 }
 TRAIT.modifier = {
-	["perception"] = 0.9,
-	["scavenge"] = 0.9
+	["perception"] = 0.95,
+	["scavenge"] = 0.95
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "personality" 
+TRAIT.name = "Radio Personality"
+TRAIT.desc = "If video didn't kill you, neither will this.\nStart with a broadcaster.\nBackstab, disarm, quickdraw rolls reduced by 0.9x."
+TRAIT.category = "Character"
+TRAIT.items = {
+	"broadcaster"
+}
+TRAIT.modifier = {
+	["backstab"] = 0.9,
+	["disarm"] = 0.9,
+	["quickdraw"] = 0.9
 }
 
 TRAITS:Register( TRAIT )
@@ -746,12 +762,24 @@ TRAIT.modifier = {
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
-TRAIT.uid = "thrower" 
-TRAIT.name = "Throwing Specialist"
-TRAIT.desc = "Finally your party trick comes in handy.\nYou gain the ability to throw accurately (/throwaimed).\nMelee rolls reduced by 0.9x."
+TRAIT.uid = "rapidstab" 
+TRAIT.name = "Rapid Stabbing"
+TRAIT.desc = "How violent of you.\nYou gain the ability to stab rapidly (/rapidstab).\nUnaimed firearm rolls reduced by 0.95x."
 TRAIT.category = "Char Abilities"
 TRAIT.modifier = {
-	["melee"] = 0.9
+	["firearms"] = 0.95,
+	["firearmsburst"] = 0.95
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "thrower" 
+TRAIT.name = "Throwing Specialist"
+TRAIT.desc = "Finally your party trick comes in handy.\nYou gain the ability to throw accurately (/throwaimed).\nMelee rolls reduced by 0.95x."
+TRAIT.category = "Char Abilities"
+TRAIT.modifier = {
+	["melee"] = 0.95
 }
 
 TRAITS:Register( TRAIT )
@@ -770,7 +798,7 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "executioner" 
 TRAIT.name = "Executioner"
-TRAIT.desc = "You really like to get behind.\nYou gain the ability to execute enemies with a firearms weapon in certain situations. (/execute)."
+TRAIT.desc = "Some would call an executioner's work violent and cruel, they might be right.\nYou gain the ability to execute enemies with a firearms weapon in certain situations. (/execute)."
 TRAIT.category = "Char Abilities"
 
 TRAITS:Register( TRAIT )

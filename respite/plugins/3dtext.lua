@@ -171,26 +171,26 @@ nut.command.add("textadd", {
 		angles:RotateAroundAxis(angles:Up(), 90)
 		angles:RotateAroundAxis(angles:Forward(), 90)
 		
-		if (arguments[3] != nil) then
-			r = tonumber(arguments[3])
+		if (arguments[3]) then
+			r = math.Clamp(tonumber(arguments[3]), 0, 255)
 		else
 			r = 255
 		end
 		
-		if (arguments[4] != nil) then
-			g = tonumber(arguments[4])
+		if (arguments[4]) then
+			g = math.Clamp(tonumber(arguments[4]), 0, 255)
 		else
 			g = 255
 		end
 		
-		if (arguments[5] != nil) then
-			b = tonumber(arguments[5])
+		if (arguments[5]) then
+			b = math.Clamp(tonumber(arguments[5]), 0, 255)
 		else
 			b = 255
-		end		
+		end
 	
 		-- Add the text.
-		PLUGIN:addText(position + angles:Up()*0.1, angles, arguments[1], tonumber(arguments[2]), r, g, b)
+		PLUGIN:addText(position + angles:Up()*0.1, angles, tostring(arguments[1]), tonumber(arguments[2]), r, g, b)
 
 		-- Tell the player the text was added.
 		return L("textAdded", client)

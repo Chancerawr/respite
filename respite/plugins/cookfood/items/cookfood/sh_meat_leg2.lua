@@ -2,14 +2,16 @@ ITEM.name = "Human Leg"
 ITEM.uniqueID = "food_human_leg2"
 ITEM.model = "models/dismemberment/gibs/legs/upper_leg.mdl"
 ITEM.hungerAmount = 25
-ITEM.foodDesc = "The upper leg of a human being."
+ITEM.desc = "The upper leg of a human being."
 ITEM.quantity2 = 2
-ITEM.price = 100
+ITEM.price = 0
 ITEM.width = 2
 ITEM.height = 1
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 10 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 10
+}
 
 ITEM.iconCam = {
 	pos = Vector(-1.5, 200, 0),

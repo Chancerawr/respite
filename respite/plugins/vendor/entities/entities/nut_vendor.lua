@@ -201,7 +201,7 @@ if (SERVER) then
 		activator.nutVendor = self
 		netstream.Start(activator, "vendorOpen", self:EntIndex(), unpack(data))
 	end
-
+	
 	function ENT:setMoney(value)
 		self.money = value
 

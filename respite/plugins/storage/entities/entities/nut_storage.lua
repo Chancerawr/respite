@@ -126,10 +126,10 @@ else
 		y = y + ty*.9
 
 		local def = PLUGIN.definitions[self.GetModel(self):lower()]
-		local tx, ty = drawText("Storage", x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 0.65)
+		local tx, ty = drawText(self:getNetVar("name", "Storage"), x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 0.65)
 		if (def) then
 			y = y + ty + 1
-			drawText(def.desc, x, y, colorAlpha(color_white, alpha), 1, 1, nil, alpha * 0.65)
+			drawText(self:getNetVar("desc", def.desc), x, y, colorAlpha(color_white, alpha), 1, 1, nil, alpha * 0.65)
 		end
 	end
 end

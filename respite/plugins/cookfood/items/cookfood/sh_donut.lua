@@ -2,14 +2,16 @@ ITEM.name = "Donut"
 ITEM.uniqueID = "food_donut"
 ITEM.model = "models/noesis/donut.mdl"
 ITEM.hungerAmount = 20
-ITEM.foodDesc = "A tasty pastry."
+ITEM.desc = "A tasty pastry."
 ITEM.quantity2 = 2
-ITEM.price = 10
+ITEM.price = 8
 ITEM.width = 1
 ITEM.height = 1
 ITEM.cookable = false
 
-ITEM.attribBoosts = { ["luck"] = 4 }
+ITEM.attribBoosts = { 
+	["luck"] = 4 
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

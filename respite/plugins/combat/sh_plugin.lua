@@ -6,89 +6,113 @@ PLUGIN.desc = "A combat system based off of stats and rolling. Inspired by CWPNP
 local CHATCOLOR_MELEE = Color(155, 130, 130)
 local CHATCOLOR_RANGED = Color(130, 130, 150)
 local CHATCOLOR_REACT = Color(130, 150, 130)
+local CHATCOLOR_GRAZE = Color(140, 100, 50)
 local CHATCOLOR_RESIST = Color(160, 150, 130)
 local CHATCOLOR_SPECIAL = Color(150, 120, 100)
 
 --potential parts to hit with random shots
-	bParts = {}
-    bParts[1] = "Skull"
-    bParts[2] = "Head Glance"
-    bParts[3] = "Left Eye"
-    bParts[4] = "Nose"
-    bParts[5] = "Mouth"
-    bParts[6] = "Neck Flesh"
-    bParts[7] = "Neck"
-    bParts[8] = "Larynx"
-    bParts[9] = "Neck Spine"
-    bParts[10] = "Base of Neck"
-    bParts[11] = "Left Shoulder"
-    bParts[12] = "Right Shoulder"
-    bParts[13] = "Left Shoulder Socket"
-    bParts[14] = "Right Shoulder Socket"
-    bParts[15] = "Left Shoulder Glance"
-    bParts[16] = "Right Shoulder Glance"
-    bParts[17] = "Left Upper Arm Bone"
-    bParts[18] = "Right Upper Arm Bone"
-    bParts[19] = "Left Upper Arm Flesh"
-    bParts[20] = "Right Upper Arm Flesh"
-    bParts[21] = "Left Arm Glance"
-    bParts[22] = "Right Arm Glance"
-	bParts[23] = "Left Elbow"
-	bParts[24] = "Right Elbow"
-	bParts[25] = "Left Forearm Flesh"
-	bParts[26] = "Right Forearm Flesh"
-	bParts[27] = "Left Forearm Bone"
-	bParts[28] = "Right Forearm Bone"
-	bParts[29] = "Left Hand"
-	bParts[30] = "Right Hand"
-	bParts[31] = "Left Scapula"
-	bParts[32] = "Right Scapula"
-	bParts[33] = "Heart"
-	bParts[34] = "Left Lung"
-	bParts[35] = "Right Lung"
-	bParts[36] = "Upper Chest Spine"
-	bParts[37] = "Lower Chest Spine"
-	bParts[38] = "Abdomen Spine"
-	bParts[39] = "Left Upper Chest Rib"
-	bParts[40] = "Right Upper Chest Rib"
-	bParts[41] = "Left Lower Chest Rib"
-	bParts[42] = "Right Lower Chest Rib"
-	bParts[43] = "Liver"
-	bParts[44] = "Kidney"
-	bParts[45] = "Stomach"
-	bParts[46] = "Spleen"
-	bParts[47] = "Large Intestine"
-	bParts[48] = "Small Intestine"
-	bParts[49] = "Left Pelvis"
-	bParts[50] = "Center Pelvis"
-	bParts[51] = "Right Pelvis"
-	bParts[52] = "Torso Glance"
-	bParts[53] = "Left Hip"
-	bParts[54] = "Right Hip"
-	bParts[55] = "Left Hip Socket"
-	bParts[56] = "Right Hip Socket"
-	bParts[57] = "Left Upper Leg Flesh"
-	bParts[58] = "Right Upper Leg Flesh"
-	bParts[59] = "Left Upper Leg Femur"
-	bParts[60] = "Right Upper Leg Femur"
-	bParts[61] = "Left Leg Glance"
-	bParts[62] = "Right Leg Glance"
-	bParts[63] = "Left Knee"
-	bParts[64] = "Right Knee"
-	bParts[65] = "Left Shin Flesh"
-	bParts[66] = "Right Shin Flesh"
-	bParts[67] = "Left Tibia"
-	bParts[68] = "Right Tibia"
-	bParts[69] = "Left Ankle"
-	bParts[70] = "Right Ankle"
-	bParts[71] = "Left Foot"
-	bParts[72] = "Right Foot"
-	bParts[73] = "Right Eye"
-	bParts[74] = "Groin"
-	bParts[75] = "Left Ear"
-	bParts[76] = "Right Ear"
-	bParts[77] = "Weapon"
+local bParts = {
+	{ --head/neck
+		"Skull", 
+		"Left Eye", 
+		"Right Eye", 
+		"Nose",
+		"Face",
+		"Left Ear",
+		"Right Ear",
+		"Jaw",
+		
+		"Neck", 
+		"Neck Flesh", 
+		"Larynx", 
+		"Trachea"
+	},
+	
+	{ --shoulders
+		"Left Shoulder", 
+		"Left Shoulder Socket", 
+		"Left Scapula",
+		"Right Shoulder", 
+		"Right Shoulder Socket",
+		"Right Scapula"
+	}, 
+	
+	{ --arms
+		"Left Upper Arm Bone", 
+		"Left Upper Arm Flesh", 
+		"Left Elbow",  
+		"Left Forearm Flesh",
+		"Left Forearm Bone",
+		"Left Hand",
+		
+		"Right Upper Arm Bone", 
+		"Right Upper Arm Flesh", 
+		"Right Elbow",
+		"Right Forearm Flesh",
+		"Right Forearm Bone",
+		"Right Hand",
+		
+		"Weapon"
+	},
+	
+	{ --torso/chest
+		"Heart",
+		"Left Lung",
+		"Left Upper Chest Rib",
+		"Left Lower Chest Rib",
+		"Right Lung",
+		"Right Upper Chest Rib",
+		"Right Lower Chest Rib",
+		"Liver",
+		"Left Kidney",
+		"Right Kidney",
+		"Stomach",
+		"Spleen",
+		"Pancreas",
+		"Large Intestine",
+		"Small Intestine",
+		
+		"Upper Chest Spine",
+		"Lower Chest Spine",
+		"Abdomen Spine"
+	},
 
+	{ --hip
+		"Left Pelvis",
+		"Center Pelvis",
+		"Right Pelvis",
+		"Left Hip",
+		"Left Hip Socket",
+		"Right Hip",
+		"Right Hip Socket",
+		"Groin"
+	},
+
+	{ --legs
+		"Left Upper Leg Flesh",
+		"Left Upper Leg Femur",
+		"Left Knee",
+		"Left Shin Flesh",
+		"Left Tibia",
+		"Left Ankle",
+		"Left Foot",
+		
+		"Right Upper Leg Flesh",
+		"Right Upper Leg Femur",
+		"Right Knee",
+		"Right Shin Flesh",
+		"Right Tibia",
+		"Right Ankle",
+		"Right Foot"
+	}
+}
+
+function PLUGIN:getRandomBpart()
+	local part = table.Random(table.Random(bParts))
+	
+	return part
+end
+	
 local function traitModify(client, command, rolled)
 	local char = client:getChar()
 	local charTraits = char:getData("traits", {}) --the traits the character has
@@ -150,7 +174,8 @@ local function combatRollOther(client, attr, debuff, name, msg)
 	
 	rolled = traitModify(client, "drone", rolled)
 	
-	local part = bParts[math.random(1, 77)]
+	--local part = bParts[math.random(1, 77)]
+	local part = PLUGIN:getRandomBpart()
 	
 	nut.log.addRaw(client:Name().." has rolled \""..rolled .." ".. part.."\".", 2)
 	nut.chat.send(client, "firearms", "'s " .. name .. " has rolled " .. rolled .. critmsg .. " for " .. msg .. part .. ".")
@@ -208,13 +233,14 @@ local function rollHandle(client, command, noPrint)
 		base = 0
 	end
 	
+	--generates 1 or more rolls based on command data
 	local rolls = comTable.rolls(base, attribs)
 	for k, roll in pairs(rolls) do
 		roll = roll * comTable.mult
 		roll = traitModify(client, command, roll)
 		
 		if(comTable.parts) then
-			part = table.Random(bParts)
+			part = PLUGIN:getRandomBpart()
 		end
 		
 		if(!comTable.noCrit) then
@@ -248,7 +274,7 @@ local function rollHandle(client, command, noPrint)
 					nut.chat.send(client, comTable.category, "has rolled " ..roll..critmsg.. " for " ..comTable.attackString.. " at target's " ..part.. "." .. weapon)
 				end
 			else
-				comTable.print(rolls, part)
+				comTable.print(client, roll, part, critmsg)
 			end
 		end
 	end
@@ -269,6 +295,15 @@ nut.chat.register("melee", {
 nut.chat.register("react", { --reaction roll
 	format = "%s %s",
 	color = CHATCOLOR_REACT,
+	filter = "actions",
+	font = "nutChatFontItalics",
+	onCanHear = nut.config.get("chatRange", 280) * 4,
+	deadCanChat = true
+})
+
+nut.chat.register("graze", { --reaction roll
+	format = "%s %s",
+	color = CHATCOLOR_GRAZE,
 	filter = "actions",
 	font = "nutChatFontItalics",
 	onCanHear = nut.config.get("chatRange", 280) * 4,
@@ -398,6 +433,17 @@ nut.command.add("defend", {
 		end	
 	
 		rollHandle(client, "defend")
+	end
+})
+
+nut.command.add("rapidstab", {
+	onRun = function(client, arguments)
+		if(!hasTrait(client, "rapidstab")) then
+			client:notify("You do not have the Rapid Stabbing trait.")
+			return false
+		end	
+	
+		rollHandle(client, "rapidstab")
 	end
 })
 
@@ -786,29 +832,29 @@ if(CLIENT) then
 			attribText = attribText .. nut.attribs.list[k].name .. ": " .. v .. "\n\n"
 		end
 	
-		local attribMenu = vgui.Create( "DFrame" );
-		attribMenu:SetSize( 500, 700 );
-		attribMenu:Center();
-		if( me ) then
-			attribMenu:SetTitle( "Player Menu" );
+		local attribMenu = vgui.Create("DFrame")
+		attribMenu:SetSize( 500, 700 )
+		attribMenu:Center()
+		if(me) then
+			attribMenu:SetTitle("Player Menu")
 		else
-			attribMenu:SetTitle( client:Name() );
+			attribMenu:SetTitle(client:Name())
 		end
 		attribMenu:MakePopup();
 
-		attribMenu.DS = vgui.Create( "DScrollPanel", attribMenu );
-		attribMenu.DS:SetPos( 10, 50 );
-		attribMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 );
+		attribMenu.DS = vgui.Create( "DScrollPanel", attribMenu )
+		attribMenu.DS:SetPos( 10, 50 )
+		attribMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 )
 		function attribMenu.DS:Paint( w, h ) end
 		
-		attribMenu.B = vgui.Create( "DLabel", attribMenu.DS );
-		attribMenu.B:SetPos( 0, 40 );
-		attribMenu.B:SetFont( "nutSmallFont" );
-		attribMenu.B:SetText( attribText );
-		attribMenu.B:SetAutoStretchVertical( true );
-		attribMenu.B:SetWrap( true );
-		attribMenu.B:SetSize( 500 - 20, 10 );
-		attribMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) );
+		attribMenu.B = vgui.Create( "DLabel", attribMenu.DS )
+		attribMenu.B:SetPos( 0, 40 )
+		attribMenu.B:SetFont( "nutSmallFont" )
+		attribMenu.B:SetText( attribText )
+		attribMenu.B:SetAutoStretchVertical( true )
+		attribMenu.B:SetWrap( true )
+		attribMenu.B:SetSize( 500 - 20, 10 )
+		attribMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) )
 	end)
 end
 
@@ -887,6 +933,8 @@ nut.command.add("train", {
 			else
 				local remaining = cooldown - (tonumber(lastTrain) - tonumber(os.date("%d")))
 				client:notify("You cannot train for " ..remaining.. " day(s).")
+				
+				nut.log.addRaw(client:Name().." did not successfully train due to cooldown.", 2)	
 			end
 		else
 			client:notifyLocalized("Invalid Attribute")
@@ -931,6 +979,7 @@ function PLUGIN:GetStartAttribPoints()
 	return 25
 end
 
-nut.util.include("sh_combat.lua")
+nut.util.include("sh_centcommands.lua")
 nut.util.include("sh_commands.lua")
 nut.util.include("sh_scav.lua")
+nut.util.include("sh_train.lua")

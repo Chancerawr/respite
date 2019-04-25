@@ -6,6 +6,7 @@ PLUGIN.definitions = PLUGIN.definitions or {}
 STORAGE_DEFINITIONS = PLUGIN.definitions
 
 nut.util.include("sh_definitions.lua")
+nut.util.include("sh_lootable.lua")
 
 for k, v in pairs(PLUGIN.definitions) do
 	if (v.name and v.width and v.height) then
@@ -57,7 +58,7 @@ if (SERVER) then
   	for k, v in ipairs(ents.FindByClass("nut_storage")) do
   		if (hook.Run("CanSaveStorage", v, v:getInv()) != false) then
   			if (v:getInv()) then
-  				data[#data + 1] = {v:GetPos(), v:GetAngles(), v:getNetVar("id"), v:GetModel(), v.password}
+  				data[#data + 1] = {v:GetPos(), v:GetAngles(), v:getNetVar("id"), v:GetModel(), v.password, v.lootable, v:getNetVar("name", nil), v:getNetVar("desc", nil)}
 			end
   		end
   	end
@@ -96,6 +97,18 @@ if (SERVER) then
 					if (v[5]) then
 						storage.password = v[5]
 						storage:setNetVar("locked", true)
+					end
+					
+					if(v[6]) then
+						storage.lootable = v[6]
+					end		
+					
+					if(v[7]) then
+						storage:setNetVar("name", v[7])
+					end		
+					
+					if(v[8]) then
+						storage:setNetVar("desc", v[8])
 					end
 					
 					if (type(v[3]) != "number" or v[3] < 0) then
@@ -220,6 +233,47 @@ nut.command.add("storagelock", {
 				ent:setNetVar("locked", nil)
 				ent.password = nil
 				client:notifyLocalized("storPassRmv")
+			end
+		else
+			client:notifyLocalized("invalid", "Entity")
+		end
+	end
+})
+
+nut.command.add("storagename", {
+	adminOnly = true,
+	syntax = "[string name]",
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		local ent = trace.Entity
+
+		if (ent and ent:IsValid()) then
+			if(ent:GetCreator() == client or client:IsAdmin()) then		
+				local name = table.concat(arguments, " ")
+
+				ent:setNetVar("name", name)
+			else
+				client:notify("You do not own that.")
+			end
+		else
+			client:notifyLocalized("invalid", "Entity")
+		end
+	end
+})
+
+nut.command.add("storagedesc", {
+	syntax = "[string desc]",
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		local ent = trace.Entity
+
+		if (ent and ent:IsValid()) then
+			if(ent:GetCreator() == client or client:IsAdmin()) then		
+				local desc = table.concat(arguments, " ")
+
+				ent:setNetVar("desc", desc)
+			else
+				client:notify("You do not own that.")
 			end
 		else
 			client:notifyLocalized("invalid", "Entity")

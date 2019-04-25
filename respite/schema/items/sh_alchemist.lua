@@ -46,26 +46,31 @@ ITEM.functions.Depressant = {
 			--ranScrap[18] = "cube_chip"
 			
 		nut.chat.send(client, "itclose", "The object is placed near the Alchemist.")
-		object:remove()
+		
+		local amount = object:getData("Amount", 1)
+		if(amount > 1) then
+			object:setData("Amount", amount - 1)
+		else
+			object:remove()
+		end
+		
 		item:setData("producing2", CurTime())
-		timer.Simple(7, 
-			function()
-				local position = client:getItemDropPos()
-				local reward = ranScrap[math.random(1,17)]
-				
-				item:setData("producing2", 0)
-				
-				if(!IsValid(item:getEntity())) then
-					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(reward, position) --if not, drop it on the ground
-					end
-				else
-					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
+		timer.Simple(7, function()
+			local position = client:getItemDropPos()
+			local reward = ranScrap[math.random(1,17)]
+			
+			item:setData("producing2", 0)
+			
+			if(!IsValid(item:getEntity())) then
+				if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
+					nut.item.spawn(reward, position) --if not, drop it on the ground
 				end
-				
-				nut.chat.send(client, "itclose", "When nobody is looking, the object near the alchemist changes.")
+			else
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
 			end
-		)
+			
+			nut.chat.send(client, "itclose", "When nobody is looking, the object near the alchemist changes.")
+		end)
 		
 		return false
 	end,

@@ -138,18 +138,15 @@ ITEM.functions.Depress = {
 		timer.Simple(60, 
 			function()
 				item:setData("producing", nil)
-			
-				timer.Simple(amount, 
-					function()
-						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-							if(!inventory:add("food_soda_depress")) then --if the inventory has space, put it in the inventory
-								nut.item.spawn("food_soda_depress", client:getItemDropPos()) --if not, drop it on the ground
-							end
-						else --if the item is on the ground
-							nut.item.spawn("food_soda_depress", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-						end
+		
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					if(!inventory:add("food_soda_depress")) then --if the inventory has space, put it in the inventory
+						nut.item.spawn("food_soda_depress", client:getItemDropPos()) --if not, drop it on the ground
 					end
-				)
+				else --if the item is on the ground
+					nut.item.spawn("food_soda_depress", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				end
+
 				client:notify("Converting has finished.")
 				nut.chat.send(client, "itclose", "A strangely sad soda comes out of the machine in a container.")
 			end
@@ -162,6 +159,62 @@ ITEM.functions.Depress = {
 		local depress = player:getChar():getInv():hasItem("drug_depress")
 		
 		if(!depress) then
+			return false
+		end
+		
+		local prodTime = 60
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
+		end
+	end
+}
+
+ITEM.functions.Pickle = {
+	name = "Pickles",
+	icon = "icon16/cup.png",
+	sound = "HL1/fvox/hiss.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local pickle = inventory:hasItem("food_pickles")
+		pickle:remove()
+		
+		client:notify("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the object, and begins to make some strange squishing noises.")	
+		
+		item:setData("producing", CurTime())
+		
+		timer.Simple(60, function()
+			item:setData("producing", nil)
+			
+			local reward = "food_pickle_soda"
+			if(math.random(0,1) == 1) then
+				reward = "food_pickle_juice"
+			end
+
+			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+				if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
+					nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
+				end
+			else --if the item is on the ground
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+			end
+
+			client:notify("Converting has finished.")
+			
+			nut.chat.send(client, "itclose", "A strange drink comes from the machine.")
+		end)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local player = item.player or item:getOwner()
+		local pickle = player:getChar():getInv():hasItem("food_pickles")
+		
+		if(!pickle) then
 			return false
 		end
 		
@@ -411,21 +464,21 @@ ITEM.functions.Battery = {
 				
 				local soda = "food_soda_cold"
 
-				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add(soda)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
-					end
-				else --if the item is on the ground
-					nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-				end
+				local rewards = {
+					"food_soda_cold",
+					"j_battery_dead"
+				}
 				
-				--drops a dead battery.
-				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add("j_battery_dead")) then --if the inventory has space, put it in the inventory
-						nut.item.spawn("j_battery_dead", client:getItemDropPos()) --if not, drop it on the ground
-					end
-				else --if the item is on the ground
-					nut.item.spawn("j_battery_dead", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				for k, v in pairs(rewards) do
+					timer.Simple(k, function()
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							if(!inventory:add(v)) then --if the inventory has space, put it in the inventory
+								nut.item.spawn(v, client:getItemDropPos()) --if not, drop it on the ground
+							end
+						else --if the item is on the ground
+							nut.item.spawn(v, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+						end
+					end)
 				end
 				
 				nut.chat.send(client, "itclose", "Something is dispensed from the machine.")

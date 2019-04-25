@@ -100,6 +100,70 @@ ITEM.functions.Reflect = {
 	end
 }
 
+ITEM.functions.Idea = {
+	name = "Idea",
+	icon = "icon16/map.png",
+	sound = "ambient/water/distant_drip4.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local object = inventory:hasItem("j_scrap_idea")	
+		
+		nut.chat.send(client, "itclose", "You push an idea into the mirror, it reflects the world through your eyes for seventy-seven seconds.")
+
+		local amount = object:getData("Amount", 1)
+		if(amount > 3) then
+			object:setData("Amount", amount - 3)
+		else
+			object:remove()
+		end
+		
+		client:notify("The mirror is changing somehow.")
+		
+		item:setData("producing", CurTime())
+		timer.Simple(77, function()
+			item:setData("producing", nil)
+		
+			local position = client:getItemDropPos()
+		
+			local reward = "reflective"
+		
+			if(!IsValid(item:getEntity())) then
+				if(!inventory:add(reward, 1)) then --if the inventory has space, put it in the inventory
+					nut.item.spawn(reward, position)
+				end
+			else
+				--spawn the reward item above the entity
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50)
+			end
+			client:notifyLocalized("The mirror is finished.")
+			nut.chat.send(client, "itclose", "Something comes from the other side of the mirror.")
+		end)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player or item:getOwner()
+		local object = player:getChar():getInv():hasItem("j_scrap_idea")
+		
+		local prodTime = 202
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
+		end
+		
+		if (!object) then --if item of importance isn't in the inventory.
+			return false
+		end
+		
+		local amount = object:getData("Amount", 1)
+		if(amount < 3) then
+			return false
+		end
+	end
+}
+
 ITEM.functions.EChip = {
 	name = "Enhanced Chip",
 	icon = "icon16/map.png",
@@ -181,6 +245,7 @@ ITEM.functions.IChip = {
 				local position = client:getItemDropPos()
 				local rewards = {
 					"drug_nightmare",
+					"reflective",
 					"j_gnome",
 					"story_respites",
 					"story_memory",
@@ -260,7 +325,7 @@ function ITEM:getDesc()
 	local desc = self.desc
 	
 	if(self:getData("producing", false)) then
-		desc = desc .. "\nThe mirror is black."
+		desc = desc .. "\nThe mirror is showing you something."
 	end
 	
 	return Format(desc)

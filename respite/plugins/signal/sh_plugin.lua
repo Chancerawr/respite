@@ -3,57 +3,66 @@ PLUGIN.author = "Black Tea"
 PLUGIN.desc = "You can beep at other people."
 local SIGNAL_CHATCOLOR = Color(100, 100, 255)
 
-codeList = {}
-codeList[0] = "Elephant"
-codeList[1] = "Bird"
-codeList[2] = "Dog"
-codeList[3] = "Rat"
-codeList[4] = "Mouse"
-codeList[5] = "Cat"
-codeList[6] = "Bear"
-codeList[7] = "Wolf"
-codeList[8] = "Tiger"
-codeList[9] = "Moose"
-codeList[10] = "Deer"
-codeList[11] = "Bee"
-codeList[12] = "Fly"
-codeList[13] = "Ant"
-codeList[14] = "Fish"
-codeList[15] = "Rhino"
-codeList[16] = "Jeffrey"
-codeList[17] = "Fox"
-codeList[18] = "Walrus"
-codeList[19] = "Giraffe"
-codeList[20] = "Squid"
-codeList[21] = "Octopus"
-codeList[22] = "Shark"
-codeList[23] = "Toad"
-codeList[24] = "Tortoise"
-codeList[25] = "Zebra"
-codeList[26] = "Hedgehog"
-codeList[27] = "Donkey"
-codeList[28] = "Gopher"
-codeList[29] = "Turkey"
-codeList[30] = "Horse"
-codeList[31] = "Scorpion"
-codeList[32] = "Spider"
-codeList[32] = "Monkey"
-codeList[33] = "Whale"
-codeList[34] = "Lizard"
-codeList[35] = "Gorilla"
-codeList[36] = "Ferret"
-codeList[37] = "Drifter"
-codeList[38] = "Shadow"
-codeList[39] = "Shade"
-codeList[40] = "Abomination"
-codeList[41] = "Haze"
-codeList[42] = "Storm"
-codeList[43] = "Snow"
-codeList[44] = "Rain"
-codeList[45] = "Fog"
-codeList[46] = "Cloud"
-
-
+PLUGIN.codeList = {
+	"Plastic",
+	"Drifter",
+	"Shade",
+	"Abomination",
+	"Aberration",
+	"Lost",
+	"Ichor",
+	"Blight",
+	"Shard",
+	"Memory",
+	"Idea",
+	"Water",
+	"Device",
+	"Shadow",
+	"Haze",
+	"Storm",
+	"Snow",
+	"Rain",
+	"Fog",
+	"Cloud",	
+	"Elephant",
+	"Bird",
+	"Dog",
+	"Rat",
+	"Mouse",
+	"Cat",
+	"Bear",
+	"Wolf",
+	"Tiger",
+	"Moose",
+	"Deer",
+	"Bee",
+	"Fly",
+	"Ant",
+	"Fish",
+	"Rhino",
+	"Jeffrey",
+	"Fox",
+	"Walrus",
+	"Giraffe",
+	"Squid",
+	"Octopus",
+	"Shark",
+	"Toad",
+	"Tortoise",
+	"Zebra",
+	"Hedgehog",
+	"Donkey",
+	"Gopher",
+	"Turkey",
+	"Horse",
+	"Scorpion",
+	"Spider",
+	"Monkey",
+	"Whale",
+	"Lizard",
+	"Gorilla",
+	"Ferret",
+}
 
 if (CLIENT) then
 	local PANEL = {}
@@ -293,21 +302,26 @@ nut.chat.register("signal", {
 		end
 	end,
 	onChatAdd = function(speaker, text, anonymous)
-			--local name = anonymous and L"someone" or hook.Run("GetDisplayedName", speaker, chatType) or (IsValid(speaker) and speaker:Name() or "Console")
+		--local name = anonymous and L"someone" or hook.Run("GetDisplayedName", speaker, chatType) or (IsValid(speaker) and speaker:Name() or "Console")
 
-			color = SIGNAL_CHATCOLOR
-			local codeNum = 0
+		local textSep = string.Explode(" ", text) or {}
+		
+		local code = ""
+		for k, v in pairs(textSep) do		
+			local codeNum = 100
 			--local translated = L2(chatType.."Format", name, text)
-			if(tonumber(text) != nil) then
-				codeNum = tonumber(text)
+			if(tonumber(v) != nil) then
+				codeNum = tonumber(v)
 			end
-			local code
-			if(codeNum < table.Count(codeList) and codeNum > -1) then
-				code = codeList[codeNum]
+			
+			if(codeNum < table.Count(nut.plugin.list["signal"].codeList) and codeNum > 0) then
+				code = code.. " " ..nut.plugin.list["signal"].codeList[codeNum]
 			else
-				code = "Plastic"
+				code = code.. " Unknown"
 			end
-			chat.AddText(color, code .. ".")
+		end
+
+		chat.AddText(SIGNAL_CHATCOLOR, code .. ".")
 	end,	
 	prefix = {"/signal"},
 })

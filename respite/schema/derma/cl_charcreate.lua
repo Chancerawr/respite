@@ -56,6 +56,7 @@ local PANEL = {}
 				if(v.field == "_attribs") then
 					continue
 				end
+				
 				if(v.field == "_traits") then
 					continue
 				end

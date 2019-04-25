@@ -17,55 +17,56 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Fill = {
-  tip = "Put your chips into the bag.",
-  icon = "icon16/add.png",
-  onRun = function(item)
-	local client = item.player
-	local inventory = client:getChar():getInv()
-	local chipcount = item:getData("chipcount")
-	local chip = inventory:hasItem("cube_chip")	
-	while(chip) do
-		if (chip and item:getData("chipcount") < 25 ) then
-			chip:remove()
-			item:setData("chipcount", item:getData("chipcount") + 1)
-			item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+	tip = "Put your chips into the bag.",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local chipcount = item:getData("chipcount")
+		local chip = inventory:hasItem("cube_chip")	
+		while(chip) do
+			if (chip and item:getData("chipcount") < 25 ) then
+				chip:remove()
+				item:setData("chipcount", item:getData("chipcount") + 1)
+				item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+			else
+				return false
+			end
+
+			chip = inventory:hasItem("cube_chip")	
+		end
+		return false
+	end,
+	onCanRun = function(item)
+		if (item:getOwner() != nil) then
+			return true
 		else
 			return false
 		end
-		chip = inventory:hasItem("cube_chip")	
 	end
-	return false
-  end,
-  onCanRun = function(item)
-	if (item:getOwner() != nil) then
-		return true
-	else
-		return false
-	end
-  end
 }
 
 ITEM.functions.Extract = {
-  tip = "Take a chip out of the bag.",
-  icon = "icon16/delete.png",
-  onRun = function(item)
-	local client = item.player
-	local inventory = client:getChar():getInv()
-	local chipcount = item:getData("chipcount")
-	if (chipcount > 0 and inventory:findEmptySlot(1, 1) != nil) then
-		inventory:add("cube_chip", 1)
-		item:setData("chipcount", item:getData("chipcount") - 1)
-		item.player:EmitSound("ambient/materials/dinnerplates1.wav")
-	end
-	return false
-  end,
-  onCanRun = function(item)
-	if (item:getOwner() != nil) then
-		return true
-	else
+	tip = "Take a chip out of the bag.",
+	icon = "icon16/delete.png",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local chipcount = item:getData("chipcount")
+		if (chipcount > 0 and inventory:findEmptySlot(1, 1) != nil) then
+			inventory:add("cube_chip", 1)
+			item:setData("chipcount", item:getData("chipcount") - 1)
+			item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+		end
 		return false
+	end,
+	onCanRun = function(item)
+		if (item:getOwner() != nil) then
+			return true
+		else
+			return false
+		end
 	end
-  end
 }
 
 function ITEM:getDesc()

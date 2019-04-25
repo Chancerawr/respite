@@ -5,28 +5,28 @@ PLUGIN.desc = "A few useful commands."
 nut.command.add("fixpac", {
 	syntax = "<No Input>",
 	onRun = function(client, arguments)
-	timer.Simple(0, function()
-						if (IsValid(client)) then
-						    client:ConCommand("pac_clear_parts")
-						end
-					end)
-	timer.Simple(0.5, function()
-						if (IsValid(client)) then
-							client:ConCommand("pac_urlobj_clear_cache")
-							client:ConCommand("pac_urltex_clear_cache")
-						end
-					end)
-	timer.Simple(1.0, function()
-						if (IsValid(client)) then				
-							client:ConCommand("pac_restart")						
-						end
-					end)
-	timer.Simple(1.5, function()
-						if (IsValid(client)) then				
-							client:ChatPrint("PAC has been successfully restarted. You might need to run this command twice!")							
-						end
-					end)
-      end
+		timer.Simple(0, function()
+			if (IsValid(client)) then
+				client:ConCommand("pac_clear_parts")
+			end
+		end)
+		timer.Simple(0.5, function()
+			if (IsValid(client)) then
+				client:ConCommand("pac_urlobj_clear_cache")
+				client:ConCommand("pac_urltex_clear_cache")
+			end
+		end)
+		timer.Simple(1.0, function()
+			if (IsValid(client)) then				
+				client:ConCommand("pac_restart")						
+			end
+		end)
+		timer.Simple(1.5, function()
+			if (IsValid(client)) then				
+				client:ChatPrint("PAC has been successfully restarted. You might need to run this command twice!")							
+			end
+		end)
+    end
 })
 
 -- nut.command.add("refreshfonts", {
@@ -79,38 +79,81 @@ nut.command.add("removenick", {
 	end;
 })
 
+nut.command.add("charselectskin", {
+	syntax = "[number skin]",
+	onRun = function(client, arguments)
+		local skin = tonumber(arguments[1])
+		local target = client
+
+		if (IsValid(target) and target:getChar()) then
+			target:getChar():setData("skin", skin)
+			target:SetSkin(skin or 0)
+
+			--nut.util.notifyLocalized("cChangeSkin", nil, client:Name(), target:Name(), skin or 0)
+		end
+	end
+})
+
+nut.command.add("charselectbodygroup", {
+	syntax = "<string bodyGroup> [number value]",
+	onRun = function(client, arguments)
+		local value = tonumber(arguments[2])
+		local target = client
+
+		if (IsValid(target) and target:getChar()) then
+			local index = target:FindBodygroupByName(arguments[1])
+
+			if (index > -1) then
+				if (value and value < 1) then
+					value = nil
+				end
+
+				local groups = target:getChar():getData("groups", {})
+					groups[index] = value
+				target:getChar():setData("groups", groups)
+				target:SetBodygroup(index, value or 0)
+
+				--nut.util.notifyLocalized("cChangeGroups", nil, client:Name(), target:Name(), arguments[2], value or 0)
+			else
+				return "@invalidArg", 2
+			end
+		end
+	end
+})
+
 nut.command.add("cleanitems", {
 	adminOnly = true,
 	onRun = function(client, arguments)
-
-	for k, v in pairs(ents.FindByClass("nut_item")) do
+		local count = 0
+	
+		for k, v in pairs(ents.FindByClass("nut_item")) do
+			count = count + 1
+			v:Remove()
+		end
 		
-		v:Remove()
-		
-	end
-		client:notify("All items have been cleaned up from the map.")
+		client:notify(count.. " items have been cleaned up from the map.")
 	end
 })
 
 nut.command.add("cleannpcs", {
 	adminOnly = true,
 	onRun = function(client, arguments)
-
-	for k, v in pairs( ents.GetAll( ) ) do
-	if IsValid( v ) and ( v:IsNPC() or baseclass.Get( v:GetClass() ).Base == 'chance_base') and !IsFriendEntityName( v:GetClass() ) then
-		
-		  v:Remove()
-		
-	   end
-    end
-	client:notify("All NPCs and Nextbots have been cleaned up from the map.")
+		local count = 0
 	
+		for k, v in pairs(ents.GetAll()) do
+			if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+				count = count + 1
+				v:Remove()
+			end
+		end
+		
+		client:notify(count.. " NPCs and Nextbots have been cleaned up from the map.")
 	end
 })
 
 nut.command.add("spawnitem", {
 	adminOnly = true,
-	syntax = "<string item>",
+	syntax = "<string item> <number amount>",
 	onRun = function(client, arguments)
 
 		if (IsValid(client) and client:getChar()) then
@@ -130,56 +173,53 @@ nut.command.add("spawnitem", {
 
             aimPos:Add(Vector(0, 0, 10))  
 
-            nut.item.spawn(uniqueID, aimPos)
-                        
+			if(nut.item.list[uniqueID]) then
+				local amount = tonumber(arguments[2]) or 1
+				if(amount > 10) then
+					amount = 10
+				end
+			
+				for i = 1, amount or 1 do
+					nut.item.spawn(uniqueID, aimPos)
+				end
+            else
+				client:notify("Invalid Item")
+			end
 		end
 	end
 })
 
-nut.command.add("chargiveitem", {
+nut.command.add("chargetmodel", {
 	adminOnly = true,
-	syntax = "<string name> <string item> <integer amount>",
+	syntax = "<string name>",
 	onRun = function(client, arguments)
-		if (!arguments[2]) then
-			return L("invalidArg", client, 2)
-		end
-
 		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			client:notify(target:GetModel())
+		else
+			client:notify("Invalid Target")
+		end
+	end
+})
 
-		if (IsValid(target) and target:getChar()) then
-			local uniqueID = arguments[2]:lower()
-			local amount = tonumber(arguments[3])
+-- Roll information in chat.
+nut.chat.register("flip", {
+	format = "%s flipped a coin and it landed on %s.",
+	color = Color(155, 111, 176),
+	filter = "actions",
+	font = "nutChatFontItalics",
+	onCanHear = nut.config.get("chatRange", 280),
+	deadCanChat = true
+})
 
-			if (!nut.item.list[uniqueID]) then
-				for k, v in SortedPairs(nut.item.list) do
-					if (nut.util.stringMatches(v.name, uniqueID)) then
-						uniqueID = k
-
-						break
-					end
-				end
-			end
-
-			if (arguments[3] and arguments[3] != "") then
-				if (!amount) then
-					return L("invalidArg", client, 3)
-				end
-			end
-
-			local inv = target:getChar():getInv()
-			local succ, err = target:getChar():getInv():add(uniqueID, amount or 1)
-
-			if (succ) then
-				target:notifyLocalized("itemCreated")
-				if(target != client) then
-					client:notifyLocalized("itemCreated")
-				end
-			else
-				client:notifyLocalized(tostring(err))
-				if(target != client) then
-					target:notifyLocalized(tostring(err))
-				end
-			end
+nut.command.add("flip", {
+	onRun = function(client, arguments)
+		local roll = math.random(0,1)
+	
+		if(roll == 1) then
+			nut.chat.send(client, "flip", "Heads")
+		else
+			nut.chat.send(client, "flip", "Tails")
 		end
 	end
 })

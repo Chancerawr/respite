@@ -1,13 +1,13 @@
 ITEM.name = "Venom"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "models/xqm/woodtexture_1"
-ITEM.desc = "A small bottle filled with some kind of liquid, it doesn't look safe."
-ITEM.duration = 1
+ITEM.desc = "A small bottle filled with a venomous toxin, it needs to enter through a wound to do anything.\nDon't drink it."
+ITEM.duration = 6000
 ITEM.price = 30
 ITEM.uniqueID = "drug_venom"
 
 ITEM.attribBoosts = {
-	["end"] = -10,
+	["end"] = -15,
 }
 
 ITEM.iconCam = {

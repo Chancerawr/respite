@@ -2,15 +2,17 @@ ITEM.name = "Canned Chowder"
 ITEM.uniqueID = "food_chowder"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
 ITEM.hungerAmount = 10
-ITEM.foodDesc = "A tin can filled with chowder."
+ITEM.desc = "A tin can filled with chowder."
 ITEM.quantity2 = 3
-ITEM.price = 4
+ITEM.price = 5
 ITEM.width = 1
 ITEM.height = 1
 ITEM.sound = "npc/barnacle/barnacle_gulp2.wav"
 ITEM.container = "j_tinc"
  
-ITEM.attribBoosts = { ["stm"] = 1 }
+ITEM.attribBoosts = { 
+	["stm"] = 1 
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, -0.5),

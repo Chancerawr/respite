@@ -36,7 +36,6 @@ ITEM.functions.use = {
 	tip = "useTip",
 	icon = "icon16/add.png",
 	onRun = function(item)
-		print(item:getData("am"))
 		item.player:GiveAmmo(item:getData("amt"), tostring(item:getData("am")))
 		item.player:EmitSound("items/ammo_pickup.wav", 110)
 		

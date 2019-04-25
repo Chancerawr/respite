@@ -78,6 +78,12 @@ if (SERVER) then
 			return true
 		end
 	end
+	
+	function PLUGIN:CanPlayerUnfreeze(client, entity, phys)
+		if(entity:GetCreator() == client) then
+			return true
+		end
+	end
 
 	function PLUGIN:CanProperty(client, property, entity)
 		if (entity:GetCreator() == client and (property == "remover" or property == "collision")) then

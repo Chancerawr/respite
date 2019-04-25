@@ -158,7 +158,7 @@ function ITEM:getDesc()
 	local desc = self.desc
 	
 	if(self:getData("customDesc") != nil) then
-		desc = self:getData("customDesc")
+		desc = self:getData("customDesc", "")
 	end
 	
 	return Format(desc)

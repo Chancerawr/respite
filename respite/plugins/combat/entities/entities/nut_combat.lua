@@ -52,7 +52,7 @@ function ENT:basicSetup()
 	self:SetCollisionBounds(Vector(-30,-30,0), Vector(30,30,100))
 	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	
-	timer.Simple(1, function()
+	timer.Simple(0.5, function()
 		if (IsValid(self)) then
 			self:setAnim()
 		end
@@ -133,7 +133,8 @@ function ENT:critCalc()
 	return crit, critmsg
 end
 
-function ENT:rollHandle(client, command)
+--calculates a roll
+function ENT:rollHandle(client, command, noPrint)
 	--translates attribute names to the values the entity has, kind of shitty.
 	local attribTrans = { 
 		["stm"] = self.agil,
@@ -147,6 +148,7 @@ function ENT:rollHandle(client, command)
 	}
 
 	local comTable = CMBT.commands[command] --the specific command's data
+	
 	if(!comTable) then return false end --if the command doesn't exist don't do shit
 	
 	local part
@@ -169,7 +171,7 @@ function ENT:rollHandle(client, command)
 		--roll = traitModify(client, command, roll)
 		
 		if(comTable.parts) then
-			part = table.Random(bParts)
+			part = nut.plugin.list["combat"]:getRandomBpart()
 		end
 		
 		if(!comTable.noCrit) then
@@ -177,16 +179,18 @@ function ENT:rollHandle(client, command)
 			roll = roll * crit
 		end
 		
-		if(!comTable.print) then
-			if(!part) then
-				nut.log.addRaw(self:getNetVar("name", "ENT").."(NPC)".." rolled \""..roll.."\".", 2)
-				nut.chat.send(client, comTable.category.."_npc", self:getNetVar("name", "ENT").. " has rolled " ..roll..critmsg.. " for " ..comTable.attackString .. ".")
+		if(!noPrint) then
+			if(!comTable.print) then
+				if(!part) then
+					nut.log.addRaw(self:getNetVar("name", "ENT").."(NPC)".." rolled \""..roll.."\".", 2)
+					nut.chat.send(client, comTable.category.."_npc", self:getNetVar("name", "ENT").. " has rolled " ..roll..critmsg.. " for " ..comTable.attackString .. ".")
+				else
+					nut.log.addRaw(self:getNetVar("name", "ENT").."(NPC)".." has rolled \""..roll .." ".. part.."\".", 2)
+					nut.chat.send(client, comTable.category.."_npc", self:getNetVar("name", "ENT").. " has rolled " ..roll..critmsg.. " for " ..comTable.attackString.. " at target's " ..part.. ".")
+				end
 			else
-				nut.log.addRaw(self:getNetVar("name", "ENT").."(NPC)".." has rolled \""..roll .." ".. part.."\".", 2)
-				nut.chat.send(client, comTable.category.."_npc", self:getNetVar("name", "ENT").. " has rolled " ..roll..critmsg.. " for " ..comTable.attackString.. " at target's " ..part.. ".")
+				comTable.print(self, rolls, part, critmsg, npc)
 			end
-		else
-			comTable.print(rolls, part)
 		end
 	end
 	
@@ -221,13 +225,14 @@ function ENT:combatRoll(client, attr, debuff, msg, category, command, noPrint) -
 	return rolled
 end
 
+--reaction to a command aimed at the ent
 function ENT:reaction(client, rolls, category, attackString, part)
 	for k, rollA in pairs(rolls) do
-		local dodge = self.agil * 0.5
-		local block = (self.endu * 0.3) + (self.agil * 0.2)
-		
+		local dodge = self.agil * 0.35 + self.perc * 0.2
+		local block = self.endu * 0.3 + self.stre * 0.2
+
 		if(part) then
-			part = table.Random(bParts)
+			part = nut.plugin.list["combat"]:getRandomBpart()
 		end
 		
 		local firearms
@@ -275,6 +280,7 @@ local def = {
 	[1] = "blocked"
 }
 
+--prints a message
 function ENT:messagePrint(client, rollC, rollE, action, success, part)
 	local fullString = ""
 	
@@ -290,6 +296,11 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 		end
 	end
 	
+	local graze
+	if(math.random(1,10) > 7) then
+		graze = true
+	end
+	
 	if(success) then
 		if(isstring(part)) then
 			fullString = client:GetName() .. "'s " ..action.. " flies at " ..self:getNetVar("name", "John Doe").. "'s " ..part.. " and hits. (" ..rollC .." | "..rollE .. ")" .. weapon
@@ -303,18 +314,34 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 		nut.chat.send(client, "react_success", fullString)
 	else
 		if(isstring(part)) then
-			fullString = client:GetName() .. " misses a " ..action.. " at " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-			--bob misses a shot at joe's left leg.
+			if(!graze) then
+				fullString = client:GetName() .. " misses a " ..action.. " at " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+				--bob misses a shot at joe's left leg.
+			else
+				--fullString = client:GetName() .. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. " with a " ..action.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+				fullString = client:GetName() .. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+				--bob's shot grazes joe's left leg.
+			end
 		else
-			fullString = self:getNetVar("name", "John Doe") .. " has " ..def[part].. " " ..client:GetName().. "'s " ..action.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-			--joe has dodged bob's melee attack.
+			if(!graze and def[part] != "dodged") then
+				fullString = self:getNetVar("name", "John Doe") .. " has " ..def[part].. " " ..client:GetName().. "'s " ..action.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+				--joe has dodged bob's melee attack.
+			else
+				fullString = client:GetName() .. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+				--bob's melee attack glance joe
+			end
 		end
 		
 		nut.log.addRaw(fullString, 3)
-		nut.chat.send(client, "react_fail", fullString)
+		if(!graze) then
+			nut.chat.send(client, "react_fail", fullString)
+		else
+			nut.chat.send(client, "graze_npc", fullString)
+		end
 	end
 end
 
+--determines which roll it uses as a response.
 function ENT:rollCheck(smart, dodge, block)
 	if(smart) then --choose the best roll
 		if(dodge > block) then
@@ -331,6 +358,7 @@ function ENT:rollCheck(smart, dodge, block)
 	end
 end
 
+--death
 function ENT:die()
 	if(!self.noRag) then
 		local ragdoll = ents.Create("prop_ragdoll")
@@ -383,31 +411,7 @@ function ENT:die()
 	SafeRemoveEntity( self )
 end
 
-if (CLIENT) then
-	function ENT:Draw()
-		self:DrawModel()
-	end
-
-	local TEXT_OFFSET = Vector(0, 0, 0)
-	local toScreen = FindMetaTable("Vector").ToScreen
-	local colorAlpha = ColorAlpha
-	local drawText = nut.util.drawText
-	local configGet = nut.config.get
-
-	ENT.DrawEntityInfo = true
-
-	function ENT:onDrawEntityInfo(alpha)
-		--local position = toScreen(self:LocalToWorld(self, self:WorldSpaceCenter(self)) + TEXT_OFFSET)
-		local position = toScreen(self:WorldSpaceCenter(self))
-		local x, y = position.x, position.y
-		drawText(self:getNetVar("name", ""), x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 0.65)
-
-		if (self:getNetVar("desc")) then
-			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
-		end
-	end
-end
-
+--fortitude attacks
 function ENT:fortAttack(attackName)
 	--these rolls cannot crit
 	local rolled = ((self.fort * 0.6) + math.random(-10, 10))
@@ -489,3 +493,29 @@ function ENT:fortAttack(attackName)
 	--nut.chat.send(client, "fortattack", rolled)
 	nut.chat.send(self, "fort_npc", rolled)
 end
+
+if (CLIENT) then
+	function ENT:Draw()
+		self:DrawModel()
+	end
+
+	local TEXT_OFFSET = Vector(0, 0, 0)
+	local toScreen = FindMetaTable("Vector").ToScreen
+	local colorAlpha = ColorAlpha
+	local drawText = nut.util.drawText
+	local configGet = nut.config.get
+
+	ENT.DrawEntityInfo = true
+
+	function ENT:onDrawEntityInfo(alpha)
+		--local position = toScreen(self:LocalToWorld(self, self:WorldSpaceCenter(self)) + TEXT_OFFSET)
+		local position = toScreen(self:WorldSpaceCenter(self))
+		local x, y = position.x, position.y
+		drawText(self:getNetVar("name", ""), x, y, colorAlpha(Color(190,50,50), alpha), 1, 1, nil, alpha * 0.65)
+
+		if (self:getNetVar("desc")) then
+			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutChat", alpha * 0.65)
+		end
+	end
+end
+

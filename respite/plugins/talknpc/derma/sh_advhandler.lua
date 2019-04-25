@@ -17,139 +17,209 @@ end
 	Unless you have any clue about this dialogue handler.
 --------------------------------------------------------*/
 
+local function canCompleteQuest(client, name)
+	local char = client:getChar()
+	local inventory = char:getInv()
+	
+	local quest = QUESTS.quests[name]
+
+	for k, v in pairs(quest.required) do
+		if(inventory:getItemCount(k) < v) then
+			return false
+		end
+	end
+
+	return true
+end
+
+local function questHandle(client, data, panel)
+	if(SERVER) then
+		local char = client:getChar()
+		local inventory = char:getInv()
+		local quests = char:getData("quests", {})
+	
+		--if has quest then complete
+		if(quests[data.quest]) then
+			if(canCompleteQuest(client, data.quest)) then
+				client:notify("Quest complete.")
+			
+				quests[data.quest] = nil
+				
+				for k, v in pairs(QUESTS.quests[data.quest].required) do
+					local required = inventory:hasItem(k)
+				
+					if (required:getData("Amount")) then
+					
+					end
+				
+					for i = 1, v do
+						required:remove()
+						required = inventory:hasItem(k)
+					end
+				end
+				
+				for k, v in pairs(QUESTS.quests[data.quest].reward) do
+					for i = 1, v do
+						timer.Simple(i/2, function()
+							if(!inventory:add(k)) then
+								nut.item.spawn(k, client:getItemDropPos())
+							end
+						end)
+					end
+				end
+				
+				char:setData("quests", quests)
+			end
+		else --give them the quest
+			client:notify("New Quest added.")
+			
+			quests[data.quest] = true
+			char:setData("quests", quests)
+		end
+	else
+		local client = LocalPlayer()
+		local char = client:getChar()
+		local quests = char:getData("quests", {})
+	
+		 --if  they have the quest, complete it
+		if(quests[data.quest]) then
+			if(canCompleteQuest(client, data.quest)) then
+				panel:AddChat(data.name, QUESTS.quests[data.quest].outro)
+			else
+				panel:AddChat(data.name, QUESTS.quests[data.quest].reminder)
+			end
+		else --if they don't, give it
+			panel:AddChat(data.name, QUESTS.quests[data.quest].intro)
+		end
+	end
+end
+
 -- You can call SpecialCall with !.
 -- example. when a player call dialouge that has uid "!quest_recieve_test" then it will call SpecialCall["quest_receive_test"].
 PLUGIN.SpecialCall =
 {
-
-		["quest_honeya"] = { -- QUEST EXAMPLE.
-			sv = function( client, data ) 
-				if client:HasQuest( "honeya" ) then
-					-- questPLUGIN = from the "quests" plugin.
-					local pqst_dat = client:GetQuest( "honeya" ) -- get player quest data
-					if client:CanCompleteQuest( "honeya", pqst_dat ) then -- If see player can complete quest
-						client:GiveQuestReward( "honeya", pqst_dat ) -- Give quest reward
-						client:RemoveQuest( "honeya" ) -- and remove player quest.
-						data.done = true -- send client data.done. It will generate you're done text.
-					else
-						data.done = false
-					end
+	["quest_honeya"] = { -- QUEST EXAMPLE.
+		sv = function( client, data ) 
+			if client:HasQuest( "honeya" ) then
+				-- questPLUGIN = from the "quests" plugin.
+				local pqst_dat = client:GetQuest( "honeya" ) -- get player quest data
+				if client:CanCompleteQuest( "honeya", pqst_dat ) then -- If see player can complete quest
+					client:GiveQuestReward( "honeya", pqst_dat ) -- Give quest reward
+					client:RemoveQuest( "honeya" ) -- and remove player quest.
+					data.done = true -- send client data.done. It will generate you're done text.
 				else
-					-- set quest and get quest.
-					data.gotquest = true -- Just got a quest!
-					local d_qst = questPLUGIN:GetQuest( "honeya" )
-					client:AddQuest( "honeya", d_qst:GenerateData( client ) ) -- Give a quest that has uniqueid 'honeya' and generates random data for quest.
-					-- Quest data generating function is in sh_quests.lua file.
+					data.done = false
 				end
-				return data -- MUST RETURN DATA
-			end,
-			cl = function( client, panel, data )
-				if data.gotquest then
-					local d_qst = questPLUGIN:GetQuest( "honeya" )
-					local pqst_dat = LocalPlayer():GetQuest( "honeya" ) -- get player quest data
-					panel:AddChat( data.name, "Can you get some items for me?" )
-					for k, v in pairs( pqst_dat ) do
-						panel:AddCustomText( Format( d_qst.desc, unpack( { v, nut.item.list[k].name } ) ), "nut_ChatFont" )
-					end
-					panel.talking = false -- Get quest and end the converstaion.
-					return
+			else
+				-- set quest and get quest.
+				data.gotquest = true -- Just got a quest!
+				local d_qst = questPLUGIN:GetQuest( "honeya" )
+				client:AddQuest( "honeya", d_qst:GenerateData( client ) ) -- Give a quest that has uniqueid 'honeya' and generates random data for quest.
+				-- Quest data generating function is in sh_quests.lua file.
+			end
+			return data -- MUST RETURN DATA
+		end,
+	},
+	["test"] = {
+		sv = function( client, data )
+			client:EmitSound( "items/smallmedkit1.wav" )
+			client:SetHealth( 100 )
+			return data -- MUST RETURN DATA
+		end,
+		cl = function( client, panel, data ) 
+			panel:AddChat( data.name, "By the name of Black Tea! You're healed!" )
+			panel.talking = false -- Ends the current conversation and allows player to talk about other topics.
+		end,
+	},
+	
+	["vendor"] = {
+		sv = function( client, data )
+		
+			return data -- MUST RETURN DATA
+		end,
+		cl = function( client, panel, data )
+			timer.Simple(2, function()
+				if(IsValid(panel)) then
+					local entity = panel.entity
+				
+					netstream.Start("nut_vendorMenuEX", {entity, LocalPlayer()})
+					panel:Close()
 				end
-				if data.done then
-					panel:AddChat( data.name, "Okay I'll give you some moeney!")
-				else
-					panel:AddChat( data.name, "You don't have enough items to return your quest.")
-				end
-				panel.talking = false
-			end,
-		},
-		["quest_art"] = {
-			sv = function( client, data ) 
-				if client:HasQuest( "art" ) then
-					-- questPLUGIN = from the "quests" plugin.
-					local pqst_dat = client:GetQuest( "art" ) -- get player quest data
-					if client:CanCompleteQuest( "art", pqst_dat ) then -- If see player can complete quest
-						client:GiveQuestReward( "art", pqst_dat ) -- Give quest reward
-						client:RemoveQuest( "art" ) -- and remove player quest.
-						data.done = true -- send client data.done. It will generate you're done text.
-					else
-						data.done = false
-					end
-				else
-					-- set quest and get quest.
-					data.gotquest = true -- Just got a quest!
-					local d_qst = questPLUGIN:GetQuest( "art" )
-					client:AddQuest( "art", d_qst:GenerateData( client ) ) -- Give a quest that has uniqueid 'honeya' and generates random data for quest.
-					-- Quest data generating function is in sh_quests.lua file.
-				end
-				return data -- MUST RETURN DATA
-			end,
-			cl = function( client, panel, data )
-				if data.gotquest then
-					local d_qst = questPLUGIN:GetQuest( "art" )
-					local pqst_dat = LocalPlayer():GetQuest( "art" ) 
-					panel:AddChat( data.name, "Есть один заказ:" )
-					for k, v in pairs( pqst_dat ) do
-						panel:AddCustomText( Format( d_qst.desc, unpack( { v, nut.item.list[k].name } ) ), "nut_ChatFont" )
-					end
-					panel.talking = false -- Get quest and end the converstaion.
-					return
-				end
-				if data.done then
-					panel:AddChat( data.name, "Ну, спасибо! Выручил! Держи оплату.")
-				else
-					panel:AddChat( data.name, "Как-то я не заметил, что у тебя есть нужный артефакт. Я же говорил:")
-					local d_qst = questPLUGIN:GetQuest( "art" )
-					local pqst_dat = LocalPlayer():GetQuest( "art" )
-					for k, v in pairs( pqst_dat ) do
-						panel:AddCustomText( Format( d_qst.desc, unpack( { v, nut.item.list[k].name } ) ), "nut_ChatFont" )
+			end)
+			
+			panel:AddChat(data.name, panel.dialogue.npc["!" ..data.request])
+			
+			panel.talking = false -- Ends the current conversation and allows player to talk about other topics.
+		end,
+	},
+	
+	["quest"] = {
+		sv = function( client, data )
+			netstream.Start(client, "nut_questUpdate", QUESTS.quests)
+		
+			return data -- MUST RETURN DATA
+		end,
+		cl = function( client, panel, data )
+			timer.Simple(2, function()
+				if(IsValid(panel)) then
+					local entity = panel.entity
+					
+					if(entity.openQuest) then 
+						entity:openQuest()
 					end
 				end
-				panel.talking = false
-			end,
-		},
-
-		["test2"] = {
-			sv = function( client, data )
-				return data -- MUST RETURN DATA
-			end,
-			cl = function( client, panel, data ) 
-				panel.talking = false -- Ends the current conversation and allows player to talk about other topics.
-			end,
-		},
-
-		["test"] = {
-			sv = function( client, data )
-				client:EmitSound( "items/smallmedkit1.wav" )
-				client:SetHealth( 100 )
-				return data -- MUST RETURN DATA
-			end,
-			cl = function( client, panel, data ) 
-				panel:AddChat( data.name, "By the name of Black Tea! You're healed!" )
-				panel.talking = false -- Ends the current conversation and allows player to talk about other topics.
-			end,
-		},
+			end)
+			
+			panel:AddChat(data.name, panel.dialogue.npc["!" ..data.request])
+			
+			panel.talking = false -- Ends the current conversation and allows player to talk about other topics.
+		end,
+	},	
+	
+	["fetch"] = {
+		sv = function( client, data )
+			--pushes the updated quest table to everyone, I don't really like this too much.
+			netstream.Start(client, "nut_questUpdate", QUESTS.quests)
+		
+			questHandle(client, data)
+			
+			return data -- MUST RETURN DATA
+		end,
+		cl = function( client, panel, data )
+			questHandle(client, data, panel)
+			
+			panel.talking = false -- Ends the current conversation and allows player to talk about other topics.
+		end,
+	},
 }
 
 -- Handler.
 if SERVER then
-	netstream.Hook( "nut_DialogueMessage", function( client, data )
+	netstream.Hook("nut_DialogueMessage", function(client, data)
 		if string.Left( data.request, 1 ) == "!" then
 			data.request = string.sub( data.request, 2 )
 			if PLUGIN.SpecialCall[ data.request ] then
-				data = PLUGIN.SpecialCall[ data.request ].sv( client, data )
 				netstream.Start( client, "nut_DialoguePingpong", data )
+				PLUGIN.SpecialCall[ data.request ].sv( client, data )
 			else
 				print( Format( "%s( %s ) tried to call invalid dialouge request( %s ) from %s.", client:Name(), client:Nick(), data.request, data.name ) )
 				print( "Please check PLUGIN.SpecialCall or NPC's dialouge unique id." )
+				client:EmitSound( "HL1/fvox/hev_general_fail.wav" )
 				client:EmitSound( "HL1/fvox/hev_general_fail.wav" )
 			end
 		end
 	end)
 else
 	netstream.Hook( "nut_DialoguePingpong", function( data )
+		if IsValid( nut.gui.quest ) then
+			if PLUGIN.SpecialCall[ data.request ] then
+				PLUGIN.SpecialCall[ data.request ].cl(client, nut.gui.quest, data)
+			end
+		end
+		
 		if IsValid( nut.gui.dialogue ) then
 			if PLUGIN.SpecialCall[ data.request ] then
-				PLUGIN.SpecialCall[ data.request ].cl( client, nut.gui.dialogue, data )
+				PLUGIN.SpecialCall[ data.request ].cl(client, nut.gui.dialogue, data)
 			end
 		end
 	end)

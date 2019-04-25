@@ -7,7 +7,7 @@ local PANEL = {}
 		if (IsValid(nut.gui.menu)) then
 			nut.gui.menu:Remove()
 		end
-
+		
 		nut.gui.menu = self
 
 		self:SetSize(ScrW(), ScrH())
@@ -37,7 +37,7 @@ local PANEL = {}
 		local tabs = {}
 
 		hook.Run("CreateMenuButtons", tabs)
-
+		
 		self.tabList = {}
 		
 		for name, callback in SortedPairs(tabs) do

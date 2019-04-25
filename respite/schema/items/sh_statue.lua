@@ -31,7 +31,7 @@ ITEM.functions.Blight = {
 			blight:remove()
 			nut.item.spawn("food_blood", position)
 			nut.chat.send(client, "itclose", "The statue begins crying blood.")	
-			client:TakeDamage(9, client, client)
+			client:TakeDamage(50, client, client)
 			
 			local hatred = item:getData("hatred", 0)
 			if(hatred > 9) then
@@ -52,11 +52,9 @@ ITEM.functions.Blight = {
 						ent:Spawn()
 						ent:SetOwner( self )
 						
-						timer.Simple(0.5,
-							function()
-								ent:SetEnemy(client)
-							end
-						)
+						timer.Simple(0.5, function()
+							ent:SetEnemy(client)
+						end)
 					else
 						ent:Remove()
 					end

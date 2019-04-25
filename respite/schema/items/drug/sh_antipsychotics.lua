@@ -3,7 +3,7 @@ ITEM.model = "models/props_junk/glassjug01.mdl"
 ITEM.material = "models/props_c17/furnituremetal001a"
 ITEM.desc = "A bottle filled with numerous pills."
 ITEM.uniqueID = "drug_antipsychotics"
-ITEM.duration = 100
+ITEM.duration = 6000
 ITEM.price = 30
 
 ITEM.attribBoosts = {

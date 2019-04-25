@@ -2,12 +2,9 @@ ITEM.name = "Antivenom"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "models/combine_advisor/body9"
 ITEM.desc = "A small bottle filled with some kind of liquid."
-ITEM.duration = 100
+ITEM.duration = 6000
 ITEM.price = 30
 ITEM.uniqueID = "drug_antivenom"
-ITEM.attribBoosts = {
-	["end"] = 10,
-}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

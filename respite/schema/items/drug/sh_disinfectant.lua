@@ -2,12 +2,8 @@ ITEM.name = "Disinfectant"
 ITEM.model = "models/props_junk/glassjug01.mdl"
 ITEM.desc = "A bottle filled with some kind of disinfectant."
 ITEM.uniqueID = "drug_disinfectant"
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.price = 30
-
-ITEM.attribBoosts = {
-	["medical"] = 10,
-}
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),

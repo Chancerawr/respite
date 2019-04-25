@@ -40,9 +40,10 @@ local PANEL = {}
 
 			if (!suppress or !suppress.desc) then
 				self.desc = self.info:Add("DTextEntry")
+				self.desc:SetWrap(true)
 				self.desc:Dock(TOP)
 				self.desc:SetFont("nutMediumLightFont")
-				self.desc:SetTall(28)
+				self.desc:SetTall(24)
 			end
 
 			if (!suppress or !suppress.time) then

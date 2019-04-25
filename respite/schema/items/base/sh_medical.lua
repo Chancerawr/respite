@@ -79,7 +79,7 @@ ITEM.functions.usef = { -- sorry, for name order.
 		if (target and target:IsValid() and target:IsPlayer() and target:Alive()) then
 			healPlayer(item.player, target, item.healAmount, item.healSeconds)
 
-			local quantity = item:getData("quantity", item.quantity)
+			local quantity = item:getData("quantity", item.quantity or 1)
 			if(quantity > 1) then
 				item:setData("quantity", quantity - 1)
 				return false
@@ -99,6 +99,34 @@ ITEM.functions.usef = { -- sorry, for name order.
 	end
 }
 
+ITEM.functions.Custom = {
+	name = "Customize",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+		client:requestString("Change Name", "What name do you want this item to have?", function(text)
+			item:setData("customName", text)
+			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
+				item:setData("customDesc", text)
+				client:requestString("Change Model", "What Model do you want this item to have?\nBe sure it is a valid model.", function(text) --start of model
+					item:setData("customMdl", text)
+				end, item:getData("customMdl", item.model)) --end of model
+			end, item:getDesc()) --end of desc
+		end, item:getName()) --end of name
+			
+		--hopefully resets the player's icons
+		client:ConCommand("nut_flushicon")
+		
+		return false
+	end,
+	
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
 local quality = {}
 quality[0] = "Terrible"
 quality[1] = "Awful"
@@ -112,8 +140,22 @@ quality[8] = "Excellent"
 quality[9] = "Master"
 quality[10] = "Perfect"
 
+function ITEM:getName()
+	local name = self.name
+	
+	if(self:getData("customName") != nil) then
+		name = self:getData("customName")
+	end
+
+	return Format(name)
+end
+
 function ITEM:getDesc()
 	local desc = self.desc
+	
+	if(self:getData("customDesc") != nil) then
+		desc = self:getData("customDesc")
+	end		
 	
 	if(self:getData("quantity", self.quantity) != nil) then
 		desc = desc .. "\nRemaining Uses: " .. self:getData("quantity", self.quantity)

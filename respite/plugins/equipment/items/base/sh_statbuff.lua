@@ -96,7 +96,7 @@ ITEM.functions.Equip = {
 
 					return false
 				else
-					if (itemTable:getData("equip") and itemTable.buffCategory == item.buffCategory) then
+					if ((itemTable:getData("equip") and itemTable.buffCategory) and (string.lower(itemTable:getData("customSlot", itemTable.buffCategory)) == string.lower(item:getData("customSlot", item.buffCategory)))) then
 						client:notify("Your " .. item.buffCategory .. " slot is already filled.")
 
 						return false
@@ -142,67 +142,67 @@ ITEM.functions.Scrap = {
 		local scrap
 		local amt
 		
-		client:requestString("Scrap", "Are you sure you want to scrap this weapon?", function(text) --confirmation message
-		--they dont need to enter anything, just not hit cancel.
-		
-		local roll = math.random(1,100)
-		local chance = item.multiChance
-		local multi = 1
-		
-		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
-			chance = chance + 10
-		end
-		
-		if(roll < chance) then
-			multi = 2
-		end
-		
-		if(istable(item.salvItem)) then
-			for i = 1, multi do
-				amt, scrap = table.Random(item.salvItem)
-				timer.Simple(i/2, function()
-					if(!inv:add(scrap, 1, { Amount = amt })) then
-						nut.item.spawn(scrap, position,
-							function(item2)
-								item2:setData("Amount", amt)
-							end
-						)
-					end
-				end)
-			end
-		else
-			for i = 1, multi do
-				scrap = item.salvItem
-				if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
-					nut.item.spawn(scrap, position,
-						function(item2)
-							item2:setData("Amount", item:getData("scrapamount"))
-						end
-					)
-				end
-			end
-		end
-		
-		if (item.attribBoosts or item:getData("attrib", nil)) then			
-			local temp = {}		
-			--combines both boost lists
-			local customBoosts = item:getData("attrib", {})
-			for k, v in pairs(item.attribBoosts) do
-				temp[k] = v
-			end		
-			for k, v in pairs(customBoosts) do
-				temp[k] = (temp[k] or 0) + v
+		client:requestQuery("Are you sure you want to scrap this item?", "Scrap", function(text) --confirmation message
+			local roll = math.random(1,100)
+			local chance = item.multiChance
+			local multi = 1
+			
+			if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+				chance = chance + 10
 			end
 			
-			for k, v in pairs(temp) do
-				client:getChar():removeBoost(item.uniqueID, k)
+			if(roll < chance) then
+				multi = 2
 			end
-		end
-		
-		--Randomized sounds don't work up there so I had to do this.
-		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+			
+			if(istable(item.salvItem)) then
+				for i = 1, multi do
+					amt, scrap = table.Random(item.salvItem)
+					timer.Simple(i/2, function()
+						if(!inv:add(scrap, 1, { Amount = amt })) then
+							nut.item.spawn(scrap, position,
+								function(item2)
+									item2:setData("Amount", amt)
+								end
+							)
+						end
+					end)
+				end
+			else
+				for i = 1, multi do
+					scrap = item.salvItem
+					timer.Simple(i/2, function()
+						if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
+							nut.item.spawn(scrap, position,
+								function(item2)
+									item2:setData("Amount", item:getData("scrapamount"))
+								end
+							)
+						end
+					end)
+				end
+			end
+			
+			if (item.attribBoosts or item:getData("attrib", nil)) then			
+				local temp = {}		
+				--combines both boost lists
+				local customBoosts = item:getData("attrib", {})
+				for k, v in pairs(item.attribBoosts) do
+					temp[k] = v
+				end		
+				for k, v in pairs(customBoosts) do
+					temp[k] = (temp[k] or 0) + v
+				end
 				
-		item:remove()
+				for k, v in pairs(temp) do
+					client:getChar():removeBoost(item.uniqueID, k)
+				end
+			end
+			
+			--Randomized sounds don't work up there so I had to do this.
+			client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+					
+			item:remove()
 		end)
 		
 		return false
@@ -226,7 +226,7 @@ ITEM.functions.Custom = {
 			item:setData("customName", text)
 			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
 				item:setData("customDesc", text)	
-			end, item:getDesc())
+			end, item:getDesc(true))
 		end, item:getName())
 		return false
 	end,
@@ -258,11 +258,34 @@ ITEM.functions.CustomCol = {
 			end
 		
 			item:setData("customCol", color)
-		end, color.r .. ", " .. color.b .. ", " .. color.g) --end of color
+		end, color.r .. ", " .. color.g .. ", " .. color.b) --end of color
 		
 		--hopefully resets the player's icons
 		client:ConCommand("nut_flushicon")
 		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomMat = {
+	name = "Customize Material",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local material = item:getData("mat") or item.material or ""
+		client:requestString("Change Material", "Enter material path.", function(text) --start of model
+			item:setData("mat", text)
+		end, material)
+	
+		--hopefully resets the player's icons
+		client:ConCommand("nut_flushicon")
+	
 		return false
 	end,
 	onCanRun = function(item)
@@ -307,6 +330,19 @@ ITEM.functions.CustomAtr = {
 	end
 }
 
+function ITEM:onCanBeTransfered(oldInventory, newInventory)
+	if (newInventory and self:getData("equip")) then
+		return false
+	end
+	
+	local client = self.player
+	if(client and IsValid(client.nutRagdoll)) then
+		return false
+	end
+
+	return true
+end
+
 local quality = {}
 quality[0] = "Terrible"
 quality[1] = "Awful"
@@ -330,37 +366,39 @@ function ITEM:getName()
 	return Format(name)
 end
 
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
 	if(self:getData("customDesc") != nil) then
 		desc = self:getData("customDesc")
 	end	
 	
-	if(self.buffCategory) then
-		desc = desc .. "\nSlot: " .. self.buffCategory .. "."
-	end
-		
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
-	end
-	
-	if(self.attribBoosts) then
-		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
-		
-		local temp = {}		
-		--combines both boost lists
-		local customBoosts = self:getData("attrib", {})
-		for k, v in pairs(self.attribBoosts) do
-			temp[k] = v
-		end		
-		for k, v in pairs(customBoosts) do
-			temp[k] = (temp[k] or 0) + v
+	if(!partial) then
+		if(self:getData("customSlot", self.buffCategory)) then
+			desc = desc .. "\nSlot: " ..self:getData("customSlot", self.buffCategory).. "."
+		end
+			
+		if(self:getData("quality") != nil) then
+			desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
 		end
 		
-		for k, v in pairs(temp) do
-			if(v != 0) then
-				desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+		if(self.attribBoosts) then
+			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+			
+			local temp = {}		
+			--combines both boost lists
+			local customBoosts = self:getData("attrib", {})
+			for k, v in pairs(self.attribBoosts) do
+				temp[k] = v
+			end		
+			for k, v in pairs(customBoosts) do
+				temp[k] = (temp[k] or 0) + v
+			end
+			
+			for k, v in pairs(temp) do
+				if(v != 0) then
+					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+				end
 			end
 		end
 	end

@@ -19,8 +19,8 @@ ENT.perc = 0
 ENT.fort = 0
 
 function ENT:Use()
-	nut.item.spawn("hl2_m_lamp_strange", self:GetPos())
 	SafeRemoveEntity(self)
+	nut.item.spawn("hl2_m_lamp_strange", self:GetPos())
 end
 
 function ENT:Initialize()

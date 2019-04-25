@@ -60,7 +60,6 @@ ITEM.functions.use = { -- sorry, for name order.
 	end
 }
 
-
 ITEM.functions.Infuse = {
 	name = "Infuse",
 	tip = "Infuse this item",
@@ -68,8 +67,7 @@ ITEM.functions.Infuse = {
 	onRun = function(item)
 		local client = item.player
 		local dust = client:getChar():getInv():hasItem("shard_dust")
-		client:requestString("Infuse", "Are you sure you want to shard infuse this ammo?",
-		function(text)
+		client:requestQuery("Are you sure you want to shard infuse this ammo?", "Infuse", function(text)
 			if(dust:getData("Amount")) then
 				dust:setData("Amount", dust:getData("Amount") - 1)
 				if(dust:getData("Amount") == 0) then
@@ -78,6 +76,7 @@ ITEM.functions.Infuse = {
 			else
 				dust:remove()
 			end
+			
 			item:setData("customName", "Infused " .. item:getName())
 			item:setData("customDesc", item:getDesc() .. "\nThis ammo glows lightly.")
 			item:setData("customCol", Color(255, 255, 255))
@@ -97,15 +96,13 @@ ITEM.functions.Blight = {
 	onRun = function(item)
 		local client = item.player
 		local dust = client:getChar():getInv():hasItem("blight")
-		client:requestString("Blight", "Are you sure you want to blight this ammo?",
-		function(text)
-		dust:remove()
-		item:setData("customName", "Blighted " .. item:getName())
-		item:setData("customDesc", item:getDesc() .. "\nThis ammo is pitch black.")
-		item:setData("customCol", Color(0, 0, 0))
-		item:setData("infused", true)
-		end
-		)
+		client:requestQuery("Are you sure you want to blight this ammo?", "Blight", function(text)
+			dust:remove()
+			item:setData("customName", "Blighted " .. item:getName())
+			item:setData("customDesc", item:getDesc() .. "\nThis ammo is pitch black.")
+			item:setData("customCol", Color(0, 0, 0))
+			item:setData("infused", true)
+		end)
 		return false
 	end,
 	onCanRun = function(item)
@@ -120,15 +117,13 @@ ITEM.functions.Phase = {
 	onRun = function(item)
 		local client = item.player
 		local chip = client:getChar():getInv():hasItem("cube_chip_enhanced")
-		client:requestString("Phase", "Are you sure you want to Portal Phase this ammo?",
-		function(text)
-		chip:remove()
-		item:setData("customName", "Phased " .. item:getName())
-		item:setData("customDesc", item:getDesc() .. "\nThis ammo changes and distorts by itself.")
-		item:setData("customCol", Color(140, 20, 140))
-		item:setData("infused", true)
-		end
-		)
+		client:requestQuery("Are you sure you want to Portal Phase this ammo?", "Phase", function(text)
+			chip:remove()
+			item:setData("customName", "Phased " .. item:getName())
+			item:setData("customDesc", item:getDesc() .. "\nThis ammo changes and distorts by itself.")
+			item:setData("customCol", Color(140, 20, 140))
+			item:setData("infused", true)
+		end)
 		return false
 	end,
 	onCanRun = function(item)

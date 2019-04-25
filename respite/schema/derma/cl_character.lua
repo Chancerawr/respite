@@ -86,19 +86,39 @@ local PANEL = {}
 		self.icon:SetHTML([[
 			<html>
 				<body style="margin: 0; padding: 0; overflow: hidden;">
-					<img src="]]..nut.config.get("logo", "http://nutscript.rocks/nutscript.png")..[[" width="86" height="86" />
+					<img src="]].."https://i.imgur.com/fEkFwaW.jpg"..[[" width="86" height="86" />
 				</body>
 			</html>
 		]])
-		self.icon:SetToolTip(nut.config.get("logoURL", "http://nutscript.rocks"))
+		self.icon:SetToolTip("Content")
 	
 		self.icon.click = self.icon:Add("DButton")
 		self.icon.click:Dock(FILL)
 		self.icon.click.DoClick = function(this)
-			gui.OpenURL(nut.config.get("logoURL", "http://nutscript.rocks"))
+			gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=773495550")
 		end
 		self.icon.click:SetAlpha(0)
-		self.icon:SetAlpha(150)
+		self.icon:SetAlpha(200)
+		
+		self.icon2 = self:Add("DHTML")
+		self.icon2:SetPos(8, 8)
+		self.icon2:SetSize(86, 86)
+		self.icon2:SetHTML([[
+			<html>
+				<body style="margin: 0; padding: 0; overflow: hidden;">
+					<img src="]].."https://i.imgur.com/jfHPpXy.jpg"..[[" width="86" height="86" />
+				</body>
+			</html>
+		]])
+		self.icon2:SetToolTip("Forums")
+	
+		self.icon2.click = self.icon2:Add("DButton")
+		self.icon2.click:Dock(FILL)
+		self.icon2.click.DoClick = function(this)
+			gui.OpenURL("http://spite.boards.net/")
+		end
+		self.icon2.click:SetAlpha(0)
+		self.icon2:SetAlpha(200)
 
 		local x, y = ScrW() * 0.25, ScrH() * 0.8
 		local i = 1

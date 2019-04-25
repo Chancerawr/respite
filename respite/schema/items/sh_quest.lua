@@ -63,8 +63,30 @@ ITEM.functions.CustomCol = {
 		--hopefully resets the player's icons
 		client:ConCommand("nut_flushicon")
 	
-	return false
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomMat = {
+	name = "Customize Material",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local material = item:getData("mat") or item.material or ""
+		client:requestString("Change Material", "Enter material path.", function(text) --start of model
+			item:setData("mat", text)
+		end, material)
 	
+		--hopefully resets the player's icons
+		client:ConCommand("nut_flushicon")
+	
+		return false
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
@@ -117,6 +139,28 @@ ITEM.functions.Inspect = {
 		if(!item:getData("img", false)) then
 			return false
 		end
+	end
+}
+
+ITEM.functions.Clone = {
+	name = "Clone",
+	tip = "Clone this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player	
+	
+		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
+			local inventory = client:getChar():getInv()
+			
+			if(!inventory:add(item.uniqueID, 1, item.data)) then
+				client:notify("Inventory is full")
+			end
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
 	end
 }
 

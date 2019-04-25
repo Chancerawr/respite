@@ -2,9 +2,10 @@ ITEM.name = "Shards of Creation"
 ITEM.desc = "A mysterious book that holds important information."
 ITEM.uniqueID = "story_shard"
 ITEM.model = "models/props_lab/binderbluelabel.mdl"
+ITEM.material = "models/props_lab/security_screens2"
 ITEM.price = 0
 ITEM.flag = "3"
-ITEM.material = "models/props_lab/security_screens2"
+ITEM.category = "Lore"
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),

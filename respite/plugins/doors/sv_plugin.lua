@@ -187,7 +187,7 @@ function PLUGIN:PostPlayerLoadout(client)
 	client:Give("nut_keys")
 end
 
-function PLUGIN:ShowTeam(client)
+function PLUGIN:ShowSpare2(client)
 	local data = {}
 		data.start = client:GetShootPos()
 		data.endpos = data.start + client:GetAimVector()*96

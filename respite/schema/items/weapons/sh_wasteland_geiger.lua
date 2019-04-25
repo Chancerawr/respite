@@ -1,5 +1,5 @@
 ITEM.name = "Scavenger Geiger Gun"
-ITEM.desc = "A handmade weapon that highly irradiates the rounds it fires, which will disorient the enemy the more they are subjected to it, commonly nauseating them."
+ITEM.desc = "A handmade rifle with a strange design. Somehow you feel like its design makes it stronger against Aberrations, but nothing about its actual parts verifies this.\nThis weapon utilizes 7.62x51mm rounds."
 ITEM.model = "models/weapons/w_snip_g3sg1.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_wasteland_geiger"

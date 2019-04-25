@@ -95,7 +95,6 @@ ITEM.functions.Shard = {
 		
 		nut.item.spawn("medical_purge", position)
 		nut.item.spawn("medical_purge", position)
-		nut.item.spawn("medical_purge", position)
 
 		return false
 	end
@@ -116,7 +115,7 @@ ITEM.functions.Blight = {
 		end
 
 		blight:remove()
-		nut.chat.send(client, "itclose", "The ichor seeps into the object, and it chimes quietly.\nA pill bottle comes out of the object.")
+		nut.chat.send(client, "itclose", "The blight seeps into the object, and it chimes quietly.\nA pill bottle comes out of the object.")
 
 		nut.item.spawn("drug_antipsychotics", position)
 		

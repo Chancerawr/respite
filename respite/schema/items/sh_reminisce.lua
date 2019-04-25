@@ -13,7 +13,7 @@ ITEM.color = Color(0, 128, 128)
 ITEM.iconCam = {
 	pos = Vector(143.77166748047, 121.48292541504, 94),
 	ang = Angle(25, 220, 0),
-	fov = 5.5,
+	fov = 6,
 }
 
 --1 cure, 2 organic material.

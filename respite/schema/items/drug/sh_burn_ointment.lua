@@ -2,11 +2,8 @@ ITEM.name = "Burn Ointment"
 ITEM.model = "models/props_junk/glassjug01.mdl"
 ITEM.desc = "A bottle filled with burn ointment."
 ITEM.uniqueID = "drug_burnointment"
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.price = 30
-ITEM.attribBoosts = {
-	["medical"] = 5,
-}
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),

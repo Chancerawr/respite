@@ -53,7 +53,6 @@ ITEM.functions._use = {
 	end
 }
 
-
 local quality = {}
 quality[0] = "Terrible"
 quality[1] = "Awful"
@@ -73,6 +72,18 @@ function ITEM:getDesc()
 	if(self:getData("quality") != nil) then
 		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
 	end
+	
+	if(!partial) then		
+		if(self.attribBoosts) then
+			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+			
+			for k, v in pairs(self.attribBoosts) do
+				if(v != 0 and nut.attribs.list[k]) then
+					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+				end
+			end
+		end	
+	end	
 	
 	return Format(desc)
 end

@@ -2,7 +2,7 @@ ITEM.name = "Brain"
 ITEM.uniqueID = "food_brain"
 ITEM.hungerAmount = 15
 ITEM.model = "models/gibs/humans/brain_gib.mdl"
-ITEM.foodDesc = "An entire human brain, that can't be normal."
+ITEM.desc = "An entire human brain, that can't be normal."
 ITEM.quantity2 = 2
 ITEM.price = 0
 ITEM.width = 1
@@ -10,7 +10,10 @@ ITEM.height = 1
 ITEM.flag = "v"
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 10, ["perception"] = 1 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 10, 
+	["perception"] = 1 
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, -0.85000002384186, 200),

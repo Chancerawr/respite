@@ -43,11 +43,11 @@ end
 local playerMeta = FindMetaTable("Player")
 
 -- Sends a Derma string request to the client.
-function playerMeta:requestQuery(query, title, callback)
+function playerMeta:requestQuery(question, title, callback, default)
 	local time = math.floor(os.time())
 
-	self.nutQueryReqs = self.nutQueryReqs or {}
-	self.nutQueryReqs[time] = callback
+	self.nutStrReqs = self.nutStrReqs or {}
+	self.nutStrReqs[time] = callback
 
-	netstream.Start(self, "strQuery", time, query, title, callback)
+	netstream.Start(self, "strQue", time, question, title, default)
 end

@@ -413,9 +413,8 @@ nut.command.add("diagnose", {
 	
 		local target = client:GetEyeTrace().Entity
 
-		if(!IsValid(target)) then
-			client:notify("Look at a valid target.")
-			return false
+		if(!IsValid(target) or !target:IsPlayer()) then
+			target = client
 		end
 
 		local illnesses = {}

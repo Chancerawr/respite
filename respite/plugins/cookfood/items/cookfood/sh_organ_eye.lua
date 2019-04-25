@@ -2,7 +2,7 @@ ITEM.name = "Eyeball"
 ITEM.uniqueID = "food_eye"
 ITEM.hungerAmount = 15
 ITEM.model = "models/gibs/humans/eye_gib.mdl"
-ITEM.foodDesc = "A human eyeball, that can't be normal."
+ITEM.desc = "A human eyeball, that can't be normal."
 ITEM.quantity2 = 2
 ITEM.price = 0
 ITEM.width = 1
@@ -10,7 +10,9 @@ ITEM.height = 1
 ITEM.flag = "v"
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 5 }
+ITEM.attribBoosts = {
+	["fortitude"] = 5 
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 0),

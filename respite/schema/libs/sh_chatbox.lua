@@ -198,10 +198,10 @@ do
 				return nut.config.get("chatColor")
 			end,
 			onCanHear = nut.config.get("chatRange", 280),
-			onChatAdd = function(speaker, text)
+			onChatAdd = function(speaker, text, anonymous)
 				local suffix = string.sub(text, text:len())
 				local teamColor = team.GetColor(speaker:getChar():getFaction())
-				local speako = hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 				local pSay = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
 				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
 				local texCol = nut.config.get("chatColor")
@@ -275,7 +275,18 @@ do
 		-- Actions and such.
 		nut.chat.register("it", {
 			onChatAdd = function(speaker, text)
-				chat.AddText(nut.config.get("chatColor"), "**"..text)
+				local texCol = nut.config.get("chatColor")
+				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
+					texCol = nut.config.get("chatListenColor")
+				end
+				
+				if(LocalPlayer() == speaker) then
+					local tempCol = nut.config.get("chatListenColor")
+							
+					texCol = Color(tempCol.r + 20, tempCol.b + 20, tempCol.g + 20)
+				end
+			
+				chat.AddText(texCol, "**"..text)
 			end,
 			onCanHear = nut.config.get("chatRange", 280),
 			prefix = {"/it"},

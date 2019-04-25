@@ -10,7 +10,7 @@ ITEM.category = "Miscellaneous"
 ITEM.invWidth = 5
 ITEM.invHeight = 5
 ITEM.color = Color(255, 255, 255)
-ITEM.openTime = 5
+ITEM.openTime = 0.1
 
 --should use shards, memories, maybe organic material, intrinsic symbols
 
@@ -30,7 +30,7 @@ local function getDelay(item)
 	local symbols = item:getData("symbols", 0)
 	local size = item:getData("size", 2) / 50
 	
-	return (120 + (3600 / plastics)) -- divide by amount of plastics
+	return (120 + (3600 / workers)) -- divide by amount of workers
 end
 
 local function timerCheck(item)
@@ -171,23 +171,23 @@ ITEM.functions.Claim = {
 }
 
 ITEM.functions.AbsorbIchor = {
-	name = "Absorb Shards",
-	tip = "Absorb shards in inventory.",
+	name = "Absorb Ichor",
+	tip = "Absorb ichor in inventory.",
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local total = item:getData("ichor", 10)
-		local absorb = inventory:hasItem("ichor")
+		local stack = item:getData("ichor", 10)
+		local obj = inventory:hasItem("ichor")
 		
-		while(absorb) do
-			total = shardstack + total:getData("ichor", 10)
-			absorb:remove()
-			absorb = inventory:hasItem("ichor")
+		while(obj) do
+			stack = stack + obj:getData("ichor", 1)
+			obj:remove()
+			obj = inventory:hasItem("ichor")
 		end
 		
-		item:setData("ichor", total)
+		item:setData("ichor", stack)
 		
 		item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 		
@@ -207,22 +207,27 @@ ITEM.functions.AbsorbIchor = {
 	end
 }
 
-ITEM.functions.AbsorbChips = {
-	name = "Absorb Chips",
-	tip = "Absorb chips in inventory.",
+ITEM.functions.AbsorbMemory = {
+	name = "Absorb Memories",
+	tip = "Absorb memories in inventory.",
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chipstack = item:getData("chipcount", 0)
-		local chip = inventory:hasItem("cube_chip")	
-		while(chip) do
-			chipstack = chipstack + 1
-			chip:remove()
-			chip = inventory:hasItem("cube_chip")
+		
+		local stack = item:getData("memory", 0)
+		local obj = inventory:hasItem("j_scrap_memory")	
+
+		while(obj) do
+			stack = stack + obj:getData("Amount", 1)
+			obj:remove()
+			obj = inventory:hasItem("j_scrap_memory")
 		end
-		item:setData("chipcount", chipstack)
+		
+		item:setData("memory", chipstack)
+		
 		item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
+		
 		return false
 		end,
 	onCanRun = function(item)
@@ -238,22 +243,27 @@ ITEM.functions.AbsorbChips = {
 	end
 }
 
-ITEM.functions.AbsorbEChips = {
-	name = "Absorb Enhanced Chips",
-	tip = "Absorb enhanced chips in inventory.",
+ITEM.functions.AbsorbIChips = {
+	name = "Absorb Intrinsic Symbols",
+	tip = "Absorb symbols in inventory.",
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chipstack = item:getData("echipcount", 0)
-		local chip = inventory:hasItem("cube_chip_enhanced")	
-		while(chip) do
-			chipstack = chipstack + 1
-			chip:remove()
-			chip = inventory:hasItem("cube_chip_enhanced")
+		
+		local stack = item:getData("symbols", 0)
+		local obj = inventory:hasItem("chip_escape")	
+		
+		while(obj) do
+			stack = stack + 1
+			obj:remove()
+			obj = inventory:hasItem("chip_escape")
 		end
-		item:setData("echipcount", chipstack)
+		
+		item:setData("symbols", stack)
+		
 		item.player:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
+		
 		return false
 		end,
 	onCanRun = function(item)

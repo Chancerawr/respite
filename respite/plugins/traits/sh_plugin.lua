@@ -24,8 +24,11 @@ function PLUGIN:OnCharCreated(client, character)
 	local dumbIt = 0.5
 	if(traitData) then
 		for k, v in pairs(traitData) do
-			if(TRAITS.traits[k].items) then
-				table.Merge(traitItems, (TRAITS.traits[k].items or {}))
+			local items = TRAITS.traits[k].items
+			if(items) then
+				for k, v in pairs(items) do
+					table.insert(traitItems, v)
+				end
 			end
 			
 			dumbIt = dumbIt + 1
@@ -37,9 +40,8 @@ function PLUGIN:OnCharCreated(client, character)
 		end
 	end
 	
-	dumbIt = 0
 	for k, v in pairs(traitItems) do
-		dumbIt = dumbIt + 1
+		dumbIt = dumbIt + 2
 		timer.Simple(dumbIt, function()
 			character:getInv():add(v)
 		end)

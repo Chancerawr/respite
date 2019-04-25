@@ -441,3 +441,25 @@ function SCHEMA:SetupQuickMenu(menu)
 		end
 	end, GetConVar("gmod_mcore_test"):GetBool())
 end
+
+--turns off injury text
+function SCHEMA:GetInjuredText(client)
+	return false
+end
+
+local nextUpdate = 0
+local lastTrace = {}
+local lastEntity
+local mathApproach = math.Approach
+local surface = surface
+local hookRun = hook.Run
+local toScreen = FindMetaTable("Vector").ToScreen
+
+local blurGoal = 0
+local blurDelta = 0
+
+netstream.Hook("strQue", function(time, question, title, default)
+	Derma_Query(question, title, "Yes", function()
+		netstream.Start("strReq", time, "Yes")
+	end, "No")
+end)

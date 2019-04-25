@@ -9,6 +9,7 @@ ITEM.color = Color(148, 0, 210)
 
 ITEM.attribBoosts = {
 	["end"] = -10,
+	["stm"] = -5,
 }
 
 ITEM.iconCam = {

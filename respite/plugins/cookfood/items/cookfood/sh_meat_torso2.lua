@@ -2,14 +2,16 @@ ITEM.name = "Human Torso Chunk"
 ITEM.uniqueID = "food_human_torso2"
 ITEM.model = "models/dismemberment/gibs/torso/torso_left_upper.mdl"
 ITEM.hungerAmount = 50
-ITEM.foodDesc = "The torso of a human being."
+ITEM.desc = "The torso of a human being."
 ITEM.quantity2 = 2
-ITEM.price = 100
+ITEM.price = 0
 ITEM.width = 2
 ITEM.height = 2
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 10 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 10 
+}
 
 ITEM.iconCam = {
 	pos = Vector(1.5, 200, 6),

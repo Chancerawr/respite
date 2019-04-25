@@ -264,7 +264,7 @@ do
 		onDisplay = function(panel, y)
 			local container = panel:Add("DScrollPanel")
 			container:SetPos(panel.lastX, y)
-			container:SetWide(ScrW() * 0.25)
+			container:SetSize(ScrW() * 0.25, ScrH() * 0.2)
 
 			local y2 = 0
 			local total = 0
@@ -302,7 +302,7 @@ do
 				y2 = y2 + bar:GetTall() + 4
 			end
 
-			container:SetTall(y2)
+			--container:SetTall(y2)
 			return container
 		end,
 		onValidate = function(value, data, client)

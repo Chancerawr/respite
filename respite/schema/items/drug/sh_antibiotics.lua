@@ -2,12 +2,8 @@ ITEM.name = "Antibiotics"
 ITEM.model = "models/healthvial.mdl"
 ITEM.desc = "A bottle filled with antibiotics."
 ITEM.uniqueID = "drug_antibiotics"
-ITEM.duration = 100
+ITEM.duration = 6000
 ITEM.price = 200
-
-ITEM.attribBoosts = {
-	["str"] = 5,
-}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 4.75),

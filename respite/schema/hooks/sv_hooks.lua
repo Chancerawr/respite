@@ -45,7 +45,7 @@ Temporary Things (Like Maps)
 --]]
 
 215338015, --rp_v_torrington content
-1105819667 --rp_stateline
+374492855, --rp_nexusgrad_v1_winter
 
 }
 
@@ -84,7 +84,7 @@ function SCHEMA:OnCharCreated(client, character)
 			}
 		end
 		
-		local i = 7
+		local i = 20
 		for k, v in pairs(items) do
 			timer.Simple(i + k, function()
 				inventory:add(v)
@@ -140,12 +140,10 @@ function SCHEMA:ScalePlayerDamage(client, hitGroup, dmgInfo)
 end
 
 --someone gave me this but I don't think it does anything the way it is now
---[[
 function SCHEMA:Think()
-	local function onSuccess( ret )	
-		wzsql.Query( "SHOW STATUS LIKE 'Uptime'", onSuccess );
-		
-		self.NextCheck = RealTime() + 10
+	if((self.NextDBRefresh or 0) < CurTime()) then
+		nut.db.query("SELECT 1 + 1", onSuccess)
+			
+		self.NextDBRefresh = CurTime() + 10
 	end
 end
---]]

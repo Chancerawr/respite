@@ -2,14 +2,16 @@ ITEM.name = "Human Pelvis"
 ITEM.uniqueID = "food_human_pelvis"
 ITEM.model = "models/dismemberment/gibs/torso/torso_pelvis.mdl"
 ITEM.hungerAmount = 45
-ITEM.foodDesc = "The pelvis of a human being."
+ITEM.desc = "The pelvis of a human being."
 ITEM.quantity2 = 3
-ITEM.price = 100
+ITEM.price = 0
 ITEM.width = 2
 ITEM.height = 2
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 10 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 10
+}
 
 ITEM.iconCam = {
 	pos = Vector(1, 2, 200),

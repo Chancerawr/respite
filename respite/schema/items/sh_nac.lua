@@ -128,6 +128,8 @@ ITEM.functions.Battery = {
 		required:remove()
 		nut.item.spawn("food_laugh", position)
 		nut.item.spawn("food_laugh", position)
+		nut.item.spawn("food_laugh", position)
+		nut.item.spawn("food_laugh", position)
 
 		inventory:add("j_battery_dead")
 		

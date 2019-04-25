@@ -3,13 +3,17 @@ PLUGIN.author = "La Corporativa"
 PLUGIN.desc = "A plugin that allows players to have a safe place to store their items."
 
 nut.config.add("safeModel", "models/items/item_item_crate.mdl", "The model of the safe", nil, {
-		category = "Safebox"
+	category = "Safebox"
 })
+
 nut.config.add("safeHeight", 4, "The height of the safe", nil, {
-		category = "Safebox"
+	data = {min = 1, max = 20},
+	category = "Safebox"
 })
+
 nut.config.add("safeWidth", 4, "The width of the safe", nil, {
-		category = "Safebox"
+	data = {min = 1, max = 20},
+	category = "Safebox"
 })
 
 if (SERVER) then

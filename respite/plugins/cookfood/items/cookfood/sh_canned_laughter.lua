@@ -2,9 +2,9 @@ ITEM.name = "Canned Laughter"
 ITEM.uniqueID = "food_laugh"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
 ITEM.hungerAmount = 10
-ITEM.foodDesc = "A can filled with laughter?"
+ITEM.desc = "A can filled with laughter?"
 ITEM.quantity2 = 1
-ITEM.price = 4
+ITEM.price = 0
 ITEM.width = 1
 ITEM.height = 1
 

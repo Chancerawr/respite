@@ -2,11 +2,12 @@ ITEM.name = "Steroid"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.desc = "A small bottle filled with medical steroids."
 ITEM.uniqueID = "drug_steroid"
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.price = 200
 
 ITEM.attribBoosts = {
-	["str"] = 5,
+	["str"] = 10,
+	["end"] = 5,
 }
 
 ITEM.iconCam = {

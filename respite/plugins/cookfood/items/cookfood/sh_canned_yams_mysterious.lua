@@ -3,9 +3,9 @@ ITEM.uniqueID = "food_yams_mysterious"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
 ITEM.material = "models/props_lab/security_screens2"
 ITEM.hungerAmount = 10
-ITEM.foodDesc = "Something's wrong.."
+ITEM.desc = "Something's wrong.."
 ITEM.quantity2 = 3
-ITEM.price = 4
+ITEM.price = 0
 ITEM.width = 1
 ITEM.height = 1
 ITEM.color = Color(0, 128, 128)
@@ -37,9 +37,15 @@ ITEM.functions.use = {
 
 		quantity2 = quantity2 - 1
 		
-		nut.chat.send(client, "body", "Your mind fills with nothingness.")
-		nut.chat.send(client, "body", "You see an empty white space, a cold room with only yourself in it.")
-		nut.chat.send(client, "body", "You feel incomplete.")		
+		if(char:getFaction() == FACTION_SURVIVOR) then
+			nut.chat.send(client, "body", "Your mind fills with nothingness.")
+			nut.chat.send(client, "body", "You see an empty white space, a cold room with only yourself in it.")
+			nut.chat.send(client, "body", "You feel incomplete.")
+		else
+			nut.chat.send(client, "body", "Your mind fills with images of a life you do not remember.")
+			nut.chat.send(client, "body", "You are in someone else's body, in a more peaceful world.")
+			nut.chat.send(client, "body", "It feels nostalgic somehow.")
+		end
 		
 		giveDisease(client, "fort_nost")
 		

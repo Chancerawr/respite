@@ -24,6 +24,7 @@ ITEM.functions.Equip = {
 	name = "Equip",
 	tip = "equipTip",
 	icon = "icon16/tick.png",
+	sound = "items/ammo_pickup.wav",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -39,8 +40,8 @@ ITEM.functions.Equip = {
 
 					return false
 				else
-					if (itemTable:getData("equip") and itemTable.buffCategory == item.buffCategory) then
-						client:notify("Your " .. item.buffCategory .. " slot is already filled.")
+					if ((itemTable:getData("equip") and itemTable.buffCategory) and (string.lower(itemTable:getData("customSlot", itemTable.buffCategory)) == string.lower(item:getData("customSlot", item.buffCategory)))) then
+						client:notify("Your " ..item:getData("customSlot", item.buffCategory).. " slot is already filled.")
 
 						return false
 					end
@@ -69,6 +70,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 	name = "Unequip",
 	tip = "equipTip",
 	icon = "icon16/cross.png",
+	sound = "items/ammo_pickup.wav",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()
@@ -113,7 +115,7 @@ ITEM.functions.Custom = {
 				client:requestString("Change Model", "What Model do you want this item to have?\nBe sure it is a valid model.", function(text) --start of model
 					item:setData("customMdl", text)
 				end, item:getData("customMdl", item.model)) --end of model
-			end, item:getDesc()) --end of desc
+			end, item:getDesc(true)) --end of desc
 		end, item:getName()) --end of name
 		
 		--hopefully resets the player's icons
@@ -150,10 +152,55 @@ ITEM.functions.CustomCol = {
 			end
 		
 			item:setData("customCol", color)
-		end, color.r .. ", " .. color.b .. ", " .. color.g)
+		end, color.r .. ", " .. color.g .. ", " .. color.b)
 		
 		--hopefully resets the player's icons
 		client:ConCommand("nut_flushicon")
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomMat = {
+	name = "Customize Material",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local material = item:getData("mat") or item.material or ""
+		client:requestString("Change Material", "Enter material path.", function(text) --start of model
+			item:setData("mat", text)
+		end, material)
+	
+		--hopefully resets the player's icons
+		client:ConCommand("nut_flushicon")
+	
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomSlot = {
+	name = "Customize Slot",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local slot = item:getData("customSlot", "accessory")
+		client:requestString("Change Slot", "Input the slot name, two items of the same slot cannot be equipped at once.", function(text) --start of model
+			local newSlot = text
+		
+			item:setData("customSlot", newSlot)
+		end, slot)
 		
 		return false
 	end,
@@ -203,6 +250,28 @@ ITEM.functions.CustomAtr = {
 	end
 }
 
+ITEM.functions.Clone = {
+	name = "Clone",
+	tip = "Clone this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player	
+	
+		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
+			local inventory = client:getChar():getInv()
+			
+			if(!inventory:add(item.uniqueID, 1, item.data)) then
+				client:notify("Inventory is full")
+			end
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
 -- On item is dropped, Remove a weapon from the player and keep the ammo in the item.
 ITEM:hook("drop", function(item)
 	if (item:getData("equip")) then
@@ -228,29 +297,32 @@ function ITEM:getName()
 	return Format(name)
 end
 
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
 	if(self:getData("customDesc") != nil) then
 		desc = self:getData("customDesc")
-	end
+	end	
 	
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
-	end
-	
-	local boosts = self:getData("attrib")
-	if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
-		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
-		for k, v in pairs(boosts) do
-			if(v != 0) then --dont want to display 0 values.
-				desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+	if(!partial) then
+		if(self:getData("customSlot", self.buffCategory)) then
+			desc = desc .. "\nSlot: " .. self:getData("customSlot", self.buffCategory) .. "."
+		end
+		
+		local boosts = self:getData("attrib")
+		if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
+			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+			for k, v in pairs(boosts) do
+				if(v != 0) then --dont want to display 0 values.
+					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+				end
 			end
 		end
 	end
-
+	
 	return Format(desc)
 end
+
 
 function ITEM:onGetDropModel()
 	local model = self.model

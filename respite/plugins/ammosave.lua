@@ -26,7 +26,7 @@ nut.ammo.register("slam")
 nut.ammo.register("AlyxGun")
 --nut.ammo.register("sniperround")
 --nut.ammo.register("sniperpenetratedround")
---nut.ammo.register("thumper")
+nut.ammo.register("thumper")
 --nut.ammo.register("gravity")
 nut.ammo.register("battery")
 --nut.ammo.register("gaussenergy")
@@ -81,6 +81,38 @@ end
 
 -- Called after the player's loadout has been set.
 function PLUGIN:PlayerLoadedChar(client)
+	timer.Simple(.25, function()
+		if (!IsValid(client)) then
+			return
+		end
+		
+		--fix for people getting ammo from other characters.
+		for k, v in ipairs(self.ammoList) do
+			client:SetAmmo(0, tostring(v))
+		end
+
+		-- Get the saved ammo table from the character data.
+		local character = client:getChar()
+
+		if (!character) then
+			return
+		end
+		
+		local ammoTable = character:getData("ammo")
+		
+		-- Check if the ammotable is exists.
+		if (ammoTable) then
+			for k, v in pairs(ammoTable) do
+				client:SetAmmo(v, tostring(k))
+			end
+		end
+	end)
+end
+
+--this restores ammo after death
+function PLUGIN:PlayerSpawn(client)
+	if(!client:getChar()) then return end
+	
 	timer.Simple(.25, function()
 		if (!IsValid(client)) then
 			return

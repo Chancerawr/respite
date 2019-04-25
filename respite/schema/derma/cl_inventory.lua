@@ -328,7 +328,7 @@ PANEL = {}
 				panel.ExtraPaint = function(self, x, y)
 					local exIcon = ikon:getIcon(itemTable.uniqueID)
 					
-					if(itemTable:getData("customMdl") or itemTable:getData("customCol")) then
+					if(itemTable:getData("customMdl") or itemTable:getData("customCol") or itemTable:getData("mat")) then
 						exIcon = ikon:getIcon(itemTable.id)
 					end
 					
@@ -400,14 +400,15 @@ PANEL = {}
 						
 						--generates the actual icon
 						local mat = false
-						if(itemTable.material) then
-							mat = itemTable.material
+						if(itemTable:getData("mat", itemTable.material)) then
+							mat = itemTable:getData("mat", itemTable.material)
 						end
 						
 						local skin = false
 						if(itemTable.skin) then
 							skin = itemTable.skin
 						end
+						
 						ikon:renderIcon(
 							iconName,
 							itemTable.width,

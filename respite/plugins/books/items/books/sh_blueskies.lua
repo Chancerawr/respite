@@ -1,6 +1,6 @@
 ITEM.name = "Blue Skies"
 ITEM.desc = "A book about some military stuff."
-ITEM.flag = "k"
+ITEM.flag = "3"
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),

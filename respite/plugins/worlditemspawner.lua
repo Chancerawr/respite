@@ -4,6 +4,11 @@ PLUGIN.author = "Black Tea (NS 1.0), Neon (NS 1.1)"
 PLUGIN.desc = "World Item Spawner."
 PLUGIN.itempoints = PLUGIN.itempoints or {}
 
+nut.config.add("item_spawnrate", 120, "How often a new item will be spawned at an item spawn point.", nil, {
+	data = {min = 1, max = 84600},
+	category = "Scavenging"
+})
+
 PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 	["default"] = {
 		"food_banana",
@@ -281,7 +286,6 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 	}
 }
 
-PLUGIN.spawnrate = 60
 PLUGIN.maxitems = 500
 PLUGIN.itemsperspawn = 1
 PLUGIN.spawneditems = PLUGIN.spawneditems or {}
@@ -295,7 +299,7 @@ if SERVER then
 
 	function PLUGIN:Think()
 		if spawntime > CurTime() then return end
-		spawntime = CurTime() + self.spawnrate
+		spawntime = CurTime() + nut.config.get("item_spawnrate", 60)
 		for k, v in ipairs(self.spawneditems) do
 			if (!v:IsValid()) then
 				table.remove(self.spawneditems, k)
@@ -310,7 +314,7 @@ if SERVER then
 				return
 			end
 
-			local v = table.Random(self.itempoints)
+			local v = self.itempoints[math.random(#self.itempoints)]
 
 			if (!v) then
 				return
@@ -329,8 +333,14 @@ if SERVER then
 			end
 
 			if(self.spawngroups[v[2]]) then
-				local idat = table.Random(self.spawngroups[v[2]]) or self.spawngroup["default"]
-
+				local idat
+			
+				if(self.spawngroups[v[2]]) then
+					idat = self.spawngroups[v[2]][math.random(#self.spawngroups[v[2]])]--table.Random(self.spawngroups[v[2]]) or self.spawngroup["default"]
+				else
+					idat = self.spawngroups["default"][math.random(#self.spawngroups)]
+				end
+				
 				nut.item.spawn(idat, v[1] + Vector( math.Rand(-8,8), math.Rand(-8,8), 20 ),
 					function(item, entity)
 						self.spawneditems[#self.spawneditems + 1] = entity

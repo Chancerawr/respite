@@ -738,6 +738,25 @@ RECIPE.result = {
 RECIPES:Register( RECIPE )
 //
 RECIPE = {}
+RECIPE.uid = "nut_nailgun"
+RECIPE.name = "Makeshift Nailgun"
+RECIPE.category = "Weapons"
+RECIPE.model = Model( "models/warz/melee/nailgun.mdl" )
+RECIPE.desc = "A modified nailgun that can be used as a silent, very painful weapon.\nThis weapon utilizes nails."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_screws"] = 2,
+	["j_scrap_adhesive"] = 5,
+	["j_scrap_metals"] = 20,
+	["cube_chip"] = 6,
+	["j_nailgun"] = 1
+}
+RECIPE.result = {
+	["tfa_wasteland_nailgun"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
 RECIPE.uid = "nut_cp1ka"
 RECIPE.name = "CP-1KA"
 RECIPE.category = "Weapons"
@@ -1943,6 +1962,38 @@ RECIPE.result = {
 RECIPES:Register( RECIPE )
 //
 RECIPE = {}
+RECIPE.uid = "nut_cheese"
+RECIPE.name = "Cheese"
+RECIPE.category = "Food"
+RECIPE.model = Model( "models/hunter/triangles/025x025.mdl" )
+RECIPE.desc = "A large hunk of cheese."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_organic"] = 2,
+	["food_milk_carton"] = 1
+}
+RECIPE.result = {
+	["food_cheese"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_pickles"
+RECIPE.name = "Pickles"
+RECIPE.category = "Food"
+RECIPE.model = Model( "models/props_lab/jar01a.mdl" )
+RECIPE.desc = "A jar filled with pickles."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_organic"] = 10,
+	["j_scrap_glass"] = 5
+}
+RECIPE.result = {
+	["food_pickles"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
 RECIPE.uid = "nut_chips"
 RECIPE.name = "Potato Chips"
 RECIPE.category = "Food"
@@ -2287,6 +2338,24 @@ RECIPE.items = {
 }
 RECIPE.result = {
 	["hl2_m_makeshift_glaive"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_machete"
+RECIPE.name = "Makeshift Machete"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model("models/warz/melee/machete.mdl")
+RECIPE.desc = "A sharp tool made out of metal, used for slicing."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_adhesive"] = 4,
+	["j_scrap_metals"] = 10,
+	["cube_chip"] = 2,
+	["hl2_m_shiv_metal"] = 1,
+}
+RECIPE.result = {
+	["hl2_m_machate"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -3767,6 +3836,37 @@ RECIPE.items = {
 }
 RECIPE.result = {
 	["bars"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_bottle"
+RECIPE.name = "Glass Bottle"
+RECIPE.category = "Refined"
+RECIPE.model = Model( "models/props_trainstation/handrail_64decoration001a.mdl" )
+RECIPE.desc = "An empty glass bottle capable of containing liquids."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_glass"] = 5
+}
+RECIPE.result = {
+	["j_empty_water"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_syringe"
+RECIPE.name = "Glass Syringe"
+RECIPE.category = "Refined"
+RECIPE.model = Model( "models/warz/items/syringe.mdl" )
+RECIPE.desc = "A simple pump consisting of a plunger that fits tightly in a tube. The plunger can be pulled and pushed along inside a cylindrical tube (called a barrel), allowing the syringe to take in and expel a liquid or gas through an orifice at the open end of the tube."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_glass"] = 4,
+	["j_scrap_rubber"] = 2
+}
+RECIPE.result = {
+	["j_syringe"] = 1
 }
 RECIPES:Register( RECIPE )
 //

@@ -59,19 +59,19 @@ ITEM.functions.Activate = {
 			if(kind == 1) then
 				result = "food_hamburger"
 				num = 1
-				client:notifyLocalized("Hamburger Helping has begun.")
+				client:notify("Hamburger Helping has begun.")
 			elseif(kind == 2) then
 				result = "food_hotdog"
 				num = 2
-				client:notifyLocalized("Hot Dogging has begun.")
+				client:notify("Hot Dogging has begun.")
 			elseif(kind == 3) then
 				result = "food_bacon"
 				num = 3
-				client:notifyLocalized("Baconating has begun.")
+				client:notify("Baconating has begun.")
 			else
 				result = "food_nuggets"
 				num = 2
-				client:notifyLocalized("Nuggeting has begun.")
+				client:notify("Nuggeting has begun.")
 			end
 			
 			item:setData("producing", CurTime())

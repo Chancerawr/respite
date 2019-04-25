@@ -66,3 +66,19 @@ netstream.Hook("nut_CraftWindow", function(client, data)
 	function ENT:OnRemove()
 	end
 end
+
+if(CLIENT) then
+	ENT.DrawEntityInfo = true
+	local toScreen = FindMetaTable("Vector").ToScreen
+	local colorAlpha = ColorAlpha
+	local drawText = nut.util.drawText
+	local configGet = nut.config.get
+
+	function ENT:onDrawEntityInfo(alpha)
+		local position = toScreen(self.LocalToWorld(self, self.OBBCenter(self)))
+		local x, y = position.x, position.y
+		
+		drawText("A wooden table with a monitor, and a hole to drop objects into.", x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutChat", alpha * 0.65)
+		drawText("The monitor reacts to touch, allowing a user to select a “recipe”, which will display the materials required for the object described.", x, y + 34, colorAlpha(color_white, alpha), 1, 1, "nutChat", alpha * 0.65)
+	end
+end

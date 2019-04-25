@@ -1,11 +1,11 @@
 ITEM.name = "Stick"
 ITEM.desc = "A stick broken off from the branch of a tree."
-ITEM.model = "models/props/cs_office/Snowman_arm.mdl"
+ITEM.model = "models/props/cs_office/snowman_arm.mdl"
 ITEM.class = "hl2_m_stick"
 ITEM.uniqueID = "hl2_m_stick"
 ITEM.weaponCategory = "melee"
-ITEM.width = 1
-ITEM.height = 2
+ITEM.width = 2
+ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"

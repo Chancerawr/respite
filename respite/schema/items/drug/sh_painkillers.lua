@@ -2,11 +2,11 @@ ITEM.name = "Painkillers"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.desc = "A small bottle filled with some pills."
 ITEM.uniqueID = "drug_painkillers"
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.price = 30
 
 ITEM.attribBoosts = {
-	["end"] = 5,
+	["end"] = 10,
 }
 
 ITEM.iconCam = {

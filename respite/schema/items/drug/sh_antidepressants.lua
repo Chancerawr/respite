@@ -2,7 +2,7 @@ ITEM.name = "Antidepressants"
 ITEM.uniqueID = "drug_antidepressants"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.desc = "A small bottle filled with some pills."
-ITEM.duration = 100
+ITEM.duration = 6000
 ITEM.price = 30
 
 ITEM.attribBoosts = {

@@ -1,6 +1,6 @@
 ITEM.name = "The F. Word"
 ITEM.desc = "A book about dealing with children appropriately."
-ITEM.flag = "k"
+ITEM.flag = "3"
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),

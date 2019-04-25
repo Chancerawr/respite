@@ -4,6 +4,7 @@ local PLUGIN = PLUGIN
 local CHATCOLOR_MELEE = Color(155, 130, 130)
 local CHATCOLOR_RANGED = Color(130, 130, 150)
 local CHATCOLOR_REACT = Color(140, 150, 140)
+local CHATCOLOR_GRAZE = Color(140, 100, 50)
 local CHATCOLOR_RESIST = Color(160, 150, 130)
 local CHATCOLOR_SPECIAL = Color(150, 120, 100)
 
@@ -12,7 +13,7 @@ local CHATCOLOR_GREEN = Color(60, 160, 60)
 
 nut.command.add("cent", {
 	--adminOnly = true,
-	syntax = "<String command>",
+	syntax = "<string command>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a command for the entity to run.")
@@ -31,7 +32,7 @@ nut.command.add("cent", {
 
 nut.command.add("centfa", {
 	--adminOnly = true,
-	syntax = "<String command>",
+	syntax = "<string command>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a command for the entity to run.")
@@ -48,7 +49,7 @@ nut.command.add("centfa", {
 
 nut.command.add("centname", {
 	adminOnly = true,
-	syntax = "<String name>",
+	syntax = "<string name>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a name for the entity.")
@@ -66,7 +67,7 @@ nut.command.add("centname", {
 
 nut.command.add("centsay", {
 	adminOnly = true,
-	syntax = "<String name>",
+	syntax = "<string sentence>",
 	onRun = function(client, arguments)
 		if(!arguments) then
 			client:notify("Put something for the CEnt to say.")
@@ -76,7 +77,26 @@ nut.command.add("centsay", {
 
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
-			nut.chat.send(client, "say_npc", entity:getNetVar("name", (entity.name or entity.PrintName)) .. " says \"" ..msg..".\"")
+			nut.chat.send(client, "say_npc", entity:getNetVar("name", (entity.name or entity.PrintName)) .. " says \"" ..msg.."\"")
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centme", {
+	adminOnly = true,
+	syntax = "<string action>",
+	onRun = function(client, arguments)
+		if(!arguments) then
+			client:notify("Put something for the CEnt to do.")
+		end
+
+		local msg = table.concat(arguments, " ")
+
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			nut.chat.send(client, "say_npc", "**" ..entity:getNetVar("name", (entity.name or entity.PrintName)).. " " ..msg)
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
@@ -85,7 +105,7 @@ nut.command.add("centsay", {
 
 nut.command.add("centdesc", {
 	adminOnly = true,
-	syntax = "<String description>",
+	syntax = "<string description>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a desc for the entity.")
@@ -103,7 +123,7 @@ nut.command.add("centdesc", {
 
 nut.command.add("centmodel", {
 	adminOnly = true,
-	syntax = "<String model path>",
+	syntax = "<string model>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a model for the entity.")
@@ -121,7 +141,6 @@ nut.command.add("centmodel", {
 
 nut.command.add("centkill", {
 	adminOnly = true,
-	syntax = "<String model path>",
 	onRun = function(client, arguments)		
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
@@ -135,7 +154,7 @@ nut.command.add("centkill", {
 
 nut.command.add("centinvadd", {
 	adminOnly = true,
-	syntax = "<String item>",
+	syntax = "<string item>",
 	onRun = function(client, arguments)		
 		if(!arguments[1]) then
 			client:notify("Specify an item.")
@@ -171,7 +190,7 @@ nut.command.add("centinvadd", {
 
 nut.command.add("centinvremove", {
 	adminOnly = true,
-	syntax = "<String item>",
+	syntax = "<string item>",
 	onRun = function(client, arguments)		
 		if(!arguments[1]) then
 			client:notify("Specify an item.")
@@ -210,7 +229,7 @@ nut.command.add("centinvremove", {
 
 nut.command.add("centattrib", {
 	adminOnly = true,
-	syntax = "<String attribute> <number value>",
+	syntax = "<string attribute> <number value>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify an attribute.")
@@ -255,7 +274,7 @@ nut.command.add("centattrib", {
 
 nut.command.add("centattribcheck", {
 	adminOnly = true,
-	syntax = "<String attribute>",
+	syntax = "<string attribute>",
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify an attribute.")
@@ -295,6 +314,75 @@ nut.command.add("centattribcheck", {
 				client:notify("Invalid attribute.")
 			end
 		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centattribs", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local attribs = {}
+
+			attribs["stm"] = entity.agil
+			attribs["str"] = entity.stre
+			attribs["accuracy"] = entity.accu
+			attribs["medical"] = entity.craf
+			attribs["end"] = entity.endu
+			attribs["luck"] = entity.luck
+			attribs["perception"] = entity.perc
+			attribs["fortitude"] = entity.fort
+			
+			netstream.Start(client, "ShowAttribs", client, attribs)
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+--clones a target Cent
+nut.command.add("centclone", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
+			local clone = ents.Create(entity:GetClass()) --the new clone entity
+			clone:SetPos(entity:GetPos()) --set its position
+			clone:SetAngles(entity:GetAngles()) --set its angles
+			
+			clone:Spawn() --spawn it
+			
+			clone:SetModel(entity:GetModel()) --set its model
+			clone:SetMaterial(entity:GetMaterial() or "") --set its material
+			
+			--sets its animation
+			timer.Simple(1, function()
+				if(IsValid(clone)) then
+					clone:ResetSequence(entity:GetSequence())
+				end
+			end)
+			
+			clone:setNetVar("name", entity:getNetVar("name", entity.PrintName)) --set its custom name
+			clone:setNetVar("desc", entity:getNetVar("desc", "")) --set its description			
+			
+			--set its attributes
+			clone.agil = entity.agil
+			clone.stre = entity.stre
+			clone.accu = entity.accu
+			clone.craf = entity.craf
+			clone.endu = entity.endu
+			clone.luck = entity.luck
+			clone.perc = entity.perc
+			clone.fort = entity.fort
+			
+			clone:SetCreator(client) --prop protection
+
+			local name = entity:getNetVar("name", entity.PrintName)
+			client:notify(name.. " has been cloned.") --notify the player
+		else --called if they aren't looking at the right thing
 			client:notify("You must be looking at a combat entity.")
 		end
 	end
@@ -353,6 +441,16 @@ nut.chat.register("react_npc", { --reaction roll
 	deadCanChat = true
 })
 
+nut.chat.register("graze_npc", { --reaction roll
+	onChatAdd = function(speaker, text)
+		chat.AddText(CHATCOLOR_GRAZE, text)
+	end,
+	filter = "actions",
+	font = "nutChatFontItalics",
+	onCanHear = nut.config.get("chatRange", 280) * 5,
+	deadCanChat = true
+})
+
 nut.chat.register("resist_npc", {
 	onChatAdd = function(speaker, text)
 		chat.AddText(CHATCOLOR_RESIST, text)
@@ -383,22 +481,36 @@ nut.chat.register("special_npc", {
 	deadCanChat = true
 })
 
+nut.chat.register("whisper_npc", {
+	onChatAdd = function(speaker, text)
+		local color = nut.config.get("chatColor")
+		
+		chat.AddText(Color(color.r - 35, color.g - 35, color.b - 35), text)
+	end,
+	filter = "actions",
+	font = "nutChatFont",
+	onCanHear = nut.config.get("chatRange", 280) * 0.25,
+	deadCanChat = true
+})
+
 nut.chat.register("say_npc", {
 	onChatAdd = function(speaker, text)
 		chat.AddText(nut.config.get("chatColor"), text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFont",
 	onCanHear = nut.config.get("chatRange", 280),
 	deadCanChat = true
 })
 
-nut.chat.register("whisper_npc", {
+nut.chat.register("yell_npc", {
 	onChatAdd = function(speaker, text)
-		chat.AddText(nut.config.get("chatColor"), text)
+		local color = nut.config.get("chatColor")
+		
+		chat.AddText(Color(color.r + 35, color.g + 35, color.b + 35), text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
-	onCanHear = nut.config.get("chatRange", 280) * 0.5,
+	font = "nutChatFont",
+	onCanHear = nut.config.get("chatRange", 280) * 2,
 	deadCanChat = true
 })

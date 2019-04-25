@@ -34,6 +34,29 @@ if (CLIENT) then
 				nut.util.drawText(v:Name() .. "(" .. v:Health() .. ")", x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				--nut.util.drawText(v:Health(), scrPos.x, scrPos.y + 15, Color(175,0,0, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 			end
+			
+			--uncomment this if you want an item esp.
+			--[[
+			for k, v in pairs(ents.FindByClass("nut_item")) do
+				local item = v:getItemTable()
+				if(item) then
+					scrPos = v:GetPos():ToScreen()
+					marginx, marginy = sy*.1, sy*.1
+					x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
+					--teamColor = team.GetColor(v:Team())
+					distance = client:GetPos():Distance(v:GetPos())
+					factor = 1 - math.Clamp(distance/dimDistance, 0, 1)
+					size = math.max(10, 32*factor)
+					alpha = math.Clamp(255*factor, 80, 255)
+
+					surface.SetDrawColor(Color(255,255,255))
+					--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
+					surface.DrawRect(x - size/2, y - size/2, size/2, size/2)
+
+					nut.util.drawText(item.name or "Item", x, y - size, ColorAlpha(Color(255,255,255), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+				end
+			end
+			--]]
 		end
 	end
 

@@ -83,7 +83,7 @@ ITEM.functions.Sacrifice = {
 				local rewardI
 				
 				if(reward < 8) then
-					client:notifyLocalized("You receive an ailment.")
+					client:notify("You receive an ailment.")
 					
 					local ails = {
 						"fort_nost",
@@ -100,34 +100,41 @@ ITEM.functions.Sacrifice = {
 					
 					giveDisease(client, table.Random(ails))
 				elseif (reward < 60) then
-					client:notifyLocalized("You receive a bottle of pills for your sacrifice.")
+					client:notify("You receive a bottle of pills for your sacrifice.")
 					rewardI = "drug_depress"
 				elseif (reward < 73) then
-					client:notifyLocalized("You receive a vial of blight for your sacrifice.")
+					client:notify("You receive a vial of blight for your sacrifice.")
 					rewardI = "blight"
 				elseif (reward < 75) then
-					client:notifyLocalized("You receive a lamp?")
+					client:notify("You receive a lamp?")
 					rewardI = "hl2_m_lamp_strange"
 				elseif (reward < 85) then
-					client:notifyLocalized("You receive a can of yams?")
+					client:notify("You receive a can of yams?")
 					rewardI = "food_yams"
 				elseif (reward < 95) then
-					client:notifyLocalized("You receive a baby doll.")
+					client:notify("You receive a baby doll.")
 					rewardI = "j_baby_doll"				
 				elseif (reward < 98) then
-					client:notifyLocalized("You receive a bottle of blood.")
+					client:notify("You receive a bottle of blood.")
 					rewardI = "food_blood"
 				elseif (reward < 99) then
-					client:notifyLocalized("You receive a bottle of blue haze for your sacrifice.")
+					client:notify("You receive a bottle of blue haze for your sacrifice.")
 					rewardI = "haze_bottled"
 				elseif (reward == 99) then
-					client:notifyLocalized("You receive an enhanced chip for your sacrifice.")
+					client:notify("You receive an enhanced chip for your sacrifice.")
 					rewardI = "cube_chip_enhanced"		
 				elseif (reward == 100) then
-					client:notifyLocalized("You feel like you've changed somehow.")	
+					client:notify("You feel like you've changed somehow.")	
 					char:updateAttrib("fortitude", 0.5)
+	
+					nut.plugin.list["parts"]:partsAdd(client, math.random(1,5), "Blight")
 				end
-				nut.log.addRaw(client:Name().." used a sacrifical skull: \""..reward.."\"")
+				
+				if(rewardI) then
+					nut.log.addRaw(client:Name().." used a sacrifical skull and received "..nut.item.list[rewardI].name..".")
+				else
+					nut.log.addRaw(client:Name().." used a sacrifical skull and rolled " ..reward)
+				end
 				
 				if(rewardI) then
 					if(!IsValid(item:getEntity())) then --checks if item is not on the ground

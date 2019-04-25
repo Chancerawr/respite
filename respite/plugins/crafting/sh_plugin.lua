@@ -6,6 +6,7 @@ PLUGIN.desc = "Allows you craft some items. And it fucking works."
 PLUGIN.menuEnabled = false -- menu can be toggled off.
 PLUGIN.reqireBlueprint = true
 
+
 phrases = {}
 
 phrases["crafting"] = "Crafting"
@@ -42,6 +43,20 @@ local function randomBoosts(finQual)
 	return boosts
 end
 
+local function chipPouchTest(client, amount)
+	local inventory = client:getChar():getInv()
+	
+	local pouch = inventory:hasItem("cube_chip_pouch")
+	if(pouch) then
+		local count = pouch:getData("chipcount", 0)
+		if(count >= amount) then
+			return true
+		end
+	end
+	
+	return false
+end
+
 RECIPES = {}
 RECIPES.recipes = {}
 function RECIPES:Register( tbl )
@@ -53,6 +68,15 @@ function RECIPES:Register( tbl )
 				local item = inv:hasItem(k)
 				
 				if !inv:hasItem(k) then
+					if(k == "cube_chip") then
+						local pouch = inv:hasItem("cube_chip_pouch")
+						if(pouch) then
+							if(pouch:getData("chipcount", 0) >= v) then
+								continue
+							end
+						end
+					end
+				
 					return false
 				end
 				
@@ -136,6 +160,16 @@ function RECIPES:Register( tbl )
 							end
 						end
 					end
+				else
+					if(k == "cube_chip") then
+						local pouch = inventory:hasItem("cube_chip_pouch")
+						if(pouch) then
+							local bagCount = pouch:getData("chipcount", 0)
+							if(bagCount >= v) then
+								pouch:setData("chipcount", bagCount - v)
+							end
+						end
+					end
 				end
 			end
 			local iness = player:getChar():getAttrib("medical", 0)
@@ -180,6 +214,8 @@ function RECIPES:Register( tbl )
 							)
 						end
 					end
+					
+					nut.log.addRaw(player:Name().. " crafted " ..nut.item.list[k].name.. ".")
 					player:getChar():updateAttrib("medical", 0.005)
 				--else
 					--netstream.Start(client, "vendorAdd", uniqueID)

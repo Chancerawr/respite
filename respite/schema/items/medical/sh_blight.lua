@@ -18,8 +18,7 @@ ITEM.iconCam = {
 }
 
 local function onUse(item)
-	item.player:EmitSound("items/medshot4.wav", 80, 75)
-	item.player:ScreenFade(1, Color(0, 0, 0, 200), 1, 0)
+
 end
 
 ITEM:hook("use", onUse)
@@ -45,21 +44,35 @@ ITEM.functions.use = { -- sorry, for name order.
 	tip = "useTip",
 	icon = "icon16/add.png",
 	onRun = function(item)
-		if (item.player:Alive()) then
-			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
-			
-			local quantity = item:getData("quantity", item.quantity2)
+		local client = item.player
+	
+		if (client:Alive()) then
+			client:requestQuery("Are you sure you want to consume this item?", "Integrate", function(text)
+				healPlayer(client, client, item.healAmount, item.healSeconds)
+				
+				local quantity = item:getData("quantity", item.quantity2)
 
-			if(quantity > 1) then
-				item:setData("quantity", quantity - 1)
-				return false
-			else
-				if(item.container) then
-					local position = item.player:getItemDropPos()
-					nut.item.spawn(item.container, position)
+				if(quantity > 1) then
+					item:setData("quantity", quantity - 1)
+					return false
+				else
+					if(item.container) then
+						local position = client:getItemDropPos()
+						nut.item.spawn(item.container, position)
+					end
 				end
-			end
+				
+				nut.plugin.list["parts"]:partsAdd(client, 25, "Blight")
+				client:notify("Your body has changed.")
+				
+				client:EmitSound("items/medshot4.wav", 80, 75)
+				client:ScreenFade(1, Color(0, 0, 0, 150), 5, 2)
+				
+				item:remove()
+			end)
 		end
+		
+		return false
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
@@ -74,3 +87,5 @@ ITEM.functions.use = { -- sorry, for name order.
 		end
     end
 }
+
+ITEM.functions.usef = nil

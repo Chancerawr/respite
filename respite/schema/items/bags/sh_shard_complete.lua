@@ -1,4 +1,5 @@
 ITEM.name = "Respite Orb"
+ITEM.name = "Respite Orb"
 ITEM.uniqueID = "shard_complete"
 ITEM.desc = "A peculiar crystalline object, it emits a bright white light."
 ITEM.model = "models/props_phx/misc/smallcannonball.mdl"

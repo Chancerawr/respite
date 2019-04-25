@@ -150,10 +150,17 @@ PLUGIN.definitions["models/props/cs_office/cardboard_box02.mdl"] = {
 }
 
 PLUGIN.definitions["models/props_c17/furnituredrawer002a.mdl"] = {
-	name = "Wooden Drawer",
+	name = "Small Wooden Drawer",
 	desc = "A wooden drawer",
 	width = 1,
 	height = 2,
+}
+
+PLUGIN.definitions["models/props_c17/furnituredrawer001a.mdl"] = {
+	name = "Wooden Drawer",
+	desc = "A wooden drawer",
+	width = 3,
+	height = 4,
 }
 
 PLUGIN.definitions["models/props_c17/furnituredresser001a.mdl"] = {

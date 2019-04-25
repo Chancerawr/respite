@@ -1,14 +1,16 @@
 ITEM.name = "Voltaic Liquid"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.desc = "A strange liquid with electrical properties. The bottle is vibrating slightly.\nThose who drink this gain inhuman speed for a short time, they are also somewhat twitchy.\nAfter the effect wears off, users will lose consciousness for an entire day."
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.uniqueID = "voltaic"
 ITEM.price = 200
 ITEM.material = "models/alyx/emptool_glow"
 ITEM.color = Color(50, 255, 50)
 
 ITEM.attribBoosts = {
-	["stm"] = 25,
+	["stm"] = 30,
+	["perception"] = -5,
+	["end"] = -5
 }
 
 ITEM.iconCam = {

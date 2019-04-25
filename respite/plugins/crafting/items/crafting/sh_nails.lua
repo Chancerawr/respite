@@ -35,3 +35,22 @@ ITEM.functions.Scrap = {
 	return client:getChar():hasFlags("q") or client:getChar():getInv():hasItem("kit_salvager")
   end
 }
+
+ITEM.functions.Load = { -- sorry, for name order.
+	name = "Load",
+	tip = "useTip",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		item.player:GiveAmmo(item:getData("Amount", 1), "thumper")
+		item.player:EmitSound("items/ammo_pickup.wav", 110)
+		
+		return true
+		end,
+	onCanRun = function(item)
+		if (item:getOwner() != nil and item:getOwner():getChar():getInv():hasItem("tfa_wasteland_nailgun")) then
+			return true
+		else
+			return false
+		end
+	end
+}

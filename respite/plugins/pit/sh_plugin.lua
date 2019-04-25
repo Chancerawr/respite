@@ -5,7 +5,7 @@ PLUGIN.desc = ""
 
 nut.chat.register("pit", {
 	onChatAdd = function(speaker, text)
-		chat.AddText(Color(200, 150, 0), "*"..text)
+		chat.AddText(Color(200, 150, 0), "**"..text)
 	end,
 	filter = "actions",
 	font = "nutChatFontItalics",
@@ -14,7 +14,7 @@ nut.chat.register("pit", {
 
 nut.chat.register("pitb", {
 	onChatAdd = function(speaker, text)
-		chat.AddText(Color(50, 50, 50), "*"..text)
+		chat.AddText(Color(50, 50, 50), "**"..text)
 	end,
 	filter = "actions",
 	font = "nutChatFontItalics",

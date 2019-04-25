@@ -60,7 +60,7 @@ function PLUGIN:DrawEntityInfo(entity, alpha)
 				drawText(L("dOwnedBy", L2(classData.name) or classData.name), x, y + 16, colorAlpha(color_white, alpha), 1, 1)
 			end
 		else
-			drawText(entity.getNetVar(entity, "noSell") and L"dIsNotOwnable" or L"dIsOwnable", x, y + 16, colorAlpha(color_white, alpha), 1, 1)
+			drawText(entity.getNetVar(entity, "noSell") and L"dIsNotOwnable" or "You can purchase this door by pressing F4.", x, y + 16, colorAlpha(color_white, alpha), 1, 1)
 		end
 	end
 end

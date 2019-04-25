@@ -1047,31 +1047,31 @@ if CLIENT then
 
 		
 		local function MakeNoise()
-		-- local crying
-		-- crying = AddSound("ambient/voices/crying_loop1.wav")
-		-- crying:Play()
+			-- local crying
+			-- crying = AddSound("ambient/voices/crying_loop1.wav")
+			-- crying:Play()
 		
-		sound.PlayURL("https://puu.sh/BRy17/9221799e30.mp3", "mono noblock",function(sts)
-			if IsValid(sts) then 
-			Noise = sts
-			Noise:EnableLooping(true)
-			end
+			sound.PlayURL("https://puu.sh/BRy17/9221799e30.mp3", "mono noblock",function(sts)
+				if IsValid(sts) then 
+					Noise = sts
+					Noise:EnableLooping(true)
+				end
 			end)
-			  
 		end
-		local function EndDarkness()
 		
-		if IsValid(Noise) then Noise:Stop() end
-		RemoveHooks()
-		StopTimers()
-		StopSounds()
-		RemoveModels()
-	
-		LocalPlayer():ScreenFade( SCREENFADE.IN, Color( 0, 0, 0, 255 ), 1, 1 )
-		-- timer.Destroy("dronesrewrite_loopscreamer")
-		  
-		Darkness = false
-	end
+		local function EndDarkness()
+			if IsValid(Noise) then Noise:Stop() end
+			
+			RemoveHooks()
+			StopTimers()
+			StopSounds()
+			RemoveModels()
+		
+			LocalPlayer():ScreenFade( SCREENFADE.IN, Color( 0, 0, 0, 255 ), 1, 1 )
+			-- timer.Destroy("dronesrewrite_loopscreamer")
+			  
+			Darkness = false
+		end
 		
 		local function EnableDarkness()
 		local Models = { }

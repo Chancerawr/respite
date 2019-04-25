@@ -34,7 +34,7 @@ ITEM.functions.Yes = {
 		local char = client:getChar()
 		
 		client:requestQuery("Do you want to do the thing?", "Thing", function(text) --confirmation message
-			print("yes")
+			client:notify("You did the thing")
 		end)
 	end
 }

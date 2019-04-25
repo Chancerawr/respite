@@ -1,5 +1,5 @@
 ITEM.name = "Human Meat"
-ITEM.foodDesc = "Meat ripped from the body of a human, it smells disgusting."
+ITEM.desc = "Meat ripped from the body of a human, it smells disgusting."
 ITEM.model = "models/gibs/antlion_gib_small_2.mdl"
 ITEM.material = "models/flesh"
 ITEM.uniqueID = "food_human_meat"
@@ -12,7 +12,9 @@ ITEM.flag = "v"
 ITEM.material = "models/flesh"
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 10 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 10 
+}
 
 ITEM.iconCam = {
 	pos = Vector(0.5, -0.25, 200),

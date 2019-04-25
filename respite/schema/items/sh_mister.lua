@@ -23,10 +23,16 @@ ITEM.functions.HazeBlue = {
 		object:remove()
 		
 		item:setData("producing", CurTime())
-		timer.Simple(30, 
+		timer.Simple(60, 
 			function()
 				local position = client:getItemDropPos()
-				local reward = "j_scrap_idea"
+				local reward
+				
+				if(math.random(0,1) == 1) then
+					reward = "j_scrap_idea"
+				else
+					reward = "haze_bottled_pink"
+				end
 				
 				item:setData("producing", nil)
 				
@@ -78,6 +84,7 @@ ITEM.functions.HazeBlood = {
 				local position = client:getItemDropPos()
 				
 				local rewards = {
+					"haze_bottled_pink",
 					"food_blood",
 					"food_monster_meat",
 					"food_human_meat",

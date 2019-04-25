@@ -19,6 +19,7 @@ ITEM.foods = {
 	"food_orange_plastic",
 	"food_potato_plastic",
 	"food_pumpkin_plastic",
+	"food_onion_plastic",
 	"food_fish_plastic",
 	"food_fish2_plastic"
 }

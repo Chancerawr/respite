@@ -2,7 +2,7 @@ ITEM.name = "Liver"
 ITEM.uniqueID = "food_liver"
 ITEM.hungerAmount = 15
 ITEM.model = "models/gibs/humans/liver_gib.mdl"
-ITEM.foodDesc = "An entire liver."
+ITEM.desc = "An entire liver."
 ITEM.quantity2 = 2
 ITEM.price = 0
 ITEM.width = 1
@@ -10,7 +10,9 @@ ITEM.height = 1
 ITEM.flag = "v"
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 10 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 10 
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, -0.5, 0),

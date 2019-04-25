@@ -43,8 +43,14 @@ ITEM.functions.Private = {
 		else
 			return true
 		end
+	end,
+	onCanRun = function(item)
+		if(IsValid(item.entity)) then
+			return false
+		end
 	end
 }
+
 ITEM.functions.Public = {
 	alias = "Write (Public)",
 	icon = "icon16/page_white_paint.png",
@@ -81,6 +87,11 @@ ITEM.functions.Public = {
 			return false
 		else
 			return true
+		end
+	end,
+	onCanRun = function(item)
+		if(IsValid(item.entity)) then
+			return false
 		end
 	end
 }

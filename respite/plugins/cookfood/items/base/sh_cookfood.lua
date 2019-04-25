@@ -1,10 +1,10 @@
 ITEM.name = "Food Base"
+ITEM.desc = "This is test food."
 ITEM.model = "models/props_junk/garbage_takeoutcarton001a.mdl"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.isFood = true
 ITEM.cookable = true
-ITEM.foodDesc = "This is test food."
 ITEM.category = "Consumable"
 ITEM.mustCooked = false
 ITEM.quantity2 = 1
@@ -57,13 +57,19 @@ ITEM.functions.use = {
 			local charID = char:getID()
 			local name = item.name
 			
+			dur = item.duration
+			local cookBonus = COOKLEVEL[cooked][2]
+			
+			if(cooked > 1) then
+				dur = dur * (cookBonus * 0.6)
+			end
+			
+			if(TRAITS and hasTrait(client, "survival")) then
+				dur = dur * 1.2
+			end
+
 			--if we already have a thing for that buff, refresh it.
 			if(timer.Exists("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex())) then 
-				dur = item.duration
-				if(TRAITS and hasTrait(client, "survival")) then
-					dur = dur * 1.2
-				end
-			
 				timer.Adjust("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), dur, 1, function()
 
 					if (client and IsValid(client)) then
@@ -79,13 +85,7 @@ ITEM.functions.use = {
 						end
 					end
 				end)
-			else
-			
-				dur = item.duration
-				if(TRAITS and hasTrait(client, "survival")) then
-					dur = dur * 1.2
-				end
-				
+			else				
 				timer.Create("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), dur, 1, function()
 					if (client and IsValid(client)) then
 						local curChar = client:getChar()
@@ -135,10 +135,7 @@ ITEM.functions.Custom = {
 			item:setData("customName", text)
 			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
 				item:setData("customDesc", text)
-				client:requestString("Change Model", "What Model do you want this item to have?\nBe sure it is a valid model.", function(text) --start of model
-					item:setData("customMdl", text)
-				end, item:getData("customMdl", item.model)) --end of model
-			end, item:getDesc()) --end of desc
+			end, item:getDesc(true)) --end of desc
 		end, item:getName()) --end of name
 		
 		--hopefully resets the player's icons
@@ -187,26 +184,60 @@ ITEM.functions.CustomCol = {
 	end
 }
 
-function ITEM:getDesc()
-	local str = self.foodDesc
+ITEM.functions.Clone = {
+	name = "Clone",
+	tip = "Clone this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player	
+	
+		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
+			local inventory = client:getChar():getInv()
+			
+			if(!inventory:add(item.uniqueID, 1, item.data)) then
+				client:notify("Inventory is full")
+			end
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+function ITEM:getDesc(partial)
+	local desc = self.desc
 
 	if(self:getData("customDesc") != nil) then
-		str = self:getData("customDesc")
+		desc = self:getData("customDesc")
 	end
 	
-	if (self.mustCooked != false) then
-		str = str .. "\nThis food must be cooked."
-	end
+	if(!partial) then
+		if (self.mustCooked != false) then
+			desc = desc .. "\nThis food must be cooked."
+		end
 
-	if (self.cookable != false) then
-		str = str .. "\nFood Status: %s."
-	end
+		if (self.cookable != false) then
+			desc = desc .. "\nFood Status: %s."
+		end
 
-	if(self.quantity2) then
-		str = str .. "\nPortions remaining: " .. self:getData("quantity2", self.quantity2)
+		if(self.quantity2) then
+			desc = desc .. "\nPortions remaining: " .. self:getData("quantity2", self.quantity2)
+		end
+		
+		if(self.attribBoosts) then
+			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+			
+			for k, v in pairs(self.attribBoosts) do
+				if(v != 0 and nut.attribs.list[k]) then
+					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+				end
+			end
+		end	
 	end
 		
-	return Format(str, COOKLEVEL[(self:getData("cooked") or 1)][1])
+	return Format(desc, COOKLEVEL[(self:getData("cooked") or 1)][1])
 end
 
 function ITEM:getName()

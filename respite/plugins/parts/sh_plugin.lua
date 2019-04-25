@@ -4,167 +4,199 @@ PLUGIN.author = "Chancer"
 PLUGIN.desc = "A weird body system, don't worry about it."
 
 PLUGIN.parts = {
-	["Skull"] = 2,
-	["Left Eye"] = 1,
-	["Right Eye"] = 1,
-	["Nose"] = 1,
-	["Mouth"] = 1,
-	["Neck Flesh"] = 1,
-	["Neck"] = 2,
-	["Larynx"] = 1,
-	["Neck Spine"] = 2,
-	["Base of Neck"] = 1,
-	["Left Shoulder"] = 2,
-	["Right Shoulder"] = 2,
-	["Left Shoulder Socket"] = 1,
-	["Right Shoulder Socket"] = 1,
-	["Left Upper Arm Bone"] = 2,
-	["Right Upper Arm Bone"] = 2,
-	["Left Upper Arm Flesh"] = 2,
-	["Right Upper Arm Flesh"] = 2,
-	["Left Elbow"] = 1,
-	["Right Elbow"] = 1,
-	["Left Forearm Flesh"] = 2,
-	["Right Forearm Flesh"] = 2,
-	["Left Forearm Bone"] = 2,
-	["Right Forearm Bone"] = 2,
-	["Left Hand"] = 1,
-	["Right Hand"] = 1,
-	["Left Scapula"] = 1,
-	["Right Scapula"] = 1,
-	["Heart"] = 3,
-	["Left Lung"] = 3,
-	["Right Lung"] = 3,
-	["Upper Chest Spine"] = 2,
-	["Lower Chest Spine"] = 2,
-	["Abdomen Spine"] = 2,
-	["Left Upper Chest Rib"] = 1,
-	["Right Upper Chest Rib"] = 1,
-	["Left Lower Chest Rib"] = 1,
-	["Right Lower Chest Rib"] = 1,
-	["Liver"] = 2,
-	["Kidney"] = 2,
-	["Stomach"] = 2,
-	["Spleen"] = 1,
-	["Large Intestine"] = 2,
-	["Small Intestine"] = 2,
-	["Left Pelvis"] = 2,
-	["Center Pelvis"] = 2,
-	["Right Pelvis"] = 2,
-	["Left Hip"] = 2,
-	["Right Hip"] = 2,
-	["Left Hip Socket"] = 2,
-	["Right Hip Socket"] = 2,
-	["Left Upper Leg Flesh"] = 2,
-	["Right Upper Leg Flesh"] = 2,
-	["Left Upper Leg Femur"] = 2,
-	["Right Upper Leg Femur"] = 2,
-	["Left Knee"] = 1,
-	["Right Knee"] = 1,
-	["Left Shin Flesh"] = 1,
-	["Right Shin Flesh"] = 1,
-	["Left Tibia"] = 1,
-	["Right Tibia"] = 1,
-	["Left Ankle"] = 1,
-	["Right Ankle"] = 1,
-	["Left Foot"] = 1,
-	["Right Foot"] = 1,
-	["Left Ear"] = 1,
-	["Right Ear"] = 1
+	["al"] = {"Left Arm", 50},
+	["ar"] = {"Right Arm", 50},
+	["ll"] = {"Left Leg", 75},
+	["lr"] = {"Right Leg", 75},
+	["t"] = {"Torso", 200},
+	["el"] = {"Left Eye", 10},
+	["er"] = {"Right Eye", 10},
+	["zc"] = {"Circulatory System", 100},
+	["zs"] = {"Skeletal System", 100},
+	["h"] = {"Head", 100}
 }
 
+--determines which body part to apply the changes to.
+--this is a big mess right now and ill probably make less shitty later
+local function calculateSpread(parts, material)
+	local part, id
+	
+	local percent = PLUGIN:calcPercent(parts)
+	
+	local potentialParts = {}
+
+	--this is a disgusting mess, sorry about that.
+	for k, v in pairs(PLUGIN.parts) do
+		if(parts[k]) then --checks if the person has that part altered already.
+			if(parts[k][1] >= v[2]) then --checks if it's maxed out, if it is we just skip it.
+				continue
+			
+			elseif(parts[k][2] == material and parts[k][1] < v[2]) then --checks if the person has an incomplete part of the same material
+				part, id = PLUGIN.parts[k], k --if they do, select it.
+
+			end
+		else
+			if(k != "h") then --leave head out for last
+				potentialParts[k] = v --adds it to the potential for random selection.
+			end
+		end
+	end
+	
+	if(!part) then --if no selected viable part, we start on a new one.
+		if(table.Count(potentialParts) > 0) then 
+			part, id = table.Random(potentialParts) --choose a random part from our list of viable options
+
+		else
+			part, id = PLUGIN.parts["h"], "h" --head is always the last to go, so it's only started when everything else is gone.
+		end
+	end
+	
+	return part, id
+end
+
+function PLUGIN:partsAdd(client, amount, material)
+	local char = client:getChar()
+	local pTable = char:getData("parts", {})
+	
+	local randomPart, id = calculateSpread(pTable, material)
+	
+	pTable[id] = {math.Clamp((pTable[id] and pTable[id][1] or 0) + amount, 0, randomPart[2]), material}
+	
+	--pTable[id] = Amount, material.
+	--sorry that it's different from the plugin table.
+	
+	char:setData("parts", pTable)
+end
+
 --calculates how much of a person's body is special
-function PLUGIN:calcPercent(char)
+function PLUGIN:calcPercent(parts)
 	local total = 0
 	for k, v in pairs(self.parts) do
-		total = total + v
+		total = total + v[2]
 	end
-
-	local pTable = char:getData("parts", 0)
 	
 	local total2 = 0
-	for k, v in pairs(pTable) do
-		total2 = total2 + self.parts[k]
+	for k, v in pairs(parts) do
+		total2 = total2 + v[1]
 	end
 	
-	return (total2 / total)
+	return (total2 / total) * 100
 end
 
-function PLUGIN:addPart(char, part)
-	local pTable = char:getData("parts", {})
-	pTable[part] = true
-	
-	char:setData("parts", pTable)
-end
-
-function PLUGIN:removePart(char, part)
-	local pTable = char:getData("parts", {})
-	pTable[part] = nil
-	
-	char:setData("parts", pTable)
-end
-
---oh look it's this menu again big surprise
-if(CLIENT) then
-	netstream.Hook("ShowParts", function(client, parts)
-		local text = ""
-		
-		for k, v in pairs(parts) do
-			text = text .. k .. ": is made of ichor.\n\n"
-		end
-	
-		local menu = vgui.Create( "DFrame" )
-		menu:SetSize( 500, 700 )
-		menu:Center()
-		if( me ) then
-			menu:SetTitle( "Player Menu" )
-		else
-			menu:SetTitle( client:Name() )
-		end
-		menu:MakePopup()
-
-		menu.DS = vgui.Create( "DScrollPanel", menu )
-		menu.DS:SetPos( 10, 50 )
-		menu.DS:SetSize( 500 - 10, 700 - 50 - 10 )
-		function menu.DS:Paint( w, h ) end
-		
-		menu.B = vgui.Create( "DLabel", menu.DS )
-		menu.B:SetPos( 0, 40 )
-		menu.B:SetFont( "nutSmallFont" )
-		menu.B:SetText( text )
-		menu.B:SetAutoStretchVertical( true )
-		menu.B:SetWrap( true )
-		menu.B:SetSize( 500 - 20, 10 )
-		menu.B:SetTextColor( Color( 255, 255, 255, 255 ) )
-	end)
-end
-
-
---stat prints
-nut.command.add("chargetparts", {
+nut.command.add("chargetpercent", {
 	adminOnly = true,
 	syntax = "<string target>",
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1])
 		
 		if(IsValid(target) and target:getChar()) then
-			local parts = target:getChar():getData("parts", {})
-		
-			netstream.Start(client, "ShowParts", target, parts)
+			client:notify(PLUGIN:calcPercent(target:getChar():getData("parts", {})).. " Percent.")
 		end
 	end
 })
 
---stat prints
-nut.command.add("charaddpart", {
+nut.command.add("charsetpart", {
 	adminOnly = true,
-	syntax = "<string target> <string part>",
+	syntax = "<string target> <string part> <string material> <number percentage>",
+	onRun = function(client, arguments)
+		if(!arguments[1] or !arguments[2] or !arguments[3] or !arguments[4]) then
+			client:notify("Invalid Arguments.")
+			return false
+		end
+		
+		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(IsValid(target) and target:getChar()) then
+			local id
+			for k, v in pairs(PLUGIN.parts) do
+				if(string.find(string.lower(v[1]), string.lower(arguments[2]) or "Left Eye")) then
+					id = k
+				end
+			end
+		
+			local materials = {
+				"Blight",
+				"Ichor"
+			}
+		
+			local material
+			for k, v in pairs(materials) do
+				if(string.find(string.lower(v), string.lower(arguments[3]) or "ichor")) then
+					material = v
+				end
+			end
+			
+			if(!id) then
+				client:notify("Invalid Body Part")
+				return false
+			end
+			
+			if(!material) then
+				client:notify("Invalid Material.")
+				return false
+			end
+			
+			local amount = arguments[4]
+			if(!amount) then
+				client:notify("Invalid Amount.")
+				return false
+			end
+			
+			local char = target:getChar()
+			local pTable = char:getData("parts", {})
+			
+			pTable[id] = {(math.Clamp((PLUGIN.parts[id][2] * amount / 100), 0, 100)), material}
+			char:setData("parts", pTable)
+			
+			client:notify("Part has been set.")
+		end
+	end
+})
+nut.command.add("charaddichor", {
+	adminOnly = true,
+	syntax = "<string target> <number amount>",
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1])
 		
 		if(IsValid(target) and target:getChar()) then
-			if(PLUGIN.parts[arguments[2]]) then
-				PLUGIN:addPart(target:getChar(), arguments[2])
+			PLUGIN:partsAdd(target, arguments[2] or 0, "Ichor")
+		end
+	end
+})
+
+nut.command.add("charaddblight", {
+	adminOnly = true,
+	syntax = "<string target> <number amount>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(IsValid(target) and target:getChar()) then
+			PLUGIN:partsAdd(target, arguments[2] or 0, "Blight")
+		end
+	end
+})
+
+nut.command.add("charresetbody", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(IsValid(target) and target:getChar()) then
+			target:getChar():setData("parts", nil)
+		end
+	end
+})
+
+nut.command.add("chargetbody", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(IsValid(target) and target:getChar()) then
+			for k, v in pairs(target:getChar():getData("parts", {})) do
+				client:notify(PLUGIN.parts[k][1].. ": " ..v[1].. " " ..v[2].. ".")
 			end
 		end
 	end

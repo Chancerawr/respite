@@ -38,6 +38,7 @@ function PLUGIN:PlayerHurt(client, attacker, health, damage)
 	 end
    end
 end
+
 --[[
 function PLUGIN:EntityTakeDamage(entity, dmgInfo)
     if entity:IsPlayer() then	

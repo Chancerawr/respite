@@ -2,16 +2,18 @@ ITEM.name = "Monster Meat"
 ITEM.uniqueID = "food_monster_meat"
 ITEM.hungerAmount = 15
 ITEM.model = "models/gibs/antlion_gib_small_2.mdl"
-ITEM.foodDesc = "Meat from some kind of abomination, smells awful. You'd have to be pretty hungry to want to eat this."
+ITEM.desc = "Meat from some kind of abomination, smells awful. You'd have to be pretty hungry to want to eat this."
 ITEM.quantity2 = 2
-ITEM.price = 0
+ITEM.price = 5
 ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "v"
 ITEM.material = "models/flesh"
 ITEM.color = Color(150,50,50)
 
-ITEM.attribBoosts = { ["fortitude"] = 5 }
+ITEM.attribBoosts = { 
+	["fortitude"] = 5 
+}
 
 ITEM.iconCam = {
 	pos = Vector(0.5, -0.25, 200),

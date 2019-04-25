@@ -10,6 +10,10 @@ nut.config.add("env_enabled", true, "Whether or not the environmental manager is
 	category = "Environmental Manager"
 })
 
+nut.config.add("env_npcClean", false, "Whether or not to delete npcs when there's no players on.", nil, {
+	category = "Environmental Manager"
+})
+
 nut.config.add("env_thinkTime", 3600, "Rate at which items may turn into NPCs.", nil, {
 	data = {min = 1, max = 84600},
 	category = "Environmental Manager"
@@ -24,6 +28,13 @@ nut.config.add("env_maxSpawns", 10, "Max NPCs that are allowed to be created by 
 	data = {min = 1, max = 84600},
 	category = "Environmental Manager"
 })
+
+--env manager will leave people in these factions alone
+PLUGIN.factions = {
+	[FACTION_SHADE] = true,
+	[FACTION_ABOM] = true,
+	[FACTION_ABER] = true
+}
 
 local function spawnNPC(npc, position)
 	local ent = ents.Create(npc)
@@ -119,39 +130,76 @@ end
 local function playerHandle()
 	local players = player.GetAll()
 	
-	local ranPlayer = table.Random(players)
+	for k, v in pairs(players) do
+		local char = v:getChar()
 	
-	if(!ranPlayer or !ranPlayer:getChar()) then return end --dont do it to people not on chars.
-	
-	local nearby = ents.FindInSphere(ranPlayer:GetPos(), 2000)
-	table.RemoveByValue(nearby, ranPlayer)
-	
-	local alone = true
-	for k, v in pairs(nearby) do
-		if(v:IsPlayer()) then
-			alone = false
+		if(!char or v:GetMoveType() == MOVETYPE_NOCLIP or v:InVehicle()) then --don't screw with these people
+			table.RemoveByValue(players, v)
+		end
+
+		if(char) then
+			local faction = char:getFaction()
+			if(PLUGIN.factions[faction]) then --doesn't mess with certain factions
+				table.RemoveByValue(players, v)
+			end
 		end
 	end
 	
-	--they're near people, so don't do anything to them.
-	if(alone) then
-		--[[
-		ranPlayer:ConCommand("mat_corrupt")
+	--this runs through all legitimate players, and checks if they're near other players.
+	--if they are, it ignores them
+	--if they are not, then it marks them as "alone"
+	--next think, if it detects that they are alone again, it will do things to them.
+	--AKA there will be about 2 think times between each random spooky thing for any one player
+	--I should think of a more efficient way to tell if someone is alone or not since this may get quite expensive.
+	
+	for k, v in pairs(players) do
+		local nearby = ents.FindInSphere(v:GetPos(), 2000)
+		table.RemoveByValue(nearby, v) --removes self
+
+		local friend
+		for k2, v2 in pairs(nearby) do
+			if(v2:IsPlayer()) then
+				v.alone = false
+				v2.alone = false
+				friend = true
+				table.RemoveByValue(players, v2)
+			end
+		end
 		
-		timer.Simple(2, function() 
-			ranPlayer:ConCommand("mat_repair")
-		end)
-		--]]
+		if(!friend and v.alone) then
+			if(math.random(1,10) < 8) then --higher chance to do a less severe thing
+				table.Random(PLUGIN.minorSpooks)(v)
+			else --lower chance to do a really annoying thing
+				table.Random(PLUGIN.majorSpooks)(v)
+			end		
+		elseif(!friend and !v.alone) then
+			v.alone = true
+		end
 	end
+
+	--since it just checks a single random player, its a lot less likely to get one when there's many on
 end
 
 if SERVER then
 	function PLUGIN:Think()
-		if(!nut.config.get("env_enabled", false)) then return end
-		if(#player.GetAll() < 1) then return end -- do nothing if there's no players
+		if(!nut.config.get("env_enabled", false)) then return end		
 		if(!self.nextThink) then self.nextThink = 0 end
 		
 		if(self.nextThink < CurTime()) then
+			self.nextThink = self.nextThink + (nut.config.get("env_thinkTime", 3600))
+			
+			if(#player.GetAll() < 1) then 
+				if(nut.config.get("env_npcClean", false) and #players == 0) then
+					for k, v in pairs(ents.GetAll()) do
+						if (IsValid(v) and (v:IsNPC() or v.chance)) then
+							v:Remove()
+						end
+					end
+				end		
+			
+				return --don't need to do anything else if there's no players
+			end
+		
 			for k, v in pairs(PLUGIN.spawns) do
 				if (!IsValid(v)) then
 					table.RemoveByValue(PLUGIN.spawns, v)
@@ -163,8 +211,6 @@ if SERVER then
 			end
 			
 			playerHandle()
-			
-			self.nextThink = self.nextThink + (nut.config.get("env_thinkTime", 3600))
 		end
 	end
 
@@ -176,3 +222,30 @@ if SERVER then
 		self:setData(self.spawnpoints)
 	end
 end
+
+nut.command.add("env_move", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local position = client:GetEyeTrace().HitPos
+		
+		local prop = ents.Create("prop_physics")
+		prop:SetPos(position)
+		
+		for k, v in pairs(ents.GetAll())do
+			if(v.chance and IsValid(v)) then
+				local oldRad = v.SearchRadius
+				v.SearchRadius = 10000
+				v:SetEnemy(prop, 10)
+				
+				timer.Simple(0.5, function()
+					if(IsValid(v) and !v.Enemy) then
+						v.SearchRadius = oldRad
+						SafeRemoveEntity(prop)
+					end
+				end)
+			end
+		end
+	end
+})
+
+nut.util.include("sh_spooks.lua")

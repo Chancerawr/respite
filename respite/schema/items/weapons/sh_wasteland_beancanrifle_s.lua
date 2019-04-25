@@ -1,5 +1,5 @@
 ITEM.name = "Scavenger Rifle (Silenced)"
-ITEM.desc = "A 'silenced' handmade semi-automatic AMR.\nThis weapon utilizes .50BMG rounds."
+ITEM.desc = "A 'silenced' handmade semi-automatic AMR.\nThis weapon utilizes 7.62x51mm rounds."
 ITEM.model = "models/weapons/w_rif_galil.mdl"
 ITEM.material = "models/props_canal/canal_bridge_railing_01b"
 ITEM.class = "tfa_wasteland_beancan_s"

@@ -14,7 +14,7 @@ TRAIT.func = function(client, character)
 	}
 	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
-	character:setData("fort_hall", CurTime()) --fort debuff
+	character:setData("fort_hall", CurTime())
 end
 
 
@@ -29,7 +29,7 @@ TRAIT.items = {
 	"j_bible"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_zealot", CurTime()) --fort debuff
+	character:setData("trait_zealot", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -44,7 +44,7 @@ TRAIT.items = {
 	"cube_chip_enhanced"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_curse", CurTime()) --fort debuff
+	character:setData("trait_curse", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -60,7 +60,7 @@ TRAIT.items = {
 	"ichor"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_soul", CurTime()) --fort debuff
+	character:setData("trait_soul", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -76,7 +76,7 @@ TRAIT.items = {
 	"bleach"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_purge", CurTime()) --fort debuff
+	character:setData("trait_purge", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -92,7 +92,7 @@ TRAIT.items = {
 	"coflantern"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_dark", CurTime()) --fort debuff
+	character:setData("trait_dark", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -109,7 +109,7 @@ TRAIT.func = function(client, character)
 		character:getInv():add("hl2_m_shovel_alt", 1)
 	end
 	
-	character:setData("trait_digger", CurTime()) --fort debuff
+	character:setData("trait_digger", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -126,7 +126,7 @@ TRAIT.items = {
 	"drug_painkillers"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_headache", CurTime()) --fort debuff
+	character:setData("trait_headache", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -187,7 +187,18 @@ TRAIT.name = "Lunatic"
 TRAIT.desc = "Bark at the moon."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	character:setData("trait_lunatic", CurTime()) --fort debuff
+	character:setData("trait_lunatic", CurTime())
+end
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "void" 
+TRAIT.name = "The Void"
+TRAIT.desc = "It stares back."
+TRAIT.category = "Peculiar"
+TRAIT.func = function(client, character)
+	character:setData("trait_void", CurTime())
 end
 
 TRAITS:Register( TRAIT )
@@ -203,3 +214,46 @@ TRAIT.modifier = {
 }
 
 TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "deaf" 
+TRAIT.name = "Deaf"
+TRAIT.desc = "Your can run but you can't hear.\nYour hearing no longer properly functions, whether this condition is recent or from birth is up to you."
+TRAIT.category = "Peculiar"
+TRAIT.modifier = {
+	["perception"] = 0.5,
+	["fortitude"] = 1.2
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "mute" 
+TRAIT.name = "Mute"
+TRAIT.desc = "You cannot properly speak, whether this condition is recent or from birth is up to you. The severity of the condition is also up to you."
+TRAIT.category = "Peculiar"
+TRAIT.modifier = {
+	["perception"] = 1.1
+}
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "blighted" 
+TRAIT.name = "Blighted"
+TRAIT.desc = "The past grips you tightly."
+TRAIT.category = "Peculiar"
+TRAIT.items = {
+	"reminiscence"
+}
+TRAIT.func = function(client, character)	
+	local pTable = {}
+	pTable["al"] = {math.random(10,50), "Blight"}
+	pTable["lr"] = {math.random(10,100), "Blight"}
+	
+	character:setData("parts", pTable)
+	
+	giveDisease(client, "fort_nost")
+end
+
+TRAITS:Register(TRAIT)

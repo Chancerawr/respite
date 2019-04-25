@@ -13,6 +13,8 @@ if (SERVER) then
 		self:SetSolid(SOLID_VPHYSICS)
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self.health = 50
+		
+		self:SetCustomCollisionCheck(true)
 
 		local physObj = self:GetPhysicsObject()
 
@@ -55,8 +57,8 @@ if (SERVER) then
 			end
 			self:SetModel(model)
 			
-			if(itemTable.material) then
-				self:SetMaterial(itemTable.material)
+			if(itemTable:getData("mat", itemTable.material)) then
+				self:SetMaterial(itemTable:getData("mat", itemTable.material))
 			end
 			
 			self:PhysicsInit(SOLID_VPHYSICS)

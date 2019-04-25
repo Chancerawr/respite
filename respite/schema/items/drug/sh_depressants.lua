@@ -2,7 +2,7 @@ ITEM.name = "Depressants"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "models/player/player_chrome1"
 ITEM.desc = "A small bottle filled with some pills, there's something odd about them."
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.price = 30
 ITEM.uniqueID = "drug_depress"
 
@@ -37,67 +37,93 @@ local function recursiveAdd(item, inventory, toStack, maxStack)
 	)
 end
 
-ITEM.functions.Stack = {
-  tip = "Stack items of the same type.",
-  icon = "icon16/add.png",
-  onRun = function(item)
-	local client = item.player
-	local inventory = client:getChar():getInv()
-	local stack = item:getData("Amount", 1)
-	
-	item:remove()
-	
-	local toStack = inventory:hasItem(item.uniqueID)
-	local unique = item.uniqueID
-	item.player:EmitSound("ambient/materials/dinnerplates1.wav")
-	
-	while(toStack) do
-		if(toStack == item) then
-			toStack:remove()
-		elseif (toStack) then
-			stack = stack + toStack:getData("Amount", 1)
-			toStack:remove()
-		else
+ITEM.functions.Unstack = {
+	tip = "Take a part out.",
+	icon = "icon16/delete.png",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local position = client:getItemDropPos()
+		
+		local stack = item:getData("Amount", 1)
+		if(stack <= 1) then return false end
+
+		item:setData("Amount", item:getData("Amount") - 1)
+		if(!inventory:add(item.uniqueID, 1)) then
+			nut.item.spawn(item.uniqueID, position)
+		end
+		
+		item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+		
+		return false
+	end,
+	onCanRun = function(item)
+		if(item.entity) then
 			return false
 		end
-		toStack = inventory:hasItem(unique)	
-	end
-	
-	recursiveAdd(unique, inventory, stack, item.maxstack)
-	
-	return false
-  end,
-  onCanRun = function(item)
-	if(item:getOwner() != nil) then
-		return true
-	else
-		return false
-	end
-  end
+		
+		if(item:getData("Amount", 1) <= 1) then
+			return false
+		end
+	end	
 }
 
-ITEM.functions.Unstack = {
-  tip = "Take a part out.",
-  icon = "icon16/delete.png",
-  onRun = function(item)
-	local client = item.player
-	local inventory = client:getChar():getInv()
-	local stack = item:getData("Amount", 1)
-	
-	if (stack > 1 and inventory:findEmptySlot(1, 1) != nil) then
-		inventory:add(item.uniqueID, 1)
-		item:setData("Amount", item:getData("Amount") - 1)
-		item.player:EmitSound("ambient/materials/dinnerplates1.wav")
-	end
-	return false
-  end,
-  onCanRun = function(item)
-	if(item:getOwner() != nil) then
-		return true
-	else
+ITEM.functions.Stack = {
+	tip = "Stack items of the same type.",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+		local inventory = char:getInv()
+		local stack = item:getData("Amount", 1)
+		
+		local total = stack
+		for k, v in pairs(inventory:getItems()) do
+			if(v.id == item.id) then
+				continue
+			end
+		
+			if(v.uniqueID == item.uniqueID) then
+				total = total + v:getData("Amount", 1)
+				
+				if(v.id != item.id) then
+					v:remove()
+				end
+			end
+		end
+		
+		if(total <= item.maxstack) then
+			item:setData("Amount", total)
+		else
+			local position = client:getItemDropPos()
+		
+			for i = 1, math.floor(total / item.maxstack) do
+				timer.Simple(i/5, function()
+					if(!inventory:add(item.uniqueID, 1, {Amount = item.maxstack})) then
+						nut.item.spawn(item.uniqueID, position,
+							function(item2)
+								item2:setData("Amount", item.maxstack)
+							end
+						)
+					end
+				end)
+			end
+			
+			local remainder = total - (item.maxstack * math.floor(total / item.maxstack))
+			if(remainder > 0) then
+				item:setData("Amount", remainder)
+			else
+				return true
+			end
+		end
+		
 		return false
+	end,
+	onCanRun = function(item)
+		if(item.entity) then
+			return false
+		end
 	end
-  end	
 }
 
 function ITEM:getDesc()

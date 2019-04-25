@@ -8,6 +8,11 @@ nut.config.add("spawner_enabled", true, "Whether NPC spawners are on or not.", n
 	category = "NPC Spawner"
 })
 
+nut.config.add("npc_spawnrate", 90, "How often an npc will be spawned at an npc spawn point.", nil, {
+	data = {min = 1, max = 84600},
+	category = "NPC Spawner"
+})
+
 PLUGIN.spawngroups = {
 	["default"] = {
 		"nz_freak",
@@ -68,16 +73,15 @@ PLUGIN.spawngroups = {
 	},
 }
 
-PLUGIN.spawnrate = 90
 PLUGIN.maxnpcs = 40
 PLUGIN.spawnedNPCs = PLUGIN.spawnedNPCs or {}
 
 if SERVER then
 	local spawntime = 1
-
+	
 	function PLUGIN:Think()
 		if spawntime > CurTime() then return end
-		spawntime = CurTime() + self.spawnrate
+		spawntime = CurTime() + nut.config.get("npc_spawnrate", 90)
 		for k, v in ipairs(self.spawnedNPCs) do
 			if (!v:IsValid()) then
 				table.remove(self.spawnedNPCs, k)
@@ -173,8 +177,8 @@ nut.command.add("npcspawnadd", {
 		local trace = client:GetEyeTraceNoCursor()
 		local hitpos = trace.HitPos + trace.HitNormal*5
 		local spawngroup = arguments[1] or "default"
-		table.insert( PLUGIN.spawnpoints, { hitpos, spawngroup } )
-		client:notify( "You added ".. spawngroup .. " npc spawner." )
+		table.insert(PLUGIN.spawnpoints, { hitpos, spawngroup })
+		client:notify("You added ".. spawngroup .. " npc spawner.")
 	end
 })
 
@@ -192,7 +196,7 @@ nut.command.add("npcspawnremove", {
 				mt = mt + 1
 			end
 		end
-		client:notify( mt .. " npc spawners has been removed.")
+		client:notify(mt .. " npc spawners has been removed.")
 	end
 })
 
@@ -201,7 +205,7 @@ nut.command.add("npcspawndisplay", {
 	onRun = function(client, arguments)
 		if SERVER then
 			netstream.Start(client, "nut_DisplaySpawnPoints", PLUGIN.spawnpoints)
-			client:notify( "Displayed All Points for 10 secs." )
+			client:notify("Displayed All Points for 10 secs.")
 		end
 	end
 })

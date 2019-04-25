@@ -63,6 +63,23 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_cr1ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cr4ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_crass = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end, 
+		tfa_wasteland_ar = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_bomb_launcher = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_gatling = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_geiger = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_lmg = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_nailgun = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_boltrifle = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_boltrifle_s = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_pistol = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_pistol_s = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_beancan = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_beancan_s = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_shotgun = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_smg = function(ang) return (ang:Forward():Angle()) end, 
+		tfa_wasteland_staplegun = function(ang) return (ang:Forward():Angle()) end,
+		tfa_wr0ng = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_wr0ns = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 	}
 
 	local meleeWeapons = {
@@ -70,6 +87,8 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 	}
 	
 	local blackList = {
+		tfa_wh0ah = true,
+		tfa_wh1ah = true,
 		tfa_crunt = true,
 		tfa_chalk = true,
 		tfa_cross = true,

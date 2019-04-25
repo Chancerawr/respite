@@ -165,6 +165,8 @@ ITEM.functions.Equip = {
 					client:getChar():addBoost(item.uniqueID, k, v)
 				end
 			end
+			
+			weapon.item = item.id
 		else
 			print(Format("[Nutscript] Weapon %s does not exist!", item.class))
 		end
@@ -186,7 +188,7 @@ ITEM.functions.Custom = {
 			item:setData("customName", text)
 			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
 				item:setData("customDesc", text)
-			end, item:getDesc())
+			end, item:getDesc(true))
 		end, item:getName())
 		return false
 	end,
@@ -218,7 +220,7 @@ ITEM.functions.CustomCol = {
 			end
 		
 			item:setData("customCol", color)
-		end, color.r .. ", " .. color.b .. ", " .. color.g) --end of color
+		end, color.r .. ", " .. color.g .. ", " .. color.b) --end of color
 		
 		--hopefully resets the player's icons
 		client:ConCommand("nut_flushicon")
@@ -267,6 +269,51 @@ ITEM.functions.CustomAtr = {
 	end
 }
 
+ITEM.functions.CustomMat = {
+	name = "Customize Material",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local material = item:getData("mat") or item.material or ""
+		client:requestString("Change Material", "Enter material path.", function(text) --start of model
+			item:setData("mat", text)
+		end, material)
+	
+		--hopefully resets the player's icons
+		client:ConCommand("nut_flushicon")
+	
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.Clone = {
+	name = "Clone",
+	tip = "Clone this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player	
+	
+		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
+			local inventory = client:getChar():getInv()
+			
+			if(!inventory:add(item.uniqueID, 1, item.data)) then
+				client:notify("Inventory is full")
+			end
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
+
 ITEM.functions.Infuse = {
 	name = "Infuse",
 	tip = "Infuse this item",
@@ -274,8 +321,7 @@ ITEM.functions.Infuse = {
 	onRun = function(item)
 		local client = item.player
 		local dust = client:getChar():getInv():hasItem("shard_dust")
-		client:requestString("Infuse", "Are you sure you want to shard infuse this weapon?",
-		function(text)
+		client:requestQuery("Are you sure you want to shard infuse this weapon?", "Infuse", function(text)
 			if(dust:getData("Amount")) then
 				dust:setData("Amount", dust:getData("Amount") - 1)
 				if(dust:getData("Amount") == 0) then
@@ -285,7 +331,7 @@ ITEM.functions.Infuse = {
 				dust:remove()
 			end
 			item:setData("customName", "Infused " .. item:getName())
-			item:setData("customDesc", item:getDesc() .. "\nThis weapon glows lightly.")
+			item:setData("customDesc", item:getDesc(true) .. "\nThis weapon glows lightly.")
 			item:setData("customCol", Color(255, 255, 255))
 			item:setData("infused", true)
 		end)
@@ -293,7 +339,8 @@ ITEM.functions.Infuse = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("shard_dust")
+
+		return (item:getData("infused") == nil) and (client:getChar():getInv():hasItem("shard_dust")) and (!IsValid(item.entity))
 	end
 }
 
@@ -303,20 +350,43 @@ ITEM.functions.Blight = {
 	onRun = function(item)
 		local client = item.player
 		local dust = client:getChar():getInv():hasItem("blight")
-		client:requestString("Blight", "Are you sure you want to blight this weapon?",
-		function(text)
+		client:requestQuery("Are you sure you want to blight this weapon?", "Blight", function(text)
 			dust:remove()
 			item:setData("customName", "Blighted " .. item:getName())
-			item:setData("customDesc", item:getDesc() .. "\nThis weapon makes you nostalgic.")
+			item:setData("customDesc", item:getDesc(true) .. "\nThis weapon makes you nostalgic.")
 			item:setData("customCol", Color(0, 0, 0))
 			item:setData("infused", true)
-		end
-		)
+		end)
 		return false
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("blight")
+		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("blight") and (!IsValid(item.entity))
+	end
+}
+
+ITEM.functions.Phase = {
+	name = "Phase",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+		local chip = client:getChar():getInv():hasItem("cube_chip_enhanced")
+		client:requestQuery("Are you sure you want to Portal Phase this melee weapon?", "Phase", function(text)
+			chip:remove()
+			item:setData("customName", "Phased " .. item:getName())
+			item:setData("customDesc", item:getDesc(true) .. "\nThis weapon changes and distorts by itself.\nHitting an enemy with it will teleport it to somewhere nearby, location determined by wielder. The weapon does no damage, but does inflict pain as if they were hit by the normal weapon.")
+			item:setData("customCol", Color(140, 20, 140))
+			item:setData("infused", true)
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		
+		if(!string.find(string.lower(item.category), "melee")) then return false end
+		if(item:getData("infused") != nil) then return false end
+		if(!client:getChar():getInv():hasItem("cube_chip_enhanced")) then return false end
+		if(IsValid(item.entity)) then return false end
 	end
 }
 
@@ -327,18 +397,18 @@ ITEM.functions.Paint = {
 		local client = item.player
 		local paint = client:getChar():getInv():hasItem("j_paint_can")
 		local paintCol = paint:getData("paint", "white")
-		client:requestString("Paint", "Are you sure you want to paint this weapon " ..paintCol.."?",
-			function(text)
-				paint:remove()
-				item:setData("customDesc", item:getDesc() .. "\nThis weapon is painted "..paintCol..".")
-				nut.item.spawn("j_empty_paint_can", client:getItemDropPos())
-			end
-		)
+		
+		client:requestQuery("Are you sure you want to paint this weapon " ..paintCol.."?", "Paint", function(text)
+			paint:remove()
+			item:setData("customDesc", item:getDesc(true) .. "\nThis weapon is painted "..paintCol..".")
+			nut.item.spawn("j_empty_paint_can", client:getItemDropPos())
+		end)
+		
 		return false
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (client:getChar():getInv():hasItem("j_paint_can"))
+		return (client:getChar():getInv():hasItem("j_paint_can")) and (!IsValid(item.entity))
 	end
 }
 
@@ -354,58 +424,58 @@ ITEM.functions.Scrap = {
 		local scrap
 		local amt
 		
-		client:requestString("Scrap", "Are you sure you want to scrap this weapon?", function(text) --confirmation message
-		--they dont need to enter anything, just not hit cancel.
-		
-		local roll = math.random(1,100)
-		local chance = item.multiChance
-		local multi = 1
-		
-		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
-			chance = chance + 10
-		end
-		
-		if(roll < chance) then
-			multi = 2
-		end
-		
-		if(istable(item.salvItem)) then
-			for i = 1, multi do
-				amt, scrap = table.Random(item.salvItem)
-				timer.Simple(i/2, function()
-					if(!inv:add(scrap, 1, { Amount = amt })) then
-						nut.item.spawn(scrap, position,
-							function(item2)
-								item2:setData("Amount", amt)
-							end
-						)
-					end
-				end)
+		client:requestQuery("Are you sure you want to scrap this weapon?", "Scrap", function(text) --confirmation message
+			local roll = math.random(1,100)
+			local chance = item.multiChance
+			local multi = 1
+			
+			if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+				chance = chance + 10
 			end
-		else
-			for i = 1, multi do
-				scrap = item.salvItem
-				if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
-					nut.item.spawn(scrap, position,
-						function(item2)
-							item2:setData("Amount", item:getData("scrapamount"))
+			
+			if(roll < chance) then
+				multi = 2
+			end
+			
+			if(istable(item.salvItem)) then
+				for i = 1, multi do
+					amt, scrap = table.Random(item.salvItem)
+					timer.Simple(i/2, function()
+						if(!inv:add(scrap, 1, { Amount = amt })) then
+							nut.item.spawn(scrap, position,
+								function(item2)
+									item2:setData("Amount", amt)
+								end
+							)
 						end
-					)
+					end)
+				end
+			else
+				for i = 1, multi do
+					scrap = item.salvItem
+					timer.Simple(i/2, function()
+						if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
+							nut.item.spawn(scrap, position,
+								function(item2)
+									item2:setData("Amount", item:getData("scrapamount"))
+								end
+							)
+						end
+					end)
 				end
 			end
-		end
-		
-		local boosts = item:getData("attrib", nil)
-		if(boosts) then			
-			for k, v in pairs(boosts) do
-				client:getChar():removeBoost(item.uniqueID, k)
+			
+			local boosts = item:getData("attrib", nil)
+			if(boosts) then			
+				for k, v in pairs(boosts) do
+					client:getChar():removeBoost(item.uniqueID, k)
+				end
 			end
-		end
-		
-		--Randomized sounds don't work up there so I had to do this.
-		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
-		
-		item:remove()
+			
+			--Randomized sounds don't work up there so I had to do this.
+			client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+			
+			item:remove()
 		end)
 		
 		return false
@@ -478,26 +548,28 @@ hook.Add("PlayerDeath", "nutStripClip", function(client)
 	end
 end)
 
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
 	if(self:getData("customDesc") != nil) then
 		desc = self:getData("customDesc")
 	end	
 	
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
-	end
-	
-	local boosts = self:getData("attrib")
-	if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
-		desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
-		for k, v in pairs(boosts) do
-			if(v != 0) then --dont want to display 0 values.
-				desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+	if(!partial) then
+		if(self:getData("quality") != nil) then
+			desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
+		end
+		
+		local boosts = self:getData("attrib")
+		if(boosts and boosts != {}) then --no bonuses means no need for bonuses in the desc
+			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+			for k, v in pairs(boosts) do
+				if(v != 0) then --dont want to display 0 values.
+					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+				end
 			end
 		end
-	end	
+	end
 	
 	return Format(desc)
 end

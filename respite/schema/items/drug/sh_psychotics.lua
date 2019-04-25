@@ -2,11 +2,11 @@ ITEM.name = "Psychotics"
 ITEM.model = "models/props_junk/glassjug01.mdl"
 ITEM.desc = "A bottle filled with numerous pills."
 ITEM.uniqueID = "drug_psychotics"
-ITEM.duration = 3600
+ITEM.duration = 6000
 ITEM.price = 30
 
 ITEM.attribBoosts = {
-	["fortitude"] = -10,
+	["fortitude"] = -15,
 }
 
 ITEM.iconCam = {

@@ -137,8 +137,7 @@ function ikon:renderHook()
 	
 	local tab
 	if (ikon.info) then
-		tab = 
-		{
+		tab = {
 			origin = ikon.info.pos,
 			angles = ikon.info.ang,
 			fov = ikon.info.fov,
@@ -173,6 +172,8 @@ function ikon:renderHook()
 					render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_ALWAYS)
 					render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
 					render.SetStencilFailOperation(STENCILOPERATION_REPLACE)
+				else
+					print("No outline 1")
 				end
 				
 				/*
@@ -226,6 +227,8 @@ function ikon:renderHook()
 					cam.End2D()
 
 					render.SetStencilEnable(false)
+				else
+					print("No outline 2")
 				end
 				
 				render.SuppressEngineLighting( false )
@@ -260,6 +263,8 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
 	if (ikon.requestList[name]) then return IKON_PROCESSING end
 	if (!w or !h or !mdl) then return IKON_SOMETHINGWRONG end
 
+	PrintTable(camInfo)
+	
 	local capturedIcon
 	ikon.curWidth = w or 1
 	ikon.curHeight = h or 1
@@ -279,12 +284,15 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
 	end
 
 	ikon.renderEntity:SetModel(ikon.renderModel)
+	
 	if(material) then
 		ikon.renderEntity:SetMaterial(material)
 	end
+	
 	if(skin) then
 		ikon.renderEntity:SetSkin(skin)
 	end
+	
 	local oldRT = render.GetRenderTarget()
 	render.PushRenderTarget(ikon.RT)
 	

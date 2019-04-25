@@ -2,11 +2,13 @@ ITEM.name = "Hot Dog"
 ITEM.uniqueID = "food_hotdog"
 ITEM.model = "models/food/hotdog.mdl"
 ITEM.hungerAmount = 20
-ITEM.foodDesc = "A tasty looking hot dog."
+ITEM.desc = "A tasty looking hot dog."
 ITEM.quantity2 = 2
-ITEM.price = 3
+ITEM.price = 7
 
-ITEM.attribBoosts = { ["str"] = 3 }
+ITEM.attribBoosts = { 
+	["str"] = 3 
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
