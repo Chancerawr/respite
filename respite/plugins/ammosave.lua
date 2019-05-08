@@ -57,6 +57,7 @@ nut.ammo.register("3006")
 nut.ammo.register("338")
 nut.ammo.register("12g")
 nut.ammo.register("22lr")
+nut.ammo.register("408")
 
 -- Called right before the character has its information save.
 function PLUGIN:CharacterPreSave(character)
@@ -107,6 +108,40 @@ function PLUGIN:PlayerLoadedChar(client)
 			end
 		end
 	end)
+end
+
+-- Called after the player's loadout has been set.
+function PLUGIN:PlayerDeath(client)
+	local char = client:getChar()
+	
+	if(char) then
+		local savedAmmo = char:getData("ammo", {})
+	
+		for k, v in pairs(self.ammoList) do
+			local ammo = client:GetAmmoCount(v)
+
+			if(savedAmmo[v]) then
+				if(ammo > 0) then
+					savedAmmo[v] = ammo
+				else
+					savedAmmo[v] = nil
+				end
+			else
+				savedAmmo[v] = nil
+			end
+		end
+		
+		for k, v in pairs(client:GetWeapons()) do
+			local clip = v:Clip1()
+			local ammoType = game.GetAmmoName(v:GetPrimaryAmmoType())
+			
+			if(clip > 0 and ammoType) then
+				savedAmmo[ammoType] = (savedAmmo[ammoType] or 0) + clip
+			end
+		end
+		
+		char:setData("ammo", savedAmmo)
+	end
 end
 
 --this restores ammo after death
