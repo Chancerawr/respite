@@ -5,3 +5,6 @@ This is mainly being uploaded so that other Nutscript developers can use what th
 You should not attempt to run a server the same as mine, and instead change the schema's name and run it with a different storyline.
 
 Do not expect me to fix too many minor bugs, especially in plugins that I did not create. This will be updated infrequently, usually only after I implement a decent amount of content.
+
+NEW 
+I have recently updated the schema to the Nutscript 1.1 Beta branch. This means the master branch is no longer compatible with the pre-beta framework. There is another branch (poorly) named Beta if you want a version that (mostly) works with pre-beta NS 1.1.
