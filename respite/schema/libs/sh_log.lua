@@ -4,6 +4,7 @@ FLAG_WARNING = 2
 FLAG_DANGER = 3
 FLAG_SERVER = 4
 FLAG_DEV = 5
+FLAG_ORANGE = 6
 
 nut.log = nut.log or {}
 nut.log.color = {
@@ -13,6 +14,7 @@ nut.log.color = {
 	[FLAG_DANGER] = Color(255, 50, 50),
 	[FLAG_SERVER] = Color(200, 200, 220),
 	[FLAG_DEV] = Color(200, 200, 220),
+	[FLAG_ORANGE] = Color(150, 150, 75),
 }
 local consoleColor = Color(50, 200, 50)
 

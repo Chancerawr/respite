@@ -7,8 +7,9 @@ ITEM.width = 2
 ITEM.height = 3
 ITEM.skin = 5
 
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_wood"
+ITEM.salvItem = {
+	["j_scrap_wood"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(200, 0, 0),

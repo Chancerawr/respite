@@ -1,5 +1,5 @@
 ITEM.name = "WP-1MP"
-ITEM.desc = "A break-action pistol that holds and fires two bullets at a time. It's a very light weight firearm, resulting in much higher recoil.\nThis weapon utilizes 7.62x54mm rounds."
+ITEM.desc = "A break-action pistol that holds and fires two bullets at a time. It's a very light weight firearm, resulting in much higher recoil."
 ITEM.model = "models/weapons/tfa_w_g2_contender.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_wp1mp"

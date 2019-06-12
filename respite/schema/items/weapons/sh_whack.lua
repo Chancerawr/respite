@@ -1,5 +1,5 @@
 ITEM.name = "WH-ACK"
-ITEM.desc = "A lightweight marksman rifle. It features an integrated silencer alongside a burst-fire capability. This variant does not have a long range scope.\nThis weapon utilizes 7.62x39mm rounds."
+ITEM.desc = "A lightweight marksman rifle. It features an integrated silencer alongside a burst-fire capability. This variant does not have a long range scope."
 ITEM.model = "models/weapons/tfa_w_svd_dragunov.mdl"
 ITEM.material = "models/props_canal/metalwall005b"
 ITEM.class = "tfa_whack"

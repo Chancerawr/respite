@@ -20,23 +20,22 @@ ITEM.functions.Activate = {
 	icon = "icon16/arrow_down.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
-			local client = item.player
-			local position = client:getItemDropPos()
-			local inventory = client:getChar():getInv()
-			local chip = inventory:hasItem("cube_chip")	
-			
-			if (!chip) then
-				client:notifyLocalized("You can't insert a chip if you don't have one!") return false
-			end
-			
-			chip:remove()
-			
-			if(!inventory:add("blight")) then --if the inventory has space, put it in the inventory
-				nut.item.spawn("blight", position) --if not, drop it on the ground
-			end	
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local chip = inventory:getFirstItemOfType("cube_chip")	
+		
+		if (!chip) then
+			client:notifyLocalized("You can't insert a chip if you don't have one!") return false
+		end
+		
+		chip:remove()
+		
+		inventory:addSmart("blight", 1, position)
 
-			nut.chat.send(client, "itclose", "The door on the machine opens up, producing a vial.")	
-			return false
+		nut.chat.send(client, "itclose", "The door on the machine opens up, producing a vial.")	
+		
+		return false
 	end
 }
 
@@ -48,7 +47,7 @@ ITEM.functions.Chip2 = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local chip = inventory:hasItem("cube_chip_enhanced")	
+		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 			
 		if (!chip) then
 			client:notifyLocalized("You need an enhanced chip to insert!") return false
@@ -85,7 +84,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("j_scrap_memory", position)
@@ -100,8 +99,10 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }

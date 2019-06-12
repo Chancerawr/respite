@@ -24,8 +24,8 @@ ITEM.functions.Remember = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local blight = inventory:hasItem("blight")
-		local organic = inventory:hasItem("j_scrap_organic")
+		local blight = inventory:getFirstItemOfType("blight")
+		local organic = inventory:getFirstItemOfType("j_scrap_organic")
 
 		local emotions = {
 			"fear",
@@ -47,7 +47,7 @@ ITEM.functions.Remember = {
 			organic:setData("Amount", amount - 3)
 		end
 		local emotion = emotions[math.random(0,8)]
-		inventory:add("j_scrap_memory", 1, { Amount = 1, feeling = emotion})
+		inventory:add("j_scrap_memory", 1, {Amount = 1, feeling = emotion})
 		
 		nut.chat.send(client, "itclose", "An image flashes through your mind that makes you feel "..emotion..".")	
 		
@@ -56,8 +56,8 @@ ITEM.functions.Remember = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		local cure = player:getChar():getInv():hasItem("blight")
-		local organic = player:getChar():getInv():hasItem("j_scrap_organic")
+		local cure = player:getChar():getInv():getFirstItemOfType("blight")
+		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
 		if(!cure or !organic) then
 			return false
 		else
@@ -65,6 +65,8 @@ ITEM.functions.Remember = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -76,7 +78,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("medical_memory", position)
@@ -90,8 +92,10 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }

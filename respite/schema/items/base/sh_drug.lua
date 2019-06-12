@@ -46,6 +46,7 @@ ITEM.functions._use = {
 				return true
 			end
 		end
+		
 		return false
 	end,
 	onCanRun = function(item)
@@ -53,27 +54,15 @@ ITEM.functions._use = {
 	end
 }
 
-local quality = {}
-quality[0] = "Terrible"
-quality[1] = "Awful"
-quality[2] = "Bad"
-quality[3] = "Poor"
-quality[4] = "Normal"
-quality[5] = "Decent"
-quality[6] = "Good"
-quality[7] = "Great"
-quality[8] = "Excellent"
-quality[9] = "Master"
-quality[10] = "Perfect"
-
 function ITEM:getDesc()
 	local desc = self.desc
 	
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
-	end
+	if(!partial) then
+		local customData = self:getData("custom", {})
+		if(customData.quality) then
+			desc = desc .. "\nQuality: " ..customData.quality
+		end
 	
-	if(!partial) then		
 		if(self.attribBoosts) then
 			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
 			
@@ -83,7 +72,7 @@ function ITEM:getDesc()
 				end
 			end
 		end	
-	end	
+	end
 	
 	return Format(desc)
 end

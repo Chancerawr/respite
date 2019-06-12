@@ -23,7 +23,7 @@ ITEM.functions.Depressant = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("drug_depress")
+		local object = inventory:getFirstItemOfType("drug_depress")
 		local ranScrap = {}
 			ranScrap[1] = "j_scrap_adhesive"
 			ranScrap[2] = "j_scrap_battery"
@@ -54,17 +54,15 @@ ITEM.functions.Depressant = {
 			object:remove()
 		end
 		
-		item:setData("producing2", CurTime())
+		item:setData("producing", CurTime())
 		timer.Simple(7, function()
 			local position = client:getItemDropPos()
 			local reward = ranScrap[math.random(1,17)]
 			
-			item:setData("producing2", 0)
+			item:setData("producing", nil)
 			
 			if(!IsValid(item:getEntity())) then
-				if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-					nut.item.spawn(reward, position) --if not, drop it on the ground
-				end
+				inventory:addSmart(reward, 1, position)
 			else
 				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
 			end
@@ -77,16 +75,18 @@ ITEM.functions.Depressant = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("drug_depress") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("drug_depress") then --if item of importance isn't in the inventory.
 			return false
 		end
 		
-		local endTime = item:getData("producing2") + 7
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 7
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
+		
+		return true
 	end
 }
 
@@ -97,7 +97,7 @@ ITEM.functions.Memory = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("j_scrap_memory")
+		local object = inventory:getFirstItemOfType("j_scrap_memory")
 		
 		local ranScrap = {
 			"blight",
@@ -122,9 +122,11 @@ ITEM.functions.Memory = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("j_scrap_memory") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("j_scrap_memory") then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -135,7 +137,7 @@ ITEM.functions.Chunk = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("c_scrap_gnome")
+		local object = inventory:getFirstItemOfType("c_scrap_gnome")
 		local amount = object:getData("Amount", 1)
 		
 		local ranScrap = {}
@@ -158,9 +160,11 @@ ITEM.functions.Chunk = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("c_scrap_gnome") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("c_scrap_gnome") then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -172,7 +176,7 @@ ITEM.functions.Yams = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("food_yams_mysterious")
+		local object = inventory:getFirstItemOfType("food_yams_mysterious")
 		local ranScrap = {}
 			ranScrap[1] = "alc_whiskey"
 			ranScrap[2] = "alc_vodka"
@@ -192,9 +196,11 @@ ITEM.functions.Yams = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("food_yams_mysterious") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("food_yams_mysterious") then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -206,7 +212,7 @@ ITEM.functions.Ichor = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local ichor = inventory:hasItem("ichor")
+		local ichor = inventory:getFirstItemOfType("ichor")
 
 		local amount = ichor:getData("Amount")
 		ichor:setData("Amount", amount - 5) --costs 5
@@ -223,7 +229,7 @@ ITEM.functions.Ichor = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		local ichor = player:getChar():getInv():hasItem("ichor")
+		local ichor = player:getChar():getInv():getFirstItemOfType("ichor")
 		if(ichor) then
 			local amount = ichor:getData("Amount")
 			if(amount >= 5) then

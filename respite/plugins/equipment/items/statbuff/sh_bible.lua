@@ -5,9 +5,11 @@ ITEM.desc = "A thick book filled with religious teachings."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_cloth"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_cloth"] = 2
+}
 
 ITEM.attribBoosts = {
 	["perception"] = -1,

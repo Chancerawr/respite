@@ -8,7 +8,6 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Mysterious"
-ITEM.data = { producing2 = 0, growth = 0 }
 ITEM.color = Color(255, 50, 50)
 
 ITEM.iconCam = {
@@ -26,30 +25,30 @@ ITEM.functions.Water = {
 		local position = client:getItemDropPos()
 		local inventory = char:getInv()
 		
-		local water = inventory:hasItem("food_water") or inventory:hasItem("food_water_mountain") or inventory:hasItem("food_blood")
+		local water = inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_water_mountain") or inventory:getFirstItemOfType("food_blood")
 
 		if(water) then
 			local grow = 1
-			if(water.uniqueID == "food_blood" and item:getData("growth") < 8) then
+			if(water.uniqueID == "food_blood" and item:getData("growth", 0) < 8) then
 				grow = 2
 			end	
 
 			local container = water.container
 			water:remove()
 			inventory:add(container)
+			
 			nut.chat.send(client, "itclose", "The liquid is poured onto the strange plant.")	
+			
 			item:setData("producing", CurTime())
-			timer.Simple(300, 
-				function()
-					if (item != nil) then
-						item:setData("producing", nil)
-						item:setData("growth", item:getData("growth") + grow)
-						client:notify("Your mysterious plant has grown.")
-					end
+			timer.Simple(300, function()
+				if (item != nil) then
+					item:setData("producing", nil)
+					item:setData("growth", item:getData("growth", 0) + grow)
+					client:notify("Your mysterious plant has grown.")
 				end
-			)
+			end)
 		else
-			client:notifyLocalized("You don't have any water!") return false
+			client:notify("You don't have any water!") return false
 		end
 		return false
 	end,
@@ -61,12 +60,13 @@ ITEM.functions.Water = {
 			end
 		end
 		
-		local growth = item:getData("growth")
+		local growth = item:getData("growth", 0)
 		
 		if (growth < 10) then
 		else
 			return false
 		end
+		
 		return true
 	end
 }
@@ -101,7 +101,7 @@ ITEM.functions.Feed = {
 		}
 		
 		for k, v in pairs (meats) do
-			meat = inventory:hasItem(v)
+			meat = inventory:getFirstItemOfType(v)
 			if (meat) then
 				meat:remove()
 				break
@@ -109,20 +109,18 @@ ITEM.functions.Feed = {
 		end
 		
 		if (!meat) then
-			client:notifyLocalized("You don't have any usable meat!") return false
+			client:notify("You don't have any usable meat!") return false
 		end		
 		
 		nut.chat.send(client, "itclose", "The strange plant ravenously consumes the meat.")	
 		item:setData("producing", CurTime())
-		timer.Simple(1800, 
-			function()
-				if (item != nil) then
-					item:setData("producing", nil)
-					item:setData("growth", item:getData("growth") + 1)
-					client:notify("Your mysterious plant grows further.")
-				end
+		timer.Simple(1800, function()
+			if (item != nil) then
+				item:setData("producing", nil)
+				item:setData("growth", item:getData("growth", 0) + 1)
+				client:notify("Your mysterious plant grows further.")
 			end
-		)
+		end)
 
 		return false
 	end,
@@ -134,7 +132,7 @@ ITEM.functions.Feed = {
 			end
 		end
 	
-		local growth = item:getData("growth")
+		local growth = item:getData("growth", 0)
 		
 		if (growth > 9 and growth < 15) then --Can only feed plant when it's done with water phase.
 			return true
@@ -152,17 +150,15 @@ ITEM.functions.Cut = { --monster meat
 		local char = client:getChar()
 		local position = client:getItemDropPos()
 		local inventory = char:getInv()
+
+		inventory:addSmart("food_monster_meat", 1, position)
 		
-		if(!inventory:add("food_monster_meat")) then --if the inventory has space, put it in the inventory
-			nut.item.spawn("food_monster_meat", position) --if not, drop it on the ground
-		end		
-		
-		item:setData("growth", item:getData("growth") - 2)
+		item:setData("growth", item:getData("growth", 0) - 2)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		local growth = item:getData("growth")
+		local growth = item:getData("growth", 0)
 		
 		if (growth > 1) then --want to have at least 2 growth to be able to cut plant.
 			return true
@@ -181,16 +177,14 @@ ITEM.functions.Harvest = { --shard
 		local position = client:getItemDropPos()
 		local inventory = char:getInv()
 		
-		if(!inventory:add("shard_dust")) then --if the inventory has space, put it in the inventory
-			nut.item.spawn("shard_dust", position) --if not, drop it on the ground
-		end	
+		inventory:addSmart("shard_dust", 1, position)
 		
 		item:setData("growth", 0)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		local growth = item:getData("growth")
+		local growth = item:getData("growth", 0)
 		
 		if (growth == 15) then --The plant needs to be fully grown.
 			return true
@@ -202,31 +196,41 @@ ITEM.functions.Harvest = { --shard
 
 ITEM.functions.Name = {
 	tip = "Name this item",
-	icon = "icon16/heart.png",
+	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
-		client:requestString("Change Name", "What do you want to name your plant? (This is final)", function(text)
-			item:setData("customName", text)
-		end, item.name)
+		
+		local customData = item:getData("custom", {})
+		
+		client:requestString("Change Name", "What do you want to name your sentry? (This is final)", function(text)
+			customData.name = text
+			item:setData("custom", customData)
+			nut.log.addRaw(client:Name().. " has set name of " ..item.name.. " to " ..text.. ".")
+		end, customData.name or item.name)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		if (item:getData("customName") != nil) then
+		local customData = item:getData("custom", {})
+		
+		if (customData.name) then
 			return false
 		else
 			return true
 		end
+		
+		return true
 	end
 }
 
 function ITEM:getName()
 	local name = self.name
 	
-	if(self:getData("customName") != nil) then
-		name = self:getData("customName")
+	local customData = self:getData("custom", {})
+	if(customData.name) then
+		name = customData.name
 	end
-	
+
 	return Format(name)
 end
 
@@ -234,33 +238,28 @@ function ITEM:getDesc()
 	local desc = self.desc
 	local growth
 	local growthMsg
-	if(self:getData("growth") != nil) then
-		growth = self:getData("growth")
-		if(growth <= 2) then -- 0-2
-		growthMsg = " Something has sprouted from the dirt."
-		
-		elseif(growth <=5 ) then -- 3-5
-		growthMsg = " The plant looks thirsty."
-		
-		elseif(growth <=9 ) then -- 6-9
-		growthMsg = " It appears to be breathing"
-		
-		elseif(growth ==10 ) then -- 10
-		growthMsg = " It hungers for flesh."
-		
-		elseif(growth <=12 ) then -- 11-12
-		growthMsg = " It is ravenous for more meat."
-		
-		elseif(growth <=14 ) then -- 13-14
-		growthMsg = " It is almost fully grown, but it still wants more."
 
-		else --15
-		growthMsg = " Something is giving off light from within the plant."
-		
-		end
-		desc = desc .. growthMsg
+	growth = self:getData("growth", 0)
+	if(growth == 0) then -- 0
+		growthMsg = " There is nothing but soil."
+	elseif(growth <= 2) then -- 1-2
+		growthMsg = " Something has sprouted from the dirt."
+	elseif(growth <=5 ) then -- 3-5
+		growthMsg = " The plant is growing nicely."
+	elseif(growth <=9 ) then -- 6-9
+		growthMsg = " The plant looks like it's breathing."
+	elseif(growth ==10 ) then -- 10
+		growthMsg = " The plant looks hungry."
+	elseif(growth <=12 ) then -- 11-12
+		growthMsg = " The plant has a ravenous look about it."
+	elseif(growth <=14 ) then -- 13-14
+		growthMsg = " The plant is almost fully grown."
+	else --15
+		growthMsg = " A white light shines from the plant."
 	end
 	
+	desc = desc .. growthMsg
+
 	if(self:getData("producing", false)) then
 		desc = desc .. "\nThe plant is growing."
 	end

@@ -1,5 +1,5 @@
 ITEM.name = "73 Winchester Carbine"
-ITEM.desc = "A lever action rifle, capable of accurate fire up to 300m. Saddle up cowboy.\nThis weapon utilizes .45-70 rounds."
+ITEM.desc = "A lever action rifle, capable of accurate fire up to 300m. Saddle up cowboy."
 ITEM.model = "models/weapons/tfa_w_winchester_1873.mdl"
 ITEM.class = "tfa_winchester73"
 ITEM.weaponCategory = "primary"

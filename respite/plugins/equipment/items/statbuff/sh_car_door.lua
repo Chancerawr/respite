@@ -5,9 +5,11 @@ ITEM.desc = "A large metal door that was once attached to a car."
 ITEM.flag = "j"
 ITEM.width = 3
 ITEM.height = 3
-ITEM.data = { scrapamount = 5 }
-ITEM.salvItem = "j_scrap_metals"
 ITEM.buffCategory = "shield"
+
+ITEM.salvItem = {
+	["j_scrap_metals"] = 5
+}
 
 ITEM.attribBoosts = {
 	["end"] = 6,

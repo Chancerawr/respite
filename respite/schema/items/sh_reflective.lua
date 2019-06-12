@@ -10,36 +10,13 @@ ITEM.desc = "A bottle filled with an incredibly reflective liquid, you can see y
 ITEM.flag = "V"
 ITEM.uniqueID = "reflective"
 ITEM.container = "j_empty_mountain_spring"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
 	fov = 3,
 }
-
-local function onUse(item)
-	item.player:EmitSound("items/medshot4.wav", 80, 75)
-	item.player:ScreenFade(1, Color(255, 255, 255, 200), 5, 0)
-end
-
-ITEM:hook("use", onUse)
-ITEM:hook("usef", onUse)
-
-local function healPlayer(client, target, amount, seconds)
-	hook.Run("OnPlayerHeal", client, target, amount, seconds)
-
-	if (client:Alive() and target:Alive()) then
-		local id = "nutHeal_"..FrameTime()
-		timer.Create(id, 1, seconds, function()
-			if (!target:IsValid() or !target:Alive()) then
-				timer.Destroy(id)	
-			end
-
-			target:SetHealth(math.Clamp(target:Health() + (amount/seconds), 0, target:GetMaxHealth()))
-		end)
-	end
-end
 
 ITEM.functions.use = { -- sorry, for name order.
 	name = "Drink",
@@ -64,27 +41,34 @@ ITEM.functions.use = { -- sorry, for name order.
 			local char = client:getChar()
 			local parts = char:getData("parts", {})
 			
-			PrintTable(parts)
-			
 			for k, v in pairs(parts) do
 				if(string.lower(v[2]) == "ichor") then
 					v[1] = v[1] * 0.67
 				end
 			end
 			
+			client:EmitSound("items/medshot4.wav", 80, 75)
+			client:ScreenFade(1, Color(64, 128, 128, 150), 5, 2)
+			
 			char:setData("parts", parts)
 		end
 	end,
 	onCanRun = function(item)
+		if(item.entity) then
+			return false
+		end	
+	
 		local player = item.player or item:getOwner()
 		local char = player:getChar()
 
-		if (char:getFaction() != FACTION_SURVIVOR) then
+		if (char:getFaction() != FACTION_DRIFTER) then
 			return false
 		end
 		
 		if(IsValid(item.entity)) then
 			return false
 		end
+		
+		return true
     end
 }

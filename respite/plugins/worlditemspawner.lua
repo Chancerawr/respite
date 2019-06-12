@@ -70,7 +70,7 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 	["junkgarbage"] = {
 		"j_bananaskin",
 		"j_cereal_box",
-		"j_empty_antidepressants",
+		"j_empty_pill",
 		"j_empty_bandage",
 		"j_empty_beer",
 		"j_empty_beer2",
@@ -101,7 +101,7 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"j_car_door",
 		"j_car_muffler",
 		"j_car_engine",
-		"ybattery_large",
+		"j_car_battery",
 		"j_tire",
 	},
 	["flares"] = {
@@ -385,8 +385,14 @@ nut.command.add("itemspawnadd", {
 		local trace = client:GetEyeTraceNoCursor()
 		local hitpos = trace.HitPos + trace.HitNormal*5
 		local spawngroup = arguments[1] or "default"
-		table.insert( PLUGIN.itempoints, { hitpos, spawngroup } )
-		client:notify( "You added ".. spawngroup .. " item spawner." )
+		if(PLUGIN.itempoints[spawngroup]) then
+			table.insert(PLUGIN.itempoints, {hitpos, spawngroup})
+			client:notify("You added ".. spawngroup .. " item spawner.")
+		else
+			client:notify("Invalid spawn group")
+		end
+		
+
 	end
 })
 
@@ -398,7 +404,7 @@ nut.command.add("itemspawnremove", {
 		local range = arguments[1] or 128
 		local mt = 0
 		for k, v in pairs( PLUGIN.itempoints ) do
-			local distance = v[1]:Distance( hitpos )
+			local distance = v[1]:Distance(hitpos)
 			if distance <= tonumber(range) then
 				PLUGIN.itempoints[k] = nil
 				mt = mt + 1

@@ -28,6 +28,7 @@ local adjs = {
 	["Blue"] = 1,
 	["Large"] = 2,
 	["Small"] = 0.5,
+	["Shrunken"] = 0.4,
 	["Huge"] = 3,
 	["Black"] = 1,
 	["White"] = 1,
@@ -40,6 +41,7 @@ local adjs = {
 	["Slimy"] = 1.1,
 	["Dry"] = 0.9,
 	["Wide"] = 1.5,
+	["Bulging"] = 2,
 	["Monstrous"] = 2,
 	["Flat"] = 0.8
 }

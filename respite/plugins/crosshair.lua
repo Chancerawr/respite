@@ -53,7 +53,7 @@ if (CLIENT) then
 			return
 		end
 
-		if (!NUT_CVAR_CROSS:GetBool() or hook.Run("ShouldDrawCrosshair") == false or g_ContextMenu:IsVisible() or nut.gui.char:IsVisible()) then
+		if (!NUT_CVAR_CROSS:GetBool() or hook.Run("ShouldDrawCrosshair") == false or g_ContextMenu:IsVisible()) then
 			return
 		end
 

@@ -1,5 +1,5 @@
 ITEM.name = "SR-3M Vikhr"
-ITEM.desc = "A Russian sub-carbine, boasts powerful stopping power at close range, at the cost of medium and long range effectiveness.\nThis weapon utilizes 9x39mm rounds."
+ITEM.desc = "A Russian sub-carbine, boasts powerful stopping power at close range, at the cost of medium and long range effectiveness."
 ITEM.model = "models/weapons/tfa_w_dmg_vikhr.mdl"
 ITEM.class = "tfa_vikhr"
 ITEM.weaponCategory = "primary"

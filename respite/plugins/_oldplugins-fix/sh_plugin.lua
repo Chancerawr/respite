@@ -58,8 +58,11 @@ function nut.lang.Get(key, ...)
 	end
 end
 
+--[[
 function nut.attribs.SetUp(_,_,_)
 end
+--]]
+
 function nut.anim.SetModelClass(class, model)
 	nut.anim.setModelClass(model, class)
 end

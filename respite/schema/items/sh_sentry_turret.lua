@@ -1,14 +1,14 @@
 ITEM.name = "Makeshift Sentry"
+ITEM.desc = "An automated turret that fires based on movement."
 ITEM.uniqueID = "sentry"
 ITEM.model = "models/combine_turrets/floor_turret.mdl"
 ITEM.material = "models/props_wasteland/quarryobjects01"
-ITEM.desc = "An automated turret that fires based on movement."
 ITEM.width = 1
 ITEM.height = 4
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 29),
@@ -52,18 +52,20 @@ ITEM.functions.Place = {
 	onRun = function(item)
 		local client = item.player
 		
+		local customData = item:getData("custom", {})
+		
 		local sentry = ents.Create("nut_combat_sentry")
 		sentry:SetPos(client:getItemDropPos())
 		sentry:SetAngles(client:GetAngles())
 		sentry.ammo = item:getData("ammo", "919")
 		sentry.ammoDesc = item:getData("ammoDesc", "9x19mm")
-		sentry.customName = item:getData("customName", nil)
+		sentry.customName = customData.name
 		sentry:Spawn()
 		
 		sentry:SetCreator(client)
 		
-		sentry:setNetVar("name", item:getData("customName", "Makeshift Sentry").. " (" ..item:getData("ammoDesc", "9x19mm").. ")")
-	end,
+		sentry:setNetVar("name", (customData.name or "Makeshift Sentry").. " (" ..item:getData("ammoDesc", "9x19mm").. ")")
+	end
 }
 
 ITEM.functions.Name = {
@@ -71,18 +73,27 @@ ITEM.functions.Name = {
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
+		
+		local customData = item:getData("custom", {})
+		
 		client:requestString("Change Name", "What do you want to name your sentry? (This is final)", function(text)
-			item:setData("customName", text)
-		end, item.name)
+			customData.name = text
+			item:setData("custom", customData)
+			nut.log.addRaw(client:Name().. " has set name of " ..item.name.. " to " ..text.. ".")
+		end, customData.name or item.name)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		if (item:getData("customName") != nil) then
+		local customData = item:getData("custom", {})
+		
+		if (customData.name) then
 			return false
 		else
 			return true
 		end
+		
+		return true
 	end
 }
 
@@ -100,7 +111,7 @@ ITEM.functions.Modify = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		
-		local object = inventory:hasItem("j_scrap_idea")
+		local object = inventory:getFirstItemOfType("j_scrap_idea")
 		
 		if(data) then
 			item:setData("ammo", data)
@@ -128,21 +139,24 @@ ITEM.functions.Modify = {
 		local player = item.player or item:getOwner()
 		local inv = player:getChar():getInv()
 		
-		if(!inv:hasItem("kit_sentry")) then
+		if(!inv:getFirstItemOfType("kit_sentry")) then
 			return false
 		end
 		
-		if(!inv:hasItem("j_scrap_idea")) then
+		if(!inv:getFirstItemOfType("j_scrap_idea")) then
 			return false
 		end
+		
+		return true
     end
 }
 
 function ITEM:getName()
 	local name = self.name
 	
-	if(self:getData("customName") != nil) then
-		name = self:getData("customName")
+	local customData = self:getData("custom", {})
+	if(customData.name) then
+		name = customData.name
 	end
 
 	return Format(name)

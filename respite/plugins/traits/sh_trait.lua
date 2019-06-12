@@ -1201,7 +1201,58 @@ TRAIT.modifier = {
 }
 
 TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "consistent" 
+TRAIT.name = "Consistent"
+TRAIT.desc = "Whether that's a good thing or not is up to you.\nYour combat rolls are critical more often than normal, but they're also not as good.\nYou almost never critically fail."
+TRAIT.category = "Character"
+TRAIT.critMult = function(client, char, critMult)
+	critMult = critMult * 0.75
+	
+	return critMult
+end
+TRAIT.critChance = function(client, char, critChance)
+	critChance = critChance + 50
+	
+	return critChance
+end
+TRAIT.critFail = function(client, char, critFail)
+	critFail = critFail - 5
+	
+	return critFail
+end
+TRAIT.items = {
+	"j_dice"
+}
 
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "inconsistent" 
+TRAIT.name = "Inconsistent"
+TRAIT.desc = "Whether that's a good thing or not is up to you.\nYour combat rolls are critical less often than normal, but they're also much better.\nYou critically fail more often."
+TRAIT.category = "Character"
+TRAIT.critMult = function(client, char, critMult)
+	critMult = critMult + 1
+	
+	return critMult
+end
+TRAIT.critChance = function(client, char, critChance)
+	critChance = critChance * 0.5
+	
+	return critChance
+end
+TRAIT.critFail = function(client, char, critFail)
+	critFail = critFail + 2
+	
+	return critFail
+end
+TRAIT.items = {
+	"j_dice"
+}
+
+TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
 TRAIT.uid = "smoker" 

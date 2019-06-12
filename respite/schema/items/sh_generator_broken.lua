@@ -8,8 +8,7 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.data = { gen = "generator_chip" }
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(-3, 2, 200),
@@ -22,14 +21,16 @@ ITEM.functions.Repair = {
 	tip = "useTip",
 	icon = "icon16/wrench_orange.png",
 	onRun = function(item)
-		local inventory = item.player:getChar():getInv()
-		local kit = inventory:hasItem("generator_repair")
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local position = client:getItemDropPos()
+		local kit = inventory:getFirstItemOfType("generator_repair")
+		
 		if (kit) then
 			kit:remove()
-			nut.item.spawn(item:getData("gen"), item.player:EyePos() + item.player:GetAimVector() * 50)
+			inventory:addSmart("generator_chip", 1, position)
 		else
-			item.player:notifyLocalized("You need a repair kit.") return false
+			item.player:notify("You need a generator repair kit.") return false
 		end
-
-	end,
+	end
 }

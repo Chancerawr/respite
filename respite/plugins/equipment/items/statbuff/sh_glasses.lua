@@ -5,9 +5,11 @@ ITEM.desc = "A pair of old glasses."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_glass"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_glass"] = 2
+}
 
 ITEM.attribBoosts = {
 	["perception"] = 4,

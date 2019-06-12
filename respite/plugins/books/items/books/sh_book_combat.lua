@@ -1,3 +1,5 @@
+--this is old and mostly unused now
+
 ITEM.name = "Combat (OOC)"
 ITEM.desc = "A book detailing the combat system.\nThis book is OOC."
 ITEM.price = 0
@@ -139,20 +141,6 @@ You may move the full movement distance (Small prop) in addition to any actions 
 		
 </font>
 ]]
-		
-		
-ITEM.functions.Destroy = {
-	name = "Destroy",
-	icon = "icon16/lorry.png",
-	sound = "ambient/materials/cupdrop.wav",
-	onRun = function(item)
-		local client = item.player
-		local char = client:getChar()
-
-		client:notify("You have received "..item.value.." scrap coins.")
-		char:giveMoney(item.value)
-	end
-}
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)

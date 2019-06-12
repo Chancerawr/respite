@@ -2,20 +2,6 @@ PLUGIN.name = "Save Items"
 PLUGIN.author = "Chessnut"
 PLUGIN.desc = "Saves items that were dropped."
 
-/*
-	function PLUGIN:OnSavedItemLoaded(items)
-		for k, v in ipairs(items) do
-			-- do something
-		end
-	end
-
-	function PLUGIN:ShouldDeleteSavedItems()
-		return true
-	end
-*/
-
--- as title says.
-
 function PLUGIN:LoadData()
 	local items = self:getData()
 

@@ -1,5 +1,5 @@
 ITEM.name = "CR-33D"
-ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. This variant has an extended barrel and a full stock.\nThis weapon utilizes 5.56x45mm rounds."
+ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. This variant has an extended barrel and a full stock."
 ITEM.model = "models/weapons/tfa_w_dmg_vikhr.mdl"
 ITEM.class = "tfa_cr33d"
 ITEM.uniqueID = "tfa_cr33d"

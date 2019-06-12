@@ -8,14 +8,13 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(-3, 2, 200),
 	ang = Angle(90, 0, 25),
 	fov = 12,
 }
-
 
 ITEM.functions.Place = {
 	name = "Deploy",
@@ -30,6 +29,5 @@ ITEM.functions.Place = {
 		local phys = grd:GetPhysicsObject()
 		phys:SetVelocity( client:GetAimVector() * 1 * math.Rand( .8, 1 ) )
 		phys:AddAngleVelocity( client:GetAimVector() * 1  )
-
-	end,
+	end
 }

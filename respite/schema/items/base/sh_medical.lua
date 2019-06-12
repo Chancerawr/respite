@@ -11,6 +11,11 @@ ITEM.category = "Medical"
 ITEM.color = Color(232, 0, 0)
 ITEM.quantity2 = 1
 
+local function onUse(client)
+	client:EmitSound("items/medshot4.wav", 80, 110)
+	client:ScreenFade(1, Color(0, 255, 0, 100), .4, 0)
+end
+
 local function healPlayer(client, target, amount, seconds)
 	hook.Run("OnPlayerHeal", client, target, amount, seconds)
 
@@ -23,16 +28,10 @@ local function healPlayer(client, target, amount, seconds)
 
 			target:SetHealth(math.Clamp(target:Health() + (amount/seconds), 0, target:GetMaxHealth()))
 		end)
+		
+		onUse(target)
 	end
 end
-
-local function onUse(item)
-	item.player:EmitSound("items/medshot4.wav", 80, 110)
-	item.player:ScreenFade(1, Color(0, 255, 0, 100), .4, 0)
-end
-
-ITEM:hook("use", onUse)
-ITEM:hook("usef", onUse)
 
 ITEM.functions.use = { -- sorry, for name order.
 	name = "Use",
@@ -42,10 +41,10 @@ ITEM.functions.use = { -- sorry, for name order.
 		if (item.player:Alive()) then
 			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
 			
-			local quantity = item:getData("quantity", item.quantity2)
+			local quantity2 = item:getData("quantity2", item.quantity2)
 
-			if(quantity > 1) then
-				item:setData("quantity", quantity - 1)
+			if(tonumber(quantity2) > 1) then
+				item:setData("quantity2", quantity2 - 1)
 				return false
 			else
 				if(item.container) then
@@ -62,6 +61,8 @@ ITEM.functions.use = { -- sorry, for name order.
 		if (char:getFaction() == FACTION_PLASTIC) then
 			return false
 		end
+		
+		return true
     end
 }
 
@@ -79,9 +80,9 @@ ITEM.functions.usef = { -- sorry, for name order.
 		if (target and target:IsValid() and target:IsPlayer() and target:Alive()) then
 			healPlayer(item.player, target, item.healAmount, item.healSeconds)
 
-			local quantity = item:getData("quantity", item.quantity or 1)
-			if(quantity > 1) then
-				item:setData("quantity", quantity - 1)
+			local quantity2 = item:getData("quantity2", item.quantity2 or 1)
+			if(tonumber(quantity2) > 1) then
+				item:setData("quantity2", quantity2 - 1)
 				return false
 			else
 				if(item.container) then
@@ -103,20 +104,8 @@ ITEM.functions.Custom = {
 	name = "Customize",
 	tip = "Customize this item",
 	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-		client:requestString("Change Name", "What name do you want this item to have?", function(text)
-			item:setData("customName", text)
-			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
-				item:setData("customDesc", text)
-				client:requestString("Change Model", "What Model do you want this item to have?\nBe sure it is a valid model.", function(text) --start of model
-					item:setData("customMdl", text)
-				end, item:getData("customMdl", item.model)) --end of model
-			end, item:getDesc()) --end of desc
-		end, item:getName()) --end of name
-			
-		--hopefully resets the player's icons
-		client:ConCommand("nut_flushicon")
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustom(item.player, item)
 		
 		return false
 	end,
@@ -127,53 +116,99 @@ ITEM.functions.Custom = {
 	end
 }
 
-local quality = {}
-quality[0] = "Terrible"
-quality[1] = "Awful"
-quality[2] = "Bad"
-quality[3] = "Poor"
-quality[4] = "Normal"
-quality[5] = "Decent"
-quality[6] = "Good"
-quality[7] = "Great"
-quality[8] = "Excellent"
-quality[9] = "Master"
-quality[10] = "Perfect"
+ITEM.functions.CustomQuan = {
+	name = "Customize Quantity",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
 
-function ITEM:getName()
-	local name = self.name
-	
-	if(self:getData("customName") != nil) then
-		name = self:getData("customName")
+		client:requestString("Change Quantity", "", function(text)	
+			local amount = tonumber(text)
+			if(amount) then
+				item:setData("quantity2", text)
+			end
+		end, item:getData("quantity2", item.quantity2))
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
 	end
+}
 
-	return Format(name)
-end
+ITEM.functions.Clone = {
+	name = "Clone",
+	tip = "Clone this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player	
+	
+		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
+			local inventory = client:getChar():getInv()
+			
+			if(!inventory:add(item.uniqueID, 1, item.data)) then
+				client:notify("Inventory is full")
+			end
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player or item:getOwner()
+		return client:getChar():hasFlags("1")
+	end
+}
 
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
-	if(self:getData("customDesc") != nil) then
-		desc = self:getData("customDesc")
+	local customData = self:getData("custom", {})
+	if(customData.desc) then
+		desc = customData.desc
 	end		
 	
-	if(self:getData("quantity", self.quantity) != nil) then
-		desc = desc .. "\nRemaining Uses: " .. self:getData("quantity", self.quantity)
-	end	
-	
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
+	if(!partial) then
+		if(self:getData("quantity2", self.quantity2) != nil) then
+			desc = desc.. "\nRemaining Uses: " ..self:getData("quantity2", self.quantity2)
+		end
+		
+		if(customData.quality) then
+			desc = desc .. "\nQuality: " ..customData.quality
+		end
 	end
 	
 	return Format(desc)
 end
 
+function ITEM:getName()
+	local name = self.name
+	
+	local customData = self:getData("custom", {})
+	if(customData.name) then
+		name = customData.name
+	end
+	
+	return Format(name)
+end
+
+function ITEM:onGetDropModel()
+	local model = self.model
+	
+	local customData = self:getData("custom", {})
+	if(customData.model) then
+		model = customData.model
+	end
+	
+	return Format(model)
+end
+
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
-		local quantity = item:getData("quantity", item.quantity2)
+		local quantity2 = item:getData("quantity2", item.quantity2)
 
-		if (quantity and quantity > 1) then
-			draw.SimpleText(quantity, "DermaDefault", w - 12, h - 14, Color(255,50,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
+		if (tonumber(quantity2) > 1) then
+			draw.SimpleText(quantity2, "DermaDefault", w - 12, h - 14, Color(255,50,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
 		end
 	end
 end

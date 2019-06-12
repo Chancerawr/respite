@@ -84,5 +84,7 @@ ITEM.functions.use = { -- sorry, for name order.
 		if (IsValid(item.entity)) then
 			return false
 		end
+		
+		return true
     end
 }

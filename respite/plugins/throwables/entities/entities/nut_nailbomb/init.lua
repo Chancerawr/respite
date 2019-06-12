@@ -80,7 +80,7 @@ function ENT:Explosion()
 	self:EmitSound("physics/metal/metal_box_impact_bullet"..math.random(1,3)..".wav")
 	self:EmitSound("physics/metal/metal_box_impact_bullet"..math.random(1,3)..".wav")
 	
-	nut.item.spawn("j_scrap_metals", self:GetPos()) --drop some scrap metal i guess
+	nut.item.spawn("j_scrap_nails", self:GetPos())
 	
 	local explo = ents.Create( "env_explosion" )
 		explo:SetOwner( self.GrenadeOwner )

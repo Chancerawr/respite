@@ -1,20 +1,5 @@
---[[
-    NutScript is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    NutScript is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with NutScript.  If not, see <http://www.gnu.org/licenses/>.
---]]
-
 ITEM.name = "Raging Bull"
-ITEM.desc = "A powerful revolver, noted for it's reliability and accuracy.\nThis weapon utilizes .44 rounds."
+ITEM.desc = "A powerful revolver, noted for it's reliability and accuracy."
 ITEM.model = "models/weapons/tfa_w_taurus_raging_bull.mdl"
 ITEM.class = "tfa_ragingbull"
 ITEM.weaponCategory = "sidearm"

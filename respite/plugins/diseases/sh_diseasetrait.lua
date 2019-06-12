@@ -7,6 +7,7 @@ DISEASE.uid = "trait_curse"
 DISEASE.name = "Cursed"
 DISEASE.desc = "This person is afflicted by some sort of terrible curse, the list of their symptoms is seemingly endless."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"Your mind fills with images of those you used to know.",
 	"You feel an intense longing for home.",
@@ -39,8 +40,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_soul"
 DISEASE.name = "Soulless"
-DISEASE.desc = "Sometimes seen among those who nearly died to wraiths, they can seem empty and hopeless."
+DISEASE.desc = "Something was taken from you."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"You feel empty inside, like something is missing.",
 	"You feel hollow, you just want it back.",
@@ -62,8 +64,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_purge"
 DISEASE.name = "PURGE"
-DISEASE.desc = "Some sort of mental affliction, causes the afflicted to desire cleanliness above all."
+DISEASE.desc = "All must be wiped clean."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"Everything around you is filthy- disgusting even.",
 	"The smell of the wretched world around you makes you want to gag.",
@@ -87,7 +90,7 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_headache"
 DISEASE.name = "Extreme Headache"
-DISEASE.desc = "A very severe headache that rarely relents."
+DISEASE.desc = "What did you do to deserve this?"
 DISEASE.category = "Trait"
 DISEASE.phase = {
 	"Your head aches and throbs, you have difficulty focusing.",
@@ -107,8 +110,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_clumsy"
 DISEASE.name = "Clumsy"
-DISEASE.desc = "A disorder that causes a person to be less competent in their movements."
+DISEASE.desc = "You are a walking accident."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"You have a hard time holding onto whatever you are currently holding.",
 	"You suddenly feel like you're losing your balance, if you're walking you might trip.",
@@ -129,7 +133,7 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_paranoid"
 DISEASE.name = "Constant Paranoia"
-DISEASE.desc = "A constant paranoia, afflicted are known to become withdrawn and suspicious."
+DISEASE.desc = "Don't look behind you."
 DISEASE.category = "Trait"
 DISEASE.phase = {
 	"You feel like someone is watching you.",
@@ -155,24 +159,26 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_zealot"
 DISEASE.name = "Zealot"
-DISEASE.desc = "This person's faith borders on madness, may involve auditory hallucinations."
+DISEASE.desc = "God watches over you."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
-	"You feel the lord watching over you, it is comforting.",
-	"Your actions are righteous, you know it to be true.",
-	"You stand for the light.",
-	"Evil must be purged.",
-	"Demons must be exterminated.",
-	"You must endure this trial.",
-	"You feel the lord's might within yourself.",
-	"You feel fulfilled knowing that you are living your life the way the lord intended.",
-	"The light is your strength.",
-	"The light protects those who follow.",
+	"You feel the light watching over you, it is comforting.",
+	"You feel protected and safe.",
+	"You feel that you are being guided by a righteous force.",
+	"You feel self assured, your actions are righteous, you know it to be true.",
+	"You feel the urge to purge evil, it is what the light wants you to do.",
+	"Demons must be exterminated, that is what must be done.",
+	"You feel the light's might within yourself.",
+	"You feel fulfilled knowing that you are living your life correctly.",
+	"No matter what trial awaits you, as long as you follow your teachings you will be able to prevail.",
+	"You wish to tell others of your sacred knowledge, to protect them from the evils of the world.",
 	"You know that the path you follow is the right one.",
 	"Following the righteous path that you do fills you with a sense of honor.",
-	"Justice shall be done.",
-	"The light will guide your path.",
-	"The light will give you strength."
+	"You desire to right the wrongs of the world.",
+	"You know that justice will prevail in the end.",
+	"You are filled with strength and confidence, this is surely the work of that which you worship.",
+	"You are filled with genuine happiness, it truly is an honor to follow the path that you do."
 }
 DISEASE.cure = {
 	"Your unyielding devotion has been purged.",
@@ -183,8 +189,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_dark"
 DISEASE.name = "Afraid of the Dark"
-DISEASE.desc = "An abnormal fear of the darkness, and an obsession with light."
+DISEASE.desc = "Darkness is dangerous, the light is safe."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"The shadows in the room stretch strangely, and seemingly reach towards you.",
 	"You feel something watching you from the darkness.",
@@ -212,8 +219,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_digger"
 DISEASE.name = "Gravedigger"
-DISEASE.desc = "This person may be obsessed with burials, dirt, and graves."
+DISEASE.desc = "You must give them the gift of rest."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"Your hands feel empty without a shovel in them.",
 	"You have an urge to check your shovel, and to repair it if it is damaged at all.\nIf you do not have a shovel, you have an intense desire to acquire one.",
@@ -242,8 +250,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_lunatic"
 DISEASE.name = "Lunatic"
-DISEASE.desc = "This person has a strange condition relating to some moon that only they can see."
+DISEASE.desc = "Bark at the moon."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"The unseen moon calls out to you in a whisper-like voice. Its voice is gentle and seems to inspire confidence within you, but you cannot understand a single thing it says, as if it were in some kind of foreign language.",
 	"The moon shines brightly outside, no matter what time it is, and no matter what the weather is like.\nIt shines for you.",
@@ -271,8 +280,9 @@ DISEASES:Register( DISEASE )
 local DISEASE = {}
 DISEASE.uid = "trait_void"
 DISEASE.name = "Call of the Void"
-DISEASE.desc = "A strange fascination with nothingness."
+DISEASE.desc = "It stares back."
 DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
 DISEASE.phase = {
 	"Your mind goes blank, it's calming somehow.",
 	"Your emotions fade away, you feel nothing at all for a short period of time.",
@@ -301,9 +311,76 @@ DISEASE.cure = {
 DISEASES:Register( DISEASE )
 //
 local DISEASE = {}
+DISEASE.uid = "trait_instrument"
+DISEASE.name = "Instrumental"
+DISEASE.desc = "Broken strings and unmoving keys produce no sounds."
+DISEASE.category = "Trait"
+DISEASE.unpurgeable = true
+DISEASE.phase = {
+	"The hear a violin being played somewhere nearby. The song being played is somber, yet somehow beautiful.",
+	"You hear a piano being played somewhere nearby, it seems to be some kind of upbeat tune.",
+	"You hear a trumpet being blown once in the distance, it's somewhat startling.",
+	"You hear a piano being played somewhere far away. It sounds crude and loud, as if someone was just rapidly smashing the keys.",
+	"You can hear eerie singing far off, and isn't in any language that you can recognize. It sounds like some kind of hymn.",
+	"You hear chimes in the distance.",
+	"Your hear a cacophony of brass instruments some distance away, it sounds like the instruments are heralding the approach of something important.",
+	"You hear organ music coming from somewhere nearby. It sounds like wedding music.",
+	"You hear organ music coming from somewhere nearby. It sounds like funeral music.",
+	"You hear a drum being slowly played. It doesn't sound like music, more of just repetitious noise.",
+	"You hear what sounds like someone practicing the tuba somewhere far off.",
+	"You hear some kind of pop music jingle for a moment.",
+	"You hear an acoustic guitar somewhere nearby. It sounds solemn, as if in mourning.",
+	"It sounds like someone is intermittently beating a snare drum somewhere nearby.",
+	"A single toll of a bell echoes from somewhere far away.",
+	"You hear a sudden jumble of improperly tuned and out of sync instruments, it's very grating on the ears and distracting",
+}
+DISEASE.cure = {
+	"The sounds of your mind turn to silence.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "trait_hunger"
+DISEASE.name = "Ravenous"
+DISEASE.desc = "A bottomless abyss of starvation."
+DISEASE.category = "Trait"
+DISEASE.buff = {
+	["str"] = 8,
+	["end"] = 8,
+	["stm"] = -5,
+	["fortitude"] = -10,
+	["accuracy"] = -5,
+	["perception"] = -5,
+}
+DISEASE.phase = {
+	"You are hungry.",
+	"You are very hungry.",
+	"You are extremely hungry.",
+	"You are starving.",
+	"You're so hungry that you feel like you could eat anything.",
+	"You're so hungry that everything around you looks edible.",
+	"You desire meat, you are very hungry.",
+	"You desire fruits, you are very hungry.",
+	"You desire vegetables, you are very hungry.",
+	"You would eat anything, you're just so hungry.",
+	"You need food, the hunger won't go away.",
+	"Your body feels weak and exhausted, you're just too hungry.",
+	"You would do anything for some food right now.",
+	"Your stomach aches, you really want some food.",
+	"You feel like you haven't eaten in days, you need food as soon as possible.",
+	"You can't get your mind off of your hunger, you're just too hungry."
+}
+DISEASE.cure = {
+	"Your hunger has finally been sated.",
+}
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
 DISEASE.uid = "addict_bh"
 DISEASE.name = "Blue Haze Addiction"
-DISEASE.desc = "An addiction to blue haze, typically caused by overuse of the substance."
+DISEASE.desc = "This will be the last time."
 DISEASE.category = "Addiction"
 DISEASE.phase = {
 	"You feel very itchy, it looks like your skin is wiggling. This stops after a minute or so.",
@@ -318,5 +395,34 @@ DISEASE.phase = {
 DISEASE.cure = {
 	"Your blue haze addiction has been removed.",
 }
+
+DISEASES:Register( DISEASE )
+//
+local DISEASE = {}
+DISEASE.uid = "peculiar"
+DISEASE.name = "???"
+DISEASE.desc = "Just what is wrong with you?"
+DISEASE.category = "Addiction"
+DISEASE.special = function(client)
+	local diseases = {
+		"fort_pani", 
+		"fort_nost",
+		"fort_conf",
+		"fort_headache",
+		"fort_migraine",
+		"fort_hall",
+		"fort_para",
+		"fort_noia",
+		"fort_insa",
+		"fort_enrage",
+		"dis_eyes",
+		"dis_mind",
+		"dis_touch"
+	}
+	
+	local disease = table.Random(diseases)
+	
+	giveDisease(client, disease)
+end
 
 DISEASES:Register( DISEASE )

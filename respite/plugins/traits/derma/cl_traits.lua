@@ -10,10 +10,10 @@ local PANEL = {}
 	
 		local charTraits = LocalPlayer():getChar():getData("traits", {})
 
-		--MAIN PANEL, BODY PARTS
+		--MAIN PANEL, TRAITS
 		self:SetSize(ScrW() * 0.3, ScrH() * 0.45)
-		--self:Center()
-		self:SetPos(ScrW() * 0.2, ScrH() * 0.2)
+		self:Center()
+		--self:SetPos(ScrW() * 0.2, ScrH() * 0.2)
 		self:SetTitle("Trait Info")
 		self:MakePopup()
 		
@@ -33,10 +33,13 @@ local PANEL = {}
 				trait:Dock(TOP)
 				trait:SetWrap(true)
 				trait:SetTall(ScrH() * 0.055)
+				trait:SetAutoStretchVertical(true)
+				trait:SetContentAlignment(5)
 				trait:DockMargin(2,2,2,2)
 				
-				local traitText = TRAITS.traits[k].name .. ": " .. TRAITS.traits[k].desc
+				local traitText = TRAITS.traits[k].name.. ": " ..TRAITS.traits[k].desc.. "\n"
 				
+				trait:SetFont("nutSmallFont")
 				trait:SetText(traitText)
 			end
 		end

@@ -7,7 +7,6 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "V"
 ITEM.category = "Machines"
-ITEM.data = { chipcount = 0 }
 ITEM.color = Color(140, 20, 140)
 
 ITEM.iconCam = {
@@ -22,19 +21,20 @@ ITEM.functions.Fill = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chipcount = item:getData("chipcount")
-		local chip = inventory:hasItem("cube_chip")	
+		local chip = inventory:getFirstItemOfType("cube_chip")	
 		while(chip) do
-			if (chip and item:getData("chipcount") < 25 ) then
+			local chipcount = item:getData("chipcount", 0)
+			if (chip and chipcount < 25 ) then
 				chip:remove()
-				item:setData("chipcount", item:getData("chipcount") + 1)
-				item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+				item:setData("chipcount", chipcount + 1)
+				item.player:EmitSound("ambient/materials/dinnerplates1.wav", 65, 60)
 			else
 				return false
 			end
 
-			chip = inventory:hasItem("cube_chip")	
+			chip = inventory:getFirstItemOfType("cube_chip")	
 		end
+		
 		return false
 	end,
 	onCanRun = function(item)
@@ -51,13 +51,23 @@ ITEM.functions.Extract = {
 	icon = "icon16/delete.png",
 	onRun = function(item)
 		local client = item.player
+		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local chipcount = item:getData("chipcount")
-		if (chipcount > 0 and inventory:findEmptySlot(1, 1) != nil) then
-			inventory:add("cube_chip", 1)
-			item:setData("chipcount", item:getData("chipcount") - 1)
-			item.player:EmitSound("ambient/materials/dinnerplates1.wav")
+		
+		local chipcount = item:getData("chipcount", 0)
+		
+		if (chipcount > 0) then
+			client:requestString("Split", "", function(text)	
+				amount = math.Clamp(tonumber(text), 1, 25)
+				
+				item:setData("chipcount", chipcount - amount)
+
+				inventory:addSmart("cube_chip", amount, position)
+				
+				client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
+			end, 1)
 		end
+		
 		return false
 	end,
 	onCanRun = function(item)
@@ -76,5 +86,5 @@ function ITEM:getDesc()
 	else
 		str = "A small bag with dozens of small pouches within it."
 	end
-	return Format(str, (self:getData("chipcount")))
+	return Format(str, (self:getData("chipcount", 0)))
 end

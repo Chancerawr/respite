@@ -7,8 +7,9 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.material = "models/props_c17/furniturefabric003a"
 
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_cloth"
+ITEM.salvItem = {
+	["j_scrap_cloth"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, -1, 200),

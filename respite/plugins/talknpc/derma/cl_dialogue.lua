@@ -86,12 +86,12 @@ if CLIENT then
 					timer.Simple( math.Rand( PLUGIN.chatDelay.min, PLUGIN.chatDelay.max ), function()
 						if self:IsValid() then
 							self.talking = false
-							self:AddChat( self.name, self.dialogue.npc[ k ] )
+							self:AddChat( self.name, self.dialogue.npc[k] )
 						end
 					end)
 				else
 					-- special dialogue hook.
-					netstream.Start("nut_DialogueMessage", { name = self.name, request = k} )
+					netstream.Start("nut_DialogueMessage", {name = self.name, request = k})
 					
 					self.talking = true
 				end
@@ -458,7 +458,6 @@ function PANEL:SetEntity( entity )
 					factionData[k] = true
 				end
 			end
-			
 			
 			local bodyGroups = {}
 			for k, v in pairs(self.groups) do

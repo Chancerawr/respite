@@ -1,5 +1,5 @@
 ITEM.name = "CR-1CK"
-ITEM.desc = "Fully automatic carbine variant of the CR-0CK. Features a high firerate, and then an experimental motorized burst mode with an even higher firerate. No, we're not joking.\nThis weapon utilizes 5.56x39mm rounds."
+ITEM.desc = "Fully automatic carbine variant of the CR-0CK. Features a high firerate, and then an experimental motorized burst mode with an even higher firerate. No, we're not joking."
 ITEM.model = "models/weapons/tfa_w_fg42.mdl"
 ITEM.material = "models/props_canal/canal_bridge_railing_01b"
 ITEM.class = "tfa_cr1ck"

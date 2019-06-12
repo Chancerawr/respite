@@ -8,7 +8,7 @@ ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 8.5),
@@ -23,7 +23,7 @@ ITEM.functions.Cleanse = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local water = inventory:hasItem("food_water") or inventory:hasItem("food_water_mountain") or inventory:hasItem("food_blood")
+		local water = inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_water_mountain") or inventory:getFirstItemOfType("food_blood")
 		
 		if (!water) then
 			client:notify("You need bottled water to do this.") 
@@ -77,13 +77,13 @@ ITEM.functions.Cleanse = {
 }
 
 ITEM.functions.Shard = {
-	icon = "icon16/bell.png",
+	icon = "icon16/pill.png",
 	sound = "ambient/levels/canals/windchime2.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local shard = inventory:hasItem("shard")
+		local shard = inventory:getFirstItemOfType("shard")
 		
 		if (!shard) then
 			client:notify("You need a shard to do this.") 
@@ -95,19 +95,20 @@ ITEM.functions.Shard = {
 		
 		nut.item.spawn("medical_purge", position)
 		nut.item.spawn("medical_purge", position)
+		nut.item.spawn("medical_purge", position)
 
 		return false
 	end
 }
 
 ITEM.functions.Blight = {
-	icon = "icon16/bell.png",
+	icon = "icon16/bullet_black.png",
 	sound = "ambient/levels/canals/windchime4.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local blight = inventory:hasItem("blight")
+		local blight = inventory:getFirstItemOfType("blight")
 		
 		if (!blight) then
 			client:notify("You need blight to do this.") 
@@ -118,19 +119,20 @@ ITEM.functions.Blight = {
 		nut.chat.send(client, "itclose", "The blight seeps into the object, and it chimes quietly.\nA pill bottle comes out of the object.")
 
 		nut.item.spawn("drug_antipsychotics", position)
+		nut.item.spawn("drug_antipsychotics", position)
 		
 		return false
 	end
 }
 
 ITEM.functions.Ichor = {
-	icon = "icon16/bell.png",
+	icon = "icon16/bullet_white.png",
 	sound = "ambient/levels/canals/windchime5.wav",
 	onRun = function(item)
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local ichor = inventory:hasItem("ichor")
+		local ichor = inventory:getFirstItemOfType("ichor")
 		
 		if (!ichor) then
 			client:notify("You need ichor to do this.") 
@@ -156,13 +158,10 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
-		nut.item.spawn("drug_antipsychotics", position)
-		nut.item.spawn("drug_antipsychotics", position)
-		nut.item.spawn("drug_antipsychotics", position)
-		nut.item.spawn("drug_antipsychotics", position)
+		nut.item.spawn("nightmare", position)
 		
 		inventory:add("j_battery_dead")
 		
@@ -173,8 +172,10 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }

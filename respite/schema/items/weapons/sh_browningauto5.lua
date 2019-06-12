@@ -1,5 +1,5 @@
 ITEM.name = "Browning Auto 5"
-ITEM.desc = "An American produced, recoil operated semi-automatic shotgun, hailing from the closing days of the 'Wild West'.\nThis weapon utilizes 12 gauge shells."
+ITEM.desc = "An American produced, recoil operated semi-automatic shotgun, hailing from the closing days of the 'Wild West'."
 ITEM.class = "tfa_browningauto5"
 ITEM.weaponCategory = "primary"
 ITEM.model = "models/weapons/tfa_w_browning_auto.mdl"

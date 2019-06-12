@@ -10,7 +10,7 @@ ITEM.container = "j_empty_soda_can"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attribBoosts = { 
-	["endurance"] = 4,
+	["end"] = 4,
 	["stm"] = 1, 
 }
 

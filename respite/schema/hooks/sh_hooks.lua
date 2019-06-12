@@ -51,3 +51,24 @@ function playerMeta:requestQuery(question, title, callback, default)
 
 	netstream.Start(self, "strQue", time, question, title, default)
 end
+
+local ITEM = nut.meta.item
+function ITEM:getOwner()
+	local inventory = nut.inventory.instances[self.invID]
+
+	if(self.player) then
+		return self.player
+	end
+	
+	if (inventory) then
+		return inventory:getRecipients()[1]
+	end
+
+	local id = self:getID()
+	for _, v in ipairs(player.GetAll()) do
+		local character = v:getChar()
+		if (character and character:getInv().items[id]) then
+			return v
+		end
+	end
+end

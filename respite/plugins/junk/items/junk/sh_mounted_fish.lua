@@ -6,8 +6,6 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 2
 
-ITEM.data = { scrapamount = 1 }
-
 ITEM.salvItem = {
 	["j_scrap_wood"] = 2,
 	["j_scrap_organics"] = 1

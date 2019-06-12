@@ -10,25 +10,27 @@ local PANEL = {}
 		self:MakePopup()
 		self:Center()
 
+		--[[
 		local noticeBar = self:Add("nutNoticeBar")
 		noticeBar:Dock(TOP)
 		noticeBar:setType(4)
 		noticeBar:setText(L("stashTip"))
 		noticeBar:DockMargin(3, 0, 3, 5)
+		--]]
 
 		self.stash = self:Add("nutStashItemList")
 		self.stash:Dock(LEFT)
 		self.stash:SetWide(self:GetWide() * 0.5 - 7)
 		self.stash:SetDrawBackground(true)
 		self.stash:DockMargin(0, 0, 5, 0)
-		self.stash.action:SetText(L"stashOut")
+		self.stash.action:SetText("Out")
 
 		self.inv = self:Add("nutStashItemList")
 		self.inv:Dock(RIGHT)
 		self.inv:SetWide(self:GetWide() * 0.5 - 7)
 		self.inv:SetDrawBackground(true)
 		self.inv.title:SetText(LocalPlayer():Name())
-		self.inv.action:SetText(L"stashIn")
+		self.inv.action:SetText("In")
 
 		self.stash.action.DoClick = function()
 			local selectedItem = nut.gui.stash.activeItem
@@ -51,12 +53,12 @@ local PANEL = {}
 	function PANEL:setStash()
 		local char = LocalPlayer():getChar()
 
-		self.stash.title:SetText(L("stash", char:getStashCount(), nut.config.get("maxStash")))
+		self.stash.title:SetText("Stash: (" ..char:getStashCount().."/"..nut.config.get("maxStash")..")")
 
 		self.stash.items:Clear()
 		self.inv.items:Clear()
 
-		self:SetTitle(L("stashMenu"))
+		self:SetTitle("")
 
 		for k, v in pairs(char:getInv():getItems()) do
 			if (v.base == "base_bags") then

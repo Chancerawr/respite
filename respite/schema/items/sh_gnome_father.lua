@@ -9,7 +9,6 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Gnomes"
 ITEM.color = Color(255, 140, 20)
-ITEM.data = { producing2 = 0 }
 
 ITEM.iconCam = {
 	pos = Vector(280.39529418945, 236.86444091797, 184.78364562988),
@@ -24,8 +23,7 @@ ITEM.functions.Gnome = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("j_gnome")
-			
+		local object = inventory:getFirstItemOfType("j_gnome")
 			
 		local gnomeUpgrades = { --drops pretty much any gnome item
 			"gnome_crafty",
@@ -43,17 +41,11 @@ ITEM.functions.Gnome = {
 			
 		--inventory:add(table.Random(gnomeUpgrades), 1, { customName = object:getName(), customCol = object:getData("customCol", nut.config.get("color") )})
 		
-		local oName = object:getData("customName", object:getName())
-		local oCol = object:getData("customCol", nut.config.get("color"))
-		
-		nut.item.spawn(table.Random(gnomeUpgrades), position,
-			function(item2)
-				item2:setData("customName", oName)
-				item2:setData("customCol", oCol)
-			end
-		)
+		local customData = object:getData("custom", {})
 		
 		object:remove()
+		
+		inventory:addSmart(table.Random(gnomeUpgrades), 1, position, {custom = customData})
 		
 		nut.chat.send(client, "itclose", "The gnome in front of " .. item:getName() .. " is changed somehow.")	
 		
@@ -62,9 +54,11 @@ ITEM.functions.Gnome = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("j_gnome") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("j_gnome") then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 

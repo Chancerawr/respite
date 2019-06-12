@@ -1,5 +1,5 @@
 ITEM.name = "HK USP"
-ITEM.desc = "A German made, semi-automatic handgun. Accurate, reliable, and very expensive.\nThis weapon utilizes 9x19mm rounds."
+ITEM.desc = "A German made, semi-automatic handgun. Accurate, reliable, and very expensive."
 ITEM.model = "models/weapons/tfa_w_pist_fokkususp.mdl"
 ITEM.class = "tfa_usp"
 ITEM.weaponCategory = "sidearm"

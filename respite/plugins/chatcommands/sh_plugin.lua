@@ -4,7 +4,6 @@ PLUGIN.author = "Chancer"
 PLUGIN.desc = "Screaming, long ranged /me, long ranged /it, etc."
 
 --overwriting default commands needs to be done in sh_chatbox, so this is for new things
-
 -- scream out loud.
 nut.chat.register("s", {
 	format = "%s screams \"%s\"",
@@ -245,7 +244,7 @@ nut.chat.register("itclose", {
 		chat.AddText(texCol, "**"..text)		
 	end,
 	onCanHear = nut.config.get("chatRange", 280) * 0.25,
-	prefix = {"/itclose", "itw"},
+	prefix = {"/itclose", "/itw"},
 	font = "nutChatFontItalics",
 	filter = "actions",
 	deadCanChat = true

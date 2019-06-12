@@ -8,10 +8,6 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.maxstack = 40
 
-ITEM.data = {
-	Amount = 1
-}
-
 ITEM.iconCam = {
 	pos = Vector(82.60001373291, 70.64037322998, 52.150852203369),
 	ang = Angle(25, 220, 0),

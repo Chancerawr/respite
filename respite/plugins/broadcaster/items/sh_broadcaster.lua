@@ -53,5 +53,5 @@ ITEM.functions.toggle = { -- sorry, for name order.
 		item.player:EmitSound("buttons/button14.wav", 70, 150)
 
 		return false
-	end,
+	end
 }

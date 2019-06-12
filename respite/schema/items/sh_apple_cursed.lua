@@ -1,8 +1,8 @@
 ITEM.name = "Cursed Apple"
+ITEM.desc = "A spherical green fruit, this one glows in the dark."
 ITEM.uniqueID = "food_apple_cursed"
 ITEM.model = "models/props/de_inferno/crate_fruit_break_gib2.mdl"
 ITEM.material = "models/props_lab/xencrystal_sheet"
-ITEM.desc = "A spherical green fruit, this one glows in the dark."
 ITEM.price = 1
 ITEM.flag = "v"
 ITEM.color = Color(20, 100, 20)
@@ -37,17 +37,14 @@ ITEM.functions.Consume = {
 		local ranAttrib = attribs[math.random(0,7)]
 		
 		if(roll > 60) then --60% chance (without luck factor)
-			client:notify("The apple is delicious, you feel like you have become better.")
+			client:notify("The apple is delicious, you feel like you've become something more.")
 			char:updateAttrib(ranAttrib, 1)
 		else
 			client:notify("The apple is rotten to the core, you feel like you lost something.")
 			char:updateAttrib(ranAttrib, -1.05)
 		end
 	end,
-	onCanRun = function(item)
-		--prevents people accidentally eating it when it's on the ground.
-		if(IsValid(item.entity)) then
-			return false
-		end
+	onCanRun = function(item)		
+		return (!IsValid(item.entity))
 	end
 }

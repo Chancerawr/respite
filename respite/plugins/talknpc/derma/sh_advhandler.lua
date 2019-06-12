@@ -46,7 +46,7 @@ local function questHandle(client, data, panel)
 				quests[data.quest] = nil
 				
 				for k, v in pairs(QUESTS.quests[data.quest].required) do
-					local required = inventory:hasItem(k)
+					local required = inventory:getFirstItemOfType(k)
 				
 					if (required:getData("Amount")) then
 					
@@ -54,7 +54,7 @@ local function questHandle(client, data, panel)
 				
 					for i = 1, v do
 						required:remove()
-						required = inventory:hasItem(k)
+						required = inventory:getFirstItemOfType(k)
 					end
 				end
 				
@@ -133,16 +133,28 @@ PLUGIN.SpecialCall =
 	},
 	
 	["vendor"] = {
-		sv = function( client, data )
+		sv = function(client, data)
+			local vendor = client.nutVendor
+			vendor.receivers[#vendor.receivers + 1] = client
+
+			nut.log.add(client, "vendorAccess", vendor:getNetVar("name"))
+			
+			-- Finally, send the vendor state to the activator.
+			hook.Run("PlayerAccessVendor", client, vendor)
 		
 			return data -- MUST RETURN DATA
 		end,
-		cl = function( client, panel, data )
+		cl = function(client, panel, data)
 			timer.Simple(2, function()
 				if(IsValid(panel)) then
+					--[[
 					local entity = panel.entity
 				
-					netstream.Start("nut_vendorMenuEX", {entity, LocalPlayer()})
+					--netstream.Start("nut_vendorMenuEX", {entity, LocalPlayer()})
+					nutVendorEnt = entity
+					hook.Run("VendorOpened", entity)
+					--]]
+					
 					panel:Close()
 				end
 			end)

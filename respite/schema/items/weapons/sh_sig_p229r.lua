@@ -1,20 +1,5 @@
---[[
-    NutScript is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    NutScript is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with NutScript.  If not, see <http://www.gnu.org/licenses/>.
---]]
-
 ITEM.name = "SIG Sauer P229R"
-ITEM.desc = "A semi-automatic pistol, smaller in size for easier concealment. Similar to the standard model P229, only with the addition of a frame-mounted accessory rail, and a lacking of it's manual decocker.\nThis weapon utilizes 9x19mm rounds."
+ITEM.desc = "A semi-automatic pistol, smaller in size for easier concealment. Similar to the standard model P229, only with the addition of a frame-mounted accessory rail, and a lacking of it's manual decocker."
 ITEM.model = "models/weapons/tfa_w_sig_229r.mdl"
 ITEM.class = "tfa_sig_p229r"
 ITEM.uniqueID = "tfa_sig_p229r"

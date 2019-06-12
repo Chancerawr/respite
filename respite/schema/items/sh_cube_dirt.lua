@@ -8,7 +8,7 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Miscellaneous"
-ITEM.color = Color(165, 42, 42)
+ITEM.color = Color(80, 50, 50)
 
 ITEM.iconCam = {
 	ang = Angle(0, 270, 0),
@@ -23,7 +23,8 @@ ITEM.functions.Dig = {
 		local client = item.player
 		local char = client:getChar()
 		local inventory = char:getInv()
-		local shovel = inventory:hasItem("hl2_m_shovel_alt") or inventory:hasItem("hl2_m_shovel")
+		local shovel = inventory:getFirstItemOfType("hl2_m_shovel_alt") or inventory:getFirstItemOfType("hl2_m_shovel")
+		local position = client:getItemDropPos()
 		
 		if (!shovel) then
 			client:notify("You need a shovel to dig in this dirt.") return false
@@ -40,13 +41,21 @@ ITEM.functions.Dig = {
 			char:giveMoney(roll/2)
 		elseif(roll < 75) then
 			client:notify("You receive some buried memories.")
-			inventory:add("j_scrap_memory", 1, { Amount = 5 })
+			--inventory:add("j_scrap_memory", 1, { Amount = 5 })
+			
+			local reward = "j_scrap_memory"
+			
+			inventory:addSmart(reward, 5, position)
 		elseif(roll < 95) then
 			client:notify("You dig up some cheese?")
-			inventory:add("food_cheese", 2)
+			local reward = "food_cheese"
+			
+			inventory:addSmart(reward, 2, position)
 		else
 			client:notify("You receive a strange device.")
-			inventory:add("mister", 1)
+			local reward = "mister"
+			
+			inventory:addSmart(reward, 1, position)
 		end
 	end
 }

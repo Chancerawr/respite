@@ -9,7 +9,7 @@ ITEM.width = 4
 ITEM.height = 2
 ITEM.price = 0
 ITEM.flag = "v"
-ITEM.category = "Weapons - Misc"
+ITEM.category = "Weapons - Scavenger"
 
 ITEM.iconCam = {
 	pos = Vector(18, 200, 1.5),

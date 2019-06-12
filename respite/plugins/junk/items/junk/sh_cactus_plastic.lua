@@ -7,11 +7,12 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 1
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
 	fov = 4.5,
 }
-
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_plastics"

@@ -1,5 +1,5 @@
 FACTION.name = "Drifter"
-FACTION.desc = "Not all who wander are lost, but you definitely are."
+FACTION.desc = "A lost and stranded human being."
 FACTION.color = Color(25, 128, 25)
 
 FACTION.models = {
@@ -100,7 +100,7 @@ FACTION.models = {
 	"models/tnb/citizens/male_96.mdl",
 	"models/tnb/citizens/male_97.mdl",
 	"models/tnb/citizens/male_98.mdl",
-	"models/tnb/citizens/female01.mdl",
+	"models/tnb/citizens/female_01.mdl",
 	"models/tnb/citizens/female_02.mdl",
 	"models/tnb/citizens/female_03.mdl",
 	"models/tnb/citizens/female_04.mdl",

@@ -1,5 +1,5 @@
 ITEM.name = "WR-0NS"
-ITEM.desc = "A fully automatic SMG made out of various scrap parts. It features a drum-magazine capable of holding up to seventy two bullets at a time. Medium weight parts paired with the low calibre ammunition ensures this weapon has little to no recoil.\nThis variant features a silencer.\nThis weapon utilizes .22 LR rounds."
+ITEM.desc = "A fully automatic SMG made out of various scrap parts. It features a drum-magazine capable of holding up to seventy two bullets at a time. Medium weight parts paired with the low calibre ammunition ensures this weapon has little to no recoil.\nThis variant features a silencer."
 ITEM.model = "models/weapons/tfa_w_hk_ump45.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_wr0ns"

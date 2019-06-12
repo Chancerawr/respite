@@ -188,7 +188,7 @@ else
 			if (id) then
 				item = nut.item.instances[id]
 			else
-				item = inv:hasItem("comm_signal")
+				item = inv:getFirstItemOfType("comm_signal")
 			end
 
 			local ent = item:getEntity()
@@ -208,7 +208,7 @@ else
 			local inv = client:getChar():getInv()
 
 			if (inv) then
-				item = inv:hasItem("comm_signal")
+				item = inv:getFirstItemOfType("comm_signal")
 
 				if (item) then
 					item:setData("freq", arguments[1], nil, nil, true)

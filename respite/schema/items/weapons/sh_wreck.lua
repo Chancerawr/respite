@@ -1,5 +1,5 @@
 ITEM.name = "WR-ECK"
-ITEM.desc = "A semi-automatic rifle made out of various scrap parts. This particular firearm features a double magazine and trigger system. Each firing mechanism operates a separate magazine.\nThis weapon utilizes 5.7x28mm rounds."
+ITEM.desc = "A semi-automatic rifle made out of various scrap parts. This particular firearm features a double magazine and trigger system. Each firing mechanism operates a separate magazine."
 ITEM.model = "models/weapons/tfa_w_fn_fal.mdl"
 ITEM.material = "models/props_wasteland/tugboat02"
 ITEM.class = "tfa_wreck"

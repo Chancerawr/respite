@@ -6,8 +6,9 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_cloth"
+ITEM.salvItem = {
+	["j_scrap_cloth"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 0),

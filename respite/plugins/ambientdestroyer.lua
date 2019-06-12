@@ -6,13 +6,12 @@ nut.config.add("ambienceOff", false, "Whether or not to kill ambient sound entit
 	category = "Map"
 })
 
-
 function PLUGIN:Think()
 	if(nut.config.get("ambienceOff", false)) then
 		if((!self.cleanedSounds)) then
 			local list = ents.FindByClass("ambient_generic")
 			for k, v in pairs(list) do
-				--SafeRemoveEntity(v)
+				SafeRemoveEntity(v)
 			end
 			
 			list = ents.FindByClass("env_soundscape_triggerable")

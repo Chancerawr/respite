@@ -67,7 +67,8 @@ if (SERVER) then
 				
 				items = v.items,
 				money = v.money,
-				scale = v.scale
+				scale = v:getNetVar("scale"),
+				flag = v:getNetVar("flag"),
 			}
 		end
 			
@@ -75,6 +76,11 @@ if (SERVER) then
 	end
 
 	function PLUGIN:LoadData()
+		for k, v in ipairs(ents.FindByClass("nut_talker")) do
+			v.nutIsSafe = true
+			v:Remove()
+		end
+	
 		for k, v in ipairs(self:getData() or {}) do
 			local entity = ents.Create("nut_talker")
 			entity:SetPos(v.pos)
@@ -93,7 +99,8 @@ if (SERVER) then
 			
 			entity.items = v.items or {}
 			entity.money = v.money
-			entity.scale = v.scale or 0.5
+			entity:setNetVar("scale", v.scale or 0.5)
+			entity:setNetVar("flag", v.flag)
 			
 			if(v.groups) then
 				applyGroups(entity, v.groups)

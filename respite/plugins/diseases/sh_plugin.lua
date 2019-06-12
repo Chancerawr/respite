@@ -133,20 +133,12 @@ if (SERVER) then
 	function PLUGIN:PlayerLoadedChar(client)
 		local char = client:getChar()
 		
-		--this is to update older characters with older diseases. You don't need it if you never used the older system.
-		for k, v in pairs(DISEASES.diseases) do
-			if(char:getData(v.uid)) then
-				giveDisease(client, v.uid)
-				char:setData(v.uid, nil)
-			end
-		end
-		
 		local disData = char:getData("diseases", {})
 		for k, v in pairs(disData) do
 			if(v) then
 				v = CurTime() --set disease at the start again, just a safety measure mostly.
 				
-				local disTable = DISEASES.diseases[k]
+				local disTable = DISEASES.diseases[k] or {}
 				if(disTable.buff) then --reapply buffs/debuffs
 					for k2, v2 in pairs(disTable.buff) do
 						char:addBoost(disTable.uid, k2, v2)
@@ -244,6 +236,8 @@ if (SERVER) then
 	function giveDisease(client, disease)
 		local char = client:getChar()
 		
+		if(!char) then return false end
+		
 		local disData = char:getData("diseases", {})
 		disData[disease] = CurTime()
 		
@@ -327,6 +321,12 @@ nut.command.add("diseaseremove", {
 	adminOnly = true,
 	syntax = "<string target> <string disease>",
 	onRun = function(client, arguments)
+		if(!arguments[1] or !arguments[2]) then
+			client:notify("Invalid arguments.")
+		
+			return false
+		end
+	
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
 		if(target) then

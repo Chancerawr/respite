@@ -45,7 +45,8 @@ Temporary Things (Like Maps)
 --]]
 
 215338015, --rp_v_torrington content
-374492855, --rp_nexusgrad_v1_winter
+1458634097, --rp_radar content
+1458627591 --rp_radar
 
 }
 
@@ -61,17 +62,13 @@ function SCHEMA:OnCharCreated(client, character)
 	
 		if (character:getFaction() == FACTION_DRIFTER) then
 			items = {
-				"book_newchar",
-				"book_combat"
-			}		
-		elseif (character:getFaction() == FACTION_SURVIVOR) then
-			items = {
-				"book_combat"
+				"book_newchar"
 			}
+		elseif (character:getFaction() == FACTION_SURVIVOR) then
+
 		elseif (character:getFaction() == FACTION_PLASTIC) then
 			items = {
-				"book_newchar_plastic",
-				"book_combat"
+				"book_newchar_plastic"
 			}
 
 			local traitData = character:getData("traits", {})
@@ -79,7 +76,6 @@ function SCHEMA:OnCharCreated(client, character)
 			character:setData("traits", traitData, false, player.GetAll())
 		elseif (character:getFaction() == FACTION_ABER) then
 			items = {
-				"book_combat",
 				"food_banana"
 			}
 		end
@@ -120,21 +116,40 @@ function SCHEMA:Initialize()
 	game.ConsoleCommand("sv_allowcslua 0\n");
 end
 
-function SCHEMA:ScalePlayerDamage(client, hitGroup, dmgInfo)
-	local attacker = dmgInfo:GetAttacker()
-	if(attacker and attacker:IsPlayer()) then
-		if(dmgInfo:GetDamageType() == DMG_SLASH) then
-			dmgInfo:ScaleDamage(.1)
-		else
-			dmgInfo:ScaleDamage(.5)
-		end
-	else
-		dmgInfo:ScaleDamage(1.5)
+function SCHEMA:PostPlayerLoadout(client)
+	-- Reload All Attrib Boosts
+	local char = client:getChar()
 
-		if (hitGroup == HITGROUP_HEAD) then
-			dmgInfo:ScaleDamage(7)
-		elseif (LIMB_GROUPS[hitGroup]) then
-			dmgInfo:ScaleDamage(0.5)
+	if (char:getInv()) then
+		for k, v in pairs(char:getInv():getItems()) do
+			v:call("onLoadout", client)
+
+			--[[
+			if (v:getData("equip")) then
+				if (v.attribBoosts) then
+					for k2, v2 in pairs(v.attribBoosts) do
+						char:addBoost(v.uniqueID, k2, v2)
+					end
+				end
+			end
+			--]]
+			
+			if (v:getData("equip", false) and (v.attribBoosts or v:getData("attrib", nil))) then
+				local temp = {}
+				--combines both boost lists
+				local customBoosts = v:getData("attrib", {})
+				for k2, v2 in pairs(v.attribBoosts or {}) do
+					temp[k2] = v2
+				end
+				
+				for k2, v2 in pairs(customBoosts) do
+					temp[k2] = (temp[k2] or 0) + v2
+				end
+			
+				for k2, v2 in pairs(temp) do
+					char:addBoost(v.uniqueID, k2, v2)
+				end
+			end
 		end
 	end
 end
@@ -147,3 +162,10 @@ function SCHEMA:Think()
 		self.NextDBRefresh = CurTime() + 10
 	end
 end
+
+netstream.Hook("strReq", function(client, time, text)
+	if (client.nutStrReqs and client.nutStrReqs[time]) then
+		client.nutStrReqs[time](text)
+		client.nutStrReqs[time] = nil
+	end
+end)

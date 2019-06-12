@@ -1,5 +1,5 @@
 ITEM.name = "HK UMP45"
-ITEM.desc = "An updated, modern successor to the MP5.\nThis weapon utilizes .45 ACP rounds."
+ITEM.desc = "An updated, modern successor to the MP5."
 ITEM.model = "models/weapons/tfa_w_hk_ump45.mdl"
 ITEM.class = "tfa_ump45"
 ITEM.weaponCategory = "sidearm"

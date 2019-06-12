@@ -23,5 +23,5 @@ ITEM.functions.Deplay = {
 		phys:AddAngleVelocity( client:GetAimVector() * item.throwforce  )
 
 		return true
-	end,
+	end
 }

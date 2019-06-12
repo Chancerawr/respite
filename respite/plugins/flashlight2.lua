@@ -386,7 +386,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 				return false
 			end
 
-			local item = character:getInv():hasItem("flashlight") or character:getInv():hasItem("flashlight_shard")
+			local item = character:getInv():getFirstItemOfType("flashlight") or character:getInv():getFirstItemOfType("flashlight_shard")
 			
 			if (!item) then
 				return false

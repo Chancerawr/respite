@@ -52,7 +52,7 @@ ITEM.functions.Infuse = {
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
-		local dust = client:getChar():getInv():hasItem("shard_dust")
+		local dust = client:getChar():getInv():getFirstItemOfType("shard_dust")
 		client:requestString("Infuse", "Are you sure you want to shard infuse this weapon?",
 		function(text)
 			if(dust:getData("Amount")) then
@@ -72,7 +72,7 @@ ITEM.functions.Infuse = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("shard_dust")
+		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("shard_dust")
 	end
 }
 
@@ -81,7 +81,7 @@ ITEM.functions.Blight = {
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
-		local dust = client:getChar():getInv():hasItem("blight")
+		local dust = client:getChar():getInv():getFirstItemOfType("blight")
 		client:requestString("Blight", "Are you sure you want to blight this weapon?",
 		function(text)
 			dust:remove()
@@ -95,7 +95,7 @@ ITEM.functions.Blight = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (item:getData("infused") == nil) and client:getChar():getInv():hasItem("blight")
+		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("blight")
 	end
 }
 
@@ -104,7 +104,7 @@ ITEM.functions.Paint = {
 	icon = "icon16/color_swatch.png",
 	onRun = function(item)
 		local client = item.player
-		local paint = client:getChar():getInv():hasItem("j_paint_can")
+		local paint = client:getChar():getInv():getFirstItemOfType("j_paint_can")
 		local paintCol = paint:getData("paint", "white")
 		client:requestString("Paint", "Are you sure you want to paint this grenade " ..paintCol.."?",
 			function(text)
@@ -117,7 +117,7 @@ ITEM.functions.Paint = {
 	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
-		return (client:getChar():getInv():hasItem("j_paint_can"))
+		return (client:getChar():getInv():getFirstItemOfType("j_paint_can"))
 	end
 }
 

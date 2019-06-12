@@ -8,7 +8,6 @@ ITEM.flag = "v"
 ITEM.color = Color(35, 140, 35)
 ITEM.duration = 360
 
-
 ITEM.functions._use = { 
 	name = "Use",
 	tip = "useTip",
@@ -53,25 +52,14 @@ ITEM.functions._use = {
 	end
 }
 
-
-local quality = {}
-quality[0] = "Terrible"
-quality[1] = "Awful"
-quality[2] = "Bad"
-quality[3] = "Poor"
-quality[4] = "Normal"
-quality[5] = "Decent"
-quality[6] = "Good"
-quality[7] = "Great"
-quality[8] = "Excellent"
-quality[9] = "Master"
-quality[10] = "Perfect"
-
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
-	if(self:getData("quality") != nil) then
-		desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
+	if(!partial) then
+		local customData = self:getData("custom", {})
+		if(customData.quality) then
+			desc = desc .. "\nQuality: " ..customData.quality
+		end
 	end
 	
 	return Format(desc)

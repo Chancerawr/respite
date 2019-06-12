@@ -329,7 +329,7 @@ RECIPE.model = Model( "models/Items/boxsrounds.mdl" )
 RECIPE.desc = "Makeshift 9x19mm ammo made from scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 10,
+	["j_scrap_metals"] = 12,
 	["cube_chip"] = 2
 }
 RECIPE.result = {
@@ -345,7 +345,7 @@ RECIPE.model = Model( "models/Items/boxsrounds.mdl" )
 RECIPE.desc = "Makeshift .22 LR Ammo made from scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 10,
+	["j_scrap_metals"] = 12,
 	["cube_chip"] = 1
 }
 RECIPE.result = {
@@ -361,7 +361,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift .45 ACP ammo made from scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 12,
+	["j_scrap_metals"] = 14,
 	["cube_chip"] = 2
 }
 RECIPE.result = {
@@ -377,7 +377,7 @@ RECIPE.model = Model( "models/items/357ammo.mdl" )
 RECIPE.desc = "Makeshift .40 S&W ammo made from scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 10,
+	["j_scrap_metals"] = 12,
 	["cube_chip"] = 2
 }
 RECIPE.result = {
@@ -393,7 +393,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift 5.7x28mm ammo made from scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 12,
+	["j_scrap_metals"] = 14,
 	["cube_chip"] = 2
 }
 RECIPE.result = {
@@ -409,7 +409,7 @@ RECIPE.model = Model( "models/items/357ammo.mdl" )
 RECIPE.desc = "Makeshift .357 rounds made from scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 12,
+	["j_scrap_metals"] = 14,
 	["cube_chip"] = 3
 }
 RECIPE.result = {
@@ -420,7 +420,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_colt1911"
 RECIPE.name = "Makeshift Colt 1911"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_dmgf_co1911.mdl" )
 RECIPE.desc = "A pistol made out of scrap metal and other odds and ends."
 RECIPE.noBlueprint = true
@@ -487,7 +487,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_slamfire"
 RECIPE.name = "Slamfire Shotgun"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/props_lab/pipesystem01b.mdl" )
 RECIPE.desc = "A makeshift shotgun fashioned out of two pipes."
 RECIPE.noBlueprint = true
@@ -518,6 +518,22 @@ RECIPE.result = {
 RECIPES:Register( RECIPE )
 //
 RECIPE = {}
+RECIPE.uid = "nut_makeshift_sword_trap"
+RECIPE.name = "Trap-scrap Sword"
+RECIPE.category = "Weapons - Melee"
+RECIPE.model = Model( "models/props_c17/trappropeller_blade.mdl" )
+RECIPE.desc = "A hunk of sharpened scrap metal."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 70,
+	["j_scrap_adhesive"] = 15
+}
+RECIPE.result = {
+	["hl2_m_trapscrap"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
 RECIPE.uid = "nut_makeshift_shiv_glass"
 RECIPE.name = "Glass Shiv"
 RECIPE.category = "Weapons - Melee"
@@ -535,7 +551,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr1ka"
 RECIPE.name = "CR-1KA"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
 RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel.\nThis weapon utilizes 7.62x51mm rounds."
 RECIPE.noBlueprint = true
@@ -557,7 +573,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr1kb"
 RECIPE.name = "CR-1KB"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
 RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel.\nThis weapon utilizes 7.62x51mm rounds."
 RECIPE.noBlueprint = true
@@ -579,7 +595,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr1fa"
 RECIPE.name = "CR-1FA"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
 RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel and a short butt-stock.\nThis weapon utilizes 7.62x51mm rounds."
 RECIPE.noBlueprint = true
@@ -600,7 +616,7 @@ RECIPES:Register( RECIPE )//
 RECIPE = {}
 RECIPE.uid = "nut_cr1fb"
 RECIPE.name = "CR-1FB"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_winchester_1873.mdl" )
 RECIPE.desc = "A makeshift bolt action rifle assembled from various scraps.\nIt'd be a simple design, however a few nods from a serious designer are left in its construction.\nThis particular variant has a shorter barrel and a short butt-stock.\nThis weapon utilizes 7.62x51mm rounds."
 RECIPE.noBlueprint = true
@@ -740,7 +756,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_nailgun"
 RECIPE.name = "Makeshift Nailgun"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/warz/melee/nailgun.mdl" )
 RECIPE.desc = "A modified nailgun that can be used as a silent, very painful weapon.\nThis weapon utilizes nails."
 RECIPE.noBlueprint = true
@@ -759,7 +775,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cp1ka"
 RECIPE.name = "CP-1KA"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_dmgf_co1911.mdl" )
 RECIPE.desc = "A pistol made out of scrap parts."
 RECIPE.noBlueprint = true
@@ -824,7 +840,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr3st"
 RECIPE.name = "CR-3ST"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_g2_contender.mdl" )
 RECIPE.desc = "A compact makeshift break action single shot shotgun built from various scrap parts. Designed to give someone a compact package capable of delivering a fair kick in a stand-off situation."
 RECIPE.noBlueprint = true
@@ -846,7 +862,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_crude"
 RECIPE.name = "CR-UDE"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_colt_python.mdl" )
 RECIPE.desc = "A three round revolver made from various scrap parts. What looked like the hammer at first glance would turn out to be some strange rudimentary safety lever."
 RECIPE.noBlueprint = true
@@ -887,7 +903,7 @@ RECIPE.model = Model( "models/Items/boxbuckshot.mdl" )
 RECIPE.desc = "Makeshift 12 gauge shells made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 22,
 	["cube_chip"] = 4
 }
 RECIPE.result = {
@@ -957,7 +973,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cp1ks"
 RECIPE.name = "CP-1KS"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_hk_mp5.mdl" )
 RECIPE.desc = "A fully automatic sub-machinegun made out of various scrap parts. Even with the thick forward grip on this gun, you can feel the barrel heating up after firing for extended periods of time."
 RECIPE.noBlueprint = true
@@ -1045,6 +1061,22 @@ RECIPE.items = {
 }
 RECIPE.result = {
 	["generator_repair"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_repair"
+RECIPE.name = "Small Repair Kit"
+RECIPE.category = "Machines"
+RECIPE.model = Model("models/props_junk/cardboard_box004a.mdl")
+RECIPE.desc = "A small box filled with miscellaneous metals, disposable tools, and other odds and ends."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 10,
+	["j_scrap_screws"] = 2
+}
+RECIPE.result = {
+	["repair_kit"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -1481,7 +1513,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr33k"
 RECIPE.name = "CR-33K"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_dmg_vikhr.mdl" )
 RECIPE.desc = "A fully automatic assault rifle made out of various scrap parts. Has no real stock and is a real pain to control even with a lower rate of fire, but atleast offers. high capacity automatic rifle fire."
 RECIPE.noBlueprint = true
@@ -1569,7 +1601,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr0ck"
 RECIPE.name = "CR-0CK"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_fg42.mdl" )
 RECIPE.desc = "Semi automatic rifle made from various scrap parts. A true example of what can be achieved solely by putting your mind and efforts into junk firearms."
 RECIPE.noBlueprint = true
@@ -1759,7 +1791,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cr3t3"
 RECIPE.name = "CR-3T3"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_mossberg_590.mdl" )
 RECIPE.desc = "A pump action rifle that fires custom caseless custom concrete slug rounds. More than a strange design, and while it's not entirely apparent how it might work it makes for a fair rifle with cheap albeit heavy ammo."
 RECIPE.noBlueprint = true
@@ -1785,7 +1817,7 @@ RECIPE.model = Model( "models/Items/boxbuckshot.mdl" )
 RECIPE.desc = "Makeshift slugs made out of concrete."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_concrete"] = 10,
+	["j_scrap_concrete"] = 12,
 	["cube_chip"] = 1
 }
 RECIPE.result = {
@@ -1937,13 +1969,12 @@ RECIPE.model = Model( "models/props_junk/sawblade001a.mdl" )
 RECIPE.desc = "A single, small sawblade."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 10,
+	["j_scrap_metals"] = 12,
 	["cube_chip"] = 1
 }
 RECIPE.result = {
 	["ammo_sawblade"] = 1
 }
-RECIPES:Register( RECIPE )
 //
 RECIPE = {}
 RECIPE.uid = "nut_meat_stew"
@@ -2011,7 +2042,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_crass"
 RECIPE.name = "CR-ASS"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_pp19_bizon.mdl" )
 RECIPE.desc = "A makeshift saw-blade launcher made out of various scrap parts. While the ammo can be costly the ability to retrieve it can make a single disc worth a theoretically unlimited amount of kills."
 RECIPE.noBlueprint = true
@@ -2107,7 +2138,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_chafe"
 RECIPE.name = "CH-AFE"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/w_rocket_launcher.mdl" )
 RECIPE.desc = "A janky flamethrower that looks like a set of pipes tubes and steel cannisters connected and reinforced with bits of scrap.\nRequires both the weapon mounted tank and an external tank connected by a thick boost hose to run.\nRequires fuel to use."
 RECIPE.noBlueprint = true
@@ -2133,7 +2164,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_ch3ck"
 RECIPE.name = "CH-3CK"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/mechanics/solid_steel/box_beam_4.mdl" )
 RECIPE.desc = "Makeshift rocket-launcher. While it seems simple in core design, the munitions are probably the expensive piece. Rumoured to be named after what you should do prior to firing lest you want to blow yourself up.\nThis weapon utilizes rockets."
 RECIPE.noBlueprint = true
@@ -2266,7 +2297,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_ch43t"
 RECIPE.name = "CH-34T"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_magpul_pdr.mdl" )
 RECIPE.desc = "Heavy bullpup concrete slug carbine. Hits hard with heavy concrete slug rounds, but useless at longer range as the heavy rounds have a lot of drop."
 RECIPE.noBlueprint = true
@@ -2446,7 +2477,7 @@ RECIPE.model = Model( "models/items/357ammo.mdl" )
 RECIPE.desc = "Makeshift .44 ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 15,
+	["j_scrap_metals"] = 17,
 	["cube_chip"] = 3
 }
 RECIPE.result = {
@@ -2462,7 +2493,7 @@ RECIPE.model = Model( "models/items/357ammo.mdl" )
 RECIPE.desc = "Makeshift .50 AE ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 15,
+	["j_scrap_metals"] = 17,
 	["cube_chip"] = 4
 }
 RECIPE.result = {
@@ -2478,7 +2509,7 @@ RECIPE.model = Model( "models/items/357ammo.mdl" )
 RECIPE.desc = "Makeshift .500 ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 22,
 	["cube_chip"] = 4
 }
 RECIPE.result = {
@@ -2494,11 +2525,27 @@ RECIPE.model = Model( "models/items/sniper_round_box.mdl" )
 RECIPE.desc = "Makeshift .45-70 ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 22,
+	["j_scrap_metals"] = 24,
 	["cube_chip"] = 4
 }
 RECIPE.result = {
 	["ammo_4570"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_ammo_4570_big"
+RECIPE.name = "Large .45-70 Ammo"
+RECIPE.category = "Ammunition"
+RECIPE.model = Model( "models/items/sniper_round_box.mdl" )
+RECIPE.desc = "Makeshift .45-70 ammo made of scrap materials."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_metals"] = 50,
+	["cube_chip"] = 8
+}
+RECIPE.result = {
+	["ammo_4570_big"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -2510,7 +2557,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift 5.45x39mm ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 22,
 	["cube_chip"] = 5
 }
 RECIPE.result = {
@@ -2526,7 +2573,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift 5.56x45mm ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 22,
 	["cube_chip"] = 5
 }
 RECIPE.result = {
@@ -2542,7 +2589,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift 5.56x39mm ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 18,
+	["j_scrap_metals"] = 20,
 	["cube_chip"] = 5
 }
 RECIPE.result = {
@@ -2558,7 +2605,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift 7.62x39mm ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 22,
+	["j_scrap_metals"] = 24,
 	["cube_chip"] = 5
 }
 RECIPE.result = {
@@ -2622,7 +2669,7 @@ RECIPE.model = Model( "models/items/boxmrounds.mdl" )
 RECIPE.desc = "Makeshift .30-06 ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 22,
 	["cube_chip"] = 7
 }
 RECIPE.result = {
@@ -2654,7 +2701,7 @@ RECIPE.model = Model( "models/items/sniper_round_box.mdl" )
 RECIPE.desc = "Makeshift .408 Cheytac ammo made of scrap materials."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 22,
 	["cube_chip"] = 8
 }
 RECIPE.result = {
@@ -2811,7 +2858,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cpr05"
 RECIPE.name = "CP-R05"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_hk45c.mdl" )
 RECIPE.desc = "Classy professional looking scrap pistol. Boasts decent controllability for damage although lacking in magazine size.\nThis weapon utilizes .40 S&W rounds."
 RECIPE.noBlueprint = true
@@ -2946,7 +2993,7 @@ RECIPE.model = Model( "models/items/battery.mdl" )
 RECIPE.desc = "A single, seemingly enhanced battery."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_battery"] = 6,
+	["j_scrap_battery"] = 4,
 	["cube_chip"] = 2
 }
 RECIPE.result = {
@@ -2963,7 +3010,7 @@ RECIPE.desc = "A single, makeshift rocket."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_adhesive"] = 10,
-	["j_scrap_metals"] = 20,
+	["j_scrap_metals"] = 25,
 	["j_scrap_chems"] = 10,
 	["nut_explosivegrenade"] = 1
 }
@@ -2980,8 +3027,8 @@ RECIPE.model = Model( "models/crossbow_bolt.mdl" )
 RECIPE.desc = "Five makeshift bolts."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 5,
-	["j_scrap_wood"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_wood"] = 5,
 	["j_scrap_cloth"] = 5
 }
 RECIPE.result = {
@@ -2992,7 +3039,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_ch4rm"
 RECIPE.name = "CH-4RM"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/w_crossbow.mdl" )
 RECIPE.desc = "Makeshift power single ultra-cam compound crossbow featuring an automatic draw system. It's a wonder how most of the wooden arrows survive being fired from this thing."
 RECIPE.noBlueprint = true
@@ -3012,7 +3059,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_chalk"
 RECIPE.name = "CH-ALK"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_usas_12.mdl" )
 RECIPE.desc = "Looks like an I-beam that someone decided to use as a base for their highschool science fair project. Awkward to hold, but doesn't recoil like your typical conventional rifle.\nThis weapon utilizes batteries."
 RECIPE.noBlueprint = true
@@ -3037,7 +3084,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_ch3m0"
 RECIPE.name = "CH-3M0"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_striker_12g.mdl" )
 RECIPE.desc = "Makeshift grenade launcher made out of various scrap parts. Munitions are loaded into an internal cylindrical magazine.\nThis weapon utilizes explosive grenades."
 RECIPE.noBlueprint = true
@@ -3059,7 +3106,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_ch1l1"
 RECIPE.name = "CH-1L1"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_striker_12g.mdl" )
 RECIPE.desc = "Makeshift incendiary launcher made out of various scrap parts. Similarly to the CH-3M0 Munitions are loaded into an internal cylindrical magazine, however has a heavily modified ignition system.\nThis weapon utilizes molotov cocktails."
 RECIPE.noBlueprint = true
@@ -3081,7 +3128,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_ch3m0_fe"
 RECIPE.name = "CH-3M0-FE"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_striker_12g.mdl" )
 RECIPE.desc = "The old school scrap launcher but the barrels are replaced with very thick metal and containing a single .50 BMG each. Pretty heavy, but it comes off as a .50 BMG revolver.\nThis weapon utilizes .50 BMG rounds."
 RECIPE.noBlueprint = true
@@ -3163,7 +3210,7 @@ RECIPES:Register( RECIPE )
 RECIPE = {}
 RECIPE.uid = "nut_cpunk"
 RECIPE.name = "CP-UNK"
-RECIPE.category = "Weapons"
+RECIPE.category = "Weapons - Ranged"
 RECIPE.model = Model( "models/weapons/tfa_w_sw_model_500.mdl" )
 RECIPE.desc = "Cheap scrap concrete slug pistol. Utilizes a special case device when loading that gets more out of the ammo permitted by its breach loaded design. One handing normally will more than likely break your wrist."
 RECIPE.noBlueprint = true

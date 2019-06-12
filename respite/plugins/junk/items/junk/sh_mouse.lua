@@ -6,12 +6,11 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.data = { scrapamount = 1 }
-
 ITEM.salvItem = {
 	["j_scrap_elecs"] = 1,
 	["j_scrap_screws"] = 1,
-	["j_scrap_plastics"] = 1
+	["j_scrap_plastics"] = 1,
+	["j_scrap_metals"] = 1
 }
 
 ITEM.iconCam = {

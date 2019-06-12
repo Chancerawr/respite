@@ -8,7 +8,9 @@ ITEM.price = 3
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.attribBoosts = { ["str"] = 3 }
+ITEM.attribBoosts = {
+	["str"] = 3 
+}
 
 ITEM.iconCam = {
 	pos = Vector(63.859359741211, 54.78971862793, 38.878173828125),

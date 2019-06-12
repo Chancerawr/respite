@@ -7,7 +7,7 @@ ITEM.flag = "v"
 ITEM.width = 2
 ITEM.height = 2
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, -9),
@@ -23,7 +23,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("j_scrap_battery", position)
@@ -39,8 +39,10 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }

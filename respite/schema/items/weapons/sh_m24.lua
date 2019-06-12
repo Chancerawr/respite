@@ -1,5 +1,5 @@
 ITEM.name = "M24"
-ITEM.desc = "An accurized variant of the popular Remington 700 series of bolt-action sporting rifles.\nThis weapon utilizes 5.56x45mm rounds."
+ITEM.desc = "An accurized variant of the popular Remington 700 series of bolt-action sporting rifles."
 ITEM.model = "models/weapons/tfa_w_snip_m24_6.mdl"
 ITEM.class = "tfa_m24"
 ITEM.weaponCategory = "primary"

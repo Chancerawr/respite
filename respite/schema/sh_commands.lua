@@ -37,20 +37,42 @@ nut.command.add("chargiveitem", {
 				end
 			end
 
-			local inv = target:getChar():getInv()
-			local succ, err = target:getChar():getInv():add(uniqueID, amount or 1)
-			
-			if (succ) then
-				target:notify(nut.item.list[uniqueID].name.. " successfully given.")
-				if(target != client) then
-					client:notify(nut.item.list[uniqueID].name.. " successfully given.")
-				end
-			else
-				client:notifyLocalized(tostring(err))
-				if(target != client) then
-					target:notifyLocalized(tostring(err))
-				end
+			local notified
+			for i = 1, (amount or 1) do
+				target:getChar():getInv():add(uniqueID)
+					:next(function(res)
+						if (IsValid(target)) then
+							if(!notified) then
+								notified = true
+								target:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
+							end
+						end
+						if (IsValid(client) and client ~= target) then
+							if(!notified) then
+								notified = true
+								client:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
+							end
+						end
+					end)
+					:catch(function(err)
+						if (IsValid(client)) then
+							client:notifyLocalized(err)
+						end
+					end)
 			end
+		end
+	end
+})
+
+nut.command.add("charsetdesc", {
+	adminOnly = true,
+	syntax = "<string name> <string desc>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(target) then
+			arguments = table.concat(arguments, " ")
+			target:getChar():setDesc(arguments)
 		end
 	end
 })
@@ -59,7 +81,7 @@ nut.command.add("plasticdust", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		if(char:getFaction() != FACTION_PLASTIC) then
-			client:notifyLocalized("Only Plastics can do this.")
+			client:notify("Only Plastics can do this.")
 			return false
 		end
 
@@ -73,13 +95,15 @@ nut.command.add("plasticdust", {
 		if(lastDust and math.abs(tonumber(lastDust) - tonumber(os.date("%d"))) >= 3) then -- harvest once every 3 days.
 			char:setData("lastDust", os.date("%d"))
 			nut.item.spawn("medical_plastic", client:getItemDropPos())
-			client:notifyLocalized("You have harvested plastic dust from yourself.")
+			client:notify("You have harvested plastic dust from yourself.")
 		else
-			client:notifyLocalized("You can only harvest plastic from yourself once every 3 days.")
+			client:notify("You can only harvest plastic from yourself once every 3 days.")
 		end
 	end
 })
 
+--People abused this too much so I got rid of it.
+--[[
 nut.command.add("ammoeject", {
 	syntax = "[num amount]",
 	onRun = function(client, arguments)
@@ -127,21 +151,5 @@ nut.command.add("ammoeject", {
 		end
 	end
 })
-
---this doesn't do anything from what I can tell
---[[
-nut.command.add("syncinv", {
-	adminOnly = true,
-	syntax = "<string name>",
-	onRun = function(client, arguments)
-		local target = nut.command.findPlayer(client, arguments[1])
-		if(IsValid(target) and target:getChar()) then
-		
-			target:getChar():getInv():sync(target, true)
-			client:notifyLocalized("Inventory has been synchronized.")
-		else
-			client:notifyLocalized("Invalid Target")
-		end
-	end
-})
 --]]
+

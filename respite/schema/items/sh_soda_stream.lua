@@ -37,7 +37,7 @@ ITEM.functions.Ichor = {
 		}
 		
 		for k, v in pairs(items) do
-			food = inventory:hasItem(v)
+			food = inventory:getFirstItemOfType(v)
 			if(food) then
 				break
 			end
@@ -48,7 +48,7 @@ ITEM.functions.Ichor = {
 			return false
 		end
 		
-		local memory = inventory:hasItem("j_scrap_memory")
+		local memory = inventory:getFirstItemOfType("j_scrap_memory")
 		if(!memory) then
 			client:notify("You need a memory.")
 			return false
@@ -76,9 +76,7 @@ ITEM.functions.Ichor = {
 				timer.Simple(amount, 
 					function()
 						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-							if(!inventory:add("ichor")) then --if the inventory has space, put it in the inventory
-								nut.item.spawn("ichor", client:getItemDropPos()) --if not, drop it on the ground
-							end
+							inventory:addSmart("ichor", 1, client:getItemDropPos())
 						else --if the item is on the ground
 							nut.item.spawn("ichor", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 						end
@@ -93,7 +91,7 @@ ITEM.functions.Ichor = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local memory = player:getChar():getInv():hasItem("j_scrap_memory")
+		local memory = player:getChar():getInv():getFirstItemOfType("j_scrap_memory")
 		
 		if(!memory) then
 			return false
@@ -105,6 +103,8 @@ ITEM.functions.Ichor = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -116,7 +116,7 @@ ITEM.functions.Depress = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local depress = inventory:hasItem("drug_depress")
+		local depress = inventory:getFirstItemOfType("drug_depress")
 		if(!depress) then
 			client:notify("You need a depressant.")
 			return false
@@ -140,9 +140,7 @@ ITEM.functions.Depress = {
 				item:setData("producing", nil)
 		
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add("food_soda_depress")) then --if the inventory has space, put it in the inventory
-						nut.item.spawn("food_soda_depress", client:getItemDropPos()) --if not, drop it on the ground
-					end
+					inventory:addSmart("food_soda_depress", 1, client:getItemDropPos())
 				else --if the item is on the ground
 					nut.item.spawn("food_soda_depress", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 				end
@@ -156,7 +154,7 @@ ITEM.functions.Depress = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local depress = player:getChar():getInv():hasItem("drug_depress")
+		local depress = player:getChar():getInv():getFirstItemOfType("drug_depress")
 		
 		if(!depress) then
 			return false
@@ -168,6 +166,8 @@ ITEM.functions.Depress = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -179,7 +179,7 @@ ITEM.functions.Pickle = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local pickle = inventory:hasItem("food_pickles")
+		local pickle = inventory:getFirstItemOfType("food_pickles")
 		pickle:remove()
 		
 		client:notify("Converting has started.")
@@ -196,9 +196,7 @@ ITEM.functions.Pickle = {
 			end
 
 			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-				if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-					nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
-				end
+				inventory:addSmart(reward, 1, client:getItemDropPos())
 			else --if the item is on the ground
 				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 			end
@@ -212,7 +210,7 @@ ITEM.functions.Pickle = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local pickle = player:getChar():getInv():hasItem("food_pickles")
+		local pickle = player:getChar():getInv():getFirstItemOfType("food_pickles")
 		
 		if(!pickle) then
 			return false
@@ -224,6 +222,8 @@ ITEM.functions.Pickle = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -248,7 +248,7 @@ ITEM.functions.Juice = {
 		
 		local fruit
 		for k, v in pairs (foods) do
-			fruit = inventory:hasItem(v)
+			fruit = inventory:getFirstItemOfType(v)
 			if (fruit) then
 				break
 			end
@@ -274,11 +274,7 @@ ITEM.functions.Juice = {
 				local soda = fruit.uniqueID .. "_juice"
 				
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add(soda, cans)) then --if the inventory has space, put it in the inventory
-						for i = 1, cans do
-							nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
-						end
-					end
+					inventory:addSmart("food_soda_depress", cans, client:getItemDropPos())
 				else --if the item is on the ground
 					for i = 1, cans do
 						nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
@@ -298,6 +294,8 @@ ITEM.functions.Juice = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -322,7 +320,7 @@ ITEM.functions.Soda = {
 		
 		local fruit
 		for k, v in pairs (foods) do
-			fruit = inventory:hasItem(v)
+			fruit = inventory:getFirstItemOfType(v)
 			if (fruit) then
 				break
 			end
@@ -363,11 +361,7 @@ ITEM.functions.Soda = {
 				end
 				
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add(soda, cans)) then --if the inventory has space, put it in the inventory
-						for i = 1, cans do
-							nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
-						end
-					end
+					inventory:addSmart(soda, cans, client:getItemDropPos())
 				else --if the item is on the ground
 					for i = 1, cans do
 						nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
@@ -387,6 +381,8 @@ ITEM.functions.Soda = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -397,7 +393,7 @@ ITEM.functions.Cactus = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local cactus = inventory:hasItem("j_cactus_plant")
+		local cactus = inventory:getFirstItemOfType("j_cactus_plant")
 		
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the cactus.")	
@@ -412,9 +408,7 @@ ITEM.functions.Cactus = {
 				local soda = "food_cactus_soda"
 
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add(soda)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(soda, client:getItemDropPos()) --if not, drop it on the ground
-					end
+					inventory:addSmart("food_soda_depress", 1, client:getItemDropPos())
 				else --if the item is on the ground
 					nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 				end
@@ -427,7 +421,7 @@ ITEM.functions.Cactus = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local cactus = player:getChar():getInv():hasItem("j_cactus_plant")
+		local cactus = player:getChar():getInv():getFirstItemOfType("j_cactus_plant")
 		
 		if(!cactus) then
 			return false
@@ -439,6 +433,8 @@ ITEM.functions.Cactus = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -450,7 +446,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local battery = inventory:hasItem("ammo_battery")
+		local battery = inventory:getFirstItemOfType("ammo_battery")
 		
 		client:notifyLocalized("Converting has started.")
 		nut.chat.send(client, "itclose", "The machine accepts the battery.")	
@@ -472,9 +468,7 @@ ITEM.functions.Battery = {
 				for k, v in pairs(rewards) do
 					timer.Simple(k, function()
 						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-							if(!inventory:add(v)) then --if the inventory has space, put it in the inventory
-								nut.item.spawn(v, client:getItemDropPos()) --if not, drop it on the ground
-							end
+							inventory:addSmart(v, 1, client:getItemDropPos())
 						else --if the item is on the ground
 							nut.item.spawn(v, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 						end
@@ -489,7 +483,7 @@ ITEM.functions.Battery = {
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
-		local battery = player:getChar():getInv():hasItem("ammo_battery")
+		local battery = player:getChar():getInv():getFirstItemOfType("ammo_battery")
 
 		if(!battery) then
 			return false
@@ -501,6 +495,8 @@ ITEM.functions.Battery = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 

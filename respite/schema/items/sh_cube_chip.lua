@@ -4,6 +4,7 @@ ITEM.desc = "A thin metal chip, it is labelled 'Chip'."
 ITEM.model = "models/gibs/metal_gib4.mdl"
 ITEM.flag = "v"
 ITEM.category = "Machines"
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

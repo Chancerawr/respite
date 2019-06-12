@@ -16,6 +16,12 @@ ITEM.salvItem = {
 	["j_scrap_cloth"] = 2
 }
 
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 90),
+	fov = 20.5,
+}
+
 ITEM.functions.Place = {
 	name = "Deploy",
 	tip = "useTip",
@@ -27,11 +33,5 @@ ITEM.functions.Place = {
 		grd:SetAngles(client:GetAngles())
 		grd:Spawn()
 		grd:SetCreator(client)
-	end,
-}
-
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 90),
-	fov = 20.5,
+	end
 }

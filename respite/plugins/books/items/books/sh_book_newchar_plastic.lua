@@ -2,7 +2,7 @@ ITEM.name = "Plastic (OOC)"
 ITEM.desc = "A short introduction to a Plastic character.\nThis book is OOC."
 ITEM.price = 0
 ITEM.flag = "3"
-ITEM.value = 10
+ITEM.value = 20
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),
@@ -34,7 +34,8 @@ The immense number of plastics and plastic settlements results in much variety i
 	<br/><br/>	
 Since plastics have a variety of different beliefs and ideals, conflict is not uncommon between plastic groups. That being said, it goes without saying that plastics are not innately friendly with all other plastics. Sometimes wars are waged between two competing groups, where each group does their best to attempt to exterminate or assimilate the other. The larger of these wars have been observed to lure in abominations and other creatures, creating gruesome battles for all involved. It is best to avoid respites where such battles are taking place.
 	<br/><br/>		
-
+(For information about the server's combat system, press F2 to open extra menu, and click on Combat Guide.)
+	<br/><br/>
 </font>
 ]]
 

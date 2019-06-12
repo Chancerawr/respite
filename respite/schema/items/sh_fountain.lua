@@ -53,17 +53,14 @@ ITEM.functions.Fill = {
 	
 		local containers = {}
 		for k, v in pairs(nut.item.list) do
-			if(v.fillable) then
-				if(inventory:hasItem(v.uniqueID)) then
-					print(v.uniqueID)
-				end
+			if(v.fillable) then				
 				table.insert(containers, v.uniqueID)
 			end
 		end
 	
 		local container
 		for k, v in pairs(containers) do
-			container = inventory:hasItem(v)
+			container = inventory:getFirstItemOfType(v)
 			if(container) then
 				break
 			end
@@ -79,8 +76,8 @@ ITEM.functions.Fill = {
 		item:setData("sTime", CurTime() - timeCharge*(charges-1))
 		
 		container:remove()
-		
-		nut.item.spawn("food_water_misc", position)
+
+		inventory:addSmart("food_water_misc", 1, position)
 	
 		nut.chat.send(client, "itclose", "The container is filled with corrupted water.")	
 	
@@ -90,6 +87,8 @@ ITEM.functions.Fill = {
 		if(chargeTimer(item:getData("sTime", 0)) < 1) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -101,7 +100,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 
@@ -117,9 +116,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

@@ -1,5 +1,5 @@
 ITEM.name = "AI AW50"
-ITEM.desc = "A UK produced bolt action rifle chambered in .50BMG. Designed for anti-material and long range anti-infantry operations.\nThis weapon utilizes .50 BMG rounds."
+ITEM.desc = "A UK produced bolt action rifle chambered in .50BMG. Designed for anti-material and long range anti-infantry operations."
 ITEM.model = "models/weapons/tfa_w_acc_int_aw50.mdl"
 ITEM.class = "tfa_aw50"
 ITEM.uniqueID = "tfa_aw50"

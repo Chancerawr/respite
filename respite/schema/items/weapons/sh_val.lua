@@ -1,5 +1,5 @@
 ITEM.name = "AS VAL"
-ITEM.desc = "A Russian produced, integrally suppressed carbine. Utilized nearly exclusively by Russian SF units, internal security agencies, and Ethnic-Russian separatists.\nThis weapon utilizes 9x39mm rounds."
+ITEM.desc = "A Russian produced, integrally suppressed carbine. Utilized nearly exclusively by Russian SF units, internal security agencies, and Ethnic-Russian separatists."
 ITEM.model = "models/weapons/tfa_w_dmg_vally.mdl"
 ITEM.class = "tfa_val"
 ITEM.weaponCategory = "primary"

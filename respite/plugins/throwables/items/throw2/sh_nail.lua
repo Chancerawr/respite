@@ -26,7 +26,7 @@ ITEM.functions.Load = { -- sorry, for name order.
 		return true
 		end,
 	onCanRun = function(item)
-		if (item:getOwner() != nil and item:getOwner():getChar():getInv():hasItem("tfa_ch3m0")) then
+		if (item:getOwner() != nil and item:getOwner():getChar():getInv():getFirstItemOfType("tfa_ch3m0")) then
 			return true
 		else
 			return false

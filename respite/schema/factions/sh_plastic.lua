@@ -2,6 +2,7 @@ FACTION.name = "Plastic"
 FACTION.desc = "Life is tough when you're made of plastic."
 FACTION.color = Color(170, 170, 150)
 FACTION.isDefault = true --usually false, true since we dont have many people
+FACTION.material = "phoenix_storms/mrref2"
 
 FACTION.models = {
 "models/tnb/citizens/male_01.mdl",

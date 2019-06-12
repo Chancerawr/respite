@@ -17,7 +17,6 @@ nut.config.add("safeWidth", 4, "The width of the safe", nil, {
 })
 
 if (SERVER) then
-
 	function PLUGIN:saveBox()
 		local data = {}
 

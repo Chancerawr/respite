@@ -3,22 +3,6 @@ PLUGIN.author = "Chessnut"
 PLUGIN.desc = "Adds a chatbox that replaces the default one."
 
 if (CLIENT) then
-	NUT_CVAR_CHATALT = CreateClientConVar("nut_chatalt", 1, true, true)
-
-	function PLUGIN:SetupQuickMenu(menu)	 
-		local button = menu:addCheck("Text Outlines", function(panel, state)
-			if (state) then
-				RunConsoleCommand("fixchatplz")
-				RunConsoleCommand("nut_chatalt", "1")
-			else
-				RunConsoleCommand("fixchatplz")
-				RunConsoleCommand("nut_chatalt", "0")
-			end
-		end, NUT_CVAR_CHATALT:GetBool())
-				
-		menu:addSpacer()
-	end
-
 	NUT_CVAR_CHATFILTER = CreateClientConVar("nut_chatfilter", "", true, false)
 
 	function PLUGIN:createChat()
@@ -63,14 +47,17 @@ if (CLIENT) then
 
 		if (show) then
 			chat.nutAddText(...)
-			chat.PlaySound()
 		end
 	end
 
 	function PLUGIN:ChatText(index, name, text, messageType)
 		if (messageType == "none" and IsValid(self.panel)) then
 			self.panel:addText(text)
-			chat.PlaySound()
+			if (SOUND_CUSTOM_CHAT_SOUND and SOUND_CUSTOM_CHAT_SOUND != "") then
+				surface.PlaySound(SOUND_CUSTOM_CHAT_SOUND)
+			else
+				chat.PlaySound()
+			end
 		end
 	end
 

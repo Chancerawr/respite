@@ -24,10 +24,10 @@ ITEM.functions.Activate = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local corwater = inventory:hasItem("food_water_misc")	
+		local corwater = inventory:getFirstItemOfType("food_water_misc")	
 			
 		if (!corwater) then
-			client:notifyLocalized("You don't have any Corrupted Water!") return false
+			client:notify("You don't have any Corrupted Water!") return false
 		end
 		
 		corwater:remove()

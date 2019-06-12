@@ -42,35 +42,32 @@ nut.config.add("rockLife", 100, "How much life the rocks will have.", nil, {
 local gatherItems = {
 	["crystal"] = {
 		["default"] = {
-			["iron_ore"] = 10,
-			["coal"] = 3,
-			["sulphur"] = 3,
-			["iron_copper"] = 8
+
 		}
 	},
 	["tree"] = {
 		["default"] = {
-			["wood"] = 15
+		
 		}
 	},	
 	["tree_dark"] = {
 		["default"] = {
-			["wood"] = 15
+		
 		}
 	},
 	["car"] = {
 		["default"] = {
-			["metal"] = 15
+		
 		}
 	},
-	["portal"] = {
+	["memory"] = {
 		["default"] = {
-			["metal"] = 15
+		
 		}
 	},
 	["concrete"] = {
 		["default"] = {
-			["metal"] = 15
+		
 		}
 	}
 }
@@ -141,12 +138,6 @@ if SERVER then
 		entity:SetPos(point[1])
 		entity:setNetVar("resTable", point[3])
 		entity:SetAngles(entity:GetAngles())
-
-		if (point[2] == "rock") then
-			entity:SetModel("models/props_wasteland/rockgranite02a.mdl")
-		elseif (point[2] == "tree") then
-			entity:SetModel(getRandomModel())
-		end
 
 		entity:Spawn()
 		table.insert(self.spawnedGathers, {entity, point})

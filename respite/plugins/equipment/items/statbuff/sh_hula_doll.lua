@@ -5,9 +5,11 @@ ITEM.desc = "An old hula doll, it sways from side to side."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_plastics"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 1
+}
 
 ITEM.attribBoosts = {
 	["luck"] = 2,

@@ -5,9 +5,12 @@ ITEM.desc = "A pair of headphones."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_elecs"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_elecs"] = 1,
+	["j_scrap_plastics"] = 2,
+}
 
 ITEM.attribBoosts = {
 	["perception"] = -2,

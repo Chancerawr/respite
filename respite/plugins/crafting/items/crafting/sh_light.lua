@@ -7,10 +7,6 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.maxstack = 10
 
-ITEM.data = {
-	Amount = 1
-}
-
 ITEM.iconCam = {
 	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),
 	ang = Angle(25, 220, 0),
@@ -18,24 +14,23 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Scrap = {
-  tip = "Scrap this item",
-  icon = "icon16/cross.png",
-  onRun = function(item)
-    if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
+	tip = "Scrap this item",
+	icon = "icon16/cross.png",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local position = client:getItemDropPos()
+
 		if(math.random(0,1) == 1) then
-			item.player:getChar():getInv():add("j_scrap_elecs", 1, { Amount = item:getData("Amount") })
+			inventory:addSmart("j_scrap_elecs", 1, position, {Amount = item:getData("Amount")})
 		else
-			item.player:getChar():getInv():add("j_scrap_glass", 1, { Amount = item:getData("Amount") })
+			inventory:addSmart("j_scrap_glass", 1, position, {Amount = item:getData("Amount")})
 		end
-		item:remove()
-		return false 
-    else
-		item.player:notify("You don't have any room in your inventory!")
-		return false 
-    end
-  end,
-  onCanRun = function(item)
-	local client = item:getOwner() or item.player
-	return client:getChar():hasFlags("q") or client:getChar():getInv():hasItem("kit_salvager")
-  end
+		
+		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
+	end,
+	onCanRun = function(item)
+		local client = item:getOwner() or item.player
+		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("converter_meat")
+	end
 }

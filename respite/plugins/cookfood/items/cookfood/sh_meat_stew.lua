@@ -10,7 +10,8 @@ ITEM.height = 2
 ITEM.flag = "v"
 
 ITEM.attribBoosts = { 
-	["str"] = 10 
+	["str"] = 5,
+	["end"] = 5,
 }
 
 ITEM.iconCam = {

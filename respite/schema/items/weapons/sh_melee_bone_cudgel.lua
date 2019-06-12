@@ -10,8 +10,9 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
-ITEM.data = { scrapamount = 4 }
-ITEM.salvItem = "j_scrap_bone"
+ITEM.salvItem = {
+	["j_scrap_bone"] = 4
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, -0.5, 1.5),

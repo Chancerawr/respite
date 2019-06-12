@@ -6,9 +6,11 @@ ITEM.desc = "A beauty product."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_chems"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_chems"] = 1
+}
 
 ITEM.attribBoosts = {
 	["fortitude"] = 2,

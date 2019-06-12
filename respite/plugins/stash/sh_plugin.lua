@@ -169,7 +169,7 @@ if (SERVER) then
 		end
 
 		if (nearStash == false) then
-			client:notify(L("stashFar", client))
+			--client:notify("You are too far away from the stash.")
 			return
 		end
 
@@ -220,12 +220,12 @@ if (SERVER) then
 
 		-- If client is far away from the stash, don't do any interaction.
 		if (nearStash == false) then
-			client:notify(L("stashFar", client))
+			--client:notify(L("stashFar", client))
 			return
 		end
 
 		if (char:getStashMax() == char:getStashCount()) then
-			client:notify(L("stashFull", client))
+			client:notify("Your stash is full.")
 			return
 		end
 
@@ -234,8 +234,8 @@ if (SERVER) then
 			local clientStash = char:getStash()
 
 			-- If client is trying to put bag in the stash, reject the request.
-			if (item.base == "base_bags" or clientStash[itemID] or item:getOwner() != client) then
-				client:notify(L("stashError", client))
+			if (item.isBag or clientStash[itemID] or item:getOwner() != client) then
+				client:notify("You cannot put that into your stash.")
 				return
 			end
 
@@ -246,7 +246,7 @@ if (SERVER) then
 				char:setStash(clientStash)
 				netstream.Start(client, "stashIn")
 			else
-				client:notify(L("stashError", client))
+				client:notify("You cannot put that into your stash.")
 			end
 		end
 	end)
@@ -266,7 +266,7 @@ if (SERVER) then
 
 		-- If client is far away from the stash, don't do any interaction.
 		if (nearStash == false) then
-			client:notify(L("stashFar", client))
+			--client:notify(L("stashFar", client))
 			return
 		end
 
@@ -276,7 +276,7 @@ if (SERVER) then
 
 			-- If the activator does not owns the item, reject request.
 			if (!clientStash[itemID]) then
-				client:notify(L("stashError", client))
+				client:notify("You cannot take that out of the stash.")
 				return
 			end
 
@@ -287,7 +287,7 @@ if (SERVER) then
 				char:setStash(clientStash)
 				netstream.Start(client, "stashOut")
 			else
-				client:notify(L("stashError", client))
+				client:notify("You cannot take that out of the stash.")
 			end
 		end
 	end)

@@ -12,7 +12,7 @@ nut.util.include("sh_commands.lua")
 --nut.util.include("sh_dev.lua") -- Developer Functions
 
 nut.util.includeDir("libs")
-nut.util.includeDir("meta")
+--nut.util.includeDir("meta")
 nut.util.includeDir("hooks")
 nut.util.includeDir("derma")
 

@@ -1,5 +1,5 @@
 ITEM.name = "HK45C"
-ITEM.desc = "A compact variant of the popular HK45, designed to be easily concealed, and drawn from concealment. It's just as accurate as it's older brother.\nThis weapon utilizes .45 ACP rounds."
+ITEM.desc = "A compact variant of the popular HK45, designed to be easily concealed, and drawn from concealment. It's just as accurate as it's older brother."
 ITEM.model = "models/weapons/tfa_w_hk45c.mdl"
 ITEM.class = "tfa_hk45"
 ITEM.uniqueID = "tfa_hk45"

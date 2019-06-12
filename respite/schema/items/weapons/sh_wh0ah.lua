@@ -1,5 +1,5 @@
 ITEM.name = "WH-0AH"
-ITEM.desc = "A sleek, heavy marksman rifle made out of various scrap parts. It is only capable of firing in bursts of three and reduces mobility due to its size and weight. The chambering system is comprised of a hybrid between electronic and bolt-action reloading.\nThis weapon utilizes .45-70 rounds."
+ITEM.desc = "A sleek, heavy marksman rifle made out of various scrap parts. It is only capable of firing in bursts of three and reduces mobility due to its size and weight. The chambering system is comprised of a hybrid between electronic and bolt-action reloading."
 ITEM.model = "models/weapons/tfa_w_acc_int_aw50.mdl"
 ITEM.material = "models/props_canal/metalwall005b"
 ITEM.class = "tfa_wh0ah"

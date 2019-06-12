@@ -1,5 +1,5 @@
 ITEM.name = "WR-ECS"
-ITEM.desc = "A semi-automatic rifle made out of various scrap parts. This particular firearm features a double magazine and trigger system. Each firing mechanism operates a seperate magazine.\nThis variant is silenced.\nThis weapon utilizes 5.7x28mm rounds."
+ITEM.desc = "A semi-automatic rifle made out of various scrap parts. This particular firearm features a double magazine and trigger system. Each firing mechanism operates a seperate magazine.\nThis variant is silenced."
 ITEM.model = "models/weapons/tfa_w_fn_fal.mdl"
 ITEM.material = "models/props_wasteland/tugboat02"
 ITEM.class = "tfa_wrecs"

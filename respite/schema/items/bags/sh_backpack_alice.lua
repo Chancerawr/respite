@@ -14,3 +14,7 @@ ITEM.iconCam = {
 	ang = Angle(0, 270, 0),
 	fov = 8.5,
 }
+
+function ITEM:getInv()
+	return nut.inventory.instances[self:getData("id")]
+end

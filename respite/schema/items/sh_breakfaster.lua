@@ -10,8 +10,6 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
 
-ITEM.data = { producing2 = 0 }
-
 ITEM.iconCam = {
 	pos = Vector(332.59982299805, 279.31066894531, 202.58592224121),
 	ang = Angle(25, 220, 0),
@@ -26,13 +24,13 @@ ITEM.functions.Milk = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local water = inventory:hasItem("food_water") or inventory:hasItem("food_water_mountain") or inventory:hasItem("food_blood")
+		local water = inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_water_mountain") or inventory:getFirstItemOfType("food_blood")
 		if(!water) then
 			client:notify("You need water.")
 			return false
 		end
 		
-		local organic = inventory:hasItem("j_scrap_organic")
+		local organic = inventory:getFirstItemOfType("j_scrap_organic")
 		
 		if(!organic) then --need organic materials
 			client:notify("You need five organic material.")
@@ -70,9 +68,7 @@ ITEM.functions.Milk = {
 				end
 			
 				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
-					end
+					inventory:addSmart(reward, 1, client:getItemDropPos())
 				else --if the item is on the ground
 					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 				end
@@ -91,6 +87,8 @@ ITEM.functions.Milk = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -102,13 +100,13 @@ ITEM.functions.Egg = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local water = inventory:hasItem("food_water") or inventory:hasItem("food_water_mountain") or inventory:hasItem("food_blood")
+		local water = inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_water_mountain") or inventory:getFirstItemOfType("food_blood")
 		if(!water) then
 			client:notify("You need water.")
 			return false
 		end
 		
-		local organic = inventory:hasItem("j_scrap_organic")
+		local organic = inventory:getFirstItemOfType("j_scrap_organic")
 		
 		if(!organic) then --need organic materials
 			client:notify("You need two organic material.")
@@ -141,9 +139,7 @@ ITEM.functions.Egg = {
 			local reward = "food_egg"
 		
 			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-				if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-					nut.item.spawn(reward, client:getItemDropPos()) --if not, drop it on the ground
-				end
+				inventory:addSmart(reward, 1, client:getItemDropPos())
 			else --if the item is on the ground
 				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 			end
@@ -161,6 +157,8 @@ ITEM.functions.Egg = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -172,7 +170,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("food_bacon", position)
@@ -188,9 +186,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

@@ -8,7 +8,6 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
-ITEM.data = { producing2 = 0 }
 
 ITEM.iconCam = {
 	pos = Vector(200, -11, 10),
@@ -22,8 +21,8 @@ ITEM.functions.Bake = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local organic = inventory:hasItem("j_scrap_organic")	
-		local water = inventory:hasItem("food_water_misc") or inventory:hasItem("food_water") or inventory:hasItem("food_blood") or inventory:hasItem("food_water_mountain")
+		local organic = inventory:getFirstItemOfType("j_scrap_organic")	
+		local water = inventory:getFirstItemOfType("food_water_misc") or inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_blood") or inventory:getFirstItemOfType("food_water_mountain")
 		
 		if (!organic or !water) then
 			client:notify("You need 2 organic materials and one bottle of water!") return false
@@ -92,7 +91,7 @@ ITEM.functions.Bake = {
 							nut.item.spawn(result, position)
 						end
 
-						client:notifyLocalized("Baking is finished.")
+						client:notify("Baking is finished.")
 					end
 				end
 			)
@@ -109,6 +108,9 @@ ITEM.functions.Bake = {
 				return false
 			end
 		end
+		
+		print("We can run")
+		return true
 	end
 }
 
@@ -120,7 +122,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("food_donut_giant", position)
@@ -134,9 +136,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

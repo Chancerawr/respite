@@ -1,5 +1,5 @@
 ITEM.name = "WA-NKR"
-ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. It's crudely modeled after the AK series and features a folding, lightweight stock.\nThis weapon utilizes 7.62x39mm rounds."
+ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. It's crudely modelled after the AK series and features a folding, lightweight stock."
 ITEM.model = "models/weapons/tfa_w_dmg_vikhr.mdl"
 ITEM.material = "models/props_wasteland/tugboat01"
 ITEM.class = "tfa_wankr"

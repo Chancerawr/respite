@@ -6,8 +6,10 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 2
 ITEM.buffCategory = "accessory"
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_plastics"
+
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 1
+}
 
 ITEM.attribBoosts = {
 	["luck"] = -1,

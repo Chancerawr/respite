@@ -62,48 +62,73 @@ if (CLIENT) then
 		end
 	end--]]
 
-	local timers = {5, 15, 30}
+	netstream.Hook("stvOpen", function(storage, index)
+		local inventory = nut.inventory.instances[index]
+		
+		if (IsValid(storage) and inventory) then
+			-- Number of pixels between the local inventory and storage inventory.
+			local PADDING = 4
 
-	netstream.Hook("stvOpen", function(entity, index)
-		local inventory = nut.item.inventories[index]
-
-		if (IsValid(entity) and inventory and inventory.slots) then
-			nut.gui.inv1 = vgui.Create("nutInventory")
-			nut.gui.inv1:ShowCloseButton(true)
-
-			local inventory2 = LocalPlayer():getChar():getInv()
-
-			if (inventory2) then
-				nut.gui.inv1:setInventory(inventory2)
+			-- Get the inventory for the player and storage.
+			local localInv =
+				LocalPlayer():getChar() and LocalPlayer():getChar():getInv()
+			local storageInv = inventory
+			if (not localInv or not storageInv) then
+				return nutStorageBase:exitStorage()
 			end
 
-			local panel = vgui.Create("nutInventory")
-			panel:ShowCloseButton(true)
-			panel:SetTitle("Cookable Object")
-			panel:setInventory(inventory)
-			panel:MoveLeftOf(nut.gui.inv1, 4)
-			panel.OnClose = function(this)
-				if (IsValid(nut.gui.inv1) and !IsValid(nut.gui.menu)) then
-					nut.gui.inv1:Remove()
+			-- Show both the storage and inventory.
+			local localInvPanel = localInv:show()
+			local storageInvPanel = storageInv:show()
+			storageInvPanel:SetTitle(storage.PrintName)
+
+			-- Allow the inventory panels to close.
+			localInvPanel:ShowCloseButton(true)
+			storageInvPanel:ShowCloseButton(true)
+
+			-- Put the two panels, side by side, in the middle.
+			local extraWidth = (storageInvPanel:GetWide() + PADDING) / 2
+			localInvPanel:Center()
+			storageInvPanel:Center()
+			localInvPanel.x = localInvPanel.x + extraWidth
+			storageInvPanel:MoveLeftOf(localInvPanel, PADDING)
+
+			-- Signal that the user left the inventory if either closes.
+			local firstToRemove = true
+			localInvPanel.oldOnRemove = localInvPanel.OnRemove
+			storageInvPanel.oldOnRemove = storageInvPanel.OnRemove
+
+			local function exitStorageOnRemove(panel)
+				if (firstToRemove) then
+					firstToRemove = false
+					nutStorageBase:exitStorage()
+					local otherPanel =
+						panel == localInvPanel and storageInvPanel or localInvPanel
+					if (IsValid(otherPanel)) then otherPanel:Remove() end
 				end
-
-				netstream.Start("invExit")
+				panel:oldOnRemove()
 			end
 
+			hook.Run("OnCreateStoragePanel", localInvPanel, storageInvPanel, storage)
+
+			localInvPanel.OnRemove = exitStorageOnRemove
+			storageInvPanel.OnRemove = exitStorageOnRemove
+			
 			local actPanel = vgui.Create("DPanel")
 			actPanel:SetDrawOnTop(true)
-			actPanel:SetSize(100, panel:GetTall())
+			actPanel:SetSize(100, storageInvPanel:GetTall())
 			actPanel.Think = function(this)
-				if (!panel or !panel:IsValid() or !panel:IsVisible()) then
+				if (!storageInvPanel or !storageInvPanel:IsValid() or !storageInvPanel:IsVisible()) then
 					this:Remove()
 
 					return
 				end
 
-				local x, y = panel:GetPos()
+				local x, y = storageInvPanel:GetPos()
 				this:SetPos(x - this:GetWide() - 5, y)
-			end
-
+			end			
+			
+			local timers = {5, 15, 30}
 			for k, v in ipairs(timers) do
 				local btn = actPanel:Add("DButton")
 				btn:Dock(TOP)
@@ -111,11 +136,9 @@ if (CLIENT) then
 				btn:DockMargin(5, 5, 5, 0)
 
 				function btn.DoClick()
-					netstream.Start("stvActive", entity, v)
+					netstream.Start("stvActive", storage, v)
 				end
 			end
-
-			nut.gui["inv"..index] = panel
 		end
 	end)
 else
@@ -144,43 +167,6 @@ else
 
 		self:setData(savedTable)
 	end
-	
-	--[[function PLUGIN:CharacterPreSave(character)
-		local savedHunger = math.Clamp(CurTime() - character.player:getHunger(), 0, PLUGIN.hungrySeconds)
-		character:setData("hunger", savedHunger)
-	end
-
-	function PLUGIN:PlayerLoadedChar(client, character, lastChar)
-		if (character:getData("hunger")) then
-			client:setNetVar("hunger", CurTime() - character:getData("hunger"))
-		else
-			client:setNetVar("hunger", CurTime())
-		end
-	end
-
-	function PLUGIN:PlayerDeath(client)
-		client.refillHunger = true
-	end
-
-	function PLUGIN:PlayerSpawn(client)
-		if (client.refillHunger) then
-			client:setNetVar("hunger", CurTime())
-			client.refillHunger = false
-		end
-	end
-
-	local thinkTime = CurTime()
-	function PLUGIN:Think()
-		if (thinkTime < CurTime()) then
-			for k, v in ipairs(player.GetAll()) do
-				local percent = (1 - v:getHungerPercent())
-
-				
-			end
-
-			thinkTime = CurTime() + .5
-		end
-	end--]]
 end
 
 function PLUGIN:PrePlayerLoadedChar(client, character, currentChar)

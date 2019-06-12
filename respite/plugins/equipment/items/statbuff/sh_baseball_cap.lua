@@ -5,9 +5,11 @@ ITEM.desc = "A baseball cap with a logo on it."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 3 }
-ITEM.salvItem = "j_scrap_cloth"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_cloth"] = 3
+}
 
 ITEM.attribBoosts = {
 	["perception"] = -1,

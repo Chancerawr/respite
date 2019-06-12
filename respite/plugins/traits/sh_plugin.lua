@@ -62,7 +62,6 @@ if (SERVER) then
     end
 end
 
---these don't use hasTrait because that function requires the trait ID, these use the name of the Trait. Easier for admin use.
 nut.command.add("traitadd", {
 	adminOnly = true,
 	syntax = "<string target> <select trait>",
@@ -155,6 +154,7 @@ function hasTrait(client, trait)
 			end
 		end
 	end
+	
 	return false
 end
 
@@ -194,32 +194,32 @@ if(CLIENT) then
 		local traitText = ""
 		
 		for k, v in pairs(client:getChar():getData("traits", {})) do
-			traitText = traitText .. TRAITS.traits[k].name .. ": " .. TRAITS.traits[k].desc .. "\n\n"
+			traitText = traitText ..TRAITS.traits[k].name.. ": " ..TRAITS.traits[k].desc.. "\n\n"
 		end
 	
-		local traitMenu = vgui.Create( "DFrame" );
-		traitMenu:SetSize( 500, 700 );
-		traitMenu:Center();
-		if( me ) then
-			traitMenu:SetTitle( "Player Menu" );
+		local traitMenu = vgui.Create("DFrame")
+		traitMenu:SetSize(500, 700)
+		traitMenu:Center()
+		if(me) then
+			traitMenu:SetTitle("Player Menu")
 		else
-			traitMenu:SetTitle( client:Name() );
+			traitMenu:SetTitle(client:Name())
 		end
-		traitMenu:MakePopup();
+		traitMenu:MakePopup()
 
-		traitMenu.DS = vgui.Create( "DScrollPanel", traitMenu );
-		traitMenu.DS:SetPos( 10, 50 );
-		traitMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 );
-		function traitMenu.DS:Paint( w, h ) end
+		traitMenu.DS = vgui.Create("DScrollPanel", traitMenu)
+		traitMenu.DS:SetPos(10, 50)
+		traitMenu.DS:SetSize(500 - 10, 700 - 50 - 10)
+		function traitMenu.DS:Paint(w, h) end
 		
-		traitMenu.B = vgui.Create( "DLabel", traitMenu.DS );
-		traitMenu.B:SetPos( 0, 40 );
-		traitMenu.B:SetFont( "nutSmallFont" );
-		traitMenu.B:SetText( traitText );
-		traitMenu.B:SetAutoStretchVertical( true );
-		traitMenu.B:SetWrap( true );
-		traitMenu.B:SetSize( 500 - 20, 10 );
-		traitMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) );
+		traitMenu.B = vgui.Create("DLabel", traitMenu.DS)
+		traitMenu.B:SetPos(0, 40)
+		traitMenu.B:SetFont("nutSmallFont")
+		traitMenu.B:SetText(traitText)
+		traitMenu.B:SetAutoStretchVertical(true)
+		traitMenu.B:SetWrap(true)
+		traitMenu.B:SetSize(500 - 20, 10)
+		traitMenu.B:SetTextColor(Color(255, 255, 255, 255))
 	end)
 end
 
@@ -229,7 +229,7 @@ nut.command.add("traits", {
 	end
 })
 
-nut.command.add("traitall", {
+nut.command.add("traitsadmin", {
 	adminOnly = true,
 	syntax = "<string target>",
 	onRun = function(client, arguments)
@@ -237,12 +237,21 @@ nut.command.add("traitall", {
 
 		if(target) then
 			netstream.Start(client, "ShowTraits", target)
+		else
+			client:notify("Invalid target.")
 		end	
 	end
 })
 
 function PLUGIN:CanDeleteChar( client, character )
     if( character.vars.traits["finedollar"] and character.vars.money < 200 ) then
-        return true;
+        return true
     end
+end
+
+--adds the traitstep gui to the char creation menu
+if(CLIENT) then
+	function PLUGIN:ConfigureCharacterCreationSteps(panel)
+		panel:addStep(vgui.Create("nutCharTraits"), 100)
+	end
 end

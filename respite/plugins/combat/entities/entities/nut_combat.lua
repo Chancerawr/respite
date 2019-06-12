@@ -189,7 +189,7 @@ function ENT:rollHandle(client, command, noPrint)
 					nut.chat.send(client, comTable.category.."_npc", self:getNetVar("name", "ENT").. " has rolled " ..roll..critmsg.. " for " ..comTable.attackString.. " at target's " ..part.. ".")
 				end
 			else
-				comTable.print(self, rolls, part, critmsg, npc)
+				comTable.print(self, roll, part, critmsg, npc)
 			end
 		end
 	end
@@ -286,12 +286,16 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 	
 	--detects the currently held weapon and (hopefully) the item it's associated with
 	local weapon = ""
-	local curWeapon = client:GetActiveWeapon():GetClass()
-	if(curWeapon != "nut_hands" and curWeapon != "nut_keys") then
+	local curWeapon = client:GetActiveWeapon()
+	if(curWeapon:GetClass() != "nut_hands" and curWeapon != "nut_keys") then
 		local items = client:getChar():getInv():getItems()
 		for k, v in pairs(items) do
-			if(v.base == "base_weapons" and curWeapon == v.class and v:getData("equip", nil)) then
-				weapon = " (" ..v:getName().. ")"
+			if(v.isWeapon and curWeapon:GetClass() == v.class and v:getData("equip", nil)) then
+				if(v.weaponCategory == "melee") then
+					weapon = " (" ..v:getName().. ")"
+				else
+					weapon = " (" ..v:getName().. ")" .. " ["..curWeapon:Clip1().. "|" ..curWeapon:GetMaxClip1().. "]"
+				end
 			end
 		end
 	end
@@ -303,10 +307,12 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 	
 	if(success) then
 		if(isstring(part)) then
-			fullString = client:GetName() .. "'s " ..action.. " flies at " ..self:getNetVar("name", "John Doe").. "'s " ..part.. " and hits. (" ..rollC .." | "..rollE .. ")" .. weapon
+			fullString = client:GetName() .. "'s " ..action.. " hits " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+			
 			--bob's shot flies at joe's left leg and hits.
 		else
 			fullString = client:GetName().. "'s " ..action.. " on " ..self:getNetVar("name", "John Doe") .. " was successful. (" ..rollC .." | "..rollE .. ")" .. weapon
+			
 			--"bob's melee attack on joe was successful"
 		end
 		
@@ -315,27 +321,31 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 	else
 		if(isstring(part)) then
 			if(!graze) then
-				fullString = client:GetName() .. " misses a " ..action.. " at " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-				--bob misses a shot at joe's left leg.
-			else
-				--fullString = client:GetName() .. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. " with a " ..action.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-				fullString = client:GetName() .. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-				--bob's shot grazes joe's left leg.
+				fullString = client:GetName().. "'s " ..action.. " misses " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
+				
+				--bob's action misses name's part.
+			else				
+				fullString = client:GetName().. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ".(" ..rollC.. " | " ..rollE.. ")" ..weapon
+				
+				--bob's action grazes name's part
 			end
 		else
-			if(!graze and def[part] != "dodged") then
-				fullString = self:getNetVar("name", "John Doe") .. " has " ..def[part].. " " ..client:GetName().. "'s " ..action.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-				--joe has dodged bob's melee attack.
+			if(!graze) then
+				fullString = self:getNetVar("name", "John Doe") .. " has " ..def[part].. " " ..client:GetName().. "'s " ..action..".(" ..rollC .." | "..rollE .. ")" .. weapon
+
+				--joe has dodged/blocked bob's action.
 			else
-				fullString = client:GetName() .. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-				--bob's melee attack glance joe
+				fullString = client:GetName().. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. ". (" ..rollC .. " | " ..rollE.. ")" ..weapon
+				
+				--bob's action grazes name.
 			end
 		end
 		
-		nut.log.addRaw(fullString, 3)
 		if(!graze) then
+			nut.log.addRaw(fullString, 3)
 			nut.chat.send(client, "react_fail", fullString)
 		else
+			nut.log.addRaw(fullString, 6)
 			nut.chat.send(client, "graze_npc", fullString)
 		end
 	end
@@ -480,10 +490,10 @@ function ENT:fortAttack(attackName)
 		fancyStr = string.gsub(fancyStr, "_", " ") --replaces _ with a space.
 		fancyStr = string.upper(fancyStr) --capitalizes all of it
 		fancyStr = "'" .. fancyStr .. "'" --puts apostrophes around it i guess
-		fancyStr = self:getNetVar("name", "CEnt").. " has attempted to use an ability: " .. fancyStr
+		fancyStr = self:getNetVar("name", "CEnt").. " has attempted to use an ability: " ..fancyStr
 		
 		rolled = tonumber(rolled) * (1 - tonumber(ability[attackName]))
-		rolled = fancyStr ..", and rolled ".. rolled
+		rolled = fancyStr.. ", and rolled " ..rolled.. "."
 	else
 		return false
 	end
@@ -514,7 +524,7 @@ if (CLIENT) then
 		drawText(self:getNetVar("name", ""), x, y, colorAlpha(Color(190,50,50), alpha), 1, 1, nil, alpha * 0.65)
 
 		if (self:getNetVar("desc")) then
-			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutChat", alpha * 0.65)
+			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
 		end
 	end
 end

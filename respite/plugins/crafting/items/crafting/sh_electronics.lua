@@ -6,10 +6,6 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.data = {
-	Amount = 1
-}
-
 ITEM.iconCam = {
 	pos = Vector(122.72621917725, 102.70703887939, 74.21459197998),
 	ang = Angle(25, 220, 0),

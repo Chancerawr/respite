@@ -9,7 +9,6 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(0, 0, 0)
-ITEM.data = { producing2 = 0 }
 
 ITEM.iconCam = {
 	pos = Vector(200, 0, 0),
@@ -54,9 +53,9 @@ ITEM.functions.Sacrifice = {
 		}
 		local sacrifice
 		for k, v in pairs (potential) do
-			local check = inventory:hasItem(v)
+			local check = inventory:getFirstItemOfType(v)
 			if (check) then
-				sacrifice = inventory:hasItem(v)
+				sacrifice = inventory:getFirstItemOfType(v)
 			end
 		end
 		
@@ -138,9 +137,7 @@ ITEM.functions.Sacrifice = {
 				
 				if(rewardI) then
 					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-						if(!inventory:add(rewardI)) then --if the inventory has space, put it in the inventory
-							nut.item.spawn(rewardI, client:getItemDropPos()) --if not, drop it on the ground
-						end
+						inventory:addSmart(rewardI, 1, client:getItemDropPos())
 					else --if the item it on the ground
 						nut.item.spawn(rewardI, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
 					end
@@ -156,6 +153,8 @@ ITEM.functions.Sacrifice = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -167,7 +166,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("drug_venom", position)
@@ -182,9 +181,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

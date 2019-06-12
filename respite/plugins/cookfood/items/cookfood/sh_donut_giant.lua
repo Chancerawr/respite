@@ -1,8 +1,9 @@
 ITEM.name = "Giant Donut"
 ITEM.uniqueID = "food_donut_giant"
 ITEM.model = "models/noesis/donut.mdl"
+ITEM.material = "models/props_c17/furniturefabric001a"
 ITEM.hungerAmount = 50
-ITEM.desc = "A tasty pastry."
+ITEM.desc = "A very large tasty pastry."
 ITEM.quantity2 = 2
 ITEM.price = 20
 ITEM.width = 2

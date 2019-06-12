@@ -5,7 +5,6 @@ ITEM.desc = "A digital camera capable of taking high quality pictures and video.
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 1 }
 ITEM.buffCategory = "accessory"
 
 ITEM.salvItem = {

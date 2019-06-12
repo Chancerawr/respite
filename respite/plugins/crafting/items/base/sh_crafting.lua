@@ -6,16 +6,14 @@ ITEM.data = { Amount = 1 }
 ITEM.maxstack = 50
 
 local function recursiveAdd(item, inventory, toStack, maxStack)
-	timer.Simple(.2,
-		function()
-			if (toStack > maxStack) then
-				inventory:add(item, 1, { Amount = maxStack })
-				recursiveAdd(item, inventory, toStack-maxStack, maxStack)
-			else
-				inventory:add(item, 1, { Amount = toStack })
-			end
+	timer.Simple(.2, function()
+		if (toStack > maxStack) then
+			inventory:add(item, 1, { Amount = maxStack })
+			recursiveAdd(item, inventory, toStack-maxStack, maxStack)
+		else
+			inventory:add(item, 1, { Amount = toStack })
 		end
-	)
+	end)
 end
 
 ITEM.functions.Unstack = {
@@ -29,13 +27,16 @@ ITEM.functions.Unstack = {
 		local stack = item:getData("Amount", 1)
 		if(stack <= 1) then return false end
 
-		item:setData("Amount", item:getData("Amount") - 1)
-		if(!inventory:add(item.uniqueID, 1)) then
-			nut.item.spawn(item.uniqueID, position)
-		end
-		
-		item.player:EmitSound("ambient/materials/dinnerplates1.wav")
-		
+		client:requestString("Split", "", function(text)	
+			amount = math.Clamp(tonumber(text), 1, stack - 1)
+			
+			item:setData("Amount", item:getData("Amount") - amount)
+			
+			inventory:addSmart(item.uniqueID, 1, position, {Amount = amount})
+			
+			client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
+		end, 1)		
+
 		return false
 	end,
 	onCanRun = function(item)
@@ -46,6 +47,8 @@ ITEM.functions.Unstack = {
 		if(item:getData("Amount", 1) <= 1) then
 			return false
 		end
+		
+		return true
 	end	
 }
 
@@ -80,13 +83,7 @@ ITEM.functions.Stack = {
 		
 			for i = 1, math.floor(total / item.maxstack) do
 				timer.Simple(i/5, function()
-					if(!inventory:add(item.uniqueID, 1, {Amount = item.maxstack})) then
-						nut.item.spawn(item.uniqueID, position,
-							function(item2)
-								item2:setData("Amount", item.maxstack)
-							end
-						)
-					end
+					inventory:addSmart(item.uniqueID, 1, position, {Amount = item.maxstack})
 				end)
 			end
 			
@@ -98,14 +95,37 @@ ITEM.functions.Stack = {
 			end
 		end
 		
+		client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 60)
+		
 		return false
 	end,
 	onCanRun = function(item)
 		if(item.entity) then
 			return false
 		end
+		
+		return true
 	end
 }
+
+ITEM.onCombine = function(itemSelf, itemTarget)
+	if(itemSelf.uniqueID == itemTarget.uniqueID) then
+		local amountSelf = itemSelf:getData("Amount", 1)
+		local amountTarget = itemTarget:getData("Amount", 1)
+
+		local combined = amountSelf + amountTarget
+		
+		if(combined > itemSelf.maxstack) then
+			itemSelf:setData("Amount", itemSelf.maxstack)
+			itemTarget:setData("Amount", combined - itemSelf.maxstack)
+		else
+			itemTarget:remove()
+			itemSelf:setData("Amount", amountSelf + amountTarget)
+		end
+		
+		itemSelf.player:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
+	end
+end
 
 function ITEM:getDesc()
 	local desc = self.desc
@@ -116,7 +136,6 @@ function ITEM:getDesc()
 	
 	return Format(desc)
 end
-
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)

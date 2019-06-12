@@ -137,103 +137,124 @@ function ikon:renderHook()
 	
 	local tab
 	if (ikon.info) then
-		tab = {
+		tab = 
+		{
 			origin = ikon.info.pos,
 			angles = ikon.info.ang,
 			fov = ikon.info.fov,
 			outline = ikon.info.outline,
-			outCol = ikon.info.outlineColor
+			outCol = ikon.info.outlineColor,
+			drawHook = ikon.info.drawHook,
+			entAng = ikon.info.entAng,
+			drawPostHook = ikon.info.drawPostHook,
+			drawBackgroundHook = ikon.info.drawBackgroundHook,
 		}
 	else
 		tab = PositionSpawnIcon(ikon.renderEntity, ikon.renderEntity:GetPos(), true)
 	end
 
 	-- Taking MDave's Tip
-		xpcall(function()
-				render.SetWriteDepthToDestAlpha( false )
-				render.SuppressEngineLighting( true )
-				render.Clear( 0, 0, 0, 0, true, true )
+	xpcall(function()
+		render.SetWriteDepthToDestAlpha( false )
+		render.SuppressEngineLighting( true )
+		render.Clear( 0, 0, 0, 0, true, true )
 
-				render.SetLightingOrigin( Vector( 0, 0, 0 ) )
-				render.ResetModelLighting( 200/255, 200/255, 200/255 )
-				render.SetColorModulation( 1, 1, 1 )
+		render.SetLightingOrigin( Vector( 0, 0, 0 ) )
+		render.ResetModelLighting( 200/255, 200/255, 200/255 )
+		render.SetColorModulation( 1, 1, 1 )
 
-				for i = 0, 6 do
-					local col = lightPositions[i]
-					if ( col ) then
-						render.SetModelLighting( i, col.r / 255, col.g / 255, col.b / 255 )
-					end
-				end
+		for i = 0, 6 do
+			local col = lightPositions[i]
+			if ( col ) then
+				render.SetModelLighting( i, col.r / 255, col.g / 255, col.b / 255 )
+			end
+		end
 
-				if (tab.outline) then
-					render.SetStencilEnable(true)
-					render.ClearStencil()
-					render.SetStencilWriteMask(137) -- yeah random number to avoid confliction
-					render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_ALWAYS)
-					render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
-					render.SetStencilFailOperation(STENCILOPERATION_REPLACE)
-				else
-					print("No outline 1")
-				end
-				
-				/*
-					Add more effects on the Models!
-				*/
-				if (ikon.info and ikon.info.drawHook) then
-					ikon.info.drawHook(ikon.renderEntity)
-				end
+		cam.Start2D()
+			if (tab.drawBackgroundHook) then
+				tab.drawBackgroundHook(w, h)
+			end
+		cam.End2D()
 
-				cam.Start3D(tab.origin, tab.angles, tab.fov, 0, 0, w, h) 
-					render.SetBlend(1)
-					ikon.renderEntity:DrawModel()	
+		if (tab.outline) then
+			render.SetStencilEnable(true)
+			render.ClearStencil()
+			render.SetStencilWriteMask(137) -- yeah random number to avoid confliction
+			render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_ALWAYS)
+			render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
+			render.SetStencilFailOperation(STENCILOPERATION_REPLACE)
+		end
+		
+		/*
+			Add more effects on the Models!
+		*/
+		if (tab.drawHook) then
+			tab.drawHook(ikon.renderEntity, w, h)
+		end
+			
+	
+		cam.Start3D(tab.origin, tab.angles, tab.fov, 0, 0, w, h) 
+			if (tab.entAng) then
+				ikon.renderEntity:SetAngles(tab.entAng)
+			else
+				ikon.renderEntity:SetAngles(Angle())
+			end
+			
+			render.SetBlend(1)
+			ikon.renderEntity:DrawModel()	
+		cam.End3D()
+
+		if (tab.drawPostHook) then
+			render.SetColorModulation( 1, 1, 1 )
+
+			tab.drawPostHook(ikon.renderEntity, w, h)
+		end
+		
+
+		if (tab.outline) then
+			render.PushRenderTarget( tex_effect )
+			render.Clear(0,0,0,0)
+			render.ClearDepth()
+			cam.Start2D()
+				cam.Start3D(tab.origin, tab.angles, tab.fov, 0, 0, w, h)
+						render.SetBlend(0)
+						ikon.renderEntity:DrawModel()	
+
+						render.SetStencilWriteMask(138) -- could you please?
+						render.SetStencilTestMask(1)
+						render.SetStencilReferenceValue(1)
+						render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
+						render.SetStencilPassOperation(STENCILOPERATION_KEEP)
+						render.SetStencilFailOperation(STENCILOPERATION_KEEP)
+						cam.Start2D()
+							surface.SetDrawColor( tab.outCol or color_white )
+							surface.DrawRect( 0,0,ScrW(),ScrH() )
+						cam.End2D()
 				cam.End3D()
+			cam.End2D()
+			render.PopRenderTarget()
+			
+			render.SetBlend(1)
+			render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_NOTEQUAL)
+			
+			/*
+				Thanks for Noiwex
+				NxServ.eu
+			*/
+			cam.Start2D()
+				surface.SetMaterial( mat_outline )
+				surface.DrawTexturedRectUV( -1,0, w, h, 0, 0, w/ikon.max, h/ikon.max)
+				surface.DrawTexturedRectUV( 1,0, w, h, 0, 0, w/ikon.max, h/ikon.max)
+				surface.DrawTexturedRectUV( 0,1, w, h, 0, 0, w/ikon.max, h/ikon.max)
+				surface.DrawTexturedRectUV( 0,-1, w, h, 0, 0, w/ikon.max, h/ikon.max)
+			cam.End2D()
 
-				if (tab.outline) then
-					render.PushRenderTarget( tex_effect )
-					render.Clear(0,0,0,0)
-					render.ClearDepth()
-					cam.Start2D()
-						cam.Start3D(tab.origin, tab.angles, tab.fov, 0, 0, w, h)
-								render.SetBlend(0)
-								ikon.renderEntity:DrawModel()	
-
-								render.SetStencilWriteMask(138) -- could you please?
-								render.SetStencilTestMask(1)
-								render.SetStencilReferenceValue(1)
-								render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
-								render.SetStencilPassOperation(STENCILOPERATION_KEEP)
-								render.SetStencilFailOperation(STENCILOPERATION_KEEP)
-								cam.Start2D()
-									surface.SetDrawColor( tab.outCol or color_white )
-									surface.DrawRect( 0,0,ScrW(),ScrH() )
-								cam.End2D()
-						cam.End3D()
-					cam.End2D()
-					render.PopRenderTarget()
-					
-					render.SetBlend(1)
-					render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_NOTEQUAL)
-					
-					/*
-						Thanks for Noiwex
-						NxServ.eu
-					*/
-					cam.Start2D()
-						surface.SetMaterial( mat_outline )
-						surface.DrawTexturedRectUV( -1,0, w, h, 0, 0, w/ikon.max, h/ikon.max)
-						surface.DrawTexturedRectUV( 1,0, w, h, 0, 0, w/ikon.max, h/ikon.max)
-						surface.DrawTexturedRectUV( 0,1, w, h, 0, 0, w/ikon.max, h/ikon.max)
-						surface.DrawTexturedRectUV( 0,-1, w, h, 0, 0, w/ikon.max, h/ikon.max)
-					cam.End2D()
-
-					render.SetStencilEnable(false)
-				else
-					print("No outline 2")
-				end
-				
-				render.SuppressEngineLighting( false )
-				render.SetWriteDepthToDestAlpha( true )
-		end, function(rrer) print(rrer) end)
+			render.SetStencilEnable(false)
+		end
+		
+		render.SuppressEngineLighting( false )
+		render.SetWriteDepthToDestAlpha( true )
+	end, function(rrer) print(rrer) end)
 end
 
 local testName = "renderedMeme"
@@ -263,7 +284,9 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
 	if (ikon.requestList[name]) then return IKON_PROCESSING end
 	if (!w or !h or !mdl) then return IKON_SOMETHINGWRONG end
 
-	PrintTable(camInfo)
+	if(camInfo) then
+		PrintTable(camInfo)
+	end
 	
 	local capturedIcon
 	ikon.curWidth = w or 1
@@ -335,7 +358,8 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
 	end
 	if(skin) then --reset skin when done
 		ikon.renderEntity:SetSkin(0)
-	end
+	end	
+	
 	return true
 end
 
@@ -361,5 +385,9 @@ end
 -- like ruining everyone's dream.
 concommand.Add("nut_flushicon", function()
 	ikon.cache = {}
-	file.Delete("nsIcon/" .. schemaName)
+	local caf = "nsIcon/" .. schemaName .. "/*.png"
+	
+	for k, v in ipairs(file.Find(caf, "DATA")) do
+		file.Delete("nsIcon/" .. schemaName .. "/" .. v)
+	end
 end)

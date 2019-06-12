@@ -14,13 +14,14 @@ local PANEL = {}
 
 		--MAIN PANEL, BODY PARTS
 		self:SetSize(ScrW() * 0.3, ScrH() * 0.45)
-		--self:Center()
-		self:SetPos(ScrW() * 0.5, ScrH()*0.2)
+		self:Center()
+		--self:SetPos(ScrW() * 0.5, ScrH()*0.2)
 		self:SetTitle("Body Info: " ..math.Round(PLUGIN:calcPercent(charParts), 2).. "% Abnormal")
 		self:MakePopup()
 		
 		local inner = vgui.Create("DScrollPanel", self)
 		inner:Dock(FILL)
+		inner:SetBackgroundColor(Color(255,0,0,255))
 		
 
 		for k, v in SortedPairs(parts) do
@@ -28,13 +29,15 @@ local PANEL = {}
 			limb:DockMargin(0,0,0,-1)
 			limb:Dock(TOP)
 			limb:SetTall(ScrH() * 0.055)
+			limb:SetBackgroundColor(Color(255,0,0,255))
 			
 			local bodyText = limb:Add("DLabel")
 			bodyText:DockMargin(2,2,2,2)
 			bodyText:Dock(FILL)
-			bodyText:SetContentAlignment(7)
+			bodyText:SetContentAlignment(5)
 			bodyText:SetWrap(true)
 			bodyText:SetFont("nutObjDescFont")
+			bodyText:SetColor(Color(64,128,128,255))
 
 			local percent = (((charParts[k] and charParts[k][1]) or 0) / parts[k][2]) * 100
 			local material = ((charParts[k] and charParts[k][2]) or nil)

@@ -1,5 +1,5 @@
 ITEM.name = "WH-0RE"
-ITEM.desc = "A semi-automatic shotgun with a questionable name made out of scrap parts. It features a highlighted aiming reticle and can fire in two-round bursts.\nThis weapon utilizes 12 gauge shells."
+ITEM.desc = "A semi-automatic shotgun with a questionable name made out of scrap parts. It features a highlighted aiming reticle and can fire in two-round bursts."
 ITEM.model = "models/weapons/tfa_w_winchester_1873.mdl"
 ITEM.material = "models/props_canal/metalwall005b"
 ITEM.class = "tfa_wh0re"

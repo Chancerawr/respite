@@ -14,9 +14,9 @@ TRAIT.func = function(client, character)
 	}
 	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
-	character:setData("fort_hall", CurTime())
+	
+	giveDisease(client, "peculiar")
 end
-
 
 TRAITS:Register( TRAIT )
 //
@@ -29,7 +29,7 @@ TRAIT.items = {
 	"j_bible"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_zealot", CurTime())
+	giveDisease(client, "trait_zealot")
 end
 
 TRAITS:Register( TRAIT )
@@ -44,7 +44,7 @@ TRAIT.items = {
 	"cube_chip_enhanced"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_curse", CurTime())
+	giveDisease(client, "trait_curse")	
 end
 
 TRAITS:Register( TRAIT )
@@ -60,7 +60,7 @@ TRAIT.items = {
 	"ichor"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_soul", CurTime())
+	giveDisease(client, "trait_soul")
 end
 
 TRAITS:Register( TRAIT )
@@ -76,7 +76,7 @@ TRAIT.items = {
 	"bleach"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_purge", CurTime())
+	giveDisease(client, "trait_purge")
 end
 
 TRAITS:Register( TRAIT )
@@ -92,7 +92,7 @@ TRAIT.items = {
 	"coflantern"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_dark", CurTime())
+	giveDisease(client, "trait_dark")	
 end
 
 TRAITS:Register( TRAIT )
@@ -109,7 +109,7 @@ TRAIT.func = function(client, character)
 		character:getInv():add("hl2_m_shovel_alt", 1)
 	end
 	
-	character:setData("trait_digger", CurTime())
+	giveDisease(client, "trait_digger")
 end
 
 TRAITS:Register( TRAIT )
@@ -126,7 +126,7 @@ TRAIT.items = {
 	"drug_painkillers"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_headache", CurTime())
+	giveDisease(client, "trait_headache")
 end
 
 TRAITS:Register( TRAIT )
@@ -141,7 +141,7 @@ TRAIT.items = {
 	"haze_bottled"
 }
 TRAIT.func = function(client, character)
-	character:setData("addict_bh", CurTime()) --fort debuff
+	giveDisease(client, "addict_bh")		
 end
 
 TRAITS:Register( TRAIT )
@@ -157,7 +157,7 @@ TRAIT.items = {
 	"medical_gauze"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_clumsy", CurTime()) --fort debuff
+	giveDisease(client, "trait_clumsy")			
 end
 
 TRAITS:Register( TRAIT )
@@ -172,7 +172,7 @@ TRAIT.items = {
 	"j_turtle"
 }
 TRAIT.func = function(client, character)
-	character:setData("trait_paranoid", CurTime()) --fort debuff
+	giveDisease(client, "trait_paranoid")		
 end
 TRAIT.modifier = {
 	["perception"] = 1.1,
@@ -187,7 +187,7 @@ TRAIT.name = "Lunatic"
 TRAIT.desc = "Bark at the moon."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	character:setData("trait_lunatic", CurTime())
+	giveDisease(client, "trait_lunatic")	
 end
 
 TRAITS:Register( TRAIT )
@@ -198,7 +198,29 @@ TRAIT.name = "The Void"
 TRAIT.desc = "It stares back."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	character:setData("trait_void", CurTime())
+	giveDisease(client, "trait_void")
+end
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "instrumental" 
+TRAIT.name = "Instrumental"
+TRAIT.desc = "It stares back."
+TRAIT.category = "Peculiar"
+TRAIT.func = function(client, character)
+	giveDisease(client, "trait_instrument")
+end
+
+TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "ravenous" 
+TRAIT.name = "Ravenous"
+TRAIT.desc = "An abyss that can never be filled."
+TRAIT.category = "Peculiar"
+TRAIT.func = function(client, character)
+	giveDisease(client, "trait_hunger")
 end
 
 TRAITS:Register( TRAIT )

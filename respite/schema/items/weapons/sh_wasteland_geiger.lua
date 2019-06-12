@@ -1,5 +1,5 @@
 ITEM.name = "Scavenger Geiger Gun"
-ITEM.desc = "A handmade rifle with a strange design. Somehow you feel like its design makes it stronger against Aberrations, but nothing about its actual parts verifies this.\nThis weapon utilizes 7.62x51mm rounds."
+ITEM.desc = "A handmade rifle with a strange design. Somehow you feel like its design makes it stronger against Aberrations, but nothing about its actual parts verifies this."
 ITEM.model = "models/weapons/w_snip_g3sg1.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.class = "tfa_wasteland_geiger"
@@ -9,7 +9,7 @@ ITEM.width = 3
 ITEM.height = 2
 ITEM.price = 0
 ITEM.flag = "v"
-ITEM.category = "Weapons - Rifles"
+ITEM.category = "Weapons - Scavenger"
 
 ITEM.iconCam = {
 	pos = Vector(-4, 200, 5.5),

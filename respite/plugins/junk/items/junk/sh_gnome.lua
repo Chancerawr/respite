@@ -5,9 +5,11 @@ ITEM.desc = "A friendly garden gnome to watch over your plants."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
+ITEM.color = Color(255, 140, 20)
 
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "c_scrap_gnome"
+ITEM.salvItem = {
+	["c_scrap_gnome"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(280.39529418945, 236.86444091797, 184.78364562988),
@@ -22,7 +24,7 @@ ITEM.functions.Memory = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("j_scrap_memory")
+		local object = inventory:getFirstItemOfType("j_scrap_memory")
 		local emotions = {
 			"fear",
 			"anger",
@@ -45,8 +47,10 @@ ITEM.functions.Memory = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("j_scrap_memory") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("j_scrap_memory") then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }

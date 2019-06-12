@@ -357,6 +357,7 @@ nut.command.add("centclone", {
 			
 			clone:SetModel(entity:GetModel()) --set its model
 			clone:SetMaterial(entity:GetMaterial() or "") --set its material
+			clone:SetColor(entity:GetColor() or Color(255,255,255))
 			
 			--sets its animation
 			timer.Simple(1, function()
@@ -495,7 +496,9 @@ nut.chat.register("whisper_npc", {
 
 nut.chat.register("say_npc", {
 	onChatAdd = function(speaker, text)
-		chat.AddText(nut.config.get("chatColor"), text)
+		local color = nut.config.get("chatColor")
+		
+		chat.AddText(Color(color.r, color.g, color.b), text)
 	end,
 	filter = "actions",
 	font = "nutChatFont",

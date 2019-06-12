@@ -7,8 +7,9 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.buffCategory = "accessory"
 
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_cloth"
+ITEM.salvItem = {
+	["j_scrap_cloth"] = 3
+}
 
 ITEM.attribBoosts = {
 	["end"] = 1,

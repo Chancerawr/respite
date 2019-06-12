@@ -7,8 +7,9 @@ ITEM.width = 1
 ITEM.height = 2
 ITEM.fillable = true
 
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_plastics"
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(224.21286010742, 188.08586120605, 136.6078338623),

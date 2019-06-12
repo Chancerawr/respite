@@ -22,19 +22,4 @@ ITEM.functions.Read = {
 	icon = "icon16/book_open.png"
 }
 
-ITEM.functions.Destroy = {
-	onClick = function(item)
-	end,
-	onCanRun = function(item)
-		if (item == "book_newchar") then
-			return true
-		else
-			return false
-		end
-    end,
-	onRun = function(item)
-		return true
-	end,
-	icon = "icon16/book_delete.png"
-}
 ITEM.permit = "lit"

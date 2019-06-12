@@ -8,9 +8,7 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(50, 150, 50)
-
-ITEM.data = { producing2 = 0 }
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(197.53092956543, 175.19358825684, 132.29721069336),
@@ -26,11 +24,11 @@ ITEM.functions.Cream = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		
-		local milk = inventory:hasItem("food_milk_carton") or inventory:hasItem("food_milk_jug")
-		local can = client:getChar():getInv():hasItem("food_soda_cold")
+		local milk = inventory:getFirstItemOfType("food_milk_carton") or inventory:getFirstItemOfType("food_milk_jug")
+		local can = client:getChar():getInv():getFirstItemOfType("food_soda_cold")
 		local amount = 1
 		
-		client:notifyLocalized("Converting has started.")
+		client:notify("The creaming has begun.")
 		nut.chat.send(client, "itclose", "The machine accepts the milk.")	
 		
 		if(milk.uniqueID == "food_milk_jug") then
@@ -48,9 +46,7 @@ ITEM.functions.Cream = {
 			for i = 1, amount do
 				timer.Simple(amount, function()
 					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-						if(!inventory:add("food_ice_cream")) then --if the inventory has space, put it in the inventory
-							nut.item.spawn("food_ice_cream", client:getItemDropPos()) --if not, drop it on the ground
-						end
+						inventory:addSmart("food_ice_cream", 1, client:getItemDropPos())
 					else --if the item is on the ground
 						nut.item.spawn("food_ice_cream", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 					end
@@ -66,8 +62,8 @@ ITEM.functions.Cream = {
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local player = item.player or item:getOwner()
 
-		local milk = player:getChar():getInv():hasItem("food_milk_carton") or player:getChar():getInv():hasItem("food_milk_jug")
-		local can = player:getChar():getInv():hasItem("food_soda_cold")
+		local milk = player:getChar():getInv():getFirstItemOfType("food_milk_carton") or player:getChar():getInv():getFirstItemOfType("food_milk_jug")
+		local can = player:getChar():getInv():getFirstItemOfType("food_soda_cold")
 		
 		local prodTime = 45
 		if(item:getData("producing")) then
@@ -81,6 +77,8 @@ ITEM.functions.Cream = {
 		else
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -92,7 +90,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("food_brain", position)
@@ -106,9 +104,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

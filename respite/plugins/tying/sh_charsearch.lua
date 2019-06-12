@@ -1,47 +1,30 @@
 local PLUGIN = PLUGIN
 
 if (SERVER) then
-	function PLUGIN:searchPlayer(client, target)
-		if (IsValid(target:getNetVar("searcher")) or IsValid(client.nutSearchTarget)) then
-			return false
+	local function searchAccess(inventory, action, context)
+		if(inventory.searching and context.client.searcher) then
+			return true
 		end
+	end
 
+	nut.inventory.types["grid"]:addAccessRule(searchAccess)
+
+	function PLUGIN:searchPlayer(client, target)
 		if (!target:getChar() or !target:getChar():getInv()) then
 			return false
 		end
-
+		
+		if(!client:IsAdmin()) then
+			if (IsValid(target:getNetVar("searcher")) or IsValid(client.nutSearchTarget)) then
+				return false
+			end
+		end
+		
 		local inventory = target:getChar():getInv()
-
-		-- Permit the player to move items from their inventory to the target's inventory.
-		inventory.oldOnAuthorizeTransfer = inventory.onAuthorizeTransfer
-		inventory.onAuthorizeTransfer = function(inventory, client2, oldInventory, item)
-			if (IsValid(client2) and client2 == client) then
-				return true
-			end
-
-			return false
-		end
 		inventory:sync(client)
-		inventory.oldGetReceiver = inventory.getReceiver
-		inventory.getReceiver = function(inventory)
-			return {client, target}
-		end
-		inventory.onCheckAccess = function(inventory, client2)
-			if (client2 == client) then
-				return true
-			end
-		end
-
-		-- Permit the player to move items from the target's inventory back into their inventory.
-		local inventory2 = client:getChar():getInv()
-		inventory2.oldOnAuthorizeTransfer = inventory2.onAuthorizeTransfer
-		inventory2.onAuthorizeTransfer = function(inventory3, client2, oldInventory, item)
-			if (oldInventory == inventory) then
-				return true
-			end
-
-			return inventory2.oldOnAuthorizeTransfer(inventory3, client2, oldInventory, item)
-		end
+		
+		inventory.searching = true
+		client.searcher = true
 
 		-- Show the inventory menu to the searcher.
 		netstream.Start(client, "searchPly", target, target:getChar():getInv():getID())
@@ -58,23 +41,11 @@ if (SERVER) then
 		end
 	end
 
-	netstream.Hook("searchExit", function(client)
-		local target = client.nutSearchTarget
-
-		if (IsValid(target) and target:getNetVar("searcher") == client) then
-			local inventory = target:getChar():getInv()
-			inventory.onAuthorizeTransfer = inventory.oldOnAuthorizeTransfer
-			inventory.oldOnAuthorizeTransfer = nil
-			inventory.getReceiver = inventory.oldGetReceiver
-			inventory.oldGetReceiver = nil
-			inventory.onCheckAccess = nil
-				
-			local inventory2 = client:getChar():getInv()
-			inventory2.onAuthorizeTransfer = inventory2.oldOnAuthorizeTransfer
-			inventory2.oldOnAuthorizeTransfer = nil
-
-			target:setNetVar("searcher", nil)
-			client.nutSearchTarget = nil
+	netstream.Hook("searchExit", function(client, target)
+		client.searcher = false
+		
+		if(inventory) then
+			inventory.searching = false
 		end
 	end)
 else
@@ -85,40 +56,52 @@ else
 	end
 
 	netstream.Hook("searchPly", function(target, index)
-		local inventory = nut.item.inventories[index]
-
+		local inventory = nut.inventory.instances[index]
+		
 		if (!inventory) then
-			return netstream.Start("searchExit")
+			return netstream.Start("searchExit", inventory)
 		end
 
-		nut.gui.inv1 = vgui.Create("nutInventory")
-		nut.gui.inv1:ShowCloseButton(true)
-		nut.gui.inv1:setInventory(LocalPlayer():getChar():getInv())
+		-- Get the inventory for the player and storage.
+		local localInv = LocalPlayer():getChar():getInv()
+		local storageInv = inventory
+		
+		local PADDING = 4
+		
+		-- Show both the storage and inventory.
+		local localInvPanel = localInv:show()
+		local storageInvPanel = storageInv:show()
+		storageInvPanel:SetTitle(target:Name())
 
-		local panel = vgui.Create("nutInventory")
-		panel:ShowCloseButton(true)
-		panel:SetTitle(target:Name())
-		panel:setInventory(inventory)
-		panel:MoveLeftOf(nut.gui.inv1, 4)
-		panel.OnClose = function(this)
-			if (IsValid(nut.gui.inv1) and !IsValid(nut.gui.menu)) then
-				nut.gui.inv1:Remove()
+		-- Allow the inventory panels to close.
+		localInvPanel:ShowCloseButton(true)
+		storageInvPanel:ShowCloseButton(true)
+
+		-- Put the two panels, side by side, in the middle.
+		local extraWidth = (storageInvPanel:GetWide() + PADDING) / 2
+		localInvPanel:Center()
+		storageInvPanel:Center()
+		localInvPanel.x = localInvPanel.x + extraWidth
+		storageInvPanel:MoveLeftOf(localInvPanel, PADDING)
+
+		-- Signal that the user left the inventory if either closes.
+		local firstToRemove = true
+		localInvPanel.oldOnRemove = localInvPanel.OnRemove
+		storageInvPanel.oldOnRemove = storageInvPanel.OnRemove
+
+		local function exitStorageOnRemove(panel)
+			if (firstToRemove) then
+				firstToRemove = false
+				nutStorageBase:exitStorage()
+				local otherPanel =
+					panel == localInvPanel and storageInvPanel or localInvPanel
+				if (IsValid(otherPanel)) then otherPanel:Remove() end
 			end
-
-			netstream.Start("searchExit")
+			panel:oldOnRemove()
 		end
 
-		local oldClose = nut.gui.inv1.OnClose
-		nut.gui.inv1.OnClose = function()
-			if (IsValid(panel) and !IsValid(nut.gui.menu)) then
-				panel:Remove()
-			end
-
-			netstream.Start("searchExit")
-			nut.gui.inv1.OnClose = oldClose
-		end
-
-		nut.gui["inv"..index] = panel	
+		localInvPanel.OnRemove = exitStorageOnRemove
+		storageInvPanel.OnRemove = exitStorageOnRemove
 	end)
 end
 
@@ -131,6 +114,23 @@ nut.command.add("charsearch", {
 		local target = util.TraceLine(data).Entity
 
 		if (IsValid(target) and target:IsPlayer() and target:getNetVar("restricted")) then
+			PLUGIN:searchPlayer(client, target)
+		end
+	end
+})
+
+nut.command.add("adminsearch", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1]) or client	
+
+		if(target) then
+			if(target == client) then
+				client:notify("You cannot search yourself.")
+				return false
+			end
+		
 			PLUGIN:searchPlayer(client, target)
 		end
 	end

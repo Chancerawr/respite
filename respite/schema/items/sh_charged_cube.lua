@@ -1,10 +1,13 @@
 ITEM.name = "Charged Cube"
-ITEM.uniqueID = "charged_cube"
 ITEM.desc = "A perfect cube, it is hot the touch and stores electricity incredibly well."
+ITEM.uniqueID = "charged_cube"
 ITEM.model = "models/hunter/blocks/cube025x025x025.mdl"
 ITEM.material = "models/alyx/emptool_glow"
 ITEM.flag = "v"
 ITEM.category = "Charged"
+ITEM.height = 2
+ITEM.width = 2
+ITEM.color = Color(70, 120, 70)
 
 ITEM.data = {
 	sTime = 0
@@ -52,7 +55,7 @@ ITEM.functions.Charge = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		
-		local battery = inventory:hasItem("j_battery_dead")	
+		local battery = inventory:getFirstItemOfType("j_battery_dead")	
 		local charges = chargeTimer(item:getData("sTime", 0))
 		
 		nut.chat.send(client, "itclose", "The object accepts the dead battery and the money, vibrates intensely, and outputs a freshly charged battery.")
@@ -60,9 +63,7 @@ ITEM.functions.Charge = {
 		battery:remove()
 		item:setData("sTime", CurTime() - timeCharge*(charges-1))
 		
-		if(!inventory:add("ammo_battery")) then
-			nut.item.spawn("ammo_battery", position)
-		end
+		inventory:addSmart("ammo_battery", 1, position)
 		
 		return false
 	end,
@@ -73,9 +74,11 @@ ITEM.functions.Charge = {
 	
 		local player = item.player or item:getOwner()
 		
-		if (!player:getChar():getInv():hasItem("j_battery_dead")) then --if item of importance isn't in the inventory.
+		if (!player:getChar():getInv():getFirstItemOfType("j_battery_dead")) then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 

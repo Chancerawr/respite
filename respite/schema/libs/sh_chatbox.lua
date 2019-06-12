@@ -1,6 +1,3 @@
-nut.chat = nut.chat or {}
-nut.chat.classes = nut.char.classes or {}
-
 local DUMMY_COMMAND = {syntax = "<string text>", onRun = function() end}
 
 if (!nut.command) then
@@ -20,7 +17,7 @@ function nut.chat.register(chatType, data)
 		local range = data.onCanHear ^ 2
 
 		data.onCanHear = function(speaker, listener)
-			-- Length2DSqr is faster than Length2D, so just check the squares.
+			-- LengthSqr is faster than Length, so just check the squares.
 			return (speaker:GetPos() - listener:GetPos()):LengthSqr() <= range
 		end
 	end
@@ -144,9 +141,9 @@ end
 
 if (SERVER) then
 	-- Send a chat message using the specified chat type.
-	function nut.chat.send(speaker, chatType, text, anonymous, receivers)
+	function nut.chat.send(speaker, chatType, text, anonymous, receivers)	
 		local class = nut.chat.classes[chatType]
-
+		
 		if (class and class.onCanSay(speaker, text) != false) then
 			if (class.onCanHear and !receivers) then
 				receivers = {}
@@ -175,6 +172,11 @@ else
 			if (class) then
 				CHAT_CLASS = class
 					class.onChatAdd(client, text, anonymous)
+					if (SOUND_CUSTOM_CHAT_SOUND and SOUND_CUSTOM_CHAT_SOUND != "") then
+						surface.PlaySound(SOUND_CUSTOM_CHAT_SOUND)
+					else
+						chat.PlaySound()
+					end
 				CHAT_CLASS = nil
 			end
 		end
@@ -204,14 +206,17 @@ do
 				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 				local pSay = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
 				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
-				local texCol = nut.config.get("chatColor")
+				
+				local colTbl = nut.config.get("chatColor")
+				local texCol = Color(colTbl.r, colTbl.g, colTbl.b) --i dont know why this was necessary
 				
 				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
-					texCol = nut.config.get("chatListenColor")
+					colTbl = nut.config.get("chatColor")
+					texCol = Color(colTbl.r, colTbl.g, colTbl.b) --i dont know why this was necessary
 				end
 
 				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
-				
+
 				if(LocalPlayer() == speaker) then
 					local tempCol = nut.config.get("chatListenColor")
 					
@@ -404,9 +409,9 @@ do
 				elseif (speaker:IsUserGroup("vip") or speaker:IsUserGroup("donator") or speaker:IsUserGroup("donor")) then
 					icon = "icon16/heart.png"
 				end
-
+	
 				icon = Material(hook.Run("GetPlayerIcon", speaker) or icon)
-
+				
 				chat.AddText(icon, Color(255, 50, 50), " [OOC] ", speaker, color_white, ": "..text)
 			end,
 			prefix = {"//", "/ooc"},
@@ -435,7 +440,9 @@ do
 				speaker.nutLastLOOC = CurTime()
 			end,
 			onChatAdd = function(speaker, text)
-				chat.AddText(Color(255, 50, 50), "[LOOC] ", nut.config.get("chatColor"), speaker:Name()..": "..text)
+				local chatColor = nut.config.get("chatColor")
+			
+				chat.AddText(Color(255, 50, 50), "[LOOC] ", Color(chatColor.r, chatColor.g, chatColor.b), speaker:Name()..": "..text)
 			end,
 			onCanHear = nut.config.get("chatRange", 280),
 			prefix = {".//", "[[", "/looc"},

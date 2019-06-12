@@ -5,9 +5,11 @@ ITEM.desc = "A pair of old ski goggles."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 2 }
-ITEM.salvItem = "j_scrap_plastics"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 2
+}
 
 ITEM.attribBoosts = {
 	["luck"] = 1,

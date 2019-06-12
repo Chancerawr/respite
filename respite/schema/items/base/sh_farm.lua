@@ -25,48 +25,59 @@ ITEM.functions.Farm = {
 		local char = client:getChar()
 		local inventory = char:getInv()
 		
-		local water = inventory:hasItem("food_water_misc") or inventory:hasItem("food_water") or inventory:hasItem("food_water_mountain") or inventory:hasItem("food_blood")
+		local water = inventory:getFirstItemOfType("food_water_misc") or inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_water_mountain") or inventory:getFirstItemOfType("food_blood")
 		local grow
 		if(water) then
 			if (water.uniqueID == "food_water_misc" ) then
 				grow = item.grow .. "_plastic"
 			else
 				grow = item.grow
-			end	
+			end
+			
 			local container = water.container
 			water:remove()
 			inventory:add(container)
+			
 			nut.chat.send(client, "itclose", "The liquid is poured onto the strange dirt.")	
-			item:setData("producing2", CurTime())
-			timer.Simple(item.growTime, 
-				function()
-					if (item != nil) then
-						item:setData("producing2", 0)
-						for i=1, item.yield do
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								if(!inventory:add(grow)) then --if the inventory has space, put it in the inventory
-									nut.item.spawn(grow, client:getItemDropPos()) --if not, drop it on the ground
-								end
-							else --if the item it on the ground
-								nut.item.spawn(grow, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-							end
+			item:setData("producing", CurTime())
+			
+			timer.Simple(item.growTime, function()
+				if (item != nil) then
+					item:setData("producing", nil)
+					for i=1, item.yield do
+						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+							inventory:addSmart(grow, 1, client:getItemDropPos())
+						else --if the item it on the ground
+							nut.item.spawn(grow, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 						end
-						client:notify("Farming has finished.")
 					end
+					client:notify("Farming has finished.")
 				end
-			)
+			end)
 		else
-			client:notifyLocalized("You don't have any water!") return false
+			client:notify("You don't have any water!") return false
 		end
+		
 		return false
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
-		local endTime = item:getData("producing2", 0) + item.growTime
-
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = item.growTime
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
+		
+		return true
 	end
 }
+
+function ITEM:getDesc()
+	local desc = self.desc
+	
+	if(self:getData("producing", false)) then
+		desc = desc .. "\nSomething is growing."
+	end
+	
+	return Format(desc)
+end

@@ -50,7 +50,9 @@ ITEM.functions.use = { -- sorry, for name order.
 			
 			for k, v in pairs(DISEASES.diseases) do --removes all of them for now
 				if(hasDisease(client, v.uid)) then
-					cureDisease(client, v.uid)
+					if(!v.unpurgeable) then
+						cureDisease(client, v.uid)
+					end
 				end
 			end
 		end
@@ -76,7 +78,9 @@ ITEM.functions.usef = { -- sorry, for name order.
 		
 		for k, v in pairs(DISEASES.diseases) do --removes all of them for now
 			if(hasDisease(target, v.uid)) then
-				cureDisease(target, v.uid)
+				if(!v.unpurgeable) then
+					cureDisease(target, v.uid)
+				end
 			end
 		end
 

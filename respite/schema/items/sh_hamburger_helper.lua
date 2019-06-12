@@ -20,86 +20,85 @@ ITEM.functions.Activate = {
 	icon = "icon16/box.png",
 	sound = "physics/metal/metal_solid_strain5.wav",
 	onRun = function(item)
-			local client = item.player
-			local inventory = client:getChar():getInv()
+		local client = item.player
+		local inventory = client:getChar():getInv()
 
-			local meat
-			local meats = {
-				"food_monster_meat",
-				"food_human_meat",
-				"food_human_torso3",
-				"food_human_torso2",
-				"food_human_torso1",
-				"food_human_pelvis",
-				"food_human_legs",
-				"food_human_leg2",
-				"food_human_leg1",
-				"food_human_hand",
-				"food_human_foot",
-				"food_human_arms",
-				"food_human_arm2",
-				"food_human_arm1"
-			}
-			
-			for k, v in pairs (meats) do
-				meat = inventory:hasItem(v)
-				if (meat) then
-					meat:remove()
-					break
-				end
+		local meat
+		local meats = {
+			"food_monster_meat",
+			"food_human_meat",
+			"food_human_torso3",
+			"food_human_torso2",
+			"food_human_torso1",
+			"food_human_pelvis",
+			"food_human_legs",
+			"food_human_leg2",
+			"food_human_leg1",
+			"food_human_hand",
+			"food_human_foot",
+			"food_human_arms",
+			"food_human_arm2",
+			"food_human_arm1"
+		}
+		
+		for k, v in pairs (meats) do
+			meat = inventory:getFirstItemOfType(v)
+			if (meat) then
+				meat:remove()
+				break
 			end
-			
-			if (!meat) then
-				client:notifyLocalized("You don't have any usable meat!") return false
-			end
-			
-			local kind = math.random(1,3)
-			local result
-			local num
-			if(kind == 1) then
-				result = "food_hamburger"
-				num = 1
-				client:notify("Hamburger Helping has begun.")
-			elseif(kind == 2) then
-				result = "food_hotdog"
-				num = 2
-				client:notify("Hot Dogging has begun.")
-			elseif(kind == 3) then
-				result = "food_bacon"
-				num = 3
-				client:notify("Baconating has begun.")
-			else
-				result = "food_nuggets"
-				num = 2
-				client:notify("Nuggeting has begun.")
-			end
-			
-			item:setData("producing", CurTime())
-			timer.Simple(300, 
-				function()
-					if (item != nil) then
-						item:setData("producing", nil)
-						client:notifyLocalized("Meat has been refined.")
-						
-						local position
-						if(!IsValid(item:getEntity())) then--determines where to drop item
-							position = client:getItemDropPos()
-						else
-							position = item:getEntity():GetPos() + item:getEntity():GetUp()*50
-						end
-						
-						for i = 0, math.random(1,num) do --1 if hamburger, 2 if hot dog, 3 if bacon. (For upper range)
-							nut.item.spawn(result, position,
-								function(item2)
-									item2:setData("cooked", math.random(3,4))
-								end
-							)
-						end
+		end
+		
+		if (!meat) then
+			client:notify("You don't have any usable meat!") return false
+		end
+		
+		local kind = math.random(1,4)
+		local result
+		local num
+		if(kind == 1) then
+			result = "food_hamburger"
+			num = 1
+			client:notify("Hamburger Helping has begun.")
+		elseif(kind == 2) then
+			result = "food_hotdog"
+			num = 1
+			client:notify("Hot Dogging has begun.")
+		elseif(kind == 3) then
+			result = "food_bacon"
+			num = 2
+			client:notify("Baconating has begun.")
+		else
+			result = "food_nuggets"
+			num = 3
+			client:notify("Nuggeting has begun.")
+		end
+		
+		item:setData("producing", CurTime())
+		timer.Simple(300, function()
+			if (item != nil) then
+				item:setData("producing", nil)
+				client:notify("Meat has been refined.")
+				
+				if(!IsValid(item:getEntity())) then--determines where to drop item
+					local position = client:getItemDropPos()
+					
+					for i = 1, math.random(1,num) do --1 if hamburger, 2 if hot dog, 3 if bacon. (For upper range)
+						nut.item.spawn(result, position,
+							function(item2)
+								item2:setData("cooked", math.random(3,4))
+							end
+						)
 					end
+				else
+					local position = item:getEntity():GetPos() + item:getEntity():GetUp()*50
+					
+					inventory:addSmart(result, math.random(1,num), position, {cooked = math.random(3,4)})
 				end
-			)
-			
-			return false
+			end
+		end)
+		
+		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
 		local prodTime = 300
@@ -119,12 +118,12 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
-		nut.item.spawn("food_human_meat", position)
 
-		inventory:add("j_battery_dead")
+		inventory:addSmart("food_human_meat", 1, position)
+		inventory:addSmart("j_battery_dead", 1, position)
 		
 		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces some raw human meat.")
 
@@ -133,7 +132,7 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
 	end

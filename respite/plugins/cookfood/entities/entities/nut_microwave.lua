@@ -8,7 +8,6 @@ ENT.AdminOnly = true
 ENT.RenderGroup 		= RENDERGROUP_BOTH
 ENT.Category = "NutScript"
 ENT.invType = "microwave"
-nut.item.registerInv(ENT.invType, 4, 4)
 
 if (SERVER) then
 	function ENT:Initialize()
@@ -25,39 +24,18 @@ if (SERVER) then
 			physicsObject:Wake()
 		end
 
-		nut.item.newInv(0, self.invType, function(inventory)
-			self:setInventory(inventory)
-			inventory.noBags = true
-
-			function inventory:onCanTransfer(client, oldX, oldY, x, y, newInvID)
-				return hook.Run("StorageCanTransfer", inventory, client, oldX, oldY, x, y, newInvID)
-			end
-		end)
+		nut.inventory.instance("grid", {3,3})
+			:next(function(inventory)
+				self:setInventory(inventory)
+			end)
 	end
-
+	
 	function ENT:setInventory(inventory)
-		if (inventory) then
-			self:setNetVar("id", inventory:getID())
+		assert(inventory, "Storage setInventory called without an inventory!")
+		self:setNetVar("id", inventory:getID())
 
-			inventory.onAuthorizeTransfer = function(inventory, client, oldInventory, item)
-				if (IsValid(client) and IsValid(self) and self.receivers[client]) then
-					return true
-				end
-			end
-
-			inventory.getReceiver = function(inventory)
-				local receivers = {}
-
-				for k, v in pairs(self.receivers) do
-					if (IsValid(k)) then
-						receivers[#receivers + 1] = k
-					end
-				end
-
-				return #receivers > 0 and receivers or nil
-			end
-		end
-	end
+		hook.Run("StorageInventorySet", self, inventory)
+	end	
 	
 	function ENT:activate(seconds)
 		if (self:getNetVar("gone")) then
@@ -96,13 +74,15 @@ if (SERVER) then
 		local inventory = self:getInv()
 
 		if (inventory and (activator.nutNextOpen or 0) < CurTime()) then
+			
 			if (activator:getChar()) then
 				activator:setAction("Opening...", 1, function()
 					if (activator:GetPos():Distance(self:GetPos()) <= 100) then
 						self.receivers[activator] = true
-						activator.nutBagEntity = self
-						
 						inventory:sync(activator)
+						
+						activator.nutStorageEntity = self
+						
 						netstream.Start(activator, "stvOpen", self, inventory:getID())
 					end
 				end)

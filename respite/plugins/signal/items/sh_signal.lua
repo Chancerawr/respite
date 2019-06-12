@@ -66,7 +66,7 @@ ITEM.functions.toggle = { -- sorry, for name order.
 		item.player:EmitSound("buttons/button14.wav", 70, 150)
 
 		return false
-	end,
+	end
 }
 
 ITEM.functions.use = { -- sorry, for name order.
@@ -77,5 +77,5 @@ ITEM.functions.use = { -- sorry, for name order.
 		netstream.Start(item.player, "signalAdjust", item:getData("freq", "000,0"), item.id)
 
 		return false
-	end,
+	end
 }

@@ -1,5 +1,5 @@
 ITEM.name = "Scavenger Shotgun"
-ITEM.desc = "A handmade magazine-fed shotgun, clearly inspired by the Saiga 12. Powerful at close range, but barely effective anywhere else.\nThis weapon utilizes 12 gauge shells."
+ITEM.desc = "A handmade magazine-fed shotgun, clearly inspired by the Saiga 12. Powerful at close range, but barely effective anywhere else."
 ITEM.model = "models/weapons/w_rif_galil.mdl"
 ITEM.material = "models/props_wasteland/quarryobjects01"
 ITEM.class = "tfa_wasteland_shotgun"
@@ -9,7 +9,7 @@ ITEM.width = 3
 ITEM.height = 2
 ITEM.price = 0
 ITEM.flag = "v"
-ITEM.category = "Weapons - Shotguns"
+ITEM.category = "Weapons - Scavenger"
 
 ITEM.iconCam = {
 	pos = Vector(-2, 200, 5),

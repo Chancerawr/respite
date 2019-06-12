@@ -162,7 +162,7 @@ else
 			if (id) then
 				item = nut.item.instances[id]
 			else
-				item = inv:hasItem("comm_radio")
+				item = inv:getFirstItemOfType("comm_radio")
 			end
 
 			local ent = item:getEntity()
@@ -190,7 +190,7 @@ else
 				}
 
 				for k, v in ipairs(detect) do
-					item = inv:hasItem(v)
+					item = inv:getFirstItemOfType(v)
 				end
 
 				if (item) then

@@ -9,4 +9,7 @@ LANGUAGE = {
 	DrifterTip = "Drifters.\nA lost human in a strange world.",
 	LostTip = "Lost.\nA human lost in a strange world.",
 	ReturnTip = "Return to the previous menu.",
+	wakingUp = "You are getting up...",
+	unknown = "You don't recognize this person.",
+	itemCreated = "%s successfully created.",
 }

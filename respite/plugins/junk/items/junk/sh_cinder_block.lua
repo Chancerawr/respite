@@ -5,9 +5,10 @@ ITEM.desc = "A heavy block of concrete."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 2
-	
-ITEM.data = { scrapamount = 4 }
-ITEM.salvItem = "j_scrap_concrete"
+
+ITEM.salvItem = {
+	["j_scrap_concrete"] = 3
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

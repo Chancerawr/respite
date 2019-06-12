@@ -1,38 +1,17 @@
 local NUT_CVAR_LOWER2 = CreateClientConVar("nut_usealtlower", "1", true)
 
 function SCHEMA:LoadFonts(font)
-	surface.CreateFont("nutAmmoFont", {
-		font = "Roboto Cn",
-		size = 28,
-		weight = 100
-	})
-	
-	surface.CreateFont("nutItalic", {
-		font = "Segoe UI",
-		size = 22,
-		weight = 1000,
-		shadow = true,
-		italic = true
-	})
-	
-	surface.CreateFont("nutChat", {
+	--used for entity names and descriptions
+	surface.CreateFont("nutEntDesc", {
 		font = "Segoe UI",
 		size = math.max(ScreenScale(7), 17),
 		weight = 200
 	})
-	
-	surface.CreateFont("nutYell", {
-	    font = "Roboto Cn",
-		size = 24,
-		weight = 1000,
-		shadow = true
-	})
 
-	surface.CreateFont("nutWhisper", {
-	    font = "Segoe UI",
-		size = 17,
-		weight = 1000,
-		shadow = true
+	surface.CreateFont("nutAmmoFont", {
+		font = "Roboto Cn",
+		size = 28,
+		weight = 100
 	})
 	
 	surface.CreateFont("nutObjDescFont", {
@@ -60,30 +39,6 @@ function SCHEMA:LoadFonts(font)
 		font = "Type-Ra",
 		size = ScreenScale(30),
 		weight = 1000
-	})
-
-	surface.CreateFont("nutSubTitleFont", {
-		font = "Roboto Cn",
-		size = ScreenScale(10),
-		weight = 500
-	})
-
-	surface.CreateFont("nutMenuButtonFont", {
-		font = "Type-Ra",
-		size = ScreenScale(10),
-		weight = 400
-	})
-	
-	surface.CreateFont("nutMenuButtonFontNew", {
-		font = "Type-Ra",
-		size = ScreenScale(10),
-		weight = 400
-	})
-
-	surface.CreateFont("nutMenuButtonLightFont", {
-		font = font,
-		size = ScreenScale(10),
-		weight = 200
 	})
 
 	surface.CreateFont("nutToolTipText", {
@@ -148,34 +103,27 @@ function SCHEMA:LoadFonts(font)
 		size = 20,
 		weight = 1000
 	})
-
-	-- surface.CreateFont("nutChatFont", {
-		-- font = font,
-		-- size = math.max(ScreenScale(7), 17),
-		-- weight = 200
-	-- })
-
-	-- surface.CreateFont("nutChatFontItalics", {
-		-- font = font,
-		-- size = math.max(ScreenScale(7), 17),
-		-- weight = 200,
-		-- italic = true
-	-- })
 	
-	   
 	surface.CreateFont("nutChatFont", {
-	    font = "Roboto",
-		size = 17,
-		weight = 1000,
-		shadow = true
+		font = "Verdana",
+		size = math.max(ScreenScale(6), 23),
+		extended = true,
+		weight = 250
 	})
-	
+
 	surface.CreateFont("nutChatFontItalics", {
-		font = "Roboto",
-		size = 17,
-		weight = 1000,
-		italic = true,
-		shadow = true
+		font = "Verdana",
+		size = math.max(ScreenScale(6), 23),
+		extended = true,
+		weight = 250,
+		italic = true
+	})
+
+	surface.CreateFont("nutChatFontBold", {
+		font = "Verdana Bold",
+		size = math.max(ScreenScale(6), 23),
+		extended = true,
+		weight = 300,
 	})
 
 	surface.CreateFont("nutSmallFont", {
@@ -237,7 +185,7 @@ function SCHEMA:LoadFonts(font)
 end
 
 function SCHEMA:RenderScreenspaceEffects()
-	if ( nut.gui.char and nut.gui.char:IsVisible() ) then
+	if (nut.gui.char and nut.gui.char:IsVisible()) then
 		local mat_Overlay = Material("pp/blurscreen")
 
 		local scrW, scrH = ScrW(), ScrH()		
@@ -325,55 +273,40 @@ function SCHEMA:HUDDrawTargetID()
 	return false
 end
 
-function SCHEMA:ShowPlayerCard( client, me )
-	self.F3 = vgui.Create( "DFrame" );
-	self.F3:SetSize( 500, 700 );
-	self.F3:Center();
-	if( me ) then
-		self.F3:SetTitle( "Player Menu" );
-	else
-		self.F3:SetTitle( client:Name() );
-	end
-	self.F3:MakePopup();
+function SCHEMA:ShowPlayerCard(target, client)
+	self.F3 = vgui.Create("DFrame")
+	self.F3:SetSize(ScrW() * 0.35, ScrH() * 0.25)
+	self.F3:Center()
+
+	self.F3:SetTitle(target:Name())
 	
-	self.F3.P = vgui.Create( "ICharPanel", self.F3 );
-	self.F3.P:SetPos( 10, 34 );
-	self.F3.P:SetSize( 128, 128 );
-	self.F3.P:SetModel( client:GetModel() );
+	self.F3:MakePopup()
 	
-	for i = 0, #client:GetMaterials() - 1 do
-		
-		self.F3.P:SetSubMaterial( i, client:GetSubMaterial( i ) );
-		
-	end
+	local name = self.F3:Add("DLabel")
+	name:SetFont("nutMediumFont")
+	name:SetPos(ScrW() * 0.35 * 0.5, 30)
+	name:SetText(target:Name())
+	name:SizeToContents()
+	name:SetTextColor(Color(255, 255, 255, 255))
+	name:CenterHorizontal()
+	--name:Dock(TOP)
 	
-	self.F3.P:SetCamPos( Vector( 50, 20, 63 ) );
-	self.F3.P:SetLookAtEyes();
-	self.F3.P:SetFOV( 15 );
+	local scroll = self.F3:Add("DScrollPanel")
+	scroll:SetPos(0, 50)
+	scroll:SetSize(ScrW() * 0.35 - 40, ScrH() * 0.25 - 20)
+	--scroll:Dock(TOP)
+	scroll:Center()
+	function scroll:Paint(w, h) end
 	
-	self.F3.P.NoMouseWheel = true;
-	
-	self.F3.N = vgui.Create( "DLabel", self.F3 );
-	self.F3.N:SetPos( 148, 34 );
-	self.F3.N:SetFont( "nutMediumLightFont" );
-	self.F3.N:SetText( client:Name() );
-	self.F3.N:SizeToContents();
-	self.F3.N:SetTextColor( Color( 255, 255, 255, 255 ) );
-	
-	self.F3.DS = vgui.Create( "DScrollPanel", self.F3 );
-	self.F3.DS:SetPos( 148, 64 );
-	self.F3.DS:SetSize( 500 - 148 - 10, 700 - 64 - 10 );
-	function self.F3.DS:Paint( w, h ) end
-	
-	self.F3.B = vgui.Create( "DLabel", self.F3.DS );
-	self.F3.B:SetPos( 0, 40 );
-	self.F3.B:SetFont( "nutMediumLightFont" );
-	self.F3.B:SetText( client:getChar():getDesc() );
-	self.F3.B:SetAutoStretchVertical( true );
-	self.F3.B:SetWrap( true );
-	self.F3.B:SetSize( 500 - 148 - 10 - 16, 10 );
-	self.F3.B:SetTextColor( Color( 255, 255, 255, 255 ) );
-	self.F3.B:PerformLayout();
+	local desc = scroll:Add("DLabel")
+	desc:SetPos(0, 50)
+	desc:SetFont("nutSmallFont")
+	desc:SetText(target:getChar():getDesc())
+	desc:SetAutoStretchVertical(true)
+	desc:SetWrap(true)
+	desc:SetSize(ScrW() * 0.35, 10)
+	desc:SetTextColor(Color(255, 255, 255, 255))
+	desc:PerformLayout()
 end
 
 function SCHEMA:PlayerBindPress(client, bind, pressed)
@@ -442,21 +375,12 @@ function SCHEMA:SetupQuickMenu(menu)
 	end, GetConVar("gmod_mcore_test"):GetBool())
 end
 
---turns off injury text
-function SCHEMA:GetInjuredText(client)
-	return false
+function SCHEMA:CanCreateCharInfo(panel)
+	local suppress = {}
+	suppress.time = true
+	
+	return suppress
 end
-
-local nextUpdate = 0
-local lastTrace = {}
-local lastEntity
-local mathApproach = math.Approach
-local surface = surface
-local hookRun = hook.Run
-local toScreen = FindMetaTable("Vector").ToScreen
-
-local blurGoal = 0
-local blurDelta = 0
 
 netstream.Hook("strQue", function(time, question, title, default)
 	Derma_Query(question, title, "Yes", function()

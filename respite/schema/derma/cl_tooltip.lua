@@ -1,62 +1,98 @@
-if (SERVER) then return end
+local itemWidth = ScrW()*.15
 
-TOOLTIP_GENERIC = 0
-TOOLTIP_ITEM = 1
+local PADDING = 12
+local PADDING_HALF = PADDING * 0.5
+
+hook.Add("TooltipInitialize", "nutItemTooltip", function(self, panel)
+	if (panel.nutToolTip or panel.itemID) then
+		self.markupObject = nut.markup.parse(self:GetText(), itemWidth)
+		self:SetText("")
+		self:SetWide(math.max(itemWidth, 200) + PADDING)
+		self:SetHeight(self.markupObject:getHeight() + PADDING)
+		self:SetAlpha(0)
+		self:AlphaTo(255, 0.2, 0)
+		self.isItemTooltip = true
+	end
+end)
+
+hook.Add("TooltipPaint", "nutItemTooltip", function(self, w, h)
+	if (self.isItemTooltip) then
+		--[[
+		nut.util.drawBlur(self, 2, 2)
+		surface.SetDrawColor(0, 0, 0, 250)
+		surface.DrawRect(0, 0, w, h)		
+		
+		nut.util.drawBlur(self, 2, 2)
+		surface.SetDrawColor(30, 30, 50, 120)
+		surface.DrawOutlinedRect(0, 0, w, h)
+		--]]
+		
+		nut.util.drawBlur(self, 2, 2)
+		surface.SetDrawColor(40, 50, 55, 250)
+		surface.DrawRect(0, 0, w, h)
+		
+		nut.util.drawBlur(self, 2, 2)
+		surface.SetDrawColor(70, 90, 95, 120)
+		surface.DrawOutlinedRect(0, 0, w, h)				
+
+		if (self.markupObject) then
+			self.markupObject:draw(PADDING_HALF, PADDING_HALF + 2)
+		end
+
+		return true
+	end
+end)
+
+hook.Add("TooltipLayout", "nutItemTooltip", function(self)
+	if (self.isItemTooltip) then
+		return true
+	end
+end)
 
 local tooltip_delay = 0.01
 
 local PANEL = {}
 
 function PANEL:Init()
-
-	self:SetDrawOnTop( true )
+	self:SetDrawOnTop(true)
 	self.DeleteContentsOnClose = false
-	self:SetText( "" )
-	self:SetFont( "nutToolTipText" )
-
+	self:SetText("")
+	self:SetFont("nutToolTipText")
 end
 
-function PANEL:UpdateColours( skin )
+function PANEL:UpdateColours(skin)
 	return self:SetTextStyleColor(color_black)
 end
 
-function PANEL:SetContents( panel, bDelete )
-	panel:SetParent( self )
+function PANEL:SetContents(panel, bDelete)
+	panel:SetParent(self)
 
 	self.Contents = panel
 	self.DeleteContentsOnClose = bDelete or false
 	self.Contents:SizeToContents()
-	self:InvalidateLayout( true )
+	self:InvalidateLayout(true)
 
-	self.Contents:SetVisible( false )
+	self.Contents:SetVisible(false)
 end
 
 function PANEL:PerformLayout()
-	if (self.iconMode != TOOLTIP_ITEM) then
-		if ( self.Contents ) then
-			self:SetWide( self.Contents:GetWide() + 8 )
-			self:SetTall( self.Contents:GetTall() + 8 )
-			self.Contents:SetPos( 4, 4 )
+	local override = hook.Run("TooltipLayout", self)
+
+	if (not override) then
+		if (self.Contents) then
+			self:SetWide(self.Contents:GetWide() + 8)
+			self:SetTall(self.Contents:GetTall() + 8)
+			self.Contents:SetPos(4, 4)
 		else
 			local w, h = self:GetContentSize()
-			self:SetSize( w + 8, h + 6 )
-			self:SetContentAlignment( 5 )
+			self:SetSize(w + 8, h + 6)
+			self:SetContentAlignment(5)
 		end
 	end
 end
 
-local Mat = Material( "vgui/arrow" )
-
-function PANEL:DrawArrow( x, y )
-	self.Contents:SetVisible( true )
-
-	surface.SetMaterial( Mat )
-	surface.DrawTexturedRect( self.ArrowPosX + x, self.ArrowPosY + y, self.ArrowWide, self.ArrowTall )
-end
-
-local itemWidth = ScrW()*.15
 function PANEL:PositionTooltip()
-	if ( !IsValid( self.TargetPanel ) ) then
+	if (!IsValid(self.TargetPanel)) then
 		self:Remove()
 		return
 	end
@@ -66,86 +102,53 @@ function PANEL:PositionTooltip()
 	local x, y = input.GetCursorPos()
 	local w, h = self:GetSize()
 
-	local lx, ly = self.TargetPanel:LocalToScreen( 0, 0 )
+	local lx, ly = self.TargetPanel:LocalToScreen(0, 0)
 
 	y = y - 50
 
-	y = math.min( y, ly - h * 1.5 )
-	if ( y < 2 ) then y = 2 end
+	y = math.min(y, ly - h * 1.5)
+	if (y < 2) then y = 2 end
 
 	-- Fixes being able to be drawn off screen
-	self:SetPos( math.Clamp( x - w * 0.5, 0, ScrW() - self:GetWide() ), math.Clamp( y, 0, ScrH() - self:GetTall() ) )
+	self:SetPos(math.Clamp(x - w * 0.5, 0, ScrW() - self:GetWide()), math.Clamp(y, 0, ScrH() - self:GetTall()))
 end
 
 function PANEL:Paint( w, h )
 	self:PositionTooltip()
 
-	if (self.iconMode == TOOLTIP_ITEM) then
-		nut.util.drawBlur(self, 10)
-		surface.SetDrawColor(45, 45, 50, 255)
-		surface.DrawRect(0, 0, w, h)
-		surface.SetDrawColor(200, 200, 200, 120)
-		surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
+	local override = hook.Run("TooltipPaint", self, w, h)
 
-		if (self.markupObject) then
-			self.markupObject:draw(15, 10)
-		end
-	else
-		derma.SkinHook( "Paint", "Tooltip", self, w, h )
+	if (not override) then
+		derma.SkinHook("Paint", "Tooltip", self, w, h)
 	end
 end
 
-function PANEL:OpenForPanel( panel )
+function PANEL:OpenForPanel(panel)
 	self.TargetPanel = panel
 	self:PositionTooltip()
-	
-	if (panel.itemID) then
-		self.iconMode = TOOLTIP_ITEM
-	end
-	
-	if (self.iconMode == TOOLTIP_ITEM) then
-		self.markupObject = nut.markup.parse(self:GetText(), itemWidth)
-		self:SetText("")
-		self:SetWide(math.max(itemWidth, 200) + 15)
-		self:SetHeight(self.markupObject:getHeight() + 20)
-	end
 
-	if ( tooltip_delay > 0 ) then
+	hook.Run("TooltipInitialize", self, panel)
 
-		self:SetVisible( false )
-		timer.Simple( tooltip_delay, function()
-			if ( !IsValid( self ) ) then return end
-			if ( !IsValid( panel ) ) then return end
+	if (tooltip_delay > 0) then
+		self:SetVisible(false)
+
+		timer.Simple(tooltip_delay, function()
+			if (!IsValid(self)) then return end
+			if (!IsValid(panel)) then return end
 
 			self:PositionTooltip()
-			self:SetVisible( true )
-		end )
+			self:SetVisible(true)
+		end)
 	end
-
 end
 
 function PANEL:Close()
-
-	if ( !self.DeleteContentsOnClose && self.Contents ) then
-
-		self.Contents:SetVisible( false )
-		self.Contents:SetParent( nil )
-
+	if (!self.DeleteContentsOnClose and self.Contents) then
+		self.Contents:SetVisible(false)
+		self.Contents:SetParent(nil)
 	end
 
 	self:Remove()
-
 end
 
-function PANEL:GenerateExample( ClassName, PropertySheet, Width, Height )
-
-	local ctrl = vgui.Create( "DButton" )
-	ctrl:SetText( "Hover me" )
-	ctrl:SetWide( 200 )
-	ctrl:SetTooltip( "This is a tooltip" )
-
-	PropertySheet:AddSheet( ClassName, ctrl, nil, true, true )
-
-end
-
-derma.DefineControl( "DTooltip", "", PANEL, "DLabel" )
+derma.DefineControl("DTooltip", "", PANEL, "DLabel")

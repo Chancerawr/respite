@@ -1,5 +1,5 @@
 ITEM.name = "SVD Dragunov"
-ITEM.desc = "A ruggedly dependable and averagely accurate designated marksman's rifle, developed in the late fifties as a replacement for the SVT-40's role as a marksman's rifle.\nThis weapon utilizes 7.62x54mm rounds."
+ITEM.desc = "A ruggedly dependable and averagely accurate designated marksman's rifle, developed in the late fifties as a replacement for the SVT-40's role as a marksman's rifle."
 ITEM.model = "models/weapons/tfa_w_svd_dragunov.mdl"
 ITEM.class = "tfa_dragunov"
 ITEM.weaponCategory = "primary"

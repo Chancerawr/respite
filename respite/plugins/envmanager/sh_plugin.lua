@@ -30,11 +30,13 @@ nut.config.add("env_maxSpawns", 10, "Max NPCs that are allowed to be created by 
 })
 
 --env manager will leave people in these factions alone
-PLUGIN.factions = {
-	[FACTION_SHADE] = true,
-	[FACTION_ABOM] = true,
-	[FACTION_ABER] = true
-}
+timer.Simple(1, function() --this timer makes it so it sets this after the factions are loaded, kind of annoying.
+	PLUGIN.factions = {
+		[FACTION_SHADE] = true,
+		[FACTION_ABOM] = true,
+		[FACTION_ABER] = true
+	}
+end)
 
 local function spawnNPC(npc, position)
 	local ent = ents.Create(npc)
@@ -183,7 +185,7 @@ end
 if SERVER then
 	function PLUGIN:Think()
 		if(!nut.config.get("env_enabled", false)) then return end		
-		if(!self.nextThink) then self.nextThink = 0 end
+		if(!self.nextThink) then self.nextThink = 60 end
 		
 		if(self.nextThink < CurTime()) then
 			self.nextThink = self.nextThink + (nut.config.get("env_thinkTime", 3600))

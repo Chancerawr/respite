@@ -25,13 +25,13 @@ ITEM.functions.Blight = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local blight = inventory:hasItem("blight")	
+		local blight = inventory:getFirstItemOfType("blight")	
 			
 		if (blight) then
 			blight:remove()
 			nut.item.spawn("food_blood", position)
 			nut.chat.send(client, "itclose", "The statue begins crying blood.")	
-			client:TakeDamage(50, client, client)
+			client:TakeDamage(25, client, client)
 			
 			local hatred = item:getData("hatred", 0)
 			if(hatred > 9) then
@@ -78,7 +78,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("haze_bottled_blood", position)
@@ -92,9 +92,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

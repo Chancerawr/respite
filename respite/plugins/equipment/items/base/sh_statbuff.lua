@@ -130,6 +130,40 @@ ITEM.functions.Equip = {
 	end
 }
 
+ITEM.functions.Inspect = {
+	name = "Inspect",
+	tip = "Inspect this item",
+	icon = "icon16/picture.png",
+	onClick = function(item)
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(540, 680)
+		frame:SetTitle(item.name)
+		frame:MakePopup()
+		frame:Center()
+
+		frame.html = frame:Add("DHTML")
+		frame.html:Dock(FILL)
+		
+		local customData = item:getData("custom", {})
+		
+		local imageCode = [[<img src = "]]..customData.img..[["/>]]
+		
+		frame.html:SetHTML([[<html><body style="background-color: #000000; color: #282B2D; font-family: 'Book Antiqua', Palatino, 'Palatino Linotype', 'Palatino LT STD', Georgia, serif; font-size 16px; text-align: justify;">]]..imageCode..[[</body></html>]])
+	end,
+	onRun = function(item)
+		return false
+	end,
+	onCanRun = function(item)
+		local customData = item:getData("custom", {})
+	
+		if(!customData.img) then
+			return false
+		end
+		
+		return true
+	end
+}
+
 ITEM.functions.Scrap = {
 	tip = "Scrap this item",
 	icon = "icon16/wrench.png",
@@ -158,28 +192,17 @@ ITEM.functions.Scrap = {
 			if(istable(item.salvItem)) then
 				for i = 1, multi do
 					amt, scrap = table.Random(item.salvItem)
-					timer.Simple(i/2, function()
-						if(!inv:add(scrap, 1, { Amount = amt })) then
-							nut.item.spawn(scrap, position,
-								function(item2)
-									item2:setData("Amount", amt)
-								end
-							)
+					
+					local itemTable = nut.item.list[scrap]
+					if(itemTable) then
+						if(itemTable.maxstack) then
+							timer.Simple(i/2, function()
+								inv:addSmart(scrap, 1, position, {Amount = amt})
+							end)
+						else
+							inv:addSmart(scrap, amt, position)
 						end
-					end)
-				end
-			else
-				for i = 1, multi do
-					scrap = item.salvItem
-					timer.Simple(i/2, function()
-						if(!inv:add(scrap, 1, { Amount = item:getData("scrapamount") })) then
-							nut.item.spawn(scrap, position,
-								function(item2)
-									item2:setData("Amount", item:getData("scrapamount"))
-								end
-							)
-						end
-					end)
+					end
 				end
 			end
 			
@@ -200,7 +223,7 @@ ITEM.functions.Scrap = {
 			end
 			
 			--Randomized sounds don't work up there so I had to do this.
-			client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70)
+			client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
 					
 			item:remove()
 		end)
@@ -211,83 +234,22 @@ ITEM.functions.Scrap = {
 		if(!item.salvItem) then
 			return false
 		end
+		
 		local client = item:getOwner() or item.player
-		return client:getChar():hasFlags("q") or client:getChar():getInv():hasItem("kit_salvager")
+		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
 	end
 }
 
 ITEM.functions.Custom = {
 	name = "Customize",
 	tip = "Customize this item",
-	icon = "icon16/add.png",
-	onRun = function(item)
-		local client = item.player
-		client:requestString("Change Name", "What name do you want this item to have?", function(text)
-			item:setData("customName", text)
-			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
-				item:setData("customDesc", text)	
-			end, item:getDesc(true))
-		end, item:getName())
-		return false
-	end,
-	onCanRun = function(item)
-		local client = item.player or item:getOwner()
-		return client:getChar():hasFlags("1")
-	end
-}
-
-ITEM.functions.CustomCol = {
-	name = "Customize Color",
-	tip = "Customize this item",
 	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-
-		local color = item:getData("customCol", Color(255,255,255))
-		client:requestString("Change Color", "Enter ', ' separated RGB values.", function(text) --start of model
-			local colorTbl = string.Split(text, ", ")
-			if(table.Count(colorTbl) == 3) then
-				red = tonumber(colorTbl[1])
-				green = tonumber(colorTbl[2])
-				blue = tonumber(colorTbl[3])
-				if(red and green and blue) then --i put in a lot of extra shit here to idiot proof it.
-					color.r = red
-					color.g = green
-					color.b = blue
-				end
-			end
-		
-			item:setData("customCol", color)
-		end, color.r .. ", " .. color.g .. ", " .. color.b) --end of color
-		
-		--hopefully resets the player's icons
-		client:ConCommand("nut_flushicon")
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustom(item.player, item)
 		
 		return false
 	end,
-	onCanRun = function(item)
-		local client = item.player or item:getOwner()
-		return client:getChar():hasFlags("1")
-	end
-}
-
-ITEM.functions.CustomMat = {
-	name = "Customize Material",
-	tip = "Customize this item",
-	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-
-		local material = item:getData("mat") or item.material or ""
-		client:requestString("Change Material", "Enter material path.", function(text) --start of model
-			item:setData("mat", text)
-		end, material)
 	
-		--hopefully resets the player's icons
-		client:ConCommand("nut_flushicon")
-	
-		return false
-	end,
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
 		return client:getChar():hasFlags("1")
@@ -298,30 +260,9 @@ ITEM.functions.CustomAtr = {
 	name = "Customize Attributes",
 	tip = "Customize this item",
 	icon = "icon16/wrench.png",
-	isMulti = true,
-	multiOptions = function(item, client)
-        local targets = {
-            {name = "accuracy", data = "accuracy"},
-            {name = "agility", data = "stm"},
-            {name = "craftiness", data = "medical"},
-            {name = "endurance", data = "end"},
-            {name = "fortitude", data = "fortitude"},
-            {name = "luck", data = "luck"},
-            {name = "perception", data = "perception"},
-            {name = "strength", data = "str"},
-        }
-       
-        return targets
-    end,
 	onRun = function(item, data)
-		local client = item.player
-		local attribs = item:getData("attrib", {})
+		nut.plugin.list["customization"]:startCustomA(item.player, item)
 		
-		client:requestString("Input Attribute", nut.attribs.list[data].name, function(text)
-			attribs[data] = tonumber(text)
-			item:setData("attrib", attribs)
-		end, attribs[data] or 0)
-	
 		return false
 	end,
 	onCanRun = function(item)
@@ -343,24 +284,12 @@ function ITEM:onCanBeTransfered(oldInventory, newInventory)
 	return true
 end
 
-local quality = {}
-quality[0] = "Terrible"
-quality[1] = "Awful"
-quality[2] = "Bad"
-quality[3] = "Poor"
-quality[4] = "Normal"
-quality[5] = "Decent"
-quality[6] = "Good"
-quality[7] = "Great"
-quality[8] = "Excellent"
-quality[9] = "Master"
-quality[10] = "Perfect"
-
 function ITEM:getName()
 	local name = self.name
 	
-	if(self:getData("customName") != nil) then
-		name = self:getData("customName")
+	local customData = self:getData("custom", {})
+	if(customData.name) then
+		name = customData.name
 	end
 	
 	return Format(name)
@@ -369,20 +298,22 @@ end
 function ITEM:getDesc(partial)
 	local desc = self.desc
 	
-	if(self:getData("customDesc") != nil) then
-		desc = self:getData("customDesc")
-	end	
+	local customData = self:getData("custom", {})
+	if(customData.desc) then
+		desc = customData.desc
+	end
 	
 	if(!partial) then
 		if(self:getData("customSlot", self.buffCategory)) then
 			desc = desc .. "\nSlot: " ..self:getData("customSlot", self.buffCategory).. "."
 		end
 			
-		if(self:getData("quality") != nil) then
-			desc = desc .. "\nQuality: " .. quality[math.Round(self:getData("quality"))]
+		if(customData.quality) then
+			desc = desc .. "\nQuality: " ..customData.quality
 		end
 		
-		if(self.attribBoosts) then
+		local boosts = self:getData("attrib")
+		if(self.attribBoosts or (boosts and !table.IsEmpty(boosts))) then
 			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
 			
 			local temp = {}		
@@ -390,7 +321,8 @@ function ITEM:getDesc(partial)
 			local customBoosts = self:getData("attrib", {})
 			for k, v in pairs(self.attribBoosts) do
 				temp[k] = v
-			end		
+			end
+			
 			for k, v in pairs(customBoosts) do
 				temp[k] = (temp[k] or 0) + v
 			end
@@ -406,8 +338,13 @@ function ITEM:getDesc(partial)
 	return Format(desc)
 end
 
-function ITEM:getName()
-	local name = self:getData("customName", self.name)
+function ITEM:onGetDropModel()
+	local model = self.model
 	
-	return Format(name)
+	local customData = self:getData("custom", {})
+	if(customData.model) then
+		model = customData.model
+	end
+	
+	return Format(model)
 end

@@ -6,14 +6,15 @@ ITEM.desc = "A small box that contains several different dice."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.salvItem = "j_scrap_plastics"
 ITEM.buffCategory = "accessory"
+
+ITEM.salvItem = {
+	["j_scrap_plastics"] = 2
+}
 
 ITEM.attribBoosts = {
 	["luck"] = 3
 }
-
-ITEM.data = { scrapamount = 2 }
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

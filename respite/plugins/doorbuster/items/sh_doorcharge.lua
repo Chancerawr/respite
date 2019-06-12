@@ -45,5 +45,5 @@ ITEM.functions.throw = {
 		end
 
 		return false
-	end,
+	end
 }

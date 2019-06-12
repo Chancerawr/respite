@@ -1,6 +1,6 @@
 ITEM.name = "Respite Orb"
 ITEM.name = "Respite Orb"
-ITEM.uniqueID = "shard_complete"
+ITEM.uniqueID = "respite_orb"
 ITEM.desc = "A peculiar crystalline object, it emits a bright white light."
 ITEM.model = "models/props_phx/misc/smallcannonball.mdl"
 ITEM.material = "models/props_combine/portalball001_sheet"
@@ -8,64 +8,134 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
-ITEM.data = { shardcount = 10, chipcount = 0, echipcount = 0, producing2 = 0, char = 0 }
-ITEM.invWidth = 5
-ITEM.invHeight = 5
+ITEM.invWidth = 3
+ITEM.invHeight = 3
 ITEM.color = Color(255, 255, 255)
-ITEM.openTime = 5
-
-ITEM.iconCam = {
-	pos = Vector(142.9214630127, 125.8981628418, 91.33309173584),
-	ang = Angle(25, 220, 0),
-	fov = 4.5763000053135,
-}
+ITEM.openTime = 0.5
+ITEM.isBag = true
 
 local otherBags = {
-	shard_complete = true
+	respite_orb = true
 }
 
-function getDelay(item)
-	local eChips = item:getData("echipcount", 0)
-	local size = item:getData("shardcount", 10) / 4
-	local plasDiv = 25
-	
-	if(eChips and eChips > 0) then
-		plasDiv = 15 + (15 / eChips)
-	end
-	
-	size = (size * size / 2.5) --increases exponentially
-	local plastics = math.floor(item:getData("chipcount", 0) / plasDiv)
-	if(plastics > (math.floor(size / 2.5) * 3)) then
-		plastics = (math.floor(size / 2.5) * 3)
-	end	
-	return (120 + (3600 / plastics)) -- divide by amount of plastics
-end
+--table for creating things
+ITEM.funcTableC = {
+	{
+		id = "wood",
+		name = "Woodcutting",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/machine6.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		prodTime = 1,
+		--[[
+		required = {
+			["j_scrap_plastics"] = 10,
+			["j_scrap_organic"] = 5,
+		},
+		--]]
+		
+		results = {
+			["j_scrap_wood"] = 1,
+		},
+	},
+}
 
-function orbTimerCheck(item)
-	local endTime = item:getData("producing2", 0) + getDelay(item)
-	if (item:getOwner() != nil and (CurTime() > endTime or item:getData("producing2", 0) > CurTime() or item:getData("producing2", 0) == 0) and (item:getData("chipcount", 0) / 25) >= 1) then
-		return true
-	else
-		return false
-	end
-end
+--table for absorbing things
+ITEM.funcTableA = {
+	{
+		id = "blight",
+		name = "Blight",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/machine6.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		prodTime = 11,
+		absorb = {
+			"blight"
+		},
+		results = {
+			["j_scrap_wood"] = 1,
+		},
+	},
+}
 
-local function getAmount(item)
-	return math.floor((item:getData("shardcount", 10) / 4) / 2.5) -- for every 2.5 square meters of room space, one item is produced.
-end
+--table for developing things
+ITEM.funcTableD = {
+	{
+		id = "build1",
+		name = "Housing",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/machine6.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		prodTime = 1,
+		required = {
+			["j_scrap_wood"] = 5,
+			["j_scrap_metals"] = 5,
+		},
+		results = {
+			["j_scrap_wood"] = 1,
+		},
+	},
+}
 
---this function is only necessary if using a shitty external db like I am, if you're using an internal db it's not important
-local function recursiveAdd(item, inventory, toAdd)
-	timer.Simple(.2,
-		function()
-			if (toAdd > 1) then
-				inventory:add(item)
-				recursiveAdd(item, inventory, toAdd-1)
-			else
-				inventory:add(item, 1)
+for k, v in pairs(ITEM.funcTableC) do
+	ITEM.functions[v.id] = {
+		name = v.name,
+		icon = v.icon,
+		onRun = function(item)
+			local client = item.player
+			local position = client:getItemDropPos()
+			local inventory = client:getChar():getInv()
+			local itemInv = item:getInv()
+			
+			if(v.required) then
+				local required = requiredItems(inventory, item, v.required)
+				if (!required) then
+					client:notify("You do not have the required materials.") 
+					return false
+				end
 			end
+		
+			if(v.startString) then
+				nut.chat.send(client, "itclose", v.startString)
+			end
+		
+			if(v.prodTime) then
+				item:setData("producing", CurTime())
+				
+				timer.Simple(v.prodTime, function()
+					item:setData("producing", nil)
+				
+					if(v.results) then
+						for newItem, amt in pairs(v.results) do
+							itemInv:addSmart(newItem, amt, position, v.data)
+						end
+					end
+					
+					if(v.sound) then
+						client:EmitSound(v.sound)
+					end
+					
+					if(v.endString) then
+						nut.chat.send(client, "itclose", v.endString)
+					end
+				end)
+			end
+
+			return false
+		end,
+		onCanRun = function(item)
+			if(item:getData("producing")) then
+				if(item:getData("producing") < CurTime() and item:getData("producing") + (v.prodTime or 0) >= CurTime()) then
+					return false
+				end
+			end
+			
+			return true
 		end
-	)
+	}
 end
 
 if (CLIENT) then
@@ -91,54 +161,63 @@ ITEM.functions.View = {
 	icon = "icon16/briefcase.png",
 	onClick = function(item)
 		nut.bar.actionStart = CurTime()
-		nut.bar.actionEnd = CurTime() + item.openTime
+		nut.bar.actionEnd = CurTime() + (item.openTime or 1)
 		nut.bar.actionText = "Opening.."
-		LocalPlayer():ConCommand("play npc/turret_floor/click1.wav")
-		timer.Simple(item.openTime, 
-			function()
-				local index = item:getData("id")
+		surface.PlaySound("items/ammocrate_open.wav")
+		
+		timer.Simple((item.openTime or 1), function()
+			local inventory = item:getInv()
+			if (not inventory) then return false end
 
-				if (index) then
-					local panel = nut.gui["inv"..index]
-					local parent = item.invID and nut.gui["inv"..item.invID] or nil
-					local inventory = nut.item.inventories[index]
-					
-					if (IsValid(panel)) then
-						panel:Remove()
-					end
+			local panel = nut.gui["inv"..inventory:getID()]
+			local parent = item.invID and nut.gui["inv"..item.invID] or nil
 
-					if (inventory and inventory.slots) then
-						panel = vgui.Create("nutInventory", parent)
-						panel:setInventory(inventory)
-						panel:ShowCloseButton(true)
-						panel:SetTitle(item.name)
-
-						nut.gui["inv"..index] = panel
-					else
-						ErrorNoHalt("[NutScript] Attempt to view an uninitialized inventory '"..index.."'\n")
-					end
-				end
+			if (IsValid(panel)) then
+				panel:Remove()
 			end
-		)
+
+			if (inventory) then
+				local panel = nut.inventory.show(inventory, parent)
+				if (IsValid(panel)) then
+					panel:ShowCloseButton(true)
+					panel:SetTitle(item:getName())
+				end
+			else
+				local itemID = item:getID()
+				local index = item:getData("id", "nil")
+				ErrorNoHalt(
+					"Invalid inventory "..index.." for bag item "..itemID.."\n"
+				)
+			end
+		end)
+
 		return false
 	end,
 	onCanRun = function(item)
+		return true
+	
+		--[[
 		local player = item.player or item:getOwner()
 		local inventory = player:getChar():getInv()
 		local items = inventory:getItems()
 		local packs = 0
+		
 		for k, v in pairs(items) do
 			if(otherBags[v.uniqueID]) then
 				packs = packs + 1
 			end
 		end
+		
 		if(packs > 1) then
 			return false
 		end
+		
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
 		return !IsValid(item.entity) and item:getData("id")
+		--]]
 	end
 }
 
@@ -154,6 +233,7 @@ ITEM.functions.Claim = {
 		if(IsValid(item.entity)) then
 			return false
 		end
+		
 		if(item:getData("char") == nil or item:getData("char") == 0) then
 			return true
 		else
@@ -162,6 +242,7 @@ ITEM.functions.Claim = {
 	end
 }
 
+--[[
 ITEM.functions.AbsorbShards = {
 	name = "Absorb Shards",
 	tip = "Absorb shards in inventory.",
@@ -170,11 +251,11 @@ ITEM.functions.AbsorbShards = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		local shardstack = item:getData("shardcount", 10)
-		local shard = inventory:hasItem("shard")	
+		local shard = inventory:getFirstItemOfType("shard")	
 		while(shard) do
 			shardstack = shardstack + shard:getData("shardcount", 10)
 			shard:remove()
-			shard = inventory:hasItem("shard")
+			shard = inventory:getFirstItemOfType("shard")
 		end
 		item:setData("shardcount", shardstack)
 		item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
@@ -190,6 +271,8 @@ ITEM.functions.AbsorbShards = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -201,16 +284,16 @@ ITEM.functions.AbsorbChips = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		local chipstack = item:getData("chipcount", 0)
-		local chip = inventory:hasItem("cube_chip")	
+		local chip = inventory:getFirstItemOfType("cube_chip")	
 		while(chip) do
 			chipstack = chipstack + 1
 			chip:remove()
-			chip = inventory:hasItem("cube_chip")
+			chip = inventory:getFirstItemOfType("cube_chip")
 		end
 		item:setData("chipcount", chipstack)
 		item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 	
@@ -221,6 +304,8 @@ ITEM.functions.AbsorbChips = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -232,16 +317,16 @@ ITEM.functions.AbsorbEChips = {
 		local client = item.player
 		local inventory = client:getChar():getInv()
 		local chipstack = item:getData("echipcount", 0)
-		local chip = inventory:hasItem("cube_chip_enhanced")	
+		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 		while(chip) do
 			chipstack = chipstack + 1
 			chip:remove()
-			chip = inventory:hasItem("cube_chip_enhanced")
+			chip = inventory:getFirstItemOfType("cube_chip_enhanced")
 		end
 		item:setData("echipcount", chipstack)
 		item.player:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 100, 80)
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 	
@@ -252,6 +337,8 @@ ITEM.functions.AbsorbEChips = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -341,7 +428,7 @@ ITEM.functions.Fish = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(!orbTimerCheck(item)) then
 			return false
@@ -355,6 +442,8 @@ ITEM.functions.Fish = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -392,7 +481,7 @@ ITEM.functions.Hunt = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(!orbTimerCheck(item)) then
 			return false
@@ -406,6 +495,8 @@ ITEM.functions.Hunt = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -443,7 +534,7 @@ ITEM.functions.Well = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(!orbTimerCheck(item)) then
 			return false
@@ -458,6 +549,8 @@ ITEM.functions.Well = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -488,7 +581,7 @@ ITEM.functions.Woodcut = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(!orbTimerCheck(item)) then
 			return false
@@ -503,6 +596,8 @@ ITEM.functions.Woodcut = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -532,7 +627,7 @@ ITEM.functions.Mine = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(!orbTimerCheck(item)) then
 			return false
@@ -547,6 +642,8 @@ ITEM.functions.Mine = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -603,7 +700,7 @@ ITEM.functions.Scavenge = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(item:getData("echipcount", 0) < 5) then
 			return false
@@ -622,6 +719,8 @@ ITEM.functions.Scavenge = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -690,7 +789,7 @@ ITEM.functions.Weather = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(item:getData("echipcount", 0) < 5) then
 			return false
@@ -709,6 +808,8 @@ ITEM.functions.Weather = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -781,7 +882,7 @@ ITEM.functions.Portal = {
 		)
 		
 		return false
-		end,
+	end,
 	onCanRun = function(item)
 		if(item:getData("echipcount", 0) < 5) then
 			return false
@@ -800,13 +901,16 @@ ITEM.functions.Portal = {
 		if(item:getData("char") != player:getChar():getID()) then
 			return false
 		end
+		
+		return true
 	end
 }
-
+--]]
 
 function ITEM:getDesc()
 	local str = self.desc
 	
+	--[[
 	local size = 0
 	local plastics = 0
 	local eChips = self:getData("echipcount", 0)
@@ -836,6 +940,17 @@ function ITEM:getDesc()
 	if (eChips > 0) then
 		str = str .. "\nEnhanced Chips: "..eChips.."."
 	end
+	--]]
 	
 	return Format(str)
 end
+
+function ITEM:getInv()
+	return nut.inventory.instances[self:getData("id")]
+end
+
+ITEM.iconCam = {
+	pos = Vector(142.9214630127, 125.8981628418, 91.33309173584),
+	ang = Angle(25, 220, 0),
+	fov = 4.5763000053135,
+}

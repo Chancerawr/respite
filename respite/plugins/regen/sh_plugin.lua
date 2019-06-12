@@ -7,7 +7,7 @@ nut.config.add("regen", true, "Whether regeneration is on at all.", nil, {
 	category = "Regeneration"
 })
 
-nut.config.add("regenAmt", 1, "How much HP regenerates whenever it can.", nil, {
+nut.config.add("regenAmt", 5, "How much HP regenerates whenever it can.", nil, {
 	data = {min = 1, max = 84600},
 	category = "Regeneration"
 })
@@ -17,6 +17,7 @@ nut.config.add("regenThink", 30, "How often it checks to regenerate health.", ni
 	category = "Regeneration"
 })
 
+--change this if you want to change what lets people regenerate hp
 local function canRegen(client)
 	local char = client:getChar()
 	if(char and char:getData("stomach", 0) > 2) then

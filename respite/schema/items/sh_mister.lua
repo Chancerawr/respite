@@ -8,7 +8,7 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.functions.HazeBlue = {
 	name = "Blue Haze",
@@ -17,43 +17,39 @@ ITEM.functions.HazeBlue = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("haze_bottled")
+		local object = inventory:getFirstItemOfType("haze_bottled")
 		
 		nut.chat.send(client, "itclose", "The bottle of haze is put into the machine.")
 		object:remove()
 		
 		item:setData("producing", CurTime())
-		timer.Simple(60, 
-			function()
-				local position = client:getItemDropPos()
-				local reward
-				
-				if(math.random(0,1) == 1) then
-					reward = "j_scrap_idea"
-				else
-					reward = "haze_bottled_pink"
-				end
-				
-				item:setData("producing", nil)
-				
-				if(!IsValid(item:getEntity())) then
-					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(reward, position) --if not, drop it on the ground
-					end
-				else
-					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
-				end
-				
-				nut.chat.send(client, "itclose", "The machine rumbles, and it dispenses something.")
+		timer.Simple(60, function()
+			local position = client:getItemDropPos()
+			local reward
+			
+			if(math.random(0,1) == 1) then
+				reward = "j_scrap_idea"
+			else
+				reward = "haze_bottled_pink"
 			end
-		)
+			
+			item:setData("producing", nil)
+			
+			if(!IsValid(item:getEntity())) then
+				inventory:addSmart(reward, 1, position)
+			else
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
+			end
+			
+			nut.chat.send(client, "itclose", "The machine rumbles, and it dispenses something.")
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("haze_bottled") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("haze_bottled") then --if item of importance isn't in the inventory.
 			return false
 		end
 		
@@ -63,6 +59,8 @@ ITEM.functions.HazeBlue = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -73,7 +71,7 @@ ITEM.functions.HazeBlood = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("haze_bottled_blood")
+		local object = inventory:getFirstItemOfType("haze_bottled_blood")
 		
 		nut.chat.send(client, "itclose", "The bottle of haze is put into the machine.")
 		object:remove()
@@ -96,9 +94,7 @@ ITEM.functions.HazeBlood = {
 				item:setData("producing", nil)
 				
 				if(!IsValid(item:getEntity())) then
-					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(reward, position) --if not, drop it on the ground
-					end
+					inventory:addSmart(reward, 1, position)
 				else
 					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
 				end
@@ -112,7 +108,7 @@ ITEM.functions.HazeBlood = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("haze_bottled_blood") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("haze_bottled_blood") then --if item of importance isn't in the inventory.
 			return false
 		end
 		
@@ -122,6 +118,8 @@ ITEM.functions.HazeBlood = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -132,7 +130,7 @@ ITEM.functions.HazePink = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("haze_bottled_pink")
+		local object = inventory:getFirstItemOfType("haze_bottled_pink")
 		
 		nut.chat.send(client, "itclose", "The bottle of haze is put into the machine.")
 		object:remove()
@@ -151,10 +149,8 @@ ITEM.functions.HazePink = {
 				
 				item:setData("producing", nil)
 				
-				if(!IsValid(item:getEntity())) then
-					if(!inventory:add(reward)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(reward, position) --if not, drop it on the ground
-					end
+				if(!IsValid(item:getEntity())) then					
+					inventory:addSmart(reward, 1, position)
 				else
 					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
 				end
@@ -168,7 +164,7 @@ ITEM.functions.HazePink = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("haze_bottled_pink") then --if item of importance isn't in the inventory.
+		if !player:getChar():getInv():getFirstItemOfType("haze_bottled_pink") then --if item of importance isn't in the inventory.
 			return false
 		end
 		
@@ -178,6 +174,8 @@ ITEM.functions.HazePink = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 

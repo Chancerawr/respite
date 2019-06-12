@@ -1,5 +1,7 @@
 local PLUGIN = PLUGIN
 
+--disabled for now for an experiment
+--[[
 nut.command.add("train", {
 	syntax = "<string attribute> <Roleplay training before using this>",
 	onRun = function(client, arguments)
@@ -42,3 +44,4 @@ nut.command.add("train", {
 		end
 	end
 })
+--]]

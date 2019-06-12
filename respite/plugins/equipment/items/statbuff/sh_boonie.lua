@@ -5,9 +5,11 @@ ITEM.desc = "A form of wide-brim hat commonly used by military forces. Its desig
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { scrapamount = 3 }
-ITEM.salvItem = "j_scrap_cloth"
 ITEM.buffCategory = "helmet"
+
+ITEM.salvItem = {
+	["j_scrap_cloth"] = 3
+}
 
 ITEM.attribBoosts = {
 	["perception"] = -1,

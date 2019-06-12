@@ -1,5 +1,5 @@
 ITEM.name = "CR-33M"
-ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. This variant has a special 100rd magazine, heavy barrel to compensate and heavier recoil management systems.\nThis weapon utilizes 5.56x45mm rounds."
+ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. This variant has a special 100rd magazine, heavy barrel to compensate and heavier recoil management systems."
 ITEM.model = "models/weapons/tfa_w_dmg_vikhr.mdl"
 ITEM.material = "models/props_canal/canal_bridge_railing_01a"
 ITEM.class = "tfa_cr33m"

@@ -1,18 +1,3 @@
---[[
-    NutScript is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    NutScript is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with NutScript.  If not, see <http://www.gnu.org/licenses/>.
---]]
-
 ITEM.name = "Sledgehammer"
 ITEM.desc = "A large hammer usually used to distribute force over a wide area."
 ITEM.model = "models/props_debris/wood_board02a.mdl"
@@ -24,8 +9,6 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
-
-ITEM.data = { scrapamount = 2 }
 
 ITEM.salvItem = {
 	["j_scrap_concrete"] = 2,

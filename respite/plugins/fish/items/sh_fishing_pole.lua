@@ -38,7 +38,7 @@ ITEM.functions.FishBait = {
 		timer.Simple(2, function()
 			if(hook:WaterLevel() > 0) then
 				local inventory = client:getChar():getInv()
-				local chip = inventory:hasItem("cube_chip")
+				local chip = inventory:getFirstItemOfType("cube_chip")
 				local char = client:getChar()
 				
 				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
@@ -164,7 +164,7 @@ ITEM.functions.FishBait = {
 		local endTime = item:getData("producing2") + 15
 		local player = item.player or item:getOwner()
 		
-		if(!player:getChar():getInv():hasItem("cube_chip")) then
+		if(!player:getChar():getInv():getFirstItemOfType("cube_chip")) then
 			return false
 		end
 		
@@ -200,7 +200,7 @@ ITEM.functions.FishNoBait = {
 		timer.Simple(2, function()
 			if(hook:WaterLevel() > 0) then
 				local inventory = client:getChar():getInv()
-				local bait = inventory:hasItem("j_scrap_organic")
+				local bait = inventory:getFirstItemOfType("j_scrap_organic")
 				local char = client:getChar()
 				
 				if(!bait or bait:getData("Amount") < 2) then
@@ -338,7 +338,7 @@ ITEM.functions.FishNoBait = {
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
 		local player = item.player or item:getOwner()
 		
-		local organic = player:getChar():getInv():hasItem("j_scrap_organic")
+		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
 		if(!organic or organic:getData("Amount") < 2) then
 			return false
 		end
@@ -360,7 +360,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		
@@ -382,8 +382,10 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }

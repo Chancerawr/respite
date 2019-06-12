@@ -50,13 +50,14 @@ ENT.ammoTypes = {
 function ENT:Use()
 	local ammo = self.ammo
 	local ammoDesc = self.ammoDesc
-	local customName = self.customName
+	local customData = {}
+	customData.name = self.customName
 
 	nut.item.spawn("sentry", self:GetPos(),
 		function(item2)
 			item2:setData("ammo", ammo)
 			item2:setData("ammoDesc", ammoDesc)
-			item2:setData("customName", customName)
+			item2:setData("custom", customData)
 		end
 	)
 	
@@ -95,7 +96,7 @@ function ENT:Think()
 		if((self.nextSay or 0) < CurTime()) then
 			self:EmitSound("hl1/fvox/blip.wav", 75, 150)
 			nut.chat.send(self, "say_npc", self:getNetVar("name", self.PrintName).. " says, \"<:: " ..table.Random(self.chatStrings).." ::>\"")
-			
+
 			self.nextSay = CurTime() + math.random(300, 600)
 		end
 	end

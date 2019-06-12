@@ -32,7 +32,7 @@ local PANEL = {}
 
 		hook.Call("CraftingPrePopulateItems", self)
 
-		for class, itemTable in SortedPairs( RECIPES:GetAll() ) do
+		for class, itemTable in SortedPairsByMemberValue(RECIPES:GetAll(), "category") do
 			if
 				-- acquired recipie book || learned the recipe ( planned )
 				-- is it blueprint? ( planned )

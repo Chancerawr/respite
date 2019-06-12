@@ -5,7 +5,10 @@ ITEM.desc = "A banana skin from a peeled banana."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.salvItem = "j_scrap_organic"
+
+ITEM.salvItem = {
+	["j_scrap_organic"] = 1
+}
 
 ITEM.iconCam = {
 	pos = Vector(109.66854858398, 92.037124633789, 65.99112701416),

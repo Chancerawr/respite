@@ -11,8 +11,6 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
-ITEM.data = { scrapamount = 2 }
-
 ITEM.salvItem = {
 	["j_scrap_metals"] = 2,
 	["j_scrap_wood"] = 4

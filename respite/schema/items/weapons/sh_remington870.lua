@@ -1,5 +1,5 @@
 ITEM.name = "Remington 870"
-ITEM.desc = "An incredibly popular pump-action sporting shotgun, favored in the hands of duck hunters and door-kickers alike.\nThis weapon utilizes 12 gauge shells."
+ITEM.desc = "An incredibly popular pump-action sporting shotgun, favored in the hands of duck hunters and door-kickers alike."
 ITEM.model = "models/weapons/tfa_w_remington_870_tact.mdl"
 ITEM.class = "tfa_remington870"
 ITEM.weaponCategory = "primary"

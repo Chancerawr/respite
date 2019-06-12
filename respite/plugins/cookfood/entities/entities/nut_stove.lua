@@ -9,8 +9,8 @@ ENT.AdminOnly = true
 ENT.RenderGroup 		= RENDERGROUP_BOTH
 ENT.Category = "NutScript"
 ENT.invType = "stove"
-nut.item.registerInv(ENT.invType, 6, 6)
-
+--nut.item.registerInv(ENT.invType, {6,6})
+		
 if (SERVER) then
 	function ENT:Initialize()
 		self:SetModel("models/props_c17/furnitureStove001a.mdl")
@@ -26,6 +26,12 @@ if (SERVER) then
 			physicsObject:EnableMotion(false)
 		end
 
+		nut.inventory.instance("grid", {6,6})
+			:next(function(inventory)
+				self:setInventory(inventory)
+			end)
+		
+		--[[
 		nut.item.newInv(0, self.invType, function(inventory)
 			self:setInventory(inventory)
 			inventory.noBags = true
@@ -34,8 +40,21 @@ if (SERVER) then
 				return hook.Run("StorageCanTransfer", inventory, client, oldX, oldY, x, y, newInvID)
 			end
 		end)
+		--]]
 	end
 
+	function ENT:SpawnFunction(ply, tr, classname)
+		if (!tr.Hit) then return end
+	
+		local SpawnPos = tr.HitPos + tr.HitNormal * 20
+		local ent = ents.Create(classname)
+		ent:SetPos(SpawnPos)
+		ent:Spawn()
+		ent:Activate()
+
+		return ent
+	end	
+	
 	function ENT:activate(seconds)
 		if (self:getNetVar("gone")) then
 			return
@@ -71,6 +90,7 @@ if (SERVER) then
 		{5, 15, 4},
 		{15, 16, 5},
 	}
+	
 	function ENT:Think()
 		if (self:getNetVar("gone")) then
 			return
@@ -152,85 +172,3 @@ else
 		self:DrawModel()
 	end
 end
-
-/*AddCSLuaFile()
-
-ENT.Type = "anim"
-ENT.PrintName = "Stove"
-ENT.Author = "Black Tea"
-ENT.Spawnable = true
-ENT.AdminOnly = true
-ENT.Category = "NutScript"
-
-if (SERVER) then
-	function ENT:Initialize()
-		self:SetModel("models/props_c17/furnitureStove001a.mdl")
-		self:PhysicsInit(SOLID_VPHYSICS)
-		self:SetMoveType(MOVETYPE_VPHYSICS)
-		self:setNetVar("active", false)
-		self:SetUseType(SIMPLE_USE)
-		self.loopsound = CreateSound( self, "ambient/fire/fire_small_loop1.wav" )
-		local physicsObject = self:GetPhysicsObject()
-
-		if (IsValid(physicsObject)) then
-			physicsObject:Wake()
-		end
-	end
-
-	function ENT:startCook(activator, id)
-		local item = nut.item.instances[id]
-		if (self:getNetVar("active")) then
-			activator:notify("Stove is in use.")
-
-			return false
-		end
-
-		if (item:getOwner() != activator) then
-			--self:notify("HAX")
-			return false
-		end
-
-		if (item.cookable == false) then
-			return false
-		end
-
-		self:setNetVar("active", true)
-		self:EmitSound( "ambient/fire/mtov_flame2.wav", 75, 100 )
-		self.loopsound:Play()
-		self:setNetVar("cooking", id)
-
-		timer.Simple(2, function()
-			self:stopCook(activator)
-		end)
-
-		return true
-	end
-
-	function ENT:stopCook(activator)
-		local id = self:getNetVar("cooking")
-		local item = nut.item.instances[id]
-
-		if (item) then
-			local random = (math.random()^.8) * (#COOKLEVEL - 2) -- uncooked is not counted.
-			random = math.Round(random) + 2 -- random goes 0 to #COOKLEVEL. we add 2 for make uncooked not count and lua indexes starts from 1.
-			
-			item:setData("cooked", random)
-		end
-
-		activator:EmitSound("items/battery_pickup.wav")
-		self:setNetVar("active", false)
-		self:EmitSound( "ambient/fire/mtov_flame2.wav", 75, 250 )
-		self.loopsound:Stop()
-	end
-
-	function ENT:Use(activator)
-		if (!self:getNetVar("active")) then
-			netstream.Start(activator, "nutStoveFrame")
-		else
-			activator:notify("Stove is in use.")
-		end
-	end
-else
-	
-end
-*/

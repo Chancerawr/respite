@@ -8,8 +8,7 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
-ITEM.data = { producing2 = 0, glass = 0 }
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
@@ -24,9 +23,9 @@ ITEM.functions.Reflect = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local glass = inventory:hasItem("j_scrap_glass")	
+		local glass = inventory:getFirstItemOfType("j_scrap_glass")	
 
-		local amount = glass:getData("Amount")
+		local amount = glass:getData("Amount", 1)
 		
 		nut.chat.send(client, "itclose", "You add glass to the mirror, and it absorbs it.")
 
@@ -35,7 +34,7 @@ ITEM.functions.Reflect = {
 		else
 			glass:remove()
 		end
-		item:setData("glass", item:getData("glass") + 11)
+		item:setData("glass", item:getData("glass", 0) + 11)
 		
 		client:notify("The mirror is changing somehow.")
 		item:setData("producing", CurTime())
@@ -59,14 +58,7 @@ ITEM.functions.Reflect = {
 			local emotion = emotions[math.random(0,8)]
 		
 			if(!IsValid(item:getEntity())) then
-				if(!inventory:add("j_scrap_memory", 1, { Amount = 5, feeling = emotion})) then --if the inventory has space, put it in the inventory
-					nut.item.spawn("j_scrap_memory", position,
-						function(item2)
-							item2:setData("feeling", emotion)
-							item2:setData("Amount", 5)
-						end
-					)
-				end
+				inventory:addSmart("j_scrap_memory", 1, position, {feeling = emotion, Amount = 5})
 			else
 				--spawn the reward item above the entity
 				nut.item.spawn("j_scrap_memory", item:getEntity():GetPos() + item:getEntity():GetUp()*50,
@@ -85,7 +77,7 @@ ITEM.functions.Reflect = {
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
-		local glass = player:getChar():getInv():hasItem("j_scrap_glass")
+		local glass = player:getChar():getInv():getFirstItemOfType("j_scrap_glass")
 		
 		local prodTime = 101
 		if(item:getData("producing")) then
@@ -97,6 +89,8 @@ ITEM.functions.Reflect = {
 		if (!glass or glass:getData("Amount") < 11) then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -107,7 +101,7 @@ ITEM.functions.Idea = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("j_scrap_idea")	
+		local object = inventory:getFirstItemOfType("j_scrap_idea")	
 		
 		nut.chat.send(client, "itclose", "You push an idea into the mirror, it reflects the world through your eyes for seventy-seven seconds.")
 
@@ -128,15 +122,13 @@ ITEM.functions.Idea = {
 		
 			local reward = "reflective"
 		
-			if(!IsValid(item:getEntity())) then
-				if(!inventory:add(reward, 1)) then --if the inventory has space, put it in the inventory
-					nut.item.spawn(reward, position)
-				end
+			if(!IsValid(item:getEntity())) then				
+				inventory:addSmart(reward, 1, position)
 			else
 				--spawn the reward item above the entity
 				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50)
 			end
-			client:notifyLocalized("The mirror is finished.")
+			client:notify("The mirror is finished.")
 			nut.chat.send(client, "itclose", "Something comes from the other side of the mirror.")
 		end)
 		
@@ -144,7 +136,7 @@ ITEM.functions.Idea = {
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
-		local object = player:getChar():getInv():hasItem("j_scrap_idea")
+		local object = player:getChar():getInv():getFirstItemOfType("j_scrap_idea")
 		
 		local prodTime = 202
 		if(item:getData("producing")) then
@@ -161,6 +153,8 @@ ITEM.functions.Idea = {
 		if(amount < 3) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -171,7 +165,7 @@ ITEM.functions.EChip = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chip = inventory:hasItem("cube_chip_enhanced")	
+		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 		
 		nut.chat.send(client, "itclose", "You push an enhanced chip into the mirror, it presents a different location.")
 
@@ -193,14 +187,12 @@ ITEM.functions.EChip = {
 			local reward = rewards[math.random(1,4)]
 		
 			if(!IsValid(item:getEntity())) then
-				if(!inventory:add(reward, 1)) then --if the inventory has space, put it in the inventory
-					nut.item.spawn(reward, position)
-				end
+				inventory:addSmart(reward, 1, position)
 			else
 				--spawn the reward item above the entity
 				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50)
 			end
-			client:notifyLocalized("The mirror is finished.")
+			client:notify("The mirror is finished.")
 			nut.chat.send(client, "itclose", "Something comes from the other side of the mirror.")
 		end)
 		
@@ -208,7 +200,7 @@ ITEM.functions.EChip = {
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
-		local chip = player:getChar():getInv():hasItem("cube_chip_enhanced")
+		local chip = player:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
 		
 		local prodTime = 202
 		if(item:getData("producing")) then
@@ -220,6 +212,8 @@ ITEM.functions.EChip = {
 		if (!chip) then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -230,7 +224,7 @@ ITEM.functions.IChip = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chip = inventory:hasItem("chip_escape")	
+		local chip = inventory:getFirstItemOfType("chip_escape")	
 		
 		nut.chat.send(client, "itclose", "You push an intrinsic symbol into the mirror, it stops reflecting.")
 
@@ -238,8 +232,8 @@ ITEM.functions.IChip = {
 		
 		client:notify("The mirror is changing somehow.")
 		item:setData("producing", CurTime())
-		timer.Simple(303, 
-			function()
+		timer.Simple(303, function()
+			if(item) then
 				item:setData("producing", nil)			
 			
 				local position = client:getItemDropPos()
@@ -264,21 +258,19 @@ ITEM.functions.IChip = {
 				end
 		
 				if(!IsValid(item:getEntity())) then
-					if(!inventory:add(reward, 1)) then --if the inventory has space, put it in the inventory
-						nut.item.spawn(reward, position)
-					end
+					inventory:addSmart(reward, 1, position)
 				else
 					--spawn the reward item above the entity
 					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50)
 				end
-			end
-		)
+			end	
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
-		local chip = player:getChar():getInv():hasItem("chip_escape")
+		local chip = player:getChar():getInv():getFirstItemOfType("chip_escape")
 		
 		local prodTime = 202
 		if(item:getData("producing")) then
@@ -290,6 +282,8 @@ ITEM.functions.IChip = {
 		if (!chip) then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -301,7 +295,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("alc_cloud", position)
@@ -315,9 +309,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

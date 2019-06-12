@@ -21,32 +21,64 @@ phrases["craft_menu_tip2"] = "The icon with book means that item needs a bluepri
 phrases["crft_text"] = "Crafting %s\n%s\n\nRequirements:\n"
 
 --generates random boosts based on the final crafting quality.
-local function randomBoosts(finQual)
-	local boosts = {}
-	local attribs = {
-		"str",
-		"stm",
-		"end",
-		"accuracy",
-		"luck",
-		"perception",
-		"fortitude",
-		"medical"
-	}
+local function randomBoosts(finQual, item)
+	local itemTable = nut.item.list[item]
 	
-	for i=1, finQual do
-		local attrib = table.Random(attribs)
-		
-		boosts[attrib] = (boosts[attrib] or 0) + 0.75
+	local attribs = {}
+	for k, v in pairs(nut.attribs.list) do
+		table.insert(attribs, k)
 	end
 	
+	if(itemTable.isWeapon) then
+		if(!string.find(string.lower(itemTable.category), "melee")) then
+			attribs = {
+				"perception",
+				"accuracy"
+			}
+		else
+			attribs = {
+				"stm",
+				"str",
+				"end"
+			}
+		end
+	else
+		--craftAttribs limits the attributes that can boosted/decreased with crafting
+		if(itemTable.craftAttribs) then
+			attribs = itemTable.craftAttribs
+		end
+	end
+
+	local boosts = {}
+
+	--if below normal quality it gets debuffs
+	if(finQual <= 6) then
+		if(itemTable.isWeapon) then --only apply negative buffs on weapons for now
+			for i=1, (6 - finQual) do
+				local attrib = table.Random(attribs)
+				
+				boosts[attrib] = (boosts[attrib] or 0) - 0.5
+			end
+		end
+	elseif(finQual > 6) then --if above normal quality it gets buffs
+		for i=1, (finQual - 6) do
+			local attrib = table.Random(attribs)
+			
+			boosts[attrib] = (boosts[attrib] or 0) + 0.5
+		end
+	end
+
 	return boosts
+end
+
+local function getDura(finQual)
+	return 1000 * (finQual+1)
 end
 
 local function chipPouchTest(client, amount)
 	local inventory = client:getChar():getInv()
 	
-	local pouch = inventory:hasItem("cube_chip_pouch")
+	local pouch = inventory:getFirstItemOfType("cube_chip_pouch")
 	if(pouch) then
 		local count = pouch:getData("chipcount", 0)
 		if(count >= amount) then
@@ -65,11 +97,11 @@ function RECIPES:Register( tbl )
 			local mult --used to check if we have multiple of the same item, rather than a stack.
 			for k, v in pairs( self.items ) do
 				local inv = player:getChar():getInv()
-				local item = inv:hasItem(k)
+				local item = inv:getFirstItemOfType(k)
 				
-				if !inv:hasItem(k) then
+				if !inv:getFirstItemOfType(k) then
 					if(k == "cube_chip") then
-						local pouch = inv:hasItem("cube_chip_pouch")
+						local pouch = inv:getFirstItemOfType("cube_chip_pouch")
 						if(pouch) then
 							if(pouch:getData("chipcount", 0) >= v) then
 								continue
@@ -80,7 +112,7 @@ function RECIPES:Register( tbl )
 					return false
 				end
 				
-				if (inv:hasItem(k) and item:getData("Amount") == nil) then
+				if (inv:getFirstItemOfType(k) and item:getData("Amount") == nil) then
 					local count = inv:getItemCount(k)
 					if (count >= v) then
 						mult = true
@@ -89,7 +121,7 @@ function RECIPES:Register( tbl )
 					end
 				end
 				
-				if (inv:hasItem(k)) then
+				if (inv:getFirstItemOfType(k)) then
 					if (!mult and tonumber(item:getData("Amount")) < v and allStacks(inv, k) < v) then
 						return false
 					else
@@ -111,29 +143,49 @@ function RECIPES:Register( tbl )
 			local avgQual = 0
 			local total = 0
 			
-			for k, v in pairs( self.items ) do
-				local itemObj = player:getChar():getInv():hasItem( k )
+			local qualities = {
+				[1] = "Garbage",
+				[2] = "Terrible",
+				[3] = "Awful",
+				[4] = "Bad",
+				[5] = "Poor",
+				[6] = "Normal",
+				[7] = "Standard",
+				[8] = "Decent",
+				[9] = "Good",
+				[10] = "Great",
+				[11] = "Excellent",
+				[12] = "Master",
+				[14] = "Near-Perfect",
+				[15] = "Perfect",
+				[16] = "Transcendent"
+			}
+			
+			for k, v in pairs(self.items) do
+				local itemObj = player:getChar():getInv():getFirstItemOfType(k)
 				local inventory = player:getChar():getInv()	
 				
-				if(inventory:hasItem(k)) then
+				if(inventory:getFirstItemOfType(k)) then
 					if (itemObj:getData("Amount") == nil) then --non stack items
-					
-						if(itemObj:getData("quality")) then 
-							avgQual = avgQual + itemObj:getData("quality")
+
+						local customData = itemObj:getData("custom", {})
+						if(customData.quality) then --checks quality data
+							avgQual = avgQual + table.KeyFromValue(qualities, customData.quality)
 							total = total + 1
 						end
-					
+
 						local count = 1
-						local part = inventory:hasItem(k)	
+						local part = inventory:getFirstItemOfType(k)	
 						part:remove()
 						while (count < v) do
-							part = inventory:hasItem(k)
-							
-							if(itemObj:getData("quality")) then 
-								avgQual = avgQual + itemObj:getData("quality")
+							part = inventory:getFirstItemOfType(k)
+
+							local customData = part:getData("custom", {})
+							if(customData.quality) then
+								avgQual = avgQual + table.KeyFromValue(qualities, customData.quality)
 								total = total + 1
 							end
-								
+
 							part:remove()
 							count = count + 1
 						end
@@ -162,7 +214,7 @@ function RECIPES:Register( tbl )
 					end
 				else
 					if(k == "cube_chip") then
-						local pouch = inventory:hasItem("cube_chip_pouch")
+						local pouch = inventory:getFirstItemOfType("cube_chip_pouch")
 						if(pouch) then
 							local bagCount = pouch:getData("chipcount", 0)
 							if(bagCount >= v) then
@@ -175,21 +227,6 @@ function RECIPES:Register( tbl )
 			local iness = player:getChar():getAttrib("medical", 0)
 			local craftMod = math.Clamp((iness/10) + math.random(-2,2), 0, 10)
 			
-			--this will go into the thing for descriptions
-			--[[
-			local quality = {}
-			quality[1] = "Terrible"
-			quality[2] = "Bad"
-			quality[3] = "Poor"
-			quality[4] = "Normal"
-			quality[5] = "Decent"
-			quality[6] = "Good"
-			quality[7] = "Great"
-			quality[8] = "Excellent"
-			quality[9] = "Master"
-			quality[10] = "Perfect"
-			--]]
-			
 			if(total > 0) then
 				avgQual = avgQual/total
 			else
@@ -200,28 +237,27 @@ function RECIPES:Register( tbl )
 			--calculates the final qualtiy by averaging the average quality and the craftiness modifier
 			local finQual = math.Round((avgQual + craftMod)/2)
 			
-			for k, v in pairs( self.result ) do
-				--if (!player:getChar():getInv():add(k, v)) then
-					for i = 1, v do
-						local boosts = randomBoosts(finQual)
-					
-						if(!player:getChar():getInv():add(k, 1, { quality = finQual, attrib = boosts })) then
-							nut.item.spawn(k, player:getItemDropPos(),
-								function(item)
-									item:setData("quality", finQual)
-									item:setData("attrib", boosts)
-								end
-							)
-						end
-					end
-					
-					nut.log.addRaw(player:Name().. " crafted " ..nut.item.list[k].name.. ".")
-					player:getChar():updateAttrib("medical", 0.005)
-				--else
-					--netstream.Start(client, "vendorAdd", uniqueID)
-				--end
+			for k, v in pairs(self.result) do
+				local customData = {}--item:getData("custom", {})
+				customData.quality = qualities[finQual]
+				
+				local boosts = randomBoosts(finQual, k)
+				local durability = getDura(finQual)
+				customData.dura = durability
+				
+				
+				local itemData = {
+					custom = customData,
+					attrib = boosts,
+					maxDura = durability
+				}
+				
+				player:getChar():getInv():addSmart(k, v, player:getItemDropPos(), itemData)
+				
+				nut.log.addRaw(player:Name().. " crafted " ..nut.item.list[k].name.. ".")
+				player:getChar():updateAttrib("medical", 0.005)
 			end
-			player:notifyLocalized( "donecrafting", self.name )
+			player:notifyLocalized("donecrafting", self.name)
 
 		end
 	end
@@ -269,7 +305,7 @@ function RECIPES:CanCraft( player, item )
 	if PLUGIN.reqireBlueprint then
 		if !tblRecipe.noBlueprint then
 			local name_bp = ( tblRecipe.uid )
-			if !player:HasItem( name_bp ) then
+			if !player:getFirstItemOfType( name_bp ) then
 				return 2
 			end
 		end

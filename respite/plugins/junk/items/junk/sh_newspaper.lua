@@ -6,8 +6,9 @@ ITEM.flag = "j"
 ITEM.width = 2
 ITEM.height = 2
 
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "misc_paper"
+ITEM.salvItem = {
+	["misc_paper"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
@@ -15,29 +16,10 @@ ITEM.iconCam = {
 	fov = 8,
 }
 
-ITEM.functions.Scrap = {
-	tip = "Scrap this item",
-	icon = "icon16/cross.png",
-	onRun = function(item)
-		local position = item.player:getItemDropPos()
-		
-		nut.item.spawn(item.salvItem, position)
-		nut.item.spawn(item.salvItem, position)
-
-		return true
-	end,
-	onCanRun = function(item)
-		if (item:getOwner() == nil) then
-			return item.player:getChar():hasFlags("q") or item.player:getChar():getInv():hasItem("kit_salvager")
-		else
-			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():hasItem("kit_salvager")
-		end
-	end
-}
-
 --makes it so it randomizes the story. Couldn't find a good function to hook this onto so it just happens when picked up or dropped.
 local function onUse(item)
-	if(!item:getData("customDesc")) then
+	local customData = item:getData("custom", {})
+	if(!customData.special) then
 		local news = {
 			"Local man found dead in river.",
 			"Local child sentenced to death for theft.",
@@ -63,7 +45,10 @@ local function onUse(item)
 			"Amphibious monster deemed unstoppable, navy surrendering."
 		}
 		
-		item:setData("customDesc", item.desc.. "\n\"" ..table.Random(news).. "\"")
+		customData.desc = item.desc.. "\n\"" ..table.Random(news).. "\""
+		customData.special = true
+		
+		item:setData("custom", customData)
 	end
 end
 

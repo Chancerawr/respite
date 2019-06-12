@@ -7,9 +7,6 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
-ITEM.data = { 
-	shardcount = 1 
-}
 ITEM.color = Color(255, 255, 255)
 
 ITEM.iconCam = {
@@ -40,64 +37,61 @@ if (CLIENT) then
 end
 
 ITEM.functions.Merge = {
-  tip = "Merge shards in inventory.",
-  icon = "icon16/add.png",
-  onRun = function(item)
-	local client = item.player
-	local inventory = client:getChar():getInv()
-	local shardcount = item:getData("shardcount", 1)	
-	local items = inventory:getItems()
-	for k, v in pairs(items) do
-		if(v.uniqueID == "shard" and v != item) then
-			shardcount = shardcount + v:getData("shardcount", 1)
-			v:remove()
-		end
-	end
-	
-	if(client:getChar():getFaction() == FACTION_DRIFTER) then
-		if (shardcount >= 10) then
-			if(!inventory:hasItem("shard_complete")) then
-				shardcount = shardcount - 10
-				inventory:add("shard_complete", 1, { char = client:getChar():getID() })
+	tip = "Merge shards in inventory.",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local shardcount = item:getData("shardcount", 1)	
+		local items = inventory:getItems()
+		for k, v in pairs(items) do
+			if(v.uniqueID == "shard" and v != item) then
+				shardcount = shardcount + v:getData("shardcount", 1)
+				v:remove()
 			end
 		end
-	end
-	
-	while (shardcount > 9) do
-		inventory:add("shard", 1, { shardcount = 9 })
-		shardcount = shardcount - 9
-	end
-	
-	inventory:add("shard", 1, { shardcount = shardcount })
-	
-	item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
-	return true
-  end,
-  onCanRun = function(item)
-	if (item:getOwner() != nil) then
+		
+		if(client:getChar():getFaction() == FACTION_DRIFTER) then
+			if (shardcount >= 10) then
+				if(!inventory:getFirstItemOfType("respite_orb")) then
+					shardcount = shardcount - 10
+					inventory:add("respite_orb", 1, { char = client:getChar():getID() })
+				end
+			end
+		end
+		
+		while (shardcount > 9) do
+			inventory:add("shard", 1, { shardcount = 9 })
+			shardcount = shardcount - 9
+		end
+		
+		inventory:add("shard", 1, { shardcount = shardcount })
+		
+		item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 		return true
-	else
-		return false
+	end,
+	onCanRun = function(item)
+		if (item:getOwner() != nil) then
+			return true
+		else
+			return false
+		end
 	end
-  end
 }
 
 ITEM.functions.Scrap = {
-  tip = "Scrap this item",
-  icon = "icon16/cross.png",
-  onRun = function(item)
-    if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-		item.player:getChar():getInv():add("shard_dust", 1, { Amount = item:getData("shardcount", 1)*5 })
-		item:remove()
-		return false 
-    else
-		item.player:notify("You don't have any room in your inventory!")
-		return false 
-    end
-  end,
-  onCanRun = function(item)
-	local client = item:getOwner() or item.player
-	return client:getChar():hasFlags("q") or client:getChar():getInv():hasItem("kit_salvager")
+	tip = "Scrap this item",
+	icon = "icon16/cross.png",
+	onRun = function(item)		
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		
+		inventory:addSmart("shard_dust", 1, position, { Amount = item:getData("shardcount", 1)*5 })
+	end,
+	onCanRun = function(item)
+		local client = item:getOwner() or item.player
+		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
   end
 }
 

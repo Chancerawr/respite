@@ -12,7 +12,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.1
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a melee attack"
+COMMAND.attackString = "melee attack"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -34,7 +35,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.1
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a grappling maneuver"
+COMMAND.attackString = "grappling maneuver"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -56,7 +58,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.1
 }
 COMMAND.mult = 0.6
-COMMAND.attackString = "a dual melee attack"
+COMMAND.attackString = "dual melee attack"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10)),
@@ -78,35 +81,14 @@ COMMAND.stats = {
 	["luck"] = 0.5
 }
 COMMAND.mult = 0.35
-COMMAND.attackString = "a flailing melee attack"
+COMMAND.attackString = "flailing melee attack"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base)
 	local rolls = {}
 	
 	for i=0, math.random(1,3) do
 		table.insert(rolls, math.abs(base + math.random(-10,10)))
 	end
-	
-	return rolls
-end
-
-CMBT:Register( COMMAND )
-
-//
-local COMMAND = {}
-COMMAND.uid = "disarm"
-COMMAND.name = "Disarm"
-COMMAND.desc = "Melee attack used to disarm a target. Cannot be used if target's weapon is not easily removed (attached to body, claws, etc.)"
-COMMAND.category = "melee"
-COMMAND.stats = {
-	["medical"] = 0.2,
-	["accuracy"] = 0.2
-}
-COMMAND.mult = 0.8
-COMMAND.attackString = "a disarming maneuver"
-COMMAND.rolls = function(base)
-	local rolls = { 
-		math.abs(base + math.random(-10,10))
-	}
 	
 	return rolls
 end
@@ -126,6 +108,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1.1
 COMMAND.attackString = "suppressing fire"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -147,7 +130,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.4
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a shot"
+COMMAND.attackString = "shot"
+COMMAND.stringArt = "a "
 COMMAND.parts = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -170,7 +154,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.4
 }
 COMMAND.mult = 1.5
-COMMAND.attackString = "an aimed shot"
+COMMAND.attackString = "aimed shot"
+COMMAND.stringArt = "an "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -191,7 +176,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.35
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a burst shot"
+COMMAND.attackString = "burst shot"
+COMMAND.stringArt = "a "
 COMMAND.parts = true
 COMMAND.rolls = function(base, attribs)
 	local roll = math.abs(base + math.random(-10,10))
@@ -216,7 +202,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.35
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a gatling shot"
+COMMAND.attackString = "gatling shot"
+COMMAND.stringArt = "a "
 COMMAND.parts = true
 COMMAND.rolls = function(base, attribs)
 	local roll = math.abs(base + math.random(-10,10))
@@ -245,7 +232,8 @@ COMMAND.stats = {
 	["perception"] = 0.1
 }
 COMMAND.mult = 1
-COMMAND.attackString = "an aimed burst shot"
+COMMAND.attackString = "aimed burst shot"
+COMMAND.stringArt = "an "
 COMMAND.rolls = function(base, attribs)
 	local roll = math.abs(base + math.random(-10,10))
 
@@ -271,7 +259,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.25
 }
 COMMAND.mult = 0.6
-COMMAND.attackString = "a quickdraw shot"
+COMMAND.attackString = "quickdraw shot"
+COMMAND.stringArt = "a "
 COMMAND.parts = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -294,7 +283,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.3
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a thrown object"
+COMMAND.attackString = "thrown object"
+COMMAND.stringArt = "a "
 COMMAND.parts = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -310,14 +300,16 @@ CMBT:Register( COMMAND )
 local COMMAND = {}
 COMMAND.uid = "execute"
 COMMAND.name = "Execution Shot"
-COMMAND.desc = "Used in point blank firearm conditions where target is unlikely to be able to avoid it. You can use them when your target is being restrained, is incredibly incapacitated, stunned, or completely unable to move. You cannot use them just because you are very close or they got knocked down. You also cannot use this on targets that you yourself are restraining with grapple. It is generally assumed that in using this, you will hit your target. However, if you lose the roll, you can attribute it to a misfire, an erratic movement by the thing you're trying to execute, or incredibly bad luck on your part."
+COMMAND.desc = "Used in point blank firearm conditions where target is unlikely to be able to avoid it. You can use them when your target is being restrained, is incredibly incapacitated, stunned, or completely unable to move. You cannot use them just because you are very close or they got knocked down. You also cannot use this on targets that you yourself are restraining with grapple. It is generally assumed that in using this, you will hit your target. However, if you lose the roll, you can attribute it to a misfire, an erratic movement by the thing you're trying to execute, or incredibly bad luck on your part.\nRequires the Executioner trait."
 COMMAND.category = "special"
+COMMAND.trait = "executioner"
 COMMAND.stats = {
 	["str"] = 0.1,
 	["accuracy"] = 0.4
 }
 COMMAND.mult = 2.5
-COMMAND.attackString = "an execution shot"
+COMMAND.attackString = "execution shot"
+COMMAND.stringArt = "an "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -339,7 +331,8 @@ COMMAND.stats = {
 	["accuracy"] = 0.3
 }
 COMMAND.mult = 0.85
-COMMAND.attackString = "an akimbo shot"
+COMMAND.attackString = "akimbo shot"
+COMMAND.stringArt = "an "
 COMMAND.parts = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -364,6 +357,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 0.8
 COMMAND.attackString = "sneaking"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -385,6 +379,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1
 COMMAND.attackString = "perceiving"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -407,6 +402,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1
 COMMAND.attackString = "endurance"
+COMMAND.stringArt = ""
 COMMAND.noCrit = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -430,6 +426,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1
 COMMAND.attackString = "willpower"
+COMMAND.stringArt = ""
 COMMAND.noCrit = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -453,6 +450,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1
 COMMAND.attackString = "fortitude"
+COMMAND.stringArt = ""
 COMMAND.noCrit = true
 COMMAND.rolls = function(base)
 	local rolls = { 
@@ -475,7 +473,8 @@ COMMAND.stats = {
 	["perception"] = 0.2
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a dodge/miss"
+COMMAND.attackString = "dodge/miss"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -522,7 +521,8 @@ COMMAND.stats = {
 	["str"] = 0.2
 }
 COMMAND.mult = 0.85
-COMMAND.attackString = "a block"
+COMMAND.attackString = "block"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -548,6 +548,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 0.8
 COMMAND.attackString = "parrying"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -568,7 +569,8 @@ COMMAND.stats = {
 	["stm"] = 0.5
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a flee attempt"
+COMMAND.attackString = "flee attempt"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -590,6 +592,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1
 COMMAND.attackString = "reflexes"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -607,12 +610,14 @@ COMMAND.uid = "revolverburst"
 COMMAND.name = "Revolver Burst"
 COMMAND.desc = "Same as /firearmsburst except can specifically be used with revolvers, requires the Fan the Hammer trait."
 COMMAND.category = "special"
+COMMAND.trait = "fanthehammer"
 COMMAND.parts = true
 COMMAND.stats = {
 	["accuracy"] = 0.35
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a rapid fire revolver shot"
+COMMAND.attackString = "rapid fire revolver shot"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base, attribs)
 	local roll = math.abs(base + math.random(-10,10))
 
@@ -631,15 +636,17 @@ CMBT:Register( COMMAND )
 local COMMAND = {}
 COMMAND.uid = "backstab"
 COMMAND.name = "Backstab"
-COMMAND.desc = "Used when behind a target that is not aware of you (is engaged with something else, can't react to you, or doesn't know you're there.) Can be used with any melee weapon that has a blade."
+COMMAND.desc = "Used when behind a target that is not aware of you (is engaged with something else, can't react to you, or doesn't know you're there.) Can be used with any melee weapon that has a blade.\nRequires the Rogue trait."
 COMMAND.category = "special"
+COMMAND.trait = "rogue"
 COMMAND.stats = {
 	["str"] = 0.1,
 	["perception"] = 0.15,
 	["stm"] = 0.25
 }
 COMMAND.mult = 1.5
-COMMAND.attackString = "a backstab"
+COMMAND.attackString = "backstab"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base, attribs)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -654,15 +661,17 @@ CMBT:Register( COMMAND )
 local COMMAND = {}
 COMMAND.uid = "rapidstab"
 COMMAND.name = "Rapid Stabbing"
-COMMAND.desc = "A flurry of stabs, can only be used with one handed stabbing weapons (knives, shivs, etc)."
+COMMAND.desc = "A flurry of stabs, can only be used with one handed stabbing weapons (knives, shivs, etc).\nRequires the Rapid Stabbing trait."
 COMMAND.category = "special"
+COMMAND.trait = "rapidstab"
 COMMAND.stats = {
 	["str"] = 0.2,
 	["perception"] = 0.1,
 	["stm"] = 0.2
 }
 COMMAND.mult = 1
-COMMAND.attackString = "a rapid stab"
+COMMAND.attackString = "rapid stab"
+COMMAND.stringArt = "a "
 COMMAND.rolls = function(base, attribs)
 	local roll = math.abs(base + math.random(-10,10))
 	local rolls = { 
@@ -682,6 +691,7 @@ COMMAND.uid = "defend"
 COMMAND.name = "Defend"
 COMMAND.desc = "Allows you to block an incoming attack on an alley, either with a weapon or your body. You must be near the target you wish to defend. A failure of this roll means that you will be hit instead, but your target will be protected. This roll can be used against bullets, but you must be able to see the enemy firing at the person you are defending. In that case, you are getting hit by the bullets in place of the one you're defending. This ability requires the Defender trait."
 COMMAND.category = "special"
+COMMAND.trait = "defender"
 COMMAND.stats = {
 	["perception"] = 0.1,
 	["end"] = 0.2,
@@ -689,6 +699,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 0.8
 COMMAND.attackString = "defending a target"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -702,14 +713,16 @@ CMBT:Register( COMMAND )
 local COMMAND = {}
 COMMAND.uid = "throwaimed"
 COMMAND.name = "Aimed Throw"
-COMMAND.desc = "Used for accurately throwing any kind of object, specify what body part you are aiming at with your roleplay.. Can be blocked like a melee attack. You must use a full turn to aim at a target, and then you can use this command on the next one. If the target moves after your aimed shot, you will have to aim again."
+COMMAND.desc = "Used for accurately throwing any kind of object, specify what body part you are aiming at with your roleplay. Can be blocked like a melee attack. You must use a full turn to aim at a target, and then you can use this command on the next one. If the target moves after your aimed shot, you will have to aim again.\nRequires the Throwing Specialist trait."
 COMMAND.category = "firearms"
+COMMAND.trait = "thrower"
 COMMAND.stats = {
 	["str"] = 0.2,
 	["accuracy"] = 0.3
 }
 COMMAND.mult = 1.1
-COMMAND.attackString = "an aimed throw"
+COMMAND.attackString = "aimed throw"
+COMMAND.stringArt = "an "
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))
@@ -732,6 +745,7 @@ COMMAND.stats = {
 }
 COMMAND.mult = 1
 COMMAND.attackString = "interacting with something"
+COMMAND.stringArt = ""
 COMMAND.rolls = function(base)
 	local rolls = { 
 		math.abs(base + math.random(-10,10))

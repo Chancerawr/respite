@@ -11,7 +11,8 @@ local PANEL = {}
 		local comTable = CMBT:GetAll()
 		
 		self:SetSize(ScrW() * 0.3, ScrH() * 0.45)
-		self:SetPos(ScrW() * 0.2, ScrH() * 0.2)
+		self:Center()
+		--self:SetPos(ScrW() * 0.2, ScrH() * 0.2)
 		self:SetTitle("Commands")
 		self:MakePopup()
 		
@@ -92,7 +93,7 @@ local PANEL = {}
 				--atributes used
 				text = text.. " Attributes: "
 				for k2, v2 in pairs(v.stats) do 
-					text = text..nut.attribs.list[k2].name.. ": " ..v2..". "
+					text = text..nut.attribs.list[k2].name.. ": " ..v2.."x. "
 				end
 				text = text.. "\n"
 				

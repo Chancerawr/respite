@@ -35,9 +35,9 @@ ITEM.functions.Scrap = {
 	end,
 	onCanRun = function(item)
 		if (item:getOwner() == nil) then
-			return item.player:getChar():hasFlags("q") or item.player:getChar():getInv():hasItem("kit_salvager")
+			return item.player:getChar():hasFlags("q") or item.player:getChar():getInv():getFirstItemOfType("kit_salvager")
 		else
-			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():hasItem("kit_salvager")
+			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():getFirstItemOfType("kit_salvager")
 		end
 	end
 }

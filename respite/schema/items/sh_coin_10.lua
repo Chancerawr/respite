@@ -8,7 +8,8 @@ ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 10
 ITEM.category = "Currency"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
+
 ITEM.value = 10
 
 ITEM.functions.Collect = {
@@ -23,22 +24,6 @@ ITEM.functions.Collect = {
 		char:giveMoney(item.value)
 	end
 }
-
---[[
-ITEM.functions.Yes = {
-	name = "Yes",
-	icon = "icon16/coins.png",
-	sound = "ambient/materials/cupdrop.wav",
-	onRun = function(item)
-		local client = item.player
-		local char = client:getChar()
-		
-		client:requestQuery("Do you want to do the thing?", "Thing", function(text) --confirmation message
-			client:notify("You did the thing")
-		end)
-	end
-}
---]]
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)

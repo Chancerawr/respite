@@ -1,3 +1,4 @@
+--[[
 local PLUGIN = PLUGIN
 PLUGIN.name = "Combat"
 PLUGIN.author = "Chancer"
@@ -938,3 +939,4 @@ function PLUGIN:GetStartAttribPoints()
 	return 25
 end
 
+--]]

@@ -1,5 +1,5 @@
 ITEM.name = "CR-33K"
-ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. Has no real stock and is a real pain to control even with a lower rate of fire, but atleast offers. high capacity automatic rifle fire.\nThis weapon utilizes 5.56x45mm rounds."
+ITEM.desc = "A fully automatic assault rifle made out of various scrap parts. Has no real stock and is a real pain to control even with a lower rate of fire, but atleast offers. high capacity automatic rifle fire."
 ITEM.model = "models/weapons/tfa_w_dmg_vikhr.mdl"
 ITEM.class = "tfa_cr33k"
 ITEM.uniqueID = "tfa_cr33k"

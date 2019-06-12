@@ -21,7 +21,6 @@ DISEASE.cure = {
 	"Your panic slowly melts away.",
 }
 
-
 DISEASES:Register( DISEASE )
 //
 local DISEASE = {}

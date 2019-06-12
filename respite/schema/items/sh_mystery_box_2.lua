@@ -7,7 +7,6 @@ ITEM.price = 500
 ITEM.flag = "v"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.data = { customCol = Color(140, 20, 140) }
 ITEM.color = Color(140, 20, 140)
 
 ITEM.iconCam = {

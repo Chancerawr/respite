@@ -8,7 +8,7 @@ ITEM.height = 3
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "???"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(150, 150, 150)
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 18),

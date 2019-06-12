@@ -29,5 +29,7 @@ ITEM.functions.use = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }

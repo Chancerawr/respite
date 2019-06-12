@@ -126,9 +126,20 @@ nut.command.add("cleanitems", {
 	onRun = function(client, arguments)
 		local count = 0
 	
-		for k, v in pairs(ents.FindByClass("nut_item")) do
-			count = count + 1
-			v:Remove()
+		if(!arguments[1]) then
+			for k, v in pairs(ents.FindByClass("nut_item")) do
+				count = count + 1
+				v:Remove()
+			end
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do	
+				if IsValid(v) and (v:GetClass() == "nut_item") then
+					count = count + 1
+					v:Remove()
+				end
+			end
 		end
 		
 		client:notify(count.. " items have been cleaned up from the map.")
@@ -140,10 +151,21 @@ nut.command.add("cleannpcs", {
 	onRun = function(client, arguments)
 		local count = 0
 	
-		for k, v in pairs(ents.GetAll()) do
-			if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
-				count = count + 1
-				v:Remove()
+		if(!arguments[1]) then
+			for k, v in pairs(ents.GetAll()) do
+				if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+					count = count + 1
+					v:Remove()
+				end
+			end
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do
+				if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+					count = count + 1
+					v:Remove()
+				end
 			end
 		end
 		
@@ -221,6 +243,48 @@ nut.command.add("flip", {
 		else
 			nut.chat.send(client, "flip", "Tails")
 		end
+	end
+})
+
+-- Roll information in chat.
+nut.chat.register("rolld", {
+	format = "%s has %s.",
+	color = Color(155, 111, 176),
+	filter = "actions",
+	font = "nutChatFontItalics",
+	onCanHear = nut.config.get("chatRange", 280),
+	deadCanChat = true
+})
+
+nut.command.add("rolld", {
+	syntax = "<number dice> <number pips> <number bonus>",
+	onRun = function(client, arguments)
+		local dice = (tonumber(arguments[1]) or 1)
+		local pips = (tonumber(arguments[2]) or 6)
+		local bonus = (tonumber(arguments[3]) or nil)
+	
+		local total = 0
+		local dmsg = ""
+		for i = 1, dice do
+			local roll = math.random(1, pips)
+			total = total + roll
+			if(i > 1) then
+				dmsg = dmsg..", "
+			end
+			dmsg = dmsg..roll
+		end
+
+		local msg = ""
+		
+		if(bonus) then
+			total = total + bonus
+		
+			msg = msg.. " + " ..bonus
+		end
+		
+		msg = "rolled " ..total.. " [" ..dmsg.. "]" .. " on " ..dice.. "d" ..pips..msg
+		
+		nut.chat.send(client, "rolld", msg)
 	end
 })
 

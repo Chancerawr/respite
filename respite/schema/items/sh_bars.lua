@@ -68,6 +68,8 @@ ITEM.functions.Stare = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 

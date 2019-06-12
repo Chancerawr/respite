@@ -6,8 +6,9 @@ ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 
-ITEM.data = { scrapamount = 1 }
-ITEM.salvItem = "j_scrap_organic"
+ITEM.salvItem = {
+	["j_scrap_organic"] = 2
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
@@ -35,17 +36,26 @@ ITEM.functions.Name = {
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
-		client:requestString("Change Name", "What do you want to name your plant? (This is final)", function(text)
-			item:setData("customName", text)
-		end, item.name)
+		
+		local customData = item:getData("custom", {})
+		
+		client:requestString("Change Name", "What do you want to name your sentry? (This is final)", function(text)
+			customData.name = text
+			item:setData("custom", customData)
+			nut.log.addRaw(client:Name().. " has set name of " ..item.name.. " to " ..text.. ".")
+		end, customData.name or item.name)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		if (item:getData("customName") != nil) then
+		local customData = item:getData("custom", {})
+		
+		if (customData.name) then
 			return false
 		else
 			return true
 		end
+		
+		return true
 	end
 }

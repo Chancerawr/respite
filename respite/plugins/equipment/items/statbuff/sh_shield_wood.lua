@@ -6,9 +6,11 @@ ITEM.desc = "A makeshift wooden shield."
 ITEM.flag = "j"
 ITEM.width = 2
 ITEM.height = 3
-ITEM.data = { scrapamount = 10 }
-ITEM.salvItem = "j_scrap_wood"
 ITEM.buffCategory = "shield"
+
+ITEM.salvItem = {
+	["j_scrap_wood"] = 10
+}
 
 ITEM.attribBoosts = {
 	["end"] = 5,

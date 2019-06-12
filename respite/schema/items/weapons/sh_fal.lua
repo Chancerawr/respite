@@ -1,5 +1,5 @@
 ITEM.name = "FN FAL"
-ITEM.desc = "A Belgian made, and multi-nationally produced battle rifle hailing from the early days of NATO. This lethally accurate and astonishingly tough rifle has been lovingly called the, 'Right arm of the free world.'\nThis weapon utilizes 7.62x51mm rounds."
+ITEM.desc = "A Belgian made, and multi-nationally produced battle rifle hailing from the early days of NATO. This lethally accurate and astonishingly tough rifle has been lovingly called the, 'Right arm of the free world.'"
 ITEM.model = "models/weapons/tfa_w_fn_fal.mdl"
 ITEM.class = "tfa_fal"
 ITEM.weaponCategory = "primary"

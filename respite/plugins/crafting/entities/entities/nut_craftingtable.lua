@@ -78,7 +78,7 @@ if(CLIENT) then
 		local position = toScreen(self.LocalToWorld(self, self.OBBCenter(self)))
 		local x, y = position.x, position.y
 		
-		drawText("A wooden table with a monitor, and a hole to drop objects into.", x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutChat", alpha * 0.65)
-		drawText("The monitor reacts to touch, allowing a user to select a “recipe”, which will display the materials required for the object described.", x, y + 34, colorAlpha(color_white, alpha), 1, 1, "nutChat", alpha * 0.65)
+		drawText("A wooden table with a monitor, and a hole to drop objects into.", x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
+		drawText("The monitor reacts to touch, allowing a user to select a “recipe”, which will display the materials required for the object described.", x, y + 34, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
 	end
 end

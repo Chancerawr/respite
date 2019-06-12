@@ -1,14 +1,14 @@
 ITEM.name = "Charger"
+ITEM.desc = "A strange metal box, It has a large slot that is labelled 'BATTERY', another slot labelled 'COINS', and a small output slot labelled 'CHARGED'."
 ITEM.uniqueID = "charger"
 ITEM.model = "models/props_combine/suit_charger001.mdl"
 ITEM.material = "models/props_wasteland/quarryobjects01"
-ITEM.desc = "A strange metal box, It has a large slot that is labelled 'BATTERY', another slot labelled 'COINS', and a small output slot labelled 'CHARGED'."
 ITEM.width = 2
 ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.iconCam = {
 	pos = Vector(200, 0, 0),
@@ -24,7 +24,7 @@ ITEM.functions.Charge = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local battery = inventory:hasItem("j_battery_dead")	
+		local battery = inventory:getFirstItemOfType("j_battery_dead")	
 		local char = client:getChar()
 		
 		nut.chat.send(client, "itclose", "The machine accepts the dead battery and the money, vibrates intensely, and outputs a freshly charged battery.")
@@ -32,17 +32,17 @@ ITEM.functions.Charge = {
 		char:takeMoney(30)
 		battery:remove()
 		
-		if(!inventory:add("ammo_battery")) then
-			nut.item.spawn("ammo_battery", position)
-		end
+		inventory:addSmart("ammo_battery", 1, position)
 		
 		return false
 	end,
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if (!player:getChar():getInv():hasItem("j_battery_dead") or player:getChar():getMoney() < 40) then --if item of importance isn't in the inventory.
+		if (!player:getChar():getInv():getFirstItemOfType("j_battery_dead") or player:getChar():getMoney() < 40) then --if item of importance isn't in the inventory.
 			return false
 		end
+		
+		return true
 	end
 }

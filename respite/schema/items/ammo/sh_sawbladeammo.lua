@@ -18,7 +18,11 @@ ITEM.iconCam = {
 if (CLIENT) then
 	function ITEM:drawEntity(entity, item)
 		entity:DrawModel()
-		entity:SetModelScale(.25)
-		entity:DrawShadow(false)	
+		
+		local mat = Matrix()
+		mat:Scale(Vector(1, 1, 1) * 0.25)
+		entity:EnableMatrix("RenderMultiply", mat)
+		
+		entity:DrawShadow(false)
 	end
 end

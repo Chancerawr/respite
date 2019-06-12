@@ -11,7 +11,8 @@ ITEM.container = "j_plastic_bag"
 ITEM.cookable = false
 
 ITEM.attribBoosts = { 
-	["end"] = 5,
+	["str"] = 6,
+	["stm"] = -1
 }
 
 ITEM.iconCam = {

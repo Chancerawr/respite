@@ -1,7 +1,4 @@
 local PANEL = {}
-	local gradient = Material("vgui/gradient-d")
-	local gradient2 = Material("vgui/gradient-u")
-
 	local COLOR_FADED = Color(200, 200, 200, 100)
 	local COLOR_ACTIVE = color_white
 	local COLOR_WRONG = Color(255, 100, 80)
@@ -20,16 +17,19 @@ local PANEL = {}
 
 		self.tabs = self:Add("DPanel")
 		self.tabs:Dock(TOP)
-		self.tabs:SetTall(24)
-		self.tabs:DockPadding(3, 3, 3, 3)
-		self.tabs:DockMargin(4, 4, 4, 4)
+		self.tabs:SetTall(28)
+		self.tabs:DockPadding(4, 4, 4, 4)
 		self.tabs:SetVisible(false)
+		self.tabs.Paint = function(tabs, w, h)
+			surface.SetDrawColor(0, 0, 0, 100)
+			surface.DrawRect(0, 0, w, h)
+		end
 
 		self.arguments = {}
 
 		self.scroll = self:Add("DScrollPanel")
-		self.scroll:SetPos(4, 30)
-		self.scroll:SetSize(w - 8, h - 70)
+		self.scroll:SetPos(4, 31)
+		self.scroll:SetSize(w - 8, h - 66)
 		self.scroll:GetVBar():SetWide(0)
 		self.scroll.PaintOver = function(this, w, h)
 			local entry = self.text
@@ -104,7 +104,7 @@ local PANEL = {}
 		if (self.active) then
 			nut.util.drawBlur(self, 10)
 
-			surface.SetDrawColor(250, 250, 250, 2)
+			surface.SetDrawColor(0, 0, 15, 155)
 			surface.DrawRect(0, 0, w, h)
 
 			surface.SetDrawColor(0, 0, 0, 240)
@@ -134,7 +134,7 @@ local PANEL = {}
 			self.text:Dock(FILL)
 			self.text.History = nut.chat.history
 			self.text:SetHistoryEnabled(true)
-			self.text:DockMargin(3, 3, 3, 3)
+			self.text:DockMargin(0, 0, 0, 0)
 			self.text:SetFont("nutChatFont")
 			self.text.OnEnter = function(this)
 				local text = this:GetText()
@@ -183,54 +183,27 @@ local PANEL = {}
 	end
 
 	local function OnDrawText(text, font, x, y, color, alignX, alignY, alpha)
+		--[[
 		alpha = alpha or 255
-		
-		if(NUT_CVAR_CHATALT:GetBool()) then
-			surface.SetTextPos(x+1, y+1)
-			surface.SetTextColor(0, 0, 0, alpha)
-			surface.SetFont(font)
-			surface.DrawText(text)
-			
-			--[[
-			surface.SetTextPos(x-1, y-1)
-			surface.SetTextColor(0, 0, 0, alpha)
-			surface.SetFont(font)
-			surface.DrawText(text)
-			
-			surface.SetTextPos(x, y-1)
-			surface.SetTextColor(0, 0, 0, alpha)
-			surface.SetFont(font)
-			surface.DrawText(text)
-			
-			surface.SetTextPos(x-1, y)
-			surface.SetTextColor(0, 0, 0, alpha)
-			surface.SetFont(font)
-			surface.DrawText(text)
-			
-			surface.SetTextPos(x+1, y)
-			surface.SetTextColor(0, 0, 0, alpha)
-			surface.SetFont(font)
-			surface.DrawText(text)
-			
-			surface.SetTextPos(x, y+1)
-			surface.SetTextColor(0, 0, 0, alpha)
-			surface.SetFont(font)
-			surface.DrawText(text)
-			--]]
-		end
-		
+
+		surface.SetTextPos(x+1, y+1)
+		surface.SetTextColor(0, 0, 0, alpha)
+		surface.SetFont(font)
+		surface.DrawText(text)
+
 		surface.SetTextPos(x, y)
 		surface.SetTextColor(color.r, color.g, color.b, alpha)
 		surface.SetFont(font)
 		surface.DrawText(text)
 		--draw.SimpleTextOutlined(text, font, x, y, ColorAlpha(color, alpha), 0, alignY, 1, ColorAlpha(color_black, alpha * 0.6))
+		--]]
 	end
 
 	local function PaintFilterButton(this, w, h)
 		if (this.active) then
 			surface.SetDrawColor(40, 40, 40)
 		else
-			local alpha = 120 + math.cos(RealTime() * 5) * 10
+			local alpha = 120 + math.cos(RealTime() * 5) * 7
 
 			surface.SetDrawColor(ColorAlpha(nut.config.get("color"), alpha))
 		end
@@ -284,25 +257,39 @@ local PANEL = {}
 
 	function PANEL:addText(...)
 		local text = "<font=nutChatFont>"
+		local text2 = "<font=nutChatFont>"
 
 		if (CHAT_CLASS) then
 			text = "<font="..(CHAT_CLASS.font or "nutChatFont")..">"
+			text2 = "<font="..(CHAT_CLASS.font or "nutChatFont")..">"
 		end
 		
 		for k, v in ipairs({...}) do
 			if (type(v) == "IMaterial") then
-				local ttx = tostring(v):match("%[[a-z0-9/]+%]")
-				ttx = ttx:sub(2, ttx:len() - 1)
+				local ttx = v:GetName()
 				text = text.."<img="..ttx..","..v:Width().."x"..v:Height()..">"
-			elseif (type(v) == "table" and v.r and v.g and v.b) then
+				text2 = text2.."<img="..ttx..","..v:Width().."x"..v:Height()..">"
+			elseif (IsColor(v) and v.r and v.g and v.b) then
 				text = text.."<color="..v.r..","..v.g..","..v.b..">"
+				text2 = text2.."<color=0,0,0>"
 			elseif (type(v) == "Player") then
 				local color = team.GetColor(v:Team())
 
-				text = text.."<color="..color.r..","..color.g..","..color.b..">"..v:Name():gsub("<", "&lt;"):gsub(">", "&gt;")
+				text = text.."<color="..color.r..","..color.g..","..color.b..">"..v:Name():gsub("<", "&lt;"):gsub(">", "&gt;"):gsub("#", "\226\128\139#")
+				text2 = text2.."<color=0,0,0>"..v:Name():gsub("<", "&lt;"):gsub(">", "&gt;"):gsub("#", "\226\128\139#")
 			else
 				text = text..tostring(v):gsub("<", "&lt;"):gsub(">", "&gt;")
+				text2 = text2..tostring(v):gsub("<", "&lt;"):gsub(">", "&gt;")
+				
 				text = text:gsub("%b**", function(value)
+					local inner = value:sub(2, -2)
+
+					if (inner:find("%S")) then
+						return "<font=nutChatFontItalics>"..value:sub(2, -2).."</font>"
+					end
+				end)	
+				
+				text2 = text2:gsub("%b**", function(value)
 					local inner = value:sub(2, -2)
 
 					if (inner:find("%S")) then
@@ -313,10 +300,11 @@ local PANEL = {}
 		end
 
 		text = text.."</font>"
+		text2 = text2.."</font>"
 
 		local panel = self.scroll:Add("nutMarkupPanel")
 		panel:SetWide(self:GetWide() - 8)
-		panel:setMarkup(text, OnDrawText)
+		panel:setMarkup(text, OnDrawText, text2)
 		panel.start = CurTime() + 15
 		panel.finish = panel.start + 20
 		panel.Think = function(this)

@@ -2,7 +2,7 @@ ITEM.name = "Drifter (OOC)"
 ITEM.desc = "A short introduction to a Drifter character, and Respite.\nThis book is OOC."
 ITEM.price = 0
 ITEM.flag = "3"
-ITEM.value = 10
+ITEM.value = 20
 
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),
@@ -26,7 +26,8 @@ An unfamiliar and strange world full of nonsensical constructs and horrors await
 	<br/><br/>	
 (If you want a special authorization for equipment, training, or anything else, please go to the forums and make an authorization post. You cannot obtain a gun from an authorization.)
 	<br/><br/>	
-		
+(For information about the server's combat system, press F2 to open extra menu, and click on Combat Guide.)
+	<br/><br/>	
 </font>
 ]]
 

@@ -12,7 +12,7 @@ local function flicker(client)
 	local char = client:getChar()
 	local times = math.random(3,6)
 	
-	if(char and !char:getInv():hasItem("flashlight_shard")) then
+	if(char and !char:getInv():getFirstItemOfType("flashlight_shard")) then
 		flashlightFlicker(client, times)
 	end
 end

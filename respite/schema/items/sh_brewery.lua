@@ -8,7 +8,7 @@ ITEM.height = 3
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.functions.Brew = {
 	icon = "icon16/drink.png",
@@ -29,8 +29,8 @@ ITEM.functions.Brew = {
 		alcohol[8] = "alc_midori"
 		alcohol[9] = "alc_wine"
 
-		local water = inventory:hasItem("food_water_misc") or inventory:hasItem("food_water") or inventory:hasItem("food_water_mountain") or inventory:hasItem("food_blood")
-		local chip = inventory:hasItem("cube_chip")
+		local water = inventory:getFirstItemOfType("food_water_misc") or inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_water_mountain") or inventory:getFirstItemOfType("food_blood")
+		local chip = inventory:getFirstItemOfType("cube_chip")
 		local clean = true
 		if (water) then
 			if (chip) then
@@ -50,10 +50,9 @@ ITEM.functions.Brew = {
 							end
 							
 							for i = 1,cleanN do
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									--if(!inventory:add(alcohol[math.random(1,cleanN*3)])) then --if the inventory has space, put it in the inventory
-										nut.item.spawn(alcohol[math.random(1,cleanN*3)], client:getItemDropPos()) --if not, drop it on the ground
-									--end
+								if(!IsValid(item:getEntity())) then --checks if item is not on the ground									
+									inventory:addSmart(alcohol[math.random(1,cleanN*3)], 1, client:getItemDropPos())
+									
 									client:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 								else --if the item it on the ground
 									nut.item.spawn(alcohol[math.random(1,cleanN*3)], item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
@@ -64,9 +63,8 @@ ITEM.functions.Brew = {
 							if(clean) then
 								if(math.random(0,9) == 0) then
 									if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-										if(!inventory:add("alc_cloud")) then --if the inventory has space, put it in the inventory
-											nut.item.spawn("alc_cloud", client:getItemDropPos()) --if not, drop it on the ground
-										end
+										inventory:addSmart("alc_cloud", 1, client:getItemDropPos())
+										
 										client:EmitSound("hl1/ambience/steamburst1.wav")
 									else --if the item it on the ground
 										nut.item.spawn("alc_cloud", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
@@ -114,7 +112,7 @@ ITEM.functions.Potion2 = {
         local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local object = inventory:hasItem("food_apple_cursed")
+		local object = inventory:getFirstItemOfType("food_apple_cursed")
 		
 		local recipes = {
 			["accuracy"] = "orange",
@@ -128,7 +126,7 @@ ITEM.functions.Potion2 = {
 		}
 		
 		if(data != "none") then --for anything other than healing salve
-			local potCore = inventory:hasItem("food_" .. recipes[data])
+			local potCore = inventory:getFirstItemOfType("food_" .. recipes[data])
 			if(!potCore) then
 				client:notify("You do not have a(n) " .. recipes[data])
 				return false
@@ -165,10 +163,11 @@ ITEM.functions.Potion2 = {
 			return false
 		end
 		
-		if(!player:getChar():getInv():hasItem("food_apple_cursed")) then
+		if(!player:getChar():getInv():getFirstItemOfType("food_apple_cursed")) then
 			return false
 		end
-        --return (!IsValid(item.entity))
+		
+		return true
     end
 }
 
@@ -180,7 +179,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("drug_antibiotics", position)
@@ -196,8 +195,10 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }

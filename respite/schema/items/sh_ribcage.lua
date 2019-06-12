@@ -8,7 +8,7 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.color = Color(128, 128, 128)
+ITEM.color = Color(70, 120, 70)
 
 ITEM.data = {
 	sTime = 0
@@ -60,10 +60,8 @@ ITEM.functions.Release = {
 		client:getChar():takeMoney(8)
 		
 		item:setData("sTime", CurTime() - timeCharge*(charges-1)) 
-		
-		if(!inventory:add("j_scrap_bone", 1)) then --if the inventory has space, put it in the inventory
-			nut.item.spawn("j_scrap_bone", position) --if not, drop it on the ground
-		end
+	
+		inventory:addSmart("j_scrap_bone", 1, position)
 		
 		nut.chat.send(client, "itclose", "The cage opens, releasing a bone, it closes soon after.")	
 		
@@ -91,6 +89,8 @@ ITEM.functions.Release = {
 		if (player:getChar():getMoney() < 8) then 
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -102,7 +102,7 @@ ITEM.functions.Battery = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local required = inventory:hasItem("ammo_battery")
+		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
 		nut.item.spawn("j_skull", position)
@@ -119,9 +119,11 @@ ITEM.functions.Battery = {
 	onCanRun = function(item)
 		local player = item.player or item:getOwner()
 		
-		if !player:getChar():getInv():hasItem("ammo_battery") then 
+		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

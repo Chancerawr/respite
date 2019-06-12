@@ -145,7 +145,7 @@ nut.command.add("charsetpart", {
 			local char = target:getChar()
 			local pTable = char:getData("parts", {})
 			
-			pTable[id] = {(math.Clamp((PLUGIN.parts[id][2] * amount / 100), 0, 100)), material}
+			pTable[id] = {(math.Clamp((PLUGIN.parts[id][2] * amount / 100), 0, PLUGIN.parts[id][2])), material}
 			char:setData("parts", pTable)
 			
 			client:notify("Part has been set.")

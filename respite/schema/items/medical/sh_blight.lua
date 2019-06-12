@@ -66,7 +66,7 @@ ITEM.functions.use = { -- sorry, for name order.
 				client:notify("Your body has changed.")
 				
 				client:EmitSound("items/medshot4.wav", 80, 75)
-				client:ScreenFade(1, Color(0, 0, 0, 150), 5, 2)
+				client:ScreenFade(1, Color(0, 0, 0, 200), 5, 2)
 				
 				item:remove()
 			end)
@@ -85,6 +85,8 @@ ITEM.functions.use = { -- sorry, for name order.
 		if(IsValid(item.entity)) then
 			return false
 		end
+		
+		return true
     end
 }
 

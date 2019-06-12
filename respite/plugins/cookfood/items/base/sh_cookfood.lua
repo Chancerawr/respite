@@ -8,10 +8,8 @@ ITEM.cookable = true
 ITEM.category = "Consumable"
 ITEM.mustCooked = false
 ITEM.quantity2 = 1
-ITEM.container = ""
 ITEM.flag = "v"
 ITEM.sound = "npc/barnacle/barnacle_crunch2.wav"
-ITEM.attribBoosts = { ["str"] = 0 }
 ITEM.duration = 7200
 ITEM.color = Color(50, 150, 50)
 
@@ -23,20 +21,21 @@ ITEM.functions.use = {
 		local client = item.player
 		local char = client:getChar()
 		--stomach checker
-		if(char:getData("stomach", 0) < 4) then
-			char:setData("stomach", char:getData("stomach", 0) + 1)
-			timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
-				char:setData("stomach", char:getData("stomach", 0) - 1)
-			end)
-		else
-			client:notify("You are too full!")
-			return false
-		end	
+		if(!DISEASES or !hasDisease(client, "trait_hunger")) then
+			if(char:getData("stomach", 0) < 4) then
+				char:setData("stomach", char:getData("stomach", 0) + 1)
+				timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
+					char:setData("stomach", char:getData("stomach", 0) - 1)
+				end)
+			else
+				client:notify("You are too full!")
+				return false
+			end
+		end
 	
 		local cooked = item:getData("cooked", 1)
 		local quantity2 = item:getData("quantity2", item.quantity2)
 		local mul = COOKLEVEL[cooked][2]
-		local position = item.player:getItemDropPos()
 		
 		quantity2 = quantity2 - 1
 		
@@ -109,8 +108,18 @@ ITEM.functions.use = {
 			item:setData("quantity2", quantity2)
 			return false
 		else
-			if(item.container != "") then
-				nut.item.spawn(item.container, position)
+			if(item.container) then
+				local position = item.player:getItemDropPos()
+				local inventory = char:getInv()
+				inventory:addSmart(item.container, 1, position)
+			end
+		end
+		
+		if(item.dis) then
+			local roll = math.random(1,100)
+			
+			if(roll < item.disChance) then
+				giveDisease(client, item.dis)
 			end
 		end
 		
@@ -125,56 +134,69 @@ ITEM.functions.use = {
 	end
 }
 
+ITEM.functions.Inspect = {
+	name = "Inspect",
+	tip = "Inspect this item",
+	icon = "icon16/picture.png",
+	onClick = function(item)
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(540, 680)
+		frame:SetTitle(item.name)
+		frame:MakePopup()
+		frame:Center()
+
+		frame.html = frame:Add("DHTML")
+		frame.html:Dock(FILL)
+		
+		local customData = item:getData("custom", {})
+		
+		local imageCode = [[<img src = "]]..customData.img..[["/>]]
+		
+		frame.html:SetHTML([[<html><body style="background-color: #000000; color: #282B2D; font-family: 'Book Antiqua', Palatino, 'Palatino Linotype', 'Palatino LT STD', Georgia, serif; font-size 16px; text-align: justify;">]]..imageCode..[[</body></html>]])
+	end,
+	onRun = function(item)
+		return false
+	end,
+	onCanRun = function(item)
+		local customData = item:getData("custom", {})
+	
+		if(!customData.img) then
+			return false
+		end
+		
+		return true
+	end
+}
+
 ITEM.functions.Custom = {
 	name = "Customize",
 	tip = "Customize this item",
 	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-		client:requestString("Change Name", "What name do you want this item to have?", function(text)
-			item:setData("customName", text)
-			client:requestString("Change Description", "What Description do you want this item to have?", function(text)
-				item:setData("customDesc", text)
-			end, item:getDesc(true)) --end of desc
-		end, item:getName()) --end of name
-		
-		--hopefully resets the player's icons
-		client:ConCommand("nut_flushicon")
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustom(item.player, item)
 		
 		return false
 	end,
+	
 	onCanRun = function(item)
 		local client = item.player or item:getOwner()
 		return client:getChar():hasFlags("1")
 	end
 }
 
-ITEM.functions.CustomCol = {
-	name = "Customize Color",
+ITEM.functions.CustomQuan = {
+	name = "Customize Quantity",
 	tip = "Customize this item",
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
 
-		local color = item:getData("customCol", Color(255,255,255))
-		client:requestString("Change Color", "Enter ', ' separated RGB values.", function(text) --start of model
-			local colorTbl = string.Split(text, ", ")
-			if(table.Count(colorTbl) == 3) then
-				red = tonumber(colorTbl[1])
-				green = tonumber(colorTbl[2])
-				blue = tonumber(colorTbl[3])
-				if(red and green and blue) then --i put in a lot of extra shit here to idiot proof it.
-					color.r = red
-					color.g = green
-					color.b = blue
-				end
+		client:requestString("Change Quantity", "", function(text)	
+			local amount = tonumber(text)
+			if(amount) then
+				item:setData("quantity2", text)
 			end
-		
-			item:setData("customCol", color)
-		end, color.r .. ", " .. color.b .. ", " .. color.g) --end of color
-		
-		--hopefully resets the player's icons
-		client:ConCommand("nut_flushicon")
+		end, item:getData("quantity2", 1))
 		
 		return false
 	end,
@@ -209,8 +231,9 @@ ITEM.functions.Clone = {
 function ITEM:getDesc(partial)
 	local desc = self.desc
 
-	if(self:getData("customDesc") != nil) then
-		desc = self:getData("customDesc")
+	local customData = self:getData("custom", {})
+	if(customData.desc) then
+		desc = customData.desc
 	end
 	
 	if(!partial) then
@@ -221,6 +244,10 @@ function ITEM:getDesc(partial)
 		if (self.cookable != false) then
 			desc = desc .. "\nFood Status: %s."
 		end
+		
+		if(customData.quality) then
+			desc = desc .. "\nQuality: " ..customData.quality
+		end		
 
 		if(self.quantity2) then
 			desc = desc .. "\nPortions remaining: " .. self:getData("quantity2", self.quantity2)
@@ -243,20 +270,32 @@ end
 function ITEM:getName()
 	local name = self.name
 	
-	if(self:getData("customName") != nil) then
-		name = self:getData("customName")
+	local customData = self:getData("custom", {})
+	if(customData.name) then
+		name = customData.name
 	end
 	
 	return Format(name)
 end
 
+function ITEM:onGetDropModel()
+	local model = self.model
+	
+	local customData = self:getData("custom", {})
+	if(customData.model) then
+		model = customData.model
+	end
+	
+	return Format(model)
+end
+
 if (CLIENT) then --draws a square on the food item for how well cooked it is.
 	function ITEM:paintOver(item, w, h)
 		local cooked = item:getData("cooked", 1)
-		local quantity2 = item:getData("quantity2", item.quantity2)
+		local quantity2 = tonumber(item:getData("quantity2", item.quantity2))
 
-		if (quantity2 > 1) then
-			draw.SimpleText(quantity2, "DermaDefault", 6, h - 16, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
+		if (quantity2) then
+			draw.SimpleText(quantity2.. "/" ..item.quantity2, "DermaDefault", 6, h - 16, Color(50,200,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
 		end
 
 		if (cooked > 1) then
