@@ -156,7 +156,7 @@ function PANEL:onSkip()
 end
 
 function PANEL:Think()
-	if(self.slidePanel) then
+	if(self.slidePanel and self.slidePanel.GetAlpha) then
 		if(self:GetAlpha() < 100) then
 			self.slidePanel:SetAlpha(0)
 		else
