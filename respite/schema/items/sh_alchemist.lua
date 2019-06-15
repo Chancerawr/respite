@@ -108,8 +108,8 @@ ITEM.functions.Memory = {
 			"j_rib"
 		}
 			
-		if(object:getData("Amount") > 1) then
-			object:setData("Amount", object:getData("Amount") - 1)
+		if(object:getData("Amount", 1) > 1) then
+			object:setData("Amount", object:getData("Amount", 1) - 1)
 		else
 			object:remove()
 		end
@@ -142,7 +142,7 @@ ITEM.functions.Chunk = {
 		
 		local ranScrap = {}
 			ranScrap[1] = "shard_dust"
-			ranScrap[2] = "chip_escape"
+			ranScrap[2] = "cube_chip_memory"
 			ranScrap[3] = "voltaic"
 			ranScrap[4] = "charged_cube"
 			
@@ -214,9 +214,9 @@ ITEM.functions.Ichor = {
 		local inventory = client:getChar():getInv()
 		local ichor = inventory:getFirstItemOfType("ichor")
 
-		local amount = ichor:getData("Amount")
+		local amount = ichor:getData("Amount", 1)
 		ichor:setData("Amount", amount - 5) --costs 5
-		if (ichor:getData("Amount") == 0) then
+		if (ichor:getData("Amount", 1) == 0) then
 			ichor:remove()
 		end
 
@@ -231,7 +231,7 @@ ITEM.functions.Ichor = {
 		
 		local ichor = player:getChar():getInv():getFirstItemOfType("ichor")
 		if(ichor) then
-			local amount = ichor:getData("Amount")
+			local amount = ichor:getData("Amount", 1)
 			if(amount >= 5) then
 				return true --need 5 ichor to run
 			else

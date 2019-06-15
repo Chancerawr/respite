@@ -28,7 +28,7 @@ ITEM.functions.Bake = {
 			client:notify("You need 2 organic materials and one bottle of water!") return false
 		end
 			
-		local amount = organic:getData("Amount")
+		local amount = organic:getData("Amount", 1)
 
 		if (amount >= 2) then
 			nut.chat.send(client, "itclose", "The bakery accepts the materials.")
@@ -64,7 +64,7 @@ ITEM.functions.Bake = {
 			--removes used items
 			water:remove()
 			organic:setData("Amount", amount - 2)
-			if (organic:getData("Amount") == 0) then
+			if (organic:getData("Amount", 1) == 0) then
 				organic:remove()
 			end
 			

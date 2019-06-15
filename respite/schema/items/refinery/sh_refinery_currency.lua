@@ -16,7 +16,7 @@ ITEM.funcTable = {
 		},	
 		
 		results = {
-			["coin_10"] = 1,
+			["coin_10"] = 2,
 		},
 	},
 	{
@@ -31,7 +31,7 @@ ITEM.funcTable = {
 		},	
 		
 		results = {
-			["coin_10"] = 10,
+			["coin_10"] = 20,
 		},
 	}
 }

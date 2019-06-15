@@ -106,7 +106,6 @@ if(SERVER) then
 				[16] = "Transcendent"
 			}		
 		
-			print("Test")
 			local maxDura = (table.KeyFromValue(qualities, customData.quality) or 7) * 1000
 			
 			item:setData("maxDura", maxDura)
@@ -356,11 +355,11 @@ else
 				customData[2].quality = qualityC:GetValue()
 				customData[2].dura = duraC:GetValue()
 				
-				customData[2].wepDmg = dmgC:GetValue()
-				customData[2].wepSpd = rpmC:GetValue()
-				customData[2].wepAcc = accC:GetValue()
-				customData[2].wepRec = recC:GetValue()
-				customData[2].wepMag = magC:GetValue()
+				customData[2].wepDmg = math.Clamp(tonumber(dmgC:GetValue()), 0, 100000)
+				customData[2].wepSpd = math.Clamp(tonumber(rpmC:GetValue()), 1, 1000000000)
+				customData[2].wepAcc = math.Clamp(tonumber(accC:GetValue()), 0.0001, 100)
+				customData[2].wepRec = math.Clamp(tonumber(recC:GetValue()), 0, 1000)
+				customData[2].wepMag = math.Clamp(tonumber(magC:GetValue()), 0, 10000)
 			end
 
 			netstream.Start("nut_customF", customData)

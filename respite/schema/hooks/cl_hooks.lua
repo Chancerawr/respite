@@ -40,6 +40,13 @@ function SCHEMA:LoadFonts(font)
 		size = ScreenScale(30),
 		weight = 1000
 	})
+	
+	surface.CreateFont("nutMenuButtonLightFont", {
+		font = "Type-Ra",
+		size = ScreenScale(14),
+		extended = true,
+		weight = 200
+	})
 
 	surface.CreateFont("nutToolTipText", {
 		font = font,
@@ -185,21 +192,21 @@ function SCHEMA:LoadFonts(font)
 end
 
 function SCHEMA:RenderScreenspaceEffects()
-	if (nut.gui.char and nut.gui.char:IsVisible()) then
+	if (nut.gui.character and nut.gui.character:IsVisible()) then
 		local mat_Overlay = Material("pp/blurscreen")
 
-		local scrW, scrH = ScrW(), ScrH()		
+		local scrW, scrH = ScrW(), ScrH()
 			for i = 1, 3 do
 			mat_Overlay:SetFloat("$blur", (i / 2) * (amount or 5))
 			mat_Overlay:Recompute()
 
 			render.UpdateScreenEffectTexture()
-			render.SetMaterial( mat_Overlay )
+			render.SetMaterial(mat_Overlay)
 			render.DrawScreenQuad()
 		end
-		
-		local x, y = nut.gui.char:LocalToScreen(0, 0)
-		local w, h = nut.gui.char:GetWide(), ScrH()
+
+		local x, y = nut.gui.character:LocalToScreen(0, 0)
+		local w, h = nut.gui.character:GetWide(), ScrH()
 		render.SetStencilEnable(true)
 		render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
 		render.SetStencilReferenceValue(1)
@@ -220,26 +227,26 @@ function SCHEMA:RenderScreenspaceEffects()
 		DrawColorModify( menu ) 
 	end
 
-	if ( nut.gui.char and !nut.gui.char:IsVisible() ) then
+	if (nut.gui.character and !nut.gui.character:IsVisible() ) then
 		if NUT_CVAR_POSTPROCESS:GetBool() then
 			local colorMod = {}
-			colorMod[ "$pp_colour_addr" ]           = -16/255
-			colorMod[ "$pp_colour_addg" ]           = -14/255
-			colorMod[ "$pp_colour_addb" ]           = 3/255
-			colorMod[ "$pp_colour_brightness" ]     = 0
-			colorMod[ "$pp_colour_contrast" ]       =  1.20
-			colorMod[ "$pp_colour_colour" ]         = 0.55
-			colorMod[ "$pp_colour_mulr" ]           = 0.05
-			colorMod[ "$pp_colour_mulg" ]           = 0.05
-			colorMod[ "$pp_colour_mulb" ]           = 0.05
+			colorMod["$pp_colour_addr"]           = 0
+			colorMod["$pp_colour_addg"]           = 0
+			colorMod["$pp_colour_addb"]           = 0.025
+			colorMod["$pp_colour_brightness"]     = 0
+			colorMod["$pp_colour_contrast"]       = 1.05
+			colorMod["$pp_colour_colour"]         = 0.65
+			colorMod["$pp_colour_mulr"]           = 0.9
+			colorMod["$pp_colour_mulg"]           = 0
+			colorMod["$pp_colour_mulb"]           = 1
 
-			DrawColorModify( colorMod ) 
+			DrawColorModify(colorMod) 
 		end
 	end
 end
 
 function SCHEMA:HUDPaint()
-	if NUT_CVAR_LETTERBOX:GetBool() or IsValid(nut.gui.char) then
+	if (NUT_CVAR_LETTERBOX:GetBool() and !nut.gui.character:IsVisible()) then
 		local w,h = ScrW(),ScrH()
 		surface.SetDrawColor ( 0, 0, 0, 255 )
 		surface.DrawRect ( 0, 0, w, h / 6 )

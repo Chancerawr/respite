@@ -36,7 +36,6 @@ PLUGIN.spawngroups = { -- Example is based on HL2RP items.
 		"food_potato",
 		"food_pumpkin",
 		"food_soda_blueberry",
-		"food_soda_cherry",
 		"food_soda_lemon",
 		"food_melon",
 		"food_apple",

@@ -42,11 +42,11 @@ ITEM.functions.Merge = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local shardcount = item:getData("shardcount", 1)	
+		local shardcount = item:getData("Amount", 1)	
 		local items = inventory:getItems()
 		for k, v in pairs(items) do
 			if(v.uniqueID == "shard" and v != item) then
-				shardcount = shardcount + v:getData("shardcount", 1)
+				shardcount = shardcount + v:getData("Amount", 1)
 				v:remove()
 			end
 		end
@@ -61,11 +61,13 @@ ITEM.functions.Merge = {
 		end
 		
 		while (shardcount > 9) do
-			inventory:add("shard", 1, { shardcount = 9 })
+			inventory:add("shard", 1, { Amount = 9 })
 			shardcount = shardcount - 9
 		end
 		
-		inventory:add("shard", 1, { shardcount = shardcount })
+		if(shardcount > 0) then
+			inventory:add("shard", 1, { Amount = shardcount })
+		end
 		
 		item.player:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
 		return true
@@ -87,7 +89,7 @@ ITEM.functions.Scrap = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		
-		inventory:addSmart("shard_dust", 1, position, { Amount = item:getData("shardcount", 1)*5 })
+		inventory:addSmart("shard_dust", 1, position, { Amount = item:getData("Amount", 1)*5 })
 	end,
 	onCanRun = function(item)
 		local client = item:getOwner() or item.player
@@ -102,5 +104,5 @@ function ITEM:getDesc()
 	else
 		str = "A peculiar crystalline shard, it emits a dim white light."
 	end
-	return Format(str, (self:getData("shardcount", 1)))
+	return Format(str, (self:getData("Amount", 1)))
 end

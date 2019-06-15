@@ -403,7 +403,7 @@ function lootRoll(roll)
 		if(ran == 1) then
 			item = "shard_dust"
 		elseif(ran == 2) then
-			item = "chip_escape"
+			item = "cube_chip_memory"
 		else
 			item = "cube_chip_enhanced"
 		end

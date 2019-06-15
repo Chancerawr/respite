@@ -55,6 +55,8 @@ function ENT:Use(activator)
 	
 	if(self:LookupBone("ValveBiped.Bip01_Head1")) then
 		self:PointAtEntity(activator)
+		local angle = self:GetAngles()
+		self:SetAngles(Angle(0, angle.y, 0))
 	end
 end
 

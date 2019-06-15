@@ -21,6 +21,13 @@ local chatLangs = {
 for k, v in pairs(chatLangs) do
 	local vlower = string.lower(v)
 
+	local TRAIT = {}
+	TRAIT.uid = k
+	TRAIT.name = v.. " Language"
+	TRAIT.desc = "You can speak " ..v.. ".\nCommand: " .."/"..k
+	TRAIT.category = "Language"
+	TRAITS:Register(TRAIT)
+	
 	nut.chat.register(k, { --regular
 		onCanSay =  function(speaker, text)
 			local trait = hasTrait(speaker, k)
@@ -208,3 +215,22 @@ nut.chat.register("sign", {
 	end,
 	prefix = {"/sign"}
 })
+
+//
+local TRAIT = {}
+TRAIT.uid = "sign_a"
+TRAIT.name = "American Sign Language"
+TRAIT.desc = "You can use American Sign Language.\nCommand: /sign"
+TRAIT.category = "Language"
+
+TRAITS:Register(TRAIT)
+//
+local TRAIT = {}
+TRAIT.uid = "pla"
+TRAIT.name = "Plastic Languages"
+TRAIT.desc = "You can use and understand the plastic languages.\nCommand: /plastic, /signp"
+TRAIT.category = "Language"
+TRAIT.ignore = true
+
+TRAITS:Register(TRAIT)
+//

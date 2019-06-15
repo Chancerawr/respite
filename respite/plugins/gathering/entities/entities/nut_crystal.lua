@@ -45,7 +45,7 @@ if (SERVER) then
 	function ENT:OnTakeDamage( dmginfo )
 		if(dmginfo:IsDamageType(DMG_BLAST)) then --needs to be blown up to be harvested
 			nut.item.spawn("shard_dust", self:GetPos() + self:GetUp() * 5)
-			nut.item.spawn("shard_dust", self:GetPos() + self:GetUp() * 5)
+			--nut.item.spawn("shard_dust", self:GetPos() + self:GetUp() * 5)
 			self:EmitSound("physics/glass/glass_largesheet_break"..math.random(1,3)..".wav")
 			self:EmitSound("physics/glass/glass_largesheet_break"..math.random(1,3)..".wav")
 			self:Remove()

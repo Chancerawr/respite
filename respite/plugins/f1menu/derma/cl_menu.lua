@@ -135,7 +135,7 @@ local PANEL = {}
 			tab:SetSize(0, self.tabs:GetTall())
 			tab:SetText(name)
 			tab:SetPos(self.tabs:GetWide(), 0)
-			tab:SetTextColor(Color(250, 250, 250))
+			tab:SetTextColor(nut.config.get("color", Color(250, 250,250)))
 			tab:SetFont("nutMenuButtonLightFont")
 			tab:SetExpensiveShadow(1, Color(0, 0, 0, 150))
 			tab:SizeToContentsX()
@@ -149,6 +149,7 @@ local PANEL = {}
 				self.panel:Clear()
 
 				self.title:SetText(this:GetText())
+				self.title:SetTextColor(nut.config.get("color", Color(250, 250,250)))
 				self.title:SizeToContentsY()
 				self.title:AlphaTo(255, 0.5)
 				self.title:MoveAbove(self.panel, 8)

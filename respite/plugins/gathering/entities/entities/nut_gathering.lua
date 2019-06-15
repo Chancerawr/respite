@@ -41,47 +41,53 @@ if (SERVER) then
 	end
 
 	function ENT:Use(activator)
-		local oldPos = activator:GetPos()
-		activator:setAction("Gathering...", 2.5, function()
-			if(activator:GetPos():Distance(oldPos) > 500) then
-				activator:notify("Gathering failed, too far away.")
-				return false
-			end
-		
-			local char = activator:getChar()
-			local inventory = char:getInv()
+		if(self.isPlant) then
+			local oldPos = activator:GetPos()
+			activator:setAction("Gathering...", 2.5, function()
+				if(activator:GetPos():Distance(oldPos) > 500) then
+					activator:notify("Gathering failed, too far away.")
+					return false
+				end
 			
-			local gather = self.resources[math.random(#self.resources)]
-			
-			inventory:addSmart(gather, 1, self:GetPos())
+				local char = activator:getChar()
+				local inventory = char:getInv()
+				
+				local gather = self.resources[math.random(#self.resources)]
+				
+				inventory:addSmart(gather, 1, self:GetPos())
 
-			activator:notify(nut.item.list[gather].name.. " gathered.")
-			
-			self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
-			if(self:Health() == 0) then
-				self:Remove()
-			end
-		end)
+				activator:notify(nut.item.list[gather].name.. " gathered.")
+				
+				self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
+				if(self:Health() == 0) then
+					self:Remove()
+				end
+			end)
+		end
 	end
 	
 	function ENT:OnTakeDamage( dmginfo )
-		if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST) and dmginfo:GetDamage() > 10) then
-			nut.item.spawn(table.Random(resources), dmginfo:GetDamagePosition())
+		if(!self.isPlant) then
+			if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST) and dmginfo:GetDamage() > 10) then
+				local gather = self.resources[math.random(#self.resources)]
 			
-			if (nut.config.get("gDamage")) then
-				self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
-				if(self:Health() < 0) then
-					self:Remove()
+				nut.item.spawn(gather, dmginfo:GetDamagePosition())
+				
+				if (nut.config.get("gDamage")) then
+					self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
+					if(self:Health() < 0) then
+						self:Remove()
+					end
 				end
+			elseif(dmginfo:IsDamageType(DMG_BLAST)) then --if they blow it up, destroy it entirely.
+				local gather = self.resources[math.random(#self.resources)]
+				
+				for i = 1, math.random(4,6) do
+					nut.item.spawn(gather, self:GetPos() + self:GetUp() * 40)
+				end
+					
+				self:Remove()
 			end
-		elseif(dmginfo:IsDamageType(DMG_BLAST)) then --if they blow it up, destroy it entirely.
-			nut.item.spawn(table.Random(resources), self:GetPos() + self:GetUp() * 40)
-			nut.item.spawn(table.Random(resources), self:GetPos() + self:GetUp() * 40)
-			nut.item.spawn(table.Random(resources), self:GetPos() + self:GetUp() * 40)
-			nut.item.spawn(table.Random(resources), self:GetPos() + self:GetUp() * 40)
-			nut.item.spawn(table.Random(resources), self:GetPos() + self:GetUp() * 40)
-			
-			self:Remove()
 		end
 	end
 else
@@ -99,6 +105,6 @@ else
 		local position = toScreen(self.LocalToWorld(self, self.OBBCenter(self)))
 		local x, y = position.x, position.y
 		local tx, ty = drawText(self.Name or self.PrintName, x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 2)
-		drawText(self.harvestMsg, ScrW() * 0.5, ScrH() * 0.8, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
+		--drawText(self.harvestMsg, ScrW() * 0.5, ScrH() * 0.8, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
 	end
 end

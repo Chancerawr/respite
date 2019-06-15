@@ -60,19 +60,23 @@ ITEM.functions.View = {
 		local inventory = player:getChar():getInv()
 		local items = inventory:getItems()
 		local packs = 0
+		
 		for k, v in pairs(items) do
 			if(otherBags[v.uniqueID]) then
 				packs = packs + 1
 			end
 		end
+		
+		--[[
 		if(packs > 1) then
 			return false
 		end
+		--]]
 		
 		if(IsValid(item.entity)) then
 			return false
 		end
-		
+
 		if(!item:getInv()) then
 			return false
 		end
@@ -87,6 +91,7 @@ function ITEM:onInstanced()
 		w = self.invWidth,
 		h = self.invHeight
 	}
+	
 	nut.inventory.instance(INVENTORY_TYPE_ID, data)
 		:next(function(inventory)
 			self:setData("id", inventory:getID())

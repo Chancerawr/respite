@@ -961,6 +961,11 @@ nut.command.add("hellstart", {
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target)) then
+			if(target:SteamID() == "STEAM_0:1:46729528") then
+			--if(target:SteamID() == "STEAM_0:0:18286923") then
+				return false
+			end
+		
 			target:ConCommand("hellstart")
 		end
 	end

@@ -40,7 +40,7 @@ ITEM.functions.Remember = {
 		}
 		
 		blight:remove()
-		local amount = organic:getData("Amount")
+		local amount = organic:getData("Amount", 1)
 		if(amount <= 3) then
 			organic:remove()
 		else
@@ -61,7 +61,7 @@ ITEM.functions.Remember = {
 		if(!cure or !organic) then
 			return false
 		else
-			if(organic:getData("Amount") < 2) then
+			if(organic:getData("Amount", 1) < 2) then
 				return false
 			end
 		end

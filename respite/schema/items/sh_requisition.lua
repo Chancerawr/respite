@@ -323,7 +323,7 @@ local dropFunctions = {
 	
 	{
 		name = "Firearms", 
-		cost = 5000,
+		cost = 7500,
 		contents = function()
 			local drops = {}
 			local drop = table.Random(guns)

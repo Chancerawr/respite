@@ -47,6 +47,22 @@ function PANEL:onDisplay()
 			
 			self:setContext("traits", traits)
 		end
+		
+		bar.bar.OnMousePressed = function(this)
+			if(bar.value == 0) then
+				bar.pressing = 1
+				bar:doChange()
+			else
+				bar.pressing = -1
+				bar:doChange()
+			end
+		end
+		
+		bar.bar.OnMouseReleased = function()
+			if (bar.pressing) then
+				bar.pressing = nil
+			end
+		end
 	end
 
 	--self.traits:InvalidateLayout()

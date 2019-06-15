@@ -86,7 +86,7 @@ ITEM.functions.Reflect = {
 			end
 		end		
 		
-		if (!glass or glass:getData("Amount") < 11) then --if item of importance isn't in the inventory.
+		if (!glass or glass:getData("Amount", 1) < 11) then --if item of importance isn't in the inventory.
 			return false
 		end
 		
@@ -224,7 +224,7 @@ ITEM.functions.IChip = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local chip = inventory:getFirstItemOfType("chip_escape")	
+		local chip = inventory:getFirstItemOfType("cube_chip_memory")	
 		
 		nut.chat.send(client, "itclose", "You push an intrinsic symbol into the mirror, it stops reflecting.")
 
@@ -253,7 +253,7 @@ ITEM.functions.IChip = {
 					giveDisease(client, "dis_past")
 					nut.chat.send(client, "itclose", "You receive knowledge?")
 				else
-					reward = "chip_escape"
+					reward = "cube_chip_memory"
 					nut.chat.send(client, "itclose", "The symbol returns from the mirror.")
 				end
 		

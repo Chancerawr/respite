@@ -146,7 +146,7 @@ ITEM.functions.Open = {
 				nut.item.spawn("j_scrap_memory", position)
 				nut.item.spawn("j_scrap_memory", position)
 			elseif(luckRoll > 90) then
-				nut.item.spawn("chip_escape", position)
+				nut.item.spawn("cube_chip_memory", position)
 			end
 		elseif(RContent < 80) then --empty frame
 			client:notify("You receive a large picture frame.")

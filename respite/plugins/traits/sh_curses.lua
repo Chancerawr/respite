@@ -206,7 +206,7 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "instrumental" 
 TRAIT.name = "Instrumental"
-TRAIT.desc = "It stares back."
+TRAIT.desc = "Broken strings and unmoving keys produce no sounds."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
 	giveDisease(client, "trait_instrument")

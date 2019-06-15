@@ -55,7 +55,7 @@ ITEM.functions.Release = {
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local charges = chargeTimer(item:getData("sTime"))
+		local charges = chargeTimer(item:getData("sTime", 0))
 		
 		client:getChar():takeMoney(8)
 		
@@ -75,7 +75,7 @@ ITEM.functions.Release = {
 			player = item:getOwner()
 		end
 		
-		local startTime = item:getData("sTime")
+		local startTime = item:getData("sTime", 0)
 		local charges = chargeTimer(startTime)
 		
 		--if charges return false, that means we need to reset our time value.
@@ -130,7 +130,7 @@ ITEM.functions.Battery = {
 function ITEM:getDesc()
 	local desc = self.desc
 	
-	local charges = chargeTimer(self:getData("sTime"))
+	local charges = chargeTimer(self:getData("sTime", 0))
 	if(charges) then
 		desc = desc .. "\nStored Bones: " .. charges .. "."
 	end

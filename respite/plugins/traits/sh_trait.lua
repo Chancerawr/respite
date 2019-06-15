@@ -1,118 +1,6 @@
 local PLUGIN = PLUGIN
-//
-local TRAIT = {}
-TRAIT.uid = "fin"
-TRAIT.name = "Finnish Language"
-TRAIT.desc = "You can speak Finnish.\nCommand: /fin"
-TRAIT.category = "Language"
 
-TRAITS:Register( TRAIT )
 //
-local TRAIT = {}
-TRAIT.uid = "pol"
-TRAIT.name = "Polish Language"
-TRAIT.desc = "You can speak Polish.\nCommand: /pol"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "sign_a"
-TRAIT.name = "American Sign Language"
-TRAIT.desc = "You can use American Sign Language.\nCommand: /sign"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "pla"
-TRAIT.name = "Plastic Languages"
-TRAIT.desc = "You can use and understand the plastic languages.\nCommand: /plastic, /signp"
-TRAIT.category = "Language"
-TRAIT.ignore = true
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "kor"
-TRAIT.name = "Korean Language"
-TRAIT.desc = "You can speak Korean.\nCommand: /kor"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "afr"
-TRAIT.name = "Afrikaans Language"
-TRAIT.desc = "You can speak Afrikaans.\nCommand: /afr"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "fre"
-TRAIT.name = "French Language"
-TRAIT.desc = "You can speak French.\nCommand: /fre"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "ara"
-TRAIT.name = "Arabic Language"
-TRAIT.desc = "You can speak Arabic.\nCommand: /ara"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "spa"
-TRAIT.name = "Spanish Language"
-TRAIT.desc = "You can speak Spanish.\nCommand: /spa"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "ger"
-TRAIT.name = "German Language"
-TRAIT.desc = "You can speak German.\nCommand: /ger"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "rus"
-TRAIT.name = "Russian Language"
-TRAIT.desc = "You can speak Russian.\nCommand: /rus"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "chi"
-TRAIT.name = "Chinese Language"
-TRAIT.desc = "You can speak Chinese.\nCommand: /chi"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "ita"
-TRAIT.name = "Italian Language"
-TRAIT.desc = "You can speak Italian.\nCommand: /ita"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "jap"
-TRAIT.name = "Japanese Language"
-TRAIT.desc = "You can speak Japanese.\nCommand: /jap"
-TRAIT.category = "Language"
-
-TRAITS:Register( TRAIT )
-//--todo
 local TRAIT = {}
 TRAIT.uid = "glutton"
 TRAIT.name = "Glutton"
@@ -120,7 +8,7 @@ TRAIT.desc = "You enjoy a meal, whether it's a hot dog or a lobster.\nBuffs rece
 TRAIT.category = "Character"
 
 TRAITS:Register( TRAIT )
-//--todo
+//
 local TRAIT = {}
 TRAIT.uid = "survival"
 TRAIT.name = "Survivalist"
@@ -516,14 +404,13 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "personality" 
 TRAIT.name = "Radio Personality"
-TRAIT.desc = "If video didn't kill you, neither will this.\nStart with a broadcaster.\nBackstab, disarm, quickdraw rolls reduced by 0.9x."
+TRAIT.desc = "If video didn't kill you, neither will this.\nStart with a broadcaster.\nBackstab, quickdraw rolls reduced by 0.9x."
 TRAIT.category = "Character"
 TRAIT.items = {
 	"broadcaster"
 }
 TRAIT.modifier = {
 	["backstab"] = 0.9,
-	["disarm"] = 0.9,
 	["quickdraw"] = 0.9
 }
 
@@ -637,28 +524,6 @@ TRAIT.items = {
 TRAIT.modifier = {
 	["endure"] = 1.1,
 	["reflex"] = 0.9
-}
-
-TRAITS:Register( TRAIT )
-//
-local TRAIT = {}
-TRAIT.uid = "carpenter" 
-TRAIT.name = "Carpenter"
-TRAIT.desc = "Some problems are best solved with a hammer and nails.\nStart with a carpenter's hammer, some nails, and some wood.\nIncrease craftiness by 3.\nInteract rolls increased by 1.05x.\nFortitude rolls reduced by 0.95x."
-TRAIT.category = "Character"
-TRAIT.items = {
-	"hl2_m_hammer",
-	"j_scrap_nails",
-	"j_scrap_nails",
-	"j_scrap_wood",
-	"j_scrap_wood"
-}
-TRAIT.func = function(client, character)
-	character:updateAttrib("medical", 3)
-end
-TRAIT.modifier = {
-	["interact"] = 1.1,
-	["fortitude"] = 0.9
 }
 
 TRAITS:Register( TRAIT )

@@ -3863,7 +3863,7 @@ RECIPE.items = {
 	["blight"] = 5,
 	["ichor"] = 5,
 	["j_scrap_memory"] = 5,
-	["chip_escape"] = 5
+	["cube_chip_memory"] = 2
 }
 RECIPE.result = {
 	["bell"] = 1

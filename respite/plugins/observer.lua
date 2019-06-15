@@ -6,6 +6,7 @@ if (CLIENT) then
 	-- Create a setting to see if the player will teleport back after noclipping.
 	NUT_CVAR_OBSTPBACK = CreateClientConVar("nut_obstpback", 0, true, true)
 	NUT_CVAR_ADMINESP = CreateClientConVar("nut_obsesp", 1, true, true)
+	NUT_CVAR_ADMINESPC = CreateClientConVar("nut_obsespc", 1, true, true)
 
 	local client, sx, sy, scrPos, marginx, marginy, x, y, teamColor, distance, factor, size, alpha
 	local dimDistance = 1024
@@ -33,6 +34,28 @@ if (CLIENT) then
 
 				nut.util.drawText(v:Name() .. "(" .. v:Health() .. ")", x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				--nut.util.drawText(v:Health(), scrPos.x, scrPos.y + 15, Color(175,0,0, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+			end
+			
+			if(CMBT and NUT_CVAR_ADMINESPC:GetBool()) then
+				for k, v in ipairs(ents.GetAll()) do
+					if (!v.combat) then continue end
+
+					scrPos = v:GetPos():ToScreen()
+					marginx, marginy = sy*.1, sy*.1
+					x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
+					distance = client:GetPos():Distance(v:GetPos())
+					factor = 1 - math.Clamp(distance/dimDistance, 0, 1)
+					local teamColor = Color(190,50,50)
+					
+					size = math.max(10, 32*factor)
+					alpha = math.Clamp(255*factor, 80, 255)
+
+					surface.SetDrawColor(teamColor.r, teamColor.g, teamColor.b, alpha)
+					--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
+					surface.DrawRect(x - size/2, y - size/2, size, size)
+
+					nut.util.drawText(v.name or v.PrintName, x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+				end
 			end
 			
 			--uncomment this if you want an item esp.
@@ -69,6 +92,16 @@ if (CLIENT) then
 					RunConsoleCommand("nut_obsesp", "0")
 				end
 			end, NUT_CVAR_ADMINESP:GetBool())
+			
+			if(CMBT) then
+				local buttonESPC = menu:addCheck("Toggle CEnt ESP", function(panel, state)
+					if (state) then
+						RunConsoleCommand("nut_obsespc", "1")
+					else
+						RunConsoleCommand("nut_obsespc", "0")
+					end
+				end, NUT_CVAR_ADMINESPC:GetBool())
+			end
 		
 			local buttonTP = menu:addCheck(L"toggleObserverTP", function(panel, state)
 				if (state) then

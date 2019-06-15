@@ -36,7 +36,7 @@ function PANEL:Init()
 	self.name:Dock(TOP)
 	self.name:DockMargin(0, 16, 0, 0)
 	self.name:SetContentAlignment(5)
-	self.name:SetFont("nutCharSmallButtonFont")
+	self.name:SetFont("nutMediumFont")
 	self.name:SetTextColor(nut.gui.character.WHITE)
 	self.name:SizeToContentsY()
 
