@@ -13,11 +13,11 @@ if(SERVER) then
 		
 		itemInfo.class = item.class
 		
-		itemInfo.wepDmg = customData.wepDmg or swep.Primary.Damage
-		itemInfo.wepSpd = customData.wepSpd or swep.Primary.RPM
+		itemInfo.wepDmg = customData.wepDmg or (swep and swep.Primary.Damage)
+		itemInfo.wepSpd = customData.wepSpd or (swep and swep.Primary.RPM)
 		itemInfo.wepAcc = customData.wepAcc
 		itemInfo.wepRec = customData.wepRec
-		itemInfo.wepMag = customData.wepMag or swep.Primary.ClipSize	
+		itemInfo.wepMag = customData.wepMag or (swep and swep.Primary.ClipSize)
 		
 		itemInfo.name = customData.name
 		
@@ -444,35 +444,36 @@ else
 		local item = data
 		local weapon = LocalPlayer():GetWeapon(item.class)
 		
-		if(item.name) then
-			weapon.PrintName = item.name
+		if(weapon and IsValid(weapon)) then
+			if(item.name) then
+				weapon.PrintName = item.name
+			end
+			
+			if(item.wepDmg) then
+				weapon.Primary.Damage = tonumber(item.wepDmg)
+			end
+			
+			if(item.wepSpd) then
+				weapon.Primary.RPM = tonumber(item.wepSpd)
+			end
+			
+			if(item.wepRec) then
+				weapon.Primary.KickUp = weapon.Primary.KickUp * item.wepRec
+				weapon.Primary.KickDown = weapon.Primary.KickDown * item.wepRec
+				weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal * item.wepRec
+				weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor * item.wepRec
+			end
+			
+			--needs to happen in both client and server
+			if(item.wepAcc) then
+				weapon.Primary.Spread = weapon.Primary.Spread * item.wepAcc
+				weapon.Primary.IronAccuracy = weapon.Primary.IronAccuracy * item.wepAcc
+			end				
+			
+			--needs to happen in both client and server
+			if(item.wepMag) then
+				weapon.Primary.ClipSize = tonumber(item.wepMag)
+			end
 		end
-		
-		if(item.wepDmg) then
-			weapon.Primary.Damage = tonumber(item.wepDmg)
-		end
-		
-		if(item.wepSpd) then
-			weapon.Primary.RPM = tonumber(item.wepSpd)
-		end
-		
-		if(item.wepRec) then
-			weapon.Primary.KickUp = weapon.Primary.KickUp * item.wepRec
-			weapon.Primary.KickDown = weapon.Primary.KickDown * item.wepRec
-			weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal * item.wepRec
-			weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor * item.wepRec
-		end
-		
-		--needs to happen in both client and server
-		if(item.wepAcc) then
-			weapon.Primary.Spread = weapon.Primary.Spread * item.wepAcc
-			weapon.Primary.IronAccuracy = weapon.Primary.IronAccuracy * item.wepAcc
-		end				
-		
-		--needs to happen in both client and server
-		if(item.wepMag) then
-			weapon.Primary.ClipSize = tonumber(item.wepMag)
-		end
-		
 	end)	
 end

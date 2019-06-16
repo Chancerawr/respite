@@ -32,9 +32,10 @@ nut.config.add("env_maxSpawns", 10, "Max NPCs that are allowed to be created by 
 --env manager will leave people in these factions alone
 timer.Simple(1, function() --this timer makes it so it sets this after the factions are loaded, kind of annoying.
 	PLUGIN.factions = {
-		[FACTION_SHADE] = true,
-		[FACTION_ABOM] = true,
-		[FACTION_ABER] = true
+		--i put these numbers here to stop errors if these factions don't exist
+		[FACTION_SHADE or 99] = true,
+		[FACTION_ABOM or 100] = true,
+		[FACTION_ABER or 101] = true
 	}
 end)
 

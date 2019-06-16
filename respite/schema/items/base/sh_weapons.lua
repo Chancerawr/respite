@@ -221,7 +221,7 @@ ITEM.functions.Custom = {
 	end,
 	
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -236,7 +236,7 @@ ITEM.functions.CustomAtr = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -258,7 +258,7 @@ ITEM.functions.Clone = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -330,8 +330,7 @@ ITEM.functions.Infuse = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
-
+		local client = item.player
 		return (item:getData("infused") == nil) and (client:getChar():getInv():getFirstItemOfType("shard_dust")) and (!IsValid(item.entity))
 	end
 }
@@ -357,7 +356,7 @@ ITEM.functions.Blight = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("blight") and (!IsValid(item.entity))
 	end
 }
@@ -383,7 +382,7 @@ ITEM.functions.Phase = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		
 		if(item.weaponCategory != "melee") then return false end
 		if(item:getData("infused") != nil) then return false end
@@ -416,7 +415,7 @@ ITEM.functions.Paint = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return (client:getChar():getInv():getFirstItemOfType("j_paint_can")) and (!IsValid(item.entity))
 	end
 }
@@ -480,7 +479,7 @@ ITEM.functions.Scrap = {
 		if(!item.salvItem) then
 			return false
 		end
-		local client = item:getOwner() or item.player
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
 	end
 }
@@ -503,7 +502,7 @@ ITEM.functions.Repair = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		local inventory = client:getChar():getInv()
 	
 		local kit = inventory:getFirstItemOfType("repair_kit")

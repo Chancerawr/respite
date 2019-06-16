@@ -45,7 +45,7 @@ ITEM.functions.Memory = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("j_scrap_memory") then --if item of importance isn't in the inventory.
 			return false

@@ -36,7 +36,7 @@ ITEM.functions.Scrap = {
 		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
 	end,
 	onCanRun = function(item)
-		local client = item:getOwner() or item.player
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
 	end
 }

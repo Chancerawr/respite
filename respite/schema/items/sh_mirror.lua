@@ -76,7 +76,7 @@ ITEM.functions.Reflect = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local glass = player:getChar():getInv():getFirstItemOfType("j_scrap_glass")
 		
 		local prodTime = 101
@@ -135,7 +135,7 @@ ITEM.functions.Idea = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local object = player:getChar():getInv():getFirstItemOfType("j_scrap_idea")
 		
 		local prodTime = 202
@@ -199,7 +199,7 @@ ITEM.functions.EChip = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local chip = player:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
 		
 		local prodTime = 202
@@ -269,7 +269,7 @@ ITEM.functions.IChip = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local chip = player:getChar():getInv():getFirstItemOfType("chip_escape")
 		
 		local prodTime = 202
@@ -307,7 +307,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

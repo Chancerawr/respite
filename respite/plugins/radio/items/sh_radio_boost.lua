@@ -48,7 +48,7 @@ ITEM.functions.Equip = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 		return (!IsValid(item.entity) and char:getData("boost") != true)
 	end
@@ -67,14 +67,14 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 		return (!IsValid(item.entity) and char:getData("boost") == true)
 	end
 }
 
 function ITEM:onCanBeTransfered(oldInventory, newInventory)
-	local player = self.player or self:getOwner()
+	local player = self.player
 	local char = false
 	
 	if(player and IsValid(player)) then

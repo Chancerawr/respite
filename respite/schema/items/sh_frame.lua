@@ -171,7 +171,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

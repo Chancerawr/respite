@@ -35,10 +35,6 @@ ITEM.functions.Convert = {
 		client:EmitSound("physics/flesh/flesh_squishy_impact_hard" ..math.random(1,4).. ".wav", 65, math.random(80,110))
 	end,
 	onCanRun = function(item)
-		if (item:getOwner() == nil) then
-			return item.player:getChar():hasFlags("q") or item.player:getChar():getInv():getFirstItemOfType("converter_meat")
-		else
-			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():getFirstItemOfType("converter_meat")
-		end
+return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("converter_meat")
 	end
 }

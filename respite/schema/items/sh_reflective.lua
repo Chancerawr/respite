@@ -58,7 +58,7 @@ ITEM.functions.use = { -- sorry, for name order.
 			return false
 		end	
 	
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 
 		if (char:getFaction() != FACTION_DRIFTER) then

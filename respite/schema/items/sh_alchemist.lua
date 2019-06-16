@@ -73,7 +73,7 @@ ITEM.functions.Depressant = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("drug_depress") then --if item of importance isn't in the inventory.
 			return false
@@ -120,7 +120,7 @@ ITEM.functions.Memory = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("j_scrap_memory") then --if item of importance isn't in the inventory.
 			return false
@@ -158,7 +158,7 @@ ITEM.functions.Chunk = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("c_scrap_gnome") then --if item of importance isn't in the inventory.
 			return false
@@ -194,7 +194,7 @@ ITEM.functions.Yams = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("food_yams_mysterious") then --if item of importance isn't in the inventory.
 			return false
@@ -227,7 +227,7 @@ ITEM.functions.Ichor = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		local ichor = player:getChar():getInv():getFirstItemOfType("ichor")
 		if(ichor) then

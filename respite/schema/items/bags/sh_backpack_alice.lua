@@ -63,7 +63,7 @@ ITEM.functions.View = {
 		return false
 	end,
 	onCanRun = function(item)	
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local inventory = player:getChar():getInv()
 		local items = inventory:getItems()
 		local packs = 0

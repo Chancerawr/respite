@@ -71,7 +71,7 @@ ITEM.functions.Infuse = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("shard_dust")
 	end
 }
@@ -94,7 +94,7 @@ ITEM.functions.Blight = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("blight")
 	end
 }
@@ -116,7 +116,7 @@ ITEM.functions.Paint = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return (client:getChar():getInv():getFirstItemOfType("j_paint_can"))
 	end
 }

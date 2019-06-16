@@ -24,7 +24,7 @@ net.Receive("nutStorageUnlock", function(_, client)
 	local password = net.ReadString()
 	local storage = getValidStorage(client)
 	if (not storage) then return end
-
+	
 	if (storage.password == password) then
 		storage:openInv(client)
 	else

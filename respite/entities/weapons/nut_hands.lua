@@ -109,7 +109,7 @@ function SWEP:Think()
 				if (IsValid(entity)) then
 					if (!entity:IsPlayer() and !entity:IsNPC()) then
 						local physObj = entity:GetPhysicsObject()
-						if(!physObj) then return end
+						if(!physObj or !IsValid(physObj)) then return end
 						
 						local mass = physObj:GetMass()
 						if (physObj:GetMass() > 100) then

@@ -40,10 +40,14 @@ for k, v in pairs(chatLangs) do
 		end,
 		onChatAdd = function(speaker, text)
 			local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
+			
 			local texCol = nut.config.get("chatColor")
+			
 			if (LocalPlayer():GetEyeTrace().Entity == speaker) then
 				texCol = nut.config.get("chatListenColor")
 			end
+			
+			texCol = Color(texCol.r, texCol.g, texCol.b)
 			
 			local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
 			
@@ -156,9 +160,9 @@ nut.chat.register("pla", {
 	end,
 	onChatAdd = function(speaker, text)
 		if (hasTrait(LocalPlayer(), "pla")) then
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' writes in the plastic written language, "'..text..'"')
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().. ' writes in the Plastic Written Language, "' ..text.. '"')
 		else
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." writes something in the plastic written language.")
+			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().. " writes something in the Plastic Written Language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -179,10 +183,13 @@ nut.chat.register("signp", {
 		end
 	end,
 	onChatAdd = function(speaker, text)
+		local texCol = nut.config.get("chatColor")
+		texCol = Color(texCol.r, texCol.g, texCol.b)
+	
 		if (hasTrait(LocalPlayer(), "pla")) then
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' signs in plastic, "'..text..'"')
+			chat.AddText(texCol, speaker:getChar():getName().. ' signs in Plastic, "' ..text.. '"')
 		else
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." is using Plastic sign language.")
+			chat.AddText(texCol, speaker:getChar():getName().. " is using Plastic Sign Language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),
@@ -203,10 +210,13 @@ nut.chat.register("sign", {
 		end
 	end,
 	onChatAdd = function(speaker, text)
+		local texCol = nut.config.get("chatColor")
+		texCol = Color(texCol.r, texCol.g, texCol.b)	
+	
 		if (hasTrait(LocalPlayer(), "sign_a")) then
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName()..' signs in english, "'..text..'"')
+			chat.AddText(texCol, speaker:getChar():getName().. ' signs in English, "'..text..'"')
 		else
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().." is using American sign language.")
+			chat.AddText(texCol, speaker:getChar():getName().. " is using American sign language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),

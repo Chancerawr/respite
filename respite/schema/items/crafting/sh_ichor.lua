@@ -44,7 +44,7 @@ ITEM.functions.Add = {
 			return false
 		end
 		
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 
 		if (char:getFaction() != FACTION_DRIFTER) then
@@ -80,7 +80,7 @@ ITEM.functions.Sustain = {
 			return false
 		end
 		
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 
 		if (char:getFaction() != FACTION_DRIFTER) then

@@ -90,7 +90,7 @@ ITEM.functions.Ichor = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local memory = player:getChar():getInv():getFirstItemOfType("j_scrap_memory")
 		
 		if(!memory) then
@@ -153,7 +153,7 @@ ITEM.functions.Depress = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local depress = player:getChar():getInv():getFirstItemOfType("drug_depress")
 		
 		if(!depress) then
@@ -209,7 +209,7 @@ ITEM.functions.Pickle = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local pickle = player:getChar():getInv():getFirstItemOfType("food_pickles")
 		
 		if(!pickle) then
@@ -420,7 +420,7 @@ ITEM.functions.Cactus = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local cactus = player:getChar():getInv():getFirstItemOfType("j_cactus_plant")
 		
 		if(!cactus) then
@@ -482,7 +482,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local battery = player:getChar():getInv():getFirstItemOfType("ammo_battery")
 
 		if(!battery) then

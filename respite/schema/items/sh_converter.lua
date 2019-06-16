@@ -113,7 +113,7 @@ ITEM.functions.Cactus = {
 			return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.		
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		local inventory = player:getChar():getInv()
 		local cactus = inventory:getFirstItemOfType("j_cactus_plant_plastic")
@@ -155,7 +155,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

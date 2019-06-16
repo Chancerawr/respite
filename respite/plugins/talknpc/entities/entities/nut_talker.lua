@@ -669,3 +669,12 @@ end
 function ENT:getNoBubble()
 	return self:getNetVar("noBubble") == true
 end
+
+function ENT:isClassAllowed(classID)
+	return true
+end
+
+--if they've made it this far they already have access anyways
+function ENT:isFactionAllowed(factionID)
+	return true
+end

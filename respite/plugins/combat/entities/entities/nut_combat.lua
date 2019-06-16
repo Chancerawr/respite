@@ -404,7 +404,7 @@ function ENT:die()
 			ragdoll:SetBodygroup( 5, self:GetBodygroup(5) )
 			ragdoll:SetBodygroup( 6, self:GetBodygroup(6) )
 			
-			ragdoll:SetCollisionGroup( COLLISION_GROUP_DEBRIS )
+			ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
 		end
 			
 		if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.

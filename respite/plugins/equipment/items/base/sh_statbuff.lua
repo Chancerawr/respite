@@ -235,7 +235,7 @@ ITEM.functions.Scrap = {
 			return false
 		end
 		
-		local client = item:getOwner() or item.player
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
 	end
 }
@@ -251,7 +251,7 @@ ITEM.functions.Custom = {
 	end,
 	
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -266,7 +266,7 @@ ITEM.functions.CustomAtr = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }

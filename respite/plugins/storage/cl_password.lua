@@ -7,6 +7,11 @@ function PLUGIN:StorageUnlockPrompt(entity)
 			net.Start("nutStorageUnlock")
 				net.WriteString(val)
 			net.SendToServer()
+		end,
+		function(val)
+			net.Start("nutStorageUnlock")
+				net.WriteString("")
+			net.SendToServer()
 		end
 	)
 end

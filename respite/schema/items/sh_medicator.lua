@@ -69,7 +69,7 @@ ITEM.functions.Medical = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
 		
 		if !player:getChar():getInv():getFirstItemOfType("drug_depress") or !organic or (organic and organic:getData("Amount") < 10) then --if item of importance isn't in the inventory.
@@ -100,7 +100,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

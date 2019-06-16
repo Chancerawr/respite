@@ -156,7 +156,7 @@ ITEM.functions.Potion2 = {
         return false
     end,
 	    onCanRun = function(item)      
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		--item doesn't work when on the ground, so make them have to pick it up I guess.
 		if(IsValid(item.entity)) then
@@ -193,7 +193,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

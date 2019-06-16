@@ -18,11 +18,12 @@ function TRAITS:GetAll()
 end
 
 function PLUGIN:OnCharCreated(client, character)
-	local traitData = character:getData("traits", {})
-	local traitItems = {}
-
-	local dumbIt = 0.5
-	if(traitData) then
+	timer.Simple(0.5, function()
+		local traitData = character:getData("traits", {})
+		local traitItems = {}
+		
+		local dumbIt = 0.5
+	
 		for k, v in pairs(traitData) do
 			local items = TRAITS.traits[k].items
 			if(items) then
@@ -38,14 +39,14 @@ function PLUGIN:OnCharCreated(client, character)
 				end
 			end)
 		end
-	end
-	
-	for k, v in pairs(traitItems) do
-		dumbIt = dumbIt + 2
-		timer.Simple(dumbIt, function()
-			character:getInv():add(v)
-		end)
-	end
+		
+		for k, v in pairs(traitItems) do
+			dumbIt = dumbIt + 2
+			timer.Simple(dumbIt, function()
+				character:getInv():addSmart(v)
+			end)
+		end
+	end)
 end
 
 if (SERVER) then

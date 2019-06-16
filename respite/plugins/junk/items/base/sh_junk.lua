@@ -54,7 +54,7 @@ ITEM.functions.Scrap = {
 		if(!item.salvItem) then
 			return false
 		end
-		local client = item:getOwner() or item.player
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
 	end
 }
@@ -70,7 +70,7 @@ ITEM.functions.Custom = {
 	end,
 	
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -94,7 +94,7 @@ ITEM.functions.Fill = {
 			return false
 		end
 	
-		local client = item:getOwner() or item.player
+		local client = item.player
 		if(client:WaterLevel() < 1) then
 			return false
 		end
@@ -141,4 +141,3 @@ function ITEM:onGetDropModel()
 	
 	return Format(model)
 end
-

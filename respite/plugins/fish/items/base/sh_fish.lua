@@ -170,11 +170,7 @@ ITEM.functions.Convert = {
 			return false
 		end
 	
-		if (item:getOwner() == nil) then
-			return item.player:getChar():hasFlags("q") or item.player:getChar():getInv():getFirstItemOfType("converter_meat")
-		else
-			return item:getOwner():getChar():hasFlags("q") or item:getOwner():getChar():getInv():getFirstItemOfType("converter_meat")
-		end
+return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("converter_meat")
 	end
 }
 
@@ -223,7 +219,7 @@ ITEM.functions.Custom = {
 	end,
 	
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -245,7 +241,7 @@ ITEM.functions.CustomQuan = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -267,7 +263,7 @@ ITEM.functions.Clone = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }

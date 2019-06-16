@@ -28,10 +28,12 @@ ITEM.functions.Load = { -- sorry, for name order.
 		return true
 		end,
 	onCanRun = function(item)
-		if (item:getOwner() != nil and item:getOwner():getChar():getInv():getFirstItemOfType("tfa_chafe")) then
-			return true
-		else
+		local client = item.player
+	
+		if (!client:getChar():getInv():getFirstItemOfType("tfa_chafe")) then
 			return false
 		end
+		
+		return true
 	end
 }

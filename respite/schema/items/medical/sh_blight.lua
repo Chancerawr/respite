@@ -75,7 +75,7 @@ ITEM.functions.use = { -- sorry, for name order.
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 
 		if (char:getFaction() == FACTION_PLASTIC) then

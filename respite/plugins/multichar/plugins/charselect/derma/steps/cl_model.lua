@@ -53,7 +53,48 @@ function PANEL:onDisplay()
 		end
 	end
 	
+	self.models:Layout()
+	self.models:InvalidateLayout()
+	for _, child in pairs(oldChildren) do
+		child:Remove()
+	end	
+end
+
+function PANEL:paintIcon(icon, w, h)
+	if (self:getContext("model") ~= icon.index) then return end
+	local color = nut.config.get("color", color_white)
+
+	surface.SetDrawColor(color.r, color.g, color.b, 200)
+
+	local i2
+	for i = 1, 3 do
+		i2 = i * 2
+		surface.DrawOutlinedRect(i, i, w - i2, h - i2)
+	end
+end
+
+function PANEL:onModelSelected(icon, noSound)
+	self:setContext("model", icon.index or 1)
+	if (not noSound) then
+		nut.gui.character:clickSound()
+	end
+	
+	self:updateModelPanel()
+	self:updateSliders()
+end
+
+function PANEL:shouldSkip()
+	local faction = nut.faction.indices[self:getContext("faction")]
+	return faction and #faction.models == 1 or false
+end
+
+function PANEL:updateSliders()
 	if(nut.gui.charCreate.model) then
+		if(self.slidePanel.used) then
+			self.slidePanel.used = nil
+			self.slidePanel:Remove()
+		end
+	
 		local entity = nut.gui.charCreate.model:GetEntity()
 		
 		if(entity) then
@@ -93,58 +134,29 @@ function PANEL:onDisplay()
 				end
 			end
 
-			--skin slider
-			skinSlide = slidePanel:Add("DNumSlider")
-			skinSlide:SetSize(ScrW() * 0.04, 50)
-			skinSlide:SetText("  Skin")
-			skinSlide:SetMax(entity:SkinCount() - 1) --max based on the models number of skins
-			skinSlide:SetDecimals(0)
-			skinSlide:Dock(TOP)
-			tempSlide:Center()
-			
-			function skinSlide:OnValueChanged(value)
-				PANEL:setContext("skin", math.Round(skinSlide:GetValue()))
-				PANEL:onGroups()
+			if(entity:SkinCount() > 1) then
+				--skin slider
+				skinSlide = slidePanel:Add("DNumSlider")
+				skinSlide:SetSize(ScrW() * 0.04, 50)
+				skinSlide:SetText("  Skin")
+				skinSlide:SetMax(entity:SkinCount() - 1) --max based on the models number of skins
+				skinSlide:SetDecimals(0)
+				skinSlide:Dock(TOP)
+				skinSlide:Center()
+				
+				function skinSlide:OnValueChanged(value)
+					PANEL:setContext("skin", math.Round(skinSlide:GetValue()))
+					PANEL:onGroups()
+				end
 			end
 			
 			slidePanel:InvalidateLayout(true)
 			slidePanel:SizeToChildren(false, true)
 			
 			self.slidePanel = slidePanel
+			self.slidePanel.used = true
 		end
-	end
-	
-	self.models:Layout()
-	self.models:InvalidateLayout()
-	for _, child in pairs(oldChildren) do
-		child:Remove()
 	end	
-end
-
-function PANEL:paintIcon(icon, w, h)
-	if (self:getContext("model") ~= icon.index) then return end
-	local color = nut.config.get("color", color_white)
-
-	surface.SetDrawColor(color.r, color.g, color.b, 200)
-
-	local i2
-	for i = 1, 3 do
-		i2 = i * 2
-		surface.DrawOutlinedRect(i, i, w - i2, h - i2)
-	end
-end
-
-function PANEL:onModelSelected(icon, noSound)
-	self:setContext("model", icon.index or 1)
-	if (not noSound) then
-		nut.gui.character:clickSound()
-	end
-	self:updateModelPanel()
-end
-
-function PANEL:shouldSkip()
-	local faction = nut.faction.indices[self:getContext("faction")]
-	return faction and #faction.models == 1 or false
 end
 
 function PANEL:onGroups()

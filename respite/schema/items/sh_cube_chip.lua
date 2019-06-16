@@ -11,3 +11,15 @@ ITEM.iconCam = {
 	ang = Angle(90, 0, 0),
 	fov = 2.5,
 }
+
+ITEM.onCombineTo = function(itemSelf, itemTarget)
+	if(itemTarget.uniqueID == "cube_chip_pouch") then
+		local chipcount = itemTarget:getData("chipcount", 0)
+
+		if(chipcount < 25) then
+			itemSelf.player:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
+			itemSelf:remove()
+			itemTarget:setData("chipcount", chipcount + 1)
+		end
+	end
+end

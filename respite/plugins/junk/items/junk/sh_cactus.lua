@@ -21,13 +21,8 @@ ITEM.functions.Harvest = {
 	tip = "Scrap this item",
 	icon = "icon16/cross.png",
 	onRun = function(item)
-		if (item.player:getChar():getInv():findEmptySlot(1, 1) != nil) then
-			item.player:getChar():getInv():add("food_cactus")
-		else
-			item.player:notify("You don't have any room in your inventory!")
-			return false 
-		end
-		return true
+		local position = client:getItemDropPos()
+		item.player:getChar():getInv():addSmart("food_cactus", 1, position)
 	end
 }
 

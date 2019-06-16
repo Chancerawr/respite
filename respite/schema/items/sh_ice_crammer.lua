@@ -60,7 +60,7 @@ ITEM.functions.Cream = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 
 		local milk = player:getChar():getInv():getFirstItemOfType("food_milk_carton") or player:getChar():getInv():getFirstItemOfType("food_milk_jug")
 		local can = player:getChar():getInv():getFirstItemOfType("food_soda_cold")
@@ -102,7 +102,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

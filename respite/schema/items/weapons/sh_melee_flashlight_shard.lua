@@ -29,11 +29,3 @@ ITEM:hook("drop", function(item)
 		item.player:Flashlight(false)
 	end
 end)
-
-function ITEM:onTransfered()
-	local client = self:getOwner()
-
-	if (IsValid(client) and client:FlashlightIsOn()) then
-		client:Flashlight(false)
-	end
-end

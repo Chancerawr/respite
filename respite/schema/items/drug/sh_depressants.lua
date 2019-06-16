@@ -142,7 +142,6 @@ function ITEM:getDesc()
 	return Format(desc)
 end
 
-
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
 		local quantity = item:getData("Amount", 1)

@@ -162,7 +162,7 @@ ITEM.functions.FishBait = {
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
 		local endTime = item:getData("producing2") + 15
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if(!player:getChar():getInv():getFirstItemOfType("cube_chip")) then
 			return false
@@ -336,7 +336,7 @@ ITEM.functions.FishNoBait = {
 		return false
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
 		if(!organic or organic:getData("Amount") < 2) then
@@ -380,7 +380,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

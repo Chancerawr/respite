@@ -15,8 +15,6 @@ ITEM.iconCam = {
 	fov = 7,
 }
 
-
--- ITEM.factions = {FACTION_CP, FACTION_OW}
 ITEM.functions.Use = {
 	onRun = function(item)
 		if (item.beingUsed) then

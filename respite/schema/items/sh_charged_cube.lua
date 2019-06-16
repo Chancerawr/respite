@@ -72,7 +72,7 @@ ITEM.functions.Charge = {
 			return false
 		end
 	
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if (!player:getChar():getInv():getFirstItemOfType("j_battery_dead")) then --if item of importance isn't in the inventory.
 			return false

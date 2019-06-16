@@ -47,14 +47,9 @@ ITEM.functions.Water = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player
-		if(item:getOwner() == nil) then --so we can do this on the ground or in the inventory
-			player = item.player
-		else
-			player = item:getOwner()
-		end
+		local client = item.player
 		
-		if !player:getChar():getInv():getFirstItemOfType("food_water_misc") then --if corrupted water isn't in the inventory.
+		if !client:getChar():getInv():getFirstItemOfType("food_water_misc") then --if corrupted water isn't in the inventory.
 			return false
 		end
 		
@@ -88,7 +83,7 @@ ITEM.functions.Haze = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("haze_bottled") then --if blue haze isn't in the inventory.
 			return false
@@ -122,7 +117,7 @@ ITEM.functions.HazePink = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("haze_bottled_pink") then --if blue haze isn't in the inventory.
 			return false
@@ -166,7 +161,7 @@ ITEM.functions.Alcohol = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local inventory = player:getChar():getInv()
 		local drink
 		
@@ -208,7 +203,7 @@ ITEM.functions.Tablet = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item:getOwner() or item.player
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("purifier_water_tablet") then --if a purification tablet isn't in the inventory.
 			return false
@@ -243,7 +238,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

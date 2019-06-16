@@ -63,7 +63,7 @@ ITEM.functions.Store = {
 		return false
 	end,
 	onCanRun = function(item) --if the player has a canned food item, he can do this.
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local inventory = player:getChar():getInv()
 		local can
 		
@@ -137,7 +137,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

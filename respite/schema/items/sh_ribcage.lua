@@ -68,12 +68,7 @@ ITEM.functions.Release = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player
-		if(item:getOwner() == nil) then --so we can do this on the ground or in the inventory
-			player = item.player
-		else
-			player = item:getOwner()
-		end
+		local client = item.player
 		
 		local startTime = item:getData("sTime", 0)
 		local charges = chargeTimer(startTime)
@@ -86,7 +81,7 @@ ITEM.functions.Release = {
 			return false
 		end
 		
-		if (player:getChar():getMoney() < 8) then 
+		if (client:getChar():getMoney() < 8) then 
 			return false
 		end
 		
@@ -117,7 +112,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

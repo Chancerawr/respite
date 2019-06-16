@@ -55,7 +55,7 @@ ITEM.functions.use = { -- sorry, for name order.
 		end
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local char = player:getChar()
 
 		if (char:getFaction() == FACTION_PLASTIC) then
@@ -111,7 +111,7 @@ ITEM.functions.Custom = {
 	end,
 	
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -133,7 +133,7 @@ ITEM.functions.CustomQuan = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -155,7 +155,7 @@ ITEM.functions.Clone = {
 		return false
 	end,
 	onCanRun = function(item)
-		local client = item.player or item:getOwner()
+		local client = item.player
 		return client:getChar():hasFlags("1")
 	end
 }

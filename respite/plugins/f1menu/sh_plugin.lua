@@ -8,8 +8,6 @@ end
 
 if (SERVER) then return end
 
-
-
 function PLUGIN:PlayerBindPress(client, bind, pressed)	
 	if (bind:lower():find("gm_showhelp") and pressed) then
 		if (IsValid(nut.gui.menu)) then
@@ -17,8 +15,6 @@ function PLUGIN:PlayerBindPress(client, bind, pressed)
 		elseif (LocalPlayer():getChar()) then
 			vgui.Create("nutMenu")
 		end
-
-		--print(nut.gui.menu)
 		
 		return true
 	end
@@ -71,4 +67,3 @@ function PLUGIN:OnCharInfoSetup(infoPanel)
 		ent:ResetSequence(act2)
 	end
 end
-

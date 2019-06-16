@@ -47,7 +47,7 @@ ITEM.functions.HazeBlue = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("haze_bottled") then --if item of importance isn't in the inventory.
 			return false
@@ -106,7 +106,7 @@ ITEM.functions.HazeBlood = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("haze_bottled_blood") then --if item of importance isn't in the inventory.
 			return false
@@ -162,7 +162,7 @@ ITEM.functions.HazePink = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("haze_bottled_pink") then --if item of importance isn't in the inventory.
 			return false

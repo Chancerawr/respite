@@ -73,11 +73,11 @@ ITEM.functions.Merge = {
 		return true
 	end,
 	onCanRun = function(item)
-		if (item:getOwner() != nil) then
-			return true
-		else
+		if (IsValid(item.entity)) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -92,7 +92,7 @@ ITEM.functions.Scrap = {
 		inventory:addSmart("shard_dust", 1, position, { Amount = item:getData("Amount", 1)*5 })
 	end,
 	onCanRun = function(item)
-		local client = item:getOwner() or item.player
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
   end
 }

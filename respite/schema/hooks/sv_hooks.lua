@@ -45,10 +45,7 @@ Temporary Things (Like Maps)
 --]]
 
 215338015, --rp_v_torrington content
-872526437, --gm_alpinemesa
-872523680, --gm_alpinemesa content 1
-872532815, --gm_alpinemesa content 2
-
+1612000229 --woodland warzone
 }
 
 for k, v in pairs(workshopIDs) do
@@ -72,9 +69,11 @@ function SCHEMA:OnCharCreated(client, character)
 				"book_newchar_plastic"
 			}
 
-			local traitData = character:getData("traits", {})
-			traitData["pla"] = 1
-			character:setData("traits", traitData, false, player.GetAll())
+			timer.Simple(0.5, function()
+				local traitData = character:getData("traits", {})
+				traitData["pla"] = 1
+				character:setData("traits", traitData, false, player.GetAll())
+			end)
 		elseif (character:getFaction() == FACTION_ABER) then
 			items = {
 				"food_banana"

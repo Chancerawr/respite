@@ -256,9 +256,12 @@ do
 			onChatAdd = function(speaker, text, anonymous)
 				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 				local texCol = nut.config.get("chatColor")
+
 				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
 					texCol = nut.config.get("chatListenColor")
 				end
+				
+				texCol = Color(texCol.r, texCol.g, texCol.b)
 				
 				local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
 				
@@ -281,9 +284,12 @@ do
 		nut.chat.register("it", {
 			onChatAdd = function(speaker, text)
 				local texCol = nut.config.get("chatColor")
+				
 				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
 					texCol = nut.config.get("chatListenColor")
 				end
+				
+				texCol = Color(texCol.r, texCol.g, texCol.b)
 				
 				if(LocalPlayer() == speaker) then
 					local tempCol = nut.config.get("chatListenColor")
@@ -312,6 +318,7 @@ do
 			onChatAdd = function(speaker, text, anonymous)
 				local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 				local pSayC = string.upper(string.sub(text, 0, 1))..string.sub(text, 2)
+				
 				local texCol = nut.config.get("chatColor")
 				if (LocalPlayer():GetEyeTrace().Entity == speaker) then
 					texCol = nut.config.get("chatListenColor")

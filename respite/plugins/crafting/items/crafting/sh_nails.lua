@@ -26,7 +26,7 @@ ITEM.functions.Scrap = {
 		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
 	end,
 	onCanRun = function(item)
-		local client = item:getOwner() or item.player
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("converter_meat")
 	end
 }
@@ -42,10 +42,10 @@ ITEM.functions.Load = { -- sorry, for name order.
 		return true
 	end,
 	onCanRun = function(item)
-		if (item:getOwner() != nil and item:getOwner():getChar():getInv():getFirstItemOfType("tfa_wasteland_nailgun")) then
-			return true
-		else
+		if (!item.player:getChar():getInv():getFirstItemOfType("tfa_wasteland_nailgun")) then
 			return false
 		end
+		
+		return true
 	end
 }

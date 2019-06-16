@@ -24,7 +24,7 @@ ITEM.functions.Fill = {
 		local chip = inventory:getFirstItemOfType("cube_chip")	
 		while(chip) do
 			local chipcount = item:getData("chipcount", 0)
-			if (chip and chipcount < 25 ) then
+			if (chip and chipcount < 25) then
 				chip:remove()
 				item:setData("chipcount", chipcount + 1)
 				item.player:EmitSound("ambient/materials/dinnerplates1.wav", 65, 60)
@@ -38,11 +38,11 @@ ITEM.functions.Fill = {
 		return false
 	end,
 	onCanRun = function(item)
-		if (item:getOwner() != nil) then
-			return true
-		else
+		if (IsValid(item.entity)) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -71,11 +71,11 @@ ITEM.functions.Extract = {
 		return false
 	end,
 	onCanRun = function(item)
-		if (item:getOwner() != nil) then
-			return true
-		else
+		if (IsValid(item.entity)) then
 			return false
 		end
+		
+		return true
 	end
 }
 

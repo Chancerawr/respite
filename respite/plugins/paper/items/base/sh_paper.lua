@@ -4,8 +4,8 @@ ITEM.model = "models/props_c17/paper01.mdl"
 ITEM.desc = "A piece of paper that you can write on.\nPrivate Note: Only you can edit texts.\nPublic Note: Anyone can edit texts."
 ITEM.flag = "v"
 ITEM.price = 1
-ITEM.maxStack = 10
---ITEM.functions = {}
+ITEM.maxstack = 10
+
 ITEM.functions.Private = {
 	alias = "Write (Private)",
 	icon = "icon16/page_white_paintbrush.png",
@@ -100,54 +100,59 @@ ITEM.functions.Public = {
 	end
 }
 
-
-local function recursiveAdd(item, inventory, toStack, maxStack)
-	timer.Simple(.2, function()
-		if (toStack > maxStack) then
-			inventory:add(item, 1, { Amount = maxStack })
-			recursiveAdd(item, inventory, toStack-maxStack, maxStack)
-		else
-			inventory:add(item, 1, { Amount = toStack })
-		end
-	end)
-end
-
 ITEM.functions.Stack = {
 	tip = "Stack items of the same type.",
 	icon = "icon16/add.png",
 	onRun = function(item)
 		local client = item.player
-		local inventory = client:getChar():getInv()
+		local char = client:getChar()
+		local inventory = char:getInv()
 		local stack = item:getData("Amount", 1)
 		
-		item:remove()
-		
-		local toStack = inventory:getFirstItemOfType(item.uniqueID)
-		local unique = item.uniqueID
-		item.player:EmitSound("ambient/materials/dinnerplates1.wav")
-		
-		while(toStack) do
-			if(toStack == item) then
-				toStack:remove()
-			elseif (toStack) then
-				stack = stack + toStack:getData("Amount", 1)
-				toStack:remove()
-			else
-				return false
+		local total = stack
+		for k, v in pairs(inventory:getItems()) do
+			if(v.id == item.id) then
+				continue
 			end
-			toStack = inventory:getFirstItemOfType(unique)	
+		
+			if(v.uniqueID == item.uniqueID) then
+				total = total + v:getData("Amount", 1)
+				
+				if(v.id != item.id) then
+					v:remove()
+				end
+			end
 		end
 		
-		recursiveAdd(unique, inventory, stack, item.maxStack)
+		if(total <= item.maxstack) then
+			item:setData("Amount", total)
+		else
+			local position = client:getItemDropPos()
+		
+			for i = 1, math.floor(total / item.maxstack) do
+				timer.Simple(i/5, function()
+					inventory:addSmart(item.uniqueID, 1, position, {Amount = item.maxstack})
+				end)
+			end
+			
+			local remainder = total - (item.maxstack * math.floor(total / item.maxstack))
+			if(remainder > 0) then
+				item:setData("Amount", remainder)
+			else
+				return true
+			end
+		end
+		
+		client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 60)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		if(item:getOwner() != nil) then
-			return true
-		else
+		if(item.entity) then
 			return false
 		end
+		
+		return true
 	end
 }
 
@@ -157,22 +162,52 @@ ITEM.functions.Unstack = {
 	onRun = function(item)
 		local client = item.player
 		local inventory = client:getChar():getInv()
-		local stack = item:getData("Amount")
-		if (stack > 1 and inventory:findEmptySlot(1, 1) != nil) then
-			inventory:add(item.uniqueID, 1)
-			item:setData("Amount", item:getData("Amount") - 1)
-			item.player:EmitSound("ambient/materials/dinnerplates1.wav")
-		end
+		local position = client:getItemDropPos()
+		
+		local stack = item:getData("Amount", 1)
+		if(stack <= 1) then return false end
+
+		client:requestString("Split", "", function(text)	
+			amount = math.Clamp(tonumber(text), 1, stack - 1)
+			
+			item:setData("Amount", item:getData("Amount") - amount)
+			
+			inventory:addSmart(item.uniqueID, 1, position, {Amount = amount})
+			
+			client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
+		end, 1)		
+
 		return false
 	end,
 	onCanRun = function(item)
-		if(item:getOwner() != nil) then
-			return true
-		else
+		if(item.entity) then
 			return false
 		end
+		
+		if(item:getData("Amount", 1) <= 1) then
+			return false
+		end
+		
+		return true
 	end	
 }
+
+ITEM.onCombine = function(itemSelf, itemTarget)
+	if(itemSelf.uniqueID == itemTarget.uniqueID) then
+		local amountSelf = itemSelf:getData("Amount", 1)
+		local amountTarget = itemTarget:getData("Amount", 1)
+
+		local combined = amountSelf + amountTarget
+		
+		if(combined > itemSelf.maxstack) then
+			itemSelf:setData("Amount", itemSelf.maxstack)
+			itemTarget:setData("Amount", combined - itemSelf.maxstack)
+		else
+			itemTarget:remove()
+			itemSelf:setData("Amount", amountSelf + amountTarget)
+		end
+	end
+end
 
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)

@@ -54,7 +54,7 @@ ITEM.functions.Remember = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		local cure = player:getChar():getInv():getFirstItemOfType("blight")
 		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
@@ -90,7 +90,7 @@ ITEM.functions.Battery = {
 		return false
 	end,
 	onCanRun = function(item)
-		local player = item.player or item:getOwner()
+		local player = item.player
 		
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false

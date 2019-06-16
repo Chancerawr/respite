@@ -26,6 +26,8 @@ nut.chat.register("me's", {
 			texCol = nut.config.get("chatListenColor")
 		end
 
+		texCol = Color(texCol.r, texCol.g, texCol.b)
+		
 		local nameCol = Color(texCol.r + 30, texCol.g + 30, texCol.b + 30)
 			
 		if(LocalPlayer() == speaker) then

@@ -136,7 +136,7 @@ ITEM.functions.Modify = {
 			return false
 		end
 		
-		local player = item.player or item:getOwner()
+		local player = item.player
 		local inv = player:getChar():getInv()
 		
 		if(!inv:getFirstItemOfType("kit_sentry")) then

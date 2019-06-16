@@ -436,14 +436,9 @@ for k, v in pairs(dropFunctions) do
 			return false
 		end,
 		onCanRun = function(item)
-			local player
-			if(item:getOwner() == nil) then --so we can do this on the ground or in the inventory
-				player = item.player
-			else
-				player = item:getOwner()
-			end
+			local client = item.player
 			
-			if (!player:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")) then 
+			if (!client:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")) then 
 				return false
 			end
 			

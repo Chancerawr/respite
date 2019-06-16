@@ -102,8 +102,6 @@ function ENT:Use(activator)
 			net.Start("nutStorageUnlock")
 				net.WriteEntity(self)
 			net.Send(activator)
-						
-			activator.nutStorageEntity = nil
 		end
 	else
 		self:openInv(activator)
