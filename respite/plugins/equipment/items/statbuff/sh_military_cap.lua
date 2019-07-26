@@ -5,7 +5,7 @@ ITEM.desc = "A stereotypical military looking hat."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "helmet"
+ITEM.buffCategory = "Helmet"
 
 ITEM.salvItem = {
 	["j_scrap_cloth"] = 3

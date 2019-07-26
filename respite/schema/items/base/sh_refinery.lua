@@ -7,8 +7,6 @@ ITEM.height = 1
 ITEM.color = Color(100,110,100)
 ITEM.flag = "v"
 
-ITEM.duration = 60
-
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 0),

@@ -2,7 +2,7 @@ ITEM.name = "Warrior Gnome"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "A proud looking gnome."
 ITEM.uniqueID = "gnome_warrior"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 
 ITEM.attribBoosts = {
 	["str"] = 2,

@@ -2,7 +2,7 @@ ITEM.name = "Quest Equipment"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "A customizable piece of equipment."
 ITEM.uniqueID = "quest_equip"
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 -- Inventory drawing
 if (CLIENT) then
@@ -255,7 +255,10 @@ function ITEM:getDesc(partial)
 	
 	if(!partial) then
 		if(self:getData("customSlot", self.buffCategory)) then
-			desc = desc .. "\nSlot: " .. self:getData("customSlot", self.buffCategory) .. "."
+			local category = self:getData("customSlot", self.buffCategory)
+			category = string.upper(string.sub(category, 0, 1))..string.sub(category, 2)
+		
+			desc = desc .. "\nSlot: " ..category.. "."
 		end
 		
 		if(customData.quality) then

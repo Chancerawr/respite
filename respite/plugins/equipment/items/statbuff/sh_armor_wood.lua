@@ -1,7 +1,7 @@
 ITEM.name = "Drifter-Wood"
 ITEM.desc = "The simplest armor that man can come up with. Dried scraps of wood are cut and strapped together to provide some protection against slashes from light blades, light stabs, and lower velocity ammunition.  Blunt strikes, axe swings, thrusts into a grain, and larger calibers may cause the armor to splinter, rendering that panel useless until repaired."
 ITEM.model = "models/tnb/items/shirt_rebel1.mdl"
-ITEM.buffCategory = "chest"
+ITEM.buffCategory = "Chest"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

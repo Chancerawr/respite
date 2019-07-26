@@ -54,7 +54,7 @@ ITEM.functions._use = {
 	end
 }
 
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
 	if(!partial) then

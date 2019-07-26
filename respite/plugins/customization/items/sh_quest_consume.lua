@@ -264,7 +264,7 @@ function ITEM:getDesc(partial)
 	if(!partial) then
 		if(customData.quality) then
 			desc = desc .. "\nQuality: " ..customData.quality
-		end		
+		end
 		
 		if(self.quantity2) then
 			desc = desc .. "\nPortions remaining: " .. self:getData("quantity2", self.quantity2)
@@ -280,8 +280,8 @@ function ITEM:getDesc(partial)
 			end
 		end	
 	end
-		
-	return Format(desc, COOKLEVEL[(self:getData("cooked") or 1)][1])
+
+	return desc
 end
 
 function ITEM:getName()
@@ -292,7 +292,7 @@ function ITEM:getName()
 		name = customData.name
 	end
 	
-	return Format(name)
+	return name
 end
 
 function ITEM:onGetDropModel()

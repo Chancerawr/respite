@@ -7,6 +7,7 @@ ENT.AdminOnly = true
 
 ENT.model = "models/props_interiors/furniture_lamp01a.mdl"
 ENT.noRag = true
+ENT.espIgnore = true
 
 --all attributes
 ENT.agil = 0
@@ -43,7 +44,12 @@ ENT.chatStrings = {
 	"Nice to meet you.",
 	"Greetings.",
 	"I won't hurt you.",
-	"Don't leave me."
+	"I want to help.",
+	"Take me with you.",
+	"Even if the sun goes out, I will light the way. I promise.",
+	"I want to help.",
+	"Don't leave me.",
+	"Don't leave me all alone."
 }
 
 function ENT:Think()

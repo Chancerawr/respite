@@ -5,7 +5,7 @@ ITEM.height = 1
 ITEM.desc = ""
 ITEM.category = "Equippable Buffs"
 ITEM.flag = "v"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 ITEM.multiChance = 10
 
 -- Inventory drawing
@@ -292,7 +292,7 @@ function ITEM:getName()
 		name = customData.name
 	end
 	
-	return Format(name)
+	return name
 end
 
 function ITEM:getDesc(partial)
@@ -305,7 +305,10 @@ function ITEM:getDesc(partial)
 	
 	if(!partial) then
 		if(self:getData("customSlot", self.buffCategory)) then
-			desc = desc .. "\nSlot: " ..self:getData("customSlot", self.buffCategory).. "."
+			local category = self:getData("customSlot", self.buffCategory)
+			category = string.upper(string.sub(category, 0, 1))..string.sub(category, 2)
+		
+			desc = desc .. "\nSlot: " ..category.. "."
 		end
 			
 		if(customData.quality) then
@@ -335,7 +338,7 @@ function ITEM:getDesc(partial)
 		end
 	end
 	
-	return Format(desc)
+	return desc
 end
 
 function ITEM:onGetDropModel()

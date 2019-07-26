@@ -77,7 +77,7 @@ nut.command.add("centsay", {
 
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
-			nut.chat.send(client, "say_npc", entity:getNetVar("name", (entity.name or entity.PrintName)) .. " says \"" ..msg.."\"")
+			nut.chat.send(client, "say_npc", entity:getNetVar("name", (entity.name or entity.PrintName)) .. " says, \"" ..msg.."\"")
 		else
 			client:notify("You must be looking at a combat entity.")
 		end

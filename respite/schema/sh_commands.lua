@@ -7,6 +7,27 @@ nut.command.add("roll", {
 	end
 })
 
+nut.command.add("fallover", {
+	syntax = "[number time]",
+	onRun = function(client, arguments)
+		local time = tonumber(arguments[1])
+
+		if (time and !isnumber(time)) then
+			time = 5
+		end
+
+		if (time and time > 0) then
+			time = math.Clamp(time, 1, 60)
+		else
+			time = nil
+		end
+
+		if (!IsValid(client.nutRagdoll)) then
+			client:setRagdolled(true, time)
+		end
+	end
+})
+
 nut.command.add("chargiveitem", {
 	adminOnly = true,
 	syntax = "<string name> <string item> <integer amount>",
@@ -41,15 +62,16 @@ nut.command.add("chargiveitem", {
 			for i = 1, (amount or 1) do
 				target:getChar():getInv():add(uniqueID)
 					:next(function(res)
-						if (IsValid(target)) then
-							if(!notified) then
-								notified = true
+						if(!notified) then
+							if (IsValid(target)) then
 								target:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
 							end
-						end
-						
-						if (IsValid(client) and client ~= target) then
-							client:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
+							
+							if (IsValid(client) and client ~= target) then
+								client:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
+							end
+							
+							notified = true
 						end
 					end)
 					:catch(function(err)
@@ -62,15 +84,37 @@ nut.command.add("chargiveitem", {
 	end
 })
 
-nut.command.add("charsetdesc", {
-	adminOnly = true,
-	syntax = "<string name> <string desc>",
+nut.command.add("givemoney", {
+	syntax = "<number amount>",
 	onRun = function(client, arguments)
-		local target = nut.command.findPlayer(client, arguments[1])
-		
-		if(target) then
-			arguments = table.concat(arguments, " ")
-			target:getChar():setDesc(arguments)
+		local number = tonumber(arguments[1])
+		number = number or 0
+		local amount = math.floor(number)
+
+		if (!amount or !isnumber(amount) or amount <= 0) then
+			return L("invalidArg", client, 1)
+		end
+
+		local data = {}
+			data.start = client:GetShootPos()
+			data.endpos = data.start + client:GetAimVector()*96
+			data.filter = client
+		local target = util.TraceLine(data).Entity
+
+		if (IsValid(target) and target:IsPlayer() and target:getChar()) then
+			amount = math.Round(amount)
+
+			if (!client:getChar():hasMoney(amount)) then
+				return
+			end
+
+			target:getChar():giveMoney(amount)
+			client:getChar():takeMoney(amount)
+
+			target:notifyLocalized("moneyTaken", nut.currency.get(amount))
+			client:notifyLocalized("moneyGiven", nut.currency.get(amount))
+
+			client:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_GMOD_GESTURE_ITEM_PLACE, true)
 		end
 	end
 })

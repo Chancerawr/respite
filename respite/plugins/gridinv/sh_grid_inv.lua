@@ -20,7 +20,7 @@ local function CanNotAddItemIfNoSpace(inventory, action, context)
 	end
 
 	if (inventory.virtual) then return true end 
-
+	
 	local x, y = context.x, context.y
 	if (not x or not y) then return false, "noFit" end
 
@@ -28,10 +28,11 @@ local function CanNotAddItemIfNoSpace(inventory, action, context)
 	if (not doesFit) then
 		return false, {item = item}
 	end
+	
 	return true
 end
 
--- Returns the width of this inverntory.
+-- Returns the width of this inventory.
 function GridInv:getWidth()
 	return self:getData(
 		"w",
@@ -181,7 +182,7 @@ if (SERVER) then
 			x = tonumber(xOrQuantity)
 			y = tonumber(yOrData)
 		end
-
+		
 		local d = deferred.new()
 
 		-- Get the table for the item type.
@@ -199,7 +200,6 @@ if (SERVER) then
 		local targetInventory = self
 		if (not x or not y) then
 			x, y = self:findFreePosition(item)
-
 			if (not x or not y) then
 				for _, bagItem in pairs(self:getItems(true)) do
 					if (bagItem.isBag == true) then
@@ -208,8 +208,10 @@ if (SERVER) then
 						end
 					
 						targetInventory = bagItem:getInv()
-						x, y = targetInventory:findFreePosition(item)
-
+						if(targetInventory) then
+							x, y = targetInventory:findFreePosition(item)
+						end
+						
 						if (x and y) then
 							break
 						end
@@ -217,7 +219,7 @@ if (SERVER) then
 				end				
 			end
 		end
-
+		
 		if (isStackCommand and item.isStackable != true) then
 			isStackCommand = false
 		end
@@ -261,7 +263,7 @@ if (SERVER) then
 
 			return d:resolve(resultItems)
 		end
-
+		
 		-- Permission check adding the item.
 		local context = {item = item, x = x, y = y}
 		local canAccess, reason = targetInventory:canAccess("add", context)
@@ -269,10 +271,10 @@ if (SERVER) then
 			if (istable(reason)) then
 				return d:resolve({error = reason})
 			else
-				return d:reject(tostring(reason or "noAccess"))
+				return d:reject(tostring(reason) or "noAccess")
 			end
 		end
-
+		
 		-- If given an item instance, there's no need for a new instance.
 		if (not isStackCommand && justAddDirectly) then
 			item:setData("x", x)
@@ -280,7 +282,7 @@ if (SERVER) then
 			targetInventory:addItem(item)
 			return d:resolve(item)
 		end
-
+		
 		-- Allocate space for the item.
 		targetInventory.occupied = targetInventory.occupied or {}
 		for x2 = 0, (item.width or 1) - 1 do
@@ -329,7 +331,7 @@ if (SERVER) then
 				end
 			end
 		end)
-
+		
 		return d
 	end
 
@@ -377,14 +379,16 @@ if (SERVER) then
 			end
 		end
 		
-		timer.Simple(0.25, function()
+		timer.Simple(1, function()
 			if(data) then
 				for _, item in pairs(items) do
 					for k, v in pairs(data) do
-						if(!item.setData) then
+						if(!item.setData and item.value) then
 							item.value:setData(k, v)
 						else
-							item:setData(k, v)
+							if(item and item.setData) then
+								item:setData(k, v)
+							end
 						end
 					end
 				end

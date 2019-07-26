@@ -8,7 +8,7 @@ ITEM.funcTable = {
 		id = "Screws",
 		name = "Screws (5)",
 		icon = "icon16/cog.png",
-		sound = "ambient/machines/machine6.wav",	
+		sound = "play ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
 		required = {
@@ -23,12 +23,12 @@ ITEM.funcTable = {
 		id = "Screws2",
 		name = "Screws (Nails) (5)",
 		icon = "icon16/cog.png",
-		sound = "ambient/machines/machine6.wav",	
+		sound = "play ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
 		required = {
-			["j_scrap_metals"] = 5,
-			["j_scrap_nails"] = 2
+			["j_scrap_metals"] = 4,
+			["j_scrap_nails"] = 1
 		},	
 		
 		results = {

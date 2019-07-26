@@ -121,6 +121,11 @@ nut.command.add("traitcheck", {
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
+		if(!arguments[2]) then
+			client:notify("No trait specified.")
+			return false
+		end
+		
 		if(target) then
 			local char = target:getChar()
 			if(!char) then return end

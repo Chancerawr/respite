@@ -30,5 +30,18 @@ ITEM.functions.use = {
 		
 		client:EmitSound(item.sound, 75, 20)
 		client:ConCommand("hellstart")
+		
+		local quantity2 = item:getData("quantity2", item.quantity2)
+		quantity2 = quantity2 - 1
+		if (quantity2 >= 1) then
+			item:setData("quantity2", quantity2)
+			return false
+		else
+			if(item.container) then
+				local position = item.player:getItemDropPos()
+				local inventory = char:getInv()
+				inventory:addSmart(item.container, 1, position)
+			end
+		end
 	end
 }

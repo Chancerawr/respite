@@ -2,7 +2,7 @@ ITEM.name = "Perceptive Gnome"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "A looking gnome."
 ITEM.uniqueID = "gnome_perceptive"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 
 ITEM.attribBoosts = {
 	["perception"] = 5,

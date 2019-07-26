@@ -2,19 +2,7 @@ ITEM.name = "Resource Base"
 ITEM.category = "Resources"
 ITEM.flag = "j"
 ITEM.model = "models/props_lab/box01a.mdl"
-ITEM.data = { Amount = 1 }
 ITEM.maxstack = 50
-
-local function recursiveAdd(item, inventory, toStack, maxStack)
-	timer.Simple(.2, function()
-		if (toStack > maxStack) then
-			inventory:add(item, 1, { Amount = maxStack })
-			recursiveAdd(item, inventory, toStack-maxStack, maxStack)
-		else
-			inventory:add(item, 1, { Amount = toStack })
-		end
-	end)
-end
 
 ITEM.functions.Unstack = {
 	tip = "Take a part out.",
@@ -31,8 +19,9 @@ ITEM.functions.Unstack = {
 			amount = math.Clamp(tonumber(text), 1, stack - 1)
 			
 			item:setData("Amount", item:getData("Amount") - amount)
+			local customData = item:getData("custom", {})
 			
-			inventory:addSmart(item.uniqueID, 1, position, {Amount = amount})
+			inventory:addSmart(item.uniqueID, 1, position, {Amount = amount, custom = customData})
 			
 			client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
 		end, 1)		
@@ -40,7 +29,7 @@ ITEM.functions.Unstack = {
 		return false
 	end,
 	onCanRun = function(item)
-		if(item.entity) then
+		if(IsValid(item.entity)) then
 			return false
 		end
 		
@@ -61,6 +50,12 @@ ITEM.functions.Stack = {
 		local inventory = char:getInv()
 		local stack = item:getData("Amount", 1)
 		
+		local qualities = {}
+		local quality = item:getData("custom", {}).quality
+		if(quality) then
+			table.insert(qualities, quality)
+		end
+		
 		local total = stack
 		for k, v in pairs(inventory:getItems()) do
 			if(v.id == item.id) then
@@ -70,14 +65,27 @@ ITEM.functions.Stack = {
 			if(v.uniqueID == item.uniqueID) then
 				total = total + v:getData("Amount", 1)
 				
+				local qual = item:getData("custom", {}).quality
+				if(qual) then
+					table.insert(qualities, qual)
+				end
+				
 				if(v.id != item.id) then
 					v:remove()
 				end
 			end
 		end
 		
+		local newQual = table.Random(qualities)
+		
+		local qualityData
+		if(newQual) then
+			qualityData = {quality = newQual}
+		end
+		
 		if(total <= item.maxstack) then
 			item:setData("Amount", total)
+			item:setData("custom", qualityData)
 		else
 			local position = client:getItemDropPos()
 		
@@ -90,6 +98,7 @@ ITEM.functions.Stack = {
 			local remainder = total - (item.maxstack * math.floor(total / item.maxstack))
 			if(remainder > 0) then
 				item:setData("Amount", remainder)
+				item:setData("custom", qualityData)
 			else
 				return true
 			end
@@ -100,7 +109,7 @@ ITEM.functions.Stack = {
 		return false
 	end,
 	onCanRun = function(item)
-		if(item.entity) then
+		if(IsValid(item.entity)) then
 			return false
 		end
 		
@@ -127,11 +136,18 @@ ITEM.onCombine = function(itemSelf, itemTarget)
 	end
 end
 
-function ITEM:getDesc()
+function ITEM:getDesc(partial)
 	local desc = self.desc
 	
 	if(self:getData("Amount") != nil) then
 		desc = desc .. "\nQuantity: " .. self:getData("Amount") .. "."
+	end
+	
+	if(!partial) then
+		local customData = self:getData("custom", {})
+		if(customData.quality) then
+			desc = desc .. "\nQuality: " ..customData.quality
+		end
 	end
 	
 	return Format(desc)

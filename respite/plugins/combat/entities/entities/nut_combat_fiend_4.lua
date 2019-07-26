@@ -1,7 +1,7 @@
 ENT.Type = "anim"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Fiend (20)"
-ENT.Category = "NutScript - Combat (Other)"
+ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 

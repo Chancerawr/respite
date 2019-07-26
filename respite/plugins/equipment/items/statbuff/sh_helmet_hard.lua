@@ -1,7 +1,7 @@
 ITEM.name = "Hard Hat"
 ITEM.desc = "A sturdy helmet designed to defend from falling debris."
 ITEM.model = "models/warz/hardhat.mdl"
-ITEM.buffCategory = "helmet"
+ITEM.buffCategory = "Helmet"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

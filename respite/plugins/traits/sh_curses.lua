@@ -240,7 +240,7 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "deaf" 
 TRAIT.name = "Deaf"
-TRAIT.desc = "Your can run but you can't hear.\nYour hearing no longer properly functions, whether this condition is recent or from birth is up to you."
+TRAIT.desc = "You can run but you can't hear.\nYour hearing no longer properly functions, whether this condition is recent or from birth is up to you."
 TRAIT.category = "Peculiar"
 TRAIT.modifier = {
 	["perception"] = 0.5,

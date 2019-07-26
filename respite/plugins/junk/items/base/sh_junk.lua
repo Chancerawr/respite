@@ -83,11 +83,9 @@ ITEM.functions.Fill = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		
-		if(!inventory:add("food_water_misc", 1)) then
-			nut.item.spawn("food_water_misc", position)
-		end
+		inventory:addSmart("food_water_misc", 1, position)
 		
-		client:notifyLocalized("Your container has been filled.")
+		client:notify("Your container has been filled.")
 	end,
 	onCanRun = function(item)
 		if(!item.fillable) then
@@ -117,7 +115,7 @@ function ITEM:getDesc(partial)
 		end
 	end
 	
-	return Format(desc)
+	return desc
 end
 
 function ITEM:getName()
@@ -128,7 +126,7 @@ function ITEM:getName()
 		name = customData.name
 	end
 	
-	return Format(name)
+	return name
 end
 
 function ITEM:onGetDropModel()

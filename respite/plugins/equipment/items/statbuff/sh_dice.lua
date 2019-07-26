@@ -6,7 +6,7 @@ ITEM.desc = "A small box that contains several different dice."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 ITEM.salvItem = {
 	["j_scrap_plastics"] = 2

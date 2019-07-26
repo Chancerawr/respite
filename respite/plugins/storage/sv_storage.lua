@@ -58,6 +58,15 @@ function PLUGIN:saveStorage()
 			entity.nutForceDelete = true
 			continue
 		end
+		
+		local motion = false
+		if(IsValid(entity)) then
+			local physObj = entity:GetPhysicsObject()
+			if(physObj) then
+				motion = physObj:IsMotionEnabled()
+			end
+		end
+		
 		if (entity:getInv()) then
 			data[#data + 1] = {
 				entity:GetPos(),
@@ -67,8 +76,12 @@ function PLUGIN:saveStorage()
 				entity.password,
 				entity.lootable, 
 				entity:getNetVar("name", nil), 
-				entity:getNetVar("desc", nil)
-			}			
+				entity:getNetVar("desc", nil),
+				entity:GetSkin(),
+				motion,
+				entity:GetMaterial(),
+				entity:getNetVar("owner", nil),
+			}
 		end
   	end
   	self:setData(data)
@@ -83,7 +96,20 @@ function PLUGIN:LoadData()
 	if (not data) then return end
 
 	for _, info in ipairs(data) do
-		local position, angles, invID, model, password, lootable, name, desc = unpack(info)
+		--local position, angles, inv, model, password, lootable, name, desc, skin = unpack(info)
+		local position = info[1]
+		local angles = info[2]
+		local inv = info[3]
+		local model = info[4]
+		local password = info[5]
+		local lootable = info[6]
+		local name = info[7]
+		local desc = info[8]
+		local skin = info[9]
+		local motion = info[10]
+		local mat = info[11]
+		local owner = info[12]
+		
 		local storage = self.definitions[model]
 		if (not storage) then continue end
 
@@ -95,7 +121,7 @@ function PLUGIN:LoadData()
 		storage:SetSolid(SOLID_VPHYSICS)
 		storage:PhysicsInit(SOLID_VPHYSICS)
 		
-		nut.inventory.loadByID(invID)
+		nut.inventory.loadByID(inv)
 			:next(function(inventory)
 				if (inventory and IsValid(storage)) then
 					inventory.isStorage = true
@@ -109,12 +135,6 @@ function PLUGIN:LoadData()
 					end)
 				end
 			end)
-
-		local physObject = storage:GetPhysicsObject()
-
-		if (physObject) then
-			physObject:EnableMotion()
-		end
 		
 		if (password) then
 			storage.password = password
@@ -132,6 +152,26 @@ function PLUGIN:LoadData()
 		if(desc) then
 			storage:setNetVar("desc", desc)
 		end		
+		
+		if(skin) then
+			storage:SetSkin(skin)
+		end		
+		
+		if(mat) then
+			storage:SetMaterial(mat)
+		end
+		
+		if(owner) then
+			storage:setNetVar("owner", owner)
+		end
+		
+		local physObject = storage:GetPhysicsObject()
+		if (physObject) then
+			physObject:EnableMotion(motion)
+			if(motion) then
+				physObject:Wake()
+			end
+		end
 	end
 
 	self.loadedData = true

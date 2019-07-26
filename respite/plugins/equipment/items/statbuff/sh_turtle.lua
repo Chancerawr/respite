@@ -1,4 +1,4 @@
-ITEM.name = "Stuffed Turtle"
+ITEM.name = "Stuffed Turtle (Green)"
 ITEM.uniqueID = "j_stuffed_turtle"
 ITEM.model = "models/props/de_tides/vending_turtle.mdl"
 ITEM.material = "models/XQM//WoodTexture_1"
@@ -6,7 +6,7 @@ ITEM.desc = "A green stuffed turtle."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 ITEM.salvItem = {
 	["j_scrap_cloth"] = 2

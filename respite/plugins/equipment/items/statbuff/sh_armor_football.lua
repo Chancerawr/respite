@@ -1,7 +1,7 @@
 ITEM.name = "Football Pads"
 ITEM.desc = "A set of pads designed for professional athletes. The plastic molded around the rubber padding provides a fair amount of resistance against blunt impacts and stabbing for the upper torso and shoulders."
 ITEM.model = "models/tnb/items/shirt_rebelmetrocop.mdl"
-ITEM.buffCategory = "shoulder"
+ITEM.buffCategory = "Shoulder"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

@@ -48,7 +48,12 @@ if SERVER then
 			if (container and IsValid(container)) then
 				local pos = container:GetPos()
 				for k, v in pairs(ents.FindInSphere(pos, 500)) do
+					if(v:GetMoveType() == MOVETYPE_NOCLIP) then
+						continue
+					end
+				
 					if (v:IsPlayer()) then
+						spawntime = CurTime() + (nut.config.get("stor_spawnrate", 600) * 0.25)
 						return
 					end
 				end
@@ -57,7 +62,16 @@ if SERVER then
 				local inventory = container:getInv()
 				
 				if(table.Count(inventory:getItems()) < nut.config.get("stor_locallimit", 2)) then
-					inventory:add(item, 1)
+					local itemObj = nut.item.list[item]
+					if(!itemObj) then return false end
+				
+					x, y = inventory:findFreePosition(itemObj)
+					
+					if(x) then
+						inventory:add(item, 1)
+					else
+						spawntime = CurTime() + (nut.config.get("stor_spawnrate", 600) * 0.25)
+					end
 				end
 			end
 		end

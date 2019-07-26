@@ -2,7 +2,7 @@ ITEM.name = "Human Leg"
 ITEM.uniqueID = "food_human_legs"
 ITEM.model = "models/dismemberment/gibs/legs.mdl"
 ITEM.hungerAmount = 35
-ITEM.desc = "A leg that was once connected to a human being."
+ITEM.desc = "A separated humanoid leg."
 ITEM.quantity2 = 4
 ITEM.price = 0
 ITEM.width = 4
@@ -35,6 +35,7 @@ ITEM.functions.Convert = {
 		client:EmitSound("physics/flesh/flesh_squishy_impact_hard" ..math.random(1,4).. ".wav", 65, math.random(80,110))
 	end,
 	onCanRun = function(item)
+		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("converter_meat")
 	end
 }

@@ -38,7 +38,7 @@ if (SERVER) then
 		if self.payload < CurTime() then
 			if self:GetDTBool(0) then
 				self:SetDTBool(0,false)
-				self:Payload()
+				--self:Payload()
 			end
 		end
 		if self.lifetime < CurTime() then

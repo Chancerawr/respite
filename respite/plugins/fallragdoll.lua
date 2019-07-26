@@ -7,9 +7,9 @@ function PLUGIN:EntityTakeDamage(target, dmginfo)
 		if(dmginfo:IsFallDamage()) then
 			dmginfo:ScaleDamage(0.5)
 			
-			timer.Simple(0.1, function()
+			timer.Simple(0.05, function()
 				if(!IsValid(target.nutRagdoll)) then
-					target:setRagdolled(true, 5)
+					target:setRagdolled(true, 3)
 				end
 			end)
 		end

@@ -79,6 +79,7 @@ else
 		-- Check if we are adding or deleting the text.
 		if (position) then
 			-- Generate a markup object to draw fancy stuff for the text.
+			--[[
 			local object = nut.markup.parse("<font=nut3D2DFont>"..text:gsub("\\n", "\n"))
 			-- We want to draw a shadow on the text object.
 			object.onDrawText = function(text, font, x, y, color, alignX, alignY, alpha)
@@ -92,6 +93,12 @@ else
  				surface.SetFont(font)
  				surface.DrawText(text)
 			end
+			--]]
+			
+			local color = "<color=" ..r.. "," ..g.. "," ..b.. ">"
+			local objectText = color.. "<font=nut3D2DFont>" ..text:gsub("\\n", "\n").. "</color>"
+			
+			local object = nut.markup.parse(objectText)
 
 			-- Add the text to a list of drawn text objects.
 			PLUGIN.list[index] = {position, angles, object, scale, r, g, b}
@@ -106,13 +113,21 @@ else
 		-- Set the list of texts to the ones provided by the server.
 		PLUGIN.list = values
 
+		--this doesn't even work anymore
 		-- Loop through the list of texts.
 		for k, v in pairs(PLUGIN.list) do
 			-- Generate markup object since it hasn't been done already.
-			local object = nut.markup.parse("<font=nut3D2DFont>"..v[3]:gsub("\\n", "\n"))
 			local r = v[5]
 			local g = v[6]
 			local b = v[7]
+			
+			local color = "<color=" ..r.. "," ..g.. "," ..b.. ">"
+			local objectText = color.. "<font=nut3D2DFont>" ..v[3]:gsub("\\n", "\n").. "</color>"
+			
+			local object = nut.markup.parse(objectText)
+
+			
+			--[[
 			-- Same thing with adding a shadow.
 			object.onDrawText = function(text, font, x, y, color, alignX, alignY, alpha)
 				draw.TextShadow({
@@ -124,6 +139,7 @@ else
 					font = font
 				}, 1, alpha)
 			end
+			-]]
 
 			-- Set the text to have a markup object to draw.
 			v[3] = object

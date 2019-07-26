@@ -80,20 +80,20 @@ ITEM.functions.Activate = {
 				item:setData("producing", nil)
 				client:notify("Meat has been refined.")
 				
-				if(!IsValid(item:getEntity())) then--determines where to drop item
+				if(!IsValid(item.entity)) then--determines where to drop item
 					local position = client:getItemDropPos()
 					
-					for i = 1, math.random(1,num) do --1 if hamburger, 2 if hot dog, 3 if bacon. (For upper range)
+					inventory:addSmart(result, math.random(1,num), position, {cooked = math.random(3,4)})
+				else
+					local position = item.entity:GetPos() + item.entity:GetUp()*50
+					
+					for i = 1, math.random(1, num) do --1 if hamburger, 2 if hot dog, 3 if bacon. (For upper range)
 						nut.item.spawn(result, position,
 							function(item2)
 								item2:setData("cooked", math.random(3,4))
 							end
 						)
 					end
-				else
-					local position = item:getEntity():GetPos() + item:getEntity():GetUp()*50
-					
-					inventory:addSmart(result, math.random(1,num), position, {cooked = math.random(3,4)})
 				end
 			end
 		end)
@@ -107,6 +107,8 @@ ITEM.functions.Activate = {
 				return false
 			end
 		end
+		
+		return true
 	end
 }
 
@@ -135,6 +137,8 @@ ITEM.functions.Battery = {
 		if !player:getChar():getInv():getFirstItemOfType("ammo_battery") then 
 			return false
 		end
+		
+		return true
 	end
 }
 

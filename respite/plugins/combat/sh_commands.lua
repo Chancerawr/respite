@@ -80,9 +80,10 @@ COMMAND.category = "melee"
 COMMAND.stats = {
 	["luck"] = 0.5
 }
-COMMAND.mult = 0.35
+COMMAND.mult = 0.4
 COMMAND.attackString = "flailing melee attack"
 COMMAND.stringArt = "a "
+COMMAND.parts = true
 COMMAND.rolls = function(base)
 	local rolls = {}
 	
@@ -173,9 +174,9 @@ COMMAND.name = "Burst Shot"
 COMMAND.desc = "Fires three shots with decreasing accuracy, can only be used with automatic weapons or burst fire weapons (not semi automatic.) Accuracy decreases based on your strength (Higher strength = less reduction.) Rolled against a single dodge."
 COMMAND.category = "firearms"
 COMMAND.stats = {
-	["accuracy"] = 0.35
+	["accuracy"] = 0.4
 }
-COMMAND.mult = 1
+COMMAND.mult = 0.75
 COMMAND.attackString = "burst shot"
 COMMAND.stringArt = "a "
 COMMAND.parts = true
@@ -184,8 +185,8 @@ COMMAND.rolls = function(base, attribs)
 
 	local rolls = { 
 		roll,
-		roll * math.Clamp((0.6 + ((attribs["str"] * 4) / 1000)), 0, 1),
-		roll * math.Clamp((0.4 + ((attribs["str"] * 6) / 1000)), 0, 1)
+		roll * math.Clamp((0.5 + ((attribs["str"] * 4) / 1000)), 0, 1),
+		roll * math.Clamp((0.3 + ((attribs["str"] * 6) / 1000)), 0, 1)
 	}
 	
 	return rolls
@@ -199,9 +200,9 @@ COMMAND.name = "Gatling Shot"
 COMMAND.desc = "Meant to be used only with gatling guns. Fires five successive shots. Gatling guns require half a turn to begin spinning up."
 COMMAND.category = "firearms"
 COMMAND.stats = {
-	["accuracy"] = 0.35
+	["accuracy"] = 0.4
 }
-COMMAND.mult = 1
+COMMAND.mult = 0.75
 COMMAND.attackString = "gatling shot"
 COMMAND.stringArt = "a "
 COMMAND.parts = true
@@ -231,7 +232,7 @@ COMMAND.stats = {
 	["accuracy"] = 0.25,
 	["perception"] = 0.1
 }
-COMMAND.mult = 1
+COMMAND.mult = 0.8
 COMMAND.attackString = "aimed burst shot"
 COMMAND.stringArt = "an "
 COMMAND.rolls = function(base, attribs)
@@ -239,8 +240,8 @@ COMMAND.rolls = function(base, attribs)
 
 	local rolls = { 
 		roll,
-		roll * math.Clamp((0.6 + ((attribs["str"] * 4) / 1000)), 0, 1),
-		roll * math.Clamp((0.4 + ((attribs["str"] * 6) / 1000)), 0, 1)
+		roll * math.Clamp((0.5 + ((attribs["str"] * 4) / 1000)), 0, 1),
+		roll * math.Clamp((0.3 + ((attribs["str"] * 6) / 1000)), 0, 1)
 	}
 	
 	return rolls

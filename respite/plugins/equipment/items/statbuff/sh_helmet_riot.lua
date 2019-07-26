@@ -1,7 +1,7 @@
 ITEM.name = "Riot Helmet"
 ITEM.desc = "A type of helmet designed for law enforcement and military use to protect its wearer's head, face and eyes from handheld melee weapons, and thrown projectiles such as bricks."
 ITEM.model = "models/helm_08.mdl"
-ITEM.buffCategory = "helmet"
+ITEM.buffCategory = "Helmet"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

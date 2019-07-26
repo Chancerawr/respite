@@ -2,7 +2,7 @@ ITEM.name = "Lucky Gnome"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "This gnome has a four leaf clover painted on its back."
 ITEM.uniqueID = "gnome_lucky"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 
 ITEM.attribBoosts = {
 	["luck"] = 3,

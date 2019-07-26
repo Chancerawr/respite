@@ -276,11 +276,14 @@ else
 		
 		netstream.Start(activator, "nut_Dialogue", self)
 
+		--rotates the npc towards whoever used it, off until I think of a way to do it better
+		--[[
 		if(self:LookupBone("ValveBiped.Bip01_Head1")) then
 			self:PointAtEntity(activator)
 			local angle = self:GetAngles()
 			self:SetAngles(Angle(0, angle.y, 0))
 		end
+		--]]
 		
 		self.receivers[#self.receivers + 1] = activator
 		activator.nutVendor = self

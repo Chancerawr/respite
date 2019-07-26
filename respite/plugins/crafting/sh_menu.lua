@@ -8,7 +8,7 @@ local distance = size + border
 local PANEL = {}
 	function PANEL:Init()
 		self:SetPos(ScrW() * 0.375, ScrH() * 0.125)
-		self:SetSize(ScrW() * nut.config.menuWidth, ScrH() * nut.config.menuHeight)
+		self:SetSize(ScrW() * 0.8, ScrH() * 0.8)
 		self:MakePopup()
 		self:SetTitle(string.format(phrases["crafting"]))
 
@@ -56,7 +56,7 @@ local PANEL = {}
 					category3:SetContents(list)
 
 						local icon = list:Add("SpawnIcon")
-						icon:SetModel( itemTable.model or "models/props_lab/box01a.mdl" )		
+						icon:SetModel(itemTable.model or "models/props_lab/box01a.mdl")		
 						icon.PaintOver = function(icon, w, h)
 							surface.SetDrawColor(0, 0, 0, 45)
 							surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
@@ -104,19 +104,17 @@ local PANEL = {}
 					category3:InvalidateLayout(true)
 					hook.Call("CraftingCategoryCreated", category3)
 					self.categories[category2] = {list = list, category = category3, panel = panel}
-					
 				else
-				
 					local list = self.categories[category2].list
 					local icon = list:Add("SpawnIcon")
-					icon:SetModel( itemTable.model or "models/props_lab/box01a.mdl" )
-						
+					icon:SetModel(itemTable.model or "models/props_lab/box01a.mdl")
+					
 					local text = string.format(phrases["crft_text"], itemTable.name, itemTable.desc)
 					local cnt = 0
 					local brk = "\n"
-					for itc, qua in pairs( itemTable.items ) do
+					for itc, qua in pairs(itemTable.items) do
 						cnt = cnt + 1
-						if ( cnt == table.Count( itemTable.items ) ) then brk = "" end
+						if (cnt == table.Count(itemTable.items)) then brk = "" end
 						local tblItem = nut.item.list[itc]
 						if tblItem then
 							text = text .. tblItem.name .. " x ".. qua .. brk

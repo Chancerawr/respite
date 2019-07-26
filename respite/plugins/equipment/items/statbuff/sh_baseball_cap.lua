@@ -5,7 +5,7 @@ ITEM.desc = "A baseball cap with a logo on it."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 ITEM.salvItem = {
 	["j_scrap_cloth"] = 3

@@ -202,7 +202,7 @@ ITEM.functions.Name = {
 		
 		local customData = item:getData("custom", {})
 		
-		client:requestString("Change Name", "What do you want to name your sentry? (This is final)", function(text)
+		client:requestString("Change Name", "What do you want to name your plant? (This is final)", function(text)
 			customData.name = text
 			item:setData("custom", customData)
 			nut.log.addRaw(client:Name().. " has set name of " ..item.name.. " to " ..text.. ".")
@@ -215,8 +215,6 @@ ITEM.functions.Name = {
 		
 		if (customData.name) then
 			return false
-		else
-			return true
 		end
 		
 		return true

@@ -17,6 +17,67 @@ ITEM.iconCam = {
 	fov = 2.75,
 }
 
+ITEM.functions.Scrap = {
+	tip = "Scrap this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+		
+		client:requestQuery("Are you sure you want to scrap this money?", "Scrap", function(text)
+			local char = client:getChar()
+			local inv = char:getInv()
+			local position = client:getItemDropPos()
+			local scrap
+			local amt
+			
+			local roll = math.random(1,100)
+			local chance = item.multiChance
+			local multi = 1
+			
+			if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+				chance = chance + 10
+			end
+			
+			if(roll < chance) then
+				multi = 2
+			end
+
+			for i = 1, multi do
+				amt, scrap = table.Random(item.salvItem)
+				
+				local itemTable = nut.item.list[scrap]
+				if(itemTable) then
+					if(itemTable.maxstack) then
+						timer.Simple(i/2, function()
+							inv:addSmart(scrap, 1, position, {Amount = amt})
+						end)
+					else
+						inv:addSmart(scrap, amt, position)
+					end
+				end
+			end
+			
+			client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
+			
+			if(item:getData("Amount", 1) > 1) then
+				item:setData("Amount", item:getData("Amount", 1) - 1)
+			else
+				item:remove()
+			end
+		end)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		if(!item.salvItem) then
+			return false
+		end
+		
+		local client = item.player
+		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
+	end
+}
+
 ITEM.functions.Stack = {
 	tip = "Stack items of the same type.",
 	icon = "icon16/add.png",
@@ -144,7 +205,7 @@ function ITEM:getDesc(partial)
 		desc = desc .. "\nQuantity: " .. self:getData("Amount", 1) .. "."
 	end	
 	
-	return Format(desc)
+	return desc
 end
 
 if (CLIENT) then

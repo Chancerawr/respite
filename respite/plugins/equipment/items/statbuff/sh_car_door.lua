@@ -5,7 +5,7 @@ ITEM.desc = "A large metal door that was once attached to a car."
 ITEM.flag = "j"
 ITEM.width = 3
 ITEM.height = 3
-ITEM.buffCategory = "shield"
+ITEM.buffCategory = "Shield"
 
 ITEM.salvItem = {
 	["j_scrap_metals"] = 5

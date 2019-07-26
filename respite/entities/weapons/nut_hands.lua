@@ -176,6 +176,7 @@ function SWEP:PrimaryAttack()
 	end
 
 	self.heldEntity = nil
+	self:SetNW2Bool("holdingObject", false)
 	
 	if (hook.Run("CanPlayerThrowPunch", self.Owner) == false) then
 		return
@@ -219,30 +220,30 @@ function SWEP:PrimaryAttack()
 			end
 
 			self.Owner:LagCompensation(true)
-				local data = {}
-					data.start = self.Owner:GetShootPos()
-					data.endpos = data.start + self.Owner:GetAimVector()*96
-					data.filter = self.Owner
-				local trace = util.TraceLine(data)
+			local data = {}
+				data.start = self.Owner:GetShootPos()
+				data.endpos = data.start + self.Owner:GetAimVector()*96
+				data.filter = self.Owner
+			local trace = util.TraceLine(data)
 
-				if (SERVER and trace.Hit) then
-					local entity = trace.Entity
+			if (SERVER and trace.Hit) then
+				local entity = trace.Entity
 
-					if (IsValid(entity)) then
-						local damageInfo = DamageInfo()
-							damageInfo:SetAttacker(self.Owner)
-							damageInfo:SetInflictor(self)
-							damageInfo:SetDamage(damage)
-							damageInfo:SetDamageType(DMG_SLASH)
-							damageInfo:SetDamagePosition(trace.HitPos)
-							damageInfo:SetDamageForce(self.Owner:GetAimVector()*10000)
-						entity:DispatchTraceAttack(damageInfo, data.start, data.endpos)
+				if (IsValid(entity)) then
+					local damageInfo = DamageInfo()
+						damageInfo:SetAttacker(self.Owner)
+						damageInfo:SetInflictor(self)
+						damageInfo:SetDamage(damage)
+						damageInfo:SetDamageType(DMG_SLASH)
+						damageInfo:SetDamagePosition(trace.HitPos)
+						damageInfo:SetDamageForce(self.Owner:GetAimVector()*10000)
+					entity:DispatchTraceAttack(damageInfo, data.start, data.endpos)
 
-						self.Owner:EmitSound("physics/body/body_medium_impact_hard"..math.random(1, 6)..".wav", 80)
-					end
+					self.Owner:EmitSound("physics/body/body_medium_impact_hard" ..math.random(1, 6).. ".wav", 80)
 				end
+			end
 
-				hook.Run("PlayerThrowPunch", self.Owner, trace)
+			hook.Run("PlayerThrowPunch", self.Owner, trace)
 			self.Owner:LagCompensation(false)
 		end
 	end)
@@ -296,16 +297,16 @@ function SWEP:doPickup(entity)
 	if (entity:IsPlayerHolding()) then
 		return
 	end
+	
+	if (!IsValid(entity) or entity:IsPlayerHolding() or self.heldEntity != entity) then
+		self.heldEntity = nil
+		self:SetNW2Bool("holdingObject", false)
+	end
 
 	self.heldEntity = entity
-
+	self:SetNW2Bool("holdingObject", true)
+	
 	timer.Simple(0.1, function()
-		if (!IsValid(entity) or entity:IsPlayerHolding() or self.heldEntity != entity) then
-			self.heldEntity = nil
-
-			return
-		end
-
 		self.Owner:PickupObject(entity)
 		self.Owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 3)..".wav", 75)
 	end)
@@ -344,7 +345,7 @@ function SWEP:SecondaryAttack()
 			self:DoPunchAnimation()
 			self:SetNextSecondaryFire(CurTime() + 0.1)
 			self:SetNextPrimaryFire(CurTime() + 1)
-		elseif (!entity:IsPlayer() and !entity:IsNPC() and self:onCanCarry(entity)) then
+		elseif (!entity:IsPlayer() and !entity:IsNPC() and self:onCanCarry(entity)) then		
 			local physObj = entity:GetPhysicsObject()
 			physObj:Wake()
 			
@@ -355,6 +356,10 @@ function SWEP:SecondaryAttack()
 			end
 		
 			self.heldEntity = nil
+			self:SetNW2Bool("holdingObject", false)
 		end
+	elseif(!IsValid(entity)) then
+		self.heldEntity = nil
+		self:SetNW2Bool("holdingObject", false)
 	end
 end

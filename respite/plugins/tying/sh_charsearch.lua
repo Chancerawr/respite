@@ -41,25 +41,22 @@ if (SERVER) then
 		end
 	end
 
-	netstream.Hook("searchExit", function(client, target)
+	netstream.Hook("searchExit", function(client, target, inventory)
 		client.searcher = false
+		client.nutSearchTarget = nil
+		target:setNetVar("searcher", nil)
+		client:setNetVar("searcher", nil)
 		
 		if(inventory) then
 			inventory.searching = false
 		end
 	end)
 else
-	function PLUGIN:CanPlayerViewInventory()
-		if (IsValid(LocalPlayer():getNetVar("searcher"))) then
-			return false
-		end
-	end
-
 	netstream.Hook("searchPly", function(target, index)
 		local inventory = nut.inventory.instances[index]
 		
 		if (!inventory) then
-			return netstream.Start("searchExit", inventory)
+			netstream.Start("searchExit", target)
 		end
 
 		-- Get the inventory for the player and storage.
@@ -98,6 +95,8 @@ else
 				if (IsValid(otherPanel)) then otherPanel:Remove() end
 			end
 			panel:oldOnRemove()
+			
+			netstream.Start("searchExit", target, inventory)
 		end
 
 		localInvPanel.OnRemove = exitStorageOnRemove

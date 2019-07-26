@@ -99,6 +99,11 @@ ITEM.functions.Memory = {
 		local inventory = client:getChar():getInv()
 		local object = inventory:getFirstItemOfType("j_scrap_memory")
 		
+		if(!object) then
+			client:notify("You need a memory.")
+			return false
+		end
+		
 		local ranScrap = {
 			"blight",
 			"ichor",

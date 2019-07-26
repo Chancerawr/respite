@@ -23,7 +23,7 @@ if (SERVER) then
 			local bonus = character.getAttrib 
 				and character:getAttrib("stm", 0)
 				or 0
-			runSpeed = nut.config.get("runSpeed") + bonus/5
+			runSpeed = nut.config.get("runSpeed") + bonus * 0.2
 
 			if (client:WaterLevel() > 1) then
 				runSpeed = runSpeed * 0.775
@@ -33,7 +33,7 @@ if (SERVER) then
 				local bonus = character.getAttrib
 					and character:getAttrib("end", 0)
 					or 0
-				offset = -1 + (bonus / 200)
+				offset = -0.5 + (bonus / 400)
 			elseif (offset > 0.5) then
 				offset = 1
 			else

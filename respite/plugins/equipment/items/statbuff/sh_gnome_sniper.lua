@@ -2,7 +2,7 @@ ITEM.name = "Accurate Gnome"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "An accurate looking gnome."
 ITEM.uniqueID = "gnome_perceptive"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 
 ITEM.attribBoosts = {
 	["accuracy"] = 3,

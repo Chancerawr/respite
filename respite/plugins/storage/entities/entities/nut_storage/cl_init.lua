@@ -19,7 +19,7 @@ function ENT:onDrawEntityInfo(alpha)
 	local tx, ty = nut.util.drawText(locked and "P" or "Q", x, y, colorAlpha(locked and COLOR_LOCKED or COLOR_UNLOCKED, alpha), 1, 1, "nutIconsMedium", alpha * 0.65)
 	y = y + ty*.9
 
-	local def = self:getStorageInfo() 
+	local def = self:getStorageInfo()
 	if (def) then
 		local name = self:getNetVar("name") or L(def.name) or "Storage"
 	

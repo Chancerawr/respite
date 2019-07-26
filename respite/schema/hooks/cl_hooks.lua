@@ -122,7 +122,7 @@ function SCHEMA:LoadFonts(font)
 		font = "Verdana",
 		size = math.max(ScreenScale(6), 23),
 		extended = true,
-		weight = 250,
+		weight = 200,
 		italic = true
 	})
 

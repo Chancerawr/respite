@@ -13,6 +13,11 @@ nut.config.add("npc_spawnrate", 90, "How often an npc will be spawned at an npc 
 	category = "NPC Spawner"
 })
 
+nut.config.add("npc_maxnpcs", 100, "How many npcs the spawner is allowed to spawn at once.", nil, {
+	data = {min = 1, max = 84600},
+	category = "NPC Spawner"
+})
+
 PLUGIN.spawngroups = {
 	["default"] = {
 		"nz_freak",
@@ -73,7 +78,7 @@ PLUGIN.spawngroups = {
 	},
 }
 
-PLUGIN.maxnpcs = 40
+PLUGIN.maxnpcs = 100
 PLUGIN.spawnedNPCs = PLUGIN.spawnedNPCs or {}
 
 if SERVER then
@@ -88,7 +93,7 @@ if SERVER then
 			end
 		end
 
-		if #self.spawnedNPCs >= self.maxnpcs then return end
+		if #self.spawnedNPCs >= nut.config.get("npc_maxnpcs", 40) then return end
 
 		local v = table.Random(self.spawnpoints)
 

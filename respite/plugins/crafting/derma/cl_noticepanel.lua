@@ -61,7 +61,7 @@ local PANEL = {}
 		if mat then
 			surface.SetDrawColor( color_white )
 			surface.SetMaterial( mat )
-			surface.DrawTexturedRect( size/2, self:GetTall()/2-size/2 + 1, size, size )
+			surface.DrawTexturedRect(size/2, self:GetTall()/2-size/2 + 1, size, size)
 		end
 	end
 vgui.Register("nut_NoticePanel", PANEL, "DPanel")

@@ -18,6 +18,11 @@ ITEM.iconCam = {
 	fov = 5.8,
 }
 
+local function onUse(client)
+	client:EmitSound("items/medshot4.wav", 80, 110)
+	client:ScreenFade(1, Color(100, 100, 100, 200), 1, 0)
+end
+
 local function healPlayer(client, target, amount, seconds)
 	hook.Run("OnPlayerHeal", client, target, amount, seconds)
 
@@ -30,6 +35,8 @@ local function healPlayer(client, target, amount, seconds)
 
 			target:SetHealth(math.Clamp(target:Health() + (amount/seconds), 0, target:GetMaxHealth()))
 		end)
+		
+		onUse(target)
 	end
 end
 
@@ -59,8 +66,6 @@ ITEM.functions.usef = { -- sorry, for name order.
 					nut.item.spawn(item.container, position)
 				end
 			end
-			
-			return true
 		end
 
 		return false
@@ -76,7 +81,7 @@ ITEM.functions.use = { -- sorry, for name order.
 	icon = "icon16/add.png",
 	onRun = function(item)
 		if (item.player:Alive()) then
-		local position = item.player:getItemDropPos()
+			local position = item.player:getItemDropPos()
 			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
 
 			local quantity = item:getData("quantity", item.quantity2 or 1)

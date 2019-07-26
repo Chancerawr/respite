@@ -222,11 +222,11 @@ local lootTable = {
 	},
 	["weapon2"] = {
 		"hl2_m_knife",
-		"hl2_m_machete",
+		"hl2_m_machate",
 		"hl2_m_meathook",
 		"hl2_m_pickaxe",
 		"hl2_m_pickaxe_alt",
-		"hl2_m_pitchfork",
+		"melee_pitchfork",
 		"hl2_m_axe",
 		"hl2_m_shovel",
 		"hl2_m_shovel_alt",
@@ -296,7 +296,8 @@ local lootTable = {
 		"potion_luck",
 		"potion_craftiness",
 		"potion_perception",
-		"potion_fortitude"
+		"potion_fortitude",
+		"cube_dirt"
 	}
 }
 

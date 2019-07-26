@@ -12,7 +12,7 @@ function PLUGIN:EntityTakeDamage(target, dmginfo)
 				
 				dmginfo:ScaleDamage(0)
 				
-				if(damage > 10) then
+				if(damage > 5) then
 					if(!IsValid(target.nutRagdoll)) then
 						target:setRagdolled(true, 2)
 					end
@@ -26,9 +26,9 @@ function PLUGIN:EntityTakeDamage(target, dmginfo)
 				
 				dmginfo:ScaleDamage(0.1)
 				
-				if(damage > 15) then
+				if(damage > 5) then
 					if(!IsValid(target.nutRagdoll)) then
-						target:setRagdolled(true, 3)
+						target:setRagdolled(true, 2)
 						
 						local ragdoll = target.nutRagdoll
 						local num = ragdoll:GetPhysicsObjectCount()-1

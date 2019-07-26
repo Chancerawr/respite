@@ -353,7 +353,7 @@ vgui.Register("nutInventory", PANEL, "DFrame")
 
 local margin = 10
 hook.Add("CreateMenuButtons", "nutInventory", function(tabs)
-	if (hook.Run("CanPlayerViewInventory") != false) then
+	--if (hook.Run("CanPlayerViewInventory") == false) then	
 		tabs["inv"] = function(panel)
 			local inventory = LocalPlayer():getChar():getInv()
 
@@ -366,22 +366,22 @@ hook.Add("CreateMenuButtons", "nutInventory", function(tabs)
 
 				totalSize.x = totalSize.x + mainPanel:GetWide() + margin
 				totalSize.y = math.max(totalSize.y, mainPanel:GetTall())
-
+				
 				--off for now
+				--[[
 				for id, item in pairs(inventory:getItems()) do
 					if (item.isBag and hook.Run("CanOpenBagPanel", item) != false) then
 						local inventory = item:getInv()
-
-						--[[
+						
 						local childPanels = inventory:show(mainPanel)
 						nut.gui["inv"..inventory:getID()] = childPanels
 						table.insert(sortPanels, childPanels)
 						
 						totalSize.x = totalSize.x + childPanels:GetWide() + margin
 						totalSize.y = math.max(totalSize.y, childPanels:GetTall())
-						--]]
 					end
 				end
+				--]]
 				
 				local px, py, pw, ph = mainPanel:GetBounds()
 				local x, y = px + pw/2 - totalSize.x / 2, py + ph/2 
@@ -396,5 +396,5 @@ hook.Add("CreateMenuButtons", "nutInventory", function(tabs)
 				end)
 			end
 		end
-	end
+	--end
 end)

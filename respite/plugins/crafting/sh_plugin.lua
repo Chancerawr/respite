@@ -6,7 +6,6 @@ PLUGIN.desc = "Allows you craft some items. And it fucking works."
 PLUGIN.menuEnabled = false -- menu can be toggled off.
 PLUGIN.reqireBlueprint = true
 
-
 phrases = {}
 
 phrases["crafting"] = "Crafting"
@@ -224,8 +223,9 @@ function RECIPES:Register( tbl )
 					end
 				end
 			end
+			
 			local iness = player:getChar():getAttrib("medical", 0)
-			local craftMod = math.Clamp((iness/10) + math.random(-2,2), 0, 10)
+			local craftMod = (iness * 0.1) + math.random(-2,2)
 			
 			if(total > 0) then
 				avgQual = avgQual/total
@@ -235,7 +235,8 @@ function RECIPES:Register( tbl )
 			end
 			
 			--calculates the final qualtiy by averaging the average quality and the craftiness modifier
-			local finQual = math.Round((avgQual + craftMod)/2)
+			local finQual = math.Round((avgQual + craftMod) * 0.5)
+			finQual = math.Clamp(finQual, 1, 16)
 			
 			for k, v in pairs(self.result) do
 				local customData = {}--item:getData("custom", {})
@@ -244,7 +245,6 @@ function RECIPES:Register( tbl )
 				local boosts = randomBoosts(finQual, k)
 				local durability = getDura(finQual)
 				customData.dura = durability
-				
 				
 				local itemData = {
 					custom = customData,
@@ -255,7 +255,9 @@ function RECIPES:Register( tbl )
 				player:getChar():getInv():addSmart(k, v, player:getItemDropPos(), itemData)
 				
 				nut.log.addRaw(player:Name().. " crafted " ..nut.item.list[k].name.. ".")
-				player:getChar():updateAttrib("medical", 0.005)
+				
+				local craftGain = (table.Count(self.items) or 1) * 0.01
+				player:getChar():updateAttrib("medical", craftGain)
 			end
 			player:notifyLocalized("donecrafting", self.name)
 

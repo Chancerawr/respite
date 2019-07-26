@@ -5,7 +5,7 @@ ITEM.desc = "A thick book filled with religious teachings."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 ITEM.salvItem = {
 	["j_scrap_cloth"] = 2

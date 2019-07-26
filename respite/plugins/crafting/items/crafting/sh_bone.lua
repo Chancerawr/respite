@@ -22,7 +22,7 @@ ITEM.functions.Scrap = {
 		local inventory = client:getChar():getInv()
 		local position = client:getItemDropPos()
 
-		inventory:addSmart("j_scrap_organic", 1, position, {Amount = item:getData("Amount") * 2})
+		inventory:addSmart("j_scrap_organic", 1, position, {Amount = item:getData("Amount", 1) * 2})
 
 		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
 	end,

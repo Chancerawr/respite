@@ -38,7 +38,7 @@ for k, v in pairs(chatLangs) do
 				return false
 			end
 		end,
-		onChatAdd = function(speaker, text)
+		onChatAdd = function(speaker, text, anonymous)
 			local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 			
 			local texCol = nut.config.get("chatColor")
@@ -62,7 +62,7 @@ for k, v in pairs(chatLangs) do
 				--chat.AddText(nut.config.get("chatColor"), speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 				chat.AddText(nameCol, speako, texCol, " says in "..v..", \""..text.."\"")
 			else
-				chat.AddText(nameCol, speako, texCol, " says something in "..v)
+				chat.AddText(nameCol, speako, texCol, " says something in " ..v.. ".")
 			end
 		end,
 		onCanHear = nut.config.get("chatRange", 280),
@@ -79,7 +79,7 @@ for k, v in pairs(chatLangs) do
 				return false
 			end
 		end,
-		onChatAdd = function(speaker, text)
+		onChatAdd = function(speaker, text, anonymous)
 			local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 			local texCol = nut.config.get("chatColor")
 			if (LocalPlayer():GetEyeTrace().Entity == speaker) then
@@ -101,7 +101,7 @@ for k, v in pairs(chatLangs) do
 				--chat.AddText(nut.config.get("chatColor"), speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 				chat.AddText(nameCol, speako, texCol, " whispers in "..v..", \""..text.."\"")
 			else
-				chat.AddText(nameCol, speako, texCol, " whispers something in "..v)
+				chat.AddText(nameCol, speako, texCol, " whispers something in " ..v.. ".")
 			end
 		end,
 		onCanHear = nut.config.get("chatRange", 280) * 0.25,
@@ -118,7 +118,7 @@ for k, v in pairs(chatLangs) do
 				return false
 			end
 		end,
-		onChatAdd = function(speaker, text)
+		onChatAdd = function(speaker, text, anonymous)
 			local speako = anonymous and "Someone" or hook.Run("GetDisplayedName", speaker, "ic") or (IsValid(speaker) and speaker:Name() or "Console")
 			local texCol = nut.config.get("chatColor")
 			if (LocalPlayer():GetEyeTrace().Entity == speaker) then
@@ -140,7 +140,7 @@ for k, v in pairs(chatLangs) do
 				--chat.AddText(nut.config.get("chatColor"), speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 				chat.AddText(nameCol, speako, texCol, " yells in "..v..", \""..text.."\"")
 			else
-				chat.AddText(nameCol, speako, texCol, " yells something in "..v)
+				chat.AddText(nameCol, speako, texCol, " yells something in " ..v.. ".")
 			end
 		end,
 		onCanHear = nut.config.get("chatRange", 280) * 2,
@@ -159,10 +159,13 @@ nut.chat.register("pla", {
 		end
 	end,
 	onChatAdd = function(speaker, text)
+		local texCol = nut.config.get("chatColor")
+		texCol = Color(texCol.r, texCol.g, texCol.b)		
+	
 		if (hasTrait(LocalPlayer(), "pla")) then
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().. ' writes in the Plastic Written Language, "' ..text.. '"')
+			chat.AddText(texCol, speaker:getChar():getName().. ' writes in the Plastic Written Language, "' ..text.. '"')
 		else
-			chat.AddText(nut.config.get("chatColor"),speaker:getChar():getName().. " writes something in the Plastic Written Language.")
+			chat.AddText(texCol, speaker:getChar():getName().. " writes something in the Plastic Written Language.")
 		end
 	end,
 	onCanHear = nut.config.get("chatRange", 280),

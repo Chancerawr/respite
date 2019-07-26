@@ -69,7 +69,7 @@ function diseaseEffects(client, disease, diseaseT)
 						end
 					end
 				end)
-			else --progressive phases
+			elseif(disTable.phases) then --progressive phases
 				timer.Simple(math.random(0, PLUGIN.thinkTime), function()
 					if(IsValid(client) and hasDisease(client, disease)) then --makes sure they still have the disease
 						local phase = math.Round((CurTime() - iTime) / disTable.phaseTime)
@@ -373,34 +373,40 @@ nut.command.add("diseaseadd", {
 })
 
 if(CLIENT) then
-	netstream.Hook("ShowDiseases", function(target, illnesses)	
+	netstream.Hook("ShowDiseases", function(target, compress)
+		local illnesses = util.JSONToTable(compress)
+	
 		local diseaseText = ""
 		
 		for k, v in pairs(illnesses or {}) do
-			diseaseText = diseaseText .. v.name .. ": " .. v.desc .. "\n\n"
+			local disease = DISEASES.diseases[v]
+			
+			if(disease) then
+				diseaseText = diseaseText .. disease.name .. ": " .. disease.desc .. "\n\n"
+			end
 		end
 	
-		local diseaseMenu = vgui.Create( "DFrame" );
-		diseaseMenu:SetSize( 500, 700 );
-		diseaseMenu:Center();
+		local diseaseMenu = vgui.Create( "DFrame" )
+		diseaseMenu:SetSize( 500, 700 )
+		diseaseMenu:Center()
 
-		diseaseMenu:SetTitle(target:Name());
+		diseaseMenu:SetTitle(target:Name())
 
-		diseaseMenu:MakePopup();
+		diseaseMenu:MakePopup()
 
-		diseaseMenu.DS = vgui.Create( "DScrollPanel", diseaseMenu );
-		diseaseMenu.DS:SetPos( 10, 50 );
-		diseaseMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 );
+		diseaseMenu.DS = vgui.Create( "DScrollPanel", diseaseMenu )
+		diseaseMenu.DS:SetPos( 10, 50 )
+		diseaseMenu.DS:SetSize( 500 - 10, 700 - 50 - 10 )
 		function diseaseMenu.DS:Paint( w, h ) end
 		
-		diseaseMenu.B = vgui.Create( "DLabel", diseaseMenu.DS );
-		diseaseMenu.B:SetPos( 0, 40 );
-		diseaseMenu.B:SetFont( "nutSmallFont" );
-		diseaseMenu.B:SetText( diseaseText );
-		diseaseMenu.B:SetAutoStretchVertical( true );
-		diseaseMenu.B:SetWrap( true );
-		diseaseMenu.B:SetSize( 500 - 20, 10 );
-		diseaseMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) );
+		diseaseMenu.B = vgui.Create( "DLabel", diseaseMenu.DS )
+		diseaseMenu.B:SetPos( 0, 40 )
+		diseaseMenu.B:SetFont( "nutSmallFont" )
+		diseaseMenu.B:SetText( diseaseText )
+		diseaseMenu.B:SetAutoStretchVertical( true )
+		diseaseMenu.B:SetWrap( true )
+		diseaseMenu.B:SetSize( 500 - 20, 10 )
+		diseaseMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) )
 	end)
 end
 
@@ -421,11 +427,13 @@ nut.command.add("diagnose", {
 		
 		for k, v in pairs (DISEASES.diseases) do
 			if(hasDisease(target, v.uid)) then
-				table.insert(illnesses, v)
+				table.insert(illnesses, v.uid)
 			end
 		end
 		
-		netstream.Start(client, "ShowDiseases", target, illnesses)
+		local compress = util.TableToJSON(illnesses)
+		
+		netstream.Start(client, "ShowDiseases", target, compress)
 	end
 })
 

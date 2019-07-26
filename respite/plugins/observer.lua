@@ -7,6 +7,7 @@ if (CLIENT) then
 	NUT_CVAR_OBSTPBACK = CreateClientConVar("nut_obstpback", 0, true, true)
 	NUT_CVAR_ADMINESP = CreateClientConVar("nut_obsesp", 1, true, true)
 	NUT_CVAR_ADMINESPC = CreateClientConVar("nut_obsespc", 1, true, true)
+	NUT_CVAR_ADMINESPI = CreateClientConVar("nut_obsespi", 0, true, true)
 
 	local client, sx, sy, scrPos, marginx, marginy, x, y, teamColor, distance, factor, size, alpha
 	local dimDistance = 1024
@@ -38,8 +39,9 @@ if (CLIENT) then
 			
 			if(CMBT and NUT_CVAR_ADMINESPC:GetBool()) then
 				for k, v in ipairs(ents.GetAll()) do
-					if (!v.combat) then continue end
-
+					if(!v.combat) then continue end
+					if(v.espIgnore) then continue end
+					
 					scrPos = v:GetPos():ToScreen()
 					marginx, marginy = sy*.1, sy*.1
 					x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
@@ -54,32 +56,31 @@ if (CLIENT) then
 					--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
 					surface.DrawRect(x - size/2, y - size/2, size, size)
 
-					nut.util.drawText(v.name or v.PrintName, x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					nut.util.drawText(v:getNetVar("name", v.name) or v.PrintName, x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
 			end
 			
-			--uncomment this if you want an item esp.
-			--[[
-			for k, v in pairs(ents.FindByClass("nut_item")) do
-				local item = v:getItemTable()
-				if(item) then
-					scrPos = v:GetPos():ToScreen()
-					marginx, marginy = sy*.1, sy*.1
-					x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
-					--teamColor = team.GetColor(v:Team())
-					distance = client:GetPos():Distance(v:GetPos())
-					factor = 1 - math.Clamp(distance/dimDistance, 0, 1)
-					size = math.max(10, 32*factor)
-					alpha = math.Clamp(255*factor, 80, 255)
+			if(NUT_CVAR_ADMINESPI:GetBool()) then
+				for k, v in pairs(ents.FindByClass("nut_item")) do
+					local item = v:getItemTable()
+					if(item) then
+						scrPos = v:GetPos():ToScreen()
+						marginx, marginy = sy*.1, sy*.1
+						x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
+						--teamColor = team.GetColor(v:Team())
+						distance = client:GetPos():Distance(v:GetPos())
+						factor = 1 - math.Clamp(distance/dimDistance, 0, 1)
+						size = math.max(10, 32*factor)
+						alpha = math.Clamp(255*factor, 80, 255)
 
-					surface.SetDrawColor(Color(255,255,255))
-					--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
-					surface.DrawRect(x - size/2, y - size/2, size/2, size/2)
+						surface.SetDrawColor(Color(255,255,255))
+						--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
+						surface.DrawRect(x - size/2, y - size/2, size/2, size/2)
 
-					nut.util.drawText(item.name or "Item", x, y - size, ColorAlpha(Color(255,255,255), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+						nut.util.drawText(item.name or "Item", x, y - size, ColorAlpha(Color(255,255,255), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					end
 				end
 			end
-			--]]
 		end
 	end
 
@@ -102,6 +103,15 @@ if (CLIENT) then
 					end
 				end, NUT_CVAR_ADMINESPC:GetBool())
 			end
+
+			local buttonESPC = menu:addCheck("Toggle Item ESP", function(panel, state)
+				if (state) then
+					RunConsoleCommand("nut_obsespi", "1")
+				else
+					RunConsoleCommand("nut_obsespi", "0")
+				end
+			end, NUT_CVAR_ADMINESPI:GetBool())
+
 		
 			local buttonTP = menu:addCheck(L"toggleObserverTP", function(panel, state)
 				if (state) then

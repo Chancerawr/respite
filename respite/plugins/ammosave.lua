@@ -216,10 +216,16 @@ nut.command.add("ammocheck", {
 	syntax = "<string name> <string type",
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1])
+		
+		if(!arguments[2]) then
+			client:notify("Specify an ammo type")
+			return false
+		end
+		
 		if(IsValid(target) and target:getChar()) then
 			local ammo = target:GetAmmoCount(arguments[2])
 				
-			client:notifyLocalized(target:Name() .." ".. arguments[2] .. " " .. ammo)
+			client:notify(target:Name() .." ".. arguments[2] .. " " .. ammo)
 		end
 	end
 })

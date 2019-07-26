@@ -1,7 +1,7 @@
 ITEM.name = "Combat Helmet"
 ITEM.desc = "A modern combat helmet that helps protect the head from small arms fire."
 ITEM.model = "models/helm_04.mdl"
-ITEM.buffCategory = "helmet"
+ITEM.buffCategory = "Helmet"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

@@ -257,13 +257,13 @@ function ENT:reaction(client, rolls, category, attackString, part)
 		end
 		
 		if(rollA > roll) then	
-			if(firearms and part) then --unblockable attack with body part
+			if(part) then --unblockable attack with body part
 				self:messagePrint(client, rollA, roll, attackString, true, part)
 			else
 				self:messagePrint(client, rollA, roll, attackString, true)
 			end
 		else
-			if(firearms and part) then
+			if(part) then
 				self:messagePrint(client, rollA, roll, attackString, false, part)
 			elseif(evade) then
 				self:messagePrint(client, rollA, roll, attackString, false, 0)
@@ -282,6 +282,7 @@ local def = {
 
 --prints a message
 function ENT:messagePrint(client, rollC, rollE, action, success, part)
+	rollC = math.Round(rollC, 4)
 	local fullString = ""
 	
 	--detects the currently held weapon and (hopefully) the item it's associated with
@@ -325,7 +326,7 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 				
 				--bob's action misses name's part.
 			else				
-				fullString = client:GetName().. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ".(" ..rollC.. " | " ..rollE.. ")" ..weapon
+				fullString = client:GetName().. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC.. " | " ..rollE.. ")" ..weapon
 				
 				--bob's action grazes name's part
 			end
@@ -397,12 +398,12 @@ function ENT:die()
 			end
 				
 				--I hate this
-			ragdoll:SetBodygroup( 1, self:GetBodygroup(1) )
-			ragdoll:SetBodygroup( 2, self:GetBodygroup(2) )
-			ragdoll:SetBodygroup( 3, self:GetBodygroup(3) )
-			ragdoll:SetBodygroup( 4, self:GetBodygroup(4) )
-			ragdoll:SetBodygroup( 5, self:GetBodygroup(5) )
-			ragdoll:SetBodygroup( 6, self:GetBodygroup(6) )
+			ragdoll:SetBodygroup(1, self:GetBodygroup(1))
+			ragdoll:SetBodygroup(2, self:GetBodygroup(2))
+			ragdoll:SetBodygroup(3, self:GetBodygroup(3))
+			ragdoll:SetBodygroup(4, self:GetBodygroup(4))
+			ragdoll:SetBodygroup(5, self:GetBodygroup(5))
+			ragdoll:SetBodygroup(6, self:GetBodygroup(6))
 			
 			ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
 		end

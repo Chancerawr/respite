@@ -27,15 +27,17 @@ ITEM.functions.Add = {
 	onRun = function(item)
 		local client = item.player
 	
-		client:ScreenFade(1, Color(255, 255, 255, 200), .75, 0)
-		
-		if(item:getData("Amount", 1) > 1) then
-			item:setData("Amount", item:getData("Amount", 1) - 1)
-		else
-			item:remove()
-		end
-		
-		nut.plugin.list["parts"]:partsAdd(client, math.random(2,5), "ichor")
+		client:requestQuery("Are you sure you want to consume this item?", "Assimilate", function(text)
+			client:ScreenFade(1, Color(255, 255, 255, 200), .75, 0)
+			
+			if(item:getData("Amount", 1) > 1) then
+				item:setData("Amount", item:getData("Amount", 1) - 1)
+			else
+				item:remove()
+			end
+			
+			nut.plugin.list["parts"]:partsAdd(client, math.random(2,5), "ichor")
+		end)
 		
 		return false
 	end,
@@ -63,15 +65,17 @@ ITEM.functions.Sustain = {
 	onRun = function(item)
 		local client = item.player
 	
-		client:ScreenFade(1, Color(255, 255, 255, 200), .75, 0)
+		client:requestQuery("Are you sure you want to consume this item?", "Sustain", function(text)
+			client:ScreenFade(1, Color(255, 255, 255, 200), .75, 0)
+			
+			if(item:getData("Amount", 1) > 1) then
+				item:setData("Amount", item:getData("Amount", 1) - 1)
+			else
+				item:remove()
+			end
 		
-		if(item:getData("Amount", 1) > 1) then
-			item:setData("Amount", item:getData("Amount", 1) - 1)
-		else
-			item:remove()
-		end
-		
-		--nut.plugin.list["parts"]:partsAdd(client, math.random(2,5), "ichor")
+			--nut.plugin.list["parts"]:partsAdd(client, math.random(2,5), "ichor")
+		end)
 		
 		return false
 	end,

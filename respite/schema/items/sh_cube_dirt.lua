@@ -37,15 +37,13 @@ ITEM.functions.Dig = {
 		if(roll <= 25) then
 			client:notify("There was nothing in the dirt.")
 		elseif(roll < 40) then
-			client:notify("There was " .. roll/2 .. " scrap coins in the dirt.")
-			char:giveMoney(roll/2)
+			client:notify("There was " .. math.Round(roll*0.5) .. " scrap coins in the dirt.")
+			char:giveMoney(math.Round(roll*0.5))
 		elseif(roll < 75) then
 			client:notify("You receive some buried memories.")
-			--inventory:add("j_scrap_memory", 1, { Amount = 5 })
-			
+
 			local reward = "j_scrap_memory"
-			
-			inventory:addSmart(reward, 5, position)
+			inventory:addSmart(reward, 1, position, {Amount = 5})
 		elseif(roll < 95) then
 			client:notify("You dig up some cheese?")
 			local reward = "food_cheese"

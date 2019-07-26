@@ -270,7 +270,7 @@ ITEM.functions.IChip = {
 	end,
 	onCanRun = function(item)
 		local player = item.player
-		local chip = player:getChar():getInv():getFirstItemOfType("chip_escape")
+		local chip = player:getChar():getInv():getFirstItemOfType("cube_chip_memory")
 		
 		local prodTime = 202
 		if(item:getData("producing")) then

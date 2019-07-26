@@ -5,7 +5,7 @@ ITEM.desc = "An old baby doll, it's missing an eye."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 2
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 ITEM.salvItem = {
 	["j_scrap_plastics"] = 1

@@ -47,7 +47,10 @@ function PLUGIN:DrawEntityInfo(entity, alpha)
 
 		drawText(name, x, y, colorAlpha(color, alpha), 1, 1)
 
-		if (IsValid(owner)) then
+		local desc = entity:getNetVar("desc")
+		if(desc) then
+			drawText(desc, x, y + 16, colorAlpha(color_white, alpha), 1, 1)
+		elseif (IsValid(owner)) then
 			drawText(L("dOwnedBy", owner.Name(owner)), x, y + 16, colorAlpha(color_white, alpha), 1, 1)
 		elseif (faction) then
 			local info = nut.faction.indices[faction]

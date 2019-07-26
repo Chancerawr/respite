@@ -66,6 +66,46 @@ function PANEL:createTitle()
 	self.schemaLogo:SetZPos(-197)
 	self.schemaLogo:OpenURL("http://i.imgur.com/xihenMy.png")	
 	
+	self.icon = self:Add("DHTML")
+	self.icon:SetPos(ScrW() - 96, 8)
+	self.icon:SetSize(86, 86)
+	self.icon:SetHTML([[
+		<html>
+			<body style="margin: 0; padding: 0; overflow: hidden;">
+				<img src="]].."https://i.imgur.com/fEkFwaW.jpg"..[[" width="86" height="86" />
+			</body>
+		</html>
+	]])
+	self.icon:SetToolTip("Content")
+
+	self.icon.click = self.icon:Add("DButton")
+	self.icon.click:Dock(FILL)
+	self.icon.click.DoClick = function(this)
+		gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=773495550")
+	end
+	self.icon.click:SetAlpha(0)
+	self.icon:SetAlpha(200)
+	
+	self.icon2 = self:Add("DHTML")
+	self.icon2:SetPos(8, 8)
+	self.icon2:SetSize(86, 86)
+	self.icon2:SetHTML([[
+		<html>
+			<body style="margin: 0; padding: 0; overflow: hidden;">
+				<img src="]].."https://i.imgur.com/jfHPpXy.jpg"..[[" width="86" height="86" />
+			</body>
+		</html>
+	]])
+	self.icon2:SetToolTip("Forums")
+
+	self.icon2.click = self.icon2:Add("DButton")
+	self.icon2.click:Dock(FILL)
+	self.icon2.click.DoClick = function(this)
+		gui.OpenURL("http://spite.boards.net/")
+	end
+	self.icon2.click:SetAlpha(0)
+	self.icon2:SetAlpha(200)	
+	
 	self.desc = self:Add("DLabel")
 	self.desc:Dock(TOP)
 	self.desc:DockMargin(64, 0, 0, 0)

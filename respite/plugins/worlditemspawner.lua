@@ -384,14 +384,12 @@ nut.command.add("itemspawnadd", {
 		local trace = client:GetEyeTraceNoCursor()
 		local hitpos = trace.HitPos + trace.HitNormal*5
 		local spawngroup = arguments[1] or "default"
-		if(PLUGIN.itempoints[spawngroup]) then
+		if(PLUGIN.spawngroups[spawngroup]) then
 			table.insert(PLUGIN.itempoints, {hitpos, spawngroup})
 			client:notify("You added ".. spawngroup .. " item spawner.")
 		else
 			client:notify("Invalid spawn group")
 		end
-		
-
 	end
 })
 

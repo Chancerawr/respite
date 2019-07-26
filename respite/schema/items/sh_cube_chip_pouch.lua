@@ -58,7 +58,7 @@ ITEM.functions.Extract = {
 		
 		if (chipcount > 0) then
 			client:requestString("Split", "", function(text)	
-				amount = math.Clamp(tonumber(text), 1, 25)
+				amount = math.Clamp(tonumber(text), 1, chipcount)
 				
 				item:setData("chipcount", chipcount - amount)
 

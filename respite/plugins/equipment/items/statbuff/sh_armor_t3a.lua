@@ -1,7 +1,7 @@
 ITEM.name = "Tier 3A Vest"
 ITEM.desc = "A further improvement on the Tier 2 Vest in terms of protection against pistol-caliber munitions. The vest is better suited for stopping higher velocities of .357 rounds and 9X19MM, while also boasting protection against larger calibers such as 10MM Auto and .44 Magnum."
 ITEM.model = "models/tnb/items/shirt_rebeloverwatch.mdl"
-ITEM.buffCategory = "chest"
+ITEM.buffCategory = "Chest"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

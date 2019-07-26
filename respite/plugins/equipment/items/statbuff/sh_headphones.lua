@@ -5,7 +5,7 @@ ITEM.desc = "A pair of headphones."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "accessory"
+ITEM.buffCategory = "Accessory"
 
 ITEM.salvItem = {
 	["j_scrap_elecs"] = 1,

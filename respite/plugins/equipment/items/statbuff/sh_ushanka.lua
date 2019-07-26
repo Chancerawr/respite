@@ -5,7 +5,7 @@ ITEM.desc = "A Russian fur cap with ear flaps that can be tied up to the crown o
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.buffCategory = "helmet"
+ITEM.buffCategory = "Helmet"
 
 ITEM.salvItem = {
 	["j_scrap_cloth"] = 3

@@ -18,6 +18,11 @@ ITEM.iconCam = {
 	fov = 5,
 }
 
+local function onUse(client)
+	client:EmitSound("items/medshot4.wav", 80, 110)
+	client:ScreenFade(1, Color(100, 100, 100, 200), 1, 0)
+end
+
 local function healPlayer(client, target, amount, seconds)
 	hook.Run("OnPlayerHeal", client, target, amount, seconds)
 
@@ -30,6 +35,8 @@ local function healPlayer(client, target, amount, seconds)
 
 			target:SetHealth(math.Clamp(target:Health() + (amount/seconds), 0, target:GetMaxHealth()))
 		end)
+		
+		onUse(target)
 	end
 end
 
@@ -42,12 +49,12 @@ ITEM.functions.usef = { -- sorry, for name order.
 		local trace = client:GetEyeTraceNoCursor() -- We don't need cursors.
 		local target = trace.Entity
 
-		if (!IsValid(target) or target:getChar():getFaction() != FACTION_PLASTIC) then
+		if (!IsValid(target) or !target:IsPlayer() or target:getChar():getFaction() != FACTION_PLASTIC) then
 			client:notify("This can only be used on Plastics.")
 			return false
 		end
 		
-		if (target and target:IsValid() and target:IsPlayer() and target:Alive()) then
+		if (target:Alive()) then
 			healPlayer(item.player, target, item.healAmount, item.healSeconds)
 
 			return true

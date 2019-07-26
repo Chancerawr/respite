@@ -33,19 +33,19 @@ local workshopIDs = {
 player models
 --]]
 
-760262099, --tnb 1
-760268522, --tnb 3
-760265535, --tnb 2
-873882787, --tnb 4
-760255843, --tnb items
-760256673, --tnb combine
+1775190034, --tnb 1
+1775195041, --tnb 3
+1775197024, --tnb 2
+1775198239, --tnb 4
+1775187340, --tnb items
+1775186802, --tnb combine
 
 --[[
 Temporary Things (Like Maps)
 --]]
 
 215338015, --rp_v_torrington content
-1612000229 --woodland warzone
+337486491 --rp_lr_refuge
 }
 
 for k, v in pairs(workshopIDs) do
@@ -108,11 +108,11 @@ function SCHEMA:PlayerSpray(client)
 end
 
 function SCHEMA:Initialize()
-	game.ConsoleCommand("net_maxfilesize 64\n");
+	--game.ConsoleCommand("net_maxfilesize 64\n");
 	game.ConsoleCommand("sv_kickerrornum 0\n");
 
 	game.ConsoleCommand("sv_allowupload 0\n");
-	game.ConsoleCommand("sv_allowdownload 1\n");
+	game.ConsoleCommand("sv_allowdownload 0\n");
 	game.ConsoleCommand("sv_allowcslua 0\n");
 end
 
@@ -124,16 +124,6 @@ function SCHEMA:PostPlayerLoadout(client)
 		for k, v in pairs(char:getInv():getItems()) do
 			v:call("onLoadout", client)
 
-			--[[
-			if (v:getData("equip")) then
-				if (v.attribBoosts) then
-					for k2, v2 in pairs(v.attribBoosts) do
-						char:addBoost(v.uniqueID, k2, v2)
-					end
-				end
-			end
-			--]]
-			
 			if (v:getData("equip", false) and (v.attribBoosts or v:getData("attrib", nil))) then
 				local temp = {}
 				--combines both boost lists
@@ -169,3 +159,13 @@ netstream.Hook("strReq", function(client, time, text)
 		client.nutStrReqs[time] = nil
 	end
 end)
+
+function GM:PlayerSpawnRagdoll(client)
+	if(client and client:IsPlayer()) then
+		if (client:getChar() and client:getChar():hasFlags("r")) then
+			return true
+		end
+
+		return false
+	end
+end

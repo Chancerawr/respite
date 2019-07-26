@@ -635,7 +635,7 @@ function ITEM:getName()
 		name = customData.name
 	end
 	
-	return Format(name)
+	return name
 end
 
 function ITEM:onGetDropModel()

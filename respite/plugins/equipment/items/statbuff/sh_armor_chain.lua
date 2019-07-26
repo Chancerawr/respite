@@ -1,7 +1,7 @@
 ITEM.name = "Makeshift Chain Armor"
 ITEM.desc = "A crude vest crafted in a style similar to that of medieval chain mail. Instead of using individual chain links, circular pieces of scrap metal with hole drilled through them have been woven into the fabric, providing a fair amount of chest protection against slashing and low-velocity munitions."
 ITEM.model = "models/tnb/items/shirt_rebel_molle.mdl"
-ITEM.buffCategory = "chest"
+ITEM.buffCategory = "Chest"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

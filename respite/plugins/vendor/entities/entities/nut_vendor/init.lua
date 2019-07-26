@@ -53,11 +53,14 @@ function ENT:Use(activator)
 	-- Finally, send the vendor state to the activator.
 	hook.Run("PlayerAccessVendor", activator, self)
 	
+	--rotates the npc towards whoever used it, off until I think of a way to do it better
+	--[[
 	if(self:LookupBone("ValveBiped.Bip01_Head1")) then
 		self:PointAtEntity(activator)
 		local angle = self:GetAngles()
 		self:SetAngles(Angle(0, angle.y, 0))
 	end
+	--]]
 end
 
 -- Sets how much money the vendor has.

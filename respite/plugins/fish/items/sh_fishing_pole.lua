@@ -42,13 +42,13 @@ ITEM.functions.FishBait = {
 				local char = client:getChar()
 				
 				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
-				item:setData("producing2", CurTime())
+				item:setData("producing", CurTime())
 				local oldPos = client:GetPos()
 				client:setAction("Fishing...", 15, function()
 					local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
 					local position = client:getItemDropPos()
 					
-					item:setData("producing2", 0)
+					item:setData("producing", nil)
 					
 					if (item != nil and client:GetPos():Distance(oldPos) <= 500 and chip) then
 						local roll = math.random(0, 1)
@@ -61,11 +61,14 @@ ITEM.functions.FishBait = {
 								model = "2"
 							end
 							
-							if(!inventory:add("food_fish" .. model, 1, {customName = name, customDesc = desc, weight = wgt})) then --if the inventory has space, put it in the inventory
+							local customData = {}
+							customData.name = name
+							customData.desc = desc
+							
+							if(!inventory:add("food_fish" .. model, 1, {custom = customData, weight = wgt})) then --if the inventory has space, put it in the inventory
 								nut.item.spawn("food_fish" .. model, position,
 									function(item2)
-										item2:setData("customName", name)
-										item2:setData("customDesc", desc)
+										item2:setData("custom", customData)
 										item2:setData("weight", wgt)
 									end
 								)
@@ -117,8 +120,14 @@ ITEM.functions.FishBait = {
 								catch = "j_scrap_chems"
 								
 							elseif(roll < 95) then
+								local ammo = {
+									"ammo_919",
+									"ammo_45",
+									"ammo_12g"
+								}
+								
 								nut.chat.send(client, "meclose", "catches a box of ammunition.")
-								catch = "ammo_919"
+								catch = table.Random(ammo)
 								
 							elseif(roll < 98) then
 								nut.chat.send(client, "meclose", "catches a.. Banana?")
@@ -130,19 +139,17 @@ ITEM.functions.FishBait = {
 								
 							else
 								nut.chat.send(client, "meclose", "catches some kind of weird chip.")
-								catch = "chip_escape"
+								catch = "cube_chip_memory"
 							end
 							
 							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								if(!inventory:add(catch)) then --if the inventory has space, put it in the inventory
-									nut.item.spawn(catch, client:getItemDropPos()) --if not, drop it on the ground
-								end
+								inventory:addSmart(catch, 1, client:getItemDropPos())
 							else --if the item it on the ground
 								nut.item.spawn(catch, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 							end		
 						end
 					
-						if(math.random(luckRoll, 100) < 75) then
+						if(math.random(luckRoll, 150) < 90) then
 							client:notify("Your bait was lost.")
 							chip:remove()
 						end
@@ -161,18 +168,20 @@ ITEM.functions.FishBait = {
 		return false
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
-		local endTime = item:getData("producing2") + 15
 		local player = item.player
 		
 		if(!player:getChar():getInv():getFirstItemOfType("cube_chip")) then
 			return false
 		end
 		
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 15
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
+		
+		return true		
 	end
 }
 
@@ -203,13 +212,13 @@ ITEM.functions.FishNoBait = {
 				local bait = inventory:getFirstItemOfType("j_scrap_organic")
 				local char = client:getChar()
 				
-				if(!bait or bait:getData("Amount") < 2) then
+				if(!bait or bait:getData("Amount", 1) < 2) then
 					client:notify("You need two organic material.")
 					return false
 				end
 				
 				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
-				item:setData("producing2", CurTime())
+				item:setData("producing", CurTime())
 				local oldPos = client:GetPos()
 				client:setAction("Fishing...", 25, 
 					function()
@@ -218,7 +227,7 @@ ITEM.functions.FishNoBait = {
 						
 						item:setData("producing2", 0)
 						
-						if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait and bait:getData("Amount") >= 2) then
+						if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait and bait:getData("Amount", 1) >= 2) then
 							local roll = math.random(0, 1)
 								
 							if(roll == 0) then --fish 
@@ -230,10 +239,13 @@ ITEM.functions.FishNoBait = {
 									model = "2"
 								end
 								
-								if(!inventory:add("food_fish" .. model .. "_plastic", 1, {customDesc = desc})) then --if the inventory has space, put it in the inventory
+								local customData = {}
+								customData.desc = desc
+								
+								if(!inventory:add("food_fish" .. model .. "_plastic", 1, {custom = customData})) then --if the inventory has space, put it in the inventory
 									nut.item.spawn("food_fish" .. model .. "_plastic", position,
 										function(item2)
-											item2:setData("customDesc", desc)
+											item2:setData("custom", customData)
 										end
 									)
 								end
@@ -311,12 +323,12 @@ ITEM.functions.FishNoBait = {
 								end		
 							end
 						
-							if(math.random(luckRoll, 100) < 80) then
+							if(math.random(luckRoll, 150) < 90) then
 								client:notify("Your bait was lost.")
 								
-								local amount = bait:getData("Amount")
-								bait:setData("Amount", amount - 2) --costs 2
-								if (bait:getData("Amount") <= 0) then
+								local amount = bait:getData("Amount", 1)
+								bait:setData("Amount", 1, amount - 2) --costs 2
+								if (bait:getData("Amount", 1) <= 0) then
 									bait:remove()
 								end
 							end
@@ -339,16 +351,18 @@ ITEM.functions.FishNoBait = {
 		local player = item.player
 		
 		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
-		if(!organic or organic:getData("Amount") < 2) then
+		if(!organic or organic:getData("Amount", 1) < 2) then
 			return false
 		end
 	
-		local endTime = item:getData("producing2") + 25
-		if (CurTime() > endTime or item:getData("producing2") > CurTime() or item:getData("producing2") == 0) then
-			return true 
-		else
-			return false
+		local prodTime = 25
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
 		end
+		
+		return true
 	end
 }
 

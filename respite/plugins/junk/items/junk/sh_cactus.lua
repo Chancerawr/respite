@@ -21,8 +21,10 @@ ITEM.functions.Harvest = {
 	tip = "Scrap this item",
 	icon = "icon16/cross.png",
 	onRun = function(item)
+		local client = item.player
 		local position = client:getItemDropPos()
-		item.player:getChar():getInv():addSmart("food_cactus", 1, position)
+		
+		client:getChar():getInv():addSmart("food_cactus", 1, position)
 	end
 }
 

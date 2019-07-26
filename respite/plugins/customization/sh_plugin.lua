@@ -8,27 +8,32 @@ if(SERVER) then
 	function PLUGIN:updateSWEP(client, item)
 		local customData = item:getData("custom", {})
 		
-		local swep = weapons.Get(item.class)
-		local itemInfo = {}
-		
-		itemInfo.class = item.class
-		
-		itemInfo.wepDmg = customData.wepDmg or (swep and swep.Primary.Damage)
-		itemInfo.wepSpd = customData.wepSpd or (swep and swep.Primary.RPM)
-		itemInfo.wepAcc = customData.wepAcc
-		itemInfo.wepRec = customData.wepRec
-		itemInfo.wepMag = customData.wepMag or (swep and swep.Primary.ClipSize)
-		
-		itemInfo.name = customData.name
-		
-		netstream.Start(client, "nut_swepUpdate", itemInfo)
+		if(item.class) then --i dont know why i need this here
+			local swep = weapons.Get(item.class)
+			local itemInfo = {}
+			
+			itemInfo.class = item.class
+			
+			itemInfo.wepDmg = customData.wepDmg or (swep and swep.Primary.Damage)
+			itemInfo.wepSpd = customData.wepSpd or (swep and swep.Primary.RPM)
+			itemInfo.wepAcc = customData.wepAcc
+			itemInfo.wepRec = customData.wepRec
+			itemInfo.wepMag = customData.wepMag or (swep and swep.Primary.ClipSize)
+			
+			itemInfo.name = customData.name
+			
+			netstream.Start(client, "nut_swepUpdate", itemInfo)
+		end
 	end	
 	
 	--customization statrt
 	function PLUGIN:startCustom(client, item, extra)
+		--customizations require a flag in the items set, so it's unnecessary to do this here, uncomment it if you want.
+		--[[
 		if !client:IsAdmin() then
 			return
 		end
+		--]]
 
 		local customData = item:getData("custom", {})
 	
@@ -38,7 +43,7 @@ if(SERVER) then
 		itemInfo.desc = item:getDesc(true) or item.desc
 		itemInfo.color = customData.color or item.color or nut.config.get("color") or Color(255, 255, 255)
 		itemInfo.model = customData.model or item.model
-		itemInfo.material = item.material
+		itemInfo.material = customData.material or item.material
 		itemInfo.quality = customData.quality
 		itemInfo.img = customData.img
 		
@@ -48,11 +53,13 @@ if(SERVER) then
 			local swep = weapons.Get(item.class)
 			
 			--weapon stat customization stuff
-			itemInfo.wepDmg = customData.wepDmg or swep.Primary.Damage
-			itemInfo.wepSpd = customData.wepSpd or swep.Primary.RPM
-			itemInfo.wepAcc = customData.wepAcc
-			itemInfo.wepRec = customData.wepRec
-			itemInfo.wepMag = customData.wepMag or swep.Primary.ClipSize
+			if(swep) then
+				itemInfo.wepDmg = customData.wepDmg or swep.Primary.Damage
+				itemInfo.wepSpd = customData.wepSpd or swep.Primary.RPM
+				itemInfo.wepAcc = customData.wepAcc
+				itemInfo.wepRec = customData.wepRec
+				itemInfo.wepMag = customData.wepMag or swep.Primary.ClipSize
+			end
 			
 			--durability stuff
 			local maxDura = item:getData("maxDura", 7 * 1000)
@@ -75,7 +82,7 @@ if(SERVER) then
 		itemInfo.attrib = attribData
 		
 		netstream.Start(client, "nut_customA", itemInfo)
-	end	
+	end
 
 	--regular finish hook
 	netstream.Hook("nut_customF", function(client, data)
@@ -263,17 +270,20 @@ else
 		end
 				
 		--weapon stuff
+		local wepC
 		local duraC
 		local dmgC
 		local rpmC
 		local accC
 		local recC
 		local magC
+		
 		if(item.weapon) then
-			--quality customization
-			local weaponL = vgui.Create("DLabel", scroll)
-			weaponL:SetText("Weapon Modifiers")
-			weaponL:Dock(TOP)		
+			wepC = vgui.Create("DCheckBoxLabel", scroll)
+			wepC:SetText("SWEP Modifiers")
+			wepC:SetValue(0)
+			wepC:SetToolTip("Toggle this if you want any of the stuff below to apply.")
+			wepC:Dock(TOP)			
 		
 			local duraL = vgui.Create("DLabel", scroll)
 			duraL:SetText(" Durability:")
@@ -351,7 +361,7 @@ else
 				customData[2].img = pictureC:GetValue()
 			end
 			
-			if(item.weapon) then
+			if(item.weapon and wepC:GetChecked()) then
 				customData[2].quality = qualityC:GetValue()
 				customData[2].dura = duraC:GetValue()
 				
@@ -399,7 +409,7 @@ else
 			attribL:SetText(v.name)
 			attribL:Dock(TOP)
 			
-			local attribC = vgui.Create("DNumSlider", scroll)
+			local attribC = vgui.Create("DNumberWang", scroll)
 			attribC.attrib = k
 			attribC:SetDecimals(2)
 			attribC:Dock(TOP)

@@ -178,7 +178,7 @@ function ITEM:getDesc(partial)
 		end
 	end
 	
-	return Format(desc)
+	return desc
 end
 
 function ITEM:getName()
@@ -189,7 +189,7 @@ function ITEM:getName()
 		name = customData.name
 	end
 	
-	return Format(name)
+	return name
 end
 
 function ITEM:onGetDropModel()

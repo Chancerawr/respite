@@ -518,6 +518,27 @@ nut.command.add("doorunlock", {
 	end
 })
 
+nut.command.add("doorsetdesc", {
+	adminOnly = true,
+	syntax = "[string desc]",
+	onRun = function(client, arguments)
+		-- Get the door the player is looking at.
+		local entity = client:GetEyeTrace().Entity
+
+		-- Validate it is a door.
+		if (IsValid(entity) and entity:isDoor()) then
+			entity:setNetVar("desc", arguments[1])
+
+			client:notify("Door description updated.")
+			
+			PLUGIN:SaveDoorData()
+		else
+			-- Tell the player the door isn't valid.
+			client:notifyLocalized("dNotValid")
+		end
+	end
+})
+
 nut.command.add("doorsethiddenall", {
 	adminOnly = true,
 	syntax = "<bool hidden>",
@@ -533,9 +554,9 @@ nut.command.add("doorsethiddenall", {
 				PLUGIN:callOnDoorChildren(v, function(child)
 					child:setNetVar("hidden", hidden)
 				end)
-
 			end
 		end
+		
 		client:notifyLocalized("dSet"..(hidden and "" or "Not").."HiddenAll")
 		PLUGIN:SaveDoorData()
 	end

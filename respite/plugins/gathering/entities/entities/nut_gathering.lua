@@ -41,7 +41,7 @@ if (SERVER) then
 	end
 
 	function ENT:Use(activator)
-		if(self.isPlant) then
+		if(self.plant) then
 			local oldPos = activator:GetPos()
 			activator:setAction("Gathering...", 2.5, function()
 				if(activator:GetPos():Distance(oldPos) > 500) then
@@ -52,14 +52,18 @@ if (SERVER) then
 				local char = activator:getChar()
 				local inventory = char:getInv()
 				
-				local gather = self.resources[math.random(#self.resources)]
-				
-				inventory:addSmart(gather, 1, self:GetPos())
+				if(self.resources) then
+					local gather = self.resources[math.random(#self.resources)]
+					
+					inventory:addSmart(gather, 1, self:GetPos())
+				end
 
-				activator:notify(nut.item.list[gather].name.. " gathered.")
+				--activator:notify(nut.item.list[gather].name.. " gathered.")
 				
-				self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
-				if(self:Health() == 0) then
+				self:EmitSound("physics/metal/weapon_impact_soft" ..math.random(1,3).. ".wav", 65, 125)
+				
+				self.gathers = (self.gathers or 1) - 1
+				if(self.gathers < 1) then
 					self:Remove()
 				end
 			end)
@@ -67,7 +71,7 @@ if (SERVER) then
 	end
 	
 	function ENT:OnTakeDamage( dmginfo )
-		if(!self.isPlant) then
+		if(!self.plant) then
 			if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST) and dmginfo:GetDamage() > 10) then
 				local gather = self.resources[math.random(#self.resources)]
 			

@@ -98,21 +98,26 @@ nut.command.add("charselectbodygroup", {
 	syntax = "<string bodyGroup> [number value]",
 	onRun = function(client, arguments)
 		local value = tonumber(arguments[2])
-		local target = client
-
-		if (IsValid(target) and target:getChar()) then
-			local index = target:FindBodygroupByName(arguments[1])
+		
+		if(!arguments[1]) then
+			client:notify("No bodygroup specified.")
+			return false
+		end
+		
+		if (IsValid(client) and client:getChar()) then
+			local index = client:FindBodygroupByName(arguments[1])
 
 			if (index > -1) then
 				if (value and value < 1) then
 					value = nil
 				end
 
-				local groups = target:getChar():getData("groups", {})
-					groups[index] = value
-				target:getChar():setData("groups", groups)
-				target:SetBodygroup(index, value or 0)
+				local groups = client:getChar():getData("groups", {})
+				groups[index] = value
+				client:getChar():setData("groups", groups)
+				client:SetBodygroup(index, value or 0)
 
+				client:notify("Bodygroup changed successfully")
 				--nut.util.notifyLocalized("cChangeGroups", nil, client:Name(), target:Name(), arguments[2], value or 0)
 			else
 				return "@invalidArg", 2
@@ -224,6 +229,20 @@ nut.command.add("chargetmodel", {
 	end
 })
 
+nut.command.add("chargetmoney", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			local char = target:getChar()
+			client:notify(char:getMoney())
+		else
+			client:notify("Invalid Target")
+		end
+	end
+})
+
 -- Roll information in chat.
 nut.chat.register("flip", {
 	format = "%s flipped a coin and it landed on %s.",
@@ -291,13 +310,13 @@ nut.command.add("rolld", {
 nut.command.add("forums", {
     syntax = "<No Input>",
 	onRun = function(client, arguments)
-	 client:SendLua([[gui.OpenURL("http://spite.boards.net/")]])
+		client:SendLua([[gui.OpenURL("http://2119rp.boards.net/")]])
 	end
 })
 
 nut.command.add("content", {
     syntax = "<No Input>",
 	onRun = function(client, arguments)
-	client:SendLua([[gui.OpenURL("http://steamcommunity.com/sharedfiles/filedetails/?id=773495550")]])
+		client:SendLua([[gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=814760758")]])
 	end
 })

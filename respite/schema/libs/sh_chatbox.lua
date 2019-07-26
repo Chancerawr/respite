@@ -383,17 +383,19 @@ do
 				
 				if (speaker:getChar():hasFlags("u")) then --ooc banning
 					return false
-				end	
+				end
 
-				-- Only need to check the time if they have spoken in OOC chat before.
-				if (delay > 0 and speaker.nutLastOOC) then
-					local lastOOC = CurTime() - speaker.nutLastOOC
+				if(!speaker:IsAdmin()) then
+					-- Only need to check the time if they have spoken in OOC chat before.
+					if (delay > 0 and speaker.nutLastOOC) then
+						local lastOOC = CurTime() - speaker.nutLastOOC
 
-					-- Use this method of checking time in case the oocDelay config changes.
-					if (lastOOC <= delay) then
-						speaker:notifyLocalized("oocDelay", delay - math.ceil(lastOOC))
+						-- Use this method of checking time in case the oocDelay config changes.
+						if (lastOOC <= delay) then
+							speaker:notifyLocalized("oocDelay", delay - math.ceil(lastOOC))
 
-						return false
+							return false
+						end
 					end
 				end
 

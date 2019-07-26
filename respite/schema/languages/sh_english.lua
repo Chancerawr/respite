@@ -12,4 +12,6 @@ LANGUAGE = {
 	wakingUp = "You are getting up...",
 	unknown = "You don't recognize this person.",
 	itemCreated = "%s successfully created.",
+	moneyGiven = "You have lost %s.",
+	moneyTaken = "You have gained %s."
 }

@@ -222,6 +222,8 @@ local function rollHandle(client, command, noPrint)
 			roll = roll * crit
 		end
 		
+		roll = math.Round(roll, 4)
+		
 		if(!noPrint) then
 			if(!comTable.print) then	
 				--detects the currently held weapon and (hopefully) the item it's associated with
@@ -274,9 +276,9 @@ function CMBT:Register( tbl )
 			end
 		
 			local entity = client:GetEyeTrace().Entity
-			if (IsValid(entity) and entity.combat and tbl.category != "react") then
+			if (IsValid(entity) and entity.combat and tbl.category != "react" and tbl.category != "resist") then
 				local rollA = rollHandle(client, tbl.uid, true)
-				entity:reaction(client, rollA, tbl.uid, tbl.attackString, true)
+				entity:reaction(client, rollA, tbl.category, tbl.attackString, tbl.parts)
 			else
 				rollHandle(client, tbl.uid)
 			end

@@ -102,8 +102,7 @@ if (CLIENT) then
 		end
 
 		-- Get the inventory for the player and storage.
-		local localInv =
-			LocalPlayer():getChar() and LocalPlayer():getChar():getInv()
+		local localInv = LocalPlayer():getChar() and LocalPlayer():getChar():getInv()
 		local storageInv = storage:getInv()
 		if (not localInv or not storageInv) then
 			return nutStorageBase:exitStorage()

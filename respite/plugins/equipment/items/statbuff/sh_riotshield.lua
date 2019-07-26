@@ -5,7 +5,7 @@ ITEM.desc = "A lightweight protection device deployed by police and some militar
 ITEM.flag = "j"
 ITEM.width = 2
 ITEM.height = 3
-ITEM.buffCategory = "shield"
+ITEM.buffCategory = "Shield"
 
 ITEM.salvItem = {
 	["j_scrap_plastics"] = 8

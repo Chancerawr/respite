@@ -186,7 +186,7 @@ else
 		w = math.max(w, nameObj:getWidth() + 14)
 		
 		fullObj = nut.markup.parse(text, w)
-		local h = fullObj:getHeight() * 1.19
+		local h = fullObj:getHeight() + nameObj:getHeight() * 0.5
 	
 		surface.SetDrawColor(40, 50, 55, alpha * 0.97)
 		surface.DrawRect(x - w/2, y - 14, w, h)

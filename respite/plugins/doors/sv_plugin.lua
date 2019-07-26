@@ -89,6 +89,8 @@ function PLUGIN:LoadData()
 							break
 						end
 					end
+				elseif(k2 == "desc") then
+					entity:setNetVar("desc", v2)
 				else
 					entity:setNetVar(k2, v2)
 				end
@@ -135,6 +137,10 @@ function PLUGIN:SaveDoorData()
 
 			if (v.nutFactionID) then
 				doorData.faction = v.nutFactionID
+			end
+			
+			if(v:getNetVar("desc")) then
+				doorData.desc = v:getNetVar("desc")
 			end
 
 			-- Add the door to the door information.

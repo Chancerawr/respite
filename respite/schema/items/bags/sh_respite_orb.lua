@@ -12,6 +12,7 @@ ITEM.invWidth = 3
 ITEM.invHeight = 3
 ITEM.color = Color(64, 128, 128)
 ITEM.openTime = 0.5
+
 ITEM.isBag = true
 
 local otherBags = {
@@ -65,6 +66,34 @@ local function requiredItems(inventory, item, required)
 	return true
 end
 
+local function requiredTime(client, item, mult)
+	local baseTime = 7200
+	local units = item:getData("units", {})
+	local unitCount = table.Count(units)
+	
+	local timeRequired = ((baseTime / (unitCount or 1)) + 600) * mult
+	
+	return math.Round(timeRequired)
+end
+
+local function displayCosts(client, required)
+	for k, v in pairs(required) do
+		if(k == "units" or k == "workers" or k == "fighters") then
+			client:notify(k.. ": " ..v.. ".")
+		elseif(k == "resources") then
+			for res, amt in pairs(v) do
+				--local fancyName = (nut.item.list[res] and nut.item.list[res].name) or "Invalid Resource"
+				client:notify(res.. " " ..amt.. ".")
+			end
+		elseif(k == "items") then
+			for res, amt in pairs(v) do
+				local fancyName = (nut.item.list[res] and nut.item.list[res].name) or "Invalid Item"
+				client:notify(fancyName.. " " ..amt.. ".")
+			end
+		end
+	end
+end
+
 --table for creating things
 ITEM.funcTableC = {
 	["wood"] = {
@@ -74,7 +103,7 @@ ITEM.funcTableC = {
 		end,
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
-		prodTime = 1,
+		prodMult = 1, --time
 		results = {
 			items = {
 				["j_scrap_wood"] = 1
@@ -91,10 +120,10 @@ ITEM.funcTableC = {
 		end,
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
-		prodTime = 1,
+		prodMult = 1,
 		results = {
 			items = {
-				["j_scrap_wood"] = 1
+				["j_scrap_concrete"] = 1
 			}
 		},
 		dev = {
@@ -108,7 +137,7 @@ ITEM.funcTableC = {
 		end,
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
-		prodTime = 1,
+		prodMult = 1,
 		results = {
 			items = {
 				["food_fish_plastic"] = 1
@@ -125,7 +154,7 @@ ITEM.funcTableC = {
 		end,
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
-		prodTime = 1,
+		prodMult = 1,
 		results = {
 			items = {
 				["food_water_misc"] = 1
@@ -140,23 +169,51 @@ ITEM.funcTableC = {
 		sound = function(client)
 			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
 		end,
-		startString = "You begin to imagine a humanoid figure in your mind.",
+		startString = "You begin to imagine a humanoid figure in your mind, he carries a tool.",
 		endString = "You completely visualize a humanoid plastic.",
-		prodTime = 1,
+		prodMult = 1,
 		required = {
 			resources = {
 				["plas"] = 100,
 				["chip"] = 25,
+				["j_scrap_memory"] = 1,
 			},
 		},
 		results = {
 			func = function(item)
-				local units = item:getData("units", 0)
-				item:setData("units", units + 1)
+				local units = item:getData("units", {})
+				units.w = units.w + 1
+				item:setData("units", units)
 			end,
 		},
 		dev = {
 			["b1"] = true,
+		}
+	},
+	["plas2"] = {
+		name = "Create Plastic (Fighter)",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		startString = "You begin to imagine a humanoid figure in your mind, he carries a weapon.",
+		endString = "You completely visualize a humanoid plastic.",
+		prodMult = 1,
+		required = {
+			resources = {
+				["plas"] = 100,
+				["chip"] = 25,
+				["j_scrap_memory"] = 3,
+			},
+		},
+		results = {
+			func = function(item)
+				local units = item:getData("units", {})
+				units.f = units.f + 1
+				item:setData("units", units)
+			end,
+		},
+		dev = {
+			["b2"] = true,
 		}
 	},
 }
@@ -170,7 +227,7 @@ ITEM.funcTableD = {
 		end,
 		startString = "Images of a sprawling forest spread throughout your mind, they are blurry and incomplete.",
 		endString = "You can clearly imagine a small forest with dozens of trees and shrubbery.",
-		prodTime = 1,
+		prodMult = 1,
 		required = {
 			units = 1,
 		
@@ -178,6 +235,9 @@ ITEM.funcTableD = {
 				["mem"] = 10,
 			}
 		},
+		dev = {
+			["b1"] = true,
+		}		
 	},
 	["s"] = {
 		name = "Stream",
@@ -186,7 +246,7 @@ ITEM.funcTableD = {
 		end,
 		startString = "Images of a calm stream flow through your mind, they are blurry and incomplete.",
 		endString = "You can clearly imagine a small stream filled with clear water and plastic fish.",
-		prodTime = 1,
+		prodMult = 1,
 		required = {
 			units = 1,
 		
@@ -194,6 +254,9 @@ ITEM.funcTableD = {
 				["mem"] = 20,
 			}
 		},
+		dev = {
+			["b1"] = true,
+		}		
 	},
 	["r"] = {
 		name = "Ruins",
@@ -202,7 +265,7 @@ ITEM.funcTableD = {
 		end,
 		startString = "Images of a ancient ruined buildings solidify themselves in your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a set of ruined concrete buildings in your mind.",
-		prodTime = 1,
+		prodMult = 1,
 		required = {
 			units = 1,
 		
@@ -210,6 +273,9 @@ ITEM.funcTableD = {
 				["mem"] = 20,
 			}
 		},
+		dev = {
+			["b1"] = true,
+		}
 	},
 	["b1"] = {
 		name = "Housing",
@@ -218,12 +284,29 @@ ITEM.funcTableD = {
 		end,
 		startString = "Images of wooden homes fill your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a small village of wooden houses.",
-		prodTime = 1,
+		prodMult = 1.2,
 		required = {
 			resources = {
 				["mem"] = 25,
 			}
+		},		
+	},
+	["b2"] = {
+		name = "Barracks",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		startString = "Images of a wooden barracks fill your mind, they are blurry and hard to focus on.",
+		endString = "You can clearly imagine a large wooden barracks.",
+		prodMult = 1.5,
+		required = {
+			resources = {
+				["mem"] = 40,
+			}
 		},
+		dev = {
+			["b1"] = true,
+		}		
 	},
 }
 
@@ -329,9 +412,34 @@ ITEM.functions.Gather = {
 		local reqTbl = dataTbl.required
 		if(reqTbl) then
 			if(reqTbl.units) then
-				local units = item:getData("units", 0)
-				if(units < reqTbl.units) then
-					client:notify("You do not have the required man-power")
+				local units = item:getData("units", {})
+				
+				local unitCount = table.Count(units)
+				
+				if(unitCount < reqTbl.units) then
+					client:notify("You do not have the required man-power.")
+					return false
+				end
+			end
+			
+			if(reqTbl.workers) then
+				local units = item:getData("units", {})
+				
+				local unitCount = units.w
+				
+				if(unitCount < reqTbl.workers) then
+					client:notify("You do not have the required workers.")
+					return false
+				end
+			end
+			
+			if(reqTbl.fighters) then
+				local units = item:getData("units", {})
+				
+				local unitCount = units.f
+				
+				if(unitCount < reqTbl.fighters) then
+					client:notify("You do not have the required fighters.")
 					return false
 				end
 			end
@@ -360,8 +468,9 @@ ITEM.functions.Gather = {
 				end
 				
 				if(success) then
-					if(dataTbl.prodTime) then
-						timer.Simple(dataTbl.prodTime, function()
+					if(dataTbl.prodMult) then
+						local prodTime = requiredTime(client, item, dataTbl.prodMult)
+						timer.Simple(prodTime, function()
 							item:setData("abs", absorbed)
 						end)
 					else
@@ -375,12 +484,15 @@ ITEM.functions.Gather = {
 			nut.chat.send(client, "itclose", "[RESPITE]: " ..dataTbl.startString)
 		end
 	
-		if(dataTbl.prodTime) then
+		if(dataTbl.prodMult) then
+			local prodTime = requiredTime(client, item, dataTbl.prodMult)
+		
 			item:setData("producing", CurTime())
-			item:setData("prodTime", dataTbl.prodTime)
+			item:setData("prodTime", prodTime)
 			
-			timer.Simple(dataTbl.prodTime, function()
+			timer.Simple(prodTime, function()
 				item:setData("producing", nil)
+				item:setData("prodTime", nil)
 			
 				local results = dataTbl.results
 				if(results) then
@@ -436,12 +548,24 @@ ITEM.functions.Dev = {
 			if(dev[k]) then --can't develop the same thing twice
 				continue
 			end
-		
-			local newAbs = {
-				name = v.name,
-				data = k
-			}
-			table.insert(targets, newAbs)
+			
+			if(v.dev) then
+				for reqDev, _ in pairs(v.dev) do
+					if(dev[reqDev]) then --only adds to the list if the appropriate development exists.
+						local newAbs = {
+							name = v.name,
+							data = k
+						}
+						table.insert(targets, newAbs)
+					end
+				end
+			else --if we don't need developments we just put it in
+				local newAbs = {
+					name = v.name,
+					data = k
+				}
+				table.insert(targets, newAbs)
+			end
 		end
 		
 		return targets
@@ -457,10 +581,37 @@ ITEM.functions.Dev = {
 		
 		local reqTbl = dataTbl.required
 		if(reqTbl) then
+			displayCosts(client, reqTbl)
+			
 			if(reqTbl.units) then
-				local units = item:getData("units", 0)
-				if(units < reqTbl.units) then
-					client:notify("You do not have the required man-power")
+				local units = item:getData("units", {})
+				
+				local unitCount = table.Count(units)
+				
+				if(unitCount < reqTbl.units) then
+					client:notify("You do not have the required man-power.")
+					return false
+				end
+			end
+			
+			if(reqTbl.workers) then
+				local units = item:getData("units", {})
+				
+				local unitCount = units.w
+				
+				if(unitCount < reqTbl.workers) then
+					client:notify("You do not have the required workers.")
+					return false
+				end
+			end
+			
+			if(reqTbl.fighters) then
+				local units = item:getData("units", {})
+				
+				local unitCount = units.f
+				
+				if(unitCount < reqTbl.fighters) then
+					client:notify("You do not have the required fighters.")
 					return false
 				end
 			end
@@ -489,8 +640,10 @@ ITEM.functions.Dev = {
 				end
 				
 				if(success) then
-					if(dataTbl.prodTime) then
-						timer.Simple(dataTbl.prodTime, function()
+					if(dataTbl.prodMult) then
+						local prodTime = requiredTime(client, item, dataTbl.prodMult)
+					
+						timer.Simple(prodTime, function()
 							item:setData("abs", absorbed)
 						end)
 					else
@@ -504,12 +657,15 @@ ITEM.functions.Dev = {
 			nut.chat.send(client, "itclose", "[RESPITE]: " ..dataTbl.startString)
 		end		
 		
-		if(dataTbl.prodTime) then
+		if(dataTbl.prodMult) then
+			local prodTime = requiredTime(client, item, dataTbl.prodMult)
+		
 			item:setData("producing", CurTime())
-			item:setData("prodTime", dataTbl.prodTime)
+			item:setData("prodTime", prodTime)
 
-			timer.Simple(dataTbl.prodTime, function()
+			timer.Simple(prodTime, function()
 				item:setData("producing", nil)
+				item:setData("prodTime", nil)
 				
 				if(dataTbl.sound) then
 					dataTbl.sound(client)
@@ -652,6 +808,7 @@ ITEM.functions.View = {
 				if (IsValid(panel)) then
 					panel:ShowCloseButton(true)
 					panel:SetTitle(item:getName())
+					panel:MoveRightOf(parent, 4)
 				end
 			else
 				local itemID = item:getID()
@@ -737,15 +894,20 @@ function ITEM:getDesc()
 		end
 	end
 	
-	if(units) then
-		str = str.. "\n\n Units:" ..units
+	if(units and istable(units)) then
+		str = str.."\n\n"
+		if(units.w) then
+			str = str.. " Workers:" ..units.w
+		end
+		
+		str = str.."\n"
+		
+		if(units.f) then
+			str = str.. " Fighters:" ..units.f
+		end
 	end
 	
 	return Format(str)
-end
-
-function ITEM:getInv()
-	return nut.inventory.instances[self:getData("id")]
 end
 
 ITEM.iconCam = {

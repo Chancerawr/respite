@@ -96,7 +96,9 @@ local PANEL = {}
 				end
 				
 				if(k == FACTION_HIDDEN) then
-					v:SetVisible(false)
+					if(!LocalPlayer():IsAdmin()) then
+						v:SetVisible(false)
+					end
 				end
 			end
 
@@ -144,6 +146,10 @@ local PANEL = {}
 		slot.model:SetTooltip(L("sbOptions", client:steamName()))
 
 		timer.Simple(0, function()
+			if(!IsValid(client)) then
+				return
+			end
+			
 			if (!IsValid(slot)) then
 				return
 			end

@@ -1,7 +1,7 @@
 ITEM.name = "Tier 2 Vest"
 ITEM.desc = "An upgrade to the Tier 2A Vest that isn't so much innovative as it is adaptive. On top of the 2A's offerings, the second tier now boasts protection against .357 Magnum and overpressure cartridges of 9MM."
 ITEM.model = "models/tnb/items/shirt_rebel_molle.mdl"
-ITEM.buffCategory = "chest"
+ITEM.buffCategory = "Chest"
 ITEM.flag = "j"
 
 ITEM.salvItem = {

@@ -2,7 +2,7 @@ ITEM.name = "Swift Gnome"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "A fast looking gnome."
 ITEM.uniqueID = "gnome_swift"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 
 ITEM.attribBoosts = {
 	["stm"] = 3,

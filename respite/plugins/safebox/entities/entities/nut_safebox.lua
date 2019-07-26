@@ -33,7 +33,7 @@ if (SERVER) then
 			character:setData("safebox", inventory:getID())
 		end)
 		
-		timer.Simple(1, function()
+		timer.Simple(0.2, function()
 			self:OpenInv(activator)
 		end)
   	end
@@ -58,10 +58,10 @@ if (SERVER) then
 			else
 				nut.inventory.loadByID(index)
 			end
-			
-			timer.Simple(1, function()
+
+			timer.Simple(0.2, function()
 				self:OpenInv(activator)
-			end)			
+			end)
 		else
 			self:CreateInv(activator)
 		end
@@ -101,6 +101,7 @@ if (SERVER) then
 		assert(inventory, "Storage setInventory called without an inventory!")
 		self:setNetVar("id", inventory:getID())
 
+		hook.Run("SafeBoxAccessRules", inventory)
 		hook.Run("StorageInventorySet", self, inventory)
 	end
 else
@@ -168,4 +169,12 @@ else
 	
 		drawText("A box that is larger on the inside than it is on the outside.", x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
 	end
+end
+
+local function CanNotUse(inventory, action, context)
+	if (action != "transfer" and action != "repl") then return false end
+end
+
+function PLUGIN:SafeBoxAccessRules(inventory)
+	inventory:addAccessRule(CanNotUse)
 end

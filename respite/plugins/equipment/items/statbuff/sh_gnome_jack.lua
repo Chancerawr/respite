@@ -2,7 +2,7 @@ ITEM.name = "Jack Gnome"
 ITEM.model = "models/props_junk/gnome.mdl"
 ITEM.desc = "A gnome that looks about average."
 ITEM.uniqueID = "gnome_jack"
-ITEM.buffCategory = "gnome"
+ITEM.buffCategory = "Gnome"
 
 ITEM.attribBoosts = {
 	["str"] = 1,

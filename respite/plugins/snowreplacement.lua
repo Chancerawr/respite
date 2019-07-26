@@ -93,11 +93,11 @@ end
 
 local function LoadMapData()
 	if file.Exists("stormfox/" .. game.GetMap() .. ".txt","data") then
-		print("[StormFox]: Loading cached texmap...")
+		--print("[StormFox]: Loading cached texmap...")
 		local materials = util.JSONToTable(file.Read("stormfox/" .. game.GetMap() .. ".txt","DATA"))
 		_STORMFOX_ORIGNALTEX = ScanMapTextures(materials)
 	else
-		print("[StormFox]: Generating texmap (Might take a bit)...")
+		--print("[StormFox]: Generating texmap (Might take a bit)...")
 		
 		local str = file.Read("maps/" .. game.GetMap() .. ".bsp","GAME")
 		local materials = {}
@@ -123,9 +123,9 @@ local function LoadMapData()
 		LoadTexts(materials)
 		
 		_STORMFOX_ORIGNALTEX = ScanMapTextures(materials)
-		print("[StormFox]: Saving texmap cache.")
+		--print("[StormFox]: Saving texmap cache.")
 	end
-	print("[StormFox]: Texmap loaded (" .. table.Count(_STORMFOX_ORIGNALTEX) .. ").")
+	--print("[StormFox]: Texmap loaded (" .. table.Count(_STORMFOX_ORIGNALTEX) .. ").")
 end
 hook.Add("InitPostEntity","StormFox - MaterialLoader",timer.Simple(2,LoadMapData))
 if #player.GetAll() > 0 then timer.Simple(2,LoadMapData) end

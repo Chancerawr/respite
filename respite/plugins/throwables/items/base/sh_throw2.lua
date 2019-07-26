@@ -18,7 +18,6 @@ quality[8] = "Excellent"
 quality[9] = "Master"
 quality[10] = "Perfect"
 
-ITEM.functions = ITEM.functions or {}
 ITEM.functions.Equip = {
 	name = "Equip",
 	tip = "equipTip",
@@ -27,18 +26,19 @@ ITEM.functions.Equip = {
 		local client = item.player
 		
 		if (client:HasWeapon(item.class)) then
-			client:notifyLocalized("You're already holding this grenade!") return false
+			client:notify("You're already holding this grenade!") return false
 		end
 
 		local weapon = client:Give(item.class)
 
 		if (IsValid(weapon)) then
 			client:SelectWeapon(weapon:GetClass())
-			client:SetActiveWeapon(weapon)
 			client:EmitSound("items/ammo_pickup.wav", 80)
+			weapon:SetClip1(1)
 		else
 			print(Format("[Nutscript] Weapon %s does not exist!", item.class))
 		end
+		
 		return true
 	end,
 	onCanRun = function(item)

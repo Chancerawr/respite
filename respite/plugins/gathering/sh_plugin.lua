@@ -40,36 +40,21 @@ nut.config.add("rockLife", 100, "How much life the rocks will have.", nil, {
 })
 
 local gatherItems = {
-	["crystal"] = {
-		["default"] = {
-
-		}
-	},
-	["tree"] = {
-		["default"] = {
-		
-		}
-	},	
-	["tree_dark"] = {
-		["default"] = {
-		
-		}
-	},
-	["car"] = {
-		["default"] = {
-		
-		}
-	},
-	["memory"] = {
-		["default"] = {
-		
-		}
-	},
-	["concrete"] = {
-		["default"] = {
-		
-		}
-	}
+	["crystal"] = true,
+	["tree"] = true,
+	["tree_dark"] = true,
+	["car"] = true,
+	["memory"] = true,
+	["concrete"] = true,
+	
+	["plant_berry"] = true,
+	["plant_blight"] = true,
+	["plant_blood"] = true,
+	["plant_ichor"] = true,
+	["plant_mem"] = true,
+	["plant_mushroom"] = true,
+	["plant_searing"] = true,
+	["plant_purple"] = true
 }
 
 if SERVER then
@@ -92,55 +77,54 @@ if SERVER then
 
 	local gatherSpawnTime = CurTime()
 	function PLUGIN:Think()
-
 		if nut.config.get("gathering") then
 			self:removeInvalidGathers()
 			if (#self.spawnedGathers <= nut.config.get("gMaxWorldGather")) then
-				if gatherSpawnTime <= CurTime() then
-						local point = table.Random(self.gatherPoints)
-						
-						if (!point) then return end
+				if (gatherSpawnTime <= CurTime()) then
+					local point = table.Random(self.gatherPoints)
+					
+					if (!point) then return end
 
-						for _, v in pairs(self.spawnedGathers) do
-							if point == v[2] then 
-								gatherSpawnTime = gatherSpawnTime + nut.config.get("gatheringSpawn")
-								return 
-							end
+					for _, v in pairs(self.spawnedGathers) do
+						if point == v[2] then 
+							gatherSpawnTime = gatherSpawnTime + nut.config.get("gatheringSpawn")
+							return 
 						end
+					end
 
-						if #self.spawnedGathers >= nut.config.get("gMaxWorldGather") then return end
-						
-						self:setGathering(point)
+					if #self.spawnedGathers >= nut.config.get("gMaxWorldGather") then return end
+					
+					self:setGathering(point)
+					
 					gatherSpawnTime = gatherSpawnTime + nut.config.get("gatheringSpawn")
 				end
 			end
 		end
 	end
 
-	local function getRandomModel()
-		local trees = {
-			"models/props_foliage/tree_poplar_01.mdl",
-			"models/props_foliage/tree_springers_01a-lod.mdl",
-			"models/props_foliage/tree_springers_01a.mdl",
-			"models/props_foliage/tree_deciduous_03b.mdl",
-			"models/props_foliage/tree_deciduous_03a.mdl",
-			"models/props_foliage/tree_deciduous_02a.mdl",
-			"models/props_foliage/tree_deciduous_01a.mdl",
-			"models/props_foliage/tree_deciduous_01a-lod.mdl",
-			"models/props_foliage/tree_cliff_01a.mdl",
-		}
-		local random = math.random(1,table.getn(trees))
-		return trees[random]
-	end
-
 	function PLUGIN:setGathering(point)
-		local entity = ents.Create("nut_"..point[2])
-		entity:SetPos(point[1])
-		entity:setNetVar("resTable", point[3])
-		entity:SetAngles(entity:GetAngles())
+		if(!istable(point[2])) then
+			local entity = ents.Create("nut_"..point[2])
+			
+			if(IsValid(entity)) then
+				entity:SetPos(point[1])
 
-		entity:Spawn()
-		table.insert(self.spawnedGathers, {entity, point})
+				entity:Spawn()
+				table.insert(self.spawnedGathers, {entity, point})
+			else
+				table.RemoveByValue(self.gatherPoints, point)
+			end
+		else
+			local entity = ents.Create("nut_"..table.Random(point[2]))
+			if(IsValid(entity)) then
+				entity:SetPos(point[1])
+				entity:Spawn()
+				
+				table.insert(self.spawnedGathers, {entity, point})
+			else
+				table.RemoveByValue(self.gatherPoints, point)
+			end
+		end
 	end
 
 	function PLUGIN:removeInvalidGathers()
@@ -150,38 +134,6 @@ if SERVER then
 			end
 		end
 	end
-end
-
-local function give(client, item)
-	local given = false
-	given = client:getChar():getInv():add(item.uniqueID)
-	return given
-end
-
-local function getGatheredItem(client, ent)
-	local randomZ = math.Rand(0,100)
-	local localProb = 0
-	for k, v in pairs(gatherItems[string.sub(ent:GetClass(), 5)]) do
-		if k == ent:getNetVar("resTable") then
-			for k2,v2 in pairs(v) do
-				-- randomZ must be between localProb and the sum of the localProb and the probability of each good
-				if localProb <= randomZ and (v2+localProb) > randomZ then
-					return k2
-				end
-				localProb = localProb + v2
-			end
-		end
-	end
-	return nil
-end
-
-local function getItemEntity(item)
-	for k, v in SortedPairs(nut.item.list) do
-		if (item == v.uniqueID) then
-			return v
-		end
-	end
-	return nil
 end
 
 netstream.Hook("nut_displayGatherSpawnPoints", function(data)
@@ -201,25 +153,49 @@ end)
 
 nut.command.add("gatherspawnadd", {
 	adminOnly = true,
-	syntax = "<string entity> <string table>",
+	syntax = "<string entity>",
 	onRun = function(client, arguments)
 		if (!arguments[1]) then
 			return "@lc_noEntity"
 		end
-		if (!arguments[2]) then
-			return "@lc_noTable"
+
+		if(gatherItems[arguments[1]]) then
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + Vector(trace.HitNormal*5)
+			
+			table.insert(PLUGIN.gatherPoints, {hitpos, arguments[1]})
+			PLUGIN:setGathering(PLUGIN.gatherPoints[#PLUGIN.gatherPoints])
+			
+			client:notifyLocalized("lc_gatherSpawn")
 		else
-			for k, v in pairs(gatherItems[arguments[1]]) do
-				if k == arguments[2] then
-					local trace = client:GetEyeTraceNoCursor()
-					local hitpos = trace.HitPos + Vector(trace.HitNormal*5)
-					table.insert(PLUGIN.gatherPoints, {hitpos, arguments[1], arguments[2]})
-					PLUGIN:setGathering(PLUGIN.gatherPoints[#PLUGIN.gatherPoints])
-					client:notifyLocalized("lc_gatherSpawn")
-				else
-					client:notifyLocalized("lc_noTableName")
-				end
+			client:notify("Invalid entity.")
+		end
+	end
+})
+
+nut.command.add("gatherspawnaddgroup", {
+	adminOnly = true,
+	syntax = "<string entities>",
+	onRun = function(client, arguments)
+		if (!arguments[1]) then
+			return "@lc_noEntity"
+		end
+
+		local group = {}
+		for k, v in pairs(arguments) do
+			if(gatherItems[v]) then
+				table.insert(group, v)
 			end
+		end
+		
+		if(gatherItems[arguments[1]] and #group > 0) then
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + Vector(trace.HitNormal*5)
+			
+			table.insert(PLUGIN.gatherPoints, {hitpos, group})
+			PLUGIN:setGathering(PLUGIN.gatherPoints[#PLUGIN.gatherPoints])
+			
+			client:notifyLocalized("Gather group successfully added.")
 		end
 	end
 })
@@ -252,3 +228,28 @@ nut.command.add("gatherspawndisplay", {
 		end
 	end
 })
+
+--default models that can work for plants (hl2 & css)
+--[[
+Gathering - plants
+	models/props/cs_office/plant01_p1.mdl
+
+	models/props/de_inferno/fountain_bowl_p6.mdl
+	models/props/de_inferno/fountain_bowl_p7.mdl
+	models/props/de_inferno/fountain_bowl_p8.mdl
+	models/props/de_inferno/fountain_bowl_p9.mdl
+	models/props/de_inferno/fountain_bowl_p10.mdl
+
+	models/props/de_inferno/largebush01.mdl
+	models/props/de_inferno/largebush02.mdl
+	models/props/de_inferno/largebush03.mdl
+	models/props/de_inferno/largebush04.mdl
+	models/props/de_inferno/largebush05.mdl
+	models/props/de_inferno/largebush06.mdl
+
+	models/props/de_inferno/potted_plant3_p1.mdl
+	models/props/de_inferno/potted_plant2_p1.mdl
+	models/props/de_inferno/potted_plant1_p1.mdl
+
+	models/props/de_inferno/claypot03_damage_01.mdl
+--]]

@@ -14,6 +14,16 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 		end
 
 		local entity = self:createRagdoll()
+		
+		local function PhysCallback(ent, data) -- Function that will be called whenever collision happends
+			if (data) then
+				if data.Speed > 350 then
+					util.Decal("Blood", data.HitPos + data.HitNormal, data.HitPos - data.HitNormal)
+				end
+			end
+		end
+		entity:AddCallback("PhysicsCollide", PhysCallback) -- Add Callback
+		
 		entity:setNetVar("player", self)
 		entity:CallOnRemove("fixer", function()
 			if (IsValid(self)) then
@@ -44,39 +54,43 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 						timer.Simple(0, function()
 							for k, v in pairs(self:getChar():getInv():getItems()) do
 								if(v:getData("equip", false)) then
-									local custom = v:getData("custom", {})
-									
-									if(custom.wepDmg) then
-										weapon.Primary.Damage = tonumber(custom.wepDmg)
-									end
-									
-									if(custom.wepSpd) then
-										weapon.Primary.RPM = tonumber(custom.wepSpd)
-									end
-									
-									if(custom.wepRec) then
-										weapon.Primary.KickUp = weapon.Primary.KickUp * custom.wepRec
-										weapon.Primary.KickDown = weapon.Primary.KickDown * custom.wepRec
-										weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal * custom.wepRec
-										weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor * custom.wepRec
-									end
-
-									if(custom.wepAcc) then
-										weapon.Primary.Spread = weapon.Primary.Spread * custom.wepAcc
-										weapon.Primary.IronAccuracy = weapon.Primary.IronAccuracy * custom.wepAcc
-									end				
-
-									if(custom.wepMag) then
-										weapon.Primary.ClipSize = tonumber(custom.wepMag)
-									end
-									
-									timer.Simple(1, function()
-										if(nut.plugin.list["customization"]) then
-											nut.plugin.list["customization"]:updateSWEP(self, v)
+									if(weapon and weapon.Primary) then
+										local custom = v:getData("custom", {})
+										
+										if(custom.wepDmg) then
+											weapon.Primary.Damage = tonumber(custom.wepDmg)
 										end
-									end)
+										
+										if(custom.wepSpd) then
+											weapon.Primary.RPM = tonumber(custom.wepSpd)
+										end
+										
+										if(custom.wepRec and weapon.Primary.KickUp) then
+											weapon.Primary.KickUp = weapon.Primary.KickUp * custom.wepRec
+											weapon.Primary.KickDown = weapon.Primary.KickDown * custom.wepRec
+											weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal * custom.wepRec
+											weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor * custom.wepRec
+										end
+
+										if(custom.wepAcc and weapon.Primary.Spread) then
+											weapon.Primary.Spread = weapon.Primary.Spread * custom.wepAcc
+											weapon.Primary.IronAccuracy = weapon.Primary.IronAccuracy * custom.wepAcc
+										end
+
+										if(custom.wepMag) then
+											weapon.Primary.ClipSize = tonumber(custom.wepMag)
+										end
+										
+										timer.Simple(1, function()
+											if(nut.plugin.list["customization"]) then
+												nut.plugin.list["customization"]:updateSWEP(self, v)
+											end
+										end)
+									end
 									
-									self.carryWeapons[v.weaponCategory] = weapon
+									if(v.weaponCategory) then
+										self.carryWeapons[v.weaponCategory] = weapon
+									end
 								end
 							end
 						end)

@@ -43,6 +43,7 @@ nut.command.add("storagelock", {
 				client:notifyLocalized("storPass", password)
 			else
 				ent:setNetVar("locked", nil)
+				ent:setNetVar("owner", nil)
 				ent.password = nil
 				client:notifyLocalized("storPassRmv")
 			end
@@ -96,7 +97,6 @@ nut.command.add("storagedesc", {
 	end
 })
 
-
 nut.command.add("storageadd", {
 	adminOnly = true,
 	syntax = "<string item> <number items>",
@@ -132,5 +132,22 @@ nut.command.add("storageadd", {
 		else
 			client:notify("Look at a storage entity.")
 		end
+	end
+})
+
+nut.command.add("storageunlockall", {
+	adminOnly = true,
+	syntax = "<string item> <number items>",
+	onRun = function(client, arguments)
+		client:requestQuery("Are you sure you want to unlock ALL storage?", "Unlock All", function(text)
+			for k, v in pairs(ents.GetAll("nut_storage")) do
+				v.password = nil
+				v:setNetVar("locked", nil)
+				
+				client:notify("All storage has been unlocked.")
+			end
+			
+			PLUGIN:saveStorage()
+		end)
 	end
 })

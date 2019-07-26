@@ -230,7 +230,7 @@ RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_light"] = 2,
 	["j_scrap_metals"] = 15,
-	["j_scrap_adhesive"] = 3,
+	["j_scrap_adhesive"] = 5,
 	["j_scrap_battery"] = 5,
 	["cube_chip"] = 2
 }
@@ -445,8 +445,8 @@ RECIPE.model = Model( "models/warz/melee/flashlight.mdl" )
 RECIPE.desc = "A flashlight that uses a shard as a power source, rather than a battery."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 6,
-	["j_scrap_adhesive"] = 4,
+	["j_scrap_metals"] = 8,
+	["j_scrap_adhesive"] = 6,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -477,7 +477,7 @@ RECIPE.model = Model( "models/props_junk/garbage_metalcan002a.mdl" )
 RECIPE.desc = "Nails made out of metal."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 2
+	["j_scrap_metals"] = 4
 }
 RECIPE.result = {
 	["j_scrap_nails"] = 1
@@ -493,7 +493,7 @@ RECIPE.desc = "A makeshift shotgun fashioned out of two pipes."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["hl2_m_pipe"] = 2,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_adhesive"] = 6,
 	["j_scrap_screws"] = 2,
 	["cube_chip"] = 5	
 }
@@ -526,7 +526,7 @@ RECIPE.desc = "A hunk of sharpened scrap metal."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_metals"] = 70,
-	["j_scrap_adhesive"] = 15
+	["j_scrap_adhesive"] = 20
 }
 RECIPE.result = {
 	["hl2_m_trapscrap"] = 1
@@ -699,7 +699,7 @@ RECIPE.desc = "Fluids not included."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_plastics"] = 15,
-	["j_scrap_adhesive"] = 2
+	["j_scrap_adhesive"] = 1
 }
 RECIPE.result = {
 	["medical_iv"] = 1
@@ -824,7 +824,7 @@ RECIPE.desc = "A rigid robust high calibre rifle looking to be built by retrofit
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["tfa_cr2ka"] = 1,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_adhesive"] = 4,
 	["j_scrap_rubber"] = 8,
 	["j_scrap_glass"] = 22,
 	["j_scrap_chems"] = 6,
@@ -1091,7 +1091,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
-	["food_potato"] = 2,
+	["food_potato"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -1110,7 +1110,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
-	["food_onion"] = 2,
+	["food_onion"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -1129,7 +1129,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
-	["food_apple"] = 2,
+	["food_apple"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -1148,7 +1148,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
-	["food_orange"] = 2,
+	["food_orange"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -1167,7 +1167,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
-	["food_lemon"] = 2,
+	["food_lemon"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -1186,7 +1186,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,
-	["food_banana"] = 2,
+	["food_banana"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -1206,7 +1206,7 @@ RECIPE.items = {
 	["j_scrap_organic"] = 20,
 	["j_scrap_concrete"] = 5,
 	["food_melon"] = 1,
-	["shard_dust"] = 2
+	["shard_dust"] = 1
 }
 RECIPE.result = {
 	["farm_melon"] = 1
@@ -1225,7 +1225,7 @@ RECIPE.items = {
 	["j_scrap_organic"] = 20,
 	["j_scrap_concrete"] = 5,
 	["food_pumpkin"] = 1,
-	["shard_dust"] = 2
+	["shard_dust"] = 1
 }
 RECIPE.result = {
 	["farm_pumpkin"] = 1
@@ -1431,7 +1431,7 @@ RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_chems"] = 2,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_adhesive"] = 1,
 	["medical_bandages"] = 2,
 	["medical_gauze"] = 1
 }
@@ -1520,7 +1520,7 @@ RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_screws"] = 2,
 	["j_scrap_rubber"] = 8,
-	["j_scrap_adhesive"] = 6,
+	["j_scrap_adhesive"] = 10,
 	["j_scrap_chems"] = 6,
 	["j_scrap_metals"] = 25,
 	["j_scrap_plastics"] = 25,
@@ -1545,7 +1545,7 @@ RECIPE.items = {
 	["j_scrap_screws"] = 5,
 	["j_scrap_rubber"] = 6,
 	["j_scrap_metals"] = 25,
-	["j_scrap_adhesive"] = 5,
+	["j_scrap_adhesive"] = 10,
 	["j_scrap_chems"] = 12,
 	["comp_weapons_cpu_basic"] = 1,
 	["cube_chip"] = 10
@@ -1567,7 +1567,7 @@ RECIPE.items = {
 	["j_scrap_screws"] = 5,
 	["j_scrap_rubber"] = 6,
 	["j_scrap_metals"] = 12,
-	["j_scrap_adhesive"] = 5,
+	["j_scrap_adhesive"] = 10,
 	["j_scrap_chems"] = 12,
 	["comp_weapons_cpu_basic"] = 2,
 	["cube_chip"] = 10
@@ -1608,7 +1608,7 @@ RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_screws"] = 2,
 	["j_scrap_rubber"] = 10,
-	["j_scrap_adhesive"] = 6,
+	["j_scrap_adhesive"] = 10,
 	["j_scrap_chems"] = 8,
 	["j_scrap_metals"] = 22,
 	["j_scrap_plastics"] = 22,
@@ -1670,7 +1670,7 @@ RECIPE.desc = "Semi automatic rifle made from various scrap parts. A true exampl
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_rubber"] = 4,
-	["j_scrap_adhesive"] = 8,
+	["j_scrap_adhesive"] = 12,
 	["j_scrap_chems"] = 14,
 	["j_scrap_wood"] = 14,
 	["comp_reinforced_barrel"] = 2,
@@ -1965,16 +1965,17 @@ RECIPE = {}
 RECIPE.uid = "nut_ammo_sawblade"
 RECIPE.name = "Sawblade"
 RECIPE.category = "Ammunition"
-RECIPE.model = Model( "models/props_junk/sawblade001a.mdl" )
+RECIPE.model = Model("models/props_junk/sawblade001a.mdl")
 RECIPE.desc = "A single, small sawblade."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_metals"] = 12,
+	["j_scrap_metals"] = 10,
 	["cube_chip"] = 1
 }
 RECIPE.result = {
 	["ammo_sawblade"] = 1
 }
+RECIPES:Register( RECIPE )
 //
 RECIPE = {}
 RECIPE.uid = "nut_meat_stew"
@@ -2005,6 +2006,22 @@ RECIPE.items = {
 }
 RECIPE.result = {
 	["food_cheese"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_cheese_wheel"
+RECIPE.name = "Cheese Wheel"
+RECIPE.category = "Food"
+RECIPE.model = Model("models/hunter/plates/plate05x05_rounded.mdl")
+RECIPE.desc = "A large wheel of cheese."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_organic"] = 6,
+	["food_milk_jug"] = 1
+}
+RECIPE.result = {
+	["food_cheese_wheel"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -2127,8 +2144,8 @@ RECIPE.model = Model( "models/props_junk/gascan001a.mdl" )
 RECIPE.desc = "A can of fuel for anything that needs to be fueled."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_chems"] = 10,
-	["cube_chip"] = 2
+	["j_scrap_chems"] = 12,
+	["cube_chip"] = 4
 }
 RECIPE.result = {
 	["j_gas_can"] = 1
@@ -2152,7 +2169,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 25,
 	["j_scrap_glass"] = 8,
 	["j_scrap_elecs"] = 6,
-	["j_scrap_adhesive"] = 6,
+	["j_scrap_adhesive"] = 10,
 	["hl2_m_pipe"] = 3,
 	["cube_chip"] = 8
 }
@@ -2173,7 +2190,7 @@ RECIPE.items = {
 	["comp_reinforced_barrel"] = 4,
 	["j_scrap_chems"] = 40,
 	["j_scrap_rubber"] = 14,
-	["j_scrap_adhesive"] = 8,
+	["j_scrap_adhesive"] = 12,
 	["j_scrap_screws"] = 20,
 	["j_scrap_metals"] = 25,
 	["cube_chip"] = 25
@@ -2213,7 +2230,7 @@ RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_screws"] = 3,
 	["j_scrap_metals"] = 9,
-	["j_scrap_adhesive"] = 3,
+	["j_scrap_adhesive"] = 4,
 	["j_scrap_chems"] = 2,
 	["cube_chip"] = 2
 }
@@ -2445,7 +2462,7 @@ RECIPE.desc = "A makeshift shiv made out of bones."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_bone"] = 15,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_adhesive"] = 1,
 }
 RECIPE.result = {
 	["hl2_m_boneshiv"] = 1
@@ -2461,7 +2478,7 @@ RECIPE.desc = "A makeshift cudgel made out of bones."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_bone"] = 30,
-	["j_scrap_adhesive"] = 3,
+	["j_scrap_adhesive"] = 2,
 	["cube_chip"] = 1,
 }
 RECIPE.result = {
@@ -2760,7 +2777,7 @@ RECIPE = {}
 RECIPE.uid = "nut_briefcase"
 RECIPE.name = "Briefcase"
 RECIPE.category = "Storage"
-RECIPE.model = Model( "models/props_c17/briefcase001a.mdl" )
+RECIPE.model = Model("models/props_c17/briefcase001a.mdl")
 RECIPE.desc = "A makeshift carrying bag, it's not too big."
 RECIPE.noBlueprint = true
 RECIPE.items = {
@@ -2772,16 +2789,32 @@ RECIPE.result = {
 RECIPES:Register( RECIPE )
 //
 RECIPE = {}
+RECIPE.uid = "nut_suitcase"
+RECIPE.name = "Suitcase"
+RECIPE.category = "Storage"
+RECIPE.model = Model("models/props_c17/suitcase_passenger_physics.mdl")
+RECIPE.desc = "A small brown suitcase for extra storage."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_cloth"] = 30,
+	["j_scrap_wood"] = 5
+}
+RECIPE.result = {
+	["stor_suitcase"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
 RECIPE.uid = "nut_backpack_enhanced"
 RECIPE.name = "Enhanced Backpack"
 RECIPE.category = "Storage"
-RECIPE.model = Model( "models/warz/alicebackpack.mdl" )
+RECIPE.model = Model("models/warz/alicebackpack.mdl")
 RECIPE.desc = "Light as a feather, no matter what you put into it."
 RECIPE.noBlueprint = true
 RECIPE.items = {
 	["j_scrap_cloth"] = 100,
 	["cube_chip"] = 10,
-	["cube_chip_enhanced"] = 1
+	["cube_chip_enhanced"] = 2
 }
 RECIPE.result = {
 	["pack_enhanced"] = 1
@@ -3198,7 +3231,7 @@ RECIPE.items = {
 	["j_scrap_rubber"] = 20,
 	["j_scrap_chems"] = 6,
 	["j_scrap_plastics"] = 14,
-	["j_scrap_adhesive"] = 4,
+	["j_scrap_adhesive"] = 6,
 	["cube_chip"] = 15,	
 	["comp_firing_mechanism"] = 3
 }
@@ -3319,7 +3352,8 @@ RECIPE.model = Model( "models/props_wasteland/prison_toiletchunk01a.mdl" )
 RECIPE.desc = "A chunk of plastic."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["medical_plastic"] = 1
+	["medical_plastic"] = 1,
+	["food_water_misc"] = 1
 }
 RECIPE.result = {
 	["j_scrap_plastics"] = 1
@@ -3353,7 +3387,7 @@ RECIPE.items = {
 	["j_scrap_plastics"] = 10,
 	["j_scrap_organic"] = 10,
 	["j_scrap_concrete"] = 5,	
-	["j_cactus_plant"] = 2,
+	["j_cactus_plant"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -3669,7 +3703,7 @@ RECIPE.model = Model( "models/props/de_tides/vending_tshirt.mdl" )
 RECIPE.desc = "A simple piece of clothing that covers the upper body."
 RECIPE.noBlueprint = true
 RECIPE.items = {
-	["j_scrap_cloth"] = 6
+	["j_scrap_cloth"] = 9
 }
 RECIPE.result = {
 	["j_tshirts"] = 1
@@ -3914,6 +3948,36 @@ RECIPE.items = {
 }
 RECIPE.result = {
 	["j_syringe"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_paint"
+RECIPE.name = "Paint"
+RECIPE.category = "Refined"
+RECIPE.model = Model("models/props_junk/metal_paintcan001a.mdl")
+RECIPE.desc = "A can filled with paint."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_chems"] = 4
+}
+RECIPE.result = {
+	["j_paint_can"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_storage_lock"
+RECIPE.name = "Intrinsic Lock"
+RECIPE.category = "Storage"
+RECIPE.model = Model("models/props_wasteland/prison_padlock001a.mdl")
+RECIPE.desc = "A one time use lock that can be placed on storage.\nUses a password, and only one storage can be passworded at any one time."
+RECIPE.noBlueprint = true
+RECIPE.items = {
+	["j_scrap_memory"] = 10,
+}
+RECIPE.result = {
+	["storage_lock"] = 1
 }
 RECIPES:Register( RECIPE )
 //

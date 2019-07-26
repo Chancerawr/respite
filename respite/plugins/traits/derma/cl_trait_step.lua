@@ -7,19 +7,16 @@ function PANEL:Init()
 	self.traits:Dock(FILL)
 
 	self.traits:SetDrawBackground(false)
-	--self.traits:SetStretchWidth(true)
-	--self.traits:SetStretchHeight(true)
-	--self.traits:StretchToParent(0, 0, 0, 0)
 end
 
 function PANEL:onDisplay()
 	if(!TRAITS or !TRAITS.traits) then return end
 
 	local oldChildren = self.traits:GetChildren()
-	--self.traits:InvalidateLayout(true)
 	
-	local total = 0
+	local total = total or 0
 	local maximum = nut.config.get("maxTraits", 2) or hook.Run("GetStartTraitPoints", LocalPlayer(), panel.payload)	
+	local traits = {}
 	
 	for k, v in SortedPairsByMemberValue(TRAITS.traits, "category") do
 		if(v.ignore) then continue end
@@ -38,7 +35,6 @@ function PANEL:onDisplay()
 
 			total = total + difference
 			
-			local traits = self:getContext("traits", {})
 			if(traits[k]) then
 				traits[k] = nil
 			else
@@ -63,12 +59,6 @@ function PANEL:onDisplay()
 				bar.pressing = nil
 			end
 		end
-	end
-
-	--self.traits:InvalidateLayout()
-	
-	for _, child in pairs(oldChildren) do
-		--child:Remove()
 	end
 end
 

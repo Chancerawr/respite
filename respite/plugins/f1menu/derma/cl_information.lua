@@ -21,7 +21,7 @@ local PANEL = {}
 				self.model.copyLocalSequence = true
 				
 				timer.Simple(0, function()
-					if(self.model.Entity) then
+					if(self.model and self.model.Entity) then
 						local char = LocalPlayer():getChar()
 						if(char) then
 							local fact = nut.faction.get(char:getFaction())

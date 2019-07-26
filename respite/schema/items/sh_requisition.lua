@@ -382,6 +382,11 @@ for k, v in pairs(dropFunctions) do
 			local dropTbl = v.contents()
 			local cost = v.cost
 			
+			if(char:getMoney() < cost) then
+				client:notify("You do not have enough money, it requires " ..cost.. ".")
+				return false
+			end
+			
 			local chip = inventory:getFirstItemOfType("cube_chip_enhanced")
 		
 			client:requestQuery("This costs " ..cost.. " scrap coins and an enhanced chip. Are you sure?", "Order", function(text)
