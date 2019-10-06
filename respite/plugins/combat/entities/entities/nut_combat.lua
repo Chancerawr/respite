@@ -68,7 +68,45 @@ function ENT:Think()
 				physObj:Sleep()
 			end
 		end
+		
+		--this is really stupid but it was fun to mess around with
+		if(self.desiredPos) then
+			local pos = self:GetPos()
+			if((self.lerpRatio or 0) < 1) then
+				self.originPos = self.originPos or pos
+				self.lerpRate = self.lerpRate or (1 / pos:Distance(self.desiredPos) * 40)
+				self.lerpRatio = (self.lerpRatio or 0) + self.lerpRate
+				
+				local newPos = LerpVector(self.lerpRatio, self.originPos, self.desiredPos)
+				if((self.lerpRatio or 0) >= 1) then
+					self:SetPos(self.desiredPos)
+				else
+					self:SetPos(newPos)
+				end
+			else
+				self.desiredPos = nil
+				self.originPos = nil
+				self.lerpRatio = nil
+				self.lerpRate = nil
+				
+				if(self.savedAnim) then
+					self:ResetSequence(self.savedAnim)
+				end
+			end
+		end		
 	end
+end
+
+function ENT:walkAnims()
+	local newAct = self:SelectWeightedSequence(ACT_RUN) or self:SelectWeightedSequence(ACT_WALK)
+	if(newAct == -1) then
+		newAct = self:SelectWeightedSequence(ACT_WALK)
+	end
+	
+	print(newAct)
+	
+	self:ResetSequence(newAct)
+	self:SetPoseParameter("move_x", 1)
 end
 
 function ENT:setAnim()
@@ -503,6 +541,14 @@ function ENT:fortAttack(attackName)
 	nut.log.addRaw(rolled, 2)
 	--nut.chat.send(client, "fortattack", rolled)
 	nut.chat.send(self, "fort_npc", rolled)
+end
+
+function ENT:Name()
+	return self:getNetVar("name", self.name or self.PrintName)
+end
+
+function ENT:Desc()
+	return self:getNetVar("desc", self.desc)
 end
 
 if (CLIENT) then

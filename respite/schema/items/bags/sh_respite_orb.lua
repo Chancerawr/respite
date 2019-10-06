@@ -68,8 +68,12 @@ end
 
 local function requiredTime(client, item, mult)
 	local baseTime = 7200
-	local units = item:getData("units", {})
+	local units = (item.getData and item:getData("units", {})) or item.data["units"] or {}
 	local unitCount = table.Count(units)
+	
+	if(unitCount == 0) then
+		unitCount = 1
+	end
 	
 	local timeRequired = ((baseTime / (unitCount or 1)) + 600) * mult
 	
@@ -82,7 +86,6 @@ local function displayCosts(client, required)
 			client:notify(k.. ": " ..v.. ".")
 		elseif(k == "resources") then
 			for res, amt in pairs(v) do
-				--local fancyName = (nut.item.list[res] and nut.item.list[res].name) or "Invalid Resource"
 				client:notify(res.. " " ..amt.. ".")
 			end
 		elseif(k == "items") then
@@ -95,14 +98,12 @@ local function displayCosts(client, required)
 end
 
 --table for creating things
-ITEM.funcTableC = {
+local funcTableC = {
 	["wood"] = {
 		name = "Woodcutting",
 		sound = function(client)
 			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
 		end,
-		--startString = "The machine accepts the materials and outputs adhesive."
-		--endString = "The machine accepts the materials and outputs adhesive."
 		prodMult = 1, --time
 		results = {
 			items = {
@@ -118,8 +119,6 @@ ITEM.funcTableC = {
 		sound = function(client)
 			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
 		end,
-		--startString = "The machine accepts the materials and outputs adhesive."
-		--endString = "The machine accepts the materials and outputs adhesive."
 		prodMult = 1,
 		results = {
 			items = {
@@ -135,8 +134,6 @@ ITEM.funcTableC = {
 		sound = function(client)
 			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
 		end,
-		--startString = "The machine accepts the materials and outputs adhesive."
-		--endString = "The machine accepts the materials and outputs adhesive."
 		prodMult = 1,
 		results = {
 			items = {
@@ -152,8 +149,6 @@ ITEM.funcTableC = {
 		sound = function(client)
 			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
 		end,
-		--startString = "The machine accepts the materials and outputs adhesive."
-		--endString = "The machine accepts the materials and outputs adhesive."
 		prodMult = 1,
 		results = {
 			items = {
@@ -176,13 +171,13 @@ ITEM.funcTableC = {
 			resources = {
 				["plas"] = 100,
 				["chip"] = 25,
-				["j_scrap_memory"] = 1,
+				["mem"] = 1,
 			},
 		},
 		results = {
 			func = function(item)
 				local units = item:getData("units", {})
-				units.w = units.w + 1
+				units.w = (units.w or 0) + 1
 				item:setData("units", units)
 			end,
 		},
@@ -202,13 +197,13 @@ ITEM.funcTableC = {
 			resources = {
 				["plas"] = 100,
 				["chip"] = 25,
-				["j_scrap_memory"] = 3,
+				["mem"] = 3,
 			},
 		},
 		results = {
 			func = function(item)
 				local units = item:getData("units", {})
-				units.f = units.f + 1
+				units.f = (units.f or 0) + 1
 				item:setData("units", units)
 			end,
 		},
@@ -216,10 +211,87 @@ ITEM.funcTableC = {
 			["b2"] = true,
 		}
 	},
+	["plas3"] = {
+		name = "Create Plastic (Cat)",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		startString = "You begin to imagine a cat in your mind, it calms you somewhat.",
+		endString = "You completely visualize a smooth plastic cat.",
+		prodMult = 1,
+		required = {
+			resources = {
+				["plas"] = 25,
+				["chip"] = 5,
+				["mem"] = 7,
+			},
+		},
+		results = {
+			func = function(item)
+				local units = item:getData("units", {})
+				units.c = (units.c or 0) + 1
+				item:setData("units", units)
+			end,
+		},
+		dev = {
+			["b1"] = true,
+		}
+	},
+	["weather"] = {
+		name = "Weather",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		prodMult = 1,
+		results = {
+			func = function(item, client)
+				local position = client:getItemDropPos()
+				
+				local index = item:getData("id")
+				local inventory = nut.inventory.instances[index]
+
+				local ranWeather = {
+					"rain",
+					"snow",
+					"fog",
+					"blue haze",
+					"black haze",
+					"pink haze",
+				}
+
+				local weather = table.Random(ranWeather)
+				local reward = "food_water_misc"
+				if (weather == "rain") then
+					client:notify("It is raining in your Respite.")
+					reward = "food_water_misc"
+				elseif (weather == "snow") then
+					client:notify("It is snowing in your Respite.")
+					reward = "food_water_misc"
+				elseif (weather == "fog") then
+					client:notify("It is foggy in your Respite.")		
+					reward = "food_monster_meat"
+				elseif (weather == "blue haze") then
+					client:notify("Blue Haze has arrived in your Respite.")		
+					reward = "haze_bottled"
+				elseif (weather == "black haze") then
+					client:notify("Black Haze has arrived in your Respite.")
+					reward = "blight"
+				elseif (weather == "pink haze") then
+					client:notify("Pink Haze has arrived in your Respite.")
+					reward = "haze_bottled_pink"
+				end
+				
+				inventory:addSmart(reward, 1, position)
+			end,
+		},
+		dev = {
+			["sk"] = true
+		}
+	},
 }
 
 --table for developing things
-ITEM.funcTableD = {
+local funcTableD = {
 	["f"] = {
 		name = "Forest",
 		sound = function(client)
@@ -284,12 +356,12 @@ ITEM.funcTableD = {
 		end,
 		startString = "Images of wooden homes fill your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a small village of wooden houses.",
-		prodMult = 1.2,
+		prodMult = 1.25,
 		required = {
 			resources = {
 				["mem"] = 25,
 			}
-		},		
+		},
 	},
 	["b2"] = {
 		name = "Barracks",
@@ -307,6 +379,57 @@ ITEM.funcTableD = {
 		dev = {
 			["b1"] = true,
 		}		
+	},
+	["b3"] = {
+		name = "Outposts",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		startString = "Images of numerous wooden towers fill your mind, they are blurry and hard to focus on.",
+		endString = "You can clearly imagine a perimeter of wooden outposts.",
+		prodMult = 1,
+		required = {
+			resources = {
+				["mem"] = 40,
+			}
+		},
+		dev = {
+			["b2"] = true,
+		}		
+	},
+	["sk"] = {
+		name = "Sky",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		startString = "Images of a beautiful blue sky fill your mind, it is blurry and hard to focus on.",
+		endString = "You can clearly picture a beautiful sky.",
+		prodMult = 2,
+		required = {
+			resources = {
+				["mem"] = 50,
+			}
+		},
+		dev = {
+			["b1"] = true,
+		}
+	},
+	["st"] = {
+		name = "Stars",
+		sound = function(client)
+			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+		end,
+		startString = "Images of a beautiful field of stars fill your mind, the stars are vague and hard to picture.",
+		endString = "You can clearly picture a beautiful night sky, filled with stars.",
+		prodMult = 2,
+		required = {
+			resources = {
+				["mem"] = 60,
+			}
+		},
+		dev = {
+			["sk"] = true,
+		}
 	},
 }
 
@@ -370,153 +493,53 @@ ITEM.funcTableA = {
 	},
 }
 
-ITEM.functions.Gather = {
-	name = "Gather",
-	icon = "icon16/photos.png",
+--handles all of the absorb functions
+ITEM.functions.Absorb = {
+	name = "Absorb",
+	icon = "icon16/contrast.png",
 	isMulti = true,
 	multiOptions = function(item, client)
 		local targets = {}
 
-		local dev = item:getData("dev", {})
-		
-		for k, v in pairs(item.funcTableC) do	
-			if(v.dev) then
-				for reqDev, _ in pairs(v.dev) do
-					if(dev[reqDev]) then --only adds to the list if the appropriate development exists.
-						local newAbs = {
-							name = v.name,
-							data = k
-						}
-						table.insert(targets, newAbs)
-					end
-				end
-			else --if we don't need developments we just put it in
-				local newAbs = {
-					name = v.name,
-					data = k
-				}
-				table.insert(targets, newAbs)
-			end
+		for k, v in pairs(item.funcTableA) do		
+			local newAbs = {
+				name = v.name,
+				data = k
+			}
+			table.insert(targets, newAbs)
 		end
 		
 		return targets
-	end,		
+	end,
 	onRun = function(item, data)
 		local client = item.player
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
-		local itemInv = item:getInv()
 		
-		local dataTbl = item.funcTableC[data]
+		local new = 0
 		
-		local reqTbl = dataTbl.required
-		if(reqTbl) then
-			if(reqTbl.units) then
-				local units = item:getData("units", {})
-				
-				local unitCount = table.Count(units)
-				
-				if(unitCount < reqTbl.units) then
-					client:notify("You do not have the required man-power.")
-					return false
-				end
-			end
-			
-			if(reqTbl.workers) then
-				local units = item:getData("units", {})
-				
-				local unitCount = units.w
-				
-				if(unitCount < reqTbl.workers) then
-					client:notify("You do not have the required workers.")
-					return false
-				end
-			end
-			
-			if(reqTbl.fighters) then
-				local units = item:getData("units", {})
-				
-				local unitCount = units.f
-				
-				if(unitCount < reqTbl.fighters) then
-					client:notify("You do not have the required fighters.")
-					return false
-				end
-			end
+		local dataTbl = item.funcTableA[data]
+		if(!dataTbl) then return false end
 		
-			if(reqTbl.items) then
-				local required = requiredItems(inventory, item, reqTbl.items)
-				if (!required) then
-					client:notify("You do not have the required materials.") 
-					return false
-				end
-			end
-			
-			if(reqTbl.resources) then
-				local absorbed = item:getData("abs", {})
-				
-				local success = true
-				for k, v in pairs(reqTbl.resources) do
-					local resource = (absorbed[k] or 0)
-					
-					if(resource >= v) then
-						absorbed[k] = resource - v
-					else
-						client:notify("You do not have the required resources absorbed.")
-						return false
-					end
-				end
-				
-				if(success) then
-					if(dataTbl.prodMult) then
-						local prodTime = requiredTime(client, item, dataTbl.prodMult)
-						timer.Simple(prodTime, function()
-							item:setData("abs", absorbed)
-						end)
-					else
-						item:setData("abs", absorbed)
-					end
-				end
+		if(dataTbl.absorb) then
+			local absorb = inventory:getFirstItemOfType(dataTbl.absorb)
+			while(absorb) do
+				new = new + absorb:getData("Amount", 1)
+				absorb:remove()
+				absorb = inventory:getFirstItemOfType(dataTbl.absorb)
 			end
 		end
-	
-		if(dataTbl.startString) then
-			nut.chat.send(client, "itclose", "[RESPITE]: " ..dataTbl.startString)
-		end
-	
-		if(dataTbl.prodMult) then
-			local prodTime = requiredTime(client, item, dataTbl.prodMult)
 		
-			item:setData("producing", CurTime())
-			item:setData("prodTime", prodTime)
+		if(new > 0) then
+			if(dataTbl.sound) then
+				dataTbl.sound(client)
+			end
 			
-			timer.Simple(prodTime, function()
-				item:setData("producing", nil)
-				item:setData("prodTime", nil)
-			
-				local results = dataTbl.results
-				if(results) then
-					if(results.items) then
-						for newItem, amt in pairs(results.items) do
-							itemInv:addSmart(newItem, amt, position)
-						end
-					end
-					
-					if(results.func) then
-						results.func(item)
-					end
-				end
-				
-				if(dataTbl.sound) then
-					dataTbl.sound(client)
-				end
-				
-				if(dataTbl.endString) then
-					nut.chat.send(client, "itclose", "[RESPITE]: " ..dataTbl.endString)
-				end
-			end)
+			local absorbed = item:getData("abs", {})
+			absorbed[data] = (absorbed[data] or 0) + new
+			item:setData("abs", absorbed)
 		end
-
+		
 		return false
 	end,
 	onCanRun = function(item)
@@ -525,8 +548,12 @@ ITEM.functions.Gather = {
 				return false
 			end
 		end
-		
+	
 		if(IsValid(item.entity)) then
+			return false
+		end
+		
+		if(item:getData("char") != item.player:getChar():getID()) then
 			return false
 		end
 		
@@ -534,55 +561,326 @@ ITEM.functions.Gather = {
 	end
 }
 
---handles all of the Development functions
-ITEM.functions.Dev = {
-	name = "Development",
-	icon = "icon16/house.png",
-	isMulti = true,
-	multiOptions = function(item, client)
-		local targets = {}
+if (CLIENT) then
+	function ITEM:drawEntity(entity, item)
+		entity:DrawModel()
+		entity:DrawShadow(false)
 		
-		local dev = item:getData("dev", {})
+		local pos = entity:GetPos() + entity:GetUp()
+		local dlight = DynamicLight(entity:EntIndex())
+		dlight.Pos = pos
+		dlight.r = 64
+		dlight.g = 128
+		dlight.b = 128
+		dlight.Brightness = 3
+		dlight.Size = 128
+		dlight.Decay = 1024
+		dlight.style = 5
+		dlight.DieTime = CurTime() + .1	
+	end
+end
+
+ITEM.functions.View = {
+	icon = "icon16/briefcase.png",
+	onClick = function(item)
+		nut.bar.actionStart = CurTime()
+		nut.bar.actionEnd = CurTime() + (item.openTime or 1)
+		nut.bar.actionText = "Opening.."
+		surface.PlaySound("items/ammocrate_open.wav")
 		
-		for k, v in pairs(item.funcTableD) do
-			if(dev[k]) then --can't develop the same thing twice
-				continue
+		timer.Simple((item.openTime or 1), function()
+			local inventory = item:getInv()
+			if (not inventory) then return false end
+
+			local panel = nut.gui["inv"..inventory:getID()]
+			local parent = item.invID and nut.gui["inv"..item.invID] or nil
+
+			if (IsValid(panel)) then
+				panel:Remove()
 			end
-			
-			if(v.dev) then
-				for reqDev, _ in pairs(v.dev) do
-					if(dev[reqDev]) then --only adds to the list if the appropriate development exists.
-						local newAbs = {
-							name = v.name,
-							data = k
-						}
-						table.insert(targets, newAbs)
-					end
+
+			if (inventory) then
+				local panel = nut.inventory.show(inventory, parent)
+				if (IsValid(panel)) then
+					panel:ShowCloseButton(true)
+					panel:SetTitle(item:getName())
+					panel:MoveRightOf(parent, 4)
 				end
-			else --if we don't need developments we just put it in
-				local newAbs = {
-					name = v.name,
-					data = k
-				}
-				table.insert(targets, newAbs)
+			else
+				local itemID = item:getID()
+				local index = item:getData("id", "nil")
+				ErrorNoHalt(
+					"Invalid inventory "..index.." for bag item "..itemID.."\n"
+				)
 			end
+		end)
+
+		return false
+	end,
+	onCanRun = function(item)
+		if(IsValid(item.entity)) then
+			return false
+		end
+	
+		if(item:getData("char") != item.player:getChar():getID()) then
+			return false
 		end
 		
-		return targets
-	end,		
-	onRun = function(item, data)
-		local client = item.player
+		return true
+	end
+}
+
+ITEM.functions.Claim = {
+	name = "Claim Orb",
+	tip = "Claim this orb as yours.",
+	icon = "icon16/house.png",
+	onRun = function(item)
+		item:setData("char", item.player:getChar():getID())
+		return false
+	end,
+	onCanRun = function(item)
+		if(IsValid(item.entity)) then
+			return false
+		end
+		
+		if(item:getData("char") == nil or item:getData("char") == 0) then
+			return true
+		else
+			return false
+		end
+	end
+}
+
+ITEM.functions.Menu = {
+	name = "Menu",
+	icon = "icon16/house.png",
+	onRun = function(item)
+		local actions = item:getActions()
+		netstream.Start(item.player, "respMenu", item, actions)
+		return false
+	end,
+	onCanRun = function(item)
+		if(IsValid(item.entity)) then
+			return false
+		end
+		
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + item:getData("prodTime", 0) >= CurTime()) then
+				return false
+			end
+		end		
+		
+		return true
+	end
+}
+
+function ITEM:getDesc()
+	local str = self.desc
+	local absorbed = self:getData("abs")
+	local units = self:getData("units")
+
+	local absTbl = self.funcTableA
+	if(absorbed) then
+		local shards = (absorbed["sha"] or 0)
+		local size = (shards * shards) + 10
+		
+		str = str.. "\nSize: " ..size.. " square meters."	
+	
+		str = str.. "\n\n Resources:"
+		for k, v in pairs(absorbed) do
+			if(absTbl[k]) then
+				str = str.. "\n   "..absTbl[k].name.. ": " ..v
+			end
+		end
+	end
+	
+	if(units and istable(units)) then
+		str = str.."\n\n"
+		if(units.w) then
+			str = str.. " Workers:" ..units.w
+		end
+		
+		if(units.f) then
+			str = str.."\n"
+			str = str.. " Fighters:" ..units.f
+		end
+		
+		if(units.c) then
+			str = str.."\n"
+			str = str.. " Cats:" ..units.c
+		end
+	end
+	
+	return Format(str)
+end
+
+function ITEM:getActions()
+	local targets = {}
+		
+	local dev = self:getData("dev", {})
+	
+	for k, v in pairs(funcTableD) do
+		if(dev[k]) then --can't develop the same thing twice
+			continue
+		end
+
+		if(v.dev) then
+			for reqDev, _ in pairs(v.dev) do
+				if(dev[reqDev]) then --only adds to the list if the appropriate development exists.
+					local newAbs = {
+						name = v.name,
+						data = k
+					}
+					table.insert(targets, newAbs)
+				end
+			end
+		else --if we don't need developments we just put it in
+			local newAbs = {
+				name = v.name,
+				data = k
+			}
+			table.insert(targets, newAbs)
+		end
+	end
+
+	for k, v in pairs(funcTableC) do	
+		if(v.dev) then
+			for reqDev, _ in pairs(v.dev) do
+				if(dev[reqDev]) then --only adds to the list if the appropriate development exists.
+					local newAbs = {
+						name = v.name,
+						data = k
+					}
+					
+					table.insert(targets, newAbs)
+				end
+			end
+		else --if we don't need developments we just put it in
+			local newAbs = {
+				name = v.name,
+				data = k
+			}
+			table.insert(targets, newAbs)
+		end
+	end	
+	
+	return targets
+end
+
+ITEM.iconCam = {
+	pos = Vector(143, 126, 91),
+	ang = Angle(25, 220, 0),
+	fov = 4.6,
+}
+
+if(CLIENT) then
+	local convert = {
+		["mem"] = "Memory",
+	}
+
+	netstream.Hook("respMenu", function(item, actions)
+		local actionList = vgui.Create("nutRespiteOrb")
+		actionList.item = item
+		actionList.actions = actions
+	end)
+
+	local PANEL = {}
+		function PANEL:Init()
+			if (IsValid(nut.gui.rOrb)) then
+				nut.gui.rOrb:Remove()
+			end
+			
+			nut.gui.rOrb = self
+			
+			self:SetSize(ScrW() * 0.15, ScrH() * 0.3)
+			self:Center()
+			self:SetTitle("Respite Orb")
+			self:MakePopup()
+			
+			local inner = vgui.Create("DScrollPanel", self)
+			inner:Dock(FILL)
+			
+			self.buttons = {}
+			
+			timer.Simple(0.2, function()
+				local actions = self:getActions()
+				for k, v in pairs(actions) do
+					local action = inner:Add("DButton")
+					action:Dock(TOP)
+					
+					action.data = v.data
+					
+					local prefix = ""
+					local dataTbl
+					if(funcTableD[v.data]) then
+						dataTbl = funcTableD[v.data]
+						prefix = "Create: "
+					elseif(funcTableC[v.data]) then
+						dataTbl = funcTableC[v.data]
+						prefix = "Activate: "
+					end
+					
+					local desc = ""
+					if(dataTbl.required) then
+						for k, v in pairs(dataTbl.required) do
+							if(!istable(v)) then
+								desc = desc..k.. ":" ..v.."\n"
+							else
+								for k2, v2 in pairs(v) do
+									desc = desc..(convert[k2] and convert[k2] or k2).. ":" ..v2.."\n"
+								end
+							end
+						end
+					end
+					
+					if(dataTbl.prodMult) then
+						local timeDisp = (requiredTime(LocalPlayer(), self.item, dataTbl.prodMult) / 60).. " minutes."
+						desc = desc..timeDisp
+					end
+					
+					action:DockMargin(2,2,2,2)
+					action:SetSize(ScrW() * 0.2, ScrH() * 0.025)
+					action:SetFont("nutSmallFont")
+					action:SetText(prefix..v.name)
+					action:SetTextColor(Color(255,255,255,255))
+					action:SetToolTip(desc or "")
+					action.DoClick = function()
+						self:actionPress(action)
+					end
+					action.Paint = function(panel, w, h)
+						local posX, posY = action:GetPos()
+							
+						surface.SetDrawColor(Color(70, 80, 100, 220))
+						surface.DrawRect(0, 0, w, h)
+					end
+					
+					self.buttons[#self.buttons + 1] = action
+				end
+			end)
+		end
+		
+		function PANEL:actionPress(button)
+			netstream.Start("orb_function", button.data, self.item.id)
+			self:Close()
+		end
+		
+		function PANEL:getActions()
+			return self.actions
+		end
+	vgui.Register("nutRespiteOrb", PANEL, "DFrame")
+else
+	netstream.Hook("orb_function", function(client, data, id)
+		local item = nut.item.instances[id]
+	
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
+		local itemInv = item:getInv()
 		
-		local new = 0
-		
-		local dataTbl = item.funcTableD[data]
+		local dataTbl = funcTableD[data] or funcTableC[data]
+		if(!dataTbl) then return false end
 		
 		local reqTbl = dataTbl.required
 		if(reqTbl) then
-			displayCosts(client, reqTbl)
-			
 			if(reqTbl.units) then
 				local units = item:getData("units", {})
 				
@@ -655,7 +953,7 @@ ITEM.functions.Dev = {
 		
 		if(dataTbl.startString) then
 			nut.chat.send(client, "itclose", "[RESPITE]: " ..dataTbl.startString)
-		end		
+		end
 		
 		if(dataTbl.prodMult) then
 			local prodTime = requiredTime(client, item, dataTbl.prodMult)
@@ -675,9 +973,25 @@ ITEM.functions.Dev = {
 					nut.chat.send(client, "itclose", "[RESPITE]: " ..dataTbl.endString)
 				end
 				
+				local results = dataTbl.results
+				if(results) then
+					if(results.items) then
+						for newItem, amt in pairs(results.items) do
+							itemInv:addSmart(newItem, amt, position)
+						end
+					end
+					
+					if(results.func) then
+						results.func(item, client)
+					end
+				end
+				
+				--[[
 				local dev = item:getData("dev", {})
 				dev[data] = true
+				
 				item:setData("dev", dev)
+				--]]
 			end)
 		else
 			local dev = item:getData("dev", {})
@@ -686,232 +1000,5 @@ ITEM.functions.Dev = {
 		end		
 
 		return false
-	end,
-	onCanRun = function(item)
-		if(item:getData("producing")) then
-			if(item:getData("producing") < CurTime() and item:getData("producing") + item:getData("prodTime", 0) >= CurTime()) then
-				return false
-			end
-		end
-	
-		if(IsValid(item.entity)) then
-			return false
-		end
-		
-		return true
-	end
-}
-
---handles all of the absorb functions
-ITEM.functions.Absorb = {
-	name = "Absorb",
-	icon = "icon16/contrast.png",
-	isMulti = true,
-	multiOptions = function(item, client)
-		local targets = {}
-
-		for k, v in pairs(item.funcTableA) do		
-			local newAbs = {
-				name = v.name,
-				data = k
-			}
-			table.insert(targets, newAbs)
-		end
-		
-		return targets
-	end,
-	onRun = function(item, data)
-		local client = item.player
-		local position = client:getItemDropPos()
-		local inventory = client:getChar():getInv()
-		
-		local new = 0
-		
-		local dataTbl = item.funcTableA[data]
-		
-		if(dataTbl.absorb) then
-			local absorb = inventory:getFirstItemOfType(dataTbl.absorb)
-			while(absorb) do
-				new = new + absorb:getData("Amount", 1)
-				absorb:remove()
-				absorb = inventory:getFirstItemOfType(dataTbl.absorb)
-			end
-		end
-		
-		if(new > 0) then
-			if(dataTbl.sound) then
-				dataTbl.sound(client)
-			end
-			
-			local absorbed = item:getData("abs", {})
-			absorbed[data] = (absorbed[data] or 0) + new
-			item:setData("abs", absorbed)
-		end
-		
-		return false
-	end,
-	onCanRun = function(item)
-		if(item:getData("producing")) then
-			if(item:getData("producing") < CurTime() and item:getData("producing") + item:getData("prodTime", 0) >= CurTime()) then
-				return false
-			end
-		end
-	
-		if(IsValid(item.entity)) then
-			return false
-		end
-		
-		return true
-	end
-}
-
-if (CLIENT) then
-	function ITEM:drawEntity(entity, item)
-		entity:DrawModel()
-		entity:DrawShadow(false)
-		
-		local pos = entity:GetPos() + entity:GetUp()
-		local dlight = DynamicLight(entity:EntIndex())
-		dlight.Pos = pos
-		dlight.r = 64
-		dlight.g = 128
-		dlight.b = 128
-		dlight.Brightness = 3
-		dlight.Size = 128
-		dlight.Decay = 1024
-		dlight.style = 5
-		dlight.DieTime = CurTime() + .1	
-	end
+	end)
 end
-
-ITEM.functions.View = {
-	icon = "icon16/briefcase.png",
-	onClick = function(item)
-		nut.bar.actionStart = CurTime()
-		nut.bar.actionEnd = CurTime() + (item.openTime or 1)
-		nut.bar.actionText = "Opening.."
-		surface.PlaySound("items/ammocrate_open.wav")
-		
-		timer.Simple((item.openTime or 1), function()
-			local inventory = item:getInv()
-			if (not inventory) then return false end
-
-			local panel = nut.gui["inv"..inventory:getID()]
-			local parent = item.invID and nut.gui["inv"..item.invID] or nil
-
-			if (IsValid(panel)) then
-				panel:Remove()
-			end
-
-			if (inventory) then
-				local panel = nut.inventory.show(inventory, parent)
-				if (IsValid(panel)) then
-					panel:ShowCloseButton(true)
-					panel:SetTitle(item:getName())
-					panel:MoveRightOf(parent, 4)
-				end
-			else
-				local itemID = item:getID()
-				local index = item:getData("id", "nil")
-				ErrorNoHalt(
-					"Invalid inventory "..index.." for bag item "..itemID.."\n"
-				)
-			end
-		end)
-
-		return false
-	end,
-	onCanRun = function(item)
-		if(IsValid(item.entity)) then
-			return false
-		end
-	
-		--[[
-		local player = item.player
-		local inventory = player:getChar():getInv()
-		local items = inventory:getItems()
-		local packs = 0
-		
-		for k, v in pairs(items) do
-			if(otherBags[v.uniqueID]) then
-				packs = packs + 1
-			end
-		end
-		
-		if(packs > 1) then
-			return false
-		end
-		
-		if(item:getData("char") != player:getChar():getID()) then
-			return false
-		end
-		
-		return !IsValid(item.entity) and item:getData("id")
-		--]]
-		
-		return true
-	end
-}
-
-ITEM.functions.Claim = {
-	name = "Claim Orb",
-	tip = "Claim this orb as yours.",
-	icon = "icon16/house.png",
-	onRun = function(item)
-		item:setData("char", item.player:getChar():getID())
-		return false
-	end,
-	onCanRun = function(item)
-		if(IsValid(item.entity)) then
-			return false
-		end
-		
-		if(item:getData("char") == nil or item:getData("char") == 0) then
-			return true
-		else
-			return false
-		end
-	end
-}
-
-function ITEM:getDesc()
-	local str = self.desc
-	local absorbed = self:getData("abs")
-	local units = self:getData("units")
-
-	local absTbl = self.funcTableA
-	if(absorbed) then
-		local shards = (absorbed["sha"] or 0)
-		local size = (shards * shards) + 10
-		
-		str = str.. "\nSize: " ..size.. " square meters."	
-	
-		str = str.. "\n\n Resources:"
-		for k, v in pairs(absorbed) do
-			if(absTbl[k]) then
-				str = str.. "\n   "..absTbl[k].name.. ": " ..v
-			end
-		end
-	end
-	
-	if(units and istable(units)) then
-		str = str.."\n\n"
-		if(units.w) then
-			str = str.. " Workers:" ..units.w
-		end
-		
-		str = str.."\n"
-		
-		if(units.f) then
-			str = str.. " Fighters:" ..units.f
-		end
-	end
-	
-	return Format(str)
-end
-
-ITEM.iconCam = {
-	pos = Vector(142.9214630127, 125.8981628418, 91.33309173584),
-	ang = Angle(25, 220, 0),
-	fov = 4.5763000053135,
-}

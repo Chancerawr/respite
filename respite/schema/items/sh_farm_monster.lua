@@ -168,7 +168,7 @@ ITEM.functions.Cut = { --monster meat
 	end
 }
 
-ITEM.functions.Harvest = { --shard
+ITEM.functions.Harvest = {
 	icon = "icon16/box.png",
 	sound = "ambient/machines/slicer2.wav",
 	onRun = function(item)

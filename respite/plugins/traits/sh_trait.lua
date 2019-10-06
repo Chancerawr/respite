@@ -66,6 +66,7 @@ TRAIT.modifier = {
 	["quickdraw"] = 1.2,
 	["execute"] = 1.2,
 	["throw"] = 1.2,
+	["throwaimed"] = 1.2,
 	["akimbo"] = 1.2,
 	["suppress"] = 1.2
 }
@@ -242,7 +243,8 @@ TRAIT.modifier = {
 	["meleedual"] = 1.2,
 	["throw"] = 1.2,
 	["flail"] = 1.2,
-	["grapple"] = 1.2
+	["grapple"] = 1.2,
+	["rapidstab"] = 1.2,
 }
 
 TRAITS:Register( TRAIT )
@@ -497,7 +499,7 @@ TRAITS:Register( TRAIT )
 local TRAIT = {}
 TRAIT.uid = "lumberjack" 
 TRAIT.name = "Lumberjack"
-TRAIT.desc = "What rolls down stairs, and travels in pairs?\nStart with a lumber axe and some wood.\nMelee rolls increased by 1.05x.\nDodge rolls reduced by 0.9x."
+TRAIT.desc = "What rolls down stairs, and travels in pairs?\nStart with a lumber axe and some wood.\nMelee rolls increased by 1.05x, Endure rolls increased by 1.05x.\nDodge rolls reduced by 0.9x."
 TRAIT.category = "Character"
 TRAIT.items = {
 	"hl2_m_lumberaxe",
@@ -507,6 +509,7 @@ TRAIT.items = {
 }
 TRAIT.modifier = {
 	["melee"] = 1.05,
+	["endure"] = 1.05,
 	["dodge"] = 0.9
 }
 

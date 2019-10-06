@@ -1,7 +1,7 @@
 ITEM.name = "Dragunov SVU"
 ITEM.desc = "A modernized, bullpup marksman rifle, originally designed for use by Russia's internal security forces."
 ITEM.model = "models/weapons/tfa_w_dragunov_svu.mdl"
-ITEM.class = "tfa_svt40"
+ITEM.class = "tfa_svu"
 ITEM.weaponCategory = "primary"
 ITEM.width = 4
 ITEM.height = 1

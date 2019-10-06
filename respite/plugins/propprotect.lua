@@ -106,6 +106,7 @@ TOOL_DANGEROUS["streamradio"] = true
 TOOL_DANGEROUS["tesla"] = true
 TOOL_DANGEROUS["permaall"] = true
 TOOL_DANGEROUS["waterizer"] = true
+TOOL_DANGEROUS["map_builder"] = true
 
 	function PLUGIN:CanTool(client, trace, tool)
 		if (client:IsAdmin()) then

@@ -39,7 +39,7 @@ ITEM.functions.Charge = {
 	onCanRun = function(item)
 		local player = item.player
 		
-		if (!player:getChar():getInv():getFirstItemOfType("j_battery_dead") or player:getChar():getMoney() < 40) then --if item of importance isn't in the inventory.
+		if (!player:getChar():getInv():getFirstItemOfType("j_battery_dead") or player:getChar():getMoney() < 30) then --if item of importance isn't in the inventory.
 			return false
 		end
 		

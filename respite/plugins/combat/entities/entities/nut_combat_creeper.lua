@@ -26,3 +26,27 @@ function ENT:Initialize()
 	
 	self:basicSetup()
 end
+
+function ENT:Think()
+	if(SERVER) then
+		if(!self:IsPlayerHolding()) then
+			local physObj = self:GetPhysicsObject()
+			
+			if(!physObj:IsAsleep()) then
+				physObj:Sleep()
+			end
+		end
+	else
+		local pos = self:GetPos() + self:GetUp()
+		local dlight = DynamicLight(self:EntIndex())
+		dlight.Pos = pos
+		dlight.r = 128
+		dlight.g = 0
+		dlight.b = 0
+		dlight.Brightness = 1
+		dlight.Size = 32
+		dlight.Decay = 64
+		dlight.style = 5
+		dlight.DieTime = CurTime() + .1
+	end
+end

@@ -7,7 +7,13 @@ PLUGIN.desc = "Adds a flag to PAC3."
 do
 
 function PLUGIN:PrePACConfigApply(client)
-	return client:getChar():hasFlags("P")
+	local char = client:getChar()
+	
+	if(char) then
+		return char:hasFlags("P")
+	end
+
+	return false
 end
 
 function PLUGIN:PrePACEditorOpen(client)

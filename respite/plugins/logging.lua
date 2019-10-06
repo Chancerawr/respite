@@ -113,11 +113,13 @@ if (SERVER) then
 			end
 			
 			local char = victim:getChar()
-			local ammoTable = char:getData("ammo")
-			--this should print all the ammo the player lost on death for refunding purposes.
-			if (ammoTable) then
-				for k, v in pairs(ammoTable) do
-					nut.log.addRaw("Ammo Type: " .. tostring(k) .. ", Amount: " .. v .. "(May not include mag)")
+			if(char) then
+				local ammoTable = char:getData("ammo")
+				--this should print all the ammo the player lost on death for refunding purposes.
+				if (ammoTable) then
+					for k, v in pairs(ammoTable) do
+						nut.log.addRaw("Ammo Type: " .. tostring(k) .. ", Amount: " .. v .. "(May not include mag)")
+					end
 				end
 			end
 		end

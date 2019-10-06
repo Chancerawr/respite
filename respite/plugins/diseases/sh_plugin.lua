@@ -153,8 +153,6 @@ if (SERVER) then
 				end
 			end
 		end
-		
-		char:setData("diseases", disData)
 	end
 	
 	function PLUGIN:Think()	
@@ -234,6 +232,8 @@ if (SERVER) then
 	end
 	
 	function giveDisease(client, disease)
+		if(!disease) then return false end
+		
 		local char = client:getChar()
 		
 		if(!char) then return false end
@@ -298,25 +298,6 @@ nut.chat.register("body", {
 	deadCanChat = true
 })
 
---[[
-nut.command.add("diseaseclear", {
-	adminOnly = true,
-	syntax = "<string target> [this will clear literally everything, don't use this]",
-	onRun = function(client, arguments)
-		local target = nut.command.findPlayer(client, arguments[1]) or client	
-
-		if(target) then
-			local char = target:getChar()
-			for k, v in pairs(DISEASES.diseases) do
-				char:setData(k, nil) --removes all diseases
-			end
-			
-			client:notify(target:GetName() .. " has been purged of all diseases")
-		end
-	end
-})
---]]
-
 nut.command.add("diseaseremove", {
 	adminOnly = true,
 	syntax = "<string target> <string disease>",
@@ -327,7 +308,7 @@ nut.command.add("diseaseremove", {
 			return false
 		end
 	
-		local target = nut.command.findPlayer(client, arguments[1]) or client	
+		local target = nut.command.findPlayer(client, arguments[1])	
 
 		if(target) then
 			local char = target:getChar()
@@ -421,6 +402,36 @@ nut.command.add("diagnose", {
 
 		if(!IsValid(target) or !target:IsPlayer()) then
 			target = client
+		end
+
+		local illnesses = {}
+		
+		for k, v in pairs (DISEASES.diseases) do
+			if(hasDisease(target, v.uid)) then
+				table.insert(illnesses, v.uid)
+			end
+		end
+		
+		local compress = util.TableToJSON(illnesses)
+		
+		netstream.Start(client, "ShowDiseases", target, compress)
+	end
+})
+
+nut.command.add("diseaseall", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		if(!arguments[1]) then
+			client:notify("Specify a target.")
+			return false
+		end	
+	
+		local target = nut.command.findPlayer(client, arguments[1])	
+		
+		if(!IsValid(target)) then
+			client:notify("Invalid target.")
+			return false
 		end
 
 		local illnesses = {}

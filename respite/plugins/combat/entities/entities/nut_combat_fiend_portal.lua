@@ -5,8 +5,8 @@ ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.name = "Portal Blood Fiend"
-ENT.model = "models/spite/fiend.mdl"
+ENT.name = "Cracked Blood Fiend"
+ENT.model = "models/Zombie/Poison.mdl"
 
 --all attributes
 ENT.agil = 0
@@ -21,8 +21,10 @@ ENT.fort = 0
 function ENT:Initialize()
 	self:basicSetup()
 	
-	if (SERVER) then
-		self:SetMaterial("models/flesh")
-		self:SetColor(Color(128, 20, 20))
-	end
+	self:SetMaterial("models/flesh")
+	self:SetColor(Color(128, 20, 128))
+	
+	timer.Simple(0.6, function()
+		self:SetModelScale(1.8)
+	end)
 end

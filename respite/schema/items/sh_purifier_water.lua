@@ -36,7 +36,12 @@ ITEM.functions.Water = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		local corWater = inventory:getFirstItemOfType("food_water_misc")
-			
+		
+		if(!corWater) then
+			client:notify("You don't have any corrupted water.")
+			return false
+		end
+		
 		item:setData("purity", item:getData("purity", 10) - 1)
 		
 		corWater:remove()
@@ -189,6 +194,11 @@ ITEM.functions.Tablet = {
 		local inventory = client:getChar():getInv()
 		local tablet = inventory:getFirstItemOfType("purifier_water_tablet")
 		local purity = item:getData("purity", 10)
+		
+		if(!tablet) then
+			client:notify("You don't have a purification tablet.")
+			return false
+		end
 		
 		tablet:remove()
 		

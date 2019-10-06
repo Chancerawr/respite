@@ -27,7 +27,7 @@ ITEM.functions.HazeBlue = {
 			local position = client:getItemDropPos()
 			local reward
 			
-			if(math.random(0,1) == 1) then
+			if(math.random(1,4) == 1) then
 				reward = "j_scrap_idea"
 			else
 				reward = "haze_bottled_pink"
@@ -53,7 +53,7 @@ ITEM.functions.HazeBlue = {
 			return false
 		end
 		
-		local prodTime = 30
+		local prodTime = 60
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -136,28 +136,26 @@ ITEM.functions.HazePink = {
 		object:remove()
 		
 		item:setData("producing", CurTime())
-		timer.Simple(30, 
-			function()
-				local position = client:getItemDropPos()
-				
-				local rewards = {
-					"haze_bottled_blood",
-					"haze_bottled"
-				}
-				
-				local reward = table.Random(rewards)
-				
-				item:setData("producing", nil)
-				
-				if(!IsValid(item:getEntity())) then					
-					inventory:addSmart(reward, 1, position)
-				else
-					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
-				end
-				
-				nut.chat.send(client, "itclose", "The machine rumbles, and it dispenses something.")
+		timer.Simple(30, function()
+			local position = client:getItemDropPos()
+			
+			local rewards = {
+				"haze_bottled_blood",
+				"haze_bottled"
+			}
+			
+			local reward = table.Random(rewards)
+			
+			item:setData("producing", nil)
+			
+			if(!IsValid(item:getEntity())) then					
+				inventory:addSmart(reward, 1, position)
+			else
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
 			end
-		)
+			
+			nut.chat.send(client, "itclose", "The machine rumbles, and it dispenses something.")
+		end)
 		
 		return false
 	end,

@@ -326,8 +326,29 @@ if SERVER then
 			data.mins = Vector(-16, -16, 0)
 			data.maxs = Vector(16, 16, 16)
 			local trace = util.TraceHull(data)
-
+			
 			if trace.Entity:IsValid() then
+				continue
+			end
+			
+			local nearby = false 
+			local players = player.GetAll()
+			
+			--dont want to spawn them in too close to players
+			if(players) then
+				for k, v in pairs(players) do
+					if(v:GetMoveType() == MOVETYPE_NOCLIP) then
+						continue
+					end
+				
+					if v:GetPos():DistToSqr(data.endpos) < 1000 * 1000 then --squared is more efficient
+						nearby = true
+						break
+					end
+				end
+			end
+
+			if(nearby) then
 				continue
 			end
 

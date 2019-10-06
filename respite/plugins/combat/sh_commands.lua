@@ -87,7 +87,7 @@ COMMAND.parts = true
 COMMAND.rolls = function(base)
 	local rolls = {}
 	
-	for i=0, math.random(1,3) do
+	for i=1, math.random(1,4) do
 		table.insert(rolls, math.abs(base + math.random(-10,10)))
 	end
 	

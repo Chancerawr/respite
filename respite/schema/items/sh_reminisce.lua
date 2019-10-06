@@ -46,7 +46,7 @@ ITEM.functions.Remember = {
 		else
 			organic:setData("Amount", amount - 3)
 		end
-		local emotion = emotions[math.random(0,8)]
+		local emotion = emotions[math.random(1,9)]
 		inventory:add("j_scrap_memory", 1, {Amount = 1, feeling = emotion})
 		
 		nut.chat.send(client, "itclose", "An image flashes through your mind that makes you feel "..emotion..".")	

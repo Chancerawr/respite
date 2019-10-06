@@ -36,7 +36,7 @@ local PANEL = {}
 			if
 				-- acquired recipie book || learned the recipe ( planned )
 				-- is it blueprint? ( planned )
-				( true )
+				(!itemTable.flag or (itemTable.flag and LocalPlayer():getChar():hasFlags(itemTable.flag)))
 			then
 				local category = itemTable.category
 				local category2 = string.lower(category)
@@ -61,6 +61,7 @@ local PANEL = {}
 							surface.SetDrawColor(0, 0, 0, 45)
 							surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
 
+							--[[
 							if (!itemTable.noBlueprint) then
 								surface.SetDrawColor(0, 0, 0, 50)
 								surface.DrawRect(w - distance - 1, w - distance - 1, size + 2, size + 2)
@@ -69,6 +70,7 @@ local PANEL = {}
 								surface.SetMaterial(paper)
 								surface.DrawTexturedRect(w - distance, w - distance, size, size)
 							end
+							--]]
 						end
 
 						local text = string.format(phrases["crft_text"], itemTable.name, itemTable.desc)
@@ -126,6 +128,7 @@ local PANEL = {}
 						surface.SetDrawColor(0, 0, 0, 45)
 						surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
 
+						--[[
 						if (!itemTable.noBlueprint) then
 							surface.SetDrawColor(0, 0, 0, 50)
 							surface.DrawRect(w - distance - 1, w - distance - 1, size + 2, size + 2)
@@ -134,6 +137,7 @@ local PANEL = {}
 							surface.SetMaterial(paper)
 							surface.DrawTexturedRect(w - distance, w - distance, size, size)
 						end
+						--]]
 					end						
 					icon.DoClick = function(panel)
 						if (icon.disabled) then

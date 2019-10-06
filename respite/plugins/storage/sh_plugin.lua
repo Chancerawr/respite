@@ -55,7 +55,6 @@ nut.command.add("storagelock", {
 	end
 })
 
-
 nut.command.add("storagename", {
 	adminOnly = true,
 	syntax = "[string name]",
@@ -120,10 +119,10 @@ nut.command.add("storageadd", {
 			if(!nut.item.list[uniqueID]) then
 				client:notify("Invalid Item.")
 			end
-		
-			for i = 1, (arguments[2] or 1) do
+
+			local inventory = target:getInv()
+			for i = 1, (tonumber(arguments[2]) or 1) do
 				timer.Simple(i, function()
-					local inventory = target:getInv()
 					inventory:add(uniqueID, 1)
 				end)
 			end

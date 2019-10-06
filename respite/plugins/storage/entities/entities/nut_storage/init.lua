@@ -91,7 +91,6 @@ function ENT:Use(activator)
 
 	activator.nutStorageEntity = self
 
-
 	if (self:getNetVar("locked")) then
 		local lockSound = self:getStorageInfo().lockSound
 		self:EmitSound(lockSound or DEFAULT_LOCK_SOUND)

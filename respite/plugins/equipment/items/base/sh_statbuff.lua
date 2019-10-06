@@ -29,7 +29,8 @@ ITEM:hook("drop", function(item)
 			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
 				temp[k] = v
-			end		
+			end
+			
 			for k, v in pairs(customBoosts) do
 				temp[k] = (temp[k] or 0) + v
 			end	
@@ -40,7 +41,7 @@ ITEM:hook("drop", function(item)
 		end
 	end
 end)
-
+--
 -- On player uneqipped the item, Removes a weapon from the player and keep the ammo in the item.
 ITEM.functions.EquipUn = { -- sorry, for name order.
 	name = "Unequip",
@@ -59,7 +60,8 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
 				temp[k] = v
-			end		
+			end
+			
 			for k, v in pairs(customBoosts) do
 				temp[k] = (temp[k] or 0) + v
 			end
@@ -113,7 +115,8 @@ ITEM.functions.Equip = {
 			local customBoosts = item:getData("attrib", {})
 			for k, v in pairs(item.attribBoosts) do
 				temp[k] = v
-			end		
+			end
+			
 			for k, v in pairs(customBoosts) do
 				temp[k] = (temp[k] or 0) + v
 			end		
@@ -332,7 +335,7 @@ function ITEM:getDesc(partial)
 			
 			for k, v in pairs(temp) do
 				if(v != 0) then
-					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+					desc = desc .. "\n " ..(nut.attribs.list[k] and nut.attribs.list[k].name).. ": " ..v
 				end
 			end
 		end

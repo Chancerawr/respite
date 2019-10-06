@@ -26,13 +26,18 @@ ITEM.functions.Battery = {
 		local required = inventory:getFirstItemOfType("ammo_battery")
 			
 		required:remove()
-		nut.item.spawn("j_scrap_battery", position)
-		nut.item.spawn("j_scrap_battery", position)
-		nut.item.spawn("j_scrap_screws", position)
+		local roll = math.random(0,1)
+		if(roll == 0) then
+			nut.item.spawn("j_scrap_battery", position)
+			nut.item.spawn("j_scrap_battery", position)
+			nut.item.spawn("j_scrap_battery", position)
+		else
+			nut.item.spawn("j_scrap_screws", position)
+		end
 
 		inventory:add("j_battery_dead")
 		
-		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces a strange energy cube.")
+		nut.chat.send(client, "itclose", "The device is charged momentarily, and produces something.")
 
 		return false
 	end,

@@ -11,7 +11,8 @@ LANGUAGE = {
 	ReturnTip = "Return to the previous menu.",
 	wakingUp = "You are getting up...",
 	unknown = "You don't recognize this person.",
-	itemCreated = "%s successfully created.",
+	itemCreated = "%s successfully created for %s.",
 	moneyGiven = "You have lost %s.",
-	moneyTaken = "You have gained %s."
+	moneyTaken = "You have gained %s.",
+	wrongPassword = "Wrong password.",
 }

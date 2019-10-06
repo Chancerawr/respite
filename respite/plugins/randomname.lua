@@ -212,7 +212,7 @@ if(CLIENT) then
 		"Axel ",
 		"Alexander",
 		"Abel",
-		"Alejandro ",
+		"Alejandro",
 		"Andy",
 		"Ben",
 		"Benjamin ",

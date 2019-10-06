@@ -28,7 +28,7 @@ local lootTable = {
 		"j_dollar",
 		"j_bucket",
 		"j_cereal_box",
-		"j_empty_antidepressants",
+		"j_empty_pill",
 		"j_empty_bandage",
 		"j_empty_beer",
 		"j_empty_beer2",

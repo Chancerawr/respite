@@ -302,30 +302,28 @@ ITEM.functions.Juice = {
 		item:setData("producing", CurTime())
 		fruit:remove()
 		
-		timer.Simple(60, 
-			function()
-				item:setData("producing", nil)
+		timer.Simple(120, function()
+			item:setData("producing", nil)
+		
+			local cans = 1 --this is left over from soda
 			
-				local cans = 1 --this is left over from soda
-				
-				local soda = fruit.uniqueID .. "_juice"
-				
-				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					inventory:addSmart(soda, cans, client:getItemDropPos())
-				else --if the item is on the ground
-					for i = 1, cans do
-						nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-					end
+			local soda = fruit.uniqueID .. "_juice"
+			
+			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+				inventory:addSmart(soda, cans, client:getItemDropPos())
+			else --if the item is on the ground
+				for i = 1, cans do
+					nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 				end
-				
-				nut.chat.send(client, "itclose", "Juice is dispensed from the machine.")
 			end
-		)
+			
+			nut.chat.send(client, "itclose", "Juice is dispensed from the machine.")
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 60
+		local prodTime = 120
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -373,46 +371,44 @@ ITEM.functions.Soda = {
 		item:setData("producing", CurTime())
 		fruit:remove()
 		
-		timer.Simple(30, 
-			function()
-				item:setData("producing", nil)
-			
-				local cans = 1
-				if (fruit.uniqueID == "food_pumpkin") then
-					cans = 3
-				elseif(fruit.uniqueID == "food_melon") then
-					cans = 2
-				end
-				
-				local soda = fruit.uniqueID .. "_soda"
-
-				if(math.random(0,10) == 10) then
-					local ran = math.random(0,2)
-					if(ran == 0) then
-						soda = "food_soda_cherry"
-					elseif(ran == 1) then
-						soda = "food_soda_blueberry"
-					else
-						soda = "food_soda_cola"
-					end
-				end
-				
-				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-					inventory:addSmart(soda, cans, client:getItemDropPos())
-				else --if the item is on the ground
-					for i = 1, cans do
-						nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-					end
-				end
-				
-				nut.chat.send(client, "itclose", "Soda is dispensed from the machine.")
+		timer.Simple(120, function()
+			item:setData("producing", nil)
+		
+			local cans = 1
+			if (fruit.uniqueID == "food_pumpkin") then
+				cans = 3
+			elseif(fruit.uniqueID == "food_melon") then
+				cans = 2
 			end
-		)
+			
+			local soda = fruit.uniqueID .. "_soda"
+
+			if(math.random(0,10) == 10) then
+				local ran = math.random(0,2)
+				if(ran == 0) then
+					soda = "food_soda_cherry"
+				elseif(ran == 1) then
+					soda = "food_soda_blueberry"
+				else
+					soda = "food_soda_cola"
+				end
+			end
+			
+			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+				inventory:addSmart(soda, cans, client:getItemDropPos())
+			else --if the item is on the ground
+				for i = 1, cans do
+					nut.item.spawn(soda, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+				end
+			end
+			
+			nut.chat.send(client, "itclose", "Soda is dispensed from the machine.")
+		end)
 		
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 30
+		local prodTime = 120
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -529,6 +525,45 @@ ITEM.functions.Battery = {
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
 			end
+		end
+		
+		return true
+	end
+}
+
+ITEM.functions.EChip = {
+	name = "Enhanced Chip",
+	icon = "icon16/map.png",
+	sound = "ambient/water/distant_drip4.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
+		
+		nut.chat.send(client, "meclose", "pushes an enhanced chip into the device, and bottles shoot out of it suddenly.")
+
+		chip:remove()
+
+		local position = client:getItemDropPos()
+	
+		local reward = "food_soda_bottled"
+		if(!IsValid(item:getEntity())) then
+			inventory:addSmart(reward, 3, position)
+		else
+			--spawn the reward item above the entity
+			for i = 1, 3 do
+				nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetUp()*50)
+			end
+		end
+
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player
+		local chip = player:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
+		
+		if (!chip) then --if item of importance isn't in the inventory.
+			return false
 		end
 		
 		return true

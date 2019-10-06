@@ -148,10 +148,13 @@ ITEM.functions.Equip = {
 				end
 				
 				if(custom.wepRec) then
-					weapon.Primary.KickUp = weapon.Primary.KickUp * custom.wepRec
-					weapon.Primary.KickDown = weapon.Primary.KickDown * custom.wepRec
-					weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal * custom.wepRec
-					weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor * custom.wepRec
+					weapon.Primary.KickUp = weapon.Primary.KickUp and (weapon.Primary.KickUp * custom.wepRec)
+					
+					weapon.Primary.KickDown = weapon.Primary.KickDown and (weapon.Primary.KickDown * custom.wepRec)
+					
+					weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal and (weapon.Primary.KickHorizontal * custom.wepRec)
+					
+					weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor and (weapon.Primary.StaticRecoilFactor * custom.wepRec)
 				end
 
 				if(custom.wepAcc) then

@@ -23,7 +23,7 @@ function ENT:Initialize()
 		self.TV:SetPos(self:GetPos())
 		self.TV:SetParent(self, 1)
 		self.TV:SetMoveType(MOVETYPE_NONE)
-		self.TV:SetMaterial("models/props_lab/security_screens")	
+		self.TV:SetMaterial("models/props_lab/security_screens")
 	end
 
 	self:basicSetup()

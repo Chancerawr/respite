@@ -78,6 +78,10 @@ ITEM.functions.Charge = {
 			return false
 		end
 		
+		if(IsValid(item.entity)) then
+			return false
+		end
+		
 		return true
 	end
 }

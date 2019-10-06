@@ -74,6 +74,8 @@ else
 		local char = LocalPlayer():getChar()
 		local boost = char:getBoosts()
 
+		local bars = {}
+		local level = 0
 		for k, v in SortedPairsByMemberValue(nut.attribs.list, "name") do
 			local attribBoost = 0
 			if (boost[k]) then
@@ -95,7 +97,61 @@ else
 
 			local maximum = v.maxValue or nut.config.get("maxAttribs", 30)
 			bar:setMax(maximum)
-			bar:setReadOnly()
+			
+			if (!(nut.plugin.list["level"] and nut.plugin.list["level"]:canLevel(LocalPlayer():getChar()))) then
+				bar:setReadOnly()
+			else
+				if(nut.plugin.list["level"].exclude[k]) then --exclusion list
+					bar:setReadOnly()
+				else
+					bar.sub:Remove()
+					bar.levelup = true
+					level = nut.plugin.list["level"]:canLevel(LocalPlayer():getChar())
+					bar.attrib = k
+					
+					bar.doChange = function()
+						if ((bar.value == 0 and bar.pressing == -1) or (bar.value == bar.max and bar.pressing == 1)) then
+							return
+						end
+						
+						bar.nextPress = CurTime() + 0.2
+						
+						if (bar:onChanged(bar.pressing) != false) then
+							bar.value = math.Clamp(bar.value + bar.pressing, 0, bar.max)
+						end
+						
+						if(bar.levelup) then
+							Derma_Query("Increase " ..v.name.. "?", "Confirmation", "Yes", function()
+								netstream.Start("statIncrease", bar.attrib, bar.value)
+								level = level - 1
+								
+								if(level < 1) then
+									for k, v in pairs(bars) do
+										v.pressing = false
+										v.add:Remove()
+									end
+								end
+								
+								bar:setValue(bar.value)
+								
+								bar:setText(
+									Format(
+										"%s [%.1f/%.1f] (%.1f",
+										L(v.name),
+										bar.value,
+										maximum,
+										bar.value/maximum*100
+									)
+									.."%)"
+								)
+							end, "No", function()
+								bar.value = bar.value - 1
+							end)
+						end
+					end
+				end
+			end
+			
 			bar:setText(
 				Format(
 					"%s [%.1f/%.1f] (%.1f",
@@ -110,6 +166,8 @@ else
 			if (attribBoost) then
 				bar:setBoost(attribBoost)
 			end
+			
+			table.insert(bars, bar)
 		end
 	end
 

@@ -54,7 +54,7 @@ ITEM.functions.use = { -- sorry, for name order.
 		end
 	end,
 	onCanRun = function(item)
-		if(item.entity) then
+		if(IsValid(item.entity)) then
 			return false
 		end	
 	
@@ -62,10 +62,6 @@ ITEM.functions.use = { -- sorry, for name order.
 		local char = player:getChar()
 
 		if (char:getFaction() != FACTION_DRIFTER) then
-			return false
-		end
-		
-		if(IsValid(item.entity)) then
 			return false
 		end
 		

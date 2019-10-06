@@ -160,7 +160,7 @@ function ITEM:onCombine(other)
 		if (istable(res) and type(res.error) == "string") then
 			return client:notifyLocalized(res.error)
 		end
-		client:EmitSound(unpack(SOUND_BAG_RESPONSE))
+		--client:EmitSound(unpack(SOUND_BAG_RESPONSE))
 	end)
 end
 

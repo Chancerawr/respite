@@ -53,6 +53,7 @@ nut.command.add("centname", {
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a name for the entity.")
+			return false
 		end
 		
 		local entity = client:GetEyeTrace().Entity
@@ -132,6 +133,14 @@ nut.command.add("centmodel", {
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			entity:SetModel(arguments[1])
+			
+			for k, v in ipairs(entity:GetSequenceList()) do
+				if (v:lower():find("idle") and v != "idlenoise") then
+					entity:ResetSequence(k)
+					break
+				end
+			end
+			
 			client:notify("Entity's model has been changed.")
 		else
 			client:notify("You must be looking at a combat entity.")
@@ -272,53 +281,6 @@ nut.command.add("centattrib", {
 	end
 })
 
-nut.command.add("centattribcheck", {
-	adminOnly = true,
-	syntax = "<string attribute>",
-	onRun = function(client, arguments)
-		if(!arguments[1]) then
-			client:notify("Specify an attribute.")
-			return
-		end
-		
-		local entity = client:GetEyeTrace().Entity
-		if (IsValid(entity) and entity.combat) then
-			local attrib = string.lower(arguments[1])
-
-			local num = 0
-			if(string.find("agility", attrib)) then
-				num = entity.agil
-				client:notify("Agility: " ..num.. ".")
-			elseif(string.find("strength", attrib)) then
-				num = entity.stre
-				client:notify("Strength: " ..num.. ".")
-			elseif(string.find("accuracy", attrib)) then
-				num = entity.accu
-				client:notify("Accuracy: " ..num.. ".")
-			elseif(string.find("craftiness", attrib)) then
-				num = entity.craf
-				client:notify("Craftiness: " ..num.. ".")
-			elseif(string.find("endurance", attrib)) then
-				num = entity.endu
-				client:notify("Endurance: " ..num.. ".")
-			elseif(string.find("luck", attrib)) then
-				num = entity.luck
-				client:notify("Luck: " ..num.. ".")
-			elseif(string.find("perception", attrib)) then
-				num = entity.perc
-				client:notify("Perception: " ..num.. ".")
-			elseif(string.find("fortitude", attrib)) then
-				num = entity.fort
-				client:notify("Fortitude: " ..num.. ".")
-			else
-				client:notify("Invalid attribute.")
-			end
-		else
-			client:notify("You must be looking at a combat entity.")
-		end
-	end
-})
-
 nut.command.add("centattribs", {
 	adminOnly = true,
 	onRun = function(client, arguments)	
@@ -369,6 +331,8 @@ nut.command.add("centclone", {
 			clone:setNetVar("name", entity:getNetVar("name", entity.PrintName)) --set its custom name
 			clone:setNetVar("desc", entity:getNetVar("desc", "")) --set its description			
 			
+			clone.inv = entity.inv
+			
 			--set its attributes
 			clone.agil = entity.agil
 			clone.stre = entity.stre
@@ -389,13 +353,98 @@ nut.command.add("centclone", {
 	end
 })
 
+--clones a target Cent
+nut.command.add("centcopy", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
+			local info = {
+				class = entity:GetClass(),
+				ang = entity:GetAngles(),
+				mdl = entity:GetModel(),
+				mat = entity:GetMaterial(),
+				col = entity:GetColor(),
+				name = entity:getNetVar("name", entity.PrintName),
+				desc = entity:getNetVar("desc", ""),
+				ani = entity:GetSequence(),
+				inv = entity.inv,
+				attrib = {
+					agil = entity.agil,
+					stre = entity.stre,
+					accu = entity.accu,
+					craf = entity.craf,
+					endu = entity.endu,
+					luck = entity.luck,
+					perc = entity.perc,
+					fort = entity.fort,
+				},
+			}	
+
+			client.CEntC = info
+			local name = entity:getNetVar("name", entity.PrintName)
+			client:notify(name.. " has been copied.") --notify the player
+		else --called if they aren't looking at the right thing
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+--clones a target Cent
+nut.command.add("centpaste", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local info = client.CEntC
+		if(info) then
+			local clone = ents.Create(info.class) --the new clone entity
+			clone:SetPos(client:GetEyeTrace().HitPos) --set its position
+			clone:SetAngles(info.ang) --set its angles
+			
+			clone:Spawn() --spawn it
+			
+			clone:SetModel(info.mdl) --set its model
+			clone:SetMaterial(info.mat) --set its material
+			clone:SetColor(info.col)
+			
+			--sets its animation
+			timer.Simple(1, function()
+				if(IsValid(clone)) then
+					clone:ResetSequence(info.ani)
+				end
+			end)
+			
+			clone:setNetVar("name", info.name) --set its custom name
+			clone:setNetVar("desc", info.desc) --set its description			
+			
+			clone.inv = info.inv
+			
+			local attrib = info.attrib
+			--set its attributes
+			clone.agil = attrib.agil
+			clone.stre = attrib.stre
+			clone.accu = attrib.accu
+			clone.craf = attrib.craf
+			clone.endu = attrib.endu
+			clone.luck = attrib.luck
+			clone.perc = attrib.perc
+			clone.fort = attrib.fort
+			
+			clone:SetCreator(client) --prop protection
+
+			local name = clone:getNetVar("name", clone.PrintName)
+			client:notify(name.. " has been pasted.") --notify the player
+		end
+	end
+})
+
 nut.chat.register("react_fail", { --reaction roll
 	onChatAdd = function(speaker, text)
 		chat.AddText(CHATCOLOR_RED, text)
 	end,
 	color = CHATCOLOR_RED,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -406,7 +455,7 @@ nut.chat.register("react_success", { --reaction roll
 	end,
 	color = CHATCOLOR_GREEN,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -417,7 +466,7 @@ nut.chat.register("melee_npc", {
 		chat.AddText(CHATCOLOR_MELEE, text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -427,7 +476,7 @@ nut.chat.register("fort_npc", {
 		chat.AddText(Color(200,200,200), text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -437,7 +486,7 @@ nut.chat.register("react_npc", { --reaction roll
 		chat.AddText(CHATCOLOR_REACT, text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -447,7 +496,7 @@ nut.chat.register("graze_npc", { --reaction roll
 		chat.AddText(CHATCOLOR_GRAZE, text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -457,7 +506,7 @@ nut.chat.register("resist_npc", {
 		chat.AddText(CHATCOLOR_RESIST, text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -467,7 +516,7 @@ nut.chat.register("firearms_npc", {
 		chat.AddText(CHATCOLOR_RANGED, text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })
@@ -477,7 +526,7 @@ nut.chat.register("special_npc", {
 		chat.AddText(CHATCOLOR_SPECIAL, text)
 	end,
 	filter = "actions",
-	font = "nutChatFontItalics",
+	font = "nutChatFontCombat",
 	onCanHear = nut.config.get("chatRange", 280) * 5,
 	deadCanChat = true
 })

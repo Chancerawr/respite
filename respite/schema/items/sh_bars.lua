@@ -43,11 +43,9 @@ ITEM.functions.Stare = {
 					ent:Spawn()
 					ent:SetOwner(self)
 					
-					timer.Simple(0.5,
-						function()
-							ent:SetEnemy(client)
-						end
-					)
+					timer.Simple(0.5, function()
+						ent:SetEnemy(client)
+					end)
 				else
 					ent:Remove()
 				end

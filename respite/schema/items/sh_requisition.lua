@@ -114,7 +114,7 @@ local device = {
 local strange = {
 	"nightmare",
 	"bars",
-	"bell",
+	--"bell",
 	"food_apple_cursed",
 	"alc_cloud",
 	"food_laugh",
@@ -127,8 +127,7 @@ local strange = {
 	"food_soda_cold",
 	"potion_luck",
 	"salve_healing",
-	"drug_psychotics",
-	"tfa_chunk"
+	"drug_psychotics"
 }
 
 local guns = {
@@ -262,7 +261,7 @@ local dropFunctions = {
 	
 	{
 		name = "Device", 
-		cost = 350,
+		cost = 500,
 		contents = function()
 			local drops = {}
 			local drop1 = table.Random(device)
@@ -390,8 +389,10 @@ for k, v in pairs(dropFunctions) do
 			local chip = inventory:getFirstItemOfType("cube_chip_enhanced")
 		
 			client:requestQuery("This costs " ..cost.. " scrap coins and an enhanced chip. Are you sure?", "Order", function(text)
-				char:takeMoney(cost)
+				if(!chip) then return false end
+			
 				chip:remove()
+				char:takeMoney(cost)
 				
 				nut.chat.send(client, "it", "The requsition device begins to emit some sort of noise.")
 				

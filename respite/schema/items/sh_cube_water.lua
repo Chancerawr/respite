@@ -26,7 +26,7 @@ ITEM.functions.Chip = {
 		local chip = inventory:getFirstItemOfType("cube_chip")	
 		
 		if (!chip) then
-			client:notifyLocalized("You need a chip to insert!") return false
+			client:notify("You need a chip to insert!") return false
 		end
 		
 		for i = 1,6 do 

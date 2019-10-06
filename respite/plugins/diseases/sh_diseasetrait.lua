@@ -353,6 +353,11 @@ DISEASE.buff = {
 	["accuracy"] = -5,
 	["perception"] = -5,
 }
+DISEASE.buffScale = {
+	["perception"] = -0.25,
+	["accuracy"] = -0.5,
+	["stm"] = -0.1,
+}
 DISEASE.phase = {
 	"You are hungry.",
 	"You are very hungry.",

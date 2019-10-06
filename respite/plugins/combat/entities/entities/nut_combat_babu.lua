@@ -18,5 +18,9 @@ ENT.perc = 5
 ENT.fort = 0
 
 function ENT:Initialize()
+	timer.Simple(0.6, function()
+		self:ResetSequence("idle01")
+	end)
+
 	self:basicSetup()
 end

@@ -8,7 +8,7 @@ ITEM.funcTable = {
 		id = "Coins",
 		name = "Scrap Coins (10)",
 		icon = "icon16/cog.png",
-		sound = "play ambient/machines/spindown.wav",	
+		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
 		required = {
@@ -21,17 +21,18 @@ ITEM.funcTable = {
 	},
 	{
 		id = "Coins2",
-		name = "Scrap Coins (100)",
+		name = "Scrap Coins (95)",
 		icon = "icon16/cog.png",
-		sound = "play ambient/machines/spindown.wav",	
+		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
 		required = {
 			["cube_chip"] = 9
-		},	
+		},
 		
 		results = {
-			["coin_10"] = 10,
+			["coin_10"] = 9,
+			["coin_5"] = 1,
 		},
 	}
 }

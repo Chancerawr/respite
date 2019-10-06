@@ -27,7 +27,7 @@ ITEM.functions.Scrap = {
 		local inventory = client:getChar():getInv()
 		local position = client:getItemDropPos()
 		
-		if(math.random(1,4) == 1) then
+		if(math.random(1,10) == 1) then
 			inventory:addSmart("blight", 1, position, {Amount = item:getData("Amount")})
 		else
 			inventory:addSmart("j_scrap_wood", 1, position, {Amount = item:getData("Amount")})

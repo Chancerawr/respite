@@ -1,51 +1,48 @@
-
 local workshopIDs = { 
-132470017, --lantern
-121438260, --glowsticks
-415143062, --tfa base
-296202013, --prosp content 1
-575907820, --prosp content decals
-795055947, --blood and gore 4
-479464165, --pac gear
-160250458, --wire
-380225333, --nextbot zombies 2.0
-296806391, --nextbot zombies 2.0 (zombie survival)
-246756300, --3d stream radio
-609281761, --prone mod models
-106867422, --classic light stool
-727161410, --witcher gates
-685130934, --serverguard content
-774729099, --respite npc content
-1450252748, --respite extra content
-771487490, --simfphys vehicles
-831680603, --simfphys armed vehicles
-207739713, --nutscript content
-880425071, --respite content 1
-880423690, --respite content 2
-880417421, --respite content 3
-899354382, --respite effects
-1076723138, --tfa content 1
-1076732010, --tfa content 2
-1076706011, --tfa content 3
-756545326, --gunsmoke community models
+	--addons
+	
+	132470017, --lantern
+	121438260, --glowsticks
+	415143062, --tfa base
+	296202013, --prosp content 1
+	575907820, --prosp content decals
+	795055947, --blood and gore 4
+	479464165, --pac gear
+	160250458, --wire
+	380225333, --nextbot zombies 2.0
+	296806391, --nextbot zombies 2.0 (zombie survival)
+	246756300, --3d stream radio
+	609281761, --prone mod models
+	106867422, --classic light stool
+	727161410, --witcher gates
+	685130934, --serverguard content
+	774729099, --respite npc content
+	1450252748, --respite extra content
+	771487490, --simfphys vehicles
+	831680603, --simfphys armed vehicles
+	207739713, --nutscript content
+	880425071, --respite content 1
+	880423690, --respite content 2
+	880417421, --respite content 3
+	899354382, --respite effects
+	1076723138, --tfa content 1
+	1076732010, --tfa content 2
+	1076706011, --tfa content 3
+	756545326, --gunsmoke community models
 
---[[
-player models
---]]
+	--tnb
+	
+	1775190034, --tnb 1
+	1775195041, --tnb 3
+	1775197024, --tnb 2
+	1775198239, --tnb 4
+	1775187340, --tnb items
+	1775186802, --tnb combine
 
-1775190034, --tnb 1
-1775195041, --tnb 3
-1775197024, --tnb 2
-1775198239, --tnb 4
-1775187340, --tnb items
-1775186802, --tnb combine
-
---[[
-Temporary Things (Like Maps)
---]]
-
-215338015, --rp_v_torrington content
-337486491 --rp_lr_refuge
+	--maps
+	
+	215338015, --rp_v_torrington content
+	959711385, --rp_neverlosehopehospital_bi
 }
 
 for k, v in pairs(workshopIDs) do
@@ -144,6 +141,16 @@ function SCHEMA:PostPlayerLoadout(client)
 	end
 end
 
+function SCHEMA:PlayerSpawnRagdoll(client)
+	if(client and client:IsPlayer()) then
+		if (client:getChar() and client:getChar():hasFlags("r")) then
+			return true
+		end
+
+		return false
+	end
+end
+
 --someone gave me this but I don't think it does anything the way it is now
 function SCHEMA:Think()
 	if((self.NextDBRefresh or 0) < CurTime()) then
@@ -159,13 +166,3 @@ netstream.Hook("strReq", function(client, time, text)
 		client.nutStrReqs[time] = nil
 	end
 end)
-
-function GM:PlayerSpawnRagdoll(client)
-	if(client and client:IsPlayer()) then
-		if (client:getChar() and client:getChar():hasFlags("r")) then
-			return true
-		end
-
-		return false
-	end
-end

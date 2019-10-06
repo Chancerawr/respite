@@ -44,14 +44,14 @@ ITEM.functions.Dig = {
 
 			local reward = "j_scrap_memory"
 			inventory:addSmart(reward, 1, position, {Amount = 5})
-		elseif(roll < 95) then
+		elseif(roll < 99) then
 			client:notify("You dig up some cheese?")
 			local reward = "food_cheese"
 			
 			inventory:addSmart(reward, 2, position)
 		else
-			client:notify("You receive a strange device.")
-			local reward = "mister"
+			client:notify("You receive some shard dust.")
+			local reward = "shard_dust"
 			
 			inventory:addSmart(reward, 1, position)
 		end

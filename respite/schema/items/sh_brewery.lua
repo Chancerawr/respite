@@ -41,42 +41,40 @@ ITEM.functions.Brew = {
 				chip:remove()
 				nut.chat.send(client, "itclose", "The machine takes the water and the chip, and begins to brew.")
 				
-				timer.Simple(30, 
-					function()
-						if (item != nil) then
-							local cleanN = 1
-							if (clean) then
-								cleanN = 3
-							end
-							
-							for i = 1,cleanN do
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground									
-									inventory:addSmart(alcohol[math.random(1,cleanN*3)], 1, client:getItemDropPos())
-									
-									client:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
-								else --if the item it on the ground
-									nut.item.spawn(alcohol[math.random(1,cleanN*3)], item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-									item:getEntity():EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
-								end
-							end
-							
-							if(clean) then
-								if(math.random(0,9) == 0) then
-									if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-										inventory:addSmart("alc_cloud", 1, client:getItemDropPos())
-										
-										client:EmitSound("hl1/ambience/steamburst1.wav")
-									else --if the item it on the ground
-										nut.item.spawn("alc_cloud", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
-										item:getEntity():EmitSound("hl1/ambience/steamburst1.wav")
-									end
-								end
-							end
-							
-							client:notify("Brewing has finished.")
+				timer.Simple(30, function()
+					if (item != nil) then
+						local cleanN = 1
+						if (clean) then
+							cleanN = 3
 						end
+						
+						for i = 1,cleanN do
+							if(!IsValid(item:getEntity())) then --checks if item is not on the ground									
+								inventory:addSmart(alcohol[math.random(1,cleanN*3)], 1, client:getItemDropPos())
+								
+								client:EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
+							else --if the item it on the ground
+								nut.item.spawn(alcohol[math.random(1,cleanN*3)], item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+								item:getEntity():EmitSound("physics/glass/glass_bottle_impact_hard3.wav")
+							end
+						end
+						
+						if(clean) then
+							if(math.random(0,9) == 0) then
+								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+									inventory:addSmart("alc_cloud", 1, client:getItemDropPos())
+									
+									client:EmitSound("hl1/ambience/steamburst1.wav")
+								else --if the item it on the ground
+									nut.item.spawn("alc_cloud", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+									item:getEntity():EmitSound("hl1/ambience/steamburst1.wav")
+								end
+							end
+						end
+						
+						client:notify("Brewing has finished.")
 					end
-				)
+				end)
 			else			
 				client:notify("You don't have a chip!") return false
 			end

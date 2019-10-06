@@ -62,6 +62,7 @@ PLUGIN.codeList = {
 	"Lizard",
 	"Gorilla",
 	"Ferret",
+	"HELP",
 }
 
 if (CLIENT) then
@@ -220,9 +221,6 @@ else
 	})
 end
 
-local find = {
-	["comm_signal"] = false
-}
 local function endChatter(listener)
 	timer.Simple(1, function()
 		if (!listener:IsValid() or !listener:Alive()) then
@@ -260,15 +258,13 @@ nut.chat.register("signal", {
 					break
 				end
 
-				for id, far in pairs(find) do
-					if (v.uniqueID == "comm_signal" and v:getData("power") == true) then
-						if (CURFREQ == v:getData("freq", "000.0")) then
-							endChatter(listener)
-							return true
-						end
-
-						break
+				if ((v.uniqueID == "comm_signal" or v.uniqueID == "comm_radio") and v:getData("power") == true) then
+					if (CURFREQ == v:getData("freq", "000.0")) then
+						endChatter(listener)
+						return true
 					end
+
+					break
 				end
 			end
 		end
@@ -304,13 +300,17 @@ nut.chat.register("signal", {
 	onChatAdd = function(speaker, text, anonymous)
 		--local name = anonymous and L"someone" or hook.Run("GetDisplayedName", speaker, chatType) or (IsValid(speaker) and speaker:Name() or "Console")
 
-		local textSep = string.Explode(" ", text) or {}
+		if(istable(text)) then
+			text = ""
+		end
+		
+		local textSep = string.Explode(" ", text)
 		
 		local code = ""
 		for k, v in pairs(textSep) do		
 			local codeNum = 100
-			--local translated = L2(chatType.."Format", name, text)
-			if(tonumber(v) != nil) then
+
+			if(tonumber(v)) then
 				codeNum = tonumber(v)
 			end
 			
@@ -319,9 +319,13 @@ nut.chat.register("signal", {
 			else
 				code = code.. " Unknown"
 			end
+			
+			code = code.. "."
 		end
+		
+		code = code.. " (Distance " ..math.Round(LocalPlayer():GetPos():Distance(speaker:GetPos())).. ")"
 
-		chat.AddText(SIGNAL_CHATCOLOR, code .. ".")
+		chat.AddText(SIGNAL_CHATCOLOR, code)
 	end,	
 	prefix = {"/signal"},
 })

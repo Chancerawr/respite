@@ -19,106 +19,123 @@ nut.config.add("startingPoints", 25, "How many attributes a player can distribut
 --potential parts to hit with random shots
 local bParts = {
 	{ --head/neck
-		"Skull", 
-		"Left Eye", 
-		"Right Eye", 
-		"Nose",
-		"Face",
-		"Left Ear",
-		"Right Ear",
-		"Jaw",
+		["Skull"] = 2, 
+		["Left Eye"] = 2, 
+		["Right Eye"] = 2, 
+		["Nose"] = 2,
+		["Face"] = 4,
+		["Left Ear"] = 2,
+		["Right Ear"] = 2,
+		["Jaw"] = 3,
 		
-		"Neck", 
-		"Neck Flesh", 
-		"Larynx", 
-		"Trachea"
+		["Neck"] = 3, 
+		["Neck Flesh"] = 4, 
+		["Larynx"] = 2, 
+		["Trachea"] = 2,
 	},
 	
 	{ --shoulders
-		"Left Shoulder", 
-		"Left Shoulder Socket", 
-		"Left Scapula",
-		"Right Shoulder", 
-		"Right Shoulder Socket",
-		"Right Scapula"
+		["Left Shoulder"] = 3, 
+		["Left Shoulder Socket"] = 1, 
+		["Left Scapula"] = 2,
+		["Right Shoulder"] = 3, 
+		["Right Shoulder Socket"] = 1,
+		["Right Scapula"] = 2,
 	}, 
 	
 	{ --arms
-		"Left Upper Arm Bone", 
-		"Left Upper Arm Flesh", 
-		"Left Elbow",  
-		"Left Forearm Flesh",
-		"Left Forearm Bone",
-		"Left Hand",
+		["Left Upper Arm Bone"] = 3, 
+		["Left Upper Arm Flesh"] = 4, 
+		["Left Elbow"] = 2,  
+		["Left Forearm Bone"] = 2,
+		["Left Forearm Flesh"] = 3,
+		["Left Hand"] = 2,
 		
-		"Right Upper Arm Bone", 
-		"Right Upper Arm Flesh", 
-		"Right Elbow",
-		"Right Forearm Flesh",
-		"Right Forearm Bone",
-		"Right Hand",
+		["Right Upper Arm Bone"] = 3, 
+		["Right Upper Arm Flesh"] = 4, 
+		["Right Elbow"] = 2,
+		["Right Forearm Bone"] = 2,
+		["Right Forearm Flesh"] = 3,
+		["Right Hand"] = 2,
 		
-		"Weapon"
+		["Weapon"] = 4,
 	},
 	
 	{ --torso/chest
-		"Heart",
-		"Left Lung",
-		"Left Upper Chest Rib",
-		"Left Lower Chest Rib",
-		"Right Lung",
-		"Right Upper Chest Rib",
-		"Right Lower Chest Rib",
-		"Liver",
-		"Left Kidney",
-		"Right Kidney",
-		"Stomach",
-		"Spleen",
-		"Pancreas",
-		"Large Intestine",
-		"Small Intestine",
+		["Heart"] = 1,
+		["Left Lung"] = 2,
+		["Left Upper Chest Rib"] = 2,
+		["Left Lower Chest Rib"] = 2,
+		["Right Lung"] = 2,
+		["Right Upper Chest Rib"] = 2,
+		["Right Lower Chest Rib"] = 2,
+		["Liver"] = 2,
+		["Left Kidney"] = 2,
+		["Right Kidney"] = 2,
+		["Stomach"] = 3,
+		["Spleen"] = 2,
+		["Pancreas"] = 2,
+		["Large Intestine"] = 4,
+		["Small Intestine"] = 3,
 		
-		"Upper Chest Spine",
-		"Lower Chest Spine",
-		"Abdomen Spine"
+		["Upper Chest Spine"] = 1,
+		["Lower Chest Spine"] = 1,
+		["Abdomen Spine"] = 2,
 	},
 
 	{ --hip
-		"Left Pelvis",
-		"Center Pelvis",
-		"Right Pelvis",
-		"Left Hip",
-		"Left Hip Socket",
-		"Right Hip",
-		"Right Hip Socket",
-		"Groin"
+		["Left Pelvis"] = 5,
+		["Center Pelvis"] = 5,
+		["Right Pelvis"] = 5,
+		["Left Hip"] = 6,
+		["Left Hip Socket"] = 4,
+		["Right Hip"] = 6,
+		["Right Hip Socket"] = 4,
+		["Groin"] = 3,
 	},
 
 	{ --legs
-		"Left Upper Leg Flesh",
-		"Left Upper Leg Femur",
-		"Left Knee",
-		"Left Shin Flesh",
-		"Left Tibia",
-		"Left Ankle",
-		"Left Foot",
+		["Left Upper Leg Flesh"] = 6,
+		["Left Upper Leg Femur"] = 6,
+		["Left Lower Leg Flesh"] = 6,
+		["Left Knee"] = 4,
+		["Left Shin Flesh"] = 4,
+		["Left Tibia"] = 2,
+		["Left Ankle"] = 1,
+		["Left Foot"] = 2,
 		
-		"Right Upper Leg Flesh",
-		"Right Upper Leg Femur",
-		"Right Knee",
-		"Right Shin Flesh",
-		"Right Tibia",
-		"Right Ankle",
-		"Right Foot"
+		["Right Upper Leg Flesh"] = 6,
+		["Right Upper Leg Femur"] = 6,
+		["Right Lower Leg Flesh"] = 6,
+		["Right Knee"] = 4,
+		["Right Shin Flesh"] = 4,
+		["Right Tibia"] = 2,
+		["Right Ankle"] = 1,
+		["Right Foot"] = 2,
 	}
 }
 
+local function GetWeightedRandomKey( tab )
+	local sum = 0
+
+	for _, chance in pairs( tab ) do
+		sum = sum + chance
+	end
+
+	local select = math.random() * sum
+
+	for key, chance in pairs( tab ) do
+		select = select - chance
+		if select < 0 then return key end
+	end
+end
+
 function PLUGIN:getRandomBpart()
-	local part = table.Random(table.Random(bParts))
+	local part = GetWeightedRandomKey(table.Random(bParts))
 	
 	return part
 end
-	
+
 local function traitModify(client, command, rolled)
 	local char = client:getChar()
 	local charTraits = char:getData("traits", {}) --the traits the character has
@@ -602,14 +619,13 @@ nut.util.include("sh_commands.lua")
 nut.util.include("sh_scav.lua")
 nut.util.include("sh_train.lua")
 
-
 if(CLIENT) then
 	--combat font
 	surface.CreateFont("nutChatFontCombat", {
 		font = "Verdana Italic",
-		size = math.max(ScreenScale(7), 27),
+		size = math.max(ScreenScale(7), 25),
 		extended = true,
-		weight = 200,
+		weight = 350,
 		italic = true
 	})	
 end

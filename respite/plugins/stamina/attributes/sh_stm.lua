@@ -1,4 +1,4 @@
-ATTRIBUTE.name = "Agility"
+ATTRIBUTE.name = "Finesse"
 ATTRIBUTE.desc = "The quickness of your character in various actions."
 
 function ATTRIBUTE:onSetup(client, value)

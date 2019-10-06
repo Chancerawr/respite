@@ -13,20 +13,6 @@ ITEM.iconCam = {
 	fov = 2.5,
 }
 
-function ITEM:getDesc()
-	local str
-	
-	if (!self.entity or !IsValid(self.entity)) then
-		str = "A device that allows you to send a simple signal to others from far away.\nPower: %s\nFrequency: %s"
-		return Format(str, (self:getData("power") and "On" or "Off"), self:getData("freq", "000.0"))
-	else
-		local data = self.entity:getData()
-		
-		str = "A device that allows you to send a simple signal to others from far away. Power: %s Frequency: %s"
-		return Format(str, (self.entity:getData("power") and "On" or "Off"), self.entity:getData("freq", "000.0"))
-	end
-end
-
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
 		if (item:getData("power", false)) then
@@ -79,3 +65,17 @@ ITEM.functions.use = { -- sorry, for name order.
 		return false
 	end
 }
+
+function ITEM:getDesc()
+	local str
+	
+	if (!self.entity or !IsValid(self.entity)) then
+		str = "A device that allows you to send a simple signal to others from far away.\nPower: %s\nFrequency: %s"
+		return Format(str, (self:getData("power") and "On" or "Off"), self:getData("freq", "000.0"))
+	else
+		local data = self.entity:getData()
+		
+		str = "A device that allows you to send a simple signal to others from far away.\nPower: %s\nFrequency: %s"
+		return Format(str, (self.entity:getData("power") and "On" or "Off"), self.entity:getData("freq", "000.0"))
+	end
+end

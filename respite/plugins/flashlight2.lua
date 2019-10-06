@@ -53,6 +53,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_ch34t = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ch3ck = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_ch3m0 = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_ch3m0fe = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_chafe = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_chunk = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_cp1ch = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
@@ -80,6 +81,17 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_wasteland_staplegun = function(ang) return (ang:Forward():Angle()) end,
 		tfa_wr0ng = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_wr0ns = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		
+		
+		tfa_ap40n = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_ap40s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_arm0n = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_arm0s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_arm1n = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_arm1s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_arm4n = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		tfa_arm4s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
+		
 	}
 
 	local meleeWeapons = {

@@ -132,7 +132,7 @@ function PLUGIN:PostDrawHUD()
 
 	entity = trace.Entity
 	distance = trace.StartPos:DistToSqr(trace.HitPos)
-	scaleFraction = 1 - math.Clamp(distance / maxDistance, 0, .5)
+	scaleFraction = 1 - math.Clamp(distance / maxDistance, 0, .75)
 	screen = trace.HitPos:ToScreen()
 	crossSize = 4
 	crossGap = 16
@@ -174,7 +174,7 @@ function PLUGIN:PostDrawHUD()
 			filter2 = {client}
 
 			crossSize2 = 4
-			crossGap2 = 25 * (scaleFraction - (client:isWepRaised() and 0 or .1))
+			crossGap2 = 24 * (scaleFraction - (client:isWepRaised() and 0 or .1))
 			
 			if (IsValid(entity) and entity:GetClass() == "nut_item" and 
 				entity:GetPos():DistToSqr(data.start) <= 16384) then

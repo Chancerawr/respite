@@ -12,7 +12,7 @@ ITEM.iconCam = {
 
 ITEM.functions.Jam = {
 	tip = "JAM this item",
-	icon = "icon16/cross.png",
+	icon = "icon16/bullet_red.png",
 	onRun = function(item)
 		local client = item.player
 		local char = client:getChar()

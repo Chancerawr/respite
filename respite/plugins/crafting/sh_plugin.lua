@@ -133,9 +133,6 @@ function RECIPES:Register( tbl )
 	end
 	if !tbl.ProcessCraftItems then
 		function tbl:ProcessCraftItems( player )
-
-			//print("ProcessCraftItems called")
-		
 			player:EmitSound( "items/ammo_pickup.wav" )
 			
 			--used for finding the average quality of all the items that have quality.
@@ -200,7 +197,7 @@ function RECIPES:Register( tbl )
 							local all = inventory:getItems()
 							for m, extraStack in pairs (all) do
 								if (k == extraStack.uniqueID) then
-									local amount = extraStack:getData("Amount")
+									local amount = extraStack:getData("Amount", 1)
 									if(amount <= v) then
 										v = v - amount
 										extraStack:remove()
@@ -256,7 +253,9 @@ function RECIPES:Register( tbl )
 				
 				nut.log.addRaw(player:Name().. " crafted " ..nut.item.list[k].name.. ".")
 				
-				local craftGain = (table.Count(self.items) or 1) * 0.01
+				local itemCount = table.Count(self.items) or 1
+				local craftGain = math.Round((itemCount * itemCount) * 0.005, 2)
+				
 				player:getChar():updateAttrib("medical", craftGain)
 			end
 			player:notifyLocalized("donecrafting", self.name)
@@ -305,12 +304,14 @@ end
 function RECIPES:CanCraft( player, item )
 	local tblRecipe = self:Get( item )
 	if PLUGIN.reqireBlueprint then
+		--[[
 		if !tblRecipe.noBlueprint then
 			local name_bp = ( tblRecipe.uid )
 			if !player:getFirstItemOfType( name_bp ) then
 				return 2
 			end
 		end
+		--]]
 	end
 	if !tblRecipe:CanCraft( player ) then
 		return 1

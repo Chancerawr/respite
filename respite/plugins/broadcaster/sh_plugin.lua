@@ -25,7 +25,7 @@ nut.chat.register("broadcast", {
 			return false
 		end
 	end,
-	onCanHear = nut.config.get("chatRange", 280) * 32,
+	onCanHear = nut.config.get("chatRange", 280) * 48,
 	onChatAdd = function(speaker, text)
 		chat.AddText(Color(225, 70, 0), "[BROADCAST]: " ..text)
 	end,

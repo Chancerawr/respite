@@ -209,136 +209,129 @@ ITEM.functions.FishNoBait = {
 		timer.Simple(2, function()
 			if(hook:WaterLevel() > 0) then
 				local inventory = client:getChar():getInv()
-				local bait = inventory:getFirstItemOfType("j_scrap_organic")
 				local char = client:getChar()
-				
-				if(!bait or bait:getData("Amount", 1) < 2) then
-					client:notify("You need two organic material.")
-					return false
-				end
 				
 				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
 				item:setData("producing", CurTime())
 				local oldPos = client:GetPos()
-				client:setAction("Fishing...", 25, 
-					function()
-						local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
-						local position = client:getItemDropPos()
-						
-						item:setData("producing2", 0)
-						
-						if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait and bait:getData("Amount", 1) >= 2) then
-							local roll = math.random(0, 1)
-								
-							if(roll == 0) then --fish 
-								local name, desc, wgt = nut.plugin.list["fish"]:constructFish()
-								desc = "A plastic fish.\nIt weighs " .. wgt .. " pounds."
-								
-								local model = ""
-								if(math.random(1,2) == 2) then
-									model = "2"
-								end
-								
-								local customData = {}
-								customData.desc = desc
-								
-								if(!inventory:add("food_fish" .. model .. "_plastic", 1, {custom = customData})) then --if the inventory has space, put it in the inventory
-									nut.item.spawn("food_fish" .. model .. "_plastic", position,
-										function(item2)
-											item2:setData("custom", customData)
-										end
-									)
-								end
-								
-								client:notify("You catch a plastic fish.")	
-							else
-								roll = math.random(luckRoll, 100)
-								local catch
-								
-								if(roll < 40) then
-									nut.chat.send(client, "meclose", "catches nothing.")
-									
-								elseif(roll < 50) then
-									nut.chat.send(client, "meclose", "catches a tin can.")
-									catch = "j_tinc"
-									
-								elseif(roll < 60) then
-									nut.chat.send(client, "meclose", "catches an empty bottle.")
-									catch = "j_empty_water"
-									
-								elseif(roll < 70) then
-									nut.chat.send(client, "meclose", "catches a boot.")
-									catch = "j_old_shoe"
-									
-								elseif(roll < 80) then
-									nut.chat.send(client, "meclose", "catches a baby doll.")
-									catch = "j_baby_doll"
-								
-								elseif(roll < 85) then
-									nut.chat.send(client, "meclose", "catches a can of yams.")
-									catch = "food_yams"								
-									
-								elseif(roll < 90) then
-									nut.chat.send(client, "meclose", "catches a small box of coins.")
-									catch = "coin_10"
-									
-								elseif(roll < 95) then
-									nut.chat.send(client, "meclose", "catches a humanoid rib.")
-									catch = "j_rib"								
-									
-								elseif(roll < 96) then
-									nut.chat.send(client, "meclose", "catches a strange bottle.")
-									catch = "drug_depress"
-									
-								elseif(roll < 97) then
-									nut.chat.send(client, "meclose", "catches a strange can.")
-									catch = "food_laugh"									
-									
-								elseif(roll < 98) then
-									nut.chat.send(client, "meclose", "catches a.. Banana?")
-									catch = "food_banana"	
-									
-								elseif(roll < 99) then
-									nut.chat.send(client, "meclose", "catches a chip.")
-									catch = "cube_chip"
-									
-								elseif(roll < 100) then
-									nut.chat.send(client, "meclose", "catches a cactus?")
-									catch = "j_cactus_plant"
-									
-								else
-									nut.chat.send(client, "meclose", "catches a strange object.")
-									catch = "j_scrap_memory"
-								end
-								
-								if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-									if(catch) then
-										if(!inventory:add(catch)) then --if the inventory has space, put it in the inventory
-											nut.item.spawn(catch, client:getItemDropPos()) --if not, drop it on the ground
-										end
+				client:setAction("Fishing...", 25, function()
+					local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
+					local position = client:getItemDropPos()
+					local bait = inventory:getFirstItemOfType("j_scrap_organic")
+					
+					item:setData("producing", nil)
+					
+					if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait and bait:getData("Amount", 1) >= 2) then
+						local roll = math.random(0, 1)
+							
+						if(roll == 0) then --fish 
+							local name, desc, wgt = nut.plugin.list["fish"]:constructFish()
+							desc = "A plastic fish.\nIt weighs " .. wgt .. " pounds."
+							
+							local model = ""
+							if(math.random(1,2) == 2) then
+								model = "2"
+							end
+							
+							local customData = {}
+							customData.desc = desc
+							
+							if(!inventory:add("food_fish" .. model .. "_plastic", 1, {custom = customData})) then --if the inventory has space, put it in the inventory
+								nut.item.spawn("food_fish" .. model .. "_plastic", position,
+									function(item2)
+										item2:setData("custom", customData)
 									end
-									
-								else --if the item it on the ground
-									nut.item.spawn(catch, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-								end		
+								)
 							end
-						
-							if(math.random(luckRoll, 150) < 90) then
-								client:notify("Your bait was lost.")
-								
-								local amount = bait:getData("Amount", 1)
-								bait:setData("Amount", 1, amount - 2) --costs 2
-								if (bait:getData("Amount", 1) <= 0) then
-									bait:remove()
-								end
-							end
+							
+							client:notify("You catch a plastic fish.")	
 						else
-							client:notify("Fishing has failed.")
+							roll = math.random(luckRoll, 100)
+							local catch
+							
+							if(roll < 40) then
+								nut.chat.send(client, "meclose", "catches nothing.")
+								
+							elseif(roll < 50) then
+								nut.chat.send(client, "meclose", "catches a tin can.")
+								catch = "j_tinc"
+								
+							elseif(roll < 60) then
+								nut.chat.send(client, "meclose", "catches an empty bottle.")
+								catch = "j_empty_water"
+								
+							elseif(roll < 70) then
+								nut.chat.send(client, "meclose", "catches a boot.")
+								catch = "j_old_shoe"
+								
+							elseif(roll < 80) then
+								nut.chat.send(client, "meclose", "catches a baby doll.")
+								catch = "j_baby_doll"
+							
+							elseif(roll < 85) then
+								nut.chat.send(client, "meclose", "catches a can of yams.")
+								catch = "food_yams"								
+								
+							elseif(roll < 90) then
+								nut.chat.send(client, "meclose", "catches a small box of coins.")
+								catch = "coin_10"
+								
+							elseif(roll < 95) then
+								nut.chat.send(client, "meclose", "catches a humanoid rib.")
+								catch = "j_rib"								
+								
+							elseif(roll < 96) then
+								nut.chat.send(client, "meclose", "catches a strange bottle.")
+								catch = "drug_depress"
+								
+							elseif(roll < 97) then
+								nut.chat.send(client, "meclose", "catches a strange can.")
+								catch = "food_laugh"									
+								
+							elseif(roll < 98) then
+								nut.chat.send(client, "meclose", "catches a.. Banana?")
+								catch = "food_banana"	
+								
+							elseif(roll < 99) then
+								nut.chat.send(client, "meclose", "catches a chip.")
+								catch = "cube_chip"
+								
+							elseif(roll < 100) then
+								nut.chat.send(client, "meclose", "catches a cactus?")
+								catch = "j_cactus_plant"
+								
+							else
+								nut.chat.send(client, "meclose", "catches a strange object.")
+								catch = "j_scrap_memory"
+							end
+							
+							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+								if(catch) then
+									if(!inventory:add(catch)) then --if the inventory has space, put it in the inventory
+										nut.item.spawn(catch, client:getItemDropPos()) --if not, drop it on the ground
+									end
+								end
+								
+							else --if the item it on the ground
+								nut.item.spawn(catch, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+							end		
 						end
-						
-						hook:Remove()
+					
+						if(math.random(luckRoll, 150) < 110) then
+							client:notify("Your bait was lost.")
+							
+							local amount = bait:getData("Amount", 1)
+							bait:setData("Amount", amount - 2) --costs 2
+							if (bait:getData("Amount", 1) <= 0) then
+								bait:remove()
+							end
+						end
+					else
+						client:notify("Fishing has failed.")
 					end
-				)
+					
+					hook:Remove()
+				end)
 			else
 				hook:Remove()
 				client:notify("Your hook needs to be in the water!")

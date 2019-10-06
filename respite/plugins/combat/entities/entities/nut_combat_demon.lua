@@ -9,8 +9,8 @@ ENT.name = "Demon"
 ENT.model = "models/nh2zombies/friendly.mdl"
 
 --all attributes
-ENT.agil = 15
-ENT.stre = 12
+ENT.agil = 20
+ENT.stre = 15
 ENT.accu = 5
 ENT.craf = 0
 ENT.endu = 8

@@ -307,8 +307,10 @@ function SWEP:doPickup(entity)
 	self:SetNW2Bool("holdingObject", true)
 	
 	timer.Simple(0.1, function()
-		self.Owner:PickupObject(entity)
-		self.Owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 3)..".wav", 75)
+		if(IsValid(entity)) then
+			self.Owner:PickupObject(entity)
+			self.Owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 3)..".wav", 75)
+		end
 	end)
 
 	self:SetNextSecondaryFire(CurTime() + 0.2)

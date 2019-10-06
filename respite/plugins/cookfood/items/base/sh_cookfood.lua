@@ -13,6 +13,32 @@ ITEM.sound = "npc/barnacle/barnacle_crunch2.wav"
 ITEM.duration = 7200
 ITEM.color = Color(50, 150, 50)
 
+local function stomachCheck(item, client, char)
+	if(nut.config.get("cookfood_stomach", true)) then
+		local stomachOverwrite = hook.Run("stomachOverwrite", item, client, char)
+		if(!stomachOverwrite) then
+			if(char:getData("stomach", 0) < 4) then
+				char:setData("stomach", char:getData("stomach", 0) + 1)
+				timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
+					char:setData("stomach", char:getData("stomach", 0) - 1)
+				end)
+			else
+				client:notify("You are too full!")
+				return true
+			end
+		else
+			--this is stupid
+			--1 to not stop from eating food
+			--0 to stop from eating food
+			if(stomachOverwrite == 0) then
+				return true
+			else
+				return false
+			end
+		end
+	end
+end
+
 ITEM.functions.use = {
 	name = "Consume",
 	tip = "useTip",
@@ -21,16 +47,9 @@ ITEM.functions.use = {
 		local client = item.player
 		local char = client:getChar()
 		--stomach checker
-		if(!DISEASES or !hasDisease(client, "trait_hunger")) then
-			if(char:getData("stomach", 0) < 4) then
-				char:setData("stomach", char:getData("stomach", 0) + 1)
-				timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
-					char:setData("stomach", char:getData("stomach", 0) - 1)
-				end)
-			else
-				client:notify("You are too full!")
-				return false
-			end
+		
+		if(stomachCheck(item, client, char)) then
+			return false
 		end
 	
 		local cooked = item:getData("cooked", 1)
@@ -54,7 +73,7 @@ ITEM.functions.use = {
 			end
 			
 			local charID = char:getID()
-			local name = item.name
+			local name = item:getName()
 			
 			dur = item.duration
 			local cookBonus = COOKLEVEL[cooked][2]
@@ -194,7 +213,7 @@ ITEM.functions.CustomQuan = {
 		client:requestString("Change Quantity", "", function(text)	
 			local amount = tonumber(text)
 			if(amount) then
-				item:setData("quantity2", text)
+				item:setData("quantity2", amount)
 			end
 		end, item:getData("quantity2", 1))
 		

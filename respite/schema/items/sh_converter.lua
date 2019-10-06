@@ -8,7 +8,6 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
-ITEM.data = { producing2 = 0 }
 ITEM.color = Color(50, 150, 50)
 
 ITEM.foods = {
@@ -56,7 +55,7 @@ ITEM.functions.Convert = {
 		client:notifyLocalized("Converting has started.")
 		item:setData("producing", CurTime())
 		plastics:remove()
-		timer.Simple(30, function()
+		timer.Simple(60, function()
 			if (item != nil) then
 				item:setData("producing", nil)
 				local regular = string.sub(plastics.uniqueID, 1, (string.len(plastics.uniqueID) - 8))
@@ -71,7 +70,7 @@ ITEM.functions.Convert = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 30
+		local prodTime = 60
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -86,31 +85,30 @@ ITEM.functions.Cactus = {
 	icon = "icon16/arrow_refresh.png",
 	sound = "physics/plastic/plastic_barrel_break1.wav",
 	onRun = function(item)
-			local client = item.player
-			local position = client:getItemDropPos()
-			local inventory = client:getChar():getInv()
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
 
-			local plastics = inventory:getFirstItemOfType("j_cactus_plant_plastic")
-			
-			client:notifyLocalized("Converting has started.")
-			item:setData("producing", CurTime())
-			plastics:remove()
-			timer.Simple(30, 
-				function()
-					if (item != nil) then
-						item:setData("producing", nil)
-						local regular = "j_cactus_plant"
-						client:notify("Converting has finished.")
+		local plastics = inventory:getFirstItemOfType("j_cactus_plant_plastic")
+		
+		client:notifyLocalized("Converting has started.")
+		item:setData("producing", CurTime())
+		plastics:remove()
+		timer.Simple(60, function()
+			if (item != nil) then
+				item:setData("producing", nil)
+				local regular = "j_cactus_plant"
+				client:notify("Converting has finished.")
 
-						if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-							inventory:addSmart(regular, 1, client:getItemDropPos())
-						else --if the item is on the ground
-							nut.item.spawn(regular, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-						end
-					end
+				if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+					inventory:addSmart(regular, 1, client:getItemDropPos())
+				else --if the item is on the ground
+					nut.item.spawn(regular, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
 				end
-			)
-			return false
+			end
+		end)
+		
+		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.		
 		local player = item.player

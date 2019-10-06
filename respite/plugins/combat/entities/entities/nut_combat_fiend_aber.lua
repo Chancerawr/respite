@@ -1,11 +1,11 @@
 ENT.Type = "anim"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Abberative Fiend"
+ENT.PrintName = "Blood Stalker"
 ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.name = "Aberrative Blood Fiend"
+ENT.name = "Blood Stalker"
 ENT.model = "models/spite/fiend.mdl"
 
 --all attributes
@@ -16,7 +16,7 @@ ENT.craf = 30
 ENT.endu = 30
 ENT.luck = 30
 ENT.perc = 30
-ENT.fort = 30
+ENT.fort = 50
 
 function ENT:Initialize()
 	self:basicSetup()

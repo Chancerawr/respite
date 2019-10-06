@@ -27,8 +27,8 @@ if (SERVER) then
 		self:SetModel(model)
 
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
-		self:SetColor(Color(0,0,0))
-		self:SetRenderFX(kRenderFxDistort)
+		self:SetColor(Color(0,0,0,200))
+		--self:SetRenderFX(kRenderFxDistort)
 		
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)

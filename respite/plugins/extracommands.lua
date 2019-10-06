@@ -1,33 +1,6 @@
 PLUGIN.name = "Extra Commands"
-PLUGIN.author = "Luna"
+PLUGIN.author = "Chancer & Angelsaur"
 PLUGIN.desc = "A few useful commands."
-
-nut.command.add("fixpac", {
-	syntax = "<No Input>",
-	onRun = function(client, arguments)
-		timer.Simple(0, function()
-			if (IsValid(client)) then
-				client:ConCommand("pac_clear_parts")
-			end
-		end)
-		timer.Simple(0.5, function()
-			if (IsValid(client)) then
-				client:ConCommand("pac_urlobj_clear_cache")
-				client:ConCommand("pac_urltex_clear_cache")
-			end
-		end)
-		timer.Simple(1.0, function()
-			if (IsValid(client)) then				
-				client:ConCommand("pac_restart")						
-			end
-		end)
-		timer.Simple(1.5, function()
-			if (IsValid(client)) then				
-				client:ChatPrint("PAC has been successfully restarted. You might need to run this command twice!")							
-			end
-		end)
-    end
-})
 
 -- nut.command.add("refreshfonts", {
 	-- syntax = "<No Input>",
@@ -37,7 +10,6 @@ nut.command.add("fixpac", {
 	-- client:ChatPrint("Fonts have been refreshed!")		
     -- end
 -- })
-
 
 nut.command.add("setnick", {
 	syntax = "[String Nickname]",
@@ -64,7 +36,7 @@ nut.command.add("setnick", {
 })
 
 nut.command.add("removenick", {
-	syntax = "[No Input]",
+	syntax = "",
 	onRun = function(client, arguments)
 		if (!string.find(client:Name(), "'")) then
 			client:ChatPrint("No nickname was detected.")
@@ -278,9 +250,13 @@ nut.chat.register("rolld", {
 nut.command.add("rolld", {
 	syntax = "<number dice> <number pips> <number bonus>",
 	onRun = function(client, arguments)
-		local dice = (tonumber(arguments[1]) or 1)
-		local pips = (tonumber(arguments[2]) or 6)
+		local dice = math.Clamp((tonumber(arguments[1]) or 1), 1, 100)
+		local pips = math.Clamp((tonumber(arguments[2]) or 6), 1, 100)
 		local bonus = (tonumber(arguments[3]) or nil)
+	
+		if(bonus) then
+			bonus = math.Clamp(bonus, 0, 1000000)
+		end
 	
 		local total = 0
 		local dmsg = ""
@@ -308,15 +284,51 @@ nut.command.add("rolld", {
 })
 
 nut.command.add("forums", {
-    syntax = "<No Input>",
 	onRun = function(client, arguments)
-		client:SendLua([[gui.OpenURL("http://2119rp.boards.net/")]])
+	 client:SendLua([[gui.OpenURL("http://spite.boards.net/")]])
 	end
 })
 
 nut.command.add("content", {
-    syntax = "<No Input>",
 	onRun = function(client, arguments)
-		client:SendLua([[gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=814760758")]])
+	client:SendLua([[gui.OpenURL("http://steamcommunity.com/sharedfiles/filedetails/?id=773495550")]])
+	end
+})
+
+nut.command.add("musicstopglobal", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+	for k, v in pairs( player.GetAll() ) do
+	v:ConCommand("wmcp_stop")
+	client:notify("Music stopped for everyone.")
+	end
+end
+})
+
+nut.command.add("charsetspeed", {
+	adminOnly = true,
+	syntax = "<string name> <number speed>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		local speed = tonumber(arguments[2]) or nut.config.get("walkSpeed")
+		if(IsValid(target) and target:getChar()) then
+			target:SetRunSpeed(speed)
+		else
+			client:notify("Invalid Target")
+		end
+	end
+})
+
+nut.command.add("charsetjump", {
+	adminOnly = true,
+	syntax = "<string name> <number power>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		local power = tonumber(arguments[2]) or 200
+		if(IsValid(target) and target:getChar()) then
+			target:SetJumpPower(power)
+		else
+			client:notify("Invalid Target")
+		end
 	end
 })

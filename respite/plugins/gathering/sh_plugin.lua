@@ -2,7 +2,6 @@ local PLUGIN = PLUGIN
 PLUGIN.name = "Gathering"
 PLUGIN.author = "La Corporativa"
 PLUGIN.desc = "Adds resources and ways to get them."
-PLUGIN.resEntities = {"nut_tree", "nut_rock"}
 PLUGIN.spawnedGathers = PLUGIN.spawnedGathers or {}
 PLUGIN.gatherPoints = PLUGIN.gatherPoints or {}
 
@@ -54,7 +53,8 @@ local gatherItems = {
 	["plant_mem"] = true,
 	["plant_mushroom"] = true,
 	["plant_searing"] = true,
-	["plant_purple"] = true
+	["plant_purple"] = true,
+	["plant_tea"] = true
 }
 
 if SERVER then

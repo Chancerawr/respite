@@ -66,7 +66,7 @@ function ITEM:getDesc(partial)
 			for k, v in pairs(self.funcTable) do
 				desc = desc.. "\n " ..v.name.. ":"
 				for item, amt in pairs(v.required or {}) do
-					local name = nut.item.list[item].name or "Something"
+					local name = (nut.item.list[item] and nut.item.list[item].name) or "Something"
 					if(name) then
 						desc = desc.. "\n    " ..name.. ": " ..amt.. "x"
 					end

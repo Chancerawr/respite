@@ -64,11 +64,11 @@ nut.command.add("chargiveitem", {
 					:next(function(res)
 						if(!notified) then
 							if (IsValid(target)) then
-								target:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
+								target:notifyLocalized("itemCreated", nut.item.list[uniqueID].name, target:Name())
 							end
 							
 							if (IsValid(client) and client ~= target) then
-								client:notifyLocalized("itemCreated", nut.item.list[uniqueID].name)
+								client:notifyLocalized("itemCreated", nut.item.list[uniqueID].name, target:Name())
 							end
 							
 							notified = true

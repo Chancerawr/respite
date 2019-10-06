@@ -69,6 +69,8 @@ ITEM.functions.Sacrifice = {
 		
 		item:setData("producing", CurTime())
 		timer.Simple(40, function()
+			if(!IsValid(client)) then return false end
+			
 			item:setData("producing", nil)
 		
 			local position = client:getItemDropPos()
@@ -142,6 +144,7 @@ ITEM.functions.Sacrifice = {
 				end
 			end
 		end)
+		
 		return false
 	end,
 	onCanRun = function(item)

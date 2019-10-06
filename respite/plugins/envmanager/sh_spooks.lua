@@ -27,7 +27,7 @@ local function whisper(client)
 		"chorror/psstright.wav"
 	}
 	
-	client:ConCommand( "play " .. table.Random(whispers))
+	client:ConCommand( "play " ..table.Random(whispers))
 end
 
 local randSounds = {
@@ -52,6 +52,8 @@ local randSounds = {
 	"ambient/levels/prison/inside_battle4.wav",
 	"doors/door_locked2.wav",
 	"ambient/alarms/train_horn_distant1.wav",
+	"ambient/atmosphere/tone_quiet.wav",
+	"ambient/atmosphere/pipe1.wav",
 	"ambient/atmosphere/noise2.wav",
 }
 
@@ -93,7 +95,29 @@ local function blindTeleport(client)
 	end)
 end
 
+local function scAppear(client)
+	if(IsValid(client)) then	
+		if(math.random(1,2) == 1) then
+			net.Start("MannStart")
+		else
+			net.Start("MannStart2")
+		end
+		
+		net.WriteEntity(client)
+		net.Send(client) 
+		client:Freeze(true)
+		
+		timer.Simple(2.2, function() 
+			net.Start("MannEnd")
+			net.WriteEntity(client)
+			net.Send(client) 
+			client:Freeze(false)			
+		end)
+	end
+end
+
 local chatWhisps = {
+	"Don't turn around.",
 	"I know what you did.",
 	"I see you.",
 	"Stop.",
@@ -101,7 +125,8 @@ local chatWhisps = {
 	"Can you hear it?",
 	"Get away.",
 	"Don't leave.",
-	"Run."
+	"Run.",
+	"You are nothing.",
 }
 
 local chatSays = {
@@ -111,25 +136,31 @@ local chatSays = {
 	"Be careful.",
 	"Did you hear that?",
 	"What was that?",
-	"There's something out there."
+	"There's something out there.",
+	"I remember you.",
+	"I'm sorry.",
 }
 
 local chatYells = {
+	"Close your eyes!",
+	"Look out!",
 	"Help!",
 	"It's coming!",
 	"Run!",
 	"It's here!",
 	"Get away!",
-	"Why!?"
+	"Why!?",
 }
 
 local chatIts = {
+	"A soft crying can be heard nearby, it sounds like an infant.",
 	"A soft crying can be heard nearby, it sounds like a young woman.",
 	"You hear a far off scream, it echoes through the area.",
 	"You hear irregular footsteps nearby.",
 	"A hushed whispering comes from nearby.",
 	"An inhuman screech echoes throughout the area, it sounded far away.",
 	"A single gunshot rings out from far away.",
+	"You hear a man yelling from somewhere far off, he sounds panicked.",
 	"The ground around you shakes slightly for no identifiable reason."
 }
 
@@ -179,7 +210,7 @@ end
 PLUGIN.minorSpooks = {
 	chatSpook,
 	propNoise,
-	flicker,
+	flicker
 }
 
 PLUGIN.majorSpooks = {
@@ -187,6 +218,7 @@ PLUGIN.majorSpooks = {
 	blindTeleport,
 	dist1,
 	enemySpawn,
+	scAppear
 }
 
 nut.command.add("envspook", {

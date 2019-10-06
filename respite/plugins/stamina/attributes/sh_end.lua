@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Endurance"
-ATTRIBUTE.desc = "Your stubbornness and ability to resist status effects."
+ATTRIBUTE.desc = "Your character's body's resitance and overall reliability."

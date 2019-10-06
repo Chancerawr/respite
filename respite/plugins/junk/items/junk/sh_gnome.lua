@@ -12,9 +12,58 @@ ITEM.salvItem = {
 }
 
 ITEM.iconCam = {
-	pos = Vector(280.39529418945, 236.86444091797, 184.78364562988),
+	pos = Vector(280.4, 236.9, 184.8),
 	ang = Angle(25, 220, 0),
-	fov = 5.0807393438119,
+	fov = 5.1,
+}
+
+ITEM.functions.Scrap = {
+	tip = "Scrap this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+		local inv = char:getInv()
+		local position = client:getItemDropPos()
+		local scrap
+		local amt
+		
+		local roll = math.random(1,100)
+		local chance = item.multiChance
+		local multi = 1
+		
+		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+			chance = chance + 10
+		end
+		
+		if(roll < chance) then
+			multi = 2
+		end
+
+		for i = 1, multi do
+			amt, scrap = table.Random(item.salvItem)
+			
+			local itemTable = nut.item.list[scrap]
+			if(itemTable) then
+				if(itemTable.maxstack) then
+					timer.Simple(i/2, function()
+						inv:addSmart(scrap, 1, position, {Amount = amt})
+					end)
+				else
+					inv:addSmart(scrap, amt, position)
+				end
+			end
+		end
+		
+		client:EmitSound("ambient/voices/m_scream1.wav", 70, math.random(120,160))
+	end,
+	onCanRun = function(item)
+		if(!item.salvItem) then
+			return false
+		end
+		local client = item.player
+		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
+	end
 }
 
 ITEM.functions.Memory = {
