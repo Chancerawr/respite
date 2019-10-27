@@ -10,7 +10,10 @@ ITEM.height = 1
 ITEM.container = "j_tinc"
  
 ITEM.attribBoosts = { 
-	["stm"] = 1 
+	["perception"] = 1,
+	["str"] = 2,
+	["end"] = 3,
+	["accuracy"] = 4,
 }
 
 ITEM.iconCam = {

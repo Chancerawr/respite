@@ -1,22 +1,22 @@
 ENT.Type = "anim"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Leecher (Big)"
+ENT.PrintName = "Leecher (Small)"
 ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/zombie/poison.mdl"
-ENT.name = "Leecher"
+ENT.model = "models/zombie/grabber_01.mdl"
+ENT.name = "Small Leecher"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 10,
-	["str"] = 50,
-	["accuracy"] = 25,
-	["end"] = 70,
+	["stm"] = 15,
+	["str"] = 20,
+	["accuracy"] = 15,
+	["end"] = 25,
 	["luck"] = 0,
 	["perception"] = 0,
-	["fortitude"] = 10,
+	["fortitude"] = 5,
 }
 
 function ENT:Initialize()
@@ -34,8 +34,7 @@ function ENT:Initialize()
 
 			zm:AddEffects(EF_BONEMERGE, EF_BONEMERGE_FASTCULL, EF_PARENT_ANIMATES )
 			zm:SetBodygroup(1,1)
-		
-		self:SetModelScale( 2, 0 )
+
 		self:PhysicsInitShadow(true, false)
 	end
 

@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/kuszo.mdl"
 
 --all attributes
-ENT.agil = 20
-ENT.stre = 15
-ENT.accu = 5
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 4
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 20,
+	["str"] = 15,
+	["accuracy"] = 5,
+	["end"] = 0,
+	["luck"] = 4,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

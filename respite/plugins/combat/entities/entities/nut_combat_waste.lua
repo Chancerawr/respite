@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/prosperity/freak.mdl"
 
 --all attributes
-ENT.agil = 5
-ENT.stre = 10
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 10
-ENT.luck = 1
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 5,
+	["str"] = 10,
+	["accuracy"] = 10,
+	["end"] = 10,
+	["luck"] = 1,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

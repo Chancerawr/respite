@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
 
 --all attributes
-ENT.agil = 30
-ENT.stre = 30
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 25
+ENT.attribs = {
+	["stm"] = 30,
+	["str"] = 30,
+	["accuracy"] = 10,
+	["end"] = 0,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 25,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

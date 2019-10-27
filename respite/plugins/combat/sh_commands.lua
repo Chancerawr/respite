@@ -176,7 +176,7 @@ COMMAND.category = "firearms"
 COMMAND.stats = {
 	["accuracy"] = 0.4
 }
-COMMAND.mult = 0.75
+COMMAND.mult = 0.6
 COMMAND.attackString = "burst shot"
 COMMAND.stringArt = "a "
 COMMAND.parts = true

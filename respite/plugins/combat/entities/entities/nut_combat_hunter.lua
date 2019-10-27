@@ -9,14 +9,15 @@ ENT.model = "models/sin/leperkin.mdl"
 ENT.name = "Hunter"
 
 --all attributes
-ENT.agil = 12
-ENT.stre = 20
-ENT.accu = 12
-ENT.craf = 0
-ENT.endu = 10
-ENT.luck = 5
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 12,
+	["str"] = 20,
+	["accuracy"] = 12,
+	["end"] = 10,
+	["luck"] = 5,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

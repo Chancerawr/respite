@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/ninja/signalvariance/monsters/chimera.mdl"
 
 --all attributes
-ENT.agil = 20
-ENT.stre = 20
-ENT.accu = 20
-ENT.craf = 0
-ENT.endu = 15
-ENT.luck = 5
-ENT.perc = 10
-ENT.fort = 5
+ENT.attribs = {
+	["stm"] = 20,
+	["str"] = 20,
+	["accuracy"] = 20,
+	["end"] = 15,
+	["luck"] = 5,
+	["perception"] = 10,
+	["fortitude"] = 5,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

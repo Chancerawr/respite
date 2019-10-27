@@ -239,7 +239,7 @@ local function rollHandle(client, command, noPrint)
 			roll = roll * crit
 		end
 		
-		roll = math.Round(roll, 4)
+		roll = math.Round(roll, 3)
 		
 		if(!noPrint) then
 			if(!comTable.print) then	
@@ -295,6 +295,7 @@ function CMBT:Register( tbl )
 			local entity = client:GetEyeTrace().Entity
 			if (IsValid(entity) and entity.combat and tbl.category != "react" and tbl.category != "resist") then
 				local rollA = rollHandle(client, tbl.uid, true)
+				PrintTable(rollA)
 				entity:reaction(client, rollA, tbl.category, tbl.attackString, tbl.parts)
 			else
 				rollHandle(client, tbl.uid)
@@ -613,6 +614,88 @@ nut.command.add("statcheck", {
 function PLUGIN:GetStartAttribPoints()
 	return nut.config.get("startingPoints", 25)
 end
+
+if(SERVER) then
+	function PLUGIN:SaveData()
+		PLUGIN.savedEnts = {}
+		
+		for k, v in pairs(ents.GetAll()) do
+			if(!IsValid(v)) then continue end
+			if(!v.combat or !(v.save or v.saveKey)) then continue end
+
+			local saved = {
+				pos = v:GetPos(), 
+				ang = v:GetAngles(), 
+				class = v:GetClass(), 
+				saveData = (v.getSaveData and v:getSaveData())
+			}
+			
+			local key = (v.saveKey) or (#PLUGIN.savedEnts + 1)
+
+			v.saveKey = key
+			PLUGIN.savedEnts[key] = saved
+		end
+		
+		self:setData(PLUGIN.savedEnts)
+	end
+	
+	function PLUGIN:LoadData()
+		PLUGIN.savedEnts = self:getData()
+		
+		for saveKey, info in pairs(PLUGIN.savedEnts) do
+			local entity = ents.Create(info.class)
+			if(IsValid(entity)) then
+				entity:SetPos(info.pos)
+				entity:SetAngles(info.ang)
+				
+				entity.saveKey = saveKey
+				
+				for k, v in pairs(info.saveData or {}) do
+					if(k == "model") then
+						entity.savedModel = v
+
+						continue
+					elseif(k == "attribs") then
+						entity.savedAttribs = v
+						
+						continue
+					elseif(k == "mat") then
+						entity.savedMat = v
+						
+						continue
+					elseif(k == "anim") then
+					
+						continue
+					end
+					
+					entity:setNetVar(k, v)
+				end
+				
+				entity:Spawn()
+			else
+				if(saveKey) then
+					PLUGIN.savedEnts[saveKey] = nil
+				end
+			end
+		end
+	end
+end
+
+nut.command.add("centsave", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
+			entity.save = true
+		end
+		
+		client:notify("CEnt save data updated.")
+		
+		PLUGIN:SaveData()
+	end
+})
+
 
 nut.util.include("sh_centcommands.lua")
 nut.util.include("sh_commands.lua")

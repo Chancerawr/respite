@@ -9,14 +9,15 @@ ENT.name = "Puppet"
 ENT.model = "models/spite/scarlet.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 40
-ENT.accu = 12
-ENT.craf = 0
-ENT.endu = 30
-ENT.luck = 10
-ENT.perc = 5
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 10,
+	["str"] = 40,
+	["accuracy"] = 12,
+	["end"] = 30,
+	["luck"] = 10,
+	["perception"] = 5,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

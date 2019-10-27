@@ -9,14 +9,15 @@ ENT.model = "models/zombie/zombie_vomit.mdl"
 ENT.name = "Vomit"
 
 --all attributes
-ENT.agil = 7
-ENT.stre = 7
-ENT.accu = 20
-ENT.craf = 0
-ENT.endu = 15
-ENT.luck = 4
-ENT.perc = 15
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 7,
+	["str"] = 7,
+	["accuracy"] = 20,
+	["end"] = 15,
+	["luck"] = 4,
+	["perception"] = 15,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

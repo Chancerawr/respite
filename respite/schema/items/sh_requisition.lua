@@ -303,6 +303,8 @@ local dropFunctions = {
 				"medical_bandages",
 				"medical_kit",
 				"medical_kit",
+				"first_aid_plastic",
+				"first_aid_plastic",
 				"medical_gauze",
 				"medical_gauze",
 				"medical_gauze",

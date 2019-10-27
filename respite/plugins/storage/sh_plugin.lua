@@ -67,6 +67,8 @@ nut.command.add("storagename", {
 				local name = table.concat(arguments, " ")
 
 				ent:setNetVar("name", name)
+				
+				PLUGIN:saveStorage()
 			else
 				client:notify("You do not own that.")
 			end
@@ -87,6 +89,8 @@ nut.command.add("storagedesc", {
 				local desc = table.concat(arguments, " ")
 
 				ent:setNetVar("desc", desc)
+				
+				PLUGIN:saveStorage()
 			else
 				client:notify("You do not own that.")
 			end
@@ -148,5 +152,62 @@ nut.command.add("storageunlockall", {
 			
 			PLUGIN:saveStorage()
 		end)
+	end
+})
+
+nut.command.add("storagecreate", {
+	adminOnly = true,
+	syntax = "<string modelpath> <string width> <string height>",
+	onRun = function(client, arguments)
+		if(!arguments[1]) then
+			client:notify("No model specified.")
+			return false
+		end
+	
+		local trace = client:GetEyeTraceNoCursor()
+		
+		local hitpos = trace.HitPos
+		local storage = ents.Create("nut_storage")
+		storage:SetPos(hitpos)
+		storage:Spawn()
+		storage:SetModel(tostring(arguments[1]))
+		
+		storage:SetSolid(SOLID_VPHYSICS)
+		storage:PhysicsInit(SOLID_VPHYSICS)
+		storage:SetCreator(client)
+		
+		storage:setNetVar("desc", "")
+		storage:setNetVar("name", "Storage")
+		
+		local data
+		if(arguments[2] and arguments[3]) then
+			local name = tostring(arguments[2])..tostring(arguments[3])
+			data = STORAGE_DEFINITIONS[name]
+			storage:setNetVar("overwrite", name)
+		else
+			data = STORAGE_DEFINITIONS["models/props_junk/wood_crate001a.mdl"]
+			storage:setNetVar("overwrite", "models/props_junk/wood_crate001a.mdl")
+		end
+		
+		nut.inventory.instance(data.invType, data.invData)
+			:next(function(inventory)
+				if (IsValid(storage)) then
+					inventory.isStorage = true
+					storage:setInventory(inventory)
+					PLUGIN:saveStorage()
+
+					if (isfunction(data.onSpawn)) then
+						data.onSpawn(storage)
+					end
+				end
+			end, function(err)
+				ErrorNoHalt(
+					"Unable to create storage entity for "..client:Name().."\n"..
+					err.."\n"
+				)
+				if (IsValid(storage)) then
+					storage:Remove()
+				end
+			end)
 	end
 })

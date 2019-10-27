@@ -1,4 +1,5 @@
 ITEM.name = "Signalling Device"
+ITEM.desc = "A device that allows you to send a simple message to radios or other signalling devices.\nPower: %s\nFrequency: %s"
 ITEM.model = "models/gibs/shield_scanner_gib1.mdl"
 ITEM.width = 1
 ITEM.height = 1
@@ -66,16 +67,28 @@ ITEM.functions.use = { -- sorry, for name order.
 	end
 }
 
-function ITEM:getDesc()
-	local str
+function ITEM:getDesc(partial)
+	local desc = self.desc
+	
+	if(!partial) then
+		local PLUGIN = nut.plugin.list["signal"]
+		
+		desc = desc.. "\n\n"
+		
+		for k, v in pairs(PLUGIN.codeList) do
+			desc = desc..k.. ": " ..v
+			
+			if(k < #PLUGIN.codeList) then
+				desc = desc.. ", "
+			end
+		end
+	end
 	
 	if (!self.entity or !IsValid(self.entity)) then
-		str = "A device that allows you to send a simple signal to others from far away.\nPower: %s\nFrequency: %s"
-		return Format(str, (self:getData("power") and "On" or "Off"), self:getData("freq", "000.0"))
+		return Format(desc, (self:getData("power") and "On" or "Off"), self:getData("freq", "000.0"))
 	else
 		local data = self.entity:getData()
-		
-		str = "A device that allows you to send a simple signal to others from far away.\nPower: %s\nFrequency: %s"
-		return Format(str, (self.entity:getData("power") and "On" or "Off"), self.entity:getData("freq", "000.0"))
+	
+		return Format(desc, (self.entity:getData("power") and "On" or "Off"), self.entity:getData("freq", "000.0"))
 	end
 end

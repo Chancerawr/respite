@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/_maz_ter_/deadspace/deadspacenecros/twitcher.mdl"
 
 --all attributes
-ENT.agil = 20
-ENT.stre = 15
-ENT.accu = 15
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 40
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 20,
+	["str"] = 15,
+	["accuracy"] = 15,
+	["end"] = 0,
+	["luck"] = 40,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

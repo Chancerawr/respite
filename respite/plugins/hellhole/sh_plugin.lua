@@ -47,6 +47,7 @@ nut.command.add("hellhole", {
 		local ED = EffectData()
 		ED:SetOrigin(hitpos)
 		ED:SetAngles(Angle(0,0,0))
+		ED:SetEntity(nil)
 		util.Effect('hell_hole', ED)
 		
 		timer.Simple(2, function()

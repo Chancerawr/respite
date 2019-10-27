@@ -83,6 +83,8 @@ if (SERVER) then
 		if(entity:GetCreator() == client) then
 			return true
 		end
+
+		return false
 	end
 
 	function PLUGIN:CanProperty(client, property, entity)
@@ -107,6 +109,7 @@ TOOL_DANGEROUS["tesla"] = true
 TOOL_DANGEROUS["permaall"] = true
 TOOL_DANGEROUS["waterizer"] = true
 TOOL_DANGEROUS["map_builder"] = true
+TOOL_DANGEROUS["modelmanipulator"] = true
 
 	function PLUGIN:CanTool(client, trace, tool)
 		if (client:IsAdmin()) then

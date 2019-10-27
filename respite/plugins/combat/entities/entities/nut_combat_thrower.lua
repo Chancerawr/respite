@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/player/zombie_fast.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 35
-ENT.accu = 35
-ENT.craf = 0
-ENT.endu = 15
-ENT.luck = 0
-ENT.perc = 15
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 10,
+	["str"] = 35,
+	["accuracy"] = 35,
+	["end"] = 15,
+	["luck"] = 0,
+	["perception"] = 15,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:SetColor(Color(155, 255, 155, 255))

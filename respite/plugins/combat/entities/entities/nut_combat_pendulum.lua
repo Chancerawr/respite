@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/sient hill custom/Homecoming/pendulum.mdl"
 
 --all attributes
-ENT.agil = 40
-ENT.stre = 40
-ENT.accu = 30
-ENT.craf = 0
-ENT.endu = 25
-ENT.luck = 5
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 40,
+	["str"] = 40,
+	["accuracy"] = 30,
+	["end"] = 25,
+	["luck"] = 5,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

@@ -38,7 +38,7 @@ if (SERVER) then
 		
 		local pos = self:GetPos()
 		
-		self:SetPos(Vector(pos.X,pos.Y,pos.Z - 25))
+		self:SetPos(Vector(pos.X,pos.Y,pos.Z - 20))
 		local physicsObject = self:GetPhysicsObject()
 
 		if (IsValid(physicsObject)) then

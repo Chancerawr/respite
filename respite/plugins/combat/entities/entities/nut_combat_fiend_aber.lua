@@ -9,14 +9,15 @@ ENT.name = "Blood Stalker"
 ENT.model = "models/spite/fiend.mdl"
 
 --all attributes
-ENT.agil = 30
-ENT.stre = 30
-ENT.accu = 30
-ENT.craf = 30
-ENT.endu = 30
-ENT.luck = 30
-ENT.perc = 30
-ENT.fort = 50
+ENT.attribs = {
+	["stm"] = 30,
+	["str"] = 30,
+	["accuracy"] = 30,
+	["end"] = 30,
+	["luck"] = 30,
+	["perception"] = 30,
+	["fortitude"] = 50,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

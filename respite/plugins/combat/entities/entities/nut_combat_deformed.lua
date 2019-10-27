@@ -9,14 +9,15 @@ ENT.model = "models/spite/freak01.mdl"
 ENT.name = "Deformed"
 
 --all attributes
-ENT.agil = 5
-ENT.stre = 15
-ENT.accu = 5
-ENT.craf = 0
-ENT.endu = 15
-ENT.luck = 5
-ENT.perc = 5
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 5,
+	["str"] = 15,
+	["accuracy"] = 5,
+	["end"] = 15,
+	["luck"] = 5,
+	["perception"] = 5,
+	["fortitude"] = 0,
+}
 
 local models = {
 	"models/spite/freak01.mdl",

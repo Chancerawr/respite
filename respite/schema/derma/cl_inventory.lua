@@ -200,7 +200,7 @@ function PANEL:openActionMenu()
 		end
 		return
 	end
-
+	
 	for k, v in SortedPairs(itemTable.functions) do
 		if (isfunction(v.onCanRun) and not v.onCanRun(itemTable)) then
 			continue

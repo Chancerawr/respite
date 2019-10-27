@@ -7,14 +7,15 @@ ENT.AdminOnly = true
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 15
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 15
-ENT.luck = 5
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 30,
+	["str"] = 35,
+	["accuracy"] = 20,
+	["end"] = 15,
+	["luck"] = 10,
+	["perception"] = 25,
+	["fortitude"] = 20,
+}
 
 function ENT:Initialize()
 	if (SERVER) then

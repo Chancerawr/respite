@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/am_npc/amputated.mdl"
 
 --all attributes
-ENT.agil = 5
-ENT.stre = 15
-ENT.accu = 5
-ENT.craf = 0
-ENT.endu = 5
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 5,
+	["str"] = 15,
+	["accuracy"] = 5,
+	["end"] = 5,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

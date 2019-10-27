@@ -159,6 +159,10 @@ ITEM.functions.Stack = {
 			return false
 		end
 		
+		if(item.maxstack <= 1) then
+			return false
+		end
+		
 		return true
 	end
 }

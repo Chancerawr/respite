@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/gunship.mdl"
 
 --all attributes
-ENT.agil = 25
-ENT.stre = 30
-ENT.accu = 50
-ENT.craf = 0
-ENT.endu = 30
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 25,
+	["str"] = 30,
+	["accuracy"] = 50,
+	["end"] = 30,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:SetColor(Color(130, 220, 130, 255))

@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/zombineplayer.mdl"
 
 --all attributes
-ENT.agil = 0
-ENT.stre = 50
-ENT.accu = 20
-ENT.craf = 0
-ENT.endu = 40
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 0,
+	["str"] = 50,
+	["accuracy"] = 20,
+	["end"] = 40,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:SetColor(Color(130, 220, 130, 255))

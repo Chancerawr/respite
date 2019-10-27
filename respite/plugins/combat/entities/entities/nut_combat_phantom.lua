@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/junkie_01.mdl"
 
 --all attributes
-ENT.agil = 5
-ENT.stre = 15
-ENT.accu = 5
-ENT.craf = 5
-ENT.endu = 20
-ENT.luck = 5
-ENT.perc = 5
-ENT.fort = 5
+ENT.attribs = {
+	["stm"] = 5,
+	["str"] = 15,
+	["accuracy"] = 5,
+	["end"] = 20,
+	["luck"] = 5,
+	["perception"] = 5,
+	["fortitude"] = 5,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

@@ -88,11 +88,10 @@ function SWEP:PrimaryAttack()
 				local angle = selected:GetAngles()
 				selected:SetAngles(Angle(0, angle.y, 0))
 				
+				selected:walkAnims()
+				
 				SafeRemoveEntity(tempEnt)
 			end
-			
-			selected.savedAnim = selected:GetSequence()
-			selected:walkAnims()
 			
 			selected.desiredPos = trace.HitPos
 		end

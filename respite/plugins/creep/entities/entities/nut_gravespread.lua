@@ -1,5 +1,5 @@
 ENT.Type = "anim"
-ENT.PrintName = "Meat Pod"
+ENT.PrintName = "Grave Spread"
 ENT.Category = "NutScript"
 ENT.Spawnable = false
 ENT.AdminOnly = true
@@ -9,14 +9,13 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()
 	if SERVER then
-		self:SetModel("models/gibs/humans/mgib_01.mdl")
+		self:SetModel("models/gibs/hgibs.mdl")
 		self:SetColor(Color(155, 255, 155, 255))
-		self:SetMaterial("models/flesh")
+		--self:SetMaterial("models/flesh")
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		--self:SetColor(Color(0,0,0,0))		
-
-		self:SetModelScale(2, 0)
-		self:PhysicsInitSphere(18)
+		
+		self:PhysicsInitSphere(5)
 		self:SetSolid(SOLID_VPHYSICS)
 		self:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
 		
@@ -40,25 +39,26 @@ end
 function ENT:Think()
 	if(SERVER) then
 		if(self.contact) then
-			if(math.random(0,1) == 1) then 
-				util.Decal("bloodpool" .. math.random(1,3) .. "", self:GetPos() - Vector(0,0,20), self:GetPos() - Vector(0,0,20))
-			else
-				util.Decal("Blood", self:GetPos() - Vector(0,0,20), self:GetPos() - Vector(0,0,20))
-			end
-
-			local creatures = {
-				"resp_leecher_small",
-				"nz_thrasher",
-				"nz_leperkin",
-				"resp_lyingfigure",
-				"cof_faceless",
-			}
-			local creature = table.Random(creatures)
+			util.Decal("scorch", self:GetPos() - self:GetUp()*2, self:GetPos() - self:GetUp()*10)
 			
-			local fire = ents.Create(creature)
-			fire:SetPos(self:GetPos())
-			fire:Spawn()
-			table.insert(nut.plugin.list["creep"].spawns, fire)
+			--prevents fire from being placed inside other fire
+			local conflict
+			for k, v in pairs(ents.FindInSphere(self:GetPos(), 15)) do
+				if(v:GetClass() == "nut_grave" or v:GetClass() == "nut_gravesmall") then
+					conflict = true
+					break
+				end
+			end
+			
+			if(!conflict) then
+				local fire = ents.Create("nut_gravesmall")
+				fire:SetPos(self:GetPos() - self:GetUp() * 5)
+				fire:Spawn()
+				
+				timer.Simple(1, function()
+					fire:DropToFloor()
+				end)
+			end		
 			
 			self:Remove()
 		end
@@ -87,13 +87,11 @@ end
 
 function ENT:Draw()
 	self:DrawModel()
-	if(!self.nextEmit) then
-		self.nextEmit = CurTime() + 0.05
-	end
 	
-	if CurTime() >= self.nextEmit and self:GetVelocity():Length() >= 16 then
+	if ((self.nextEmit or 0) < CurTime() and self:GetVelocity():Length() >= 16) then
 		self.nextEmit = CurTime() + 0.05
 
+		--[[
 		local particle = self.Emitter:Add("effects/blood_core", self:GetPos())
 		particle:SetVelocity(VectorRand():GetNormalized() * math.Rand(8, 16))
 		particle:SetDieTime(1)
@@ -105,5 +103,6 @@ function ENT:Draw()
 		particle:SetRollDelta(math.Rand(-25, 25))
 		particle:SetColor(150, 0, 0)
 		particle:SetLighting(true)
+		--]]
 	end
 end

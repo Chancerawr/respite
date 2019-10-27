@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/respite/paperzombie.mdl"
 
 --all attributes
-ENT.agil = 20
-ENT.stre = 10
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 10
+ENT.attribs = {
+	["stm"] = 20,
+	["str"] = 10,
+	["accuracy"] = 10,
+	["end"] = 0,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 10,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

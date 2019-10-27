@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/combine_dropship.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 60
-ENT.accu = 30
-ENT.craf = 0
-ENT.endu = 60
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 10,
+	["str"] = 60,
+	["accuracy"] = 30,
+	["end"] = 60,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:SetColor(Color(130, 220, 130, 255))

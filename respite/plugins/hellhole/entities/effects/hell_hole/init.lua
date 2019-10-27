@@ -82,7 +82,7 @@ end
 
 /* Main effect code */
 
-function EFFECT:Init( data )
+function EFFECT:Init(data)
 	local Ent = data:GetEntity()
 
 	// Save all the information we will need for later

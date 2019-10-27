@@ -36,31 +36,32 @@ if(CLIENT) then
 	end
 end
 
-function PLUGIN:getLevel(char, att)
-	if(char or att) then
-		local attribs = att or char:getAttribs()
-		
-		local level = 0	
-		for k, v in pairs(attribs) do
-			if(PLUGIN.exclude[k]) then continue end --skip excluded attributes
-			level = level + v
-		end
+local playerMeta = FindMetaTable("Player")
+
+function playerMeta:getLevel()
+	local char = self:getChar()
+	local attribs = att or char:getAttribs()
 	
-		level = level - nut.config.get("levelOffset", 25)
-	
-		if(char) then
-			level = level + char:getData("points", 0)
-		end
-		
-		level = math.max(level, 0) --can't be negative
-	
-		return level
-	else
-		return 0
+	local level = 0	
+	for k, v in pairs(attribs) do
+		if(PLUGIN.exclude[k]) then continue end --skip excluded attributes
+		level = level + v
 	end
+
+	level = level - nut.config.get("levelOffset", 25)
+	
+	if(char) then
+		level = level + char:getData("points", 0)
+	end
+	
+	level = math.max(level, 0) --can't be negative
+
+	return level
 end
 
-function PLUGIN:canLevel(char)
+function playerMeta:canLevel()
+	local char = self:getChar()
+
 	if(char) then
 		local level = char:getData("points", 0)
 		if(level > 0) then
@@ -72,21 +73,23 @@ function PLUGIN:canLevel(char)
 end
 
 function PLUGIN:getLevelThresh(level)
-	return ((level) * 100) + 100
+	return (level * 10) + 100
 end
 
-function PLUGIN:XPtoLevel(char)
+function playerMeta:XPtoLevel()
+	local char = self:getChar()
+
 	if(char) then
 		local xp = char:getData("xp", 0)
 		local charLevel = self:getLevel(char)
 		local points = char:getData("points", 0)
 		
-		thresh = self:getLevelThresh(charLevel)
+		thresh = PLUGIN:getLevelThresh(charLevel)
 		while (xp >= thresh) do
 			xp = xp - thresh
 			charLevel = charLevel + 1
 			points = points + 1
-			thresh = self:getLevelThresh(charLevel)
+			thresh = PLUGIN:getLevelThresh(charLevel)
 		end
 		
 		char:setData("points", points)
@@ -98,14 +101,48 @@ function PLUGIN:XPtoLevel(char)
 	end
 end
 
+function playerMeta:XPPrediction(experience)
+	local char = self:getChar()
+
+	if(char) then
+		local xp = experience
+		local charLevel = self:getLevel(char)
+		local points = 0
+		
+		thresh = PLUGIN:getLevelThresh(charLevel)
+		while (xp >= thresh) do
+			xp = xp - thresh
+			charLevel = charLevel + 1
+			points = points + 1
+			thresh = PLUGIN:getLevelThresh(charLevel)
+		end
+		
+		local remain = math.Round(xp / thresh, 2)
+		
+		return (points + remain)
+	end
+end
+
+nut.command.add("xppredict", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)	
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			local experience = tonumber(arguments[2])
+			
+			target:XPPrediction(experience)
+		end
+	end
+})
+
 nut.command.add("level", {
 	adminOnly = true,
 	syntax = "<string name>",
 	onRun = function(client, arguments)	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then
-			local char = target:getChar()
-			client:notify(PLUGIN:getLevel(char))
+			client:notify(target:getLevel())
 		end
 	end
 })
@@ -124,12 +161,17 @@ nut.command.add("charaddxp", {
 			local char = target:getChar()
 			local xp = char:getData("xp", 0)
 			
-			char:setData("xp", xp + tonumber(arguments[2]))
+			local newXP = tonumber(arguments[2])
 			
-			PLUGIN:XPtoLevel(char)
+			char:setData("xp", xp + newXP)
 			
-			target:notify("You have gained experience.")
-			client:notify("Increased " ..client:Name().. "'s experience by " ..tonumber(arguments[2]).. ".")
+			local requestString = "Are you sure you want to give " ..target:Name().. " " ..newXP.. " experience?\nThey will gain " ..target:XPPrediction(newXP).. " levels."
+			
+			client:requestQuery(requestString, "Add Experience", function(text)
+				target:XPtoLevel()
+				client:notify("Increased " ..target:Name().. "'s experience by " ..tonumber(arguments[2]).. ".")
+				target:notify("You have gained experience.")
+			end)
 		end
 	end
 })
@@ -150,8 +192,7 @@ nut.command.add("charaddlevel", {
 			
 			char:setData("points", points + tonumber(arguments[2]))
 			
-			target:notify("You have gained a level.")
-			client:notify("Increased " ..client:Name().. "'s level by " ..tonumber(arguments[2]).. ".")
+			client:notify("Increased " ..target:Name().. "'s level by " ..tonumber(arguments[2]).. ".")
 		end
 	end
 })
@@ -169,25 +210,45 @@ nut.command.add("xparea", {
 			client:notify("No XP amount specified.")
 			return false
 		end
+		
+		local newXP = tonumber(arguments[2])
+		local requestString = "Are you sure you want to give " ..newXP.. " experience to each person?\n"
 	
 		local trace = client:GetEyeTraceNoCursor()
 		local hitpos = trace.HitPos + trace.HitNormal*5
-		for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do
+		local foundPlayers = ents.FindInSphere(hitpos, arguments[1] or 100)
+		
+		for k, v in pairs(foundPlayers) do
 			if(v == client) then continue end
 			if (IsValid(v) and v:IsPlayer()) then
 				local char = v:getChar()
 				if(char) then
-					local xp = char:getData("xp", 0)
+					requestString = requestString.. " " ..v:Name()..  " will gain " ..v:XPPrediction(newXP).. " levels."
 					
-					char:setData("xp", xp + tonumber(arguments[2]))
-					
-					PLUGIN:XPtoLevel(char)
-					
-					v:notify("You have gained experience.")
-					client:notify("Increased " ..v:Name().. "'s experience by " ..tonumber(arguments[2]).. ".")
+					if(k < #foundPlayers) then
+						requestString = requestString.. "\n"
+					end
 				end
 			end
 		end
+		
+		client:requestQuery(requestString, "Add Experience", function(text)
+			for k, v in pairs(foundPlayers) do
+				if(v == client) then continue end
+				if (IsValid(v) and v:IsPlayer()) then
+					local char = v:getChar()
+					if(char) then
+						local xp = char:getData("xp", 0)
+						
+						char:setData("xp", xp + newXP)
+						
+						v:XPtoLevel()
+						v:notify("You have gained experience.")
+						client:notify("Increased " ..v:Name().. "'s experience by " ..tonumber(arguments[2]).. ".")
+					end
+				end
+			end
+		end)		
 	end
 })
 
@@ -221,21 +282,35 @@ nut.command.add("xpareadistrib", {
 		local playerCount = math.max(#players, 1)
 		local split = tonumber(arguments[2]) / playerCount
 		
+		local requestString = "Are you sure you want to give " ..split.. " experience to each person?\n"
+		
 		for k, v in pairs(players) do
 			if (IsValid(v) and v:IsPlayer()) then
+				local char = v:getChar()
+				if(char) then
+					requestString = requestString.. " " ..v:Name()..  " will gain " ..v:XPPrediction(split).. " levels."
+					
+					if(k < #players) then
+						requestString = requestString.. "\n"
+					end
+				end
+			end
+		end
+		
+		client:requestQuery(requestString, "Add Experience", function(text)
+			for k, v in pairs(players) do
 				local char = v:getChar()
 				if(char) then
 					local xp = char:getData("xp", 0)
 					
 					char:setData("xp", xp + split)
 					
-					PLUGIN:XPtoLevel(char)
-					
+					v:XPtoLevel()
 					v:notify("You have gained experience.")
 					client:notify("Increased " ..v:Name().. "'s experience by " ..split.. ".")
 				end
 			end
-		end
+		end)		
 	end
 })
 
@@ -247,6 +322,8 @@ if(SERVER) then
 		if(points > 0) then
 			char:setData("points", points - 1, false, player.GetAll())
 			char:setAttrib(attrib, value)
+			
+			client:notify("You have increased your " ..(nut.attribs.list[attrib] and nut.attribs.list[attrib].name).. ".")
 			
 			nut.log.addRaw(client:Name().. " increased their " ..(nut.attribs.list[attrib] and nut.attribs.list[attrib].name).. " from " ..(value-1).. " to " ..value.. ".")
 		end

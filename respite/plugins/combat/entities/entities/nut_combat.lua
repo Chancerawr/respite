@@ -7,15 +7,18 @@ ENT.combat = true
 ENT.AutomaticFrameAdvance = true
 ENT.model = "models/tnb/citizens/male_04.mdl"
 
---all attributes
-ENT.agil = 0
-ENT.stre = 0
-ENT.accu = 0
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+--[[
+ENT.attribs = {
+	["stm"] = 0,
+	["str"] = 0,
+	["accuracy"] = 0,
+	["medical"] = 0,
+	["end"] = 0,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
+--]]
 
 function ENT:Initialize()
 	self.name = "Plastic"
@@ -29,15 +32,20 @@ function ENT:basicSetup()
 	if (SERVER) then
 		self.inv = {}
 	
-		self:SetModel(self.model)
+		self.attribs = self.savedAttribs or self.attribs or {}
+	
+		self:SetModel(self.savedModel or self.model)
+		self:SetMaterial(self.savedMat or self:GetMaterial())
 		self:SetUseType(SIMPLE_USE)
 		self:SetMoveType(MOVETYPE_NONE)
 		self:DrawShadow(true)
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetSolid(SOLID_BBOX)
 
-		self:setNetVar("name", self.name or self.PrintName)
-		self:setNetVar("desc", self.desc or "")
+		self:DropToFloor()
+		
+		self:setNetVar("name", self:getNetVar("name", self.name or self.PrintName))
+		self:setNetVar("desc", self:getNetVar("desc", self.desc or ""))
 
 		local physObj = self:GetPhysicsObject()
 		
@@ -59,24 +67,43 @@ function ENT:basicSetup()
 	end)
 end
 
+function ENT:getSaveData()
+	local saveData = {}
+	saveData.name = self:getNetVar("name")
+	saveData.desc = self:getNetVar("desc")
+
+	saveData.model = self:GetModel()
+	saveData.mat = self:GetMaterial()
+	saveData.attribs = self.attribs
+	
+	return saveData
+end
+
 function ENT:Think()
 	if(SERVER) then
 		if(!self:IsPlayerHolding()) then
 			local physObj = self:GetPhysicsObject()
 			
-			if(!physObj:IsAsleep()) then
+			if(IsValid(physObj) and !physObj:IsAsleep()) then
 				physObj:Sleep()
 			end
 		end
 		
 		--this is really stupid but it was fun to mess around with
 		if(self.desiredPos) then
+			if(!self.prevAnim) then
+				local tempAnim = self:GetSequence()
+				if(tempAnim != self.walkAnim) then
+					self.prevAnim = tempAnim
+				end
+			end
+			
 			local pos = self:GetPos()
 			if((self.lerpRatio or 0) < 1) then
 				self.originPos = self.originPos or pos
-				self.lerpRate = self.lerpRate or (1 / pos:Distance(self.desiredPos) * 40)
+				self.lerpRate = self.lerpRate or (1/pos:Distance(self.desiredPos) * 20)
 				self.lerpRatio = (self.lerpRatio or 0) + self.lerpRate
-				
+
 				local newPos = LerpVector(self.lerpRatio, self.originPos, self.desiredPos)
 				if((self.lerpRatio or 0) >= 1) then
 					self:SetPos(self.desiredPos)
@@ -89,33 +116,58 @@ function ENT:Think()
 				self.lerpRatio = nil
 				self.lerpRate = nil
 				
-				if(self.savedAnim) then
-					self:ResetSequence(self.savedAnim)
+				if(self.prevAnim) then
+					timer.Simple(3, function()
+						self:ResetSequence(self.prevAnim)
+					end)
+				elseif(self.idle) then
+					timer.Simple(3, function()
+						self:ResetSequence(self.idle)
+					end)
+				else
+					local newAct = self:SelectWeightedSequence(ACT_IDLE, 0)
+					if(newAct != -1 and newAct != self.walkAnim) then
+						timer.Simple(3, function()
+							self:ResetSequence(newAct)
+						end)
+					end
 				end
 			end
-		end		
+		end
 	end
 end
 
 function ENT:walkAnims()
-	local newAct = self:SelectWeightedSequence(ACT_RUN) or self:SelectWeightedSequence(ACT_WALK)
+	local newAct = self:SelectWeightedSequence(ACT_RUN)
 	if(newAct == -1) then
 		newAct = self:SelectWeightedSequence(ACT_WALK)
+	end	
+	
+	if(newAct == -1) then
+		newAct = self:SelectWeightedSequence(ACT_HL2MP_RUN_FAST)
+	end	
+	
+	if(newAct == -1) then
+		newAct = self:SelectWeightedSequence(ACT_HL2MP_WALK)
 	end
 	
-	print(newAct)
-	
-	self:ResetSequence(newAct)
-	self:SetPoseParameter("move_x", 1)
+	if(newAct != -1) then
+		self.walkAnim = newAct
+
+		self:ResetSequence(newAct)
+		self:SetPoseParameter("move_x", 1)
+	end
 end
 
 function ENT:setAnim()
 	for k, v in ipairs(self:GetSequenceList()) do
 		if (v:lower():find("idle") and v != "idlenoise") then
+			self.idle = k
 			return self:ResetSequence(k)
 		end
 	end
 
+	self.idle = 4
 	self:ResetSequence(4)
 end
 
@@ -156,8 +208,11 @@ end
 function ENT:critCalc()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (self.luck*2 + 15)) then
-		crit = (1.5 + self.luck/25)
+	
+	local luck = self.attribs["fortitude"]
+	
+	if (crit <= (luck * 2 + 15)) then
+		crit = (1.5 + luck * 0.04)
 		critmsg = " (Crit!)"
 	else
 		if(math.random(1,100) <= 3) then
@@ -174,17 +229,6 @@ end
 --calculates a roll
 function ENT:rollHandle(client, command, noPrint)
 	--translates attribute names to the values the entity has, kind of shitty.
-	local attribTrans = { 
-		["stm"] = self.agil,
-		["str"] = self.stre,
-		["accuracy"] = self.accu,
-		["medical"] = self.craf,
-		["end"] = self.endu,
-		["luck"] = self.luck,
-		["perception"] = self.perc,
-		["fortitude"] = self.fort
-	}
-
 	local comTable = CMBT.commands[command] --the specific command's data
 	
 	if(!comTable) then return false end --if the command doesn't exist don't do shit
@@ -195,7 +239,7 @@ function ENT:rollHandle(client, command, noPrint)
 	--calculates the base attribute value to start from.
 	local base = 0
 	for k, v in pairs(comTable.stats) do
-		base = base + attribTrans[k] * v
+		base = base + (self.attribs[k] or 0) * v
 	end
 	
 	if(base < 0) then
@@ -203,7 +247,7 @@ function ENT:rollHandle(client, command, noPrint)
 	end
 	
 	--generates 1 or more rolls based on command data
-	local rolls = comTable.rolls(base, attribTrans)
+	local rolls = comTable.rolls(base, self.attribs)
 	for k, roll in pairs(rolls) do --refines, prints, and logs the rolls.
 		roll = roll * comTable.mult
 		--roll = traitModify(client, command, roll)
@@ -216,6 +260,8 @@ function ENT:rollHandle(client, command, noPrint)
 			crit, critmsg = self:critCalc()
 			roll = roll * crit
 		end
+		
+		roll = math.Round(roll, 3)
 		
 		if(!noPrint) then
 			if(!comTable.print) then
@@ -239,8 +285,11 @@ end
 function ENT:combatRoll(client, attr, debuff, msg, category, command, noPrint) --this is way too many parameters, it's killing me.
 	local crit = math.random(1, 1000)
 	local critmsg = ""
-	if (crit <= (self.luck + 10)) then
-		crit = (1.5 + self.luck/25)
+	
+	local luck = self.attribs["luck"] or 0
+	
+	if (crit <= (luck + 10)) then
+		crit = (1.5 + luck * 0.04)
 		critmsg = " (Crit!)"
 	else
 		if(math.random(1,100) <= 5) then
@@ -254,6 +303,8 @@ function ENT:combatRoll(client, attr, debuff, msg, category, command, noPrint) -
 	local rolled = math.abs(attr + math.random(-10,10)) * crit
 	rolled = rolled * debuff --reduction for command
 	
+	rolled = math.Round(rolled, 3)
+	
 	--rolled = traitModify(client, command, rolled)
 	
 	if(!noPrint) then
@@ -266,8 +317,8 @@ end
 --reaction to a command aimed at the ent
 function ENT:reaction(client, rolls, category, attackString, part)
 	for k, rollA in pairs(rolls) do
-		local dodge = self.agil * 0.35 + self.perc * 0.2
-		local block = self.endu * 0.3 + self.stre * 0.2
+		local dodge = (self.attribs["stm"] or 0) * 0.35 + (self.attribs["perception"] or 0) * 0.2
+		local block = (self.attribs["end"] or 0) * 0.3 + (self.attribs["str"] or 0) * 0.2
 
 		if(part) then
 			part = nut.plugin.list["combat"]:getRandomBpart()
@@ -279,7 +330,7 @@ function ENT:reaction(client, rolls, category, attackString, part)
 		end
 		
 		--basically this determines whether it chooses the worst or best roll given its stats.
-		local smart = math.Round(math.Clamp(self.perc + math.abs(dodge - block)*2, 0, 100))
+		local smart = math.Round(math.Clamp((self.attribs["perception"] or 0) + math.abs(dodge - block)*2, 0, 100))
 		if(math.random(smart, 100) > 50) then
 			smart = true
 		else
@@ -293,6 +344,8 @@ function ENT:reaction(client, rolls, category, attackString, part)
 		else
 			roll, evade = self:rollCheck(smart, dodge, block)
 		end
+		
+		rollA = math.Round(rollA, 3) --this shouldn't need to be here but it is anyways
 		
 		if(rollA > roll) then	
 			if(part) then --unblockable attack with body part
@@ -449,6 +502,11 @@ function ENT:die()
 		if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.
 			ragdoll:Ignite(10,20)
 		end
+		
+		--gets rid of ragdolls that dont have phys objects, just a cautionary thing.
+		if(!IsValid(ragdoll:GetPhysicsObject())) then
+			SafeRemoveEntity(ragdoll)
+		end		
 	end
 	
 	if(self.inv) then
@@ -463,7 +521,7 @@ end
 --fortitude attacks
 function ENT:fortAttack(attackName)
 	--these rolls cannot crit
-	local rolled = ((self.fort * 0.6) + math.random(-10, 10))
+	local rolled = (((self.attribs["fortitude"] or 0) * 0.6) + math.random(-10, 10))
 	rolled = math.abs(rolled)-- this is probably bad
 	
 	--rolled = traitModify(client, "fortattack", rolled) --trait modifier
@@ -575,4 +633,3 @@ if (CLIENT) then
 		end
 	end
 end
-

@@ -62,7 +62,7 @@ function PLUGIN:saveStorage()
 		local motion = false
 		if(IsValid(entity)) then
 			local physObj = entity:GetPhysicsObject()
-			if(physObj) then
+			if(IsValid(physObj)) then
 				motion = physObj:IsMotionEnabled()
 			end
 		end
@@ -81,6 +81,7 @@ function PLUGIN:saveStorage()
 				motion,
 				entity:GetMaterial(),
 				entity:getNetVar("owner", nil),
+				entity:getNetVar("overwrite", nil),
 			}
 		end
   	end
@@ -109,8 +110,9 @@ function PLUGIN:LoadData()
 		local motion = info[10]
 		local mat = info[11]
 		local owner = info[12]
+		local overwrite = info[13]
 		
-		local storage = self.definitions[model]
+		local storage = self.definitions[overwrite or model]
 		if (not storage) then continue end
 
 		local storage = ents.Create("nut_storage")
@@ -163,6 +165,10 @@ function PLUGIN:LoadData()
 		
 		if(owner) then
 			storage:setNetVar("owner", owner)
+		end
+		
+		if(overwrite) then
+			storage:setNetVar("overwrite", overwrite)
 		end
 		
 		local physObject = storage:GetPhysicsObject()

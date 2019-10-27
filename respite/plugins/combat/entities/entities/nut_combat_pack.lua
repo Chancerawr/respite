@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/spite/pack.mdl"
 
 --all attributes
-ENT.agil = 20
-ENT.stre = 5
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 2
-ENT.luck = 5
-ENT.perc = 2
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 20,
+	["str"] = 5,
+	["accuracy"] = 10,
+	["end"] = 2,
+	["luck"] = 5,
+	["perception"] = 2,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

@@ -40,9 +40,9 @@ function ENT:Think()
 	if(SERVER) then
 		if(self.contact) then
 			if(math.random(0,1) == 1) then 
-				util.Decal("bloodpool" .. math.random(1,3) .. "", self:GetPos() - Vector(0,0,20), self:GetPos() - Vector(0,0,20))
+				util.Decal("bloodpool" .. math.random(1,3) .. "", self:GetPos() - self:GetUp()*2, self:GetPos() - self:GetUp()*5)
 			else
-				util.Decal("Blood", self:GetPos() - Vector(0,0,20), self:GetPos() - Vector(0,0,20))
+				util.Decal("Blood", self:GetPos() - self:GetUp()*2, self:GetPos() - self:GetUp()*10)
 			end
 			
 			--prevents fire from being placed inside other fire
@@ -86,11 +86,8 @@ end
 
 function ENT:Draw()
 	self:DrawModel()
-	if(!self.nextEmit) then
-		self.nextEmit = CurTime() + 0.05
-	end
 	
-	if CurTime() >= self.nextEmit and self:GetVelocity():Length() >= 16 then
+	if ((self.nextEmit or 0) < CurTime() and self:GetVelocity():Length() >= 16) then
 		self.nextEmit = CurTime() + 0.05
 
 		local particle = self.Emitter:Add("effects/blood_core", self:GetPos())

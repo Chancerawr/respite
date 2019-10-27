@@ -9,14 +9,15 @@ ENT.name = "Behemoth"
 ENT.model = "models/sin/quadralex.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 70
-ENT.accu = 40
-ENT.craf = 0
-ENT.endu = 50
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 10,
+	["str"] = 70,
+	["accuracy"] = 40,
+	["end"] = 50,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

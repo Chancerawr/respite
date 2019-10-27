@@ -69,7 +69,7 @@ end
 local function requiredTime(client, item, mult)
 	local baseTime = 7200
 	local units = (item.getData and item:getData("units", {})) or item.data["units"] or {}
-	local unitCount = table.Count(units)
+	local unitCount = (units.w or 0) + (units.f or 0)
 	
 	if(unitCount == 0) then
 		unitCount = 1
@@ -102,7 +102,7 @@ local funcTableC = {
 	["wood"] = {
 		name = "Woodcutting",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		prodMult = 1, --time
 		results = {
@@ -117,7 +117,7 @@ local funcTableC = {
 	["concrete"] = {
 		name = "Concrete Gathering",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		prodMult = 1,
 		results = {
@@ -129,10 +129,55 @@ local funcTableC = {
 			["r"] = true
 		}
 	},
+	["rock"] = {
+		name = "Rock Gathering",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		prodMult = 1,
+		results = {
+			items = {
+				["hl2_m_rock"] = 1
+			}
+		},
+		dev = {
+			["ca"] = true
+		}
+	},
+	["herb"] = {
+		name = "Herb Gathering",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		prodMult = 1,
+		results = {
+			func = function(item, client)
+				local position = client:getItemDropPos()
+				
+				local index = item:getData("id")
+				local inventory = nut.inventory.instances[index]
+
+				local ranTable = {
+					"herb_berry",
+					"herb_bloodberry",
+					"herb_mushroom",
+					"herb_purple",
+					"j_tealeaf",
+				}
+
+				local reward = table.Random(ranTable)
+				
+				inventory:addSmart(reward, 1, position)
+			end,
+		},
+		dev = {
+			["f"] = true
+		}
+	},
 	["fishing"] = {
 		name = "Fishing",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		prodMult = 1,
 		results = {
@@ -144,10 +189,28 @@ local funcTableC = {
 			["s"] = true
 		}
 	},
+	["hunting"] = {
+		name = "Hunting",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		prodMult = 1,
+		results = {
+			items = {
+				["food_monster_meat"] = 1
+			}
+		},
+		required = {
+			fighters = 1,
+		},
+		dev = {
+			["f"] = true,
+		}
+	},
 	["water"] = {
 		name = "Water (Corrupted)",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		prodMult = 1,
 		results = {
@@ -162,7 +225,7 @@ local funcTableC = {
 	["plas1"] = {
 		name = "Create Plastic (Worker)",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "You begin to imagine a humanoid figure in your mind, he carries a tool.",
 		endString = "You completely visualize a humanoid plastic.",
@@ -188,7 +251,7 @@ local funcTableC = {
 	["plas2"] = {
 		name = "Create Plastic (Fighter)",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "You begin to imagine a humanoid figure in your mind, he carries a weapon.",
 		endString = "You completely visualize a humanoid plastic.",
@@ -214,7 +277,7 @@ local funcTableC = {
 	["plas3"] = {
 		name = "Create Plastic (Cat)",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "You begin to imagine a cat in your mind, it calms you somewhat.",
 		endString = "You completely visualize a smooth plastic cat.",
@@ -240,7 +303,7 @@ local funcTableC = {
 	["weather"] = {
 		name = "Weather",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		prodMult = 1,
 		results = {
@@ -295,7 +358,7 @@ local funcTableD = {
 	["f"] = {
 		name = "Forest",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a sprawling forest spread throughout your mind, they are blurry and incomplete.",
 		endString = "You can clearly imagine a small forest with dozens of trees and shrubbery.",
@@ -314,7 +377,7 @@ local funcTableD = {
 	["s"] = {
 		name = "Stream",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a calm stream flow through your mind, they are blurry and incomplete.",
 		endString = "You can clearly imagine a small stream filled with clear water and plastic fish.",
@@ -333,7 +396,7 @@ local funcTableD = {
 	["r"] = {
 		name = "Ruins",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a ancient ruined buildings solidify themselves in your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a set of ruined concrete buildings in your mind.",
@@ -352,7 +415,7 @@ local funcTableD = {
 	["b1"] = {
 		name = "Housing",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of wooden homes fill your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a small village of wooden houses.",
@@ -366,7 +429,7 @@ local funcTableD = {
 	["b2"] = {
 		name = "Barracks",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a wooden barracks fill your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a large wooden barracks.",
@@ -383,7 +446,7 @@ local funcTableD = {
 	["b3"] = {
 		name = "Outposts",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of numerous wooden towers fill your mind, they are blurry and hard to focus on.",
 		endString = "You can clearly imagine a perimeter of wooden outposts.",
@@ -397,10 +460,27 @@ local funcTableD = {
 			["b2"] = true,
 		}		
 	},
+	["ca"] = {
+		name = "Caves",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Images of a dark cave fill your mind, the inside is pitch black.",
+		endString = "You can clearly picture a large cave network.",
+		prodMult = 2,
+		required = {
+			resources = {
+				["mem"] = 35,
+			}
+		},
+		dev = {
+			["f"] = true,
+		}
+	},
 	["sk"] = {
 		name = "Sky",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a beautiful blue sky fill your mind, it is blurry and hard to focus on.",
 		endString = "You can clearly picture a beautiful sky.",
@@ -417,7 +497,7 @@ local funcTableD = {
 	["st"] = {
 		name = "Stars",
 		sound = function(client)
-			client:EmitSound("ambient/machines/machine6.wav", 65, 70)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a beautiful field of stars fill your mind, the stars are vague and hard to picture.",
 		endString = "You can clearly picture a beautiful night sky, filled with stars.",
@@ -429,6 +509,63 @@ local funcTableD = {
 		},
 		dev = {
 			["sk"] = true,
+		}
+	},
+	["se"] = {
+		name = "Sea",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Images of a large body of water fill your mind, the water is blurry and hard to see clearly.",
+		endString = "You can clearly picture an immense sea, with no end in sight.",
+		prodMult = 2,
+		required = {
+			resources = {
+				["mem"] = 50,
+			}
+		},
+		dev = {
+			["b1"] = true,
+		}
+	},
+	["fut"] = {
+		name = "Future",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Your future is blurry, and inconsistent.",
+		endString = "There is a future waiting for you now.",
+		prodMult = 3,
+		required = {
+			units = 20,
+			
+			resources = {
+				["mem"] = 100,
+				["ich"] = 50,
+			},
+		},
+		dev = {
+			["st"] = true,
+		}
+	},
+	["pas"] = {
+		name = "Past",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Your past is blurry, and hard to remember.",
+		endString = "The past stands firmly behind you, guiding you along.",
+		prodMult = 3,
+		required = {
+			units = 20,
+			
+			resources = {
+				["mem"] = 100,
+				["bli"] = 50,
+			},
+		},
+		dev = {
+			["st"] = true,
 		}
 	},
 }
@@ -775,7 +912,9 @@ ITEM.iconCam = {
 
 if(CLIENT) then
 	local convert = {
-		["mem"] = "Memory",
+		["mem"] = "Memories",
+		["ich"] = "Ichor",
+		["bli"] = "Blight",
 	}
 
 	netstream.Hook("respMenu", function(item, actions)
@@ -884,7 +1023,10 @@ else
 			if(reqTbl.units) then
 				local units = item:getData("units", {})
 				
-				local unitCount = table.Count(units)
+				local unitCount = 0
+				for k, v in pairs(units) do
+					unitCount = unitCount + (v or 0)
+				end
 				
 				if(unitCount < reqTbl.units) then
 					client:notify("You do not have the required man-power.")
@@ -986,12 +1128,10 @@ else
 					end
 				end
 				
-				--[[
 				local dev = item:getData("dev", {})
 				dev[data] = true
 				
 				item:setData("dev", dev)
-				--]]
 			end)
 		else
 			local dev = item:getData("dev", {})

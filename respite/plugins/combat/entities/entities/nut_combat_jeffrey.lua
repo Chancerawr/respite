@@ -10,14 +10,15 @@ ENT.noRag = true
 ENT.model = "models/Zombie/Poison.mdl"
 
 --all attributes
-ENT.agil = 00
-ENT.stre = 100
-ENT.accu = 20
-ENT.craf = 0
-ENT.endu = 80
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 200
+ENT.attribs = {
+	["stm"] = 0,
+	["str"] = 100,
+	["accuracy"] = 20,
+	["end"] = 80,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 200,
+}
 
 function ENT:Initialize()
 	self:SetMaterial("models/props_lab/security_screens")

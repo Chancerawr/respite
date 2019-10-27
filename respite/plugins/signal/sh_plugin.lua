@@ -1,29 +1,53 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "Signal"
 PLUGIN.author = "Black Tea"
 PLUGIN.desc = "You can beep at other people."
 local SIGNAL_CHATCOLOR = Color(100, 100, 255)
 
 PLUGIN.codeList = {
+	"HELP!",
+	"DANGER!",
+	"CAUTION!",
+	
 	"Plastic",
 	"Drifter",
 	"Shade",
 	"Abomination",
 	"Aberration",
+	"Wraith",
 	"Lost",
+	"Shadow",
+	
 	"Ichor",
 	"Blight",
 	"Shard",
 	"Memory",
 	"Idea",
+	
 	"Water",
-	"Device",
-	"Shadow",
+	"Fire",
+	"Resources",
+	"Anomaly",
+	"Equipment",
+	
+	"Fabricator",
+	"Safebox",
+
+	"Injured",
+	"Healthy",
+	
 	"Haze",
+	"Blue Haze",
+	"Black Haze",
+	"Blood Haze",
+	"Pink Haze",
+	
 	"Storm",
 	"Snow",
 	"Rain",
 	"Fog",
-	"Cloud",	
+	"Cloud",
+	
 	"Elephant",
 	"Bird",
 	"Dog",
@@ -34,35 +58,29 @@ PLUGIN.codeList = {
 	"Wolf",
 	"Tiger",
 	"Moose",
-	"Deer",
 	"Bee",
 	"Fly",
-	"Ant",
 	"Fish",
 	"Rhino",
-	"Jeffrey",
 	"Fox",
-	"Walrus",
 	"Giraffe",
 	"Squid",
 	"Octopus",
 	"Shark",
 	"Toad",
 	"Tortoise",
-	"Zebra",
 	"Hedgehog",
 	"Donkey",
 	"Gopher",
-	"Turkey",
 	"Horse",
 	"Scorpion",
 	"Spider",
 	"Monkey",
 	"Whale",
 	"Lizard",
-	"Gorilla",
-	"Ferret",
-	"HELP",
+	
+	"Jeffrey",
+	"???",
 }
 
 if (CLIENT) then
@@ -227,7 +245,7 @@ local function endChatter(listener)
 			return false
 		end
 
-		listener:EmitSound("buttons/button18.wav", math.random(60, 70), math.random(80, 120))
+		listener:EmitSound("buttons/button18.wav", math.random(60, 70), math.random(80, 120), 0.3, CHAN_STATIC)
 	end)
 end
 
@@ -291,7 +309,7 @@ nut.chat.register("signal", {
 
 		if (freq) then
 			CURFREQ = freq
-			speaker:EmitSound("buttons/button18.wav", math.random(60, 70), math.random(80, 120))
+			speaker:EmitSound("buttons/button18.wav", math.random(60, 70), math.random(80, 120), 0.3, CHAN_STATIC)
 		else
 			speaker:notifyLocalized("You don't have an activated signalling device.")
 			return false

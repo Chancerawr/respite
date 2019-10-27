@@ -7,14 +7,15 @@ ENT.AdminOnly = true
 ENT.model = "models/horror/zm_f4zt.mdl"
 
 --all attributes
-ENT.agil = 40
-ENT.stre = 15
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 15
-ENT.luck = 5
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 50,
+	["str"] = 15,
+	["accuracy"] = 10,
+	["end"] = 15,
+	["luck"] = 5,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

@@ -9,14 +9,15 @@ ENT.model = "models/combine_turrets/floor_turret.mdl"
 ENT.noRag = true
 
 --all attributes
-ENT.agil = 0
-ENT.stre = 20
-ENT.accu = 20
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 5
-ENT.perc = 100
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 0,
+	["str"] = 20,
+	["accuracy"] = 20,
+	["end"] = 0,
+	["luck"] = 5,
+	["perception"] = 100,
+	["fortitude"] = 0,
+}
 
 ENT.ammoTypes = {
 	"12g",

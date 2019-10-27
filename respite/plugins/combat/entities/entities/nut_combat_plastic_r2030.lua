@@ -9,26 +9,26 @@ ENT.name = "Plastic"
 ENT.model = "models/tnb/citizens/male_04.mdl"
 
 --all attributes
-ENT.agil = 0
-ENT.stre = 0
-ENT.accu = 0
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 0,
+	["str"] = 0,
+	["accuracy"] = 0,
+	["end"] = 0,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()
 
-	self.agil = math.random(20,30)
-	self.stre = math.random(20,30)
-	self.accu = math.random(20,30)
-	self.craf = math.random(20,30)
-	self.endu = math.random(20,30)
-	self.luck = math.random(20,30)
-	self.perc = math.random(20,30)
-	self.fort = math.random(20,30)
+	self.attribs.stm = math.random(20,30)
+	self.attribs.str = math.random(20,30)
+	self.attribs.accuracy = math.random(20,30)
+	self.attribs["end"] = math.random(20,30)
+	self.attribs.luck = math.random(20,30)
+	self.attribs.perception = math.random(20,30)
+	self.attribs.fortitude = math.random(20,30)
 	
 	self:SetModel(table.Random(nut.faction.indices[FACTION_PLASTIC].models))
 	

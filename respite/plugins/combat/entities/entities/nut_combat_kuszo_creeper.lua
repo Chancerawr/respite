@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/kuszo.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 10
-ENT.accu = 5
-ENT.craf = 0
-ENT.endu = 0
-ENT.luck = 4
-ENT.perc = 10
-ENT.fort = 10
+ENT.attribs = {
+	["stm"] = 10,
+	["str"] = 10,
+	["accuracy"] = 5,
+	["end"] = 0,
+	["luck"] = 4,
+	["perception"] = 10,
+	["fortitude"] = 10,
+}
 
 function ENT:Initialize()
 	if(SERVER) then

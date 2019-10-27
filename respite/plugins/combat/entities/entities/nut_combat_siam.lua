@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/sient hill custom/Homecoming/siam.mdl"
 
 --all attributes
-ENT.agil = 15
-ENT.stre = 50
-ENT.accu = 35
-ENT.craf = 0
-ENT.endu = 35
-ENT.luck = 0
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 15,
+	["str"] = 50,
+	["accuracy"] = 35,
+	["end"] = 35,
+	["luck"] = 0,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

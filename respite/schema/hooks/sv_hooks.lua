@@ -42,7 +42,7 @@ local workshopIDs = {
 	--maps
 	
 	215338015, --rp_v_torrington content
-	959711385, --rp_neverlosehopehospital_bi
+	228031850, --rp_necro_evocity
 }
 
 for k, v in pairs(workshopIDs) do

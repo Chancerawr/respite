@@ -7,14 +7,15 @@ ENT.AdminOnly = true
 ENT.model = "models/tnb/citizens/male_04.mdl"
 
 --all attributes
-ENT.agil = 10
-ENT.stre = 12
-ENT.accu = 8
-ENT.craf = 5
-ENT.endu = 10
-ENT.luck = 8
-ENT.perc = 10
-ENT.fort = 20
+ENT.attribs = {
+	["stm"] = 10,
+	["str"] = 12,
+	["accuracy"] = 8,
+	["end"] = 10,
+	["luck"] = 8,
+	["perception"] = 10,
+	["fortitude"] = 20,
+}
 
 function ENT:Initialize()
 	if(SERVER) then

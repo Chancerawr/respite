@@ -98,56 +98,52 @@ else
 			local maximum = v.maxValue or nut.config.get("maxAttribs", 30)
 			bar:setMax(maximum)
 			
-			if (!(nut.plugin.list["level"] and nut.plugin.list["level"]:canLevel(LocalPlayer():getChar()))) then
+			if (!(LocalPlayer().canLevel and LocalPlayer():canLevel())) then
 				bar:setReadOnly()
 			else
-				if(nut.plugin.list["level"].exclude[k]) then --exclusion list
-					bar:setReadOnly()
-				else
-					bar.sub:Remove()
-					bar.levelup = true
-					level = nut.plugin.list["level"]:canLevel(LocalPlayer():getChar())
-					bar.attrib = k
+				bar.sub:Remove()
+				bar.levelup = true
+				level = LocalPlayer():canLevel()
+				bar.attrib = k
+				
+				bar.doChange = function()
+					if ((bar.value == 0 and bar.pressing == -1) or (bar.value == bar.max and bar.pressing == 1)) then
+						return
+					end
 					
-					bar.doChange = function()
-						if ((bar.value == 0 and bar.pressing == -1) or (bar.value == bar.max and bar.pressing == 1)) then
-							return
-						end
-						
-						bar.nextPress = CurTime() + 0.2
-						
-						if (bar:onChanged(bar.pressing) != false) then
-							bar.value = math.Clamp(bar.value + bar.pressing, 0, bar.max)
-						end
-						
-						if(bar.levelup) then
-							Derma_Query("Increase " ..v.name.. "?", "Confirmation", "Yes", function()
-								netstream.Start("statIncrease", bar.attrib, bar.value)
-								level = level - 1
-								
-								if(level < 1) then
-									for k, v in pairs(bars) do
-										v.pressing = false
-										v.add:Remove()
-									end
+					bar.nextPress = CurTime() + 0.2
+					
+					if (bar:onChanged(bar.pressing) != false) then
+						bar.value = math.Clamp(bar.value + bar.pressing, 0, bar.max)
+					end
+					
+					if(bar.levelup) then
+						Derma_Query("Increase " ..v.name.. "?", "Confirmation", "Yes", function()
+							netstream.Start("statIncrease", bar.attrib, bar.value)
+							level = level - 1
+							
+							if(level < 1) then
+								for k, v in pairs(bars) do
+									v.pressing = false
+									v.add:Remove()
 								end
-								
-								bar:setValue(bar.value)
-								
-								bar:setText(
-									Format(
-										"%s [%.1f/%.1f] (%.1f",
-										L(v.name),
-										bar.value,
-										maximum,
-										bar.value/maximum*100
-									)
-									.."%)"
+							end
+							
+							bar:setValue(bar.value)
+							
+							bar:setText(
+								Format(
+									"%s [%.1f/%.1f] (%.1f",
+									L(v.name),
+									bar.value,
+									maximum,
+									bar.value/maximum*100
 								)
-							end, "No", function()
-								bar.value = bar.value - 1
-							end)
-						end
+								.."%)"
+							)
+						end, "No", function()
+							bar.value = bar.value - 1
+						end)
 					end
 				end
 			end
@@ -170,7 +166,6 @@ else
 			table.insert(bars, bar)
 		end
 	end
-
 	function PLUGIN:ConfigureCharacterCreationSteps(panel)
 		panel:addStep(vgui.Create("nutCharacterAttribs"), 99)
 	end

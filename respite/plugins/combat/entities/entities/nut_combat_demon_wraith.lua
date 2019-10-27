@@ -9,14 +9,15 @@ ENT.name = "Burning Demon"
 ENT.model = "models/nh2zombies/friendly.mdl"
 
 --all attributes
-ENT.agil = 15
-ENT.stre = 20
-ENT.accu = 5
-ENT.craf = 0
-ENT.endu = 10
-ENT.luck = 5
-ENT.perc = 0
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 15,
+	["str"] = 20,
+	["accuracy"] = 5,
+	["end"] = 10,
+	["luck"] = 5,
+	["perception"] = 0,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

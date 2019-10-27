@@ -9,14 +9,15 @@ ENT.model = "models/sin/hopper.mdl"
 ENT.name = "Hopper"
 
 --all attributes
-ENT.agil = 20
-ENT.stre = 15
-ENT.accu = 25
-ENT.craf = 0
-ENT.endu = 10
-ENT.luck = 5
-ENT.perc = 10
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 20,
+	["str"] = 15,
+	["accuracy"] = 25,
+	["end"] = 10,
+	["luck"] = 5,
+	["perception"] = 10,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

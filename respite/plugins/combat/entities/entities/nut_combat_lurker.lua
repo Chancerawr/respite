@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/sient hill custom/Homecoming/lurker.mdl"
 
 --all attributes
-ENT.agil = 15
-ENT.stre = 30
-ENT.accu = 20
-ENT.craf = 0
-ENT.endu = 20
-ENT.luck = 5
-ENT.perc = 5
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 15,
+	["str"] = 30,
+	["accuracy"] = 20,
+	["end"] = 20,
+	["luck"] = 5,
+	["perception"] = 5,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

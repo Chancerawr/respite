@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/babu.mdl"
 
 --all attributes
-ENT.agil = 0
-ENT.stre = 15
-ENT.accu = 5
-ENT.craf = 0
-ENT.endu = 50
-ENT.luck = 5
-ENT.perc = 5
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 0,
+	["str"] = 15,
+	["accuracy"] = 5,
+	["end"] = 50,
+	["luck"] = 5,
+	["perception"] = 5,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	timer.Simple(0.6, function()

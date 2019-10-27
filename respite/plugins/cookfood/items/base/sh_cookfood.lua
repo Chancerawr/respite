@@ -63,13 +63,18 @@ ITEM.functions.use = {
 		
 		if (char and client:Alive()) then
 			if (item.attribBoosts) then
-				for k, v in pairs(item.attribBoosts) do
-					buffAmt = v
-					if(hasTrait(client, "glutton")) then
-						buffAmt = buffAmt * 1.2
+				timer.Simple(300, function()
+					if(IsValid(client) and char) then
+						for k, v in pairs(item.attribBoosts) do
+							buffAmt = v
+							if(hasTrait(client, "glutton")) then
+								buffAmt = buffAmt * 1.2
+							end
+							
+							char:addBoost(item.uniqueID, k, buffAmt)
+						end
 					end
-					char:addBoost(item.uniqueID, k, buffAmt)
-				end
+				end)
 			end
 			
 			local charID = char:getID()
@@ -121,7 +126,7 @@ ITEM.functions.use = {
 			end
 		end
 		
-		item.player:EmitSound(item.sound)
+		client:EmitSound(item.sound)
 		
 		if (quantity2 >= 1) then
 			item:setData("quantity2", quantity2)

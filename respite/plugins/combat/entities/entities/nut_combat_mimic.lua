@@ -9,14 +9,15 @@ ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.noRag = true
 
 --all attributes
-ENT.agil = 60
-ENT.stre = 25
-ENT.accu = 15
-ENT.craf = 0
-ENT.endu = 30
-ENT.luck = 25
-ENT.perc = 25
-ENT.fort = 35
+ENT.attribs = {
+	["stm"] = 60,
+	["str"] = 25,
+	["accuracy"] = 15,
+	["end"] = 30,
+	["luck"] = 25,
+	["perception"] = 25,
+	["fortitude"] = 25,
+}
 
 function ENT:Initialize()
 	if (SERVER) then

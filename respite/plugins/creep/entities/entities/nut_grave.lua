@@ -1,5 +1,5 @@
 ENT.Type = "anim"
-ENT.PrintName = "Creep"
+ENT.PrintName = "Grave"
 ENT.Category = "Respite"
 ENT.Spawnable = true
 ENT.AdminOnly = true
@@ -11,19 +11,11 @@ ENT.nextSpread = 0
 ENT.spreadTime = 60
 ENT.health = 100
 
-ENT.models = {
-	"models/props_foliage/tree_deciduous_01a.mdl",
-	"models/props_foliage/tree_deciduous_02a.mdl",
-	"models/props_foliage/tree_deciduous_03a.mdl",
-	"models/props_foliage/tree_deciduous_03b.mdl"
-}
-
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()
 	if SERVER then
-		--self:selectModel()
-		self:SetModel("models/props_foliage/tree_deciduous_03b.mdl")
+		self:SetModel("models/props_c17/gravestone_statue001a.mdl")
 		self:SetHealth(self.health)
 		
 		self:PhysicsInit( SOLID_VPHYSICS )
@@ -35,28 +27,27 @@ function ENT:Initialize()
 		
 		self.size = 0
 		
-		self:SetMaterial("models/flesh")
+		--self:SetMaterial("models/flesh")
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		
 		self.creationTime = CurTime()
 		self.spreadTime = nut.config.get("creepSpreadRate", 60)
 		self.nextSpread = CurTime() + self.spreadTime
 		
-		self:SetPos(self:GetPos() - Vector(0,0,20))
+		self:SetPos(self:GetPos() + self:GetUp() * 40)
+		self:DropToFloor()
 		
 		local ranAng = Angle(0,math.random(0,360),0)
 		self:SetAngles(ranAng)
 		
 		nut.plugin.list["creep"].amt = nut.plugin.list["creep"].amt + 1
 	else
+		--[[
 		local mat = Matrix()
-		mat:Scale( Vector(math.random(50,75)*0.01, math.random(50,75)*0.01, math.random(50,75)*0.01) )
-		self:EnableMatrix( "RenderMultiply", mat )	
+		mat:Scale(Vector(math.random(50,75)*0.01, math.random(50,75)*0.01, math.random(50,75)*0.01))
+		self:EnableMatrix("RenderMultiply", mat)	
+		--]]
 	end
-end
-
-function ENT:selectModel()
-	self:SetModel(table.Random(self.models))
 end
 
 function ENT:SpawnFunction(client, trace)
@@ -65,7 +56,7 @@ function ENT:SpawnFunction(client, trace)
 	angles.p = 0
 	angles.y = angles.y + 180
 
-	local entity = ents.Create("nut_creep")
+	local entity = ents.Create("nut_grave")
 	entity:SetPos(trace.HitPos)
 	entity:SetAngles(angles)
 	entity:Spawn()
@@ -77,102 +68,35 @@ function ENT:Think()
 	if(SERVER) then
 		--spreading
 		if(CurTime() > self.nextSpread) then
-			if(self.size == 15) then
-				self:createSpread() --makes the fire spread
+			self.nextSpread = CurTime() + self.spreadTime
+		
+			self:createSpread() --makes the fire spread
 			
-				if(!nut.plugin.list["creep"].heart) then
-					nut.plugin.list["creep"].heart = true
-					self.heart = true
-					
-					local stage = {
-						"models/props_foliage/oak_tree01.mdl"
-					}
-	
-					self:SetModel(table.Random(stage))
-					self:PhysicsInit( SOLID_VPHYSICS )
-					local phys = self:GetPhysicsObject()  	
-					if phys:IsValid() then
-						phys:EnableMotion(false)
-						phys:Sleep()  	
-					end
-					
-					self:SetHealth(self:Health() + 1000)
-				else
-					if(self.size > 3) then
-						self.size = 3
-					end
-				end
-			elseif(self.size >= 3) then
-				self:createSpread() --makes the fire spread
-				
-				if(!nut.plugin.list["creep"].heart) then
-					self.size = self.size + 1
-				else
-					if(self.size > 3) then
-						self.size = 3
-					end
-				end
-			elseif(self.size == 2) then
-				local stage = {
-					"models/props_foliage/tree_deciduous_01a.mdl",
-					"models/props_foliage/tree_deciduous_02a.mdl",
-					"models/props_foliage/tree_dead01.mdl",
-					"models/props_foliage/tree_dead02.mdl",
-					"models/props_foliage/tree_dead03.mdl",
-					"models/props_foliage/tree_dead04.mdl",
-					"models/props_foliage/tree_dry01.mdl",
-					"models/props_foliage/tree_dry02.mdl",
-					"models/props_foliage/tree_pine04.mdl",
-					"models/props_foliage/tree_pine05.mdl",
-					"models/props_foliage/tree_pine06.mdl"
-				}
-				
-				self:SetModel(table.Random(stage))
-				self:PhysicsInit( SOLID_VPHYSICS )
-				local phys = self:GetPhysicsObject()  	
-				if phys:IsValid() then
-					phys:EnableMotion(false)
-					phys:Sleep()  	
-				end
-				
-				self.size = self.size + 1
-				self:SetHealth(self:Health() + 100)
-			elseif(self.size == 1) then
-				local stage = {
-					"models/props_foliage/tree_deciduous_03a.mdl"
-				}
-			
-				self:SetModel(table.Random(stage))
-				self:PhysicsInit( SOLID_VPHYSICS )
-				local phys = self:GetPhysicsObject()  	
-				if phys:IsValid() then
-					phys:EnableMotion(false)
-					phys:Sleep()  	
-				end
-				
-				self.size = self.size + 1
-				self:SetHealth(self:Health() + 100)
-			else
-				self.size = self.size + 1
-				self:SetHealth(self:Health() + 100)
+			self:PhysicsInit( SOLID_VPHYSICS )
+			local phys = self:GetPhysicsObject()  	
+			if phys:IsValid() then
+				phys:EnableMotion(false)
+				phys:Sleep()  	
 			end
 			
-			self.nextSpread = CurTime() + self.spreadTime
+			self:SetHealth(self:Health() + 1000)
 		end
 		
+		--[[
 		--npc spawning
 		if(self.heart and (self.nextSpawn or 0) < CurTime()) then
 			self.nextSpawn = CurTime() + nut.config.get("creepSpawnRate", 600)
 			
 			self:createPod() --makes the fire spread
 		end
+		--]]
 	end
 end
 
 function ENT:createSpread()
 	if(nut.plugin.list["creep"].amt > nut.config.get("maxCreep", 50)) then return end
 
-	local spread = ents.Create("nut_creepspread")
+	local spread = ents.Create("nut_gravespread")
 			
 	if spread:IsValid() and self:IsValid() then
 		spread:SetPos(self:GetPos() + Vector(0,0,30))
@@ -214,11 +138,6 @@ function ENT:createPod()
 end
 
 function ENT:OnTakeDamage( dmginfo )
-	if(dmginfo:IsDamageType(DMG_BURN) or dmginfo:IsDamageType(DMG_BLAST)) then
-		self:Ignite(45)
-		self:SetColor(Color(200,200,200,255))
-	end
-	
 	self:SetHealth(self:Health() - dmginfo:GetDamage())
 	
 	if(self:Health() <= 0 and !self.dead) then

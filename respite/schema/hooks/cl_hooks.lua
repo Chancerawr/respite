@@ -191,75 +191,6 @@ function SCHEMA:LoadFonts(font)
 	})
 end
 
-function SCHEMA:RenderScreenspaceEffects()
-	if (nut.gui.character and nut.gui.character:IsVisible()) then
-		local mat_Overlay = Material("pp/blurscreen")
-
-		local scrW, scrH = ScrW(), ScrH()
-			for i = 1, 3 do
-			mat_Overlay:SetFloat("$blur", (i / 2) * (amount or 5))
-			mat_Overlay:Recompute()
-
-			render.UpdateScreenEffectTexture()
-			render.SetMaterial(mat_Overlay)
-			render.DrawScreenQuad()
-		end
-
-		local x, y = nut.gui.character:LocalToScreen(0, 0)
-		local w, h = nut.gui.character:GetWide(), ScrH()
-		render.SetStencilEnable(true)
-		render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
-		render.SetStencilReferenceValue(1)
-		render.ClearStencilBufferRectangle(x, y, x + w, h, 1)
-		render.SetStencilEnable(1)
-		render.SetStencilEnable(false)
-
-		menu = {}
-		menu["$pp_colour_addr"] = -15/255
-		menu["$pp_colour_addg"] = -15/255
-		menu["$pp_colour_addb"] = -15/255
-		menu["$pp_colour_brightness"] = -0.05
-		menu["$pp_colour_contrast"] = 1
-		menu["$pp_colour_colour"] = 0.35
-		menu["$pp_colour_mulr"] = 0
-		menu["$pp_colour_mulg"] = 0
-		menu["$pp_colour_mulb"] = 0
-		DrawColorModify( menu ) 
-	end
-
-	if (nut.gui.character and !nut.gui.character:IsVisible() ) then
-		if NUT_CVAR_POSTPROCESS:GetBool() then
-			local colorMod = {}
-			colorMod["$pp_colour_addr"]           = 0
-			colorMod["$pp_colour_addg"]           = 0
-			colorMod["$pp_colour_addb"]           = 0.025
-			colorMod["$pp_colour_brightness"]     = 0
-			colorMod["$pp_colour_contrast"]       = 1.05
-			colorMod["$pp_colour_colour"]         = 0.65
-			colorMod["$pp_colour_mulr"]           = 0.9
-			colorMod["$pp_colour_mulg"]           = 0
-			colorMod["$pp_colour_mulb"]           = 1
-
-			DrawColorModify(colorMod) 
-		end
-	end
-end
-
-function SCHEMA:HUDPaint()
-	if (NUT_CVAR_LETTERBOX:GetBool() and !nut.gui.character:IsVisible()) then
-		local w,h = ScrW(),ScrH()
-		surface.SetDrawColor ( 0, 0, 0, 255 )
-		surface.DrawRect ( 0, 0, w, h / 6 )
-		
-		local w,h = ScrW(),ScrH()
-		surface.SetDrawColor ( 0, 0, 0, 255 )
-		surface.DrawRect ( 0, 930, w, h / 6 )
-	end 
-end
-
-NUT_CVAR_POSTPROCESS = CreateClientConVar("nut_postprocess", 0, true, true)
-NUT_CVAR_LETTERBOX = CreateClientConVar("nut_letterbox", 0, true, true)
-
 --disables kill feed
 function SCHEMA:DrawDeathNotice() 
 	return false
@@ -335,37 +266,6 @@ function SCHEMA:PlayerBindPress(client, bind, pressed)
 end
 
 function SCHEMA:SetupQuickMenu(menu)
-	local button = menu:addCheck("Color Modification", function(panel, state)
-		if (state) then
-			RunConsoleCommand("nut_postprocess", "1")
-		else
-			RunConsoleCommand("nut_postprocess", "0")
-		end
-	end, NUT_CVAR_POSTPROCESS:GetBool())
-			
-	menu:addSpacer()
-	  
-	local button = menu:addCheck("Letterbox", function(panel, state)
-		if (state) then
-			RunConsoleCommand("nut_letterbox", "1")
-		else
-			RunConsoleCommand("nut_letterbox", "0")
-		end
-	end, NUT_CVAR_LETTERBOX:GetBool())
-		
-	menu:addSpacer()	  
-	
-	--[[
-	local button = menu:addCheck("Headbob", function(panel, state)
-		if (state) then
-			RunConsoleCommand("nut_headbob", "1")
-		else
-			RunConsoleCommand("nut_headbob", "0")
-		end
-	end, NUT_CVAR_HEADBOB:GetBool())
-	
-	menu:addSpacer()
-	--]]
 
 	local button = menu:addButton("Clear Icon Cache", function(panel, state)
 		RunConsoleCommand("nut_flushicon", "1")
@@ -373,13 +273,14 @@ function SCHEMA:SetupQuickMenu(menu)
 				
 	menu:addSpacer()
 	
-	local button = menu:addCheck("Multi-core Rendering", function(panel, state)
+	local button = menu:addCheck("Multi-Core Rendering", function(panel, state)
 		if (state) then
 			RunConsoleCommand("gmod_mcore_test", "1")
 		else
 			RunConsoleCommand("gmod_mcore_test", "0")
 		end
 	end, GetConVar("gmod_mcore_test"):GetBool())
+
 end
 
 function SCHEMA:CanCreateCharInfo(panel)

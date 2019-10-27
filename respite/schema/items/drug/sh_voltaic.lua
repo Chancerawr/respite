@@ -23,3 +23,23 @@ ITEM:hook("_use", function(item)
 	item.player:EmitSound("ambient/levels/labs/electric_explosion1.wav")
 	item.player:ScreenFade(1, Color(0, 128, 128, 255), 10, 0)
 end)
+
+ITEM.functions.Load = { -- sorry, for name order.
+	name = "Load",
+	tip = "useTip",
+	icon = "icon16/add.png",
+	onRun = function(item)
+		item.player:GiveAmmo(1, "RPG_Round")
+		item.player:EmitSound("items/ammo_pickup.wav", 110)
+		
+		return true
+		end,
+	onCanRun = function(item)
+		local client = item.player
+		if (!client:getChar():getInv():getFirstItemOfType("tfa_voltaic")) then
+			return false
+		end
+		
+		return true		
+	end
+}

@@ -8,14 +8,15 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/dog.mdl"
 
 --all attributes
-ENT.agil = 15
-ENT.stre = 18
-ENT.accu = 10
-ENT.craf = 0
-ENT.endu = 10
-ENT.luck = 5
-ENT.perc = 50
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 15,
+	["str"] = 18,
+	["accuracy"] = 10,
+	["end"] = 10,
+	["luck"] = 5,
+	["perception"] = 50,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

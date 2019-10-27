@@ -37,10 +37,10 @@ if (CLIENT) then
 	chat.nutAddText = chat.nutAddText or chat.AddText
 
 	local PLUGIN = PLUGIN
-
+	
 	function chat.AddText(...)
 		local show = true
-
+		
 		if (IsValid(PLUGIN.panel)) then
 			show = PLUGIN.panel:addText(...)
 		end

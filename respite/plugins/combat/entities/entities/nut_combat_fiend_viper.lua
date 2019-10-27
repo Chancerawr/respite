@@ -9,14 +9,15 @@ ENT.name = "Viper Blood Fiend"
 ENT.model = "models/sient hill custom/homecoming/lurker.mdl"
 
 --all attributes
-ENT.agil = 35
-ENT.stre = 20
-ENT.accu = 20
-ENT.craf = 10
-ENT.endu = 20
-ENT.luck = 0
-ENT.perc = 30
-ENT.fort = 0
+ENT.attribs = {
+	["stm"] = 35,
+	["str"] = 20,
+	["accuracy"] = 20,
+	["end"] = 20,
+	["luck"] = 0,
+	["perception"] = 30,
+	["fortitude"] = 0,
+}
 
 function ENT:Initialize()
 	self:basicSetup()

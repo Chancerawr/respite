@@ -600,3 +600,17 @@ STORAGE_DEFINITIONS["models/items/ammocrate_smg1.mdl"] = {
 		end)
 	end,
 }
+
+for i = 1, 10 do
+	for j = 1, 10 do
+		STORAGE_DEFINITIONS[tostring(i)..tostring(j)] = {
+			name = "Storage",
+			desc = "",
+			invData = {
+				w = i,
+				h = j
+			},
+			invType	= "grid",
+		}
+	end
+end
