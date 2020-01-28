@@ -62,16 +62,18 @@ ITEM.functions.use = {
 		local dur --duration of effect
 		
 		if (char and client:Alive()) then
-			if (item.attribBoosts) then
-				timer.Simple(300, function()
+			if (item.attribBoosts or item:getData("attrib")) then
+				timer.Simple(900, function()
 					if(IsValid(client) and char) then
-						for k, v in pairs(item.attribBoosts) do
+						local boostTbl = item:getData("attrib") or item.attribBoosts
+					
+						for k, v in pairs(boostTbl) do
 							buffAmt = v
 							if(hasTrait(client, "glutton")) then
 								buffAmt = buffAmt * 1.2
 							end
 							
-							char:addBoost(item.uniqueID, k, buffAmt)
+							char:addBoost(item:getName(), k, buffAmt)
 						end
 					end
 				end)
@@ -92,24 +94,26 @@ ITEM.functions.use = {
 			end
 
 			--if we already have a thing for that buff, refresh it.
-			if(timer.Exists("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex())) then 
-				timer.Adjust("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), dur, 1, function()
+			if(timer.Exists("DrugEffect_" .. item.name .. "_" .. client:EntIndex())) then 
+				timer.Adjust("DrugEffect_" .. item.name .. "_" .. client:EntIndex(), dur, 1, function()
 
 					if (client and IsValid(client)) then
 						local curChar = client:getChar()
 						if (curChar and curChar:getID() == charID) then
 							client:notify(Format("%s has worn off.", name))
 
-							if (item.attribBoosts) then
-								for k, v in pairs(item.attribBoosts) do
-									char:removeBoost(item.uniqueID, k)
+							if (item.attribBoosts or item:getData("attrib")) then
+								local boostTbl = item:getData("attrib") or item.attribBoosts
+							
+								for k, v in pairs(boostTbl) do
+									char:removeBoost(item:getName(), k)
 								end
 							end
 						end
 					end
 				end)
 			else				
-				timer.Create("DrugEffect_" .. item.uniqueID .. "_" .. client:EntIndex(), dur, 1, function()
+				timer.Create("DrugEffect_" .. item.name .. "_" .. client:EntIndex(), dur, 1, function()
 					if (client and IsValid(client)) then
 						local curChar = client:getChar()
 						if (curChar and curChar:getID() == charID) then
@@ -117,7 +121,7 @@ ITEM.functions.use = {
 
 							if (item.attribBoosts) then
 								for k, v in pairs(item.attribBoosts) do
-									char:removeBoost(item.uniqueID, k)
+									char:removeBoost(item:getName(), k)
 								end
 							end
 						end
@@ -208,6 +212,21 @@ ITEM.functions.Custom = {
 	end
 }
 
+ITEM.functions.CustomAtr = {
+	name = "Customize Attributes",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item, data)
+		nut.plugin.list["customization"]:startCustomA(item.player, item)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
 ITEM.functions.CustomQuan = {
 	name = "Customize Quantity",
 	tip = "Customize this item",
@@ -266,26 +285,28 @@ function ITEM:getDesc(partial)
 		end
 
 		if (self.cookable != false) then
-			desc = desc .. "\nFood Status: " ..COOKLEVEL[(self:getData("cooked") or 1)][1].. "."
+			desc = desc.. "\nFood Status: " ..COOKLEVEL[(self:getData("cooked") or 1)][1].. "."
 		end
 		
 		if(customData.quality) then
-			desc = desc .. "\nQuality: " ..customData.quality
+			desc = desc.. "\nQuality: " ..customData.quality
 		end		
 
 		if(self.quantity2) then
-			desc = desc .. "\nPortions remaining: " .. self:getData("quantity2", self.quantity2)
+			desc = desc.. "\nPortions remaining: " ..self:getData("quantity2", self.quantity2)
 		end
 		
-		if(self.attribBoosts) then
-			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
+		if(self.attribBoosts or self:getData("attrib")) then
+			desc = desc.. "\n\n<color=50,200,50>Bonuses</color>"
 			
-			for k, v in pairs(self.attribBoosts) do
+			local boostTbl = self:getData("attrib") or self.attribBoosts
+
+			for k, v in pairs(boostTbl) do
 				if(v != 0 and nut.attribs.list[k]) then
-					desc = desc .. "\n " .. nut.attribs.list[k].name .. ": " .. v
+					desc = desc .. "\n " ..nut.attribs.list[k].name.. ": " .. v
 				end
 			end
-		end	
+		end
 	end
 		
 	return desc

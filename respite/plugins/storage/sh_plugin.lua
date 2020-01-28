@@ -125,11 +125,7 @@ nut.command.add("storageadd", {
 			end
 
 			local inventory = target:getInv()
-			for i = 1, (tonumber(arguments[2]) or 1) do
-				timer.Simple(i, function()
-					inventory:add(uniqueID, 1)
-				end)
-			end
+			inventory:addSmart(uniqueID, tonumber(arguments[2]) or 1)
 		
 			client:notify("Item(s) added.")
 		else
@@ -209,5 +205,106 @@ nut.command.add("storagecreate", {
 					storage:Remove()
 				end
 			end)
+	end
+})
+
+nut.command.add("storageclone", {
+	adminOnly = true,
+	syntax = "<none>",
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		
+		local entity = trace.Entity
+		if(entity and entity:GetClass() == "nut_storage") then
+			local storage = ents.Create("nut_storage")
+			storage:SetPos(entity:GetPos())
+			
+			storage:Spawn()
+			storage:SetModel(entity:GetModel())
+			storage:SetMaterial(entity:GetMaterial())
+			storage:SetSolid(SOLID_VPHYSICS)
+			storage:PhysicsInit(SOLID_VPHYSICS)
+			storage:SetCreator(client)
+			
+			storage:setNetVar("name", entity:getNetVar("name", "Storage"))
+			storage:setNetVar("desc", entity:getNetVar("desc", ""))
+			
+			storage:setNetVar("overwrite", entity:getNetVar("overwrite"))
+			
+			local inventory = entity:getInv()
+			local invW, invH = inventory:getSize()
+			
+			local data = STORAGE_DEFINITIONS["" ..invW..invH]
+			
+			nut.inventory.instance(data.invType, data.invData)
+				:next(function(inventory)
+					if (IsValid(storage)) then
+						inventory.isStorage = true
+						storage:setInventory(inventory)
+						PLUGIN:saveStorage()
+
+						if (isfunction(data.onSpawn)) then
+							data.onSpawn(storage)
+						end
+					end
+				end, function(err)
+					ErrorNoHalt(
+						"Unable to create storage entity for "..client:Name().."\n"..
+						err.."\n"
+					)
+					if (IsValid(storage)) then
+						storage:Remove()
+					end
+				end)
+		else
+			client:notify("Look at a valid storage entity.")
+			return false
+		end
+	end
+})
+
+--debugging command for when inventories get really dumb
+nut.command.add("storageempty", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		
+		local target = trace.Entity
+		if(target and target:GetClass() == "nut_storage") then			
+			local inventory = target:getInv()
+			
+			for k, v in pairs(inventory:getItems()) do
+				--v:removeFromInventory(true)
+				--v:spawn()
+				
+				v:removeFromInventory(true)
+				:next(function() v:spawn((trace.HitPos + VectorRand(0, 10))) end)
+			end
+		else
+			client:notify("Look at a storage entity.")
+		end
+	end
+})
+
+--debugging command for when inventories get really dumb
+nut.command.add("storageforceunequip", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		
+		local target = trace.Entity
+		if(target and target:GetClass() == "nut_storage") then			
+			local inventory = target:getInv()
+			
+			for k, v in pairs(inventory:getItems()) do
+				if(v:getData("equip")) then
+					v:setData("equip", nil)
+				end
+			end
+		
+			client:notify("Item(s) unequipped.")
+		else
+			client:notify("Look at a storage entity.")
+		end
 	end
 })

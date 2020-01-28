@@ -123,6 +123,41 @@ nut.command.add("cleanitems", {
 	end
 })
 
+nut.command.add("cleaneditors", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local count = 0
+	
+		if(!arguments[1]) then
+			for k, v in pairs(ents.FindByClass("edit_fog")) do
+				count = count + 1
+				v:Remove()
+			end
+			
+			for k, v in pairs(ents.FindByClass("edit_sky")) do
+				count = count + 1
+				v:Remove()
+			end
+			
+			for k, v in pairs(ents.FindByClass("edit_sun")) do
+				count = count + 1
+				v:Remove()
+			end
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do	
+				if IsValid(v) and (v:GetClass() == "edit_fog" or v:GetClass() == "edit_sky" or v:GetClass() == "edit_sun") then
+					count = count + 1
+					v:Remove()
+				end
+			end
+		end
+		
+		client:notify(count.. " editors have been cleaned up from the map.")
+	end
+})
+
 nut.command.add("cleannpcs", {
 	adminOnly = true,
 	onRun = function(client, arguments)
@@ -147,6 +182,55 @@ nut.command.add("cleannpcs", {
 		end
 		
 		client:notify(count.. " NPCs and Nextbots have been cleaned up from the map.")
+	end
+})
+
+
+nut.command.add("checknpcs", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local count = 0
+	
+		if(!arguments[1]) then
+			for k, v in pairs(ents.GetAll()) do
+				if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+					count = count + 1
+				end
+			end
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do
+				if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+					count = count + 1
+				end
+			end
+		end
+		
+		client:notify(count.. " NPCs and Nextbots are currently on the map.")
+	end
+})
+
+nut.command.add("checkitems", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local count = 0
+	
+		if(!arguments[1]) then
+			for k, v in pairs(ents.FindByClass("nut_item")) do
+				count = count + 1
+			end
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do	
+				if IsValid(v) and (v:GetClass() == "nut_item") then
+					count = count + 1
+				end
+			end
+		end
+		
+		client:notify(count.. " item entities are currently on the map.")
 	end
 })
 
@@ -239,7 +323,7 @@ nut.command.add("flip", {
 
 -- Roll information in chat.
 nut.chat.register("rolld", {
-	format = "%s has %s.",
+	format = "%s %s.",
 	color = Color(155, 111, 176),
 	filter = "actions",
 	font = "nutChatFontItalics",
@@ -277,7 +361,25 @@ nut.command.add("rolld", {
 			msg = msg.. " + " ..bonus
 		end
 		
-		msg = "rolled " ..total.. " [" ..dmsg.. "]" .. " on " ..dice.. "d" ..pips..msg
+		msg = "has rolled " ..total.. " [" ..dmsg.. "]" .. " on " ..dice.. "d" ..pips..msg
+		
+		nut.chat.send(client, "rolld", msg)
+	end
+})
+
+nut.command.add("card", {
+	syntax = "<none>",
+	onRun = function(client, arguments)
+		local inventory = client:getChar():getInv()
+		if (!inventory:hasItem("j_cards")) then
+			client:notify("You do not have a deck of cards.")
+			return
+		end
+
+		local cards = {"1","2","3","4","5","6","7","8","9","10","Ace","Queen","King","Jack"}
+		local family = {"Spades", "Hearts", "Diamonds", "Clubs"}
+		
+		local msg = "draws the " ..table.Random(cards).. " of " ..table.Random(family)
 		
 		nut.chat.send(client, "rolld", msg)
 	end
@@ -327,8 +429,23 @@ nut.command.add("charsetjump", {
 		local power = tonumber(arguments[2]) or 200
 		if(IsValid(target) and target:getChar()) then
 			target:SetJumpPower(power)
-		else
-			client:notify("Invalid Target")
+		end
+	end
+})
+
+nut.command.add("charforceunequip", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			local inventory = target:getChar():getInv()
+			
+			for k, v in pairs(inventory:getItems()) do
+				if(v:getData("equip")) then
+					v:setData("equip", false)
+				end
+			end
 		end
 	end
 })

@@ -28,7 +28,11 @@ function ENT:Initialize()
 	end
 end
 
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+
 function ENT:basicSetup()
+	self:SetRenderMode(RENDERMODE_TRANSALPHA)
+
 	if (SERVER) then
 		self.inv = {}
 	
@@ -75,6 +79,7 @@ function ENT:getSaveData()
 	saveData.model = self:GetModel()
 	saveData.mat = self:GetMaterial()
 	saveData.attribs = self.attribs
+	saveData.anim = self:GetSequence()
 	
 	return saveData
 end
@@ -160,15 +165,31 @@ function ENT:walkAnims()
 end
 
 function ENT:setAnim()
-	for k, v in ipairs(self:GetSequenceList()) do
-		if (v:lower():find("idle") and v != "idlenoise") then
-			self.idle = k
-			return self:ResetSequence(k)
+	local anim = self.savedAnim
+	if(anim) then
+		timer.Simple(30, function()
+			self:ResetSequence(anim)
+		end)
+		
+		for k, v in ipairs(self:GetSequenceList()) do
+			if (v:lower():find("idle") and v != "idlenoise") then
+				self.idle = k
+				return
+			end
 		end
-	end
+		
+		self.idle = 4
+	else
+		for k, v in ipairs(self:GetSequenceList()) do
+			if (v:lower():find("idle") and v != "idlenoise") then
+				self.idle = k
+				return self:ResetSequence(k)
+			end
+		end
 
-	self.idle = 4
-	self:ResetSequence(4)
+		self.idle = 4
+		self:ResetSequence(4)
+	end
 end
 
 function ENT:runCombat(client, attr, debuff, msg, category, command)
@@ -209,7 +230,7 @@ function ENT:critCalc()
 	local crit = math.random(1, 1000)
 	local critmsg = ""
 	
-	local luck = self.attribs["fortitude"]
+	local luck = self.attribs["luck"]
 	
 	if (crit <= (luck * 2 + 15)) then
 		crit = (1.5 + luck * 0.04)
@@ -398,6 +419,8 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 	end
 	
 	if(success) then
+		self:setNetVar("hit", self:getNetVar("hit", 0) + 1)
+	
 		if(isstring(part)) then
 			fullString = client:GetName() .. "'s " ..action.. " hits " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
 			
@@ -437,6 +460,8 @@ function ENT:messagePrint(client, rollC, rollE, action, success, part)
 			nut.log.addRaw(fullString, 3)
 			nut.chat.send(client, "react_fail", fullString)
 		else
+			self:setNetVar("hit", self:getNetVar("hit", 0) + 1)
+			
 			nut.log.addRaw(fullString, 6)
 			nut.chat.send(client, "graze_npc", fullString)
 		end
@@ -607,6 +632,22 @@ end
 
 function ENT:Desc()
 	return self:getNetVar("desc", self.desc)
+end
+
+function ENT:getActions()
+	local actions = {}
+
+	if(CMBT.commands) then
+		for k, command in pairs(CMBT.commands) do
+			actions[#actions + 1] = {
+				name = command.name or "Unnamed Action",
+				--func = PLUGIN.attack,
+				special = command.uid,
+			}
+		end
+	end
+
+	return actions
 end
 
 if (CLIENT) then

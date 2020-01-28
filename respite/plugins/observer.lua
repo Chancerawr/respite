@@ -52,11 +52,11 @@ if (CLIENT) then
 					size = math.max(10, 32*factor)
 					alpha = math.Clamp(255*factor, 80, 255)
 
-					surface.SetDrawColor(teamColor.r, teamColor.g, teamColor.b, alpha)
-					--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
-					surface.DrawRect(x - size/2, y - size/2, size, size)
-
 					nut.util.drawText(v:getNetVar("name", v.name) or v.PrintName, x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					
+					if(v:getNetVar("hit")) then
+						nut.util.drawText("Hits: " ..v:getNetVar("hit", 0), x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					end
 				end
 			end
 			

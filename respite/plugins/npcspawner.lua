@@ -112,6 +112,10 @@ if SERVER then
 		data.mins = Vector(-16, -16, 0)
 		data.maxs = Vector(16, 16, 16)
 
+		if(!self.spawngroups) then
+			return
+		end		
+		
 		local idat = table.Random(self.spawngroups[v[2]] or self.spawngroup["default"])
 
 		--nut.item.spawn(idat, v[1] + Vector( math.Rand(-8,8), math.Rand(-8,8), 20 ), nil, AngleRand())
@@ -182,8 +186,13 @@ nut.command.add("npcspawnadd", {
 		local trace = client:GetEyeTraceNoCursor()
 		local hitpos = trace.HitPos + trace.HitNormal*5
 		local spawngroup = arguments[1] or "default"
-		table.insert(PLUGIN.spawnpoints, { hitpos, spawngroup })
-		client:notify("You added ".. spawngroup .. " npc spawner.")
+		
+		if(PLUGIN.spawngroups[spawngroup]) then
+			table.insert(PLUGIN.spawnpoints, {hitpos, spawngroup})
+			client:notify("You added ".. spawngroup .. " npc spawner.")
+		else
+			client:notify("Invalid spawngroup.")
+		end
 	end
 })
 
@@ -194,6 +203,7 @@ nut.command.add("npcspawnremove", {
 		local hitpos = trace.HitPos + trace.HitNormal*5
 		local range = arguments[1] or 128
 		local mt = 0
+		
 		for k, v in pairs( PLUGIN.spawnpoints ) do
 			local distance = v[1]:DistToSqr(hitpos)
 			if distance <= tonumber(range) * tonumber(range) then
@@ -201,6 +211,7 @@ nut.command.add("npcspawnremove", {
 				mt = mt + 1
 			end
 		end
+		
 		client:notify(mt .. " npc spawners has been removed.")
 	end
 })

@@ -120,11 +120,9 @@ function PLUGIN:DrawEntityInfo(entity, alpha, position)
 	if (description ~= entity.nutDescCache) then
 		entity.nutDescCache = description
 
-		--[[
 		if (description:len() > 250) then
-			description = description:sub(1, 250).."..."
+			description = description:sub(1, 2000).."..."
 		end
-		--]]
 
 		entity.nutDescLines = nut.util.wrapText(
 			description,

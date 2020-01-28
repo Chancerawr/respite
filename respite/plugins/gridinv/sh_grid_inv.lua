@@ -1,7 +1,8 @@
 nut.meta.item.width = 1
 nut.meta.item.height = 1
 
-local GridInv = nut.Inventory:extend("GridInv")
+--local GridInv = nut.inventory.types["GridInv"]--nut.Inventory:extend("GridInv")
+local GridInv = nut.inventory.types["grid"]--nut.Inventory:extend("GridInv")
 
 -- Useful access rules:
 local function CanAccessInventoryIfCharacterIsOwner(inventory, action, context)
@@ -424,4 +425,4 @@ else
 	end
 end
 
-GridInv:register(PLUGIN.INVENTORY_TYPE_ID)
+--GridInv:register(PLUGIN.INVENTORY_TYPE_ID)

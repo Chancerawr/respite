@@ -18,6 +18,30 @@ if (CLIENT) then
 	end
 end
 
+ITEM.buffRefresh = function(item, player)
+	local client = player
+	if(item.player) then
+		client = item.player
+	end
+
+	local char = client:getChar()
+
+	local temp = {}		
+	--combines both boost lists
+	local customBoosts = item:getData("attrib", {})
+	for k, v in pairs(item.attribBoosts) do
+		temp[k] = v
+	end
+	
+	for k, v in pairs(customBoosts) do
+		temp[k] = (temp[k] or 0) + v
+	end		
+
+	for k, v in pairs(temp) do
+		char:addBoost(item:getName(), k, v)
+	end
+end
+
 -- On item is dropped, Remove a weapon from the player and keep the ammo in the item.
 ITEM:hook("drop", function(item)
 	if (item:getData("equip")) then
@@ -36,7 +60,7 @@ ITEM:hook("drop", function(item)
 			end	
 		
 			for k, v in pairs(temp) do
-				item.player:getChar():removeBoost(item.uniqueID, k)
+				item.player:getChar():removeBoost(item:getName(), k)
 			end
 		end
 	end
@@ -67,7 +91,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 			end
 			
 			for k, v in pairs(temp) do
-				char:removeBoost(item.uniqueID, k)
+				char:removeBoost(item:getName(), k)
 			end
 		end
 
@@ -110,20 +134,7 @@ ITEM.functions.Equip = {
 		item:setData("equip", true)
 		--buffs the specified attributes.
 		if (item.attribBoosts or item:getData("attrib", nil)) then
-			local temp = {}		
-			--combines both boost lists
-			local customBoosts = item:getData("attrib", {})
-			for k, v in pairs(item.attribBoosts) do
-				temp[k] = v
-			end
-			
-			for k, v in pairs(customBoosts) do
-				temp[k] = (temp[k] or 0) + v
-			end		
-		
-			for k, v in pairs(temp) do
-				char:addBoost(item.uniqueID, k, v)
-			end
+			item:buffRefresh(item)
 		end
 		
 		return false
@@ -221,7 +232,7 @@ ITEM.functions.Scrap = {
 				end
 				
 				for k, v in pairs(temp) do
-					client:getChar():removeBoost(item.uniqueID, k)
+					client:getChar():removeBoost(item:getName(), k)
 				end
 			end
 			

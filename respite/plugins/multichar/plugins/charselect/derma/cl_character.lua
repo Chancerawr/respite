@@ -59,52 +59,63 @@ function PANEL:createTitle()
 	self.title:SetFont("nutCharTitleFont")
 	self.title:SetText("")
 	self.title:SetTextColor(WHITE)
-
-	self.schemaLogo = self:Add("DHTML")
-	self.schemaLogo:SetSize(ScrW(), ScrH())
-	self.schemaLogo:SetPos(ScrW() * 0.30, 25)
-	self.schemaLogo:SetZPos(-197)
-	self.schemaLogo:OpenURL("http://i.imgur.com/xihenMy.png")	
 	
-	self.icon = self:Add("DHTML")
-	self.icon:SetPos(ScrW() - 96, 8)
-	self.icon:SetSize(86, 86)
-	self.icon:SetHTML([[
-		<html>
-			<body style="margin: 0; padding: 0; overflow: hidden;">
-				<img src="]].."https://i.imgur.com/fEkFwaW.jpg"..[[" width="86" height="86" />
-			</body>
-		</html>
-	]])
-	self.icon:SetToolTip("Content")
-
-	self.icon.click = self.icon:Add("DButton")
-	self.icon.click:Dock(FILL)
-	self.icon.click.DoClick = function(this)
-		gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=773495550")
+	local centerlogo = nut.config.get("centerlogo")
+	if (centerlogo and centerlogo:find("%S")) then
+		self.schemaLogo = self:Add("DHTML")
+		self.schemaLogo:SetSize(ScrW(), ScrH())
+		self.schemaLogo:SetPos(ScrW() * 0.30, 25)
+		self.schemaLogo:SetZPos(-197)
+		self.schemaLogo:OpenURL(centerlogo)
 	end
-	self.icon.click:SetAlpha(0)
-	self.icon:SetAlpha(200)
 	
-	self.icon2 = self:Add("DHTML")
-	self.icon2:SetPos(8, 8)
-	self.icon2:SetSize(86, 86)
-	self.icon2:SetHTML([[
-		<html>
-			<body style="margin: 0; padding: 0; overflow: hidden;">
-				<img src="]].."https://i.imgur.com/jfHPpXy.jpg"..[[" width="86" height="86" />
-			</body>
-		</html>
-	]])
-	self.icon2:SetToolTip("Forums")
+	local icon, iconIMG = nut.config.get("icon1URL"), nut.config.get("icon1IMG")
+	if (icon and icon:find("%S") and iconIMG and iconIMG:find("%S") ) then
+		self.icon = self:Add("DHTML")
+		self.icon:SetPos(ScrW() - 96, 8)
+		self.icon:SetSize(86, 86)
+		self.icon:SetHTML([[
+			<html>
+				<body style="margin: 0; padding: 0; overflow: hidden;">
+					<img src="]]..iconIMG..[[" width="86" height="86" />
+				</body>
+			</html>
+		]])
+		--self.icon:SetToolTip("Content")
 
-	self.icon2.click = self.icon2:Add("DButton")
-	self.icon2.click:Dock(FILL)
-	self.icon2.click.DoClick = function(this)
-		gui.OpenURL("http://spite.boards.net/")
+		self.icon.click = self.icon:Add("DButton")
+		self.icon.click:Dock(FILL)
+		self.icon.click.DoClick = function(this)
+			--gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=773495550")
+			gui.OpenURL(icon)
+		end
+		self.icon.click:SetAlpha(0)
+		self.icon:SetAlpha(200)	
 	end
-	self.icon2.click:SetAlpha(0)
-	self.icon2:SetAlpha(200)	
+	
+	local icon2, icon2IMG = nut.config.get("icon1URL"), nut.config.get("icon1IMG")
+	if (icon2 and icon2:find("%S") and icon2IMG and icon2IMG:find("%S")) then
+		self.icon2 = self:Add("DHTML")
+		self.icon2:SetPos(8, 8)
+		self.icon2:SetSize(86, 86)
+		self.icon2:SetHTML([[
+			<html>
+				<body style="margin: 0; padding: 0; overflow: hidden;">
+					<img src="]]..icon2IMG..[[" width="86" height="86" />
+				</body>
+			</html>
+		]])
+		--self.icon2:SetToolTip("Forums")
+
+		self.icon2.click = self.icon2:Add("DButton")
+		self.icon2.click:Dock(FILL)
+		self.icon2.click.DoClick = function(this)
+			--gui.OpenURL("http://spite.boards.net/")
+			gui.OpenURL(icon2)
+		end
+		self.icon2.click:SetAlpha(0)
+		self.icon2:SetAlpha(200)
+	end
 	
 	self.desc = self:Add("DLabel")
 	self.desc:Dock(TOP)

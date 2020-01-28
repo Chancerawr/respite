@@ -72,7 +72,7 @@ DISEASE.phase = {
 	"Your anger overcomes your good sense, and you feel like you're physically stronger than normal.",
 	"You dream of battle where you can crush your enemies.",
 	"You feel a surge of energy, and you want to use it to hurt things.",
-	"You feel a glimpse of fatigue, but this somehow only makes you angry, and you push yourself passed it.",
+	"You feel a glimpse of fatigue, but this somehow only makes you angry, and you push yourself past it.",
 	"You temporarily find it hard to understand complex concepts."
 }
 DISEASE.cure = {

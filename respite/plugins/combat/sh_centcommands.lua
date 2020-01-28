@@ -310,28 +310,24 @@ nut.command.add("centattrib", {
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			local attrib = string.lower(arguments[1])
-
-			if(string.find("agility", attrib)) then
-				entity.agil = arguments[2]
-			elseif(string.find("strength", attrib)) then
-				entity.stre = arguments[2]
-			elseif(string.find("accuracy", attrib)) then
-				entity.accu = arguments[2]
-			elseif(string.find("craftiness", attrib)) then
-				entity.craf = arguments[2]
-			elseif(string.find("endurance", attrib)) then
-				entity.endu = arguments[2]
-			elseif(string.find("luck", attrib)) then
-				entity.luck = arguments[2]
-			elseif(string.find("perception", attrib)) then
-				entity.perc = arguments[2]
-			elseif(string.find("fortitude", attrib)) then
-				entity.fort = arguments[2]
-			else
-				client:notify("Invalid attribute.")
-			end	
+			local entAttribs = entity.attribs
 			
-			client:notify(arguments[1].. " set to " ..arguments[2].. ".")
+			local attribKey
+			local attribName
+			for k, v in pairs(nut.attribs.list) do
+				if (nut.util.stringMatches(v.name, attrib) or nut.util.stringMatches(k, attrib)) then
+					attribKey = k
+					attribName = v.name
+				end
+			end
+			
+			if(attribKey) then
+				entAttribs[attribKey] = arguments[2]
+				
+				client:notify(attribName.. " set to " ..arguments[2].. ".")
+			else
+				client:notify("Invalid attribute specified.")
+			end
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
@@ -343,16 +339,8 @@ nut.command.add("centattribs", {
 	onRun = function(client, arguments)	
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
-			local attribs = {}
-
-			attribs["stm"] = entity.agil
-			attribs["str"] = entity.stre
-			attribs["accuracy"] = entity.accu
-			attribs["medical"] = entity.craf
-			attribs["end"] = entity.endu
-			attribs["luck"] = entity.luck
-			attribs["perception"] = entity.perc
-			attribs["fortitude"] = entity.fort
+			
+			local attribs = entity.attribs
 			
 			netstream.Start(client, "ShowAttribs", client, attribs)
 		else
@@ -391,14 +379,7 @@ nut.command.add("centclone", {
 			clone.inv = entity.inv
 			
 			--set its attributes
-			clone.agil = entity.agil
-			clone.stre = entity.stre
-			clone.accu = entity.accu
-			clone.craf = entity.craf
-			clone.endu = entity.endu
-			clone.luck = entity.luck
-			clone.perc = entity.perc
-			clone.fort = entity.fort
+			clone.attribs = entity.attribs
 			
 			clone:SetCreator(client) --prop protection
 
@@ -427,16 +408,7 @@ nut.command.add("centcopy", {
 				desc = entity:getNetVar("desc", ""),
 				ani = entity:GetSequence(),
 				inv = entity.inv,
-				attrib = {
-					agil = entity.agil,
-					stre = entity.stre,
-					accu = entity.accu,
-					craf = entity.craf,
-					endu = entity.endu,
-					luck = entity.luck,
-					perc = entity.perc,
-					fort = entity.fort,
-				},
+				attribs = entity.attribs
 			}	
 
 			client.CEntC = info
@@ -476,21 +448,48 @@ nut.command.add("centpaste", {
 			
 			clone.inv = info.inv
 			
-			local attrib = info.attrib
+			local attrib = info.attribs
 			--set its attributes
-			clone.agil = attrib.agil
-			clone.stre = attrib.stre
-			clone.accu = attrib.accu
-			clone.craf = attrib.craf
-			clone.endu = attrib.endu
-			clone.luck = attrib.luck
-			clone.perc = attrib.perc
-			clone.fort = attrib.fort
+			clone.attribs = info.attribs
 			
 			clone:SetCreator(client) --prop protection
 
 			local name = clone:getNetVar("name", clone.PrintName)
 			client:notify(name.. " has been pasted.") --notify the player
+		end
+	end
+})
+
+--creates a CEnt with mirrored stats from a player
+nut.command.add("centmirror", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		if (IsValid(entity) and entity:IsPlayer()) then --makes sure it's a CEnt (Combat Entity)
+			local clone = ents.Create("nut_combat_dummy") --the new clone entity
+			
+			clone:SetPos(entity:GetPos())
+			clone:SetAngles(entity:GetAngles())
+			
+			clone:Spawn() --spawn it
+			
+			clone:setNetVar("name", entity:Name()) --set its custom name
+			clone:setNetVar("desc", entity:getChar():getDesc()) --set its description			
+	
+			clone:SetModel(entity:GetModel())
+			clone:SetMaterial(entity:GetMaterial())
+			
+			clone:SetColor(entity:GetColor())
+			
+			clone.attribs = entity:getChar():getAttribs()
+
+			clone:SetCreator(client) --prop protection
+			
+			local name = entity:Name()
+			client:notify(name.. " has been mirrored.") --notify the player
+		else --called if they aren't looking at the right thing
+			client:notify("You must be looking at a combat entity.")
 		end
 	end
 })
@@ -621,5 +620,17 @@ nut.chat.register("yell_npc", {
 	filter = "actions",
 	font = "nutChatFont",
 	onCanHear = nut.config.get("chatRange", 280) * 2,
+	deadCanChat = true
+})
+
+nut.chat.register("scream_npc", {
+	onChatAdd = function(speaker, text)
+		local color = nut.config.get("chatColor")
+
+		chat.AddText(Color(200, 20, 20), text)
+	end,
+	filter = "actions",
+	font = "nutChatFont",
+	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })

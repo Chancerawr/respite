@@ -16,7 +16,7 @@ ITEM.functions.Unstack = {
 		if(stack <= 1) then return false end
 
 		client:requestString("Split", "", function(text)	
-			amount = math.Clamp(tonumber(text), 1, stack - 1)
+			amount = math.Clamp(tonumber(text) or 1, 1, stack - 1)
 			
 			item:setData("Amount", item:getData("Amount") - amount)
 			local customData = item:getData("custom", {})

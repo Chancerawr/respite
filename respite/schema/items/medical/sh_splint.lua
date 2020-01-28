@@ -9,6 +9,10 @@ ITEM.desc = "A crude splint."
 ITEM.uniqueID = "medical_splint"
 ITEM.flag = "v"
 
+ITEM.injFix = {
+	[1] = true,
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 90),

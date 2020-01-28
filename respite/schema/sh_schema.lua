@@ -1,7 +1,7 @@
 SCHEMA.name = "Respite"
 SCHEMA.introName = ""
 SCHEMA.desc = " "
-SCHEMA.author = "Chancer and Angelsaur"
+SCHEMA.author = "Chancer"
 SCHEMA.uniqueID = "respite" -- Schema will be a unique identifier stored in the database.
 
 nut.currency.set("", "scrap coin", "scrap coins")

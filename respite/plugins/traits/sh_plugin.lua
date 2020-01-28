@@ -65,7 +65,7 @@ end
 
 nut.command.add("traitadd", {
 	adminOnly = true,
-	syntax = "<string target> <select trait>",
+	syntax = "<string target> <string trait>",
 	onRun = function(client, arguments)
 		if(!arguments[2]) then
 			client:notify("No trait specified.")
@@ -97,8 +97,13 @@ nut.command.add("traitadd", {
 
 nut.command.add("traitremove", {
 	adminOnly = true,
-	syntax = "<string target> <string disease>",
+	syntax = "<string target> <string trait>",
 	onRun = function(client, arguments)
+		if(!arguments[2]) then
+			client:notify("No trait specified.")
+			return false
+		end
+	
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
 		if(target) then

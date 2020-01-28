@@ -41,7 +41,7 @@ if (SERVER) then
 	end
 
 	function ENT:Use(activator)
-		if(self.plant) then
+		if(IsValid(self) and self.plant) then
 			local oldPos = activator:GetPos()
 			activator:setAction("Gathering...", 2.5, function()
 				if(activator:GetPos():Distance(oldPos) > 500) then

@@ -12,6 +12,11 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 		if (IsValid(self.nutRagdoll)) then
 			self.nutRagdoll:Remove()
 		end
+		
+		local weap = self:GetActiveWeapon()
+		if(weap) then
+			self.activeWeapon = weap:GetClass()
+		end
 
 		local entity = self:createRagdoll()
 		
@@ -93,6 +98,13 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 									end
 								end
 							end
+							
+							timer.Simple(0.1, function()
+								if(self.activeWeapon) then
+									self:SelectWeapon(self.activeWeapon)
+									self.activeWeapon = nil
+								end
+							end)
 						end)
 						
 						if (entity.nutAmmo) then

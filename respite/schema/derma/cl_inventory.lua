@@ -201,7 +201,21 @@ function PANEL:openActionMenu()
 		return
 	end
 	
-	for k, v in SortedPairs(itemTable.functions) do
+	local itemFunctions = {}
+	
+	for k, v in pairs(itemTable.functionsB) do
+		itemFunctions[k] = v
+	end
+	
+	for k, v in pairs(itemTable.functions) do
+		itemFunctions[k] = v
+	end
+	
+	for k, v in pairs(itemTable.functionsD) do
+		itemFunctions[k] = v
+	end
+	
+	for k, v in SortedPairs(itemFunctions) do
 		if (isfunction(v.onCanRun) and not v.onCanRun(itemTable)) then
 			continue
 		end

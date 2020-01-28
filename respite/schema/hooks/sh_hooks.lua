@@ -82,9 +82,9 @@ function nut.item.register(uniqueID, baseID, isBaseItem, path, luaGenerated)
 
 	--this right here is the only part I changed, it was causing some items to retain functions of items registered right before them
 	--that was not something I wanted
-	ITEM.functions = table.Copy(
-		baseTable.functions or NUT_ITEM_DEFAULT_FUNCTIONS
-	)
+	ITEM.functionsD = NUT_ITEM_DEFAULT_FUNCTIONS --default functions
+	ITEM.functionsB = baseTable.functions or {} --item base functions
+	ITEM.functions = table.Copy(ITEM.functions or {}) --unique item functions
 
 	if (not luaGenerated and path) then
 		nut.util.include(path)
@@ -152,9 +152,13 @@ NUT_ITEM_DEFAULT_FUNCTIONS = {
 				end)
 				:catch(function(err)
 					client.itemTakeTransaction = nil
-
-					client:notifyLocalized(err)
-
+					
+					if(err == "noFit") then
+						client:notify("This item can't fit in your inventory. (" ..item.width.. "x" ..item.height..  ")")
+					else
+						client:notifyLocalized(err)
+					end
+					
 					--d:reject()
 				end)
 

@@ -39,7 +39,7 @@ ITEM.functions.use = {
 		else
 			if(item.container) then
 				local position = item.player:getItemDropPos()
-				local inventory = char:getInv()
+				local inventory = client:getChar():getInv()
 				inventory:addSmart(item.container, 1, position)
 			end
 		end

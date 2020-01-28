@@ -43,7 +43,7 @@ STORAGE_DEFINITIONS["models/props_junk/wood_crate002a.mdl"] = {
 	name = "Large Crate",
 	desc = "A simple wooden crate.",
 	invData = {
-		w = 8,
+		w = 10,
 		h = 4
 	},	
 	invType	= "grid"

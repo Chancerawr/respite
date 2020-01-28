@@ -2,7 +2,6 @@ PLUGIN.name = "Realistic Flashlight"
 PLUGIN.author = "Black Tea"
 PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 
-
 	local badWeapons = {
 		tfa_csgo_mp5 = function(ang) return ang:Forward():Angle() end,
 		tfa_csgo_revolver = function(ang) return ang:Forward():Angle() end,

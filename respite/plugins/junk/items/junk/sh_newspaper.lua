@@ -42,7 +42,20 @@ local function onUse(item)
 			"The sky is falling.",
 			"Latest reports indicate that the ocean is full of incomprehensible monsters.",
 			"Police arrest local drug dealer for not selling enough drugs.",
-			"Amphibious monster deemed unstoppable, navy surrendering."
+			"Amphibious monster deemed unstoppable, navy surrendering.",
+			"Cartel successfully stages a coup, declares all drugs illegal.",
+			"Local bear mauled to death by enraged human.",
+			"An elephant's favorite drink! The answer may surprise you (it's water).",
+			"Bananas to go extinct due to fast spreading crop infection.",
+			"'Az', you need to wake up.",
+			
+			"America's government in shambles, president found out to be a complete husk.",
+			"A great darkness has come.",
+			"The Void's stability has decreased due to changes in the world outside of it.",
+			"Humanity has perished, only those in the Void remain.",
+			"The world has ended, there is no one left.",
+			"We are all alone now.",
+			"Local Drifters attempting to restore stability found dead, shredded, drowned, and eviscerated.",
 		}
 		
 		customData.desc = item.desc.. "\n\"" ..table.Random(news).. "\""

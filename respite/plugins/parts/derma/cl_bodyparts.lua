@@ -1,5 +1,40 @@
 local PLUGIN = PLUGIN
 
+local partsTemp = {
+	["al"] = 1,
+	["ar"] = 2,
+	["ll"] = 3,
+	["lr"] = 4,
+	["t"] = 5,
+	["el"] = 6,
+	["er"] = 7,
+	["h"] = 8,
+}
+
+local injuriesTemp = {
+	[1] = {
+		name = "Bruise",
+	},
+	[2] = {
+		name = "Fracture",
+	},
+	[3] = {
+		name = "Burn",
+	},
+	[4] = {
+		name = "Laceration",
+	},
+	[5] = {
+		name = "Puncture",
+	},
+	[6] = {
+		name = "Abrasion",
+	},
+	[7] = {
+		name = "Bullet Wound",
+	},
+}
+
 local PANEL = {}
 	function PANEL:Init()
 		if (IsValid(nut.gui.body)) then
@@ -22,8 +57,9 @@ local PANEL = {}
 		local inner = vgui.Create("DScrollPanel", self)
 		inner:Dock(FILL)
 		inner:SetBackgroundColor(Color(255,0,0,255))
-		
 
+		local injuries = LocalPlayer():getInjuries()
+		
 		for k, v in SortedPairs(parts) do
 			local limb = inner:Add("DPanel", inner)
 			limb:DockMargin(0,0,0,-1)
@@ -41,23 +77,42 @@ local PANEL = {}
 
 			local percent = (((charParts[k] and charParts[k][1]) or 0) / parts[k][2]) * 100
 			local material = ((charParts[k] and charParts[k][2]) or nil)
-
-			local text = parts[k][1].." - Normal."
+			
+			local text
+			
 			if(material) then
-				text = parts[k][1].." - "..math.Round(percent, 2).."% "..material.."."
+				text = parts[k][1].. " (" ..material.. " " ..percent.. "%)"
+			else
+				text = parts[k][1]
+			end			
+			
+			local tempNum = partsTemp[k]
+			
+			local injuryText = ""
+			if(tempNum) then
+				local injury = injuries[tempNum]
 				
-				if (percent > 75) then
-					text = text.."\n".."Unrecognisable."
-				elseif(percent > 50) then
-					text = text.."\n".."Unnatural."			
-				elseif(percent > 25) then
-					text = text.."\n".."Irregular."
+				if(injury) then
+					local count = 0
+					for k2, v2 in pairs(injury) do
+						count = count + 1
+						injuryText = injuryText..(injuriesTemp[k2] and injuriesTemp[k2].name)
+						
+						if(count < table.Count(injury)) then
+							injuryText = injuryText.. ", "
+						end
+					end
+					
+					text = text.. " - " ..injuryText
 				else
-					text = text.."\n".."Stable."
+					text = text.. " - Healthy."
 				end
-			end
+			else
+				text = text.. " - Healthy."
+			end	
 
 			bodyText:SetText(text)
+			limb:SizeToContents()
 		end
 	end
 	

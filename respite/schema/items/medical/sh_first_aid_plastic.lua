@@ -12,6 +12,10 @@ ITEM.flag = "v"
 ITEM.color = Color(130, 130, 130)
 ITEM.quantity2 = 6
 
+ITEM.injFix = {
+	[1] = true,
+}
+
 ITEM.iconCam = {
 	pos = Vector(5, 0, 200),
 	ang = Angle(90, 0, 0),

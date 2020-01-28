@@ -162,6 +162,37 @@ ITEM.functions.Egg = {
 	end
 }
 
+ITEM.functions.Chip2 = {
+	name = "Enhanced Chip",
+	icon = "icon16/box.png",
+	sound = "buttons/lightswitch2.wav",
+	onRun = function(item)
+		local client = item.player
+		local position = client:getItemDropPos()
+		local inventory = client:getChar():getInv()
+		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
+			
+		if (!chip) then
+			client:notify("You need an enhanced chip to insert!") return false
+		end
+			
+		nut.item.spawn("food_pancake", position)
+		nut.item.spawn("food_pancake", position)
+		nut.item.spawn("food_pancake", position)
+		nut.item.spawn("food_pancake", position)
+		nut.item.spawn("food_pancake", position)
+		nut.item.spawn("food_pancake", position)
+		nut.item.spawn("food_coffee", position)
+		nut.item.spawn("food_coffee", position)
+		nut.item.spawn("food_coffee", position)
+			
+		chip:remove()
+		nut.chat.send(client, "itclose", "The breakfaster accepts the chip, and begins to dispense a lot of pancakes.")
+			
+		return false
+	end
+}
+
 ITEM.functions.Battery = {
 	name = "Charged Battery",
 	icon = "icon16/asterisk_orange.png",

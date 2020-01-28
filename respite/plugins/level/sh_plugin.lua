@@ -73,7 +73,7 @@ function playerMeta:canLevel()
 end
 
 function PLUGIN:getLevelThresh(level)
-	return (level * 10) + 100
+	return (level * 100) + 100
 end
 
 function playerMeta:XPtoLevel()
@@ -221,6 +221,8 @@ nut.command.add("xparea", {
 		for k, v in pairs(foundPlayers) do
 			if(v == client) then continue end
 			if (IsValid(v) and v:IsPlayer()) then
+				if(v:GetMoveType() == MOVETYPE_NOCLIP) then continue end
+			
 				local char = v:getChar()
 				if(char) then
 					requestString = requestString.. " " ..v:Name()..  " will gain " ..v:XPPrediction(newXP).. " levels."
@@ -286,6 +288,8 @@ nut.command.add("xpareadistrib", {
 		
 		for k, v in pairs(players) do
 			if (IsValid(v) and v:IsPlayer()) then
+				if(v:GetMoveType() == MOVETYPE_NOCLIP) then continue end
+			
 				local char = v:getChar()
 				if(char) then
 					requestString = requestString.. " " ..v:Name()..  " will gain " ..v:XPPrediction(split).. " levels."
@@ -325,7 +329,7 @@ if(SERVER) then
 			
 			client:notify("You have increased your " ..(nut.attribs.list[attrib] and nut.attribs.list[attrib].name).. ".")
 			
-			nut.log.addRaw(client:Name().. " increased their " ..(nut.attribs.list[attrib] and nut.attribs.list[attrib].name).. " from " ..(value-1).. " to " ..value.. ".")
+			nut.log.addRaw(client:Name().. " increased their " ..(nut.attribs.list[attrib] and (nut.attribs.list[attrib].name or "Unknown attrib?")).. " from " ..(value-1).. " to " ..value.. ".")
 		end
 	end)
 end

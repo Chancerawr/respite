@@ -202,7 +202,7 @@ COMMAND.category = "firearms"
 COMMAND.stats = {
 	["accuracy"] = 0.4
 }
-COMMAND.mult = 0.75
+COMMAND.mult = 0.55
 COMMAND.attackString = "gatling shot"
 COMMAND.stringArt = "a "
 COMMAND.parts = true
@@ -490,7 +490,6 @@ COMMAND.print = function(client, roll, part, critmsg)
 	else
 		name = client:getNetVar("name", "ENT")
 	end
-
 	
 	if(math.random(1,10) <= 7) then --normal dodge
 		nut.log.addRaw(name.." rolled \"" ..roll.. "\" for a dodge.", 2)

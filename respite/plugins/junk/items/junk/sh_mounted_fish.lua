@@ -8,7 +8,7 @@ ITEM.height = 2
 
 ITEM.salvItem = {
 	["j_scrap_wood"] = 2,
-	["j_scrap_organics"] = 1
+	["j_scrap_organic"] = 1
 }
 
 ITEM.iconCam = {

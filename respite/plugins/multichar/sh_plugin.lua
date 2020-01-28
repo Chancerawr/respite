@@ -4,6 +4,26 @@ PLUGIN.desc = "Allows players to have multiple characters."
 
 nutMultiChar = PLUGIN
 
+nut.config.add("icon1URL", "", "The URL for the icon in the top left of the character creation menu.", nil, {
+	category = "NS Character Selection"
+})
+
+nut.config.add("icon1IMG", "", "The Image for the icon in the top left of the character creation menu. 86x86", nil, {
+	category = "NS Character Selection"
+})
+
+nut.config.add("icon2URL", "", "The URL for the icon in the top right of the character creation menu.", nil, {
+	category = "NS Character Selection"
+})
+
+nut.config.add("icon2IMG", "", "The image for the icon in the top right of the character creation menu. 86x86", nil, {
+	category = "NS Character Selection"
+})
+
+nut.config.add("centerlogo", "", "The image the upper middle of the character creation menu, good for logos.", nil, {
+	category = "NS Character Selection"
+})
+
 if (SERVER) then
 	function PLUGIN:syncCharList(client)
 		if (not client.nutCharList) then return end

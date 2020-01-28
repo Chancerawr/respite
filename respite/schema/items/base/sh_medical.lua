@@ -38,17 +38,33 @@ ITEM.functions.use = { -- sorry, for name order.
 	tip = "useTip",
 	icon = "icon16/add.png",
 	onRun = function(item)
-		if (item.player:Alive()) then
-			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
+		local client = item.player
+	
+		if (client:Alive()) then
+			healPlayer(client, client, item.healAmount, item.healSeconds)
 			
 			local quantity2 = item:getData("quantity2", item.quantity2)
 
+			if(item.injFix) then
+				--until i code the rest of it
+				client:clearInjuries()
+				
+				--[[
+				for k, v in pairs(item.injFix) do
+					local injuries = client:getChar():getData("inj", {})
+					for part, injury in pairs(injuries) do
+
+					end
+				end
+				--]]
+			end	
+			
 			if(tonumber(quantity2) > 1) then
 				item:setData("quantity2", quantity2 - 1)
 				return false
 			else
 				if(item.container) then
-					local position = item.player:getItemDropPos()
+					local position = client:getItemDropPos()
 					nut.item.spawn(item.container, position)
 				end
 			end

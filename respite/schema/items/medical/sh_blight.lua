@@ -17,6 +17,10 @@ ITEM.iconCam = {
 	fov = 3.6,
 }
 
+ITEM.injFix = {
+	[1] = true,
+}
+
 local function onUse(item)
 
 end

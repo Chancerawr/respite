@@ -136,6 +136,24 @@ function PLUGIN:getRandomBpart()
 	return part
 end
 
+local playerMeta = FindMetaTable("Player")
+
+function playerMeta:getActions()
+	local actions = {}
+
+	if(CMBT.commands) then
+		for k, command in pairs(CMBT.commands) do
+			actions[#actions + 1] = {
+				name = command.name or "Unnamed Action",
+				--func = PLUGIN.attack,
+				special = command.uid,
+			}
+		end
+	end
+
+	return actions
+end
+
 local function traitModify(client, command, rolled)
 	local char = client:getChar()
 	local charTraits = char:getData("traits", {}) --the traits the character has
@@ -295,7 +313,6 @@ function CMBT:Register( tbl )
 			local entity = client:GetEyeTrace().Entity
 			if (IsValid(entity) and entity.combat and tbl.category != "react" and tbl.category != "resist") then
 				local rollA = rollHandle(client, tbl.uid, true)
-				PrintTable(rollA)
 				entity:reaction(client, rollA, tbl.category, tbl.attackString, tbl.parts)
 			else
 				rollHandle(client, tbl.uid)
@@ -503,11 +520,17 @@ nut.command.add("fortattack", {
 
 --oh look it's this menu again big surprise
 if(CLIENT) then
-	netstream.Hook("ShowAttribs", function(client, attribs)
+	netstream.Hook("ShowAttribs", function(client, attribs, boosted)
 		local attribText = ""
 		
-		for k, v in pairs(attribs) do
-			attribText = attribText .. nut.attribs.list[k].name .. ": " .. v .. "\n\n"
+		for k, v in pairs(boosted or attribs) do
+			local boostText = ""
+			if(boosted and !table.IsEmpty(boosted)) then
+				local bonus = (v - (attribs[k] or 0))
+				boostText = boostText.. " (" ..(((bonus >= 0) and "+") or "")..bonus.. ")"
+			end
+		
+			attribText = attribText .. nut.attribs.list[k].name .. ": " ..v..boostText.. "\n\n"
 		end
 	
 		local attribMenu = vgui.Create("DFrame")
@@ -518,7 +541,7 @@ if(CLIENT) then
 		else
 			attribMenu:SetTitle(client:Name())
 		end
-		attribMenu:MakePopup();
+		attribMenu:MakePopup()
 
 		attribMenu.DS = vgui.Create( "DScrollPanel", attribMenu )
 		attribMenu.DS:SetPos( 10, 50 )
@@ -545,9 +568,17 @@ nut.command.add("chargetattribs", {
 		local target = nut.command.findPlayer(client, arguments[1])
 		
 		if(IsValid(target) and target:getChar()) then
-			local attribs = target:getChar():getAttribs()
+			local char = target:getChar()
+
+			local boosted = {}
 		
-			netstream.Start(client, "ShowAttribs", target, attribs)
+			for k, v in pairs(nut.attribs.list) do
+				boosted[k] = char:getAttrib(k)
+			end
+		
+			local attribs = char:getAttribs()
+		
+			netstream.Start(client, "ShowAttribs", target, attribs, boosted)
 		end
 	end
 })
@@ -664,6 +695,7 @@ if(SERVER) then
 						
 						continue
 					elseif(k == "anim") then
+						entity.savedAnim = v
 					
 						continue
 					end
@@ -688,6 +720,7 @@ nut.command.add("centsave", {
 		
 		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
 			entity.save = true
+			client:notify(entity:Name().. " successfully saved.")
 		end
 		
 		client:notify("CEnt save data updated.")
@@ -696,6 +729,24 @@ nut.command.add("centsave", {
 	end
 })
 
+nut.command.add("centsaveall", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		local count = 0
+		for k, v in pairs(ents.GetAll()) do
+			if(IsValid(v) and v.combat) then
+				v.save = true
+				count = count + 1 
+			end
+		end
+		
+		client:notify(count.. " CEnts successfully saved.")
+		
+		PLUGIN:SaveData()
+	end
+})
 
 nut.util.include("sh_centcommands.lua")
 nut.util.include("sh_commands.lua")
@@ -711,4 +762,22 @@ if(CLIENT) then
 		weight = 350,
 		italic = true
 	})	
+end
+
+if(SERVER) then
+	local allowTypes = {
+		["react"] = true,
+	}
+
+	--this is sort of like a listener type thing
+	function PLUGIN:PlayerMessageSend(client, chatType, message, anonymous)
+		--[[
+		local incall = client:getNetVar("incall")
+		if(incall) then
+			if(allowTypes[chatType]) then
+				print(client, chatType, message, anonymous)
+			end
+		end
+		--]]
+	end
 end

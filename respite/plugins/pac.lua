@@ -142,7 +142,6 @@ if (SERVER) then
 		end
 	end
 else
-
 	netstream.Hook("updatePAC", function()
 		if (!pac) then return end
 

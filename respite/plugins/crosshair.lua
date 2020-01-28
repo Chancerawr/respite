@@ -104,7 +104,7 @@ function PLUGIN:PostDrawHUD()
 	end
 
 	local wep = client:GetActiveWeapon()
-	if (wep and wep:IsValid() and wep.HUDPaint) then
+	if (wep and wep:IsValid() and (wep.HUDPaint or wep.IsTFAWeapon)) then
 		return
 	end
 

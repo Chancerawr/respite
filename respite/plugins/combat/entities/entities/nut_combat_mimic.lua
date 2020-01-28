@@ -25,6 +25,7 @@ function ENT:Initialize()
 		self:SetModelScale(1.1)
 		self:SetMaterial("models/effects/comball_glow1")
 		self:SetColor(Color(50,50,150))
+		self:SetRenderFX(kRenderFxDistort)
 	end
 	
 	self:basicSetup()

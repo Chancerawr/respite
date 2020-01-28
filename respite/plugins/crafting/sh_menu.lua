@@ -56,7 +56,7 @@ local PANEL = {}
 					category3:SetContents(list)
 
 						local icon = list:Add("SpawnIcon")
-						icon:SetModel(itemTable.model or "models/props_lab/box01a.mdl")		
+						icon:SetModel(Model(itemTable.model or "models/props_lab/box01a.mdl"))		
 						icon.PaintOver = function(icon, w, h)
 							surface.SetDrawColor(0, 0, 0, 45)
 							surface.DrawOutlinedRect(1, 1, w - 2, h - 2)

@@ -61,9 +61,9 @@ ITEM.functions.use = { -- sorry, for name order.
 		local char = client:getChar()
 	
 		if (item.player:Alive()) then
-		
 			local position = item.player:getItemDropPos()
 			healPlayer(item.player, item.player, item.healAmount, item.healSeconds)
+			
 			if(item.container) then
 				nut.item.spawn(item.container, position)
 			end	

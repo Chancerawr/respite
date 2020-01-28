@@ -1025,9 +1025,9 @@ nut.command.add("sccircle", {
 		if(target) then
 			local position = target:GetPos() + Vector(0,0,40)
 			local radius = tonumber(arguments[2]) or 100
-			local mannNum = tonumber(arguments[3]) or 10
-			local rings = tonumber(arguments[4]) or 1
-			local chance = tonumber(arguments[5]) or 100
+			local mannNum = math.min(tonumber(arguments[3]) or 10, 100)
+			local rings = math.min(tonumber(arguments[4]) or 1, 4)
+			local chance = math.min(tonumber(arguments[5]) or 100, 100)
 
 			local sngInc
 			local yang
@@ -1070,9 +1070,9 @@ nut.command.add("sccircle2", {
 		if(target) then
 			local position = target:GetPos() + Vector(0,0,40)
 			local radius = tonumber(arguments[2]) or 100
-			local mannNum = tonumber(arguments[3]) or 10
-			local rings = tonumber(arguments[4]) or 1
-			local chance = tonumber(arguments[5]) or 100
+			local mannNum = math.min(tonumber(arguments[3]) or 10, 100)
+			local rings = math.min(tonumber(arguments[4]) or 1, 5)
+			local chance = math.min(tonumber(arguments[5]) or 100, 100)
 			local removedelay = tonumber(arguments[6]) or 2
 
 			local sngInc
@@ -1136,10 +1136,10 @@ nut.command.add("sccircle3", {
 		
 		if(target) then
 			local position = target:GetPos() + Vector(0,0,40)
-			local radius = tonumber(arguments[2]) or 20
-			local mannNum = tonumber(arguments[3]) or 6
-			local rings = tonumber(arguments[4]) or 1
-			local chance = tonumber(arguments[5]) or 100
+			local radius = math.min(tonumber(arguments[2]) or 20, 100)
+			local mannNum = math.min(tonumber(arguments[3]) or 6, 100)
+			local rings = math.min(tonumber(arguments[4]) or 1, 10)
+			local chance = math.min(tonumber(arguments[5]) or 100, 100)
 			local removedelay = tonumber(arguments[6]) or 1
 
 			local sngInc

@@ -14,6 +14,23 @@ if (CLIENT) then
 	end
 end
 
+ITEM.buffRefresh = function(item, player)
+	local client = player
+	if(item.player) then
+		client = item.player
+	end
+	
+	local char = client:getChar()
+
+	local boosts = item:getData("attrib")
+	--buffs the specified attributes.
+	if (boosts) then
+		for k, v in pairs(boosts) do
+			char:addBoost(item.id, k, v)
+		end
+	end
+end
+
 -- On player eqipped the item, Gives a weapon to player and load the ammo data from the item.
 ITEM.functions.Equip = {
 	name = "Equip",
@@ -22,8 +39,6 @@ ITEM.functions.Equip = {
 	sound = "items/ammo_pickup.wav",
 	onRun = function(item)
 		local client = item.player
-		local char = client:getChar()
-		
 		local items = client:getChar():getInv():getItems()
 		
 		for k, v in pairs(items) do --checks if they have that slot filled already
@@ -46,13 +61,7 @@ ITEM.functions.Equip = {
 		
 		item:setData("equip", true)
 		
-		local boosts = item:getData("attrib")
-		--buffs the specified attributes.
-		if (boosts) then
-			for k, v in pairs(boosts) do
-				char:addBoost(item.uniqueID, k, v)
-			end
-		end
+		item:buffRefresh(item)
 		
 		return false
 	end,
@@ -76,7 +85,7 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		--buffs the specified attributes.
 		if (boosts) then
 			for k, v in pairs(boosts) do
-				char:removeBoost(item.uniqueID, k)
+				char:removeBoost(item.id, k)
 			end
 		end
 
@@ -193,8 +202,12 @@ ITEM.functions.Clone = {
 	
 		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
 			local inventory = client:getChar():getInv()
-			
-			if(!inventory:add(item.uniqueID, 1, item.data)) then
+			local data = item.data
+			data.x = nil
+			data.y = nil
+			data.equip = nil
+
+			if(!inventory:add(item.uniqueID, 1, data)) then
 				client:notify("Inventory is full")
 			end
 		end)
@@ -215,7 +228,7 @@ ITEM:hook("drop", function(item)
 		
 		if (boosts) then
 			for k, v in pairs(boosts) do
-				item.player:getChar():removeBoost(item.uniqueID, k)
+				item.player:getChar():removeBoost(item.id, k)
 			end
 		end
 	end

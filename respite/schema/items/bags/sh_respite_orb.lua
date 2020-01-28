@@ -1108,7 +1108,9 @@ else
 				item:setData("prodTime", nil)
 				
 				if(dataTbl.sound) then
-					dataTbl.sound(client)
+					if(IsValid(client)) then
+						dataTbl.sound(client)
+					end
 				end
 				
 				if(dataTbl.endString) then
@@ -1124,7 +1126,9 @@ else
 					end
 					
 					if(results.func) then
-						results.func(item, client)
+						if(IsValid(client)) then
+							results.func(item, client)
+						end
 					end
 				end
 				

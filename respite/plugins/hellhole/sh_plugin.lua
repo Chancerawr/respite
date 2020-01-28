@@ -77,3 +77,44 @@ nut.command.add("hellhole", {
 		end)
 	end
 })
+
+--from ji defenses
+local function findSky(pos)
+	local CheckPos = pos + Vector(0,0,100)
+	local Tries = 0
+	while(Tries < 500)do
+		local TrDat = {}
+		TrDat.start = CheckPos
+		TrDat.endpos = CheckPos + Vector(0,0,50000)
+		TrDat.filter = {self}
+		local Tr = util.TraceLine(TrDat)
+		if(Tr.HitSky) then
+			return Tr.HitPos - Vector(0,0,50)
+		else
+			Tries = Tries+1
+			CheckPos = CheckPos+Vector(0,0,100)
+		end
+	end
+	
+	return nil
+end
+
+nut.command.add("meateor", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		local hitpos = trace.HitPos + trace.HitNormal*5
+		
+		local skySpot = findSky(hitpos)
+		
+		if(skySpot) then
+			local meat = ents.Create("sw_meateor")
+			meat:SetPos(skySpot - Vector(0, 0, 100))
+			meat:Spawn()
+			
+			client:notify("Successfully launched.")
+		else
+			client:notify("No sky found.")
+		end
+	end
+})

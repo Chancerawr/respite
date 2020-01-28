@@ -11,7 +11,7 @@ ITEM.iconCam = {
 }
 
 ITEM.functions.Can = {
-	tip = "Make some tea.",
+	tip = "Can some mushrooms.",
 	icon = "icon16/database.png",
 	onRun = function(item)
 		local client = item.player

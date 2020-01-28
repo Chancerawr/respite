@@ -21,6 +21,25 @@ if (CLIENT) then
 	end
 end
 
+
+			
+ITEM.buffRefresh = function(item, player)
+	local client = player
+	if(item.player) then
+		client = item.player
+	end
+
+	local char = item.player:getChar()
+
+	local boosts = item:getData("attrib")
+	--buffs the specified attributes.
+	if (boosts) then
+		for k, v in pairs(boosts) do
+			char:addBoost(item.uniqueID, k, v)
+		end
+	end
+end	
+
 -- On item is dropped, Remove a weapon from the player and keep the ammo in the item.
 ITEM:hook("drop", function(item)
 	if (item:getData("equip")) then
@@ -193,13 +212,9 @@ ITEM.functions.Equip = {
 				item:onEquipWeapon(client, weapon)
 			end
 			
-			local boosts = item:getData("attrib")
-			--buffs the specified attributes.
-			if (boosts) then
-				for k, v in pairs(boosts) do
-					client:getChar():addBoost(item.uniqueID, k, v)
-				end
-			end
+			
+			item:buffRefresh(item)
+			
 			
 			weapon.item = item.id
 		else
@@ -253,8 +268,12 @@ ITEM.functions.Clone = {
 	
 		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
 			local inventory = client:getChar():getInv()
-			
-			if(!inventory:add(item.uniqueID, 1, item.data)) then
+			local data = item.data
+			data.x = nil
+			data.y = nil
+			data.equip = nil
+
+			if(!inventory:add(item.uniqueID, 1, data)) then
 				client:notify("Inventory is full")
 			end
 		end)

@@ -222,8 +222,11 @@ ITEM.functions.Clone = {
 	
 		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
 			local inventory = client:getChar():getInv()
-			
-			if(!inventory:add(item.uniqueID, 1, item.data)) then
+			local data = item.data
+			data.x = nil
+			data.y = nil
+
+			if(!inventory:add(item.uniqueID, 1, data)) then
 				client:notify("Inventory is full")
 			end
 		end)

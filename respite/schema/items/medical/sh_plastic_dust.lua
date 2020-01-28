@@ -12,6 +12,10 @@ ITEM.flag = "v"
 ITEM.container = false
 ITEM.color = Color(130, 130, 130)
 
+ITEM.injFix = {
+	[1] = true,
+}
+
 ITEM.iconCam = {
 	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),
 	ang = Angle(25, 220, 0),

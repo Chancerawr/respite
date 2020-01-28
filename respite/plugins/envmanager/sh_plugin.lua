@@ -191,14 +191,15 @@ if SERVER then
 		if(self.nextThink < CurTime()) then
 			self.nextThink = self.nextThink + (nut.config.get("env_thinkTime", 3600))
 			
-			if(#player.GetAll() < 1) then 
+			local players = player.GetAll()
+			if(#players < 1) then 
 				if(nut.config.get("env_npcClean", false) and #players == 0) then
 					for k, v in pairs(ents.GetAll()) do
 						if (IsValid(v) and (v:IsNPC() or v.chance)) then
 							v:Remove()
 						end
 					end
-				end		
+				end
 			
 				return --don't need to do anything else if there's no players
 			end

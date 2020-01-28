@@ -42,7 +42,7 @@ local workshopIDs = {
 	--maps
 	
 	215338015, --rp_v_torrington content
-	228031850, --rp_necro_evocity
+	124358552, --infinite concrete
 }
 
 for k, v in pairs(workshopIDs) do
@@ -122,6 +122,7 @@ function SCHEMA:PostPlayerLoadout(client)
 			v:call("onLoadout", client)
 
 			if (v:getData("equip", false) and (v.attribBoosts or v:getData("attrib", nil))) then
+				--[[
 				local temp = {}
 				--combines both boost lists
 				local customBoosts = v:getData("attrib", {})
@@ -136,6 +137,15 @@ function SCHEMA:PostPlayerLoadout(client)
 				for k2, v2 in pairs(temp) do
 					char:addBoost(v.uniqueID, k2, v2)
 				end
+				--]]
+				
+				timer.Simple(1, function()
+					if(v.buffRefresh) then
+						v.buffRefresh(v, client)
+					end
+
+					--PrintTable(itemTable)
+				end)
 			end
 		end
 	end
@@ -166,3 +176,68 @@ netstream.Hook("strReq", function(client, time, text)
 		client.nutStrReqs[time] = nil
 	end
 end)
+
+local ITEM = nut.meta.item
+function ITEM:interact(action, client, entity, data)
+	assert(
+		type(client) == "Player" and IsValid(client),
+		"Item action cannot be performed without a player"
+	)
+
+	local canInteract, reason =
+		hook.Run("CanPlayerInteractItem", client, action, self, data)
+	if (canInteract == false) then
+		if (reason) then 
+			client:notifyLocalized(reason)
+		end
+
+		return false
+	end
+
+	local oldPlayer, oldEntity = self.player, self.entity
+
+	self.player = client
+	self.entity = entity
+
+	local callback = self.functions[action] or self.functionsD[action] or self.functionsB[action]
+	if (not callback) then
+		self.player = oldPlayer
+		self.entity = oldEntity
+		return false
+	end
+
+	canInteract = isfunction(callback.onCanRun)
+		and not callback.onCanRun(self, data)
+		or true
+	if (not canInteract) then
+		self.player = oldPlayer
+		self.entity = oldEntity
+		return false
+	end
+
+	local result
+	-- TODO: better solution for hooking onto these - something like mixins?
+	if (isfunction(self.hooks[action])) then
+		result = self.hooks[action](self, data)
+	end
+	if (result == nil and isfunction(callback.onRun)) then
+		result = callback.onRun(self, data)
+	end
+	if (self.postHooks[action]) then
+		-- Posthooks shouldn't override the result from onRun
+		self.postHooks[action](self, result, data)
+	end
+	hook.Run("OnPlayerInteractItem", client, action, self, result, data)
+
+	if (result ~= false and not deferred.isPromise(result)) then
+		if (IsValid(entity)) then
+			entity:Remove()
+		else
+			self:remove()
+		end
+	end
+
+	self.player = oldPlayer
+	self.entity = oldEntity
+	return true
+end

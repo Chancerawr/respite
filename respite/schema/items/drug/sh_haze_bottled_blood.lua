@@ -9,7 +9,7 @@ ITEM.color = Color(255, 108, 108)
 
 ITEM.attribBoosts = {
 	["fortitude"] = -10,
-	["endurance"] = 7,
+	["end"] = 7,
 	["str"] = 7
 }
 

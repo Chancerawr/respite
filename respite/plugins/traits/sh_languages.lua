@@ -1,4 +1,3 @@
-
 local chatLangs = {
 	["jap"] = "Japanese",
 	["ita"] = "Italian",

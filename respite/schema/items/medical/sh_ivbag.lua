@@ -11,6 +11,10 @@ ITEM.uniqueID = "medical_iv"
 ITEM.flag = "v"
 ITEM.quantity2 = 2
 
+ITEM.injFix = {
+	[1] = true,
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 170),
