@@ -38,7 +38,7 @@ ITEM.functions.Reflect = {
 		
 		client:notify("The mirror is changing somehow.")
 		item:setData("producing", CurTime())
-		timer.Simple(101, function()
+		timer.Simple(101 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			local position = client:getItemDropPos()
@@ -79,7 +79,7 @@ ITEM.functions.Reflect = {
 		local player = item.player
 		local glass = player:getChar():getInv():getFirstItemOfType("j_scrap_glass")
 		
-		local prodTime = 101
+		local prodTime = 101 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -115,7 +115,7 @@ ITEM.functions.Idea = {
 		client:notify("The mirror is changing somehow.")
 		
 		item:setData("producing", CurTime())
-		timer.Simple(77, function()
+		timer.Simple(77 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			local position = client:getItemDropPos()
@@ -138,7 +138,7 @@ ITEM.functions.Idea = {
 		local player = item.player
 		local object = player:getChar():getInv():getFirstItemOfType("j_scrap_idea")
 		
-		local prodTime = 202
+		local prodTime = 202 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -174,7 +174,7 @@ ITEM.functions.EChip = {
 		client:notify("The mirror is changing somehow.")
 		
 		item:setData("producing", CurTime())
-		timer.Simple(202, function()
+		timer.Simple(202 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			local position = client:getItemDropPos()
@@ -202,7 +202,7 @@ ITEM.functions.EChip = {
 		local player = item.player
 		local chip = player:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
 		
-		local prodTime = 202
+		local prodTime = 202 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -232,7 +232,7 @@ ITEM.functions.IChip = {
 		
 		client:notify("The mirror is changing somehow.")
 		item:setData("producing", CurTime())
-		timer.Simple(303, function()
+		timer.Simple(303 * nut.config.get("devTimeMult", 1), function()
 			if(item) then
 				item:setData("producing", nil)			
 			
@@ -272,7 +272,7 @@ ITEM.functions.IChip = {
 		local player = item.player
 		local chip = player:getChar():getInv():getFirstItemOfType("cube_chip_memory")
 		
-		local prodTime = 202
+		local prodTime = 202 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

@@ -5,8 +5,6 @@ ITEM.hungerAmount = 10
 ITEM.desc = "A plastic wrapped bar made specifically to supply protein."
 ITEM.quantity2 = 2
 ITEM.price = 5
-ITEM.width = 1
-ITEM.height = 1
 ITEM.material = "models/props_c17/furniturefabric003a"
 ITEM.cookable = false
 

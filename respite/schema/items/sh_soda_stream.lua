@@ -68,7 +68,7 @@ ITEM.functions.Ichor = {
 		
 		food:remove()
 		
-		timer.Simple(60, function()
+		timer.Simple(60 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			timer.Simple(amount, function()
@@ -93,7 +93,7 @@ ITEM.functions.Ichor = {
 			return false
 		end
 		
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -124,7 +124,7 @@ ITEM.functions.Depress = {
 		
 		item:setData("producing", CurTime())
 		
-		timer.Simple(60, function()
+		timer.Simple(60 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 	
 			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -147,7 +147,7 @@ ITEM.functions.Depress = {
 			return false
 		end
 		
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -174,7 +174,7 @@ ITEM.functions.Antidepress = {
 		
 		item:setData("producing", CurTime())
 		
-		timer.Simple(60, function()
+		timer.Simple(60 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 	
 			if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -197,7 +197,7 @@ ITEM.functions.Antidepress = {
 			return false
 		end
 		
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -224,7 +224,7 @@ ITEM.functions.Pickle = {
 		
 		item:setData("producing", CurTime())
 		
-		timer.Simple(60, function()
+		timer.Simple(60 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 			
 			local soda = "food_pickle_soda"
@@ -253,7 +253,7 @@ ITEM.functions.Pickle = {
 			return false
 		end
 		
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -302,7 +302,7 @@ ITEM.functions.Juice = {
 		item:setData("producing", CurTime())
 		fruit:remove()
 		
-		timer.Simple(120, function()
+		timer.Simple(120 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			local cans = 1 --this is left over from soda
@@ -323,7 +323,7 @@ ITEM.functions.Juice = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 120
+		local prodTime = 120 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -371,7 +371,7 @@ ITEM.functions.Soda = {
 		item:setData("producing", CurTime())
 		fruit:remove()
 		
-		timer.Simple(120, function()
+		timer.Simple(120 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			local cans = 1
@@ -408,7 +408,7 @@ ITEM.functions.Soda = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 120
+		local prodTime = 120 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -434,7 +434,7 @@ ITEM.functions.Cactus = {
 		item:setData("producing", CurTime())
 		cactus:remove()
 		
-		timer.Simple(45, 
+		timer.Simple(45 * nut.config.get("devTimeMult", 1), 
 			function()
 				item:setData("producing", nil)
 			
@@ -460,7 +460,7 @@ ITEM.functions.Cactus = {
 			return false
 		end
 		
-		local prodTime = 45
+		local prodTime = 45 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -487,7 +487,7 @@ ITEM.functions.Battery = {
 		item:setData("producing", CurTime())
 		battery:remove()
 		
-		timer.Simple(45, function()
+		timer.Simple(45 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 			
 			local soda = "food_soda_cold"
@@ -520,7 +520,7 @@ ITEM.functions.Battery = {
 			return false
 		end
 		
-		local prodTime = 45
+		local prodTime = 45 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

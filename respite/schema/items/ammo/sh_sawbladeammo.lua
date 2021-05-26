@@ -1,13 +1,14 @@
 ITEM.name = "Sawblade"
 ITEM.model = "models/props_junk/sawblade001a.mdl"
 ITEM.material = "models/gibs/metalgibs/metal_gibs"
-ITEM.ammo = "slam" // type of the ammo
-ITEM.ammoAmount = 1 // amount of the ammo
+ITEM.ammo = "slam" 
+ITEM.ammoAmount = 1--1 
 ITEM.desc = "A single, small sawblade."
 ITEM.category = "Ammunition"
 ITEM.flag = "v"
 ITEM.price = 0
 ITEM.uniqueID = "ammo_sawblade"
+ITEM.maxstack = 4
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Red Horror"
 ENT.Category = "NutScript - Combat (Wraith)"
@@ -6,12 +6,14 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 ENT.model = "models/horror/zm_f4zt.mdl"
 
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 50,
 	["str"] = 15,
 	["accuracy"] = 10,
-	["end"] = 15,
+	["end"] = 5,
 	["luck"] = 5,
 	["perception"] = 0,
 	["fortitude"] = 0,

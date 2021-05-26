@@ -3,13 +3,15 @@ local PLUGIN = PLUGIN
 local KeyDownDelay = CurTime() or KeyDownDelay
 hook.Add("Think", "nut_bodyMenu", function()
 	if input.IsKeyDown(KEY_F2) and (KeyDownDelay < CurTime()) then
-		KeyDownDelay = CurTime() + 0.5
-		
-		if(LocalPlayer():getChar()) then
-			if (!IsValid(nut.gui.minimenu)) then
-				vgui.Create("nutMiniMenu")
-			else
-				nut.gui.minimenu:Remove()
+		if(nut.config.get("minimenu_enabled")) then
+			KeyDownDelay = CurTime() + 0.5
+			
+			if(LocalPlayer():getChar()) then
+				if (!IsValid(nut.gui.minimenu)) then
+					vgui.Create("nutMiniMenu")
+				else
+					nut.gui.minimenu:Remove()
+				end
 			end
 		end
 	end

@@ -8,7 +8,6 @@ local workshopIDs = {
 	575907820, --prosp content decals
 	795055947, --blood and gore 4
 	479464165, --pac gear
-	160250458, --wire
 	380225333, --nextbot zombies 2.0
 	296806391, --nextbot zombies 2.0 (zombie survival)
 	246756300, --3d stream radio
@@ -42,14 +41,15 @@ local workshopIDs = {
 	--maps
 	
 	215338015, --rp_v_torrington content
-	124358552, --infinite concrete
+	--124358552, --infinite concrete
 }
 
 for k, v in pairs(workshopIDs) do
-	resource.AddWorkshop(v)
+	--resource.AddWorkshop(v)
 end
 
 function SCHEMA:OnCharCreated(client, character)
+	--[[
 	local inventory = character:getInv()
 
 	if (inventory) then		
@@ -84,6 +84,7 @@ function SCHEMA:OnCharCreated(client, character)
 			end)
 		end
 	end
+	--]]
 end 
 
 function SCHEMA:PrePlayerLoadedChar(client, character, currentChar)

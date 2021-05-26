@@ -2,7 +2,7 @@ PLUGIN.name = "Shoot Locks"
 PLUGIN.author = "Chessnut"
 PLUGIN.desc = "Shoot locks to open doors."
 
-local SHOOT_DISTANCE = 180
+local SHOOT_DISTANCE = 500
 
 function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 	if (entity:GetClass() == "prop_door_rotating" and (entity.nutNextBreach or 0) < CurTime()) then
@@ -12,7 +12,7 @@ function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 			local client = dmgInfo:GetAttacker()
 			local position = dmgInfo:GetDamagePosition()
 
-			if (client:GetEyeTrace().Entity != entity or client:GetPos():Distance(position) > SHOOT_DISTANCE) then
+			if (IsValid(client) and client:IsPlayer() and client:GetEyeTrace().Entity != entity or client:GetPos():Distance(position) > SHOOT_DISTANCE) then
 				return
 			end
 

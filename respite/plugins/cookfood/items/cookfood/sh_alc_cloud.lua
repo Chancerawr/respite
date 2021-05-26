@@ -7,7 +7,7 @@ ITEM.desc = "A glass bottle filled with something strange."
 ITEM.quantity2 = 2
 ITEM.price = 0
 ITEM.width = 1
-ITEM.height = 2
+ITEM.height = 1
 ITEM.cookable = false
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 ITEM.container = "j_empty_beer"
@@ -23,7 +23,7 @@ ITEM.attribBoosts = {
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
-	fov = 3,
+	fov = 5,
 }
 
 local function onUse(item)

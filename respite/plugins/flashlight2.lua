@@ -125,6 +125,8 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_g36 = true,
 		tfa_ak74 = true,
 		weapon_physgun = true,
+		weapon_toolgun = true,
+		weapon_crowbar = true,
 	}
 
 	local meta = FindMetaTable("Player")

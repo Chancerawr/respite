@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Plastic (Random) (30-40)"
 ENT.Category = "NutScript - Combat (Other)"

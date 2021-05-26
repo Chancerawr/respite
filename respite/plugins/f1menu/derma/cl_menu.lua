@@ -87,7 +87,9 @@ local PANEL = {}
 			self.anchorMode = false
 			surface.PlaySound(SOUND_F1_MENU_UNANCHOR)
 		end
-
+	
+		--no thank you
+		--[[
 		if (!self.anchorMode) then
 			if (IsValid(self.info) and self.info.desc:IsEditing()) then
 				return
@@ -97,6 +99,7 @@ local PANEL = {}
 				self:remove()
 			end
 		end
+		--]]
 	end
 
 	local color_bright = Color(240, 240, 240, 180)

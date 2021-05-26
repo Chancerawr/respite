@@ -18,7 +18,7 @@ nut.config.add("creepSpreadRate", 60, "How fast creep spreads and grows.", nil, 
 })
 
 nut.config.add("maxCreepSpawns", 15, "How many total creep npcs can be on the map before it stops spawning them.", nil, {
-	data = {min = 1, max = 2000},
+	data = {min = 0, max = 2000},
 	category = "Creep"
 })
 

@@ -14,6 +14,7 @@ function PLUGIN:PlayerBindPress(client, bind, pressed)
 			nut.gui.menu:remove()
 		elseif (LocalPlayer():getChar()) then
 			vgui.Create("nutMenu")
+			self.nutMenuPressed = CurTime()
 		end
 		
 		return true

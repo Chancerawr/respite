@@ -2,9 +2,9 @@ ITEM.name = "The Bell"
 ITEM.uniqueID = "bell"
 ITEM.model = "models/props/de_inferno/bell_largeb.mdl"
 ITEM.material = "models/effects/portalrift_sheet"
-ITEM.desc = "The blinding darkness, the dark light.\nThe bell rings out for no one."
-ITEM.width = 3
-ITEM.height = 3
+ITEM.desc = "An end to impossibilities.\nThe bell rings out for no one."
+ITEM.width = 2
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "???"
@@ -21,8 +21,6 @@ ITEM.functions.Ring = {
 	--sound = "ambient/gas/steam2.wav",
 	onRun = function(item)
 		local client = item.player
-		local position = client:getItemDropPos()
-		local inventory = client:getChar():getInv()
 	
 		nut.chat.send(client, "itclose", "The bell is rung, but it makes no sound.")	
 	

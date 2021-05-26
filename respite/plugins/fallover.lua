@@ -14,7 +14,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 		end
 		
 		local weap = self:GetActiveWeapon()
-		if(weap) then
+		if(IsValid(weap)) then
 			self.activeWeapon = weap:GetClass()
 		end
 
@@ -140,7 +140,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 			end
 		end)
 
-		self:setLocalVar("blur", 11)
+		self:setLocalVar("blur", 5)
 		self.nutRagdoll = entity
 
 		entity.nutWeapons = {}

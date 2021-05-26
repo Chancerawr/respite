@@ -7,7 +7,7 @@ ITEM.desc = "A bottle filled with pumpkin juice?"
 ITEM.quantity2 = 3
 ITEM.price = 6
 ITEM.width = 1
-ITEM.height = 2
+ITEM.height = 1
 ITEM.container = "j_empty_juice_bottle"
 
 ITEM.cookable = false
@@ -20,5 +20,5 @@ ITEM.attribBoosts = {
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
-	fov = 3,
+	fov = 5,
 }

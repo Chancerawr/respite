@@ -1,11 +1,15 @@
+local PLUGIN = PLUGIN
+
+nut.util.include("sh_anim.lua")
+
 ENT.Type = "nextbot"
+ENT.Base = "base_nextbot"
 ENT.PrintName = "Combat Base"
 ENT.Category = "NutScript"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 ENT.combat = true
-ENT.AutomaticFrameAdvance = true
-ENT.model = "models/tnb/citizens/male_04.mdl"
+ENT.model = "models/Humans/Group01/male_02.mdl"
 
 --[[
 ENT.attribs = {
@@ -20,6 +24,8 @@ ENT.attribs = {
 }
 --]]
 
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+
 function ENT:Initialize()
 	self.name = "Plastic"
 	self:basicSetup()
@@ -28,25 +34,39 @@ function ENT:Initialize()
 	end
 end
 
-ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+--this is just here because it's a nextbot
+function ENT:RunBehaviour()
+	while (true) do
+		coroutine.wait(60)
+		
+		coroutine.yield()
+	end
+end
 
 function ENT:basicSetup()
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
 
 	if (SERVER) then
-		self.inv = {}
-	
+		local model
+		if(self.models) then
+			model = table.Random(self.models)
+		else
+			model = self.model
+		end
+
 		self.attribs = self.savedAttribs or self.attribs or {}
 	
-		self:SetModel(self.savedModel or self.model)
+		self:SetModel(self.savedModel or model)
 		self:SetMaterial(self.savedMat or self:GetMaterial())
 		self:SetUseType(SIMPLE_USE)
-		self:SetMoveType(MOVETYPE_NONE)
+		--self:SetMoveType(MOVETYPE_STEP)
 		self:DrawShadow(true)
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetSolid(SOLID_BBOX)
 
-		self:DropToFloor()
+		if(!self.saveKey) then
+			self:DropToFloor()
+		end
 		
 		self:setNetVar("name", self:getNetVar("name", self.name or self.PrintName))
 		self:setNetVar("desc", self:getNetVar("desc", self.desc or ""))
@@ -59,9 +79,19 @@ function ENT:basicSetup()
 			--physObj:Sleep()
 			physObj:EnableCollisions(false)
 		end
+		
+		if(self.loco) then
+			self.loco:SetAcceleration(900)
+			self.loco:SetDeceleration(100000)
+			self.loco:SetGravity(0)
+			
+			self:SetGravity(0)
+		end
+		
+		self.inv = {}
 	end
 
-	self:SetCollisionBounds(Vector(-30,-30,0), Vector(30,30,100))
+	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,100))
 	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	
 	timer.Simple(0.5, function()
@@ -75,16 +105,36 @@ function ENT:getSaveData()
 	local saveData = {}
 	saveData.name = self:getNetVar("name")
 	saveData.desc = self:getNetVar("desc")
-
+	saveData.hp = self:getNetVar("hp")
+	saveData.hpMax = self:getNetVar("hpMax")
+	--saveData.mp = self:getNetVar("mp")
+	--saveData.mpMax = self:getNetVar("mpMax")
+	saveData.dmg = self:getNetVar("dmg")
+	saveData.dmgT = self:getNetVar("dmgT")
 	saveData.model = self:GetModel()
 	saveData.mat = self:GetMaterial()
 	saveData.attribs = self.attribs
+	saveData.res = self.res
 	saveData.anim = self:GetSequence()
+	
+	saveData.bodygroups = {
+		self:GetBodygroup(1),
+		self:GetBodygroup(2),
+		self:GetBodygroup(3),
+		self:GetBodygroup(4),
+		self:GetBodygroup(5),
+		self:GetBodygroup(6),
+		self:GetBodygroup(7),
+		self:GetBodygroup(8),
+		self:GetBodygroup(9),
+	}
 	
 	return saveData
 end
 
 function ENT:Think()
+	self:CustomThink()
+
 	if(SERVER) then
 		if(!self:IsPlayerHolding()) then
 			local physObj = self:GetPhysicsObject()
@@ -92,104 +142,156 @@ function ENT:Think()
 			if(IsValid(physObj) and !physObj:IsAsleep()) then
 				physObj:Sleep()
 			end
+			
+			if(!self.desiredPos) then
+				self.loco:SetVelocity(Vector(0,0,0))
+			elseif(self.desiredPos and !self.loco:IsOnGround()) then --basically they drift off into the sunset if you dont do this
+				self:SetPos(self.desiredPos)
+				self.desiredPos = nil
+				
+				self:resetAnim()
+			end
 		end
 		
-		--this is really stupid but it was fun to mess around with
 		if(self.desiredPos) then
-			if(!self.prevAnim) then
-				local tempAnim = self:GetSequence()
-				if(tempAnim != self.walkAnim) then
-					self.prevAnim = tempAnim
-				end
+			self.loco:Approach(self.desiredPos, 1)
+			
+			local stuck = self.loco:IsStuck()
+			
+			if(self:GetRangeSquaredTo(self.desiredPos) < 128 or stuck) then
+				self.loco:SetVelocity(Vector(0,0,0))
+
+				self:SetPos(self.desiredPos)
+				
+				self.desiredPos = nil
+				
+				self:resetAnim()
+			end
+		end
+
+		if(IsValid(self.follow) and !self.desiredPos) then
+			local followPos = self.follow:GetPos() + self.follow:GetRight() * -50
+		
+			local range = self:GetRangeSquaredTo(followPos)
+		
+			if(range > 32768 and !stuck) then
+				self:movementStart(followPos)
+			
+				self.desiredPos2 = followPos
+			elseif((self.desiredPos2 and range < 256) or stuck) then
+				self.loco:SetVelocity(Vector(0,0,0))
+
+				self:SetPos(followPos)
+				
+				self.desiredPos2 = nil
+				
+				self:resetAnim()
 			end
 			
-			local pos = self:GetPos()
-			if((self.lerpRatio or 0) < 1) then
-				self.originPos = self.originPos or pos
-				self.lerpRate = self.lerpRate or (1/pos:Distance(self.desiredPos) * 20)
-				self.lerpRatio = (self.lerpRatio or 0) + self.lerpRate
+			if(self.desiredPos2) then
+				self.loco:Approach(followPos, 1)
+			end
+		end
+	end
+end
 
-				local newPos = LerpVector(self.lerpRatio, self.originPos, self.desiredPos)
-				if((self.lerpRatio or 0) >= 1) then
-					self:SetPos(self.desiredPos)
-				else
-					self:SetPos(newPos)
-				end
-			else
-				self.desiredPos = nil
-				self.originPos = nil
-				self.lerpRatio = nil
-				self.lerpRate = nil
+function ENT:CustomThink()
+
+end
+
+function ENT:HandleStuck()
+
+end
+
+
+--death
+function ENT:die()
+	if(!self.noRag) then
+		local ragdoll = ents.Create("prop_ragdoll")
+		if ragdoll:IsValid() then 
+			ragdoll:SetPos(self:GetPos())
+			ragdoll:SetModel(self:GetModel())
+			ragdoll:SetAngles(self:GetAngles())
+			ragdoll:Spawn()
+			ragdoll:SetSkin(self:GetSkin())
+			ragdoll:SetColor(self:GetColor())
+			ragdoll:SetMaterial(self:GetMaterial())
+			ragdoll:SetBloodColor(self:GetBloodColor())
 				
-				if(self.prevAnim) then
-					timer.Simple(3, function()
-						self:ResetSequence(self.prevAnim)
-					end)
-				elseif(self.idle) then
-					timer.Simple(3, function()
-						self:ResetSequence(self.idle)
-					end)
-				else
-					local newAct = self:SelectWeightedSequence(ACT_IDLE, 0)
-					if(newAct != -1 and newAct != self.walkAnim) then
-						timer.Simple(3, function()
-							self:ResetSequence(newAct)
-						end)
+			local num = ragdoll:GetPhysicsObjectCount()-1
+	   
+			for i=0, num do
+				local bone = ragdoll:GetPhysicsObjectNum(i)
+
+				if IsValid(bone) then
+					local bp, ba = self:GetBonePosition(ragdoll:TranslatePhysBoneToBone(i))
+					if bp and ba then
+						bone:SetPos(bp)
+						bone:SetAngles(ba)
 					end
 				end
 			end
+				
+			--I hate this
+			ragdoll:SetBodygroup(1, self:GetBodygroup(1))
+			ragdoll:SetBodygroup(2, self:GetBodygroup(2))
+			ragdoll:SetBodygroup(3, self:GetBodygroup(3))
+			ragdoll:SetBodygroup(4, self:GetBodygroup(4))
+			ragdoll:SetBodygroup(5, self:GetBodygroup(5))
+			ragdoll:SetBodygroup(6, self:GetBodygroup(6))
+			
+			ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
+			
+			if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.
+				ragdoll:Ignite(10,20)
+			end
+			
+			ragdoll.hasMenu = true
 		end
+	
+		--gets rid of ragdolls that dont have phys objects, just a cautionary thing.
+		if(!IsValid(ragdoll:GetPhysicsObject())) then
+			SafeRemoveEntity(ragdoll)
+		end		
+	end
+	
+	if(self.inv) then
+		for k, v in pairs(self.inv) do
+			nut.item.spawn(v, self:GetPos())
+		end
+	end
+	
+	SafeRemoveEntity( self )
+end
+
+function ENT:movementStart(position)
+	if(SERVER) then
+		local tempEnt = ents.Create("info_particle_system")
+		tempEnt:SetParent(self)
+		tempEnt:SetPos(position)
+		
+		self:PointAtEntity(tempEnt)
+		local angle = self:GetAngles()
+		self:SetAngles(Angle(0, angle.y, 0))
+		
+		SafeRemoveEntity(tempEnt)
+		
+		self.desiredPos = position
+		
+		self:walkAnims(self:GetPos():Distance(position))
 	end
 end
 
-function ENT:walkAnims()
-	local newAct = self:SelectWeightedSequence(ACT_RUN)
-	if(newAct == -1) then
-		newAct = self:SelectWeightedSequence(ACT_WALK)
-	end	
-	
-	if(newAct == -1) then
-		newAct = self:SelectWeightedSequence(ACT_HL2MP_RUN_FAST)
-	end	
-	
-	if(newAct == -1) then
-		newAct = self:SelectWeightedSequence(ACT_HL2MP_WALK)
-	end
-	
-	if(newAct != -1) then
-		self.walkAnim = newAct
-
-		self:ResetSequence(newAct)
-		self:SetPoseParameter("move_x", 1)
-	end
+--dont do anything
+function ENT:OnTakeDamage(dmginfo)
 end
 
-function ENT:setAnim()
-	local anim = self.savedAnim
-	if(anim) then
-		timer.Simple(30, function()
-			self:ResetSequence(anim)
-		end)
-		
-		for k, v in ipairs(self:GetSequenceList()) do
-			if (v:lower():find("idle") and v != "idlenoise") then
-				self.idle = k
-				return
-			end
-		end
-		
-		self.idle = 4
-	else
-		for k, v in ipairs(self:GetSequenceList()) do
-			if (v:lower():find("idle") and v != "idlenoise") then
-				self.idle = k
-				return self:ResetSequence(k)
-			end
-		end
+--dont do it
+function ENT:OnTraceAttack( dmginfo, dir, trace )
+end
 
-		self.idle = 4
-		self:ResetSequence(4)
-	end
+--no
+function ENT:OnKilled( dmginfo )
 end
 
 function ENT:runCombat(client, attr, debuff, msg, category, command)
@@ -483,64 +585,6 @@ function ENT:rollCheck(smart, dodge, block)
 			return self:combatRoll(client, dodge, 0.8, "a dodge/miss.", "react", "dodge", true), true
 		end
 	end
-end
-
---death
-function ENT:die()
-	if(!self.noRag) then
-		local ragdoll = ents.Create("prop_ragdoll")
-		if ragdoll:IsValid() then 
-			ragdoll:SetPos(self:GetPos())
-			ragdoll:SetModel(self:GetModel())
-			ragdoll:SetAngles(self:GetAngles())
-			ragdoll:Spawn()
-			ragdoll:SetSkin(self:GetSkin())
-			ragdoll:SetColor(self:GetColor())
-			ragdoll:SetMaterial(self:GetMaterial())
-			ragdoll:SetBloodColor(self:GetBloodColor())
-				
-			local num = ragdoll:GetPhysicsObjectCount()-1
-	   
-			for i=0, num do
-				local bone = ragdoll:GetPhysicsObjectNum(i)
-
-				if IsValid(bone) then
-					local bp, ba = self:GetBonePosition(ragdoll:TranslatePhysBoneToBone(i))
-					if bp and ba then
-						bone:SetPos(bp)
-						bone:SetAngles(ba)
-					end
-				end
-			end
-				
-				--I hate this
-			ragdoll:SetBodygroup(1, self:GetBodygroup(1))
-			ragdoll:SetBodygroup(2, self:GetBodygroup(2))
-			ragdoll:SetBodygroup(3, self:GetBodygroup(3))
-			ragdoll:SetBodygroup(4, self:GetBodygroup(4))
-			ragdoll:SetBodygroup(5, self:GetBodygroup(5))
-			ragdoll:SetBodygroup(6, self:GetBodygroup(6))
-			
-			ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
-		end
-			
-		if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.
-			ragdoll:Ignite(10,20)
-		end
-		
-		--gets rid of ragdolls that dont have phys objects, just a cautionary thing.
-		if(!IsValid(ragdoll:GetPhysicsObject())) then
-			SafeRemoveEntity(ragdoll)
-		end		
-	end
-	
-	if(self.inv) then
-		for k, v in pairs(self.inv) do
-			nut.item.spawn(v, self:GetPos())
-		end
-	end
-	
-	SafeRemoveEntity( self )
 end
 
 --fortitude attacks

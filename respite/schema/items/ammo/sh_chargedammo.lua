@@ -1,13 +1,14 @@
 ITEM.name = "Charged Battery"
 ITEM.model = "models/items/battery.mdl"
-ITEM.ammo = "battery" // type of the ammo
-ITEM.ammoAmount = 50 // amount of the ammo
+ITEM.ammo = "battery" 
+ITEM.ammoAmount = 50 
 ITEM.desc = "A single, seemingly enhanced battery."
 ITEM.category = "Ammunition"
 ITEM.flag = "v"
 ITEM.price = 0
 ITEM.uniqueID = "ammo_battery"
 ITEM.material = "phoenix_storms/wire/pcb_blue"
+ITEM.maxstack = 50
 
 ITEM.iconCam = {
 	pos = Vector(200, 0, 5),

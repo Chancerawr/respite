@@ -1,7 +1,6 @@
 ITEM.name = "Hot Chocolate"
 ITEM.uniqueID = "food_chocolate_hot"
 ITEM.model = "models/props_junk/garbage_coffeemug001a.mdl"
-ITEM.hungerAmount = 20
 ITEM.desc = "A cup of warm hot chocolate."
 ITEM.quantity2 = 1
 ITEM.price = 10

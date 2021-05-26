@@ -228,7 +228,7 @@ local guns = {
 
 local dropFunctions = {
 	{
-		name = "Ammo", 
+		name = "Ammo (200)", 
 		cost = 200,
 		contents = function()
 			local drops = {}
@@ -245,7 +245,7 @@ local dropFunctions = {
 	},
 	
 	{
-		name = "Armor", 
+		name = "Armor (200)", 
 		cost = 200,
 		contents = function()
 			local drops = {}
@@ -260,8 +260,8 @@ local dropFunctions = {
 	},
 	
 	{
-		name = "Device", 
-		cost = 500,
+		name = "Device (200)", 
+		cost = 200,
 		contents = function()
 			local drops = {}
 			local drop1 = table.Random(device)
@@ -275,7 +275,7 @@ local dropFunctions = {
 	},
 	
 	{
-		name = "Strange", 
+		name = "Strange (150)", 
 		cost = 150,
 		contents = function()
 			local drops = {}
@@ -292,7 +292,7 @@ local dropFunctions = {
 	},
 	
 	{
-		name = "Medical", 
+		name = "Medical (50)", 
 		cost = 50,
 		contents = function()
 			local drops = {
@@ -323,8 +323,8 @@ local dropFunctions = {
 	},
 	
 	{
-		name = "Firearms", 
-		cost = 7500,
+		name = "Firearms (400)", 
+		cost = 400,
 		contents = function()
 			local drops = {}
 			local drop = table.Random(guns)
@@ -336,7 +336,7 @@ local dropFunctions = {
 	},
 	
 	{
-		name = "Food", 
+		name = "Food (25)", 
 		cost = 25,
 		contents = function()
 			local drops = {}

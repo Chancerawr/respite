@@ -7,7 +7,7 @@ ITEM.desc = "A glass bottle filled with liquid, it smells of alcohol."
 ITEM.quantity2 = 2
 ITEM.price = 2
 ITEM.width = 1
-ITEM.height = 2
+ITEM.height = 1
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_tequila"
@@ -23,5 +23,5 @@ ITEM.attribBoosts = {
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),
 	ang = Angle(0, 270, 0),
-	fov = 4,
+	fov = 5,
 }

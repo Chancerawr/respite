@@ -26,7 +26,8 @@ ITEM.functions.use = {
 	onRun = function(item)
 		local client = item.player
 		
-		giveDisease(client, "dis_mind")
+		--disabled for now
+		--giveDisease(client, "dis_mind")
 		
 		client:EmitSound(item.sound, 75, 20)
 		client:ConCommand("hellstart")

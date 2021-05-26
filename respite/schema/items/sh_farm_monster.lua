@@ -40,7 +40,7 @@ ITEM.functions.Water = {
 			nut.chat.send(client, "itclose", "The liquid is poured onto the strange plant.")	
 			
 			item:setData("producing", CurTime())
-			timer.Simple(300, function()
+			timer.Simple(300 * nut.config.get("devTimeMult", 1), function()
 				if (item != nil) then
 					item:setData("producing", nil)
 					item:setData("growth", item:getData("growth", 0) + grow)
@@ -53,7 +53,7 @@ ITEM.functions.Water = {
 		return false
 	end,
 	onCanRun = function(item)
-		local prodTime = 300
+		local prodTime = 300 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -114,7 +114,7 @@ ITEM.functions.Feed = {
 		
 		nut.chat.send(client, "itclose", "The strange plant ravenously consumes the meat.")	
 		item:setData("producing", CurTime())
-		timer.Simple(1800, function()
+		timer.Simple(1800 * nut.config.get("devTimeMult", 1), function()
 			if (item != nil) then
 				item:setData("producing", nil)
 				item:setData("growth", item:getData("growth", 0) + 1)
@@ -125,7 +125,7 @@ ITEM.functions.Feed = {
 		return false
 	end,
 	onCanRun = function(item)
-		local prodTime = 1800
+		local prodTime = 1800 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

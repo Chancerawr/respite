@@ -1,11 +1,11 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Amputated Flame"
+ENT.PrintName = "Mawed (Flame)"
 ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.name = "Burning Amputated"
+ENT.name = "Burning Mawed"
 ENT.model = "models/am_npc/amputated.mdl"
 
 --all attributes

@@ -68,7 +68,7 @@ ITEM.functions.Sacrifice = {
 		client:notify("The skull accepts your sacrifice.")
 		
 		item:setData("producing", CurTime())
-		timer.Simple(40, function()
+		timer.Simple(40 * nut.config.get("devTimeMult", 1), function()
 			if(!IsValid(client)) then return false end
 			
 			item:setData("producing", nil)
@@ -148,7 +148,7 @@ ITEM.functions.Sacrifice = {
 		return false
 	end,
 	onCanRun = function(item)
-		local prodTime = 40
+		local prodTime = 40 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

@@ -114,7 +114,8 @@ if (CLIENT) then
 			self:getChar() and
 			not self:getNetVar("actAng") and
 			not IsValid(ragdoll) and
-			LocalPlayer():Alive()
+			self:Alive() and
+			self:GetMoveType() != MOVETYPE_NOCLIP
 	end
 
 	local view, traceData, traceData2, aimOrigin, crouchFactor, ft, trace, curAng

@@ -58,7 +58,7 @@ ITEM.functions.Milk = {
 		
 		item:setData("producing", CurTime())		
 		
-		timer.Simple(30, function()
+		timer.Simple(30 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			timer.Simple(amount, function()
@@ -81,7 +81,7 @@ ITEM.functions.Milk = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 45
+		local prodTime = 30 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -133,7 +133,7 @@ ITEM.functions.Egg = {
 		
 		water:remove()
 		
-		timer.Simple(45, function()
+		timer.Simple(45 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 			
 			local reward = "food_egg"
@@ -151,7 +151,7 @@ ITEM.functions.Egg = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 45
+		local prodTime = 45 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

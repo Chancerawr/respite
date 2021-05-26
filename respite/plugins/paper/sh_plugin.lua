@@ -131,7 +131,6 @@ if CLIENT then
 		note:viewmode()
 		
 		local noteent = ents.GetByIndex( entity )
-		print(noteent:getNetVar( "owner" ),  LocalPlayer():SteamID())
 		if( !private or ( private and noteent:getNetVar( "owner" ) == LocalPlayer():SteamID() ) ) then
 			note.edit = vgui.Create( "DButton", note )
 			note.edit:SetSize( 148, 20 )

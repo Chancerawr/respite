@@ -8,7 +8,7 @@ SWEP.SlotPos = 1
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 
-SWEP.Author = "Chancer"
+SWEP.Author = ""
 --SWEP.Instructions = "Primary Fire: [RAISED] Punch\nSecondary Fire: Knock/Pickup"
 --SWEP.Purpose = "Hitting things, knocking on doors, and moving things."
 
@@ -23,7 +23,7 @@ SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
 SWEP.Primary.Damage = 5
-SWEP.Primary.Delay = 0.75
+SWEP.Primary.Delay = 0.25
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
@@ -78,22 +78,8 @@ function SWEP:PrimaryAttack()
 
 	if (trace.HitPos) then
 		local selected = self:getNetVar("selected")
-		if(selected) then
-			if(SERVER) then
-				local tempEnt = ents.Create("info_particle_system")
-				tempEnt:SetParent(self)
-				tempEnt:SetPos(trace.HitPos)
-				
-				selected:PointAtEntity(tempEnt)
-				local angle = selected:GetAngles()
-				selected:SetAngles(Angle(0, angle.y, 0))
-				
-				selected:walkAnims()
-				
-				SafeRemoveEntity(tempEnt)
-			end
-			
-			selected.desiredPos = trace.HitPos
+		if(selected and IsValid(selected)) then
+			selected:movementStart(trace.HitPos)
 		end
 	end
 end
@@ -107,7 +93,10 @@ function SWEP:SecondaryAttack()
 
 	if (trace.Hit) then
 		local entity = trace.Entity
-		self:selectTarget(entity)
+		
+		if(self.Owner:IsAdmin() or entity:GetCreator() == self.Owner) then
+			self:selectTarget(entity)
+		end	
 	end
 end
 

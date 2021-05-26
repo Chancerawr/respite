@@ -75,7 +75,7 @@ ITEM.functions.Activate = {
 		end
 		
 		item:setData("producing", CurTime())
-		timer.Simple(300, function()
+		timer.Simple(300 * nut.config.get("devTimeMult", 1), function()
 			if (item != nil) then
 				item:setData("producing", nil)
 				client:notify("Meat has been refined.")
@@ -101,7 +101,7 @@ ITEM.functions.Activate = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 300
+		local prodTime = 300 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

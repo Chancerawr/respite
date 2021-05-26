@@ -53,14 +53,14 @@ ITEM.functions.Stare = {
 		end
 		
 		item:setData("producing", CurTime())
-		timer.Simple(600, function()
+		timer.Simple(600 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		end)
 		
 		return false
 	end,
 	onCanRun = function(item)
-		local prodTime = 600
+		local prodTime = 600 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

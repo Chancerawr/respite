@@ -6,7 +6,7 @@ ITEM.desc = "A large orange squash with a thick shell."
 ITEM.quantity2 = 4
 ITEM.price = 12
 ITEM.width = 2
-ITEM.height = 2
+ITEM.height = 1
 
 ITEM.attribBoosts = { 
 	["str"] = 4, 

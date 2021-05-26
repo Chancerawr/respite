@@ -55,7 +55,7 @@ ITEM.functions.Convert = {
 		client:notifyLocalized("Converting has started.")
 		item:setData("producing", CurTime())
 		plastics:remove()
-		timer.Simple(60, function()
+		timer.Simple(60 * nut.config.get("devTimeMult", 1), function()
 			if (item != nil) then
 				item:setData("producing", nil)
 				local regular = string.sub(plastics.uniqueID, 1, (string.len(plastics.uniqueID) - 8))
@@ -70,7 +70,7 @@ ITEM.functions.Convert = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -94,7 +94,7 @@ ITEM.functions.Cactus = {
 		client:notifyLocalized("Converting has started.")
 		item:setData("producing", CurTime())
 		plastics:remove()
-		timer.Simple(60, function()
+		timer.Simple(30 * nut.config.get("devTimeMult", 1), function()
 			if (item != nil) then
 				item:setData("producing", nil)
 				local regular = "j_cactus_plant"
@@ -119,7 +119,7 @@ ITEM.functions.Cactus = {
 			return false
 		end
 		
-		local prodTime = 30
+		local prodTime = 30 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

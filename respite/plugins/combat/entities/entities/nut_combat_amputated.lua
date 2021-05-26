@@ -1,11 +1,17 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Amputated"
+ENT.PrintName = "Mawed"
 ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/am_npc/amputated.mdl"
+
+ENT.WalkAnim = "walk"
+ENT.RunAnim = "walk"
+ENT.IdleAnim = "tantrum"
+
+ENT.AttackAnim = ACT_MELEE_ATTACK1
 
 --all attributes
 ENT.attribs = {

@@ -39,7 +39,7 @@ ITEM.functions.Ichor = {
 		
 		nut.chat.send(client, "itclose", "The ichor seeps into the frame.")
 		item:setData("producing", CurTime())
-		timer.Simple(22, function()
+		timer.Simple(22 * nut.config.get("devTimeMult", 1), function()
 			if (item != nil) then
 				client:notifyLocalized("The frame has finished.")
 				item:setData("producing", 0)
@@ -77,7 +77,7 @@ ITEM.functions.Ichor = {
 			return false
 		end
 	
-		local prodTime = 22
+		local prodTime = 22 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -108,7 +108,7 @@ ITEM.functions.Blight = {
 		nut.chat.send(client, "itclose", "The blight seeps into the frame.")
 		
 		item:setData("producing", CurTime())
-		timer.Simple(22, function()
+		timer.Simple(22 * nut.config.get("devTimeMult", 1), function()
 			if (item != nil) then
 				item:setData("producing", nil)
 			
@@ -139,7 +139,7 @@ ITEM.functions.Blight = {
 			return false
 		end
 	
-		local prodTime = 22
+		local prodTime = 22 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

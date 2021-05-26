@@ -70,7 +70,7 @@ ITEM.functions.Bake = {
 			
 			item:setData("producing", CurTime())
 			
-			timer.Simple(60, 
+			timer.Simple(60 * nut.config.get("devTimeMult", 1), 
 				function()
 					if (item != nil) then
 						local position 
@@ -102,14 +102,13 @@ ITEM.functions.Bake = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
 			end
 		end
 		
-		print("We can run")
 		return true
 	end
 }

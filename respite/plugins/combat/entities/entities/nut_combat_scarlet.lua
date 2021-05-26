@@ -1,11 +1,11 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Scarlet"
 ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.name = "Puppet"
+ENT.name = "Dollmother"
 ENT.model = "models/spite/scarlet.mdl"
 
 --all attributes

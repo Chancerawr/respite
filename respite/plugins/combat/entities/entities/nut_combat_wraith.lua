@@ -1,6 +1,6 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Wraith"
+ENT.PrintName = "Seeker"
 ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true

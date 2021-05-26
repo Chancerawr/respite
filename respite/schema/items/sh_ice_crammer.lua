@@ -40,7 +40,7 @@ ITEM.functions.Cream = {
 		
 		item:setData("producing", CurTime())
 		
-		timer.Simple(45, function()
+		timer.Simple(45 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		
 			for i = 1, amount do
@@ -65,7 +65,7 @@ ITEM.functions.Cream = {
 		local milk = player:getChar():getInv():getFirstItemOfType("food_milk_carton") or player:getChar():getInv():getFirstItemOfType("food_milk_jug")
 		local can = player:getChar():getInv():getFirstItemOfType("food_soda_cold")
 		
-		local prodTime = 45
+		local prodTime = 45 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

@@ -139,16 +139,18 @@ if (SERVER) then
 				v = CurTime() --set disease at the start again, just a safety measure mostly.
 				
 				local disTable = DISEASES.diseases[k] or {}
-				if(disTable.buff) then --reapply buffs/debuffs
-					for k2, v2 in pairs(disTable.buff) do
-						char:addBoost(disTable.uid, k2, v2)
-					end
-				end
 				
 				--for scaling debuffs/buffs
 				if(disTable.buffScale) then
 					for k2, v2 in pairs(disTable.buffScale) do			
+						char:removeBoost(disTable.uid .. "s", k2) --this removal is so the boost doesn't accidentally consider itself
 						char:addBoost(disTable.uid .. "s", k2, v2 * char:getAttrib(k2, 0))
+					end
+				end
+				
+				if(disTable.buff) then --reapply buffs/debuffs
+					for k2, v2 in pairs(disTable.buff) do
+						char:addBoost(disTable.uid, k2, v2)
 					end
 				end
 			end
@@ -418,7 +420,7 @@ nut.command.add("diagnose", {
 	end
 })
 
-nut.command.add("diseaseall", {
+nut.command.add("diseasesadmin", {
 	adminOnly = true,
 	syntax = "<string target>",
 	onRun = function(client, arguments)

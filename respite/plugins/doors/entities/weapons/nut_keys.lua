@@ -10,7 +10,7 @@ end
 
 SWEP.Author = "Chessnut"
 SWEP.Instructions = "Primary Fire: Lock\nSecondary Fire: Unlock"
-SWEP.Purpose = "Hitting things and knocking on doors."
+SWEP.Purpose = "Locking and unlocking doors."
 SWEP.Drop = false
 
 SWEP.ViewModelFOV = 45

@@ -248,7 +248,7 @@ function PANEL:SetEntity( entity )
 			self.plyd.l = nil
 		end):SetImage("icon16/textfield_delete.png")
 		menu:AddOption( "Add New Line", function()	
-			local line = self.plyd:AddLine( "uniqueid", "Sample Dialogue.")
+			local line = self.plyd:AddLine("uniqueid", "Sample Dialogue.")
 		end):SetImage("icon16/textfield_add.png")
 		menu:Open()
 	end

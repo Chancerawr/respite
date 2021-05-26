@@ -1,6 +1,6 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Beta"
+ENT.PrintName = "bƎ┴ɐ β"
 ENT.Category = "NutScript - Combat (Hybrid)"
 ENT.Spawnable = true
 ENT.AdminOnly = true

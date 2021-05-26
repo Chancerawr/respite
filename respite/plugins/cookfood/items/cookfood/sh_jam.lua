@@ -5,8 +5,6 @@ ITEM.hungerAmount = 10
 ITEM.desc = "A jam made from berries."
 ITEM.quantity2 = 3
 ITEM.price = 5
-ITEM.width = 1
-ITEM.height = 1
 ITEM.container = "j_tinc"
 
 ITEM.attribBoosts = { 

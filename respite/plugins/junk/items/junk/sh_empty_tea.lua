@@ -3,8 +3,6 @@ ITEM.uniqueID = "j_empty_teapot"
 ITEM.model = "models/props_interiors/pot01a.mdl"
 ITEM.desc = "An empty teapot.\nThis container can be filled with water."
 ITEM.flag = "j"
-ITEM.width = 1
-ITEM.height = 1
 ITEM.fillable = true
 
 ITEM.salvItem = {

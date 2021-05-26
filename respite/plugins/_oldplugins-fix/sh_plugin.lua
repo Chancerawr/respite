@@ -263,7 +263,6 @@ if CLIENT then
 	
 	--Functions
 	function nut.bar.Add(identifier, data)
-		--print(data,data.getValue, data.color,data["getValue"], data["color"])
 		nut.bar.add(data.getValue, data.color, priority or 1, identifier)
 	end
 	function nut.util.DrawText(x, y, str, color, font)

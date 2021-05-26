@@ -178,7 +178,6 @@ nut.command.add("ammoeject", {
 				
 				for k, v in ipairs(plugin.ammoList) do
 					local ammo = client:GetAmmoCount(v)
-					--print(v .. ammo)
 					
 					if (ammo > 0) then
 						ammoTable[v] = ammo

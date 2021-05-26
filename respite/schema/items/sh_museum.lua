@@ -59,7 +59,7 @@ ITEM.functions.Acquire = {
 			
 			client:notifyLocalized("The museum has taken the item.")
 			item:setData("producing", CurTime())
-			timer.Simple(66, 
+			timer.Simple(66 * nut.config.get("devTimeMult", 1), 
 				function()
 					if (item != nil) then
 						local position = client:getItemDropPos()
@@ -93,7 +93,7 @@ ITEM.functions.Acquire = {
 		return false
 	end,
 	onCanRun = function(item) --only one conversion action should be happening at once with one item.
-		local prodTime = 66
+		local prodTime = 66 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

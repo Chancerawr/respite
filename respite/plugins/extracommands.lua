@@ -385,18 +385,6 @@ nut.command.add("card", {
 	end
 })
 
-nut.command.add("forums", {
-	onRun = function(client, arguments)
-	 client:SendLua([[gui.OpenURL("http://spite.boards.net/")]])
-	end
-})
-
-nut.command.add("content", {
-	onRun = function(client, arguments)
-	client:SendLua([[gui.OpenURL("http://steamcommunity.com/sharedfiles/filedetails/?id=773495550")]])
-	end
-})
-
 nut.command.add("musicstopglobal", {
 	adminOnly = true,
 	onRun = function(client, arguments)
@@ -447,5 +435,17 @@ nut.command.add("charforceunequip", {
 				end
 			end
 		end
+	end
+})
+
+nut.command.add("forums", {
+	onRun = function(client, arguments)
+		--client:SendLua([[gui.OpenURL("http://spite.boards.net/")]])
+	end
+})
+
+nut.command.add("content", {
+	onRun = function(client, arguments)
+	client:SendLua([[gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2434130146")]])
 	end
 })

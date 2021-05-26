@@ -21,15 +21,13 @@ if (CLIENT) then
 	end
 end
 
-
-			
 ITEM.buffRefresh = function(item, player)
 	local client = player
 	if(item.player) then
 		client = item.player
 	end
 
-	local char = item.player:getChar()
+	local char = client:getChar()
 
 	local boosts = item:getData("attrib")
 	--buffs the specified attributes.
@@ -551,7 +549,7 @@ function ITEM:onCanBeTransfered(oldInventory, newInventory)
 	end
 	
 	local client = self.player
-	if(client and IsValid(client.nutRagdoll)) then
+	if(client and client:getLocalVar("ragdoll")) then
 		return false
 	end
 

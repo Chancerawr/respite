@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Fiend (Dummy)"
 ENT.Category = "NutScript - Combat (Fiend)"

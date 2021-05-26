@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Spore"
 ENT.Category = "NutScript - Combat (Abomination)"
@@ -6,7 +6,7 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/respite/spore.mdl"
-ENT.name = "Spore"
+ENT.name = "Lump"
 
 --all attributes
 ENT.attribs = {

@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Teleporter"
 ENT.Category = "NutScript - Combat (Shade)"
@@ -21,7 +21,7 @@ ENT.attribs = {
 function ENT:Initialize()
 	self:basicSetup()
 	
-	ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, self, 1)
+	--ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, self, 1)
 	
 	if(SERVER) then
 		self:SetMaterial("models/angelsaur/ghosts/shadow")

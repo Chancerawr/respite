@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Crawler"
 ENT.Category = "NutScript - Combat (Shade)"
@@ -19,7 +19,7 @@ ENT.attribs = {
 }
 
 function ENT:Initialize()
-	ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, self, 1)
+	--ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, self, 1)
 
 	self:basicSetup()
 end

@@ -2,6 +2,6 @@
 {
 	"base"		"nutscript"
 	"title"		"Respite"
-	"author"	"chessnut"
+	"author"	""
 	"menusystem"	"1"
 }

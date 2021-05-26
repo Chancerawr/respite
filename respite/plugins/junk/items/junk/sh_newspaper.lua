@@ -3,8 +3,8 @@ ITEM.uniqueID = "j_newspaper"
 ITEM.model = "models/props_junk/garbage_newspaper001a.mdl"
 ITEM.desc = "A typical-looking newspaper that talks about the events in a place you have never heard of."
 ITEM.flag = "j"
-ITEM.width = 2
-ITEM.height = 2
+ITEM.width = 1
+ITEM.height = 1
 
 ITEM.salvItem = {
 	["misc_paper"] = 2

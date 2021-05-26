@@ -5,8 +5,6 @@ ITEM.hungerAmount = 30
 ITEM.desc = "A tasty looking hamburger."
 ITEM.quantity2 = 2
 ITEM.price = 10
-ITEM.width = 1
-ITEM.height = 1
 ITEM.mustCooked = true
 --5 str
 

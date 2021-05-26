@@ -8,7 +8,7 @@ SWEP.SlotPos = 1
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 
---SWEP.Author = "Chancer"
+SWEP.Author = ""
 SWEP.Instructions = "Primary Fire: Use selected command. (Default: Attack)\nSecondary Fire: Select/Deselect targeted entity.\nReload: Cycle through actions."
 SWEP.Purpose = "Managing the attacks and actions of yourself or a Combat Entity."
 

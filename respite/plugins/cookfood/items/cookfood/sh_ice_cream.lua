@@ -6,8 +6,6 @@ ITEM.hungerAmount = 4
 ITEM.desc = "A medium sized bucket of ice cream, it is cold to the touch."
 ITEM.quantity2 = 10
 ITEM.price = 12
-ITEM.width = 2
-ITEM.height = 2
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 

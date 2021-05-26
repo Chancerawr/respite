@@ -494,6 +494,34 @@ nut.command.add("centmirror", {
 	end
 })
 
+nut.command.add("centfollow", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)	
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target)) then
+			local entity = client:GetEyeTrace().Entity
+			if (IsValid(entity) and entity.combat) then
+				entity.follow = target
+			else
+				client:notify("You must be looking at a combat entity.")
+			end
+		end
+	end
+})
+
+nut.command.add("centfollowstop", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity.follow = nil
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
 nut.chat.register("react_fail", { --reaction roll
 	onChatAdd = function(speaker, text)
 		chat.AddText(CHATCOLOR_RED, text)

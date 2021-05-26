@@ -5,6 +5,10 @@ PLUGIN.desc = "A little menu that goes into F2 that you can assign buttons to. I
 
 PLUGIN.buttons = {}
 
+nut.config.add("minimenu_enabled", true, "Whether the Mini Menu (F2 menu) is enabled at all.", nil, {
+	category = "Mini Menu"
+})
+
 function PLUGIN:getMenu()
 	return self.buttons
 end

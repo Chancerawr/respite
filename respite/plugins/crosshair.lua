@@ -213,6 +213,7 @@ function PLUGIN:GetCrosshairIcon(curAlpha, entity, wep, distance)
 		return
 	end
 
+	--[[
 	if (table.Count(nut.menu.list) > 0) then
 		return "", 0, ScreenScale(5)
 	end
@@ -259,6 +260,7 @@ function PLUGIN:GetCrosshairIcon(curAlpha, entity, wep, distance)
 			end
 		end
 	end
+	--]]
 end
 
 function PLUGIN:HUDShouldDraw(element)

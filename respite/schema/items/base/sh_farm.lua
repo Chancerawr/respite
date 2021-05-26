@@ -41,7 +41,7 @@ ITEM.functions.Farm = {
 			nut.chat.send(client, "itclose", "The liquid is poured onto the strange dirt.")	
 			item:setData("producing", CurTime())
 			
-			timer.Simple(item.growTime, function()
+			timer.Simple(item.growTime * nut.config.get("devTimeMult", 1), function()
 				if (item != nil) then
 					item:setData("producing", nil)
 					for i=1, item.yield do
@@ -61,7 +61,7 @@ ITEM.functions.Farm = {
 		return false
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
-		local prodTime = item.growTime
+		local prodTime = item.growTime * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

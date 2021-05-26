@@ -12,9 +12,9 @@ ITEM.color = Color(140, 20, 140)
 ITEM.data = { producing2 = 0 }
 
 ITEM.iconCam = {
-	pos = Vector(280.39529418945, 236.86444091797, 184.78364562988),
+	pos = Vector(280.4, 236.86, 184.78),
 	ang = Angle(25, 220, 0),
-	fov = 5.0807393438119,
+	fov = 5,
 }
 
 ITEM.functions.Depressant = {
@@ -55,7 +55,7 @@ ITEM.functions.Depressant = {
 		end
 		
 		item:setData("producing", CurTime())
-		timer.Simple(7, function()
+		timer.Simple(7 * nut.config.get("devTimeMult", 1), function()
 			local position = client:getItemDropPos()
 			local reward = ranScrap[math.random(1,17)]
 			
@@ -79,7 +79,7 @@ ITEM.functions.Depressant = {
 			return false
 		end
 		
-		local prodTime = 7
+		local prodTime = 7 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

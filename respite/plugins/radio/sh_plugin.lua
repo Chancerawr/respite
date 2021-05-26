@@ -206,11 +206,12 @@ else
 */
 end
 
--- Yelling out loud.
+--radio items
 local find = {
 	["comm_radio"] = false,
 	["comm_radio_stationary"] = true
 }
+
 local function endChatter(listener)
 	timer.Simple(1, function()
 		if (!listener:IsValid() or !listener:Alive() or hook.Run("ShouldRadioBeep", listener) == false) then
@@ -219,6 +220,70 @@ local function endChatter(listener)
 
 		listener:EmitSound("npc/metropolice/vo/off"..math.random(1, 3)..".wav", math.random(60, 70), math.random(80, 120))
 	end)
+end
+
+--checks a character's inventory for a radio that is on, return the frequency
+local function charHasRadio(char)
+	local freq
+	
+	local inventory = char:getInv()
+	
+	if (inventory) then
+		for k, v in pairs(inventory:getItems()) do
+			if (freq) then
+				break
+			end
+
+			--searches for the specific radio items
+			for id, _ in pairs(find) do
+				if (v.uniqueID == id and v:getData("power", false) == true) then
+					freq = v:getData("freq", "000.0")
+
+					break
+				end
+			end
+		end
+	end
+	
+	return freq
+end
+
+--checks whether a player can use a radio command or not
+local function radioOnCanSay(speaker, text)
+	local char = speaker:getChar()
+	local speakRange = nut.config.get("chatRange", 280)
+	local speakEnts = ents.FindInSphere(speaker:GetPos(), speakRange)
+	
+	local freq = charHasRadio(char)
+
+	--let's people radio if there are radio entities nearby
+	if (!freq) then
+		for k, v in ipairs(speakEnts) do
+			if (freq) then
+				break
+			end
+
+			if (v:GetClass() == "nut_item") then
+				local itemTable = v:getItemTable()
+
+				for id, far in pairs(find) do
+					if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
+						freq = v:getData("freq", "000.0")
+
+						break
+					end
+				end
+			end
+		end
+	end
+
+	if (freq) then
+		CURFREQ = freq
+		speaker:EmitSound("npc/metropolice/vo/on"..math.random(1, 2)..".wav", math.random(50, 60), math.random(80, 120))
+	else
+		speaker:notifyLocalized("radioNoRadioComm")
+		return false
+	end
 end
 
 nut.chat.register("radio", {
@@ -286,57 +351,7 @@ nut.chat.register("radio", {
 
 		return false
 	end,
-	onCanSay = function(speaker, text)
-		local schar = speaker:getChar()
-		local speakRange = nut.config.get("chatRange", 280)
-		local speakEnts = ents.FindInSphere(speaker:GetPos(), speakRange)
-		local speakerInv = schar:getInv()
-		local freq
-
-		if (speakerInv) then
-			for k, v in pairs(speakerInv:getItems()) do
-				if (freq) then
-					break
-				end
-
-				for id, far in pairs(find) do
-					if (v.uniqueID == id and v:getData("power", false) == true) then
-						freq = v:getData("freq", "000.0")
-
-						break
-					end
-				end
-			end
-		end
-
-		if (!freq) then
-			for k, v in ipairs(speakEnts) do
-				if (freq) then
-					break
-				end
-
-				if (v:GetClass() == "nut_item") then
-					local itemTable = v:getItemTable()
-
-					for id, far in pairs(find) do
-						if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
-							freq = v:getData("freq", "000.0")
-
-							break
-						end
-					end
-				end
-			end
-		end
-
-		if (freq) then
-			CURFREQ = freq
-			speaker:EmitSound("npc/metropolice/vo/on"..math.random(1, 2)..".wav", math.random(50, 60), math.random(80, 120))
-		else
-			speaker:notifyLocalized("radioNoRadioComm")
-			return false
-		end
-	end,
+	onCanSay = radioOnCanSay,
 	onChatAdd = function(speaker, text, anonymous)
 		local listener = LocalPlayer()
 		local dist = speaker:GetPos():Distance(listener:GetPos())
@@ -438,57 +453,7 @@ nut.chat.register("radiow", {
 
 		return false
 	end,
-	onCanSay = function(speaker, text)
-		local schar = speaker:getChar()
-		local speakRange = nut.config.get("chatRange", 280) * .25
-		local speakEnts = ents.FindInSphere(speaker:GetPos(), speakRange)
-		local speakerInv = schar:getInv()
-		local freq
-
-		if (speakerInv) then
-			for k, v in pairs(speakerInv:getItems()) do
-				if (freq) then
-					break
-				end
-
-				for id, far in pairs(find) do
-					if (v.uniqueID == id and v:getData("power", false) == true) then
-						freq = v:getData("freq", "000.0")
-
-						break
-					end
-				end
-			end
-		end
-
-		if (!freq) then
-			for k, v in ipairs(speakEnts) do
-				if (freq) then
-					break
-				end
-
-				if (v:GetClass() == "nut_item") then
-					local itemTable = v:getItemTable()
-
-					for id, far in pairs(find) do
-						if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
-							freq = v:getData("freq", "000.0")
-
-							break
-						end
-					end
-				end
-			end
-		end
-
-		if (freq) then
-			CURFREQ = freq
-			speaker:EmitSound("npc/metropolice/vo/on"..math.random(1, 2)..".wav", math.random(50, 60), math.random(80, 120))
-		else
-			speaker:notifyLocalized("radioNoRadioComm")
-			return false
-		end
-	end,
+	onCanSay = radioOnCanSay,
 	onChatAdd = function(speaker, text, anonymous)
 		local listener = LocalPlayer()
 		local dist = speaker:GetPos():Distance(listener:GetPos())
@@ -590,57 +555,7 @@ nut.chat.register("radioit", {
 
 		return false
 	end,
-	onCanSay = function(speaker, text)
-		local schar = speaker:getChar()
-		local speakRange = nut.config.get("chatRange", 280) * .25
-		local speakEnts = ents.FindInSphere(speaker:GetPos(), speakRange)
-		local speakerInv = schar:getInv()
-		local freq
-
-		if (speakerInv) then
-			for k, v in pairs(speakerInv:getItems()) do
-				if (freq) then
-					break
-				end
-
-				for id, far in pairs(find) do
-					if (v.uniqueID == id and v:getData("power", false) == true) then
-						freq = v:getData("freq", "000.0")
-
-						break
-					end
-				end
-			end
-		end
-
-		if (!freq) then
-			for k, v in ipairs(speakEnts) do
-				if (freq) then
-					break
-				end
-
-				if (v:GetClass() == "nut_item") then
-					local itemTable = v:getItemTable()
-
-					for id, far in pairs(find) do
-						if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
-							freq = v:getData("freq", "000.0")
-
-							break
-						end
-					end
-				end
-			end
-		end
-
-		if (freq) then
-			CURFREQ = freq
-			speaker:EmitSound("npc/metropolice/vo/on"..math.random(1, 2)..".wav", math.random(50, 60), math.random(80, 120))
-		else
-			speaker:notifyLocalized("radioNoRadioComm")
-			return false
-		end
-	end,
+	onCanSay = radioOnCanSay,
 	onChatAdd = function(speaker, text, anonymous)
 		local listener = LocalPlayer()
 		local dist = speaker:GetPos():Distance(listener:GetPos())

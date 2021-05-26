@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Makeshift Sentry (9x19mm)"
 ENT.Category = "NutScript - Combat (Other)"

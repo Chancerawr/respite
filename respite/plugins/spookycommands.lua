@@ -985,13 +985,13 @@ nut.command.add("scdummy", {
 	onRun = function(client, arguments)
 		local target = nut.command.findPlayer(client, arguments[1])
 		
-		if(not target) then
+		if(target) then
 			local dummyPos, dummyDirection = target:GetPos() + target:GetForward() * 60 + Vector(0, 0, 40), target:GetForward() * -1
 			local dummy = ents.Create("prop_physics")
 			dummy:SetModel("models/nh2_gmn/dave_the_dummy_on_stand.mdl")
 			dummy:SetAngles(dummyDirection:Angle() + Angle(0, 90, 0))
 			dummy:SetPos(dummyPos)
-			dummy:SetSkin(2)
+			--dummy:SetSkin(2)
 			dummy:Spawn()
 			dummy:EmitSound("respite/scare2.wav", 100, 100)
 			ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, dummy, 1)

@@ -8,6 +8,7 @@ if (CLIENT) then
 	NUT_CVAR_ADMINESP = CreateClientConVar("nut_obsesp", 1, true, true)
 	NUT_CVAR_ADMINESPC = CreateClientConVar("nut_obsespc", 1, true, true)
 	NUT_CVAR_ADMINESPI = CreateClientConVar("nut_obsespi", 0, true, true)
+	NUT_CVAR_ADMINESPR = CreateClientConVar("nut_obsespr", 1, true, true)
 
 	local client, sx, sy, scrPos, marginx, marginy, x, y, teamColor, distance, factor, size, alpha
 	local dimDistance = 1024
@@ -34,10 +35,19 @@ if (CLIENT) then
 				surface.DrawRect(x - size/2, y - size/2, size, size)
 
 				nut.util.drawText(v:Name() .. "(" .. v:Health() .. ")", x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
-				--nut.util.drawText(v:Health(), scrPos.x, scrPos.y + 15, Color(175,0,0, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+
+				--combatHP text
+				--[[
+				local combatHP = nut.plugin.list["combathp"]
+				if(combatHP and NUT_CVAR_ADMINESPR) then
+					if(combatHP.NUTCOMBATHP[v]) then
+						nut.util.drawText("[ " .. combatHP.NUTCOMBATHP[v][1] .. "/" ..combatHP.NUTCOMBATHP[v][2].. " ]", x, y - size + 16, ColorAlpha(Color(200,50,50), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					end
+				end
+				--]]
 			end
 			
-			if(CMBT and NUT_CVAR_ADMINESPC:GetBool()) then
+			if(NUT_CVAR_ADMINESPC:GetBool()) then
 				for k, v in ipairs(ents.GetAll()) do
 					if(!v.combat) then continue end
 					if(v.espIgnore) then continue end
@@ -58,7 +68,7 @@ if (CLIENT) then
 						nut.util.drawText("Hits: " ..v:getNetVar("hit", 0), x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					end
 				end
-			end
+			end	
 			
 			if(NUT_CVAR_ADMINESPI:GetBool()) then
 				for k, v in pairs(ents.FindByClass("nut_item")) do

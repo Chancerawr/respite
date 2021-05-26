@@ -1,7 +1,7 @@
 SCHEMA.name = "Respite"
 SCHEMA.introName = ""
 SCHEMA.desc = " "
-SCHEMA.author = "Chancer"
+SCHEMA.author = "Me"
 SCHEMA.uniqueID = "respite" -- Schema will be a unique identifier stored in the database.
 
 nut.currency.set("", "scrap coin", "scrap coins")
@@ -75,10 +75,15 @@ nut.anim.setModelClass("models/tnb/combine/metrocop.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/metrocop_female.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/synth_soldier.mdl", "player")
 
+nut.config.add("devTimeMult", 1, "A multiplier on the machine time.", nil, {
+	form = "Float",
+	data = {min = 0, max = 100},
+	category = "Devices"
+})
+
 --This is used for some entities to print stuff in the chat to people.
 nut.chat.register("mind", {
 	onChatAdd = function(speaker, text)
-		local color = nut.chat.classes.ic.onGetColor(speaker, text)
 		chat.AddText(Color(115, 115, 115), "**\""..text.."\"")
 	end,
 	onCanHear = 1, --range is set incredibly low so that only the client can see it.

@@ -6,8 +6,6 @@ ITEM.hungerAmount = 20
 ITEM.desc = "A very hard shelled nut."
 ITEM.quantity2 = 4
 ITEM.price = 7
-ITEM.width = 1
-ITEM.height = 1
 ITEM.cookable = true
 
 ITEM.attribBoosts = { 

@@ -6,7 +6,7 @@ ITEM.desc = "A plastic bottle filled with a carbonated drink."
 ITEM.quantity2 = 2
 ITEM.price = 10
 ITEM.width = 1
-ITEM.height = 2
+ITEM.height = 1
 ITEM.cookable = false
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_soda_bottle"
@@ -18,5 +18,5 @@ ITEM.attribBoosts = {
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),
-	fov = 3,
+	fov = 6,
 }

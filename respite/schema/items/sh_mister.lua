@@ -23,7 +23,7 @@ ITEM.functions.HazeBlue = {
 		object:remove()
 		
 		item:setData("producing", CurTime())
-		timer.Simple(60, function()
+		timer.Simple(60 * nut.config.get("devTimeMult", 1), function()
 			local position = client:getItemDropPos()
 			local reward
 			
@@ -53,7 +53,7 @@ ITEM.functions.HazeBlue = {
 			return false
 		end
 		
-		local prodTime = 60
+		local prodTime = 60 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -77,7 +77,7 @@ ITEM.functions.HazeBlood = {
 		object:remove()
 		
 		item:setData("producing", CurTime())
-		timer.Simple(30, 
+		timer.Simple(30 * nut.config.get("devTimeMult", 1), 
 			function()
 				local position = client:getItemDropPos()
 				
@@ -112,7 +112,7 @@ ITEM.functions.HazeBlood = {
 			return false
 		end
 		
-		local prodTime = 30
+		local prodTime = 30 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -136,7 +136,7 @@ ITEM.functions.HazePink = {
 		object:remove()
 		
 		item:setData("producing", CurTime())
-		timer.Simple(30, function()
+		timer.Simple(30 * nut.config.get("devTimeMult", 1), function()
 			local position = client:getItemDropPos()
 			
 			local rewards = {
@@ -166,7 +166,7 @@ ITEM.functions.HazePink = {
 			return false
 		end
 		
-		local prodTime = 30
+		local prodTime = 30 * nut.config.get("devTimeMult", 1)
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

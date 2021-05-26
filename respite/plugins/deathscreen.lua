@@ -31,6 +31,8 @@ if (CLIENT) then
 				
 				surface.SetDrawColor(0, 0, 0, ceil((aprg^.5) * 200))
 				surface.DrawRect(-1, -1, w+2, h+2)
+				
+				nut.util.drawBlurAt(0, 0, w, h, 11)
 			end
 		end
 

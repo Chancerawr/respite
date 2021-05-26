@@ -1098,7 +1098,7 @@ else
 		end
 		
 		if(dataTbl.prodMult) then
-			local prodTime = requiredTime(client, item, dataTbl.prodMult)
+			local prodTime = requiredTime(client, item, dataTbl.prodMult) * nut.config.get("devTimeMult", 1)
 		
 			item:setData("producing", CurTime())
 			item:setData("prodTime", prodTime)

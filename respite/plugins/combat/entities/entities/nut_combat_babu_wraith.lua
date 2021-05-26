@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Babu Wraith"
 ENT.Category = "NutScript - Combat (Wraith)"

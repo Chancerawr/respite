@@ -1,4 +1,4 @@
-ENT.Type = "anim"
+ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Shambler"
 ENT.Category = "NutScript - Combat (Shade)"
@@ -17,6 +17,8 @@ ENT.attribs = {
 	["perception"] = 5,
 	["fortitude"] = 10,
 }
+
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()
 	self:basicSetup()

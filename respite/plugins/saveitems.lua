@@ -9,11 +9,13 @@ function PLUGIN:LoadData()
 		local idRange = {}
 		local positions = {}
 		local angles = {}
+		local motion = {}
 
 		for k, v in ipairs(items) do
 			idRange[#idRange + 1] = v[1]
 			positions[v[1]] = v[2]
 			angles[v[1]] = v[3]
+			motion[v[1]] = v[4]
 		end
 
 		if (#idRange > 0) then
@@ -42,10 +44,16 @@ function PLUGIN:LoadData()
 								local item = nut.item.new(uniqueID, itemID)
 								item.data = data or {}
 								
-								item:spawn(position, angle).nutItemID = itemID
+								local itemEntity = item:spawn(position, angle)
+								itemEntity.nutItemID = itemID
 
 								item.invID = 0
 								table.insert(loadedItems, item)
+								
+								local physObject = itemEntity:GetPhysicsObject()
+								if (physObject) then
+									physObject:EnableMotion(motion[itemID] or false)
+								end
 							end
 						end
 
@@ -62,7 +70,15 @@ function PLUGIN:SaveData()
 
 	for k, v in ipairs(ents.FindByClass("nut_item")) do
 		if (v.nutItemID and !v.temp) then
-			items[#items + 1] = {v.nutItemID, v:GetPos(), v:GetAngles()}
+			local motion = false
+			if(IsValid(v)) then --checks if the thing is frozen
+				local physObj = v:GetPhysicsObject()
+				if(IsValid(physObj)) then
+					motion = physObj:IsMotionEnabled()
+				end
+			end
+		
+			items[#items + 1] = {v.nutItemID, v:GetPos(), v:GetAngles(), motion}
 		end
 	end
 
