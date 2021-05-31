@@ -1,7 +1,15 @@
+nut.chat = nut.chat or {}
+nut.chat.classes = nut.char.classes or {}
+
 local DUMMY_COMMAND = {syntax = "<string text>", onRun = function() end}
 
 if (!nut.command) then
 	include("sh_command.lua")
+end
+
+-- Returns a timestamp
+function nut.chat.timestamp(ooc)
+	return nut.config.get("chatShowTime") and (ooc and " " or "").."("..nut.date.getFormatted("%H:%M")..")"..(ooc and "" or " ") or ""
 end
 
 -- Registers a new chat type with the information provided.
@@ -12,12 +20,12 @@ function nut.chat.register(chatType, data)
 			-- The speaker will be heard by everyone.
 			return true
 		end
-	elseif (type(data.onCanHear) == "number") then
+	elseif (isnumber(data.onCanHear)) then
 		-- Use the value as a range and create a function to compare distances.
 		local range = data.onCanHear ^ 2
 
 		data.onCanHear = function(speaker, listener)
-			-- LengthSqr is faster than Length, so just check the squares.
+			-- Length2DSqr is faster than Length2D, so just check the squares.
 			return (speaker:GetPos() - listener:GetPos()):LengthSqr() <= range
 		end
 	end
@@ -40,7 +48,7 @@ function nut.chat.register(chatType, data)
 
 	if (!data.onChatAdd) then
 		data.format = data.format or "%s: \"%s\""
-		
+
 		data.onChatAdd = function(speaker, text, anonymous)
 			local color = data.color
 			local name = anonymous and L"someone" or hook.Run("GetDisplayedName", speaker, chatType) or (IsValid(speaker) and speaker:Name() or "Console")
@@ -49,13 +57,14 @@ function nut.chat.register(chatType, data)
 				color = data.onGetColor(speaker, text)
 			end
 
+			local timestamp = nut.chat.timestamp(false)
 			local translated = L2(chatType.."Format", name, text)
 
-			chat.AddText(color, translated or string.format(data.format, name, text))
+			chat.AddText(timestamp, color, translated or string.format(data.format, name, text))
 		end
 	end
 
-	if (CLIENT) then
+	if (CLIENT and data.prefix) then
 		if (type(data.prefix) == "table") then
 			for k, v in ipairs(data.prefix) do
 				if (v:sub(1, 1) == "/") then

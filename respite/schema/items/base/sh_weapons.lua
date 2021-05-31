@@ -394,7 +394,7 @@ ITEM.functions.Phase = {
 			
 			local customData = item:getData("custom", {})
 			customData.name = "Phased " .. item:getName()
-			customData.desc = item:getDesc(true) .. "\nThis weapon's appearance distorts randomly and sometimes becomes translucent.\nHitting an enemy with it will teleport it to somewhere nearby, location determined by wielder. The weapon does no damage, but does inflict pain as if they were hit by the normal weapon."
+			customData.desc = item:getDesc(true) .. "\nThis weapon's appearance distorts randomly and sometimes becomes translucent."
 			customData.color = Color(140, 20, 140)
 			
 			item:setData("custom", customData)

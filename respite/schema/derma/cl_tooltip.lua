@@ -27,13 +27,13 @@ hook.Add("TooltipPaint", "nutItemTooltip", function(self, w, h)
 		surface.DrawOutlinedRect(0, 0, w, h)
 		--]]
 		
-		nut.util.drawBlur(self, 2, 2)
+		--nut.util.drawBlur(self, 2, 2)
 		surface.SetDrawColor(40, 50, 55, 250)
 		surface.DrawRect(0, 0, w, h)
 		
-		nut.util.drawBlur(self, 2, 2)
+		--nut.util.drawBlur(self, 2, 2)
 		surface.SetDrawColor(70, 90, 95, 120)
-		surface.DrawOutlinedRect(0, 0, w, h)				
+		surface.DrawOutlinedRect(0, 0, w, h)
 
 		if (self.markupObject) then
 			self.markupObject:draw(PADDING_HALF, PADDING_HALF + 2)

@@ -16,23 +16,22 @@ ITEM.funcTable = {
 		},	
 		
 		results = {
-			["coin_10"] = 1,
+			["coin_5"] = 1,
 		},
 	},
 	{
 		id = "Coins2",
-		name = "Scrap Coins (95)",
+		name = "Scrap Coins (105)",
 		icon = "icon16/cog.png",
 		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
 		required = {
-			["cube_chip"] = 9
+			["cube_chip"] = 10
 		},
 		
 		results = {
-			["coin_10"] = 9,
-			["coin_5"] = 1,
+			["coin_5"] = 11,
 		},
 	}
 }

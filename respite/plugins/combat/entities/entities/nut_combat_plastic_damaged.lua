@@ -5,7 +5,7 @@ ENT.Category = "NutScript - Combat (Other)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.name = "Damaged Plastic"
+ENT.name = "Decrepit Plastic"
 ENT.model = "models/tnb/citizens/male_04.mdl"
 
 --all attributes

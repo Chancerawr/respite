@@ -4,7 +4,7 @@ SCHEMA.desc = " "
 SCHEMA.author = "Me"
 SCHEMA.uniqueID = "respite" -- Schema will be a unique identifier stored in the database.
 
-nut.currency.set("", "scrap coin", "scrap coins")
+nut.currency.set("", "Scrap Coin", "Scrap Coins")
 
 nut.util.include("cl_effects.lua")
 nut.util.include("sh_commands.lua")
