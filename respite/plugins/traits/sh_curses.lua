@@ -15,7 +15,7 @@ TRAIT.func = function(client, character)
 	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
 	
-	giveDisease(client, "peculiar")
+	client:giveDisease("peculiar")
 end
 
 TRAITS:Register( TRAIT )
@@ -29,7 +29,7 @@ TRAIT.items = {
 	"j_bible"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_zealot")
+	client:giveDisease("trait_zealot")
 end
 
 TRAITS:Register( TRAIT )
@@ -44,7 +44,7 @@ TRAIT.items = {
 	"cube_chip_enhanced"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_curse")	
+	client:giveDisease("trait_curse")	
 end
 
 TRAITS:Register( TRAIT )
@@ -60,7 +60,7 @@ TRAIT.items = {
 	"ichor"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_soul")
+	client:giveDisease("trait_soul")
 end
 
 TRAITS:Register( TRAIT )
@@ -76,7 +76,7 @@ TRAIT.items = {
 	"bleach"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_purge")
+	client:giveDisease("trait_purge")
 end
 
 TRAITS:Register( TRAIT )
@@ -92,7 +92,7 @@ TRAIT.items = {
 	"coflantern"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_dark")	
+	client:giveDisease("trait_dark")	
 end
 
 TRAITS:Register( TRAIT )
@@ -109,7 +109,7 @@ TRAIT.func = function(client, character)
 		character:getInv():add("hl2_m_shovel_alt", 1)
 	end
 	
-	giveDisease(client, "trait_digger")
+	client:giveDisease("trait_digger")
 end
 
 TRAITS:Register( TRAIT )
@@ -126,7 +126,7 @@ TRAIT.items = {
 	"drug_painkillers"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_headache")
+	client:giveDisease("trait_headache")
 end
 
 TRAITS:Register( TRAIT )
@@ -141,7 +141,7 @@ TRAIT.items = {
 	"haze_bottled"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "addict_bh")		
+	client:giveDisease("addict_bh")		
 end
 
 TRAITS:Register( TRAIT )
@@ -157,7 +157,7 @@ TRAIT.items = {
 	"medical_gauze"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_clumsy")			
+	client:giveDisease("trait_clumsy")			
 end
 
 TRAITS:Register( TRAIT )
@@ -172,7 +172,7 @@ TRAIT.items = {
 	"j_turtle"
 }
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_paranoid")		
+	client:giveDisease("trait_paranoid")		
 end
 TRAIT.modifier = {
 	["perception"] = 1.1,
@@ -187,7 +187,7 @@ TRAIT.name = "Lunatic"
 TRAIT.desc = "Bark at the moon."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_lunatic")	
+	client:giveDisease("trait_lunatic")	
 end
 
 TRAITS:Register( TRAIT )
@@ -198,7 +198,7 @@ TRAIT.name = "The Void"
 TRAIT.desc = "It stares back."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_void")
+	client:giveDisease("trait_void")
 end
 
 TRAITS:Register( TRAIT )
@@ -209,7 +209,7 @@ TRAIT.name = "Instrumental"
 TRAIT.desc = "Broken strings and unmoving keys produce no sounds."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_instrument")
+	client:giveDisease("trait_instrument")
 end
 
 TRAITS:Register( TRAIT )
@@ -220,7 +220,7 @@ TRAIT.name = "Ravenous"
 TRAIT.desc = "An abyss that can never be filled."
 TRAIT.category = "Peculiar"
 TRAIT.func = function(client, character)
-	giveDisease(client, "trait_hunger")
+	client:giveDisease("trait_hunger")
 end
 
 TRAITS:Register( TRAIT )
@@ -275,7 +275,7 @@ TRAIT.func = function(client, character)
 	
 	character:setData("parts", pTable)
 	
-	giveDisease(client, "fort_nost")
+	client:giveDisease("fort_nost")
 end
 
 TRAITS:Register(TRAIT)

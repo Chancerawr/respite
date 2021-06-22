@@ -105,10 +105,11 @@ nut.command.add("storageadd", {
 	syntax = "<string item> <number items>",
 	onRun = function(client, arguments)
 		local trace = client:GetEyeTraceNoCursor()
-		
 		local target = trace.Entity
+		
 		if(target and target:GetClass() == "nut_storage") then
 			local uniqueID = arguments[1]:lower()
+			local itemAmount = tonumber(arguments[2]) or 1
 
 			if (!nut.item.list[uniqueID]) then
 				for k, v in SortedPairs(nut.item.list) do
@@ -122,12 +123,13 @@ nut.command.add("storageadd", {
 			
 			if(!nut.item.list[uniqueID]) then
 				client:notify("Invalid Item.")
+				return false
 			end
 
 			local inventory = target:getInv()
-			inventory:addSmart(uniqueID, tonumber(arguments[2]) or 1)
+			inventory:addSmart(uniqueID, itemAmount)
 		
-			client:notify("Item(s) added.")
+			client:notify(itemAmount.. " " ..nut.item.list[uniqueID].name.. "(s) added.")
 		else
 			client:notify("Look at a storage entity.")
 		end

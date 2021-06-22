@@ -56,8 +56,8 @@ ITEM.functions.Cleanse = {
 		
 		local cured = false
 		for k, v in pairs(cures) do
-			if(hasDisease(client, v)) then
-				cureDisease(client, v)
+			if(client:hasDisease(v)) then
+				client:removeDisease(v)
 				cured = true
 			end
 		end
@@ -69,7 +69,7 @@ ITEM.functions.Cleanse = {
 		end
 		
 		if(water.uid == "food_blood") then
-			giveDisease(client, "fort_enrage")
+			client:giveDisease("fort_enrage")
 		end
 
 		return false

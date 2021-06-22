@@ -276,21 +276,21 @@ end
 if(SERVER) then
 	--for the "Ravenous" trait
 	function PLUGIN:stomachOverwrite(item, client, char)
-		if(!hasDisease(client, "trait_hunger")) then
+		if(!client:hasDisease("trait_hunger")) then
 			return false
-		elseif(hasDisease(client, "trait_hunger")) then --if they have the hungering trait
+		elseif(client:hasDisease("trait_hunger")) then --if they have the hungering trait
 			if(char:getData("stomach", 0) < 10) then
 				char:setData("stomach", char:getData("stomach", 0) + 1)
 				if(char:getData("stomach", 0) > 5) then
 					client:notify("Your stomach painfully bulges, it might be a bad idea to continue eating.")
 				end
 				
-				timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
+				timer.Simple(item.durationB, function() --needs to be independent of attribute since those don't stack for the same item.
 					char:setData("stomach", char:getData("stomach", 0) - 1)
 				end)
 			else
 				char:setData("stomach", char:getData("stomach", 0) + 1)
-				timer.Simple(item.duration, function() --needs to be independent of attribute since those don't stack for the same item.
+				timer.Simple(item.durationB, function() --needs to be independent of attribute since those don't stack for the same item.
 					char:setData("stomach", char:getData("stomach", 0) - 1)
 				end)
 				

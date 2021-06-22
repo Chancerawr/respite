@@ -99,8 +99,144 @@ DISEASE.cure = {
 	"You recover from your cold."
 }
 DISEASES:Register(DISEASE)
-//
 
+//
+local DISEASE = {}
+DISEASE.uid = "dis_future"
+DISEASE.name = "Future"
+DISEASE.desc = "???"
+DISEASE.category = "Illness"
+DISEASE.duration = 10800
+
+DISEASE.symptoms = {
+	{ 
+		text = {
+			"For a moment, everything goes dark. Your vision returns to normal shortly after.",
+			"A thought enters your mind, you want everyone to come together, and work together. Together.",
+			"You don't want to be alone.",
+			"You feel very lonely for a few moments.",
+			"You feel singled out for a moment, as if everyone has left you behind.",
+			"An abnormal hunger arises in your stomach, you've never been this hungry before.",
+			"An extreme thirst comes over you, you really want to drink something.",
+			"Your vision distorts, and you suddenly see from the perspective of someone else.\nBefore you can get your bearings, it switches again, and again, and again.\nThis happens dozens of times, you become so dizzy and mixed up that you barely notice that you've returned to normal.",
+			"Your head suddenly fills with the voices of dozens of people. You can't understand anything any of them are saying, and it's very hard to concentrate. This dissipates after a minute or so.",
+			"When you close your eyes, you see a world of blinding light. Your hands are interlinked with two people beside you. You feel complete.\nWhen you open your eyes the image, and the feeling is gone. You feel very lonely.",
+			"You blink, and the world around you has changed. You are surrounded by a swirling white mass. It spins into the sky endlessly. When you blink everything is back to normal."
+		},
+		cd = 3600, 
+	},
+}
+DISEASE.cure = {
+	"You feel like you're back to normal."
+}
+DISEASES:Register(DISEASE)
+
+//
+local DISEASE = {}
+DISEASE.uid = "dis_mind"
+DISEASE.name = "Mind"
+DISEASE.desc = "A contagious disease involving emotional swings, hallucinations, and strange visions."
+DISEASE.category = "Illness"
+DISEASE.duration = 10800
+
+DISEASE.symptoms = {
+	{ 
+		text = {
+			"You feel like something is inside your head, moving around and changing you somehow.",
+			"Your head hurts slightly, as if you had a mild headache.",
+			"Suddenly, dozens of voices begin talking at once in your head, it's hard to think clearly or focus on anything.",
+			"You feel unstable, uncertain, and unbalanced. Something feels wrong, very wrong.",
+			"You suddenly feel like everything is really funny around you, and you have the urge to laugh. You feel scared that you're having these thoughts, but that somehow becomes funny too.",
+			"You have the urge to cry, like something sad just happened.",
+			"Your emotions vanish, and you feel nothing at all for a short period of time.",
+			"The world terrifies you suddenly, everything is startling, everything is horrific. You just want to go home.",
+			"You feel an uncomfortable twist of despair deep within you, it hurts to even exist.",
+			"Anger rises up within you, but not at anything in particular. The world itself is infuriating for a small amount of time.",
+			"Your mind goes blank for awhile, everything seems tranquil and peaceful, there are no worries, no dangers. Everything is fine.",
+			"Your heart fills to the brim with your own happiness. Everything is simply wonderful for awhile.",
+			"You imagine a white box, the box has a simple white door.\nYou move to open the door, but it opens with just a thought.\nInside the box is nothing but a pitch black darkness. Something inside calls your name, and you walk straight into the dark."
+		},
+		cd = 3600, 
+	},
+}
+DISEASE.cure = {
+	"You feel like you're back to normal, and your mind is no longer as unstable."
+}
+DISEASES:Register(DISEASE)
+
+//
+local DISEASE = {}
+DISEASE.uid = "dis_touch"
+DISEASE.name = "Feeling"
+DISEASE.desc = "A contagious disease involving touch related hallucinations."
+DISEASE.category = "Illness"
+DISEASE.duration = 10800
+
+DISEASE.symptoms = {
+	{ 
+		text = {
+			"You feel something touch your back for a brief moment.",
+			"Your nose itches.",
+			"You get a strange sensation on the front of your neck, like something just brushed past it.",
+			"It feels like someone just poked you in the side.",
+			"Scratches appear on your left arm, they are somewhat painful.",
+			"Suddenly, you feel like your back is being clawed open, but there is no wound to be found.",
+			"You feel hands wrap around your neck, and it becomes hard to breathe. This stops after a short amount of time.",
+			"You hear some sort of incomprehensible whispering behind you, but there is nothing there.",
+			"Your entire body begins to feel cold, you start to shiver uncontrollably. The cold leaves you after a few minutes.",
+			"Your entire body begins to feel very hot, you start to sweat and find it hard to breathe. The heat leaves you after a few minutes.",
+			"You start to feel very itchy all over, the urge to scratch yourself becomes hard to resist. This feeling fades away after a minute or so."
+			--"A quiet, whispering voice comes from in front of you. You see some kind of dark, wispy figure directly in front of you. Its head is only inches away from yours, but you find it hard to make out any significant details.\nIt says, 'Time is running out.'\nSomething covers your eyes from behind you, and a feeling of dread fills you.\nNo matter what you try, you cannot move what is covering your eyes, leaving you essentially blind for around a minute.\nOnce your vision returns, the figure in front of you is gone, and you feel sick to your stomach."
+		},
+		cd = 3600, 
+	},
+}
+DISEASE.cure = {
+	"You feel like you're back to normal, and no longer feel any strange sensations."
+}
+DISEASES:Register(DISEASE)
+
+//
+local DISEASE = {}
+DISEASE.uid = "dis_eyes"
+DISEASE.name = "Watcher"
+DISEASE.desc = "A contagious disease involving sight related hallucinations."
+DISEASE.category = "Illness"
+DISEASE.duration = 10800
+
+DISEASE.symptoms = {
+	{ 
+		text = {
+			"You see someone in the distance, they appear to be watching you from afar.",
+			"You see someone watching you from above for a moment, but there's nothing there.",
+			"You feel eyes peering at you from behind.",
+			"Someone is watching you.",
+			"Something is watching you.",
+			"They are watching you.",
+			"'We are watching you.'",
+			"He is watching you.",
+			"She is watching you.",
+			"It is watching you.",
+			"It watches you from the darkness.",
+			"You think you see something in the corner of you vision, but as you turn there is nothing there.",
+			"You suddenly feel very paranoid, like there's something right behind you.",
+			"You spot someone from the corner of your eye, watching you.",
+			"Your eyes hurt slightly, as if they've dried out somehow.",
+			"Every time you blink, you feel as though something bad is going to happen.",
+			"You blink, and right before your eyes close, you see someone staring at you.",
+			"Your eyes suddenly get dry, and you have the urge to blink, but you feel as though something bad will happen if you do.",
+			"As your eyes blink closed, you feel as though something is right in front of you, you can feel it there, staring at you.",
+			"You hear some sort of incomprehensible whispering behind you, but there is nothing there."
+		},
+		cd = 3600, 
+	},
+}
+DISEASE.cure = {
+	"You feel like you're back to normal, and no longer feel like something is watching you."
+}
+DISEASES:Register(DISEASE)
+
+//
 local DISEASE = {}
 DISEASE.uid = "fort_pani"
 DISEASE.name = "Panic"

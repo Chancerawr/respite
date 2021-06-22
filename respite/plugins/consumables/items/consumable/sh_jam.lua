@@ -1,0 +1,19 @@
+ITEM.name = "Jam"
+ITEM.desc = "A jam made from berries."
+ITEM.uniqueID = "food_jam"
+ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
+ITEM.quantity2 = 3
+ITEM.price = 5
+ITEM.container = "j_tinc"
+
+ITEM.attrib = { 
+	["perception"] = 3, 
+	["medical"] = 3,
+	["luck"] = 3
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, -0.5),
+	ang = Angle(0, -0, 0),
+	fov = 2.25,
+}

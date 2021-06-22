@@ -98,7 +98,7 @@ ITEM.functions.Sacrifice = {
 					"fort_conf"
 				}
 				
-				giveDisease(client, table.Random(ails))
+				client:giveDisease(table.Random(ails))
 			elseif (reward < 61) then
 				client:notify("You receive a bottle of pills for your sacrifice.")
 				rewardI = "drug_depress"

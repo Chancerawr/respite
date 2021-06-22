@@ -103,7 +103,7 @@ if(SERVER) then
 					local iTime = disData[disease] --time of infection
 					
 					if(CurTime() > iTime + disTable.duration) then
-						client:cureDisease(disease)
+						client:removeDisease(disease)
 					end
 				end
 				

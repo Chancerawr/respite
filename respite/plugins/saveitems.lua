@@ -53,6 +53,7 @@ function PLUGIN:LoadData()
 								local physObject = itemEntity:GetPhysicsObject()
 								if (physObject) then
 									physObject:EnableMotion(motion[itemID] or false)
+									physObject:Sleep() --no physics until hit by a physical force
 								end
 							end
 						end

@@ -666,7 +666,6 @@ nut.command.add("injurygetall", {
 		
 		if(IsValid(target) and target:getChar()) then
 			local injured = target:getInjuries()
-			PrintTable(injuries)
 			
 			for part, injuryTable in pairs(injured) do
 				local partString = parts[part].name.. ": "

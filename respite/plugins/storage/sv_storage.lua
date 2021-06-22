@@ -82,6 +82,7 @@ function PLUGIN:saveStorage()
 				entity:GetMaterial(),
 				entity:getNetVar("owner", nil),
 				entity:getNetVar("overwrite", nil),
+				entity:GetColor(),
 			}
 		end
   	end
@@ -111,6 +112,7 @@ function PLUGIN:LoadData()
 		local mat = info[11]
 		local owner = info[12]
 		local overwrite = info[13]
+		local color = info[14]
 		
 		local storage = self.definitions[overwrite or model]
 		if (not storage) then continue end
@@ -169,6 +171,10 @@ function PLUGIN:LoadData()
 		
 		if(overwrite) then
 			storage:setNetVar("overwrite", overwrite)
+		end
+		
+		if(color) then
+			storage:SetColor(color)
 		end
 		
 		local physObject = storage:GetPhysicsObject()

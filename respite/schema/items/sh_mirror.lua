@@ -250,7 +250,7 @@ ITEM.functions.IChip = {
 				local reward
 				if(math.random(1,3) == 1) then
 					reward = table.Random(rewards)
-					giveDisease(client, "dis_past")
+					client:giveDisease("dis_future")
 					nut.chat.send(client, "itclose", "You receive knowledge?")
 				else
 					reward = "cube_chip_memory"

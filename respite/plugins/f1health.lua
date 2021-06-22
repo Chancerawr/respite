@@ -13,7 +13,7 @@ if(CLIENT) then
 		panel.hp:Dock(TOP)
 		panel.hp:SetTall(25)
 		panel.hp:SetFont("nutMediumFont")
-		panel.hp:SetTextColor(Color(160,30,30))
+		panel.hp:SetTextColor(Color(200,60,60))
 		panel.hp:SetExpensiveShadow(1, Color(0, 0, 0, 150))
 		panel.hp:DockMargin(0, 10, 0, 0)
 	

@@ -75,7 +75,7 @@ ITEM.functions.Acquire = {
 						end
 						
 						if(math.random(1,10) == 10) then --10% chance to get an ailment
-							giveDisease(client, "fort_nost")
+							client:giveDisease("fort_nost")
 							client:notify("You feel nostalgic")
 						end
 						

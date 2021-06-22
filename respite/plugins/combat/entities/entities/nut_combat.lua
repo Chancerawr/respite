@@ -136,11 +136,25 @@ function ENT:Think()
 	self:CustomThink()
 
 	if(SERVER) then
-		if(!self:IsPlayerHolding()) then
+		if(self:IsPlayerHolding()) then
+			--if held with physgun while moving, will teleport to end when hold ends
+			if(self.desiredPos) then 
+				self.nudged = true
+			end
+		else
 			local physObj = self:GetPhysicsObject()
 			
 			if(IsValid(physObj) and !physObj:IsAsleep()) then
 				physObj:Sleep()
+			end
+			
+			--if held with physgun while moving, will teleport to end when hold ends
+			if(self.nudged) then
+				self:SetPos(self.desiredPos)
+				self.desiredPos = nil
+				self.nudged = nil
+				
+				self:resetAnim()
 			end
 			
 			if(!self.desiredPos) then

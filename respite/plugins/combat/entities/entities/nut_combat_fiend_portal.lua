@@ -1,6 +1,6 @@
 ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Portal Fiend"
+ENT.PrintName = "Cracked Fiend"
 ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true

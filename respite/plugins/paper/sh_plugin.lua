@@ -5,8 +5,6 @@ PLUGIN.desc = "Write something on it."
 local playerMeta = FindMetaTable("Player")
 
 if SERVER then
-
-
 	netstream.Hook( "Nut_SubmitNote", function( client, data )
 		local text = data[1]
 		local ent = data[2]
@@ -31,6 +29,7 @@ if SERVER then
 				local private = v.private
 				local text = v.text
 				local owner = v.owner
+				local material = v.material
 
 				local entity = ents.Create("nut_paper")
 				entity:SetPos(position)
@@ -40,6 +39,10 @@ if SERVER then
 				entity:setNetVar("private", private)
 				entity:setNetVar("text", text)
 				entity:setNetVar("owner", owner)
+				
+				if(material) then
+					entity:SetMaterial(material)
+				end
 				
 				if(v.frozen != nil) then --freezes the paper if it was frozen before
 					entity:GetPhysicsObject():EnableMotion(v.frozen)
@@ -62,6 +65,7 @@ if SERVER then
 				text = v:getNetVar("text"),
 				owner = v:getNetVar("owner"),
 				frozen = frozeCheck,
+				material = v:GetMaterial(),
 			}
 		end
 
@@ -71,8 +75,6 @@ if SERVER then
 end
 
 if CLIENT then
-	
-	
 	function PLUGIN:ShouldDrawTargetEntity(entity)
 		if (entity:GetClass() == "nut_paper") then
 			return true
