@@ -4,26 +4,20 @@ ENT.PrintName = "Red Horror"
 ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
+
 ENT.model = "models/horror/zm_f4zt.mdl"
+ENT.material = "models/effects/splode1_sheet"
+ENT.color = Color(255, 93, 0)
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 50,
-	["str"] = 15,
-	["accuracy"] = 10,
+	["stm"] = 25,
+	["str"] = 5,
+	["accuracy"] = 5,
 	["end"] = 5,
 	["luck"] = 5,
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if (SERVER) then
-		self:SetColor(Color(255,93,0))
-		self:SetMaterial("models/effects/splode1_sheet")
-	end
-end

@@ -9,7 +9,7 @@ ITEM.width = 2
 ITEM.height = 2
 
 ITEM.attrib = { 
-	["end"] = 1 
+	["end"] = 1,
 }
 
 ITEM.iconCam = {

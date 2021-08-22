@@ -104,10 +104,10 @@ if( CLIENT ) then
 			am_nightvision.r = 255
 			am_nightvision.g = 255
 			am_nightvision.b = 255
-			am_nightvision.Brightness = 4
-			am_nightvision.Size = 10000
+			am_nightvision.Brightness = 2
+			am_nightvision.Size = 1000
 			am_nightvision.DieTime = CurTime()+100000
-			am_nightvision.Style = 1
+			am_nightvision.Style = 0
 		end
 		timer.Create( "AM_LightTimer", 0.05, 0, function()
 			am_nightvision.Pos = ply:EyePos()

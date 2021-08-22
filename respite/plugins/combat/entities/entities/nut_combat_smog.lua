@@ -9,12 +9,12 @@ ENT.model = "models/sient hill custom/Homecoming/smog.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 5,
-	["str"] = 10,
-	["accuracy"] = 25,
+	["stm"] = 4,
+	["str"] = 8,
+	["accuracy"] = 5,
 	["end"] = 5,
 	["luck"] = 1,
-	["perception"] = 0,
+	["perception"] = 5,
 	["fortitude"] = 0,
 }
 

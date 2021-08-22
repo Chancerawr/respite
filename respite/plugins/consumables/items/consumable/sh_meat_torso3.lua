@@ -9,12 +9,12 @@ ITEM.height = 2
 ITEM.color = Color(150,50,50)
 
 ITEM.disease = "trait_hunger"
-ITEM.disChance = 10
+ITEM.disChance = 5
 
 ITEM.organicScrap = 6
 
 ITEM.attrib = { 
-	["fortitude"] = 8
+	["fortitude"] = 4
 }
 
 ITEM.iconCam = {

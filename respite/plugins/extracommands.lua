@@ -99,15 +99,20 @@ nut.command.add("charselectbodygroup", {
 })
 
 nut.command.add("cleanitems", {
+	syntax = "[number range]",
 	adminOnly = true,
 	onRun = function(client, arguments)
 		local count = 0
-	
+		
 		if(!arguments[1]) then
-			for k, v in pairs(ents.FindByClass("nut_item")) do
-				count = count + 1
-				v:Remove()
-			end
+			client:requestQuery("Are you sure you want delete all items on the map?", "Clean Items", function(text) --confirmation message
+				for k, v in pairs(ents.FindByClass("nut_item")) do
+					count = count + 1
+					v:Remove()
+				end
+				
+				client:notify(count.. " items have been cleaned up from the map.")
+			end)
 		else
 			local trace = client:GetEyeTraceNoCursor()
 			local hitpos = trace.HitPos + trace.HitNormal*5
@@ -117,9 +122,9 @@ nut.command.add("cleanitems", {
 					v:Remove()
 				end
 			end
+			
+			client:notify(count.. " items have been cleaned up from the map.")
 		end
-		
-		client:notify(count.. " items have been cleaned up from the map.")
 	end
 })
 
@@ -165,7 +170,7 @@ nut.command.add("cleannpcs", {
 	
 		if(!arguments[1]) then
 			for k, v in pairs(ents.GetAll()) do
-				if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+				if IsValid(v) and (v:IsNPC() or (v:IsNextBot() and v.respite)) and !IsFriendEntityName(v:GetClass()) then
 					count = count + 1
 					v:Remove()
 				end
@@ -174,7 +179,7 @@ nut.command.add("cleannpcs", {
 			local trace = client:GetEyeTraceNoCursor()
 			local hitpos = trace.HitPos + trace.HitNormal*5
 			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do
-				if IsValid(v) and (v:IsNPC() or v.chance) and !IsFriendEntityName(v:GetClass()) then
+				if IsValid(v) and (v:IsNPC() or (v:IsNextBot() and v.respite)) and !IsFriendEntityName(v:GetClass()) then
 					count = count + 1
 					v:Remove()
 				end
@@ -238,8 +243,7 @@ nut.command.add("spawnitem", {
 	adminOnly = true,
 	syntax = "<string item> <number amount>",
 	onRun = function(client, arguments)
-
-		if (IsValid(client) and client:getChar()) then
+		if(IsValid(client)) then
 			local uniqueID = arguments[1]:lower()
 
 			if (!nut.item.list[uniqueID]) then
@@ -253,16 +257,12 @@ nut.command.add("spawnitem", {
 			end
 
             local aimPos = client:GetEyeTraceNoCursor().HitPos 
-
             aimPos:Add(Vector(0, 0, 10))  
 
 			if(nut.item.list[uniqueID]) then
-				local amount = tonumber(arguments[2]) or 1
-				if(amount > 10) then
-					amount = 10
-				end
+				local amount = math.min(tonumber(arguments[2]) or 1, 10)
 			
-				for i = 1, amount or 1 do
+				for i = 1, amount do
 					nut.item.spawn(uniqueID, aimPos)
 				end
             else
@@ -435,17 +435,5 @@ nut.command.add("charforceunequip", {
 				end
 			end
 		end
-	end
-})
-
-nut.command.add("forums", {
-	onRun = function(client, arguments)
-		--client:SendLua([[gui.OpenURL("http://spite.boards.net/")]])
-	end
-})
-
-nut.command.add("content", {
-	onRun = function(client, arguments)
-	client:SendLua([[gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=2434130146")]])
 	end
 })

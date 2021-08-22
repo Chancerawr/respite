@@ -8,7 +8,7 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_water"
 
 ITEM.attrib = { 
-	["stm"] = 2
+	["stm"] = 2,
 }
 
 ITEM.iconCam = {

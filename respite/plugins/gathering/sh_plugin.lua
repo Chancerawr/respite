@@ -9,8 +9,13 @@ nut.config.add("gathering", true, "Whether gathering is active or not.", nil, {
 	category = "Gathering"
 })
 
-nut.config.add("gDamage", true, "Whether the trees and rocks will deplete from gathering resources from them", nil, {
+nut.config.add("gDamage", true, "Whether the entities will deplete from gathering resources from them", nil, {
 	category = "Gathering"
+})
+
+nut.config.add("gDamageMult", 1, "How much life will be drain from the entities that are being gathered.", nil, {
+	category = "Gathering",
+	data = {min=1, max=200}
 })
 
 nut.config.add("gatheringSpawn", 3600, "How much time it will take for a gathering entity to spawn.", nil, {
@@ -18,24 +23,9 @@ nut.config.add("gatheringSpawn", 3600, "How much time it will take for a gatheri
 	category = "Gathering"
 })
 
-nut.config.add("gMaxWorldGather", 12, "Number of gathering entitites the World will have.", nil, {
-	data = {min = 1, max = 50},
+nut.config.add("gMaxWorldGather", 50, "Number of gathering entitites the World will have.", nil, {
+	data = {min = 1, max = 500},
 	category = "Gathering"
-})
-
-nut.config.add("lifeDrain", 10, "How much life will be drain from the entities that are being gathered.", nil, {
-	category = "Gathering",
-	data = {min=1, max=200}
-})
-
-nut.config.add("treeLife", 150, "How much life the trees will have.", nil, {
-	category = "Gathering",
-	data = {min=1, max=2000}
-})
-
-nut.config.add("rockLife", 100, "How much life the rocks will have.", nil, {
-	category = "Gathering",
-	data = {min=1, max=2000}
 })
 
 local gatherItems = {
@@ -79,7 +69,7 @@ if SERVER then
 	function PLUGIN:Think()
 		if nut.config.get("gathering") then
 			self:removeInvalidGathers()
-			if (#self.spawnedGathers <= nut.config.get("gMaxWorldGather")) then
+			if (#self.spawnedGathers <= nut.config.get("gMaxWorldGather", 50)) then
 				if (gatherSpawnTime <= CurTime()) then
 					local point = table.Random(self.gatherPoints)
 					

@@ -8,7 +8,7 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_mountain_spring"
 
 ITEM.attrib = { 
-	["stm"] = 5
+	["stm"] = 3
 }
 
 ITEM.iconCam = {

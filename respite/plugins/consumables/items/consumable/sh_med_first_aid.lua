@@ -7,6 +7,7 @@ ITEM.height = 2
 ITEM.hp = 70
 ITEM.hpTime = 10
 ITEM.price = 0
+ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_used_first_aid_kit"
 ITEM.quantity2 = 6
 
@@ -14,6 +15,10 @@ ITEM.sound = "items/medshot4.wav"
 ITEM.soundPitch = 110
 
 ITEM.stomach = false
+
+ITEM.extraFunc = function(item, client)
+	client:ScreenFade(1, Color(30, 120, 30, 255), 1, 1)
+end
 
 ITEM.iconCam = {
 	pos = Vector(5, 0, 200),

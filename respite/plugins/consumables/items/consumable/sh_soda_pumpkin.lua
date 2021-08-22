@@ -10,7 +10,7 @@ ITEM.container = "j_empty_soda1"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["fortitude"] = 4,
+	["fortitude"] = 2,
 	["stm"] = 1,
 }
 

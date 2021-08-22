@@ -24,7 +24,7 @@ if (SERVER) then
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetUseType(SIMPLE_USE)
 		
-		self:SetHealth(nut.config.get("rockLife"))
+		self:SetHealth(1)
 
 		local pos = self:GetPos()
 

@@ -104,6 +104,11 @@ function PANEL:setItemType(itemTypeOrID)
 					end
 					
 					--generates the actual icon
+					local color = false
+					if(item.modelColor) then
+						color = item.modelColor
+					end
+					
 					local mat = false
 					if((customData and customData.material) or item.material) then
 						mat = (customData and customData.material) or item.material
@@ -121,6 +126,7 @@ function PANEL:setItemType(itemTypeOrID)
 						model,
 						camera,
 						false,
+						color,
 						mat,
 						skin
 					)

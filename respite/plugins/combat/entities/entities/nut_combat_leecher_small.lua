@@ -5,17 +5,19 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/zombie/grabber_01.mdl"
 ENT.name = "Small Leecher"
+
+ENT.model = "models/zombie/grabber_01.mdl"
+ENT.material = "models/weapons/v_smg1/texture5"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 15,
+	["stm"] = 10,
 	["str"] = 20,
 	["accuracy"] = 15,
-	["end"] = 25,
+	["end"] = 20,
 	["luck"] = 0,
-	["perception"] = 0,
+	["perception"] = 5,
 	["fortitude"] = 5,
 }
 
@@ -23,7 +25,6 @@ function ENT:Initialize()
 	if(SERVER) then
 		self:SetColor(Color(0,0,0,0))
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
-		self:SetMaterial("models/weapons/v_smg1/texture5")	
 
 		self.OverlayModel = ents.Create("prop_dynamic")
 			zm = self.OverlayModel

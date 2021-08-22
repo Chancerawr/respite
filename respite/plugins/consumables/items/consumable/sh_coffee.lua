@@ -8,7 +8,7 @@ ITEM.container = "j_empty_mug"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["stm"] = 9,
+	["stm"] = 4,
 	["fortitude"] = -5
 }
 

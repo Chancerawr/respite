@@ -9,14 +9,15 @@ ITEM.color = Color(255, 108, 180)
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 
 ITEM.stomach = false
+ITEM.noEnhance = true
 
 ITEM.attrib = {
-	["fortitude"] = -5,
-	["str"] = -5,
-	["stm"] = -5,
-	["end"] = -5,
-	["accuracy"] = -5,
-	["perception"] = -5
+	["fortitude"] = -3,
+	["str"] = -3,
+	["stm"] = -3,
+	["end"] = -3,
+	["accuracy"] = -3,
+	["perception"] = -3
 }
 
 ITEM.extraFunc = function(item, client)

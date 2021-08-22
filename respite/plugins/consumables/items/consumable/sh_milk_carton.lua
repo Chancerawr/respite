@@ -8,9 +8,9 @@ ITEM.container = "j_empty_milk_carton"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["accuracy"] = 4,
-	["str"] = 4,
-	["end"] = 4,
+	["accuracy"] = 2,
+	["str"] = 2,
+	["end"] = 2,
 }
 
 ITEM.iconCam = {

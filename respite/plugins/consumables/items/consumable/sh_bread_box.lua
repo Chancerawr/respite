@@ -8,7 +8,8 @@ ITEM.width = 2
 ITEM.container = "j_empty_bread_box"
 
 ITEM.attrib = { 
-	["stm"] = 3 
+	["stm"] = 3,
+	["end"] = 2
 }
 
 ITEM.iconCam = {

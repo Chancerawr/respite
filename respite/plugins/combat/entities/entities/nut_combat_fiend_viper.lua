@@ -6,16 +6,19 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Viper Blood Fiend"
+
 ENT.model = "models/sient hill custom/homecoming/lurker.mdl"
+ENT.material = "models/flesh"
+ENT.color = Color(128, 20, 20)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 35,
-	["str"] = 20,
-	["accuracy"] = 20,
-	["end"] = 20,
+	["stm"] = 15,
+	["str"] = 10,
+	["accuracy"] = 10,
+	["end"] = 10,
 	["luck"] = 0,
-	["perception"] = 30,
+	["perception"] = 15,
 	["fortitude"] = 0,
 }
 
@@ -25,9 +28,4 @@ function ENT:Initialize()
 	timer.Simple(0.6, function()
 		self:SetModelScale(1.3)
 	end)	
-	
-	if (SERVER) then
-		self:SetMaterial("models/flesh")
-		self:SetColor(Color(128, 20, 20))
-	end
 end

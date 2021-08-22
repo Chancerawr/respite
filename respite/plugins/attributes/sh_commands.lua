@@ -20,7 +20,7 @@ nut.command.add("charsetattrib", {
 			if (char) then
 				for k, v in pairs(nut.attribs.list) do
 					if (nut.util.stringMatches(L(v.name, client), attribName) or nut.util.stringMatches(k, attribName)) then
-						char:setAttrib(k, math.abs(attribNumber))
+						char:setAttrib(k, attribNumber)
 						client:notifyLocalized("attribSet", target:Name(), L(v.name, client), math.abs(attribNumber))
 
 						return

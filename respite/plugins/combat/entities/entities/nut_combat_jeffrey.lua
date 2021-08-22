@@ -8,21 +8,20 @@ ENT.AdminOnly = true
 ENT.noRag = true
 
 ENT.model = "models/Zombie/Poison.mdl"
+ENT.material = "models/props_lab/security_screens"
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,
 	["str"] = 100,
 	["accuracy"] = 20,
-	["end"] = 80,
+	["end"] = 100,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 200,
 }
 
 function ENT:Initialize()
-	self:SetMaterial("models/props_lab/security_screens")
-	
 	timer.Simple(0.6, function()
 		self:SetModelScale(3)
 		self:ResetSequence("firewalk")

@@ -9,10 +9,10 @@ ENT.model = "models/zombie/hatred.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 25,
-	["str"] = 40,
-	["accuracy"] = 25,
-	["end"] = 50,
+	["stm"] = 12,
+	["str"] = 20,
+	["accuracy"] = 15,
+	["end"] = 30,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 0,

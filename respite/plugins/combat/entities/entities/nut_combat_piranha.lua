@@ -6,21 +6,16 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/gunship.mdl"
+ENT.material = "models/flesh"
+ENT.color = Color(130, 220, 130)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 25,
-	["str"] = 30,
-	["accuracy"] = 50,
-	["end"] = 30,
+	["stm"] = 40,
+	["str"] = 40,
+	["accuracy"] = 10,
+	["end"] = 50,
 	["luck"] = 0,
-	["perception"] = 0,
+	["perception"] = 5,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:SetColor(Color(130, 220, 130, 255))
-	self:SetMaterial("models/flesh")
-
-	self:basicSetup()
-end

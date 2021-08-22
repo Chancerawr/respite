@@ -7,7 +7,7 @@ ITEM.quantity2 = 16
 ITEM.price = 15
 
 ITEM.attrib = { 
-	["medical"] = 20
+	["medical"] = 10
 }
 
 ITEM.iconCam = {

@@ -10,10 +10,10 @@ ITEM.container = "j_empty_moonshine"
 ITEM.color = Color(139,69,19)
 
 ITEM.attrib = { 
-	["str"] = 8,
-	["end"] = 8,
-	["perception"] = -10,
-	["accuracy"] = -10
+	["str"] = 6,
+	["end"] = 6,
+	["perception"] = -8,
+	["accuracy"] = -8
 }
 
 ITEM.iconCam = {

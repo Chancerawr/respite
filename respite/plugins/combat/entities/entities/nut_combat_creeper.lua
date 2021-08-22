@@ -4,14 +4,17 @@ ENT.PrintName = "Creeper"
 ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
+
 ENT.model = "models/nh2zombies/creeper.mdl"
+ENT.material = "models/alyx/emptool_glow"
+ENT.color = Color(128,0,0)
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,
-	["str"] = 40,
-	["accuracy"] = 20,
-	["end"] = 50,
+	["str"] = 30,
+	["accuracy"] = 10,
+	["end"] = 20,
 	["luck"] = 10,
 	["perception"] = 30,
 	["fortitude"] = 60,
@@ -19,8 +22,6 @@ ENT.attribs = {
 
 function ENT:Initialize()
 	if (SERVER) then
-		self:SetMaterial("models/alyx/emptool_glow")
-		self:SetColor(Color(128,0,0))
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		self:SetRenderFX(kRenderFxHologram)
 	end

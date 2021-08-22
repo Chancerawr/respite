@@ -9,7 +9,7 @@ ENT.model = "models/zombie/zombibaba.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
+	["stm"] = 10,
 	["str"] = 5,
 	["accuracy"] = 5,
 	["medical"] = 0,

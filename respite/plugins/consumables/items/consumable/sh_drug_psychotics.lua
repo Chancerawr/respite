@@ -11,7 +11,9 @@ ITEM.disease = "fort_insa"
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["fortitude"] = -15,
+	["fortitude"] = -10,
+	["str"] = 4,
+	["stm"] = 4,
 }
 
 ITEM.extraFunc = function(item, client)

@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Strength"
-ATTRIBUTE.desc = "A measure of how strong you are."
+ATTRIBUTE.desc = "Character's physical strength. Used primarily for melee weapons and any action that would require physical force."

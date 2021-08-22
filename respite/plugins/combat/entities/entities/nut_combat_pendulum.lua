@@ -9,12 +9,12 @@ ENT.model = "models/sient hill custom/Homecoming/pendulum.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 40,
-	["str"] = 40,
-	["accuracy"] = 30,
-	["end"] = 25,
+	["stm"] = 15,
+	["str"] = 20,
+	["accuracy"] = 15,
+	["end"] = 15,
 	["luck"] = 5,
-	["perception"] = 0,
+	["perception"] = 2,
 	["fortitude"] = 0,
 }
 

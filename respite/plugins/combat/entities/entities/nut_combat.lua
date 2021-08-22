@@ -6,10 +6,13 @@ ENT.Type = "nextbot"
 ENT.Base = "base_nextbot"
 ENT.PrintName = "Combat Base"
 ENT.Category = "NutScript"
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminOnly = true
 ENT.combat = true
+
 ENT.model = "models/Humans/Group01/male_02.mdl"
+
+--ENT.name = "Bob"
 
 --[[
 ENT.attribs = {
@@ -26,12 +29,10 @@ ENT.attribs = {
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
+--ENT.material = "phoenix_storms/mrref2"
+
 function ENT:Initialize()
-	self.name = "Plastic"
 	self:basicSetup()
-	if(SERVER) then
-		self:SetMaterial("phoenix_storms/mrref2")
-	end
 end
 
 --this is just here because it's a nextbot
@@ -57,7 +58,9 @@ function ENT:basicSetup()
 		self.attribs = self.savedAttribs or self.attribs or {}
 	
 		self:SetModel(self.savedModel or model)
-		self:SetMaterial(self.savedMat or self:GetMaterial())
+		self:SetMaterial(self.savedMat or self.material or self:GetMaterial())
+		self:SetColor(self.color)
+		
 		self:SetUseType(SIMPLE_USE)
 		--self:SetMoveType(MOVETYPE_STEP)
 		self:DrawShadow(true)
@@ -135,7 +138,7 @@ end
 function ENT:Think()
 	self:CustomThink()
 
-	if(SERVER) then
+	if(SERVER) then	
 		if(self:IsPlayerHolding()) then
 			--if held with physgun while moving, will teleport to end when hold ends
 			if(self.desiredPos) then 
@@ -183,7 +186,7 @@ function ENT:Think()
 			end
 		end
 
-		if(IsValid(self.follow) and !self.desiredPos) then
+		if(IsValid(self.follow) and !self.desiredPos and !(self.follow and self.follow:InVehicle())) then
 			local followPos = self.follow:GetPos() + self.follow:GetRight() * -50
 		
 			local range = self:GetRangeSquaredTo(followPos)
@@ -308,62 +311,8 @@ end
 function ENT:OnKilled( dmginfo )
 end
 
-function ENT:runCombat(client, attr, debuff, msg, category, command)
-	self:combatRoll(client, attr, debuff, msg, category, command)
-end
-
-local function critModify(client, command) --ran when crits are computed
-	local char = client:getChar()
-
-	local base = char:getAttrib("luck") + 10 --base chance of crit ((luck + 10) / 1000
-	local multi = 1.5 + char:getAttrib("luck")/25 --base crit multiplier
-	
-	local charTraits = char:getData("traits", {}) --the traits the character has
-	if(charTraits) then 
-		for k, v in pairs(charTraits) do --go through all of char's traits
-			local traitData = traits[k] --the actual info of the trait
-			if(traitData.critChance) then --if the trait has a modifier for this command
-				base = base * traitData.critChance --modify it
-			end			
-			if(traitData.critMulti) then --if the trait has a modifier for this command
-				multi = multi * traitData.critMulti --modify it
-			end
-		end
-	end
-	
-	return base, multi
-end
-	
-function ENT:runCMD(client, command, extra)
-	if(self:rollHandle(client, command)) then
-		return true
-	else
-		return false
-	end
-end
-	
-function ENT:critCalc()
-	local crit = math.random(1, 1000)
-	local critmsg = ""
-	
-	local luck = self.attribs["luck"]
-	
-	if (crit <= (luck * 2 + 15)) then
-		crit = (1.5 + luck * 0.04)
-		critmsg = " (Crit!)"
-	else
-		if(math.random(1,100) <= 3) then
-			crit = 0
-			critmsg = "(Fail!)"
-		else
-			crit = 1
-		end
-	end
-	
-	return crit, critmsg
-end
-
 --calculates a roll
+--[[
 function ENT:rollHandle(client, command, noPrint)
 	--translates attribute names to the values the entity has, kind of shitty.
 	local comTable = CMBT.commands[command] --the specific command's data
@@ -417,272 +366,7 @@ function ENT:rollHandle(client, command, noPrint)
 	
 	return rolls --returns all the rolls
 end
-
---calculates rolls for most basic rolling commands.
-function ENT:combatRoll(client, attr, debuff, msg, category, command, noPrint) --this is way too many parameters, it's killing me.
-	local crit = math.random(1, 1000)
-	local critmsg = ""
-	
-	local luck = self.attribs["luck"] or 0
-	
-	if (crit <= (luck + 10)) then
-		crit = (1.5 + luck * 0.04)
-		critmsg = " (Crit!)"
-	else
-		if(math.random(1,100) <= 5) then
-			crit = 0
-			critmsg = "(Fail!)"
-		else
-			crit = 1
-		end
-	end
-
-	local rolled = math.abs(attr + math.random(-10,10)) * crit
-	rolled = rolled * debuff --reduction for command
-	
-	rolled = math.Round(rolled, 3)
-	
-	--rolled = traitModify(client, command, rolled)
-	
-	if(!noPrint) then
-		nut.chat.send(client, "react_npc", "has rolled " .. rolled .. critmsg .. " for " .. msg)
-	end
-	
-	return rolled
-end
-
---reaction to a command aimed at the ent
-function ENT:reaction(client, rolls, category, attackString, part)
-	for k, rollA in pairs(rolls) do
-		local dodge = (self.attribs["stm"] or 0) * 0.35 + (self.attribs["perception"] or 0) * 0.2
-		local block = (self.attribs["end"] or 0) * 0.3 + (self.attribs["str"] or 0) * 0.2
-
-		if(part) then
-			part = nut.plugin.list["combat"]:getRandomBpart()
-		end
-		
-		local firearms
-		if(category == "firearms") then
-			firearms = true
-		end
-		
-		--basically this determines whether it chooses the worst or best roll given its stats.
-		local smart = math.Round(math.Clamp((self.attribs["perception"] or 0) + math.abs(dodge - block)*2, 0, 100))
-		if(math.random(smart, 100) > 50) then
-			smart = true
-		else
-			smart = false
-		end
-		
-		--decides whether the roll is a block or a dodge.
-		local roll, evade
-		if(firearms) then
-			roll, evade = self:combatRoll(client, dodge, 0.8, "a dodge/miss.", "react", "dodge", true), true
-		else
-			roll, evade = self:rollCheck(smart, dodge, block)
-		end
-		
-		rollA = math.Round(rollA, 3) --this shouldn't need to be here but it is anyways
-		
-		if(rollA > roll) then	
-			if(part) then --unblockable attack with body part
-				self:messagePrint(client, rollA, roll, attackString, true, part)
-			else
-				self:messagePrint(client, rollA, roll, attackString, true)
-			end
-		else
-			if(part) then
-				self:messagePrint(client, rollA, roll, attackString, false, part)
-			elseif(evade) then
-				self:messagePrint(client, rollA, roll, attackString, false, 0)
-			else
-				self:messagePrint(client, rollA, roll, attackString, false, 1)
-			end
-		end
-	end
-end
-
---this is temporary and it sucks
-local def = {
-	[0] = "dodged",
-	[1] = "blocked"
-}
-
---prints a message
-function ENT:messagePrint(client, rollC, rollE, action, success, part)
-	rollC = math.Round(rollC, 4)
-	local fullString = ""
-	
-	--detects the currently held weapon and (hopefully) the item it's associated with
-	local weapon = ""
-	local curWeapon = client:GetActiveWeapon()
-	if(curWeapon:GetClass() != "nut_hands" and curWeapon != "nut_keys") then
-		local items = client:getChar():getInv():getItems()
-		for k, v in pairs(items) do
-			if(v.isWeapon and curWeapon:GetClass() == v.class and v:getData("equip", nil)) then
-				if(v.weaponCategory == "melee") then
-					weapon = " (" ..v:getName().. ")"
-				else
-					weapon = " (" ..v:getName().. ")" .. " ["..curWeapon:Clip1().. "|" ..curWeapon:GetMaxClip1().. "]"
-				end
-			end
-		end
-	end
-	
-	local graze
-	if(math.random(1,10) > 7) then
-		graze = true
-	end
-	
-	if(success) then
-		self:setNetVar("hit", self:getNetVar("hit", 0) + 1)
-	
-		if(isstring(part)) then
-			fullString = client:GetName() .. "'s " ..action.. " hits " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-			
-			--bob's shot flies at joe's left leg and hits.
-		else
-			fullString = client:GetName().. "'s " ..action.. " on " ..self:getNetVar("name", "John Doe") .. " was successful. (" ..rollC .." | "..rollE .. ")" .. weapon
-			
-			--"bob's melee attack on joe was successful"
-		end
-		
-		nut.log.addRaw(fullString, 1)
-		nut.chat.send(client, "react_success", fullString)
-	else
-		if(isstring(part)) then
-			if(!graze) then
-				fullString = client:GetName().. "'s " ..action.. " misses " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC .." | "..rollE .. ")" .. weapon
-				
-				--bob's action misses name's part.
-			else				
-				fullString = client:GetName().. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. "'s " ..part.. ". (" ..rollC.. " | " ..rollE.. ")" ..weapon
-				
-				--bob's action grazes name's part
-			end
-		else
-			if(!graze) then
-				fullString = self:getNetVar("name", "John Doe") .. " has " ..def[part].. " " ..client:GetName().. "'s " ..action..".(" ..rollC .." | "..rollE .. ")" .. weapon
-
-				--joe has dodged/blocked bob's action.
-			else
-				fullString = client:GetName().. "'s " ..action.. " grazes " ..self:getNetVar("name", "John Doe").. ". (" ..rollC .. " | " ..rollE.. ")" ..weapon
-				
-				--bob's action grazes name.
-			end
-		end
-		
-		if(!graze) then
-			nut.log.addRaw(fullString, 3)
-			nut.chat.send(client, "react_fail", fullString)
-		else
-			self:setNetVar("hit", self:getNetVar("hit", 0) + 1)
-			
-			nut.log.addRaw(fullString, 6)
-			nut.chat.send(client, "graze_npc", fullString)
-		end
-	end
-end
-
---determines which roll it uses as a response.
-function ENT:rollCheck(smart, dodge, block)
-	if(smart) then --choose the best roll
-		if(dodge > block) then
-			return self:combatRoll(client, dodge, 0.8, "a dodge/miss.", "react", "dodge", true), true
-		else
-			return self:combatRoll(client, block, 0.8, "a block attempt.", "react", "block", true), false
-		end
-	else --choose the worse roll
-		if(dodge > block) then
-			return self:combatRoll(client, block, 0.8, "a block attempt.", "react", "block", true), false
-		else
-			return self:combatRoll(client, dodge, 0.8, "a dodge/miss.", "react", "dodge", true), true
-		end
-	end
-end
-
---fortitude attacks
-function ENT:fortAttack(attackName)
-	--these rolls cannot crit
-	local rolled = (((self.attribs["fortitude"] or 0) * 0.6) + math.random(-10, 10))
-	rolled = math.abs(rolled)-- this is probably bad
-	
-	--rolled = traitModify(client, "fortattack", rolled) --trait modifier
-	
-	local ability = {
-		confusion = 0,
-		nostalgia = 0,
-		panic = 0,
-		headache = 0,
-		whisper = 0,
-		echo = 0,
-
-		phase = 0.05,
-		simple_weapon = 0.05,
-		blight = 0.05,
-		blight_blast = 0.05,
-		blight_suicide = 0.05,
-		direct = 0.05,
-
-		hallucination = 0.1,
-		suggestion = 0.1,
-		migraine = 0.1,
-		insanity = 0.1,
-		enrage = 0.1,
-		emotion = 0.1,
-		sensory = 0.1,
-		telekinesis = 0.1,
-		conjure_firearm = 0.1,
-		blight_chains = 0.1,
-		blight_shockwave = 0.1,
-		shadow_meld = 0.1,
-		open_portal = 0.1,
-
-		paralyze = 0.2,
-		sleep = 0.2,
-		illusions = 0.2,
-		cloak = 0.2,
-		teleport = 0.2,
-		temperature = 0.2,
-		lesser_shade = 0.2,
-		darkness = 0.2,
-		conjure_special = 0.2,
-		
-		betray = 0.4,
-		regenerate = 0.4,
-		smokescreen = 0.4,
-		minor_shade = 0.4,
-		lights_out = 0.4,
-		possession = 0.4,
-		haze = 0.4,
-		open_respite = 0.4,
-
-		reality_bend = 0.75,
-		moderate_shade = 0.75,
-		time_reversal = 0.75,
-		shadow_plague = 0.75
-	}
-	
-	local fancyStr = attackName
-	
-	if(ability[attackName]) then
-		local fancyStr = attackName
-		fancyStr = string.gsub(fancyStr, "_", " ") --replaces _ with a space.
-		fancyStr = string.upper(fancyStr) --capitalizes all of it
-		fancyStr = "'" .. fancyStr .. "'" --puts apostrophes around it i guess
-		fancyStr = self:getNetVar("name", "CEnt").. " has attempted to use an ability: " ..fancyStr
-		
-		rolled = tonumber(rolled) * (1 - tonumber(ability[attackName]))
-		rolled = fancyStr.. ", and rolled " ..rolled.. "."
-	else
-		return false
-	end
-	
-	--Bob has attempted to use an ability: genital strike, and rolled 69
-	nut.log.addRaw(rolled, 2)
-	--nut.chat.send(client, "fortattack", rolled)
-	nut.chat.send(self, "fort_npc", rolled)
-end
+--]]
 
 function ENT:Name()
 	return self:getNetVar("name", self.name or self.PrintName)
@@ -695,17 +379,65 @@ end
 function ENT:getActions()
 	local actions = {}
 
-	if(CMBT.commands) then
-		for k, command in pairs(CMBT.commands) do
+	if(ACTS) then
+		--abilities from equipment
+		--[[
+		local itemActions = {}
+		if(char:getInv()) then
+			for k, v in pairs(char:getInv():getItems()) do
+				if(v:getData("equip") and v.actions) then
+					for _, action in pairs(v.actions) do
+						itemActions[#itemActions+1] = {
+							action = action, 
+							itemID = item.id,
+						}
+					end
+				end
+			end
+		end
+		--]]
+	
+		for k, action in pairs(ACTS.actions) do
+			if(action.hidden) then continue end
+		
+			--if the ability requires stat thresholds to use
+			if(action.reqStats) then
+				local reqStats = true
+				for attrib, reqVal in pairs(action.reqStats) do
+					if((self.attribs[attrib] or 0) < reqVal) then
+						reqStats = false
+					end
+				end
+				if(!reqStats) then continue end
+			end
+			
 			actions[#actions + 1] = {
-				name = command.name or "Unnamed Action",
-				--func = PLUGIN.attack,
-				special = command.uid,
+				uid = action.uid,
+				name = action.name,
+				category = action.category,
+				notarget = action.notarg,
+				radius = action.radius,
+				cone = action.cone,
+				cone2 = action.cone2,
+				selfOnly = action.selfOnly,
+				attackOverwrite = action.attackOverwrite,
+				--weapon = (item and item.id) or false, --ID of the weapon
 			}
 		end
 	end
 
 	return actions
+end
+
+function ENT:getAttrib(attribID, default)
+	local attrib = (self.attribs and self.attribs[attribID]) or default
+	
+	return attrib
+end
+
+-- Exists for ocnvenience
+function ENT:getChar()
+	return self
 end
 
 if (CLIENT) then

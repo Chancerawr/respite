@@ -82,8 +82,7 @@ local function constructStory()
 		"the light",
 		"the dark",
 		"the world",
-		"the Japanese Federation",
-		"the A.S.F.",
+		"the war",
 		"the homeless",
 		"the obese",
 		"the weak",
@@ -93,6 +92,9 @@ local function constructStory()
 
 		"7192",
 		"The Void",
+		"Jeffrey",
+		
+		"Billy",
 		
 		"*AHHHHHHHHHHHHHHHHHHH*",
 	}
@@ -168,7 +170,7 @@ local function constructStory()
 		"silently",
 		"crudely",
 		"facetiously",
-		"ironiically",
+		"ironically",
 		"sarcastically",
 		"psychotically",
 		"desperately",
@@ -237,12 +239,12 @@ function ITEM:Speak()
 			
 			timer.Simple(Delay,function()
 				if((IsValid(client))and(self.PhrasesSaid == ThisPhrase))then
-					client:EmitSound(ProperWord,70,100)
-					client:EmitSound(ProperWord,40,100)
+					client:EmitSound(ProperWord,70,120)
+					client:EmitSound(ProperWord,40,120)
 				end
 			end)
 			
-			Delay = Delay + Len + .5
+			Delay = Delay + Len + .25
 		end
 	end
 	
@@ -254,31 +256,9 @@ function ITEM:Speak()
 	nut.chat.send(client, "itclose", "The Mysterious Banana whispers, \"" ..wordsString.. ".\"" )
 end
 
-ITEM.functions.use = {
-	name = "Use",
-	tip = "useTip",
-	icon = "icon16/bell.png",
-	onRun = function(item)
-		item:Speak()
-
-		item:setData("producing", CurTime())
-		timer.Simple(item.cd or 5, function()
-			item:setData("producing", nil)
-		end)
-	
-		return false --makes it so item is not consumed, allows for multiple silly uses.
-	end,
-	onCanRun = function(item)
-		local prodTime = item.cd or 5
-		if(item:getData("producing")) then
-			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
-				return false
-			end
-		end
-		
-		return true
-	end
-}
+ITEM.startFunc = function(item, client)
+	item:Speak()
+end
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 3),

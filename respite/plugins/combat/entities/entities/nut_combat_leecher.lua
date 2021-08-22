@@ -5,15 +5,18 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/zombie/poison.mdl"
 ENT.name = "Leecher"
+
+ENT.model = "models/zombie/poison.mdl"
+ENT.material = "models/weapons/v_smg1/texture5"
+ENT.color = Color(0, 0, 0, 0)
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,
-	["str"] = 50,
-	["accuracy"] = 25,
-	["end"] = 70,
+	["str"] = 30,
+	["accuracy"] = 15,
+	["end"] = 50,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 10,
@@ -21,9 +24,7 @@ ENT.attribs = {
 
 function ENT:Initialize()
 	if(SERVER) then
-		self:SetColor(Color(0,0,0,0))
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
-		self:SetMaterial("models/weapons/v_smg1/texture5")	
 
 		self.OverlayModel = ents.Create("prop_dynamic")
 			zm = self.OverlayModel

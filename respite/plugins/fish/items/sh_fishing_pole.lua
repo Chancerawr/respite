@@ -1,12 +1,11 @@
 ITEM.name = "Fishing Pole"
-ITEM.desc = "A pole with a line and a reel attached to it. It glows in the dark and feels different than an ordinary fishing rod."
+ITEM.desc = "A pole with a line and a reel attached to it. It glows in the dark and feels different than an ordinary fishing rod.\nCan use chips or organic material as bait."
 ITEM.model = "models/props_junk/harpoon002a.mdl"
 ITEM.uniqueID = "fishing_pole"
-ITEM.width = 3
 ITEM.price = 20
 ITEM.flag = "v"
 ITEM.data = { producing2 = 0 }
-ITEM.color = Color(50, 50, 255)
+ITEM.color = Color(80, 80, 180)
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
@@ -44,7 +43,7 @@ ITEM.functions.FishBait = {
 				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
 				item:setData("producing", CurTime())
 				local oldPos = client:GetPos()
-				client:setAction("Fishing...", 15, function()
+				client:setAction("Fishing...", 5, function()
 					local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
 					local position = client:getItemDropPos()
 					
@@ -174,7 +173,7 @@ ITEM.functions.FishBait = {
 			return false
 		end
 		
-		local prodTime = 15
+		local prodTime = 5
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false
@@ -214,14 +213,14 @@ ITEM.functions.FishNoBait = {
 				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
 				item:setData("producing", CurTime())
 				local oldPos = client:GetPos()
-				client:setAction("Fishing...", 25, function()
+				client:setAction("Fishing...", 10, function()
 					local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
 					local position = client:getItemDropPos()
 					local bait = inventory:getFirstItemOfType("j_scrap_organic")
 					
 					item:setData("producing", nil)
 					
-					if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait and bait:getData("Amount", 1) >= 2) then
+					if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait) then
 						local roll = math.random(0, 1)
 							
 						if(roll == 0) then --fish 
@@ -249,60 +248,56 @@ ITEM.functions.FishNoBait = {
 							roll = math.random(luckRoll, 100)
 							local catch
 							
-							if(roll < 40) then
+							if(roll < 10) then
 								nut.chat.send(client, "meclose", "catches nothing.")
 								
-							elseif(roll < 50) then
+							elseif(roll < 20) then
 								nut.chat.send(client, "meclose", "catches a tin can.")
 								catch = "j_tinc"
 								
-							elseif(roll < 60) then
-								nut.chat.send(client, "meclose", "catches an empty bottle.")
-								catch = "j_empty_water"
-								
-							elseif(roll < 70) then
+							elseif(roll < 30) then
 								nut.chat.send(client, "meclose", "catches a boot.")
 								catch = "j_old_shoe"
 								
-							elseif(roll < 80) then
+							elseif(roll < 40) then
 								nut.chat.send(client, "meclose", "catches a baby doll.")
 								catch = "j_baby_doll"
 							
-							elseif(roll < 85) then
+							elseif(roll < 50) then
 								nut.chat.send(client, "meclose", "catches a can of yams.")
 								catch = "food_yams"								
 								
-							elseif(roll < 90) then
+							elseif(roll < 60) then
 								nut.chat.send(client, "meclose", "catches a small box of coins.")
 								catch = "coin_10"
 								
-							elseif(roll < 95) then
+							elseif(roll < 70) then
 								nut.chat.send(client, "meclose", "catches a humanoid rib.")
 								catch = "j_rib"								
 								
-							elseif(roll < 96) then
+							elseif(roll < 80) then
 								nut.chat.send(client, "meclose", "catches a strange bottle.")
 								catch = "drug_depress"
 								
-							elseif(roll < 97) then
+							elseif(roll < 85) then
 								nut.chat.send(client, "meclose", "catches a strange can.")
 								catch = "food_laugh"									
 								
-							elseif(roll < 98) then
+							elseif(roll < 90) then
 								nut.chat.send(client, "meclose", "catches a.. Banana?")
 								catch = "food_banana"	
 								
-							elseif(roll < 99) then
+							elseif(roll < 95) then
 								nut.chat.send(client, "meclose", "catches a chip.")
 								catch = "cube_chip"
 								
 							elseif(roll < 100) then
-								nut.chat.send(client, "meclose", "catches a cactus?")
-								catch = "j_cactus_plant"
-								
-							else
 								nut.chat.send(client, "meclose", "catches a strange object.")
 								catch = "j_scrap_memory"
+							
+							else
+								nut.chat.send(client, "meclose", "catches a cactus?")
+								catch = "j_cactus_plant"
 							end
 							
 							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
@@ -321,7 +316,7 @@ ITEM.functions.FishNoBait = {
 							client:notify("Your bait was lost.")
 							
 							local amount = bait:getData("Amount", 1)
-							bait:setData("Amount", amount - 2) --costs 2
+							bait:setData("Amount", amount - 1) --costs 1
 							if (bait:getData("Amount", 1) <= 0) then
 								bait:remove()
 							end
@@ -344,11 +339,11 @@ ITEM.functions.FishNoBait = {
 		local player = item.player
 		
 		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
-		if(!organic or organic:getData("Amount", 1) < 2) then
+		if(!organic) then
 			return false
 		end
 	
-		local prodTime = 25
+		local prodTime = 10
 		if(item:getData("producing")) then
 			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
 				return false

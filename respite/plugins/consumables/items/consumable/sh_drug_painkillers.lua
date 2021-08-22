@@ -10,6 +10,7 @@ ITEM.stomach = false
 
 ITEM.attrib = {
 	["end"] = 10,
+	["fortitude"] = -2,
 }
 
 ITEM.extraFunc = function(item, client)

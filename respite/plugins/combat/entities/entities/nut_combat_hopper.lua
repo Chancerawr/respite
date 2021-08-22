@@ -10,9 +10,9 @@ ENT.name = "Hopper"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
-	["str"] = 15,
-	["accuracy"] = 25,
+	["stm"] = 15,
+	["str"] = 10,
+	["accuracy"] = 20,
 	["end"] = 10,
 	["luck"] = 5,
 	["perception"] = 10,

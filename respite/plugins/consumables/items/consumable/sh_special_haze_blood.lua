@@ -8,10 +8,12 @@ ITEM.price = 200
 ITEM.color = Color(255, 108, 108)
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 
+ITEM.noEnhance = true
+
 ITEM.attrib = {
-	["fortitude"] = -10,
-	["end"] = 7,
-	["str"] = 7
+	["fortitude"] = -5,
+	["end"] = 4,
+	["str"] = 4
 }
 
 ITEM.extraFunc = function(item, client)

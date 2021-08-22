@@ -6,23 +6,17 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Burning Demon"
+
 ENT.model = "models/nh2zombies/friendly.mdl"
+ENT.material = "models/effects/splode1_sheet"
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,
-	["str"] = 20,
+	["str"] = 10,
 	["accuracy"] = 5,
-	["end"] = 10,
+	["end"] = 5,
 	["luck"] = 5,
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-
-	if (SERVER) then
-		self:SetMaterial("models/effects/splode1_sheet")
-	end
-end

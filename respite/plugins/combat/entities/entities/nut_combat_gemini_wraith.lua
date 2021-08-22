@@ -6,22 +6,15 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/gemini.mdl"
+ENT.material = "models/props_lab/security_screens"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 30,
-	["str"] = 40,
-	["accuracy"] = 10,
-	["end"] = 30,
+	["stm"] = 20,
+	["str"] = 30,
+	["accuracy"] = 5,
+	["end"] = 20,
 	["luck"] = 0,
-	["perception"] = 30,
+	["perception"] = 20,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if (SERVER) then
-		self:SetMaterial("models/props_lab/security_screens")
-	end	
-end

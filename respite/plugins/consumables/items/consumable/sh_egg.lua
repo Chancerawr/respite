@@ -5,12 +5,6 @@ ITEM.model = "models/props_phx/misc/egg.mdl"
 ITEM.quantity2 = 1
 ITEM.price = 5
 
-ITEM.iconCam = {
-	pos = Vector(62.3, 52.4, 40.83),
-	ang = Angle(25, 220, 0),
-	fov = 4.24,
-}
-
 --egg of all trades
 ITEM.attrib = { 
 	["str"] = 1,
@@ -21,4 +15,10 @@ ITEM.attrib = {
 	["accuracy"] = 1,
 	["perception"] = 1,
 	["luck"] = 1
+}
+
+ITEM.iconCam = {
+	pos = Vector(62.3, 52.4, 40.83),
+	ang = Angle(25, 220, 0),
+	fov = 4.24,
 }

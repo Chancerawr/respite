@@ -65,6 +65,43 @@ ITEM.confirm = {
 }
 --]]
 
+--[[
+--a screen effect
+--if you don't want a certain one, just delete its variable from the table
+ITEM.effect = {
+	colorMod = {
+	
+	},
+	
+	bloom = {
+		darken = 0.65,
+		mult = 0.2,
+		sizeX = 9,
+		sizeY = 9,
+		passes = 1,
+		colorMult = 1,
+		r = 1,
+		g = 1,
+		b = 1
+	},
+	
+	texturize = "", --requires a texture
+	
+	sobel = 0.5,
+	
+	sharpen = {
+		contrast = 1,
+		dist = 1
+	},
+
+	sharpen = {
+		addAlpha = 1,
+		drawAlpha = 1,
+		delay = 1,
+	},
+}
+--]]
+
 --stomach checker and updater, handles if people can keep eating
 local function stomachCheck(item, client, char)
 	if(nut.config.get("cookfood_stomach", true)) then
@@ -201,6 +238,11 @@ local function consume(client, item)
 	
 	if(item.extraFunc) then
 		item.extraFunc(item, client)
+	end
+	
+	--custom screen effects
+	if(item.effect) then
+		client:nutEffectAdd(item.id, item.effect)
 	end
 	
 	client:EmitSound(item.sound, 75, item.soundPitch or 100)
@@ -510,6 +552,8 @@ function ITEM:getName()
 	if(customData.name) then
 		name = customData.name
 	end
+	
+	print(name)
 	
 	return name
 end

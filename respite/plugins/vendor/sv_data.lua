@@ -22,7 +22,7 @@ function PLUGIN:saveVendors()
 	self:setData(data)
 end
 
-function PLUGIN:LoadData()
+function PLUGIN:loadVendors()
 	for k, v in ipairs(ents.FindByClass("nut_vendor")) do
 		v.nutIsSafe = true
 		v:Remove()
@@ -49,5 +49,15 @@ function PLUGIN:LoadData()
 		entity.factions = v.factions or {}
 		entity.classes = v.classes or {}
 		entity.money = v.money
+	end
+end
+
+--i save and load them this way to make absolutely sure they dont break everything
+if(SERVER) then
+	--hacky solution to errors yeeting all data, just put it in a timer and it'll only screw itself over
+	function PLUGIN:InitPostEntity()
+		timer.Simple(0, function()
+			PLUGIN:loadVendors()
+		end)
 	end
 end

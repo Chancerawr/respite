@@ -6,16 +6,18 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/combine_turrets/floor_turret.mdl"
+ENT.material = "models/props_wasteland/quarryobjects01"
+
 ENT.noRag = true
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,
-	["str"] = 20,
+	["str"] = 0,
 	["accuracy"] = 20,
-	["end"] = 0,
-	["luck"] = 5,
-	["perception"] = 100,
+	["end"] = 3,
+	["luck"] = 0,
+	["perception"] = 20,
 	["fortitude"] = 0,
 }
 
@@ -66,7 +68,6 @@ function ENT:Use()
 end
 
 function ENT:Initialize()
-	self:SetMaterial("models/props_wasteland/quarryobjects01")
 	self:basicSetup()
 end
 

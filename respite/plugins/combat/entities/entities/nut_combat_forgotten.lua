@@ -7,20 +7,20 @@ ENT.AdminOnly = true
 
 ENT.name = "Forgotten"
 ENT.model = "models/Humans/Group01/Male_04.mdl"
+ENT.color = Color(128, 0, 128)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 50,
-	["str"] = 50,
-	["accuracy"] = 50,
-	["end"] = 50,
-	["luck"] = 50,
-	["perception"] = 50,
+	["stm"] = 10,
+	["str"] = 10,
+	["accuracy"] = 10,
+	["end"] = 10,
+	["luck"] = 10,
+	["perception"] = 10,
 	["fortitude"] = 5,
 }
 
 function ENT:Initialize()
-	self:SetColor(Color(128, 0, 128, 255))
 	self:SetSubMaterial(2, "models/props_combine/tpballglow")
 
 	self:basicSetup()

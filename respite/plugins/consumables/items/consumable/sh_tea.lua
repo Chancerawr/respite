@@ -8,14 +8,14 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_teapot"
 
 ITEM.attrib = { 
-	["end"] = 2, 
-	["stm"] = 2, 
-	["str"] = 2, 
+	["end"] = 1, 
+	["stm"] = 1, 
+	["str"] = 1, 
 	["perception"] = 2, 
 	["fortitude"] = 2, 
-	["luck"] = 2, 
-	["accuracy"] = 2, 
-	["medical"] = 2
+	["luck"] = 1, 
+	["accuracy"] = 1, 
+	["medical"] = 1
 }
 
 ITEM.iconCam = {

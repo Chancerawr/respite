@@ -6,16 +6,18 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/sient hill custom/Homecoming/lurker.mdl"
+ENT.material = "phoenix_storms/lag_sign"
+ENT.color = Color(0, 0, 0)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 15,
-	["str"] = 30,
-	["accuracy"] = 20,
-	["end"] = 20,
+	["stm"] = 12,
+	["str"] = 15,
+	["accuracy"] = 12,
+	["end"] = 12,
 	["luck"] = 5,
 	["perception"] = 5,
-	["fortitude"] = 0,
+	["fortitude"] = 15,
 }
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
@@ -24,9 +26,7 @@ function ENT:Initialize()
 	
 	if(SERVER) then
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
-		self:SetColor(Color(0,0,0))
 		self:SetRenderFX(kRenderFxDistort)
-		self:SetMaterial("phoenix_storms/lag_sign")
 	end
 
 	self:basicSetup()

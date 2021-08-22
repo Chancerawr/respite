@@ -12,12 +12,13 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.notify = "You begin to feel very sleepy."
 
 ITEM.disease = "dis_eyes"
-ITEM.disChance = 20
+ITEM.disChance = 5
 
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["end"] = -10,
+	["fortitude"] = 20,
+	["end"] = -5,
 	["stm"] = -5,
 }
 

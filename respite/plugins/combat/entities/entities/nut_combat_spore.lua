@@ -10,12 +10,12 @@ ENT.name = "Lump"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 5,
-	["str"] = 10,
-	["accuracy"] = 10,
-	["end"] = 10,
+	["stm"] = 3,
+	["str"] = 4,
+	["accuracy"] = 4,
+	["end"] = 6,
 	["luck"] = 0,
-	["perception"] = 15,
+	["perception"] = 2,
 	["fortitude"] = 0,
 }
 

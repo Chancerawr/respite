@@ -10,7 +10,7 @@ ENT.model = "models/spite/doll.mdl"
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,
-	["str"] = 15,
+	["str"] = 10,
 	["accuracy"] = 10,
 	["end"] = 20,
 	["luck"] = 0,

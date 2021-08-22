@@ -7,22 +7,15 @@ ENT.AdminOnly = true
 
 ENT.name = "Burning Mawed"
 ENT.model = "models/am_npc/amputated.mdl"
+ENT.material = "models/effects/splode1_sheet" 
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,
-	["str"] = 25,
+	["str"] = 15,
 	["accuracy"] = 10,
 	["end"] = 10,
 	["luck"] = 3,
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if(SERVER) then
-		self:SetMaterial("models/effects/splode1_sheet")
-	end	
-end

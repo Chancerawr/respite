@@ -7,7 +7,7 @@ ITEM.quantity2 = 2
 ITEM.price = 3
 
 ITEM.attrib = {
-	["luck"] = 3 
+	["luck"] = 2
 }
 
 ITEM.iconCam = {

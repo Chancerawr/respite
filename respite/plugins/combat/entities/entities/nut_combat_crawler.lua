@@ -9,8 +9,8 @@ ENT.model = "models/angelsaur/ghost_girl.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 10,
-	["str"] = 10,
+	["stm"] = 1,
+	["str"] = 1,
 	["accuracy"] = 0,
 	["end"] = 0,
 	["luck"] = 0,

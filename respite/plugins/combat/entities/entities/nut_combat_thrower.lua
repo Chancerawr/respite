@@ -6,22 +6,21 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/player/zombie_fast.mdl"
+ENT.material = "models/flesh"
+ENT.color = Color(155, 255, 155)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 10,
-	["str"] = 35,
-	["accuracy"] = 35,
-	["end"] = 15,
+	["stm"] = 5,
+	["str"] = 20,
+	["accuracy"] = 4,
+	["end"] = 7,
 	["luck"] = 0,
-	["perception"] = 15,
+	["perception"] = 5,
 	["fortitude"] = 0,
 }
 
 function ENT:Initialize()
-	self:SetColor(Color(155, 255, 155, 255))
-	self:SetMaterial("models/flesh")
-	
 	timer.Simple(0.6, function()
 		self:SetModelScale(1.2)
 		self:ResetSequence("zombie_walk_01")

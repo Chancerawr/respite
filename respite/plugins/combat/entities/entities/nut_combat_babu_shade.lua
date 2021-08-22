@@ -6,13 +6,14 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/babu.mdl"
+ENT.color = Color(0,0,0)
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,
-	["str"] = 20,
+	["str"] = 12,
 	["accuracy"] = 5,
-	["end"] = 50,
+	["end"] = 12,
 	["luck"] = 5,
 	["perception"] = 5,
 	["fortitude"] = 10,
@@ -20,7 +21,6 @@ ENT.attribs = {
 
 function ENT:Initialize()
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
-	self:SetColor(Color(0,0,0))
 	self:SetRenderFX(kRenderFxDistort)
 
 	timer.Simple(0.6, function()

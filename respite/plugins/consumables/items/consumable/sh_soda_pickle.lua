@@ -10,9 +10,9 @@ ITEM.container = "j_empty_soda1"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["craftiness"] = 4,
-	["medical"] = 4,
-	["stm"] = 3,
+	["craftiness"] = 2,
+	["medical"] = 2,
+	["stm"] = 1,
 }
 
 ITEM.iconCam = {

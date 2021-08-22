@@ -10,10 +10,10 @@ ITEM.container = "j_empty_beer"
 
 ITEM.attrib = {
 	["fortitude"] = 5, 
-	["end"] = 5, 
-	["stm"] = 5, 
-	["str"] = -5,
-	["perception"] = -5 
+	["end"] = 2, 
+	["stm"] = 2, 
+	["str"] = -2,
+	["perception"] = -2 
 }
 
 ITEM.extraFunc = function(item, client)

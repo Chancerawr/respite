@@ -10,7 +10,8 @@ ITEM.container = "j_empty_water_blood"
 ITEM.color = Color(150,50,50)
 
 ITEM.attrib = { 
-	["fortitude"] = 5 
+	["fortitude"] = 3,
+	["end"] = -1,
 } 
 
 ITEM.iconCam = {

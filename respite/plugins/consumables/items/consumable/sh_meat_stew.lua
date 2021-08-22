@@ -8,8 +8,8 @@ ITEM.width = 2
 ITEM.height = 2
 
 ITEM.attrib = { 
-	["str"] = 5,
-	["end"] = 5,
+	["str"] = 4,
+	["end"] = 4,
 }
 
 ITEM.iconCam = {

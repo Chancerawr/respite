@@ -2,12 +2,13 @@ ITEM.name = "Chips"
 ITEM.desc = "A sealed plastic bag filled with semi-crushed potato chips."
 ITEM.uniqueID = "food_chips"
 ITEM.model = "models/props_junk/garbage_bag001a.mdl"
+ITEM.material = "phoenix_storms/Blue_steel"
 ITEM.quantity2 = 1
 ITEM.price = 3
 ITEM.container = "j_plastic_bag"
 
 ITEM.attrib = { 
-	["str"] = 6,
+	["str"] = 3,
 	["stm"] = -1
 }
 

@@ -29,6 +29,13 @@ function ITEM:getName()
 	return name
 end
 
+function ITEM:getDesc()
+	local value = self:getData("value", self.value or 0)
+	local desc = "A stack of " ..nut.currency.get(value).. "."
+
+	return desc
+end
+
 if (CLIENT) then
 	function ITEM:paintOver(item, w, h)
 		local value = item:getData("value", item.value or 0)

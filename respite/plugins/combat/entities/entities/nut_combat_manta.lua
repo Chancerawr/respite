@@ -6,21 +6,16 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/combine_dropship.mdl"
+ENT.material = "models/flesh"
+ENT.color = Color(130, 220, 130)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 10,
+	["stm"] = 30,
 	["str"] = 60,
-	["accuracy"] = 30,
+	["accuracy"] = 15,
 	["end"] = 60,
 	["luck"] = 0,
-	["perception"] = 0,
+	["perception"] = 10,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:SetColor(Color(130, 220, 130, 255))
-	self:SetMaterial("models/flesh")
-
-	self:basicSetup()
-end

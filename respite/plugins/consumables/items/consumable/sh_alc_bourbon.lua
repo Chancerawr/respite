@@ -10,10 +10,10 @@ ITEM.container = "j_empty_bourbon"
 ITEM.color = Color(139,69,19)
  
 ITEM.attrib = { 
-	["str"] = 6,
-	["end"] = 6,
-	["perception"] = -6,
-	["accuracy"] = -6
+	["str"] = 3,
+	["end"] = 3,
+	["perception"] = -3,
+	["accuracy"] = -3
 }
 
 ITEM.iconCam = {

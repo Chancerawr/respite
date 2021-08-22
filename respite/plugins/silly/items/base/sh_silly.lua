@@ -6,29 +6,32 @@ ITEM.height = 1
 ITEM.category = "Stuff"
 --ITEM.sound = "items/battery_pickup.wav"
 
-ITEM:hook("use", function(item)
-	if(item.sound) then
-		local pitch 
-		if(item.pitch and istable(item.pitch)) then
-			pitch = math.random(item.pitch[1], item.pitch[2])
-		else
-			pitch = item.pitch or 100
-		end
-
-		item.player:EmitSound(item.sound, 75, pitch)
-	end
-end)
 
 ITEM.functions.use = {
 	name = "Use",
 	tip = "useTip",
 	icon = "icon16/bell.png",
 	onRun = function(item)
+		if(item.startFunc) then
+			item.startFunc(item, client)
+		end
+	
+		if(item.sound) then
+			local pitch 
+			if(item.pitch and istable(item.pitch)) then
+				pitch = math.random(item.pitch[1], item.pitch[2])
+			else
+				pitch = item.pitch or 100
+			end
+
+			item.player:EmitSound(item.sound, 75, pitch)
+		end
+	
 		item:setData("producing", CurTime())
 		timer.Simple(item.cd or 5, function()
 			item:setData("producing", nil)
 		end)
-	
+
 		return false --makes it so item is not consumed, allows for multiple silly uses.
 	end,
 	onCanRun = function(item)

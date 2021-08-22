@@ -111,5 +111,5 @@ local PANEL = {}
 vgui.Register("nutCombat", PANEL, "DFrame")
 
 timer.Simple(1, function()
-	nut.plugin.list["minimenu"]:addMenu({"Combat Guide", "nutCombat"})
+	--nut.plugin.list["minimenu"]:addMenu({"Combat Guide", "nutCombat"})
 end)

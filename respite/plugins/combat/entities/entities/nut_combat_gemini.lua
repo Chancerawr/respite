@@ -9,12 +9,12 @@ ENT.model = "models/zombie/gemini.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
-	["str"] = 35,
+	["stm"] = 15,
+	["str"] = 20,
 	["accuracy"] = 15,
-	["end"] = 25,
+	["end"] = 15,
 	["luck"] = 10,
-	["perception"] = 50,
+	["perception"] = 20,
 	["fortitude"] = 0,
 }
 

@@ -11,11 +11,11 @@ ENT.model = "models/spite/scarlet.mdl"
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,
-	["str"] = 40,
-	["accuracy"] = 12,
-	["end"] = 30,
-	["luck"] = 10,
-	["perception"] = 5,
+	["str"] = 15,
+	["accuracy"] = 20,
+	["end"] = 10,
+	["luck"] = 1,
+	["perception"] = 15,
 	["fortitude"] = 0,
 }
 

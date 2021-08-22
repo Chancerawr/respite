@@ -8,8 +8,8 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.flag = "1"
 ITEM.category = "Shard"
-ITEM.invWidth = 3
-ITEM.invHeight = 3
+ITEM.invWidth = 6
+ITEM.invHeight = 6
 ITEM.color = Color(64, 128, 128)
 ITEM.openTime = 0.5
 
@@ -67,7 +67,7 @@ local function requiredItems(inventory, item, required)
 end
 
 local function requiredTime(client, item, mult)
-	local baseTime = 7200
+	local baseTime = 120
 	local units = (item.getData and item:getData("units", {})) or item.data["units"] or {}
 	local unitCount = (units.w or 0) + (units.f or 0)
 	
@@ -232,8 +232,8 @@ local funcTableC = {
 		prodMult = 1,
 		required = {
 			resources = {
-				["plas"] = 100,
-				["chip"] = 25,
+				["plas"] = 50,
+				["chip"] = 10,
 				["mem"] = 1,
 			},
 		},
@@ -258,8 +258,8 @@ local funcTableC = {
 		prodMult = 1,
 		required = {
 			resources = {
-				["plas"] = 100,
-				["chip"] = 25,
+				["plas"] = 75,
+				["chip"] = 20,
 				["mem"] = 3,
 			},
 		},
@@ -284,7 +284,7 @@ local funcTableC = {
 		prodMult = 1,
 		required = {
 			resources = {
-				["plas"] = 25,
+				["plas"] = 5,
 				["chip"] = 5,
 				["mem"] = 7,
 			},
@@ -432,7 +432,7 @@ local funcTableD = {
 			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of a wooden barracks fill your mind, they are blurry and hard to focus on.",
-		endString = "You can clearly imagine a large wooden barracks.",
+		endString = "You can clearly picture a large wooden barracks.",
 		prodMult = 1.5,
 		required = {
 			resources = {
@@ -449,7 +449,7 @@ local funcTableD = {
 			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "Images of numerous wooden towers fill your mind, they are blurry and hard to focus on.",
-		endString = "You can clearly imagine a perimeter of wooden outposts.",
+		endString = "You can clearly picture a perimeter of wooden outposts.",
 		prodMult = 1,
 		required = {
 			resources = {
@@ -553,8 +553,8 @@ local funcTableD = {
 		sound = function(client)
 			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
-		startString = "Your past is blurry, and hard to remember.",
-		endString = "The past stands firmly behind you, guiding you along.",
+		startString = "Your past is blurry, and hard to recall.",
+		endString = "The past stands firmly behind you, pushing you forward.",
 		prodMult = 3,
 		required = {
 			units = 20,

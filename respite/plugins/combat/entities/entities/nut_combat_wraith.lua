@@ -4,23 +4,17 @@ ENT.PrintName = "Seeker"
 ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
+
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
+ENT.material = "models/props_combine/tpballglow"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 30,
-	["str"] = 35,
-	["accuracy"] = 20,
-	["end"] = 15,
-	["luck"] = 10,
-	["perception"] = 25,
-	["fortitude"] = 20,
+	["stm"] = 10,
+	["str"] = 10,
+	["accuracy"] = 5,
+	["end"] = 10,
+	["luck"] = 3,
+	["perception"] = 10,
+	["fortitude"] = 10,
 }
-
-function ENT:Initialize()
-	if (SERVER) then
-		self:SetMaterial("models/props_combine/tpballglow")
-	end
-	
-	self:basicSetup()
-end

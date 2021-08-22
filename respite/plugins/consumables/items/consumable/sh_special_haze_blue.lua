@@ -12,9 +12,11 @@ ITEM.disease = "addict_bh"
 ITEM.disChance = 10
 
 ITEM.stomach = false
+ITEM.noEnhance = true
 
 ITEM.attrib = {
-	["fortitude"] = -15,
+	["fortitude"] = 4,
+	["end"] = -2,
 }
 
 ITEM.extraFunc = function(item, client)

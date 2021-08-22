@@ -441,3 +441,37 @@ nut.command.add("itemspawndisplay", {
 		end
 	end
 })
+
+nut.command.add("spawnitemgroup", {
+	adminOnly = true,
+	syntax = "<string itemgroup> <number amount>",
+	onRun = function(client, arguments)
+		local groupID = arguments[1] or "default"
+		local amount = math.min(tonumber(arguments[2]) or 1, 10)
+		
+		local spawnGroup = PLUGIN.spawngroups[groupID]
+		if(spawnGroup) then
+			local aimPos = client:GetEyeTraceNoCursor().HitPos
+			aimPos:Add(Vector(0, 0, 10))  
+		
+			for i = 1, amount do
+				local uniqueID = table.Random(spawnGroup)
+			
+				if (!nut.item.list[uniqueID]) then
+					client:notify("Invalid item " ..uniqueID.. " in item group.")
+					return false
+				end
+
+				if(nut.item.list[uniqueID]) then
+					nut.item.spawn(uniqueID, aimPos)
+				else
+					client:notify("Invalid Item " ..uniqueID.. ".")
+				end
+			end
+			
+			client:notify("Spawned " ..amount.. " items from the " ..groupID.. " group.")
+		else
+			client:notify("Invalid spawn group")
+		end
+	end
+})

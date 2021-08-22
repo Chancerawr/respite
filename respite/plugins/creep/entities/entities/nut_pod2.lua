@@ -50,7 +50,7 @@ function ENT:Think()
 				local creatures = {
 					"spore",
 					"amputated",
-					"nz_waste",
+					"nz_freak",
 					"nz_thrower",
 					"resp_smog",
 					"cof_faceless",
@@ -58,10 +58,10 @@ function ENT:Think()
 				}
 				local creature = table.Random(creatures)
 				
-				local fire = ents.Create(creature)
-				fire:SetPos(self:GetPos())
-				fire:Spawn()
-				table.insert(nut.plugin.list["creep"].spawns, fire)
+				local npc = ents.Create(creature)
+				npc:SetPos(self:GetPos())
+				npc:Spawn()
+				table.insert(nut.plugin.list["creep"].spawns, npc)
 				
 				self:Remove()
 			end

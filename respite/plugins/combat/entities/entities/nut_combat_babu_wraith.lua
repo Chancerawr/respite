@@ -6,21 +6,20 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/babu.mdl"
+ENT.material = "models/props_lab/security_screens"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 30,
-	["str"] = 40,
+	["stm"] = 15,
+	["str"] = 12,
 	["accuracy"] = 0,
-	["end"] = 50,
+	["end"] = 12,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
 
 function ENT:Initialize()
-	self:SetMaterial("models/props_lab/security_screens")
-
 	timer.Simple(0.6, function()
 		self:ResetSequence("idle01")
 	end)

@@ -6,22 +6,15 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/jeezy/animals/siamese_cat/siamese_cat.mdl"
+ENT.material = "phoenix_storms/mrref2"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 0,
-	["str"] = 0,
-	["accuracy"] = 0,
-	["end"] = 0,
-	["luck"] = 0,
-	["perception"] = 0,
-	["fortitude"] = 0,
+	["stm"] = 10,
+	["str"] = 1,
+	["accuracy"] = 5,
+	["end"] = 2,
+	["luck"] = 15,
+	["perception"] = 15,
+	["fortitude"] = 15,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if(SERVER) then
-		self:SetMaterial("phoenix_storms/mrref2")
-	end
-end

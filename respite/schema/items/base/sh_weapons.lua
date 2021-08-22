@@ -127,7 +127,7 @@ ITEM.functions.Equip = {
 		if(IsValid(item.player.nutRagdoll)) then
 			client:notify("You cannot do this right now.")
 			return false
-		end	
+		end
 	
 		local items = client:getChar():getInv():getItems()
 
@@ -321,6 +321,7 @@ ITEM.functions.Inspect = {
 	end
 }
 
+--[[
 ITEM.functions.Infuse = {
 	name = "Infuse",
 	tip = "Infuse this item",
@@ -354,7 +355,9 @@ ITEM.functions.Infuse = {
 		return (item:getData("infused") == nil) and (client:getChar():getInv():getFirstItemOfType("shard_dust")) and (!IsValid(item.entity))
 	end
 }
+--]]
 
+--[[
 ITEM.functions.Blight = {
 	name = "Blight",
 	icon = "icon16/wrench.png",
@@ -380,14 +383,16 @@ ITEM.functions.Blight = {
 		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("blight") and (!IsValid(item.entity))
 	end
 }
+--]]
 
+--[[
 ITEM.functions.Phase = {
 	name = "Phase",
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
 		local chip = client:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
-		client:requestQuery("Are you sure you want to Portal Phase this melee weapon?", "Phase", function(text)
+		client:requestQuery("Are you sure you want to Portal Phase this weapon?", "Phase", function(text)
 			chip:remove()
 
 			item:setData("infused", true)
@@ -412,6 +417,7 @@ ITEM.functions.Phase = {
 		return true
 	end
 }
+--]]
 
 ITEM.functions.Paint = {
 	name = "Paint",

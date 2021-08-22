@@ -7,7 +7,7 @@ ITEM.price = 5
 ITEM.container = "j_tinc"
 
 ITEM.attrib = { 
-	["str"] = 1 
+	["str"] = 2
 }
 
 ITEM.iconCam = {

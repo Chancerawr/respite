@@ -7,9 +7,9 @@ ITEM.price = 11
 ITEM.container = "j_empty_mre"
  
 ITEM.attrib = { 
-	["stm"] = 4, 
-	["str"] = 4, 
-	["accuracy"] = 4
+	["stm"] = 3, 
+	["str"] = 3, 
+	["accuracy"] = 3
 }
 
 ITEM.iconCam = {

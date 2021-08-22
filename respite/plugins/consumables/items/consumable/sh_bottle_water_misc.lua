@@ -10,7 +10,7 @@ ITEM.container = "j_empty_water"
 ITEM.color = Color(100, 100, 100)
 
 ITEM.attrib = { 
-	["stm"] = 2 
+	["stm"] = 1,
 }
 
 ITEM.iconCam = {

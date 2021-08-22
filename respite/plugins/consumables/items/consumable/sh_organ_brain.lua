@@ -7,13 +7,13 @@ ITEM.price = 0
 ITEM.color = Color(150,50,50)
 
 ITEM.disease = "trait_hunger"
-ITEM.disChance = 25
+ITEM.disChance = 20
 
 ITEM.organicScrap = 6
 
 ITEM.attrib = { 
 	["fortitude"] = 10, 
-	["perception"] = 1 
+	["perception"] = 4 
 }
 
 ITEM.iconCam = {

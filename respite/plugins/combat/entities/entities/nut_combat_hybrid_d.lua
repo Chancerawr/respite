@@ -6,6 +6,8 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/cryoffear/stranger/stranger.mdl"
+ENT.material = "models/effects/comball_glow1"
+ENT.color = Color(128, 0, 0)
 
 --all attributes
 ENT.attribs = {
@@ -22,8 +24,6 @@ function ENT:Initialize()
 	self:basicSetup()
 	
 	if(SERVER) then
-		self:SetMaterial("models/effects/comball_glow1")
-		self:SetColor(Color(128,0,0,255))
 		self:SetRenderFX(kRenderFxDistort)
 	end
 end

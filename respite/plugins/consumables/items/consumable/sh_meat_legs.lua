@@ -13,7 +13,7 @@ ITEM.disChance = 10
 ITEM.organicScrap = 8
 
 ITEM.attrib = { 
-	["fortitude"] = 10
+	["fortitude"] = 8
 }
 
 ITEM.iconCam = {

@@ -6,22 +6,21 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombineplayer.mdl"
+ENT.material = "models/flesh"
+ENT.color = Color(130, 220, 130)
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 0,
-	["str"] = 50,
+	["stm"] = 3,
+	["str"] = 20,
 	["accuracy"] = 20,
-	["end"] = 40,
+	["end"] = 20,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
 
 function ENT:Initialize()
-	self:SetColor(Color(130, 220, 130, 255))
-	self:SetMaterial("models/flesh")
-	
 	timer.Simple(0.6, function()
 		self:SetModelScale(1.8)
 		self:ResetSequence("zombie_walk_06")

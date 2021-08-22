@@ -6,16 +6,18 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Static"
+
 ENT.model = "models/zombie/fast.mdl"
+ENT.material = "models/downpour/filmgrain_1a"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 35,
-	["str"] = 25,
-	["accuracy"] = 15,
-	["end"] = 20,
-	["luck"] = 10,
-	["perception"] = 10,
+	["stm"] = 15,
+	["str"] = 8,
+	["accuracy"] = 4,
+	["end"] = 8,
+	["luck"] = 1,
+	["perception"] = 4,
 	["fortitude"] = 0,
 }
 
@@ -23,7 +25,6 @@ function ENT:Initialize()
 	self:basicSetup()
 	
 	if(SERVER) then
-		self:SetMaterial("models/downpour/filmgrain_1a")
 		self:SetColor(Color(0,math.random(0,128),255))
 	else
 		local bones = {

@@ -6,7 +6,10 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Dummy Blood Fiend"
+
 ENT.model = "models/spite/fiend.mdl"
+ENT.material = "models/flesh"
+ENT.color = Color(128, 20, 20)
 
 --all attributes
 ENT.attribs = {
@@ -22,10 +25,7 @@ ENT.attribs = {
 function ENT:Initialize()
 	self:basicSetup()
 	
-	if (SERVER) then
-		self:SetMaterial("models/flesh")
-		self:SetColor(Color(128, 20, 20))
-	else
+	if (CLIENT) then
 		local mat = Matrix()
 		mat:Scale(Vector(math.random(90,110)*0.01, math.random(90,110)*0.01, math.random(80,110)*0.01))
 		self:EnableMatrix( "RenderMultiply", mat )	

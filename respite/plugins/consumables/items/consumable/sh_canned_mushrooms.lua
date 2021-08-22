@@ -8,9 +8,9 @@ ITEM.container = "j_tinc"
  
 ITEM.attrib = { 
 	["perception"] = 1,
-	["str"] = 2,
-	["end"] = 3,
-	["accuracy"] = 4,
+	["str"] = 1,
+	["end"] = 2,
+	["accuracy"] = 2,
 }
 
 ITEM.iconCam = {

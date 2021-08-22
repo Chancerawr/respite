@@ -9,10 +9,10 @@ ENT.model = "models/sient hill custom/Homecoming/lurker.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 15,
-	["str"] = 30,
-	["accuracy"] = 20,
-	["end"] = 20,
+	["stm"] = 14,
+	["str"] = 18,
+	["accuracy"] = 14,
+	["end"] = 12,
 	["luck"] = 5,
 	["perception"] = 5,
 	["fortitude"] = 0,

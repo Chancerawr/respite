@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Perception"
-ATTRIBUTE.desc = "Your character's skills in detecting and observation."
+ATTRIBUTE.desc = "Character's awareness of surroundings and ability to detect. Used primarily for detection and investigation."

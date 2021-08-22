@@ -8,7 +8,7 @@ ITEM.width = 3
 ITEM.color = Color(150,50,50)
 
 ITEM.disease = "trait_hunger"
-ITEM.disChance = 10
+ITEM.disChance = 9
 
 ITEM.organicScrap = 7
 

@@ -9,8 +9,8 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["str"] = 10,
-	["end"] = 5,
+	["str"] = 8,
+	["end"] = 4,
 }
 
 ITEM.extraFunc = function(item, client)

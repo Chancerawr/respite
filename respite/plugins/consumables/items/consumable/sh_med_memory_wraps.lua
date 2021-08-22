@@ -6,16 +6,13 @@ ITEM.material = "models/props_lab/security_screens"
 ITEM.hp = 10
 ITEM.hpTime = 1
 ITEM.price = 0
+ITEM.color = Color(232, 0, 0)
 ITEM.quantity2 = 3
 
 ITEM.container = "j_empty_bandage"
 ITEM.color = Color(0, 128, 128)
 
-ITEM.iconCam = {
-	pos = Vector(89.43, 74.9, 54.5),
-	ang = Angle(25, 220, 0),
-	fov = 5,
-}
+ITEM.stomach = false
 
 ITEM.cures = {
 	["fort_pani"] = true, 
@@ -33,4 +30,14 @@ ITEM.cures = {
 	["dis_eyes"] = true,
 	["dis_mind"] = true,
 	["dis_touch"] = true
+}
+
+ITEM.extraFunc = function(item, client)
+	client:ScreenFade(1, Color(20, 128, 128, 255), 1, 1)
+end
+
+ITEM.iconCam = {
+	pos = Vector(89.43, 74.9, 54.5),
+	ang = Angle(25, 220, 0),
+	fov = 5,
 }

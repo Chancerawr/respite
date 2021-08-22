@@ -191,7 +191,6 @@ function ikon:renderHook()
 		if (tab.drawHook) then
 			tab.drawHook(ikon.renderEntity, w, h)
 		end
-			
 	
 		cam.Start3D(tab.origin, tab.angles, tab.fov, 0, 0, w, h) 
 			if (tab.entAng) then
@@ -279,7 +278,7 @@ ikon.requestList = ikon.requestList or {}
 IKON_BUSY = 1
 IKON_PROCESSING = 0
 IKON_SOMETHINGWRONG = -1
-function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
+function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, color, material, skin)
 	if (#ikon.requestList > 0) then return IKON_BUSY end
 	if (ikon.requestList[name]) then return IKON_PROCESSING end
 	if (!w or !h or !mdl) then return IKON_SOMETHINGWRONG end
@@ -308,6 +307,10 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
 
 	ikon.renderEntity:SetModel(ikon.renderModel)
 	
+	if(color) then
+		ikon.renderEntity:SetColor(color)
+	end
+
 	if(material) then
 		ikon.renderEntity:SetMaterial(material)
 	end
@@ -353,6 +356,9 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, material, skin)
 	end
 	ikon.requestList[name] = nil
 	
+	if(material) then --reset material when done
+		ikon.renderEntity:SetColor(Color(0,0,0,255)) --reset the
+	end
 	if(material) then --reset material when done
 		ikon.renderEntity:SetMaterial("") --reset the
 	end

@@ -6,21 +6,22 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombineplayer.mdl"
+ENT.material = "models/effects/splode1_sheet"
+ENT.color = Color(0, 150, 255)
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,
-	["str"] = 60,
+	["str"] = 30,
 	["accuracy"] = 10,
-	["end"] = 50,
+	["end"] = 35,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
 
 function ENT:Initialize()
-	self:SetColor(Color(0, 150, 255, 255))
-	self:SetMaterial("models/effects/splode1_sheet")
+	self:SetColor()
 	
 	timer.Simple(0.6, function()
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)

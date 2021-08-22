@@ -10,9 +10,9 @@ ITEM.container = "j_empty_soda_can"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["accuracy"] = 4, 
-	["stm"] = 4, 
-	["luck"] = 3  
+	["accuracy"] = 2, 
+	["stm"] = 2, 
+	["luck"] = 1
 }
 
 ITEM.iconCam = {

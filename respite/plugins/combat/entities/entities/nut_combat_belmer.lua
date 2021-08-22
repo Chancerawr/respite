@@ -8,21 +8,16 @@ ENT.AdminOnly = true
 ENT.noRag = true
 
 ENT.model = "models/chillax_sf2/silenthill/sh2/mannequin/mannequin.mdl"
+ENT.material = "models/props_lab/security_screens"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
-	["str"] = 20,
+	["stm"] = 12,
+	["str"] = 15,
 	["accuracy"] = 10,
 	["medical"] = 0,
-	["end"] = 20,
+	["end"] = 15,
 	["luck"] = 5,
 	["perception"] = 0,
 	["fortitude"] = 10,
 }
-
-function ENT:Initialize()
-	self:SetMaterial("models/props_lab/security_screens")
-	
-	self:basicSetup()
-end

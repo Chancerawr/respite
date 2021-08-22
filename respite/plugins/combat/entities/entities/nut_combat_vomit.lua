@@ -10,12 +10,12 @@ ENT.name = "Vomit"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 7,
-	["str"] = 7,
-	["accuracy"] = 20,
-	["end"] = 15,
-	["luck"] = 4,
-	["perception"] = 15,
+	["stm"] = 4,
+	["str"] = 2,
+	["accuracy"] = 5,
+	["end"] = 6,
+	["luck"] = 2,
+	["perception"] = 4,
 	["fortitude"] = 0,
 }
 

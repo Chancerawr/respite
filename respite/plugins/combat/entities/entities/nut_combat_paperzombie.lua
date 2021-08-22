@@ -9,13 +9,13 @@ ENT.model = "models/respite/paperzombie.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
+	["stm"] = 10,
 	["str"] = 10,
 	["accuracy"] = 10,
-	["end"] = 0,
+	["end"] = 2,
 	["luck"] = 0,
-	["perception"] = 0,
-	["fortitude"] = 10,
+	["perception"] = 2,
+	["fortitude"] = 0,
 }
 
 function ENT:Initialize()

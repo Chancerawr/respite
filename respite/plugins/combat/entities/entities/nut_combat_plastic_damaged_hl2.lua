@@ -6,7 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Decrepit Plastic"
+
 ENT.model = "models/Humans/Group01/Male_04.mdl"
+ENT.material = "models/props_buildings/destroyedbuilldingwall01a"
 
 --all attributes
 ENT.attribs = {
@@ -18,11 +20,3 @@ ENT.attribs = {
 	["perception"] = 5,
 	["fortitude"] = 5,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-
-	if (SERVER) then
-		self:SetMaterial("models/props_buildings/destroyedbuilldingwall01a")
-	end
-end

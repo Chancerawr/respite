@@ -6,6 +6,8 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/nh2_gmn/dave_the_dummy_on_stand.mdl"
+ENT.material = "models/props/cs_militia/roofbeams02"
+
 ENT.noRag = true
 
 --all attributes
@@ -18,11 +20,3 @@ ENT.attribs = {
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if(SERVER) then
-		self:SetMaterial("models/props/cs_militia/roofbeams02")
-	end
-end

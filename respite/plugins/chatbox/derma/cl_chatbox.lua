@@ -41,7 +41,7 @@ local PANEL = {}
 					local arguments = self.arguments or {}
 					local command = string.PatternSafe(arguments[1] or ""):lower()
 
-					nut.util.drawBlur(this)
+					--nut.util.drawBlur(this)
 
 					surface.SetDrawColor(0, 0, 0, 200)
 					surface.DrawRect(0, 0, w, h)

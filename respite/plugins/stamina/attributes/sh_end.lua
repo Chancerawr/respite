@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Endurance"
-ATTRIBUTE.desc = "Your character's body's resitance and overall reliability."
+ATTRIBUTE.desc = "Character's durability. Used primarily for blocking and resisting status effects, fatigue, and exhaustion.\nAdds to Max Health."

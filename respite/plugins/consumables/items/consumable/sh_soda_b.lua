@@ -8,8 +8,8 @@ ITEM.container = "j_empty_soda_can"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["end"] = 4, 
-	["fortitude"] = 4, 
+	["end"] = 2, 
+	["fortitude"] = 2, 
 	["luck"] = 1 
 }
 

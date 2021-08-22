@@ -13,7 +13,7 @@ ITEM.cures = {
 }
 
 ITEM.attrib = { 
-	["fortitude"] = 6,
+	["fortitude"] = 3,
 	["stm"] = 1,
 }
 

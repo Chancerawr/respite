@@ -9,8 +9,8 @@ ITEM.container = "j_empty_soda_can"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["str"] = 3,
-	["accuracy"] = 3,
+	["str"] = 2,
+	["accuracy"] = 2,
 	["stm"] = 1
 }
 

@@ -17,7 +17,8 @@ function ENT:SpawnFunction(client, trace)
 	entity:SetAngles(angles)
 	entity:Spawn()
 
-	PLUGIN:saveVendors()
+	--no need to do this right now, a blank vendor doesn't need to be saved and this is only a risk
+	--PLUGIN:saveVendors()
 
 	return entity
 end

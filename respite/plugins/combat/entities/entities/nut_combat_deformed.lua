@@ -11,7 +11,7 @@ ENT.name = "Deformed"
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,
-	["str"] = 15,
+	["str"] = 12,
 	["accuracy"] = 5,
 	["end"] = 15,
 	["luck"] = 5,

@@ -94,6 +94,8 @@ else
 			else
 				bar:setValue(attribValue)
 			end
+			
+			bar:SetTooltip(v.desc or "")
 
 			local maximum = v.maxValue or nut.config.get("maxAttribs", 30)
 			bar:setMax(maximum)

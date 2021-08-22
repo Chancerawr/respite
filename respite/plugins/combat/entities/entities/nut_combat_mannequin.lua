@@ -10,10 +10,10 @@ ENT.noRag = true
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 5,
+	["stm"] = 0,
 	["str"] = 0,
 	["accuracy"] = 0,
-	["end"] = 0,
+	["end"] = 3,
 	["luck"] = 1,
 	["perception"] = 0,
 	["fortitude"] = 30,

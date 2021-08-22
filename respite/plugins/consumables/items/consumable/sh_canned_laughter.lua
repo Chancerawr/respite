@@ -10,7 +10,7 @@ ITEM.sound = "vo/citadel/br_laugh01.wav"
 ITEM.container = "j_tinc"
 
 ITEM.attrib = { 
-	["fortitude"] = 5 
+	["fortitude"] = 3
 }
 
 ITEM.iconCam = {

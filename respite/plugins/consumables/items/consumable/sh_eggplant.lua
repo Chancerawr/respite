@@ -12,10 +12,8 @@ ITEM.hp = 69
 
 ITEM.modelColor = Color(69, 0, 127)
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 3),
-	ang = Angle(0, -0, 0),
-	fov = 6.5,
+ITEM.attrib = { 
+	["fortitude"] = 2
 }
 
 ITEM.tags = {
@@ -31,4 +29,10 @@ ITEM.craft = {
 			["Charm"] = 5,
 		},
 	},
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 3),
+	ang = Angle(0, -0, 0),
+	fov = 6.5,
 }

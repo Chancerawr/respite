@@ -49,6 +49,7 @@ local PANEL = {}
 		self.bar = self:Add("DPanel")
 		self.bar:Dock(FILL)
 		self.bar:DockMargin(2, 2, 2, 2)
+		
 		self.bar.Paint = function(this, w, h)
 			self.t = Lerp(FrameTime() * 10, self.t, 1)
 
@@ -62,7 +63,6 @@ local PANEL = {}
 				-- your stat
 				surface.SetDrawColor(color)
 				surface.DrawRect(0, 0, barWidth, h)
-
 			end
 
 			-- boosted stat

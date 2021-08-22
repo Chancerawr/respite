@@ -9,6 +9,12 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.stomach = false
 
+ITEM.attrib = {
+	["fortitude"] = 2,
+	["end"] = 3,
+	["stm"] = -1,
+}
+
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(255, 255, 255, 255), 3, 0)
 end

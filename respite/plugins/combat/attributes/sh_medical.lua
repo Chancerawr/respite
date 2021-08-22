@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Craftiness"
-ATTRIBUTE.desc = "Your character's skill with construction, crafting, and general ingenuity."
+ATTRIBUTE.desc = "Character's ability to craft and make use of various technologies and equipment. Used for actions such as crafting, modifying, etc."

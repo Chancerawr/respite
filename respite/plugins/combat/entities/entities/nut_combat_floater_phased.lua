@@ -4,7 +4,13 @@ ENT.PrintName = "Floater (Phased)"
 ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
-ENT.model = "models/tnb/citizens/male_04.mdl"
+
+ENT.models = {
+	"models/zombie/classic2.mdl",
+	"models/zombie/classic3.mdl",
+	"models/zombie/classic4.mdl"
+}
+ENT.material = "models/props_combine/stasisfield_beam"
 
 --all attributes
 ENT.attribs = {
@@ -16,20 +22,3 @@ ENT.attribs = {
 	["perception"] = 30,
 	["fortitude"] = 0,
 }
-
-function ENT:Initialize()
-
-	self:basicSetup()
-	
-	if (SERVER) then
-		self:SetMaterial("models/props_combine/stasisfield_beam")
-
-		local models = {
-			"models/zombie/classic2.mdl",
-			"models/zombie/classic3.mdl",
-			"models/zombie/classic4.mdl"
-		}
-		
-		self:SetModel(table.Random(models))		
-	end	
-end

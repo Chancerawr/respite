@@ -8,7 +8,8 @@ ITEM.container = "j_empty_mug"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["accuracy"] = 5
+	["accuracy"] = 4,
+	["stm"] = 2
 }
 
 ITEM.iconCam = {

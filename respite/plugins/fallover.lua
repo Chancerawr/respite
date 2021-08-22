@@ -16,6 +16,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 		local weap = self:GetActiveWeapon()
 		if(IsValid(weap)) then
 			self.activeWeapon = weap:GetClass()
+			self.activeWeaponR = self:isWepRaised()
 		end
 
 		local entity = self:createRagdoll()
@@ -102,7 +103,15 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 							timer.Simple(0.1, function()
 								if(self.activeWeapon) then
 									self:SelectWeapon(self.activeWeapon)
+
+									if(self.activeWeaponR) then
+										timer.Simple(0.1, function()
+											self:setWepRaised(true)
+										end)
+									end
+									
 									self.activeWeapon = nil
+									self.activeWeaponR = nil
 								end
 							end)
 						end)

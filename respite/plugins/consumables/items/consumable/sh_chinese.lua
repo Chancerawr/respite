@@ -6,9 +6,9 @@ ITEM.quantity2 = 2
 ITEM.price = 5
 
 ITEM.attrib = { 
-	["perception"] = 3, 
-	["fortitude"] = 3,
-	["end"] = 3
+	["perception"] = 1, 
+	["fortitude"] = 2,
+	["end"] = 1
 }
 
 ITEM.iconCam = {

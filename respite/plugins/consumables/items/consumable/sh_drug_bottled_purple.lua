@@ -13,7 +13,7 @@ ITEM.soundPitch = 50
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["fortitude"] = 10,
+	["fortitude"] = 5,
 	["perception"] = -5
 }
 

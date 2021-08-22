@@ -11,13 +11,13 @@ ENT.noRag = true
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 25,
-	["str"] = 25,
+	["stm"] = 8,
+	["str"] = 15,
 	["accuracy"] = 15,
-	["end"] = 20,
+	["end"] = 15,
 	["luck"] = 0,
-	["perception"] = 0,
-	["fortitude"] = 0,
+	["perception"] = 10,
+	["fortitude"] = 10,
 }
 
 function ENT:Initialize()

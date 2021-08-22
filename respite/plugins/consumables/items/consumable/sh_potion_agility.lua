@@ -9,12 +9,12 @@ ITEM.color = Color(50, 255, 50)
 ITEM.duration = 3000
 
 ITEM.disease = "dis_poti"
-ITEM.disChance = 20
+ITEM.disChance = 5
 
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["stm"] = 20,
+	["stm"] = 10,
 }
 
 ITEM.iconCam = {

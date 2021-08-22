@@ -17,6 +17,10 @@ ITEM.faction = {
 	[FACTION_PLASTIC or -1] = true,
 }
 
+ITEM.extraFunc = function(item, client)
+	client:ScreenFade(1, Color(100, 100, 100, 200), 1, 0)
+end
+
 ITEM.iconCam = {
 	pos = Vector(89.43, 74.9, 54.5),
 	ang = Angle(25, 220, 0),

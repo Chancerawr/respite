@@ -11,7 +11,7 @@ ENT.name = "Hunter"
 --all attributes
 ENT.attribs = {
 	["stm"] = 12,
-	["str"] = 20,
+	["str"] = 15,
 	["accuracy"] = 12,
 	["end"] = 10,
 	["luck"] = 5,

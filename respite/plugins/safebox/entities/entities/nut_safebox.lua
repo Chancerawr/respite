@@ -28,12 +28,9 @@ if (SERVER) then
 	function ENT:CreateInv(activator)
 		local character = activator:getChar()
 		  
-		nut.inventory.instance("grid", {nut.config.get("safeWidth", 5), nut.config.get("safeHeight", 5)})
+		nut.inventory.instance("grid", {10, 10})
 		:next(function(inventory)
 			character:setData("safebox", inventory:getID())
-		end)
-		
-		timer.Simple(0.2, function()
 			self:OpenInv(activator)
 		end)
   	end
@@ -69,32 +66,33 @@ if (SERVER) then
 
 	function ENT:OpenInv(activator)
 		local index = activator:getChar():getData("safebox")
-		local inventory = nut.inventory.instances[index]
-		
-		if (index and inventory) then
-			inventory.isSafe = true
-		
-			self:setInventory(inventory)
-		
-			self.receivers[activator] = true
-			inventory:sync(activator)
-			
-			self.activator = activator
-			
-			activator.nutStorageEntity = self
-			
-			netstream.Start(activator, "safeOpen", inventory:getID())
+
+		if(!index) then
+			self:CreateInv(activator)
 		else
-			self:RestoreInv(activator)
+			local inventory = nut.inventory.instances[index]
+			
+			if (!inventory) then
+				self:RestoreInv(activator)
+			else
+				inventory.isSafe = true
+		
+				self:setInventory(inventory)
+			
+				self.receivers[activator] = true
+				inventory:sync(activator)
+				
+				self.activator = activator
+				
+				activator.nutStorageEntity = self
+				
+				netstream.Start(activator, "safeOpen", inventory:getID())
+			end
 		end
 	end
 
 	function ENT:Use(activator)
-		if(activator:getChar():getFaction() == FACTION_SHADE or activator:getChar():getFaction() == FACTION_DRIFTER) then
-			self:OpenInv(activator)
-		else
-			activator:notify("Your faction cannot use this.")
-		end
+		self:OpenInv(activator)
 	end
 	
 	function ENT:setInventory(inventory)

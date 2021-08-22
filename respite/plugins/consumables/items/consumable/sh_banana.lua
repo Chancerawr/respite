@@ -7,7 +7,7 @@ ITEM.price = 3
 ITEM.container = "j_bananaskin"
 
 ITEM.attrib = { 
-	["perception"] = 3 
+	["perception"] = 2
 }
 
 ITEM.iconCam = {

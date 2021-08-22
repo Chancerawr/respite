@@ -1,6 +1,7 @@
 ITEM.name = "Signalling Device"
 ITEM.desc = "A device that allows you to send a simple message to radios or other signalling devices.\nPower: %s\nFrequency: %s"
 ITEM.model = "models/gibs/shield_scanner_gib1.mdl"
+ITEM.material = "models/props_wasteland/lighthouse_stairs"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.category = "Communication"

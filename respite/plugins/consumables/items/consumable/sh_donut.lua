@@ -9,7 +9,7 @@ ITEM.price = 8
 ITEM.modelScale = 0.5
 
 ITEM.attrib = { 
-	["luck"] = 4 
+	["luck"] = 4
 }
 
 ITEM.iconCam = {

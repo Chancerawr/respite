@@ -9,10 +9,10 @@ ENT.model = "models/spite/pack.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
+	["stm"] = 10,
 	["str"] = 5,
 	["accuracy"] = 10,
-	["end"] = 2,
+	["end"] = 4,
 	["luck"] = 5,
 	["perception"] = 2,
 	["fortitude"] = 0,

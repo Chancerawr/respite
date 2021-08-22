@@ -14,6 +14,10 @@ ITEM.container = "j_tinc"
 ITEM.disease = "dis_mind"
 ITEM.disChance = 100
 
+ITEM.attrib = {
+	["fortitude"] = -10,
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, -0.5),
 	ang = Angle(0, -0, 0),

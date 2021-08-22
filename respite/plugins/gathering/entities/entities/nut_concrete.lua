@@ -33,7 +33,7 @@ if (SERVER) then
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetUseType(SIMPLE_USE)
 		
-		self:SetHealth(nut.config.get("treeLife"))
+		self:SetHealth(math.random(5,10))
 		
 		local pos = self:GetPos()
 		

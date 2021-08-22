@@ -9,7 +9,7 @@ ITEM.container = "j_empty_soda_can"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["perception"] = 4,
+	["perception"] = 2,
 	["stm"] = 1,
 }
 

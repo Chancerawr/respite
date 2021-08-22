@@ -11,8 +11,8 @@ ITEM.container = "j_tinc"
 ITEM.disease = "fort_nost"
 
 ITEM.attrib = { 
-	["fortitude"] = -15, 
-	["endurance"] = -15 
+	["fortitude"] = -5, 
+	["endurance"] = -5 
 }
 
 ITEM.iconCam = {

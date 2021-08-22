@@ -1,3 +1,5 @@
+local PLUGIN = PLUGIN
+
 ENT.Type = "anim"
 ENT.PrintName = "Talker"
 ENT.Category = "NutScript"
@@ -329,6 +331,8 @@ else
 
 			client:notify("You have updated this talking npc's data.")
 		end
+		
+		PLUGIN:saveTalkers()
 	end)
 	
 	netstream.Hook("nut_QuestData", function(client, data)
@@ -533,6 +537,7 @@ else
 		NUT_VENDORS[self:EntIndex()] = nil
 
 		if (nut.shuttingDown or self.nutIsSafe) then return end
+		PLUGIN:saveTalkers()
 	end
 
 	-- Sets how much of the original price a player gets back for selling an item.

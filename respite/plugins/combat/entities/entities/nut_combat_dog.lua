@@ -10,9 +10,9 @@ ENT.model = "models/zombie/dog.mdl"
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,
-	["str"] = 18,
+	["str"] = 12,
 	["accuracy"] = 10,
-	["end"] = 10,
+	["end"] = 5,
 	["luck"] = 5,
 	["perception"] = 50,
 	["fortitude"] = 0,

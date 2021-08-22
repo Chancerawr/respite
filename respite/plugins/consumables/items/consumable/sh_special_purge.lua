@@ -9,6 +9,9 @@ ITEM.price = 0
 ITEM.container = "j_empty_vial"
 ITEM.color = Color(232, 0, 0)
 
+ITEM.stomach = false
+ITEM.noEnhance = true
+
 ITEM.extraFunc = function(item, client)
 	for k, v in pairs(DISEASES.diseases) do --removes all of them for now
 		if(client:hasDisease(v.uid)) then
@@ -23,7 +26,6 @@ ITEM.confirm = {
 	name = "Purge",
 	query = "Are you sure you want to consume this item?",
 }
-
 
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(0, 0, 0, 200), 5, 2)

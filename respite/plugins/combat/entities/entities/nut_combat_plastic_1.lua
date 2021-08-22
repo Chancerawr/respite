@@ -6,7 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Plastic"
+
 ENT.model = "models/tnb/citizens/male_04.mdl"
+ENT.material = "phoenix_storms/mrref2"
 
 --all attributes
 ENT.attribs = {
@@ -18,11 +20,3 @@ ENT.attribs = {
 	["perception"] = 5,
 	["fortitude"] = 5,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-
-	if (SERVER) then
-		self:SetMaterial("phoenix_storms/mrref2")
-	end
-end

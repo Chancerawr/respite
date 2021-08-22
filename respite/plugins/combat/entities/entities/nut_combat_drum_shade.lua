@@ -6,13 +6,14 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombineplayer.mdl"
+ENT.color = Color(0,0,0)
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,
-	["str"] = 40,
+	["str"] = 30,
 	["accuracy"] = 15,
-	["end"] = 40,
+	["end"] = 35,
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 10,
@@ -24,7 +25,6 @@ function ENT:Initialize()
 	if (SERVER) then
 		self:SetBloodColor(DONT_BLEED)
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
-		self:SetColor(Color(0,0,0))
 		self:SetRenderFX(kRenderFxDistort)
 	end
 	

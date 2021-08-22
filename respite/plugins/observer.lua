@@ -103,16 +103,14 @@ if (CLIENT) then
 					RunConsoleCommand("nut_obsesp", "0")
 				end
 			end, NUT_CVAR_ADMINESP:GetBool())
-			
-			if(CMBT) then
-				local buttonESPC = menu:addCheck("Toggle CEnt ESP", function(panel, state)
-					if (state) then
-						RunConsoleCommand("nut_obsespc", "1")
-					else
-						RunConsoleCommand("nut_obsespc", "0")
-					end
-				end, NUT_CVAR_ADMINESPC:GetBool())
-			end
+
+			local buttonESPC = menu:addCheck("Toggle CEnt ESP", function(panel, state)
+				if (state) then
+					RunConsoleCommand("nut_obsespc", "1")
+				else
+					RunConsoleCommand("nut_obsespc", "0")
+				end
+			end, NUT_CVAR_ADMINESPC:GetBool())
 
 			local buttonESPC = menu:addCheck("Toggle Item ESP", function(panel, state)
 				if (state) then

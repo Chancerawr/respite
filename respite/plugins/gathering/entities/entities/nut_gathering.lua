@@ -55,7 +55,7 @@ if (SERVER) then
 				if(self.resources) then
 					local gather = self.resources[math.random(#self.resources)]
 					
-					inventory:addSmart(gather, 1, self:GetPos())
+					inventory:addSmart(gather, 1, activator:getItemDropPos())
 				end
 
 				--activator:notify(nut.item.list[gather].name.. " gathered.")
@@ -78,7 +78,7 @@ if (SERVER) then
 				nut.item.spawn(gather, dmginfo:GetDamagePosition())
 				
 				if (nut.config.get("gDamage")) then
-					self:SetHealth(self:Health() - nut.config.get("lifeDrain"))
+					self:SetHealth(self:Health() - nut.config.get("gDamageMult", 1))
 					if(self:Health() < 0) then
 						self:Remove()
 					end

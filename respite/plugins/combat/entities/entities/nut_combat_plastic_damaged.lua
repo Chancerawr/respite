@@ -6,7 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Decrepit Plastic"
+
 ENT.model = "models/tnb/citizens/male_04.mdl"
+ENT.material = "models/props_buildings/destroyedbuilldingwall01a"
 
 --all attributes
 ENT.attribs = {
@@ -37,8 +39,4 @@ function ENT:Initialize()
 		self:SetBodygroup(v.id, math.random(0, v.num))
 	end
 	--]]
-	
-	if (SERVER) then
-		self:SetMaterial("models/props_buildings/destroyedbuilldingwall01a")
-	end
 end

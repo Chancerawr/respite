@@ -8,7 +8,8 @@ ITEM.price = 7
 ITEM.container = "j_empty_chocolate_box"
 
 ITEM.attrib = { 
-	["stm"] = 4 
+	["stm"] = 2,
+	["preception"] = 1
 }
 
 ITEM.iconCam = {

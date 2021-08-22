@@ -4,7 +4,14 @@ ENT.PrintName = "Haunt"
 ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
-ENT.model = "models/tnb/citizens/male_04.mdl"
+
+ENT.models = {
+	"models/tnb/citizens/male_04.mdl",
+	"models/player/zombie_classic.mdl",
+	"models/player/soldier_stripped.mdl",
+	"models/player/corpse1.mdl"
+}
+ENT.material = "models/props_lab/security_screens"
 
 --all attributes
 ENT.attribs = {
@@ -28,17 +35,4 @@ function ENT:Initialize()
 	end
 
 	self:basicSetup()
-	
-	if (SERVER) then
-		self:SetMaterial("models/props_lab/security_screens")
-
-		local models = {
-			"models/tnb/citizens/male_04.mdl",
-			"models/player/zombie_classic.mdl",
-			"models/player/soldier_stripped.mdl",
-			"models/player/corpse1.mdl"
-		}
-		
-		self:SetModel(table.Random(models))		
-	end	
 end

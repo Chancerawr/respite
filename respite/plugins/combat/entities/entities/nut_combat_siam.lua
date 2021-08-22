@@ -9,12 +9,12 @@ ENT.model = "models/sient hill custom/Homecoming/siam.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 15,
-	["str"] = 50,
-	["accuracy"] = 35,
-	["end"] = 35,
+	["stm"] = 5,
+	["str"] = 30,
+	["accuracy"] = 10,
+	["end"] = 30,
 	["luck"] = 0,
-	["perception"] = 0,
+	["perception"] = 10,
 	["fortitude"] = 0,
 }
 

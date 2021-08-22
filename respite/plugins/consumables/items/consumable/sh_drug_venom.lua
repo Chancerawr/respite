@@ -10,7 +10,7 @@ ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["end"] = -15,
+	["end"] = -10,
 }
 
 ITEM.extraFunc = function(item, client)

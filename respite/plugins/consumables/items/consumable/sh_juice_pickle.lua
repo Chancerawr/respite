@@ -9,8 +9,8 @@ ITEM.container = "j_empty_juice_bottle"
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.attrib = { 
-	["perception"] = 7,
-	["medical"] = 7
+	["perception"] = 4,
+	["medical"] = 4
 }
 
 ITEM.iconCam = {

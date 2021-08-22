@@ -9,13 +9,13 @@ ENT.model = "models/prosperity/freak.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 5,
-	["str"] = 10,
-	["accuracy"] = 10,
-	["end"] = 10,
-	["luck"] = 1,
-	["perception"] = 0,
-	["fortitude"] = 0,
+	["stm"] = 3,
+	["str"] = 6,
+	["accuracy"] = 4,
+	["end"] = 4,
+	["luck"] = 0,
+	["perception"] = 2,
+	["fortitude"] = 3,
 }
 
 function ENT:Initialize()

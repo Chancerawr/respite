@@ -6,6 +6,7 @@ ITEM.material = "phoenix_storms/top"
 ITEM.hp = 60
 ITEM.hpTime = 15
 ITEM.price = 0
+ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_empty_bandage"
 ITEM.quantity2 = 3
 
@@ -13,6 +14,10 @@ ITEM.sound = "items/medshot4.wav"
 ITEM.soundPitch = 110
 
 ITEM.stomach = false
+
+ITEM.extraFunc = function(item, client)
+	client:ScreenFade(1, Color(30, 120, 30, 255), 1, 1)
+end
 
 ITEM.iconCam = {
 	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),

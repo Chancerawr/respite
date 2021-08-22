@@ -86,7 +86,7 @@ function ENT:Explosion()
 			v:Ignite(1, 5)
 		elseif v:IsNPC() then
 			v:Ignite(10, 5)
-		elseif(v.chance) then
+		elseif(v.respite) then
 			v:Ignite(10, 5)
 		end
 	end

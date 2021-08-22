@@ -8,8 +8,8 @@ ITEM.price = 8
 --ITEM.container = "j_tinc"
  
 ITEM.attrib = { 
-	["perception"] = 5,
-	["medical"] = 5
+	["perception"] = 3,
+	["medical"] = 3
 }
 
 ITEM.iconCam = {

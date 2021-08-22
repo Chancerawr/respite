@@ -6,23 +6,16 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/kuszo.mdl"
+ENT.material = "models/props_lab/warp_sheet"
+ENT.color = Color(190, 0, 0)
 
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,
-	["str"] = 10,
+	["str"] = 4,
 	["accuracy"] = 5,
 	["end"] = 0,
 	["luck"] = 4,
-	["perception"] = 10,
-	["fortitude"] = 10,
+	["perception"] = 7,
+	["fortitude"] = 7,
 }
-
-function ENT:Initialize()
-	if(SERVER) then
-		self:SetMaterial("models/props_lab/warp_sheet")
-		self:SetColor(Color(190,0,0))
-	end
-
-	self:basicSetup()
-end

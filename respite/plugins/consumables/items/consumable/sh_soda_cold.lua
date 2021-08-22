@@ -9,7 +9,8 @@ ITEM.sound = "hl1/ambience/steamburst1.wav"
 ITEM.container = "j_empty_soda_can"
 
 ITEM.attrib = { 
-	["stm"] = -5
+	["stm"] = -3,
+	["fortitude"] = 5,
 }
 
 ITEM.extraFunc = function(item, client)

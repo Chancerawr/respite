@@ -6,24 +6,15 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
+ENT.material = "models/angelsaur/ghosts/shadow"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 30,
-	["str"] = 30,
-	["accuracy"] = 10,
-	["end"] = 0,
+	["stm"] = 6,
+	["str"] = 5,
+	["accuracy"] = 5,
+	["end"] = 5,
 	["luck"] = 0,
-	["perception"] = 0,
-	["fortitude"] = 25,
+	["perception"] = 5,
+	["fortitude"] = 10,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	--ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, self, 1)
-	
-	if(SERVER) then
-		self:SetMaterial("models/angelsaur/ghosts/shadow")
-	end
-end

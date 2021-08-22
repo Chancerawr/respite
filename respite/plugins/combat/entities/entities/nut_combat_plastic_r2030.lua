@@ -6,7 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Plastic"
+
 ENT.model = "models/tnb/citizens/male_04.mdl"
+ENT.material = "phoenix_storms/mrref2"
 
 --all attributes
 ENT.attribs = {
@@ -34,9 +36,5 @@ function ENT:Initialize()
 	
 	for k, v in pairs(self:GetBodyGroups()) do
 		self:SetBodygroup(v.id, math.random(0, v.num))
-	end
-	
-	if (SERVER) then
-		self:SetMaterial("phoenix_storms/mrref2")
 	end
 end

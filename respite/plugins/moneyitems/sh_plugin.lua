@@ -5,7 +5,7 @@ PLUGIN.desc = "Lets you drop money as an item."
 
 nut.command.add("moneyconvert", {
 	adminOnly = true,
-	syntax = "<number money>",
+	syntax = "<number value>",
 	onRun = function(client, arguments)
 		local money = client:getChar():getMoney()
 	
@@ -29,6 +29,7 @@ nut.command.add("moneyconvert", {
 		
 		local char = client:getChar()
 		local inventory = char:getInv()
+		local position = client:getItemDropPos()
 		
 		char:takeMoney(drop)
 		
@@ -38,5 +39,32 @@ nut.command.add("moneyconvert", {
 		inventory:addSmart("money_custom", 1, position, data)
 		
 		client:notify("You have converted " ..nut.currency.get(drop).. " into an item.")
+	end
+})
+
+nut.command.add("spawnmoney", {
+	adminOnly = true,
+	syntax = "<number value>",
+	onRun = function(client, arguments)
+		local drop = tonumber(arguments[1])
+		if(!drop) then
+			client:notify("Specify a money amount.")
+			return false
+		end
+		
+		local position = client:getItemDropPos()
+		
+		drop = math.Round(drop)
+		
+		if(drop < 1) then
+			client:notify("Cannot spawn money with zero or less value.")
+			return false
+		end
+		
+		nut.item.spawn("money_custom", position, function(item)
+			item:setData("value", drop)
+		end)
+		
+		client:notify("You have spawned " ..nut.currency.get(drop).. ".")
 	end
 })

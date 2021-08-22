@@ -38,10 +38,11 @@ if (SERVER) then
 		end
 	end
 
-	function PLUGIN:SaveData()
+	function PLUGIN:saveTalkers()
 		local data = {}
 		
 		for k, v in ipairs(ents.FindByClass("nut_talker")) do
+			if(!IsValid(v)) then continue end
 			local bodyGroups = {}
 			bodyGroups[1] = v:GetBodygroup(1)
 			bodyGroups[2] = v:GetBodygroup(2)
@@ -75,7 +76,7 @@ if (SERVER) then
 		self:setData(data)
 	end
 
-	function PLUGIN:LoadData()
+	function PLUGIN:loadTalkers()
 		for k, v in ipairs(ents.FindByClass("nut_talker")) do
 			v.nutIsSafe = true
 			v:Remove()
@@ -106,5 +107,12 @@ if (SERVER) then
 				applyGroups(entity, v.groups)
 			end
 		end
+	end
+	
+	--hacky solution to errors yeeting all data, just put it in a timer and it'll only screw itself over
+	function PLUGIN:InitPostEntity()
+		timer.Simple(0, function()
+			PLUGIN:loadTalkers()
+		end)
 	end
 end

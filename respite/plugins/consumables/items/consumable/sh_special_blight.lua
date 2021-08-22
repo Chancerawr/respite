@@ -12,6 +12,7 @@ ITEM.sound = "items/medshot4.wav"
 ITEM.soundPitch = 75
 
 ITEM.stomach = false
+ITEM.noEnhance = true
 
 ITEM.notify = "Your body has changed."
 

@@ -9,9 +9,9 @@ ENT.model = "models/ninja/signalvariance/monsters/chimera.mdl"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 20,
-	["str"] = 20,
-	["accuracy"] = 20,
+	["stm"] = 12,
+	["str"] = 12,
+	["accuracy"] = 12,
 	["end"] = 15,
 	["luck"] = 5,
 	["perception"] = 10,

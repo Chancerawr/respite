@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Fortitude"
-ATTRIBUTE.desc = "Your character's mental fortitude and strength."
+ATTRIBUTE.desc = "Character's mental strength and stability. Used primarily for/against mental attacks.\nAdds to Max Mind."

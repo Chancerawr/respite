@@ -1,2 +1,2 @@
 ATTRIBUTE.name = "Accuracy"
-ATTRIBUTE.desc = "Your character's accuracy with ranged attacks."
+ATTRIBUTE.desc = "Character's accuracy with attacks. Used primary for ranged actions."

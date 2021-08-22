@@ -6,24 +6,17 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/freshdead/freshdead_01.mdl"
+ENT.material = "models/angelsaur/ghosts/shadow"
 
 --all attributes
 ENT.attribs = {
-	["stm"] = 5,
-	["str"] = 20,
-	["accuracy"] = 10,
-	["end"] = 20,
-	["luck"] = 5,
-	["perception"] = 5,
-	["fortitude"] = 10,
+	["stm"] = 3,
+	["str"] = 6,
+	["accuracy"] = 5,
+	["end"] = 10,
+	["luck"] = 0,
+	["perception"] = 3,
+	["fortitude"] = 5,
 }
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
-
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if(SERVER) then
-		self:SetMaterial("models/angelsaur/ghosts/shadow")
-	end
-end

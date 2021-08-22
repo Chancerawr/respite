@@ -13,7 +13,7 @@ ITEM.stomach = false
 ITEM.attrib = {
 	["stm"] = 30,
 	["perception"] = -5,
-	["end"] = -5
+	["end"] = -5,
 }
 
 ITEM.extraFunc = function(item, client)
