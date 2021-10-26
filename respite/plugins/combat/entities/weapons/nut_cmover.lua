@@ -111,8 +111,8 @@ function SWEP:DrawHUD()
 		if(self:getNetVar("selected")) then
 			local name = self:getNetVar("selectedName", "Unnamed")
 			
-			nut.util.drawText(name.. " Selected", ScrW() * 0.5, ScrH() * 0.3, ColorAlpha(Color(50,50,255), alpha), 1, 1, "nutEntDesc", alpha * 1)
-			nut.util.drawText("Primary Fire to move selected to location.", ScrW() * 0.5, ScrH() * 0.3 + 16, ColorAlpha(Color(50,255,50), alpha), 1, 1, "nutEntDesc", alpha * 1)
+			nut.util.drawText(name.. " Selected", ScrW() * 0.5, ScrH() * 0.3, ColorAlpha(Color(50,50,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+			nut.util.drawText("Primary Fire to move selected to location.", ScrW() * 0.5, ScrH() * 0.3 + 16, ColorAlpha(Color(50,255,50), alpha), 1, 1, "nutSmallFont", alpha * 1)
 		end
 		
 		if((self.nextCEntTrace or 0) < CurTime()) then
@@ -137,7 +137,7 @@ function SWEP:DrawHUD()
 		if(self.viewed) then
 			local name = self.viewed
 		
-			nut.util.drawText(name.. " Viewed", ScrW() * 0.5, ScrH() * 0.7, ColorAlpha(Color(255,50,50), alpha), 1, 1, "nutEntDesc", alpha * 1)
+			nut.util.drawText(name.. " Viewed", ScrW() * 0.5, ScrH() * 0.7, ColorAlpha(Color(255,50,50), alpha), 1, 1, "nutSmallFont", alpha * 1)
 		end
 	end
 end

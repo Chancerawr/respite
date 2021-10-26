@@ -3,15 +3,16 @@ ITEM.desc = "A small box filled with bandages."
 ITEM.uniqueID = "medical_bandages"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/props_c17/furniturefabric002a"
-ITEM.hp = 40
+ITEM.category = "Medical"
+ITEM.hp = 30
 ITEM.hpTime = 10
 ITEM.price = 0
 ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_empty_bandage"
 ITEM.quantity2 = 3
 
-ITEM.sound = "items/medshot4.wav"
-ITEM.soundPitch = 110
+ITEM.sound = "physics/cardboard/cardboard_box_impact_soft7.wav"
+ITEM.soundPitch = 50
 
 ITEM.stomach = false
 

@@ -3,6 +3,7 @@ ITEM.desc = "A small bag that can be used for IV therapy."
 ITEM.uniqueID = "medical_iv"
 ITEM.model = "models/props_junk/garbage_bag001a.mdl"
 ITEM.material = "models/props/cs_assault/moneywrap02"
+ITEM.category = "Medical"
 ITEM.hp = 65
 ITEM.hpTime = 15
 ITEM.price = 0

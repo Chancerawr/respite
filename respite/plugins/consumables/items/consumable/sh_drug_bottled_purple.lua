@@ -3,12 +3,15 @@ ITEM.desc = "A bottle filled with a purple gas, inhaling it makes you feel happy
 ITEM.uniqueID = "bottled_purple"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.material = "models/items/boxsniperrounds"
+ITEM.category = "Drug"
 ITEM.duration = 6200
 ITEM.price = 200
 ITEM.color = Color(155, 50, 200)
 
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 ITEM.soundPitch = 50
+
+ITEM.mp = 10
 
 ITEM.stomach = false
 

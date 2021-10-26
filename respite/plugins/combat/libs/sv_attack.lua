@@ -1,3 +1,4 @@
+-- Most of this is currently unused, but it's here anyways
 local PLUGIN = PLUGIN
 
 local playerMeta = FindMetaTable("Player")

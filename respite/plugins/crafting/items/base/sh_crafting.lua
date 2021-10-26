@@ -117,6 +117,42 @@ ITEM.functions.Stack = {
 	end
 }
 
+ITEM.functions.Split = {
+	tip = "Take a part out.",
+	icon = "icon16/delete.png",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local position = client:getItemDropPos()
+		
+		local stack = item:getData("Amount", 1)
+		if(stack <= 1) then return false end
+
+		client:requestString("Split", "", function(text)	
+			amount = math.Clamp(tonumber(text), 1, stack - 1)
+			
+			item:setData("Amount", item:getData("Amount", 1) - amount)
+			
+			inventory:addSmart(item.uniqueID, 1, position, {Amount = amount})
+			
+			client:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
+		end, 1)
+
+		return false
+	end,
+	onCanRun = function(item)
+		if(item.entity) then
+			return false
+		end
+		
+		if(item:getData("Amount", 1) <= 1) then
+			return false
+		end
+		
+		return true
+	end	
+}
+
 ITEM.onCombine = function(itemSelf, itemTarget)
 	if(itemSelf.uniqueID == itemTarget.uniqueID) then
 		local amountSelf = itemSelf:getData("Amount", 1)

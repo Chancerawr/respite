@@ -6,8 +6,8 @@ local function critCalc(char)
 	
 	local luck = char:getAttrib("luck", 0)
 	
-	--base crit chance is 5% (50)
-	local critChance = 50 + (luck * 5) -- Chance for critical success
+	--base crit chance is 3% (30)
+	local critChance = 40 + (luck * 4) -- Chance for critical success
 	local failChance = 10 - (luck * 0.1) -- Chance for critical failure
 	
 	local critRoll = math.random(1, 1000)
@@ -31,11 +31,11 @@ local function basicRoll(actionTbl, client, trace)
 	local attribVal = 0
 	-- Adds up the attributes used by the roll
 	for attrib, value in pairs(actionTbl.attribs or {}) do
-		attribVal = attribVal + char:getAttrib(attrib, 0)
+		attribVal = attribVal + char:getAttrib(attrib, 0) * value
 	end
 	
 	-- Random roll. Increases the floor and the ceiling as value increases.
-	local roll = math.Rand(-1 + attribVal * 0.5, 20 + attribVal)
+	local roll = math.Rand(-1 + (attribVal*0.5), 20 + attribVal)
 	
 	-- Command specific multiplier
 	roll = roll * (actionTbl.mult or 1) 
@@ -123,7 +123,7 @@ local respiteCommands = {
 		desc = "Used for not getting hit.",
 		category = "Reactive",
 		
-		mult = 0.9,
+		mult = 0.8,
 		attribs = {
 			["stm"] = 1,
 			["perception"] = 0.1,
@@ -134,7 +134,7 @@ local respiteCommands = {
 		desc = "Used for blocking things.",
 		category = "Reactive",
 		
-		mult = 0.9,
+		mult = 0.85,
 		attribs = {
 			["end"] = 1,
 			["str"] = 0.5,
@@ -145,7 +145,7 @@ local respiteCommands = {
 		desc = "Used to block a single attack from hitting an ally, if roll fails you get hit instead. You can only do this once per turn.",
 		category = "Reactive",
 		
-		mult = 0.9,
+		mult = 0.8,
 		attribs = {
 			["end"] = 1,
 			["stm"] = 0.5,
@@ -157,7 +157,7 @@ local respiteCommands = {
 		desc = "Can be used to counter an enemy melee attack. You can only do this once per turn.",
 		category = "Reactive",
 		
-		mult = 0.8,
+		mult = 0.7,
 		attribs = {
 			["stm"] = 0.5,
 			["str"] = 0.5,
@@ -169,7 +169,7 @@ local respiteCommands = {
 	-- Special
 	["luckychance"] = {
 		name = "Lucky Chance",
-		desc = "It might do something good, it might do something bad, who knows? Can only be used once per combat.",
+		desc = "It might do something good, it might do something bad, who knows? Can only be used once per combat. Does not cost an action.",
 		category = "Special",
 		
 		attribs = {
@@ -181,10 +181,10 @@ local respiteCommands = {
 		desc = "Used for ichor body part related attacks. Can only be used if you have a significant ichor body part that can be used to attack.",
 		category = "Special",
 		
-		mult = 1.2,
+		mult = 1,
 		attribs = {
 			["str"] = 1,
-			["accuracy"] = 0.1,
+			["accuracy"] = 0.5,
 		},
 	},
 	["blightblast"] = {
@@ -195,7 +195,17 @@ local respiteCommands = {
 		mult = 1,
 		attribs = {
 			["fortitude"] = 1,
-			["accuracy"] = 0.1,
+			["accuracy"] = 0.5,
+		},
+	},
+	["blind"] = {
+		name = "Blind",
+		desc = "Interferes with the mind of an enemy, causing them to lose the ability to see for two turns.",
+		category = "Special",
+		
+		mult = 0.5,
+		attribs = {
+			["fortitude"] = 1,
 		},
 	},
 }
@@ -231,3 +241,37 @@ for k, action in pairs(respiteCommands) do
 		end
 	})
 end
+
+-- CEnt Chat command
+nut.command.add("cent", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local action = arguments[1]
+		
+		if(!action) then
+			client:notify("Specify an action.")
+			return false
+		end
+	
+		local data = {}
+			data.start = client:GetShootPos()
+			data.endpos = data.start + client:GetAimVector()*4096
+			data.filter = {client, self}
+		local trace = util.TraceLine(data)
+
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local actionTbl = ACTS.actions[action]
+			
+			if(!actionTbl) then
+				client:notify("Invalid action specified.")
+				return false
+			end
+			
+			actionTbl.attackOverwrite(actionTbl, entity, trace)
+			--basicRoll(actionTbl, entity, trace)
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})

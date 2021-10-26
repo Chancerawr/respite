@@ -1,62 +1,5 @@
 local PLUGIN = PLUGIN
 
---[[
-nut.command.add("cent", {
-	--adminOnly = true,
-	syntax = "<string command>",
-	onRun = function(client, arguments)
-		if(!arguments[1]) then
-			client:notify("Specify a command for the entity to run.")
-		end
-		
-		local entity = client:GetEyeTrace().Entity
-		if (IsValid(entity) and entity.combat) then
-			if(!entity:runCMD(client, arguments[1], arguments[2])) then
-				client:notify("Invalid command.")
-			end
-		else
-			client:notify("You must be looking at a combat entity.")
-		end
-	end
-})
---]]
-
-nut.command.add("centfa", {
-	--adminOnly = true,
-	syntax = "<string command>",
-	onRun = function(client, arguments)
-		if(!arguments[1]) then
-			client:notify("Specify a command for the entity to run.")
-		end
-		
-		local entity = client:GetEyeTrace().Entity
-		if (IsValid(entity) and entity.combat) then
-			entity:fortAttack(arguments[1])
-		else
-			client:notify("You must be looking at a combat entity.")
-		end
-	end
-})
-
-nut.command.add("centname", {
-	adminOnly = true,
-	syntax = "<string name>",
-	onRun = function(client, arguments)
-		if(!arguments[1]) then
-			client:notify("Specify a name for the entity.")
-			return false
-		end
-		
-		local entity = client:GetEyeTrace().Entity
-		if (IsValid(entity) and entity.combat) then
-			entity:setNetVar("name", arguments[1])
-			client:notify("Entity's name has been changed to " ..arguments[1].. ".")
-		else
-			client:notify("You must be looking at a combat entity.")
-		end
-	end
-})
-
 nut.command.add("centsay", {
 	adminOnly = true,
 	syntax = "<string sentence>",
@@ -152,17 +95,41 @@ nut.command.add("centme", {
 	end
 })
 
+nut.command.add("centname", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		if(!arguments) then
+			client:notify("Specify a name for the entity.")
+			return false
+		end
+		
+		local name = table.concat(arguments, " ")
+		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity:setNetVar("name", name)
+			client:notify("Entity's name has been changed to " ..name.. ".")
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
 nut.command.add("centdesc", {
 	adminOnly = true,
 	syntax = "<string description>",
 	onRun = function(client, arguments)
-		if(!arguments[1]) then
-			client:notify("Specify a desc for the entity.")
+		if(!arguments) then
+			client:notify("Specify a name for the entity.")
+			return false
 		end
+		
+		local desc = table.concat(arguments, " ")
 		
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
-			entity:setNetVar("desc", arguments[1])
+			entity:setNetVar("desc", desc)
 			client:notify("Entity's description has been changed.")
 		else
 			client:notify("You must be looking at a combat entity.")
@@ -489,14 +456,22 @@ nut.command.add("centfollow", {
 	adminOnly = true,
 	syntax = "<string target>",
 	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if !(IsValid(entity) and entity.combat) then
+			client:notify("You must be looking at a combat entity.")
+			return false
+		end
+	
+		if(!arguments[1]) then 
+			entity.follow = nil
+			client:notify(entity:Name().. " no longer following.")
+			return
+		end
+	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target)) then
-			local entity = client:GetEyeTrace().Entity
-			if (IsValid(entity) and entity.combat) then
-				entity.follow = target
-			else
-				client:notify("You must be looking at a combat entity.")
-			end
+			entity.follow = target
+			client:notify(entity:Name().. " is now following " ..target:Name().. ".")
 		end
 	end
 })
@@ -507,6 +482,7 @@ nut.command.add("centfollowstop", {
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			entity.follow = nil
+			client:notify(entity:Name().. " no longer following.")
 		else
 			client:notify("You must be looking at a combat entity.")
 		end

@@ -31,7 +31,7 @@ ITEM.functions.FishBait = {
 			local ang = client:EyeAngles()
 			phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
 			phys:SetMass(1)
-			phys:SetBuoyancyRatio(0.1)
+			phys:SetBuoyancyRatio(0.3)
 		end
 		
 		timer.Simple(2, function()
@@ -202,7 +202,7 @@ ITEM.functions.FishNoBait = {
 			local ang = client:EyeAngles()
 			phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
 			phys:SetMass(1)
-			phys:SetBuoyancyRatio(0.1)
+			phys:SetBuoyancyRatio(0.3)
 		end
 		
 		timer.Simple(2, function()
@@ -233,12 +233,14 @@ ITEM.functions.FishNoBait = {
 							end
 							
 							local customData = {}
+							customData.name = "Plastic " ..name
 							customData.desc = desc
 							
-							if(!inventory:add("food_fish" .. model .. "_plastic", 1, {custom = customData})) then --if the inventory has space, put it in the inventory
+							if(!inventory:add("food_fish" .. model .. "_plastic", 1, {custom = customData, weight = wgt})) then --if the inventory has space, put it in the inventory
 								nut.item.spawn("food_fish" .. model .. "_plastic", position,
 									function(item2)
 										item2:setData("custom", customData)
+										item2:setData("weight", wgt)
 									end
 								)
 							end

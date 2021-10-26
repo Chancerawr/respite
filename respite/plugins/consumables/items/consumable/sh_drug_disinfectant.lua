@@ -1,10 +1,14 @@
 ITEM.name = "Disinfectant"
-ITEM.model = "models/props_junk/glassjug01.mdl"
 ITEM.desc = "A bottle filled with some kind of disinfectant."
 ITEM.uniqueID = "drug_disinfectant"
+ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.mp = 3
+ITEM.hp = 10
 
 ITEM.stomach = false
 

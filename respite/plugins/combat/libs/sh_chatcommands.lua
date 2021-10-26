@@ -93,13 +93,19 @@ if(CLIENT) then
 	netstream.Hook("ShowAttribs", function(client, attribs, boosted)
 		local attribText = ""
 		
+		local attribCount = 0
+		local boostCount = 0
+		
 		for k, v in pairs(boosted or attribs) do
 			local boostText = ""
 			if(boosted and !table.IsEmpty(boosted)) then
 				local bonus = (v - (attribs[k] or 0))
 				boostText = boostText.. " (" ..(((bonus >= 0) and "+") or "")..bonus.. ")"
+				
+				boostCount = boostCount + bonus
 			end
 		
+			attribCount = attribCount + v
 			attribText = attribText .. nut.attribs.list[k].name .. ": " ..v..boostText.. "\n\n"
 		end
 	
@@ -126,5 +132,13 @@ if(CLIENT) then
 		attribMenu.B:SetWrap( true )
 		attribMenu.B:SetSize( 500 - 20, 10 )
 		attribMenu.B:SetTextColor( Color( 255, 255, 255, 255 ) )
+		
+		attribMenu.count = vgui.Create( "DLabel", attribMenu.DS )
+		attribMenu.count:Dock(BOTTOM)
+		attribMenu.count:SetFont( "nutSmallFont" )
+		attribMenu.count:SetText("Total Attributes: " ..attribCount.. " + " ..boostCount)
+		attribMenu.count:SetAutoStretchVertical( true )
+		attribMenu.count:SetWrap(true)
+		attribMenu.count:SetTextColor(Color(255, 255, 255, 255))
 	end)
 end

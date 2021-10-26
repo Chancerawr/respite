@@ -48,6 +48,9 @@ function ENT:basicSetup()
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
 
 	if (SERVER) then
+		self.attribs = self.savedAttribs or self.attribs or {}
+		self.inv = self.inv or {}
+	
 		local model
 		if(self.models) then
 			model = table.Random(self.models)
@@ -55,11 +58,10 @@ function ENT:basicSetup()
 			model = self.model
 		end
 
-		self.attribs = self.savedAttribs or self.attribs or {}
-	
 		self:SetModel(self.savedModel or model)
+		
 		self:SetMaterial(self.savedMat or self.material or self:GetMaterial())
-		self:SetColor(self.color)
+		self:SetColor(self.savedColor or self.color)
 		
 		self:SetUseType(SIMPLE_USE)
 		--self:SetMoveType(MOVETYPE_STEP)
@@ -90,14 +92,12 @@ function ENT:basicSetup()
 			
 			self:SetGravity(0)
 		end
-		
-		self.inv = {}
 	end
 
 	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,100))
 	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	
-	timer.Simple(0.5, function()
+	timer.Simple(1, function()
 		if (IsValid(self)) then
 			self:setAnim()
 		end
@@ -117,8 +117,8 @@ function ENT:getSaveData()
 	saveData.model = self:GetModel()
 	saveData.mat = self:GetMaterial()
 	saveData.attribs = self.attribs
-	saveData.res = self.res
 	saveData.anim = self:GetSequence()
+	saveData.color = self:GetColor()
 	
 	saveData.bodygroups = {
 		self:GetBodygroup(1),
@@ -152,7 +152,7 @@ function ENT:Think()
 			end
 			
 			--if held with physgun while moving, will teleport to end when hold ends
-			if(self.nudged) then
+			if(self.nudged and self.desiredPos) then
 				self:SetPos(self.desiredPos)
 				self.desiredPos = nil
 				self.nudged = nil
@@ -219,7 +219,6 @@ end
 function ENT:HandleStuck()
 
 end
-
 
 --death
 function ENT:die()
@@ -460,7 +459,7 @@ if (CLIENT) then
 		drawText(self:getNetVar("name", ""), x, y, colorAlpha(Color(190,50,50), alpha), 1, 1, nil, alpha * 0.65)
 
 		if (self:getNetVar("desc")) then
-			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
+			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 		end
 	end
 end

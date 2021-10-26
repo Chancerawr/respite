@@ -5,7 +5,7 @@ ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.material = "models/props_c17/furniturefabric002a"
 ITEM.duration = 6000
 ITEM.price = 200
-ITEM.color = Color(255, 108, 108)
+ITEM.color = Color(255, 60, 60)
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 
 ITEM.noEnhance = true

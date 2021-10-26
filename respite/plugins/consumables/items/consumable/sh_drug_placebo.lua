@@ -2,9 +2,12 @@ ITEM.name = "Placebo"
 ITEM.desc = "A bottle filled with some kind of pill."
 ITEM.uniqueID = "drug_placebo"
 ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 12000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.mp = 1
 
 ITEM.stomach = false
 

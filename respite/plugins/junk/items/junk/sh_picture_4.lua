@@ -1,4 +1,4 @@
-ITEM.name = "Framed Picture(4)"
+ITEM.name = "Framed Picture"
 ITEM.uniqueID = "j_picture_4"
 ITEM.model = "models/props_c17/Frame002a.mdl"
 ITEM.desc = "A wooden picture frame."

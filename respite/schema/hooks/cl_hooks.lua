@@ -1,13 +1,6 @@
 local NUT_CVAR_LOWER2 = CreateClientConVar("nut_usealtlower", "1", true)
 
 function SCHEMA:LoadFonts(font)
-	--used for entity names and descriptions
-	surface.CreateFont("nutEntDesc", {
-		font = "Segoe UI",
-		size = math.max(ScreenScale(7), 17),
-		weight = 200
-	})
-
 	surface.CreateFont("nutAmmoFont", {
 		font = "Roboto Cn",
 		size = 28,

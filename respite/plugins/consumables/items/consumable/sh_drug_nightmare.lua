@@ -3,6 +3,7 @@ ITEM.desc = "A small bottle filled with a purple substance. Upon consumption, a 
 ITEM.uniqueID = "drug_nightmare"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "phoenix_storms/bluemetal"
+ITEM.category = "Drug"
 ITEM.duration = 7200
 ITEM.price = 30
 ITEM.color = Color(148, 0, 210)
@@ -13,6 +14,8 @@ ITEM.notify = "You begin to feel very sleepy."
 
 ITEM.disease = "dis_eyes"
 ITEM.disChance = 5
+
+ITEM.mp = -10
 
 ITEM.stomach = false
 

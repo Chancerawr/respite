@@ -1,7 +1,7 @@
 ITEM.name = "Ares Shrike"
 ITEM.desc = "A belt-fed, select fire support weapon, based upon the AR-15 platform of rifles. Capable of a startling rate of fire, brace yourself before firing."
 ITEM.class = "tfa_ares_shrike"
-ITEM.weaponCategory = "primary"
+ITEM.slot = "primary"
 ITEM.model = "models/weapons/tfa_w_ares_shrike.mdl"
 ITEM.width = 4
 ITEM.height = 2

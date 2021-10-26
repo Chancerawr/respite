@@ -2,9 +2,13 @@ ITEM.name = "Antibiotics"
 ITEM.desc = "A bottle filled with antibiotics."
 ITEM.uniqueID = "drug_antibiotics"
 ITEM.model = "models/healthvial.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 200
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.hp = 25
+ITEM.mp = 10
 
 ITEM.stomach = false
 

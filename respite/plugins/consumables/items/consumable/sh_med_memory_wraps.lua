@@ -3,14 +3,18 @@ ITEM.desc = "A small box filled with some strange wrappings.\nThese wrappings he
 ITEM.uniqueID = "medical_memory"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/props_lab/security_screens"
-ITEM.hp = 10
-ITEM.hpTime = 1
+ITEM.category = "Medical"
+ITEM.mp = 10
+ITEM.mpTime = 1
 ITEM.price = 0
 ITEM.color = Color(232, 0, 0)
 ITEM.quantity2 = 3
 
 ITEM.container = "j_empty_bandage"
 ITEM.color = Color(0, 128, 128)
+
+ITEM.sound = "physics/cardboard/cardboard_box_impact_soft7.wav"
+ITEM.soundPitch = 50
 
 ITEM.stomach = false
 

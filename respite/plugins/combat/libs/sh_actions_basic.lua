@@ -10,12 +10,17 @@ timer.Simple(0, function()
 		ACT.desc = "A roll that uses your " ..attrib.name.. " attribute."
 		ACT.category = "Attributes"
 		ACT.attackOverwrite = function(actionTbl, client, trace)
-			local attribVal
+			local char = client:getChar()
+		
+			local attribVal = client:getChar():getAttrib(attribID, 0)
+			
+			--[[
 			if(client:IsPlayer()) then
 				attribVal = client:getChar():getAttrib(attribID, 0)
 			else
 				attribVal = client:getAttrib(attribID, 0)
 			end
+			--]]
 		
 			local roll = math.Rand(-1 + attribVal * 0.5, 20 + attribVal) --random roll
 			roll = math.Round(roll) --round it

@@ -11,7 +11,7 @@ if (CLIENT) then
 	NUT_CVAR_ADMINESPR = CreateClientConVar("nut_obsespr", 1, true, true)
 
 	local client, sx, sy, scrPos, marginx, marginy, x, y, teamColor, distance, factor, size, alpha
-	local dimDistance = 1024
+	local dimDistance = 4096
 	function PLUGIN:HUDPaint()
 		client = LocalPlayer()
 		
@@ -32,19 +32,15 @@ if (CLIENT) then
 
 				surface.SetDrawColor(teamColor.r, teamColor.g, teamColor.b, alpha)
 				surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
-				surface.DrawRect(x - size/2, y - size/2, size, size)
+				--surface.DrawRect(x - size/2, y - size/2, size, size)
 
 				nut.util.drawText(v:Name() .. "(" .. v:Health() .. ")", x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 
-				--combatHP text
-				--[[
-				local combatHP = nut.plugin.list["combathp"]
-				if(combatHP and NUT_CVAR_ADMINESPR) then
-					if(combatHP.NUTCOMBATHP[v]) then
-						nut.util.drawText("[ " .. combatHP.NUTCOMBATHP[v][1] .. "/" ..combatHP.NUTCOMBATHP[v][2].. " ]", x, y - size + 16, ColorAlpha(Color(200,50,50), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
-					end
+				if(v.getMP) then
+					local MP = v:getMP()
+				
+					nut.util.drawText("[ " ..MP.. " ]", x, y - size + 16, ColorAlpha(Color(50,50,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
-				--]]
 			end
 			
 			if(NUT_CVAR_ADMINESPC:GetBool()) then

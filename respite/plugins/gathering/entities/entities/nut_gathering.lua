@@ -109,6 +109,6 @@ else
 		local position = toScreen(self.LocalToWorld(self, self.OBBCenter(self)))
 		local x, y = position.x, position.y
 		local tx, ty = drawText(self.Name or self.PrintName, x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 2)
-		--drawText(self.harvestMsg, ScrW() * 0.5, ScrH() * 0.8, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
+		--drawText(self.harvestMsg, ScrW() * 0.5, ScrH() * 0.8, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 	end
 end

@@ -85,34 +85,37 @@ function ENT:resetAnim()
 end
 
 function ENT:setAnim()
-	if(self.IdleAnim) then
+	if(self.savedAnim) then
+		local savedAnim = tonumber(self.savedAnim)
+		
+		timer.Simple(1, function()
+			self:ResetSequence(savedAnim)
+			
+			if(self.IdleAnim) then
+				self.idle = self:LookupSequence(self.IdleAnim) or 4
+			else
+				for k, v in ipairs(self:GetSequenceList()) do
+					if (v:lower():find("idle") and v != "idlenoise") then
+						self.idle = k
+						return
+					end
+				end
+				
+				self.idle = 4
+			end
+		end)
+	elseif(self.IdleAnim) then
+		self.idle = self:LookupSequence(self.IdleAnim)
 		self:ResetSequence(self:LookupSequence(self.IdleAnim))
 	else
-		if(self.savedAnim) then
-			--timer.Simple(30, function()
-				if(IsValid(self)) then
-					self:ResetSequence(self.savedAnim)
-				end
-			--end)
-			
-			for k, v in ipairs(self:GetSequenceList()) do
-				if (v:lower():find("idle") and v != "idlenoise") then
-					self.idle = k
-					return
-				end
+		for k, v in ipairs(self:GetSequenceList()) do
+			if (v:lower():find("idle") and v != "idlenoise") then
+				self.idle = k
+				return self:ResetSequence(k)
 			end
-			
-			self.idle = 4
-		else
-			for k, v in ipairs(self:GetSequenceList()) do
-				if (v:lower():find("idle") and v != "idlenoise") then
-					self.idle = k
-					return self:ResetSequence(k)
-				end
-			end
-
-			self.idle = 4
-			self:ResetSequence(4)
 		end
+
+		self.idle = 4
+		self:ResetSequence(4)
 	end
 end

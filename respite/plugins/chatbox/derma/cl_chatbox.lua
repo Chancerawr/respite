@@ -326,7 +326,15 @@ local PANEL = {}
 			panel:SetPos(0, self.lastY)
 
 			self.lastY = self.lastY + panel:GetTall()
-			self.scroll:ScrollToChild(panel)
+			
+			local scrollPos = self.scroll:GetVBar():GetScroll()
+			local scrollHeight = self.scroll:GetTall()
+			local canvasHeight = self.scroll:GetCanvas():GetTall()
+			
+			-- Don't scroll down if we are scrolled up.
+			if(canvasHeight - scrollPos <= scrollHeight) then
+				self.scroll:ScrollToChild(panel)
+			end
 		end
 
 		panel.filter = class

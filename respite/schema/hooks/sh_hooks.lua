@@ -107,7 +107,7 @@ NUT_ITEM_DEFAULT_FUNCTIONS = {
 			local client = item.player
 			item:removeFromInventory(true)
 				:next(function() item:spawn(client) end)
-			nut.log.add(item.player, "itemDrop", item.name, 1)
+			nut.log.add(item.player, "itemDrop", (item.getName and item:getName()) or item.name, 1)
 
 			return false
 		end,
@@ -146,7 +146,7 @@ NUT_ITEM_DEFAULT_FUNCTIONS = {
 					end
 					
 					if (not IsValid(client)) then return end
-					nut.log.add(client, "itemTake", item.name, 1)
+					nut.log.add(client, "itemTake", (item.getName and item:getName()) or item.name, 1)
 
 					d:resolve()
 				end)

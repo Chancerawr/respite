@@ -2,6 +2,7 @@ ITEM.name = "Splint"
 ITEM.desc = "A crude splint."
 ITEM.uniqueID = "medical_splint"
 ITEM.model = "models/props_junk/wood_crate001a_chunk05.mdl"
+ITEM.category = "Medical"
 ITEM.width = 2
 ITEM.hp = 60
 ITEM.hpTime = 12

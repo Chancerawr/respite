@@ -2,9 +2,12 @@ ITEM.name = "Steroid"
 ITEM.desc = "A small bottle filled with medical steroids."
 ITEM.uniqueID = "drug_steroid"
 ITEM.model = "models/props_lab/jar01b.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 200
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.hp = 20
 
 ITEM.stomach = false
 

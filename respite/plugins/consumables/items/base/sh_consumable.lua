@@ -219,7 +219,7 @@ local function consume(client, item)
 		end
 	end
 	
-	--healing
+	--hp healing
 	if(item.hp) then
 		local id = "nutHeal_"..FrameTime()
 		timer.Create(id, 1, item.hpTime or 0, function()
@@ -228,6 +228,18 @@ local function consume(client, item)
 			end
 
 			client:SetHealth(math.Clamp(client:Health() + (item.hp/item.hpTime or 0), 0, client:GetMaxHealth()))
+		end)
+	end
+	
+	--mp healing
+	if(item.mp) then
+		local id = "nutHealMP_"..FrameTime()
+		timer.Create(id, 1, item.mpTime or 0, function()
+			if (!IsValid(client) or !client:Alive()) then
+				timer.Destroy(id)	
+			end
+
+			client:setMP(math.Clamp(client:getMP() + (item.mp/item.mpTime or 0), 0, client:getMaxMP()))
 		end)
 	end
 	
@@ -526,7 +538,15 @@ function ITEM:getDesc(partial)
 			desc = desc.. "\nHP Restore: " ..self.hp
 			
 			if(self.hpTime) then
-				desc = desc.. " Over" ..self.hpTime.. " seconds."
+				desc = desc.. " Over " ..self.hpTime.. " seconds."
+			end
+		end
+		
+		if(self.mp) then
+			desc = desc.. "\nMP Restore: " ..self.mp
+			
+			if(self.mpTime) then
+				desc = desc.. " Over " ..self.mpTime.. " seconds."
 			end
 		end
 		
@@ -552,8 +572,6 @@ function ITEM:getName()
 	if(customData.name) then
 		name = customData.name
 	end
-	
-	print(name)
 	
 	return name
 end

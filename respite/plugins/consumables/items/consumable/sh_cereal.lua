@@ -5,8 +5,8 @@ ITEM.model = "models/props_lab/harddrive02.mdl"
 ITEM.material = "models/props_c17/furnituremetal001a"
 ITEM.quantity2 = 5
 ITEM.price = 6
-ITEM.width = 2
-ITEM.height = 2
+ITEM.width = 1
+ITEM.height = 1
 ITEM.container = "j_cereal_box"
  
 ITEM.attrib = { 

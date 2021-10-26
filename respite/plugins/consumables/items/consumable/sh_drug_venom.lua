@@ -3,9 +3,12 @@ ITEM.desc = "A small bottle filled with a venomous toxin, it needs to enter thro
 ITEM.uniqueID = "drug_venom"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "models/xqm/woodtexture_1"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.hp = -20
 
 ITEM.stomach = false
 

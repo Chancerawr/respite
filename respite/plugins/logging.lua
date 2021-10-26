@@ -22,7 +22,7 @@ if (SERVER) then
 	nut.log.addType("itemUse", function(client, ...)
 		local arg = {...}
 		local item = arg[2]
-		return (Format("%s tried '%s' to item '%s'(#%s)", client:Name(), arg[1], item.name, item.id))
+		return (Format("%s tried '%s' to item '%s'(#%s)", client:Name(), arg[1], (item.getName and item:getName()) or item.name, item.id))
 	end)
 	nut.log.addType("shipment", function(client, ...)
 		local arg = {...}

@@ -3,9 +3,12 @@ ITEM.desc = "A small bottle filled with a poisonous toxin, it will affect anythi
 ITEM.uniqueID = "drug_poison"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.hp = -25
 
 ITEM.stomach = false
 

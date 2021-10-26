@@ -3,9 +3,12 @@ ITEM.desc = "A bottle filled with numerous pills."
 ITEM.uniqueID = "drug_antipsychotics"
 ITEM.model = "models/props_junk/glassjug01.mdl"
 ITEM.material = "models/props_c17/furnituremetal001a"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.mp = 15
 
 ITEM.stomach = false
 

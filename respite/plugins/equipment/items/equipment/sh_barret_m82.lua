@@ -1,7 +1,7 @@
 ITEM.name = "Barret M82"
 ITEM.desc = "An American designed and produced anti-materiel rifle chambered in .50BMG. Once used extensively by US Military sniper teams for anti-vehicle and long range anti-personnel operations."
 ITEM.class = "tfa_barret_m82"
-ITEM.weaponCategory = "primary"
+ITEM.slot = "primary"
 ITEM.model = "models/weapons/tfa_w_barret_m82.mdl"
 ITEM.width = 5
 ITEM.height = 2

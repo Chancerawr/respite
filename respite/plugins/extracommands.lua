@@ -429,10 +429,27 @@ nut.command.add("charforceunequip", {
 		if(IsValid(target) and target:getChar()) then
 			local inventory = target:getChar():getInv()
 			
-			for k, v in pairs(inventory:getItems()) do
-				if(v:getData("equip")) then
-					v:setData("equip", false)
+			for k, item in pairs(inventory:getItems()) do
+				if(item:getData("equip")) then
+					item:setData("equip", false)
 				end
+			end
+		end
+	end
+})
+
+nut.command.add("charforcedropall", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			local inventory = target:getChar():getInv()
+			
+			for k, item in pairs(inventory:getItems()) do
+				item:removeFromInventory(true)
+					:next(function() item:spawn(client) end)
+				nut.log.add(target, "itemDrop", (item.getName and item:getName()) or item.name, 1)
 			end
 		end
 	end

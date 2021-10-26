@@ -165,7 +165,7 @@ else
 		local x, y = position.x, position.y
 		local tx, ty = drawText("Safebox", x, y, colorAlpha(configGet("color"), alpha), 1, 1, nil, alpha * 2)
 	
-		drawText("A box that is larger on the inside than it is on the outside.", x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutEntDesc", alpha * 0.65)
+		drawText("A box that is larger on the inside than it is on the outside.", x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 	end
 end
 

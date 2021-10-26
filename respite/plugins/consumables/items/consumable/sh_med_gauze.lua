@@ -3,15 +3,16 @@ ITEM.desc = "A small box filled with gauze."
 ITEM.uniqueID = "medical_gauze"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "phoenix_storms/top"
-ITEM.hp = 60
+ITEM.category = "Medical"
+ITEM.hp = 45
 ITEM.hpTime = 15
 ITEM.price = 0
 ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_empty_bandage"
 ITEM.quantity2 = 3
 
-ITEM.sound = "items/medshot4.wav"
-ITEM.soundPitch = 110
+ITEM.sound = "physics/cardboard/cardboard_box_impact_soft7.wav"
+ITEM.soundPitch = 50
 
 ITEM.stomach = false
 

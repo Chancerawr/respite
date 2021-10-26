@@ -2,6 +2,7 @@ ITEM.name = "Cold Medication"
 ITEM.desc = "Medication for the common cold."
 ITEM.uniqueID = "medicine_cold"
 ITEM.model = "models/props_lab/box01a.mdl"
+ITEM.category = "Medical"
 ITEM.color = Color(232, 0, 0)
 
 ITEM.price = 20

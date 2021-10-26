@@ -2,9 +2,12 @@ ITEM.name = "Psychotics"
 ITEM.desc = "A bottle filled with numerous pills."
 ITEM.uniqueID = "drug_psychotics"
 ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.mp = -5
 
 ITEM.disease = "fort_insa"
 

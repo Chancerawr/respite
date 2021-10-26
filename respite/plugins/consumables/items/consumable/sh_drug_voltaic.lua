@@ -3,6 +3,7 @@ ITEM.desc = "A strange liquid with electrical properties. The bottle is vibratin
 ITEM.uniqueID = "voltaic"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.material = "models/alyx/emptool_glow"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 200
 ITEM.color = Color(50, 255, 50)
@@ -11,9 +12,9 @@ ITEM.sound = "ambient/levels/labs/electric_explosion1.wav"
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["stm"] = 30,
-	["perception"] = -5,
-	["end"] = -5,
+	["stm"] = 40,
+	["perception"] = -10,
+	["end"] = -10,
 }
 
 ITEM.extraFunc = function(item, client)

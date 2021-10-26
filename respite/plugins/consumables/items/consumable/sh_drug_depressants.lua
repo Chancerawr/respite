@@ -3,10 +3,13 @@ ITEM.desc = "A small bottle filled with some pills, there's something sad about 
 ITEM.uniqueID = "drug_depress"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.material = "models/player/player_chrome1"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 --ITEM.maxstack = 5
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.mp = -2
 
 ITEM.stomach = false
 

@@ -7,6 +7,7 @@ if(SERVER) then
 		for k, v in pairs(ents.GetAll()) do
 			if(!IsValid(v)) then continue end
 			if(!v.combat or !(v.save or v.saveKey)) then continue end
+			if(v.noSave) then continue end
 
 			local saved = {
 				pos = v:GetPos(), 
@@ -52,6 +53,10 @@ if(SERVER) then
 						entity.savedAnim = v
 					
 						continue
+					elseif(k == "color") then
+						entity.savedColor = v
+					
+						continue
 					end
 					
 					entity:setNetVar(k, v)
@@ -68,7 +73,7 @@ if(SERVER) then
 	
 	--hacky solution to errors yeeting all data, just put it in a timer and it'll only screw itself over
 	function PLUGIN:InitPostEntity()
-		timer.Simple(0, function()
+		timer.Simple(60, function()
 			PLUGIN:loadCEnts()
 		end)
 	end

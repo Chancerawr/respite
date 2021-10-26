@@ -2,9 +2,12 @@ ITEM.name = "Burn Ointment"
 ITEM.desc = "A bottle filled with burn ointment."
 ITEM.uniqueID = "drug_burnointment"
 ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.hp = 15
 
 ITEM.stomach = false
 

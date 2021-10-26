@@ -6,7 +6,7 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/freshdead/freshdead_01.mdl"
-ENT.material = "models/angelsaur/ghosts/shadow"
+--ENT.material = "models/angelsaur/ghosts/shadow"
 
 --all attributes
 ENT.attribs = {
@@ -20,3 +20,11 @@ ENT.attribs = {
 }
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
+
+function ENT:Initialize()
+	self:SetRenderMode(RENDERMODE_TRANSALPHA)
+	self:SetColor(Color(0,0,0,255))
+	--self:SetRenderFX(kRenderFxDistort)
+
+	self:basicSetup()
+end

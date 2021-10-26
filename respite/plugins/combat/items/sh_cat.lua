@@ -31,6 +31,7 @@ ITEM.functions.Deploy = {
 
 		ent.follow = client
 		ent.desiredPos = nil
+		ent.noSave = true -- don't save this when /centsave is run
 		
 		if(name) then
 			ent:setNetVar("name", name)

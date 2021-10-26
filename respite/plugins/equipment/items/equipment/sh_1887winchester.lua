@@ -1,7 +1,7 @@
 ITEM.name = "Winchester 1887"
 ITEM.desc = "A lever action shotgun hailing from the days of the old West."
 ITEM.class = "tfa_1887winchester"
-ITEM.weaponCategory = "primary"
+ITEM.slot = "primary"
 ITEM.model = "models/weapons/tfa_w_winchester_1887.mdl"
 ITEM.width = 4
 ITEM.height = 1

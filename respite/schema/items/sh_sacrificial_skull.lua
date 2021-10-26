@@ -101,7 +101,12 @@ ITEM.functions.Sacrifice = {
 				client:giveDisease(table.Random(ails))
 			elseif (reward < 61) then
 				client:notify("You receive a bottle of pills for your sacrifice.")
-				rewardI = "drug_depress"
+				
+				if(math.random(0,1) == 1) then
+					rewardI = "drug_placebo"
+				else
+					rewardI = "drug_depress"
+				end
 			elseif (reward < 74) then
 				client:notify("You receive a vial of blight for your sacrifice.")
 				rewardI = "blight"

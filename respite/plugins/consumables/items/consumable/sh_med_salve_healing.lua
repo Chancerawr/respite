@@ -3,6 +3,7 @@ ITEM.desc = "A strange vial that is filled with some bright green liquid.\nUpon 
 ITEM.uniqueID = "salve_healing"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
+ITEM.category = "Medical"
 ITEM.hp = 100
 ITEM.hpTime = 60
 ITEM.price = 75

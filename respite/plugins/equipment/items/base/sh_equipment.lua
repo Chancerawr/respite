@@ -146,7 +146,7 @@ ITEM.functions.Equip = {
 					return false
 				else
 					if ((itemTable:getData("equip") and itemTable.slot) and (string.lower(itemTable:getData("customSlot", itemTable.slot)) == string.lower(item:getData("customSlot", item.slot)))) then
-						client:notify("Your " .. item.slot .. " slot is already filled.")
+						client:notify("Your " ..item.slot.. " slot is already filled.")
 
 						return false
 					end
@@ -489,6 +489,17 @@ function ITEM:getDesc(partial)
 		desc = customData.desc
 	end
 	
+	if(self.ammoString) then
+		desc = desc .. "\nThis weapon uses " ..self.ammoString.. "."
+	elseif(self.class) then
+		local swep = weapons.Get(self.class)
+		if(swep) then
+			if(nut.ammo and nut.ammo.descs and nut.ammo.descs[swep.Primary.Ammo]) then
+				desc = desc .. "\nThis weapon uses " ..nut.ammo.descs[swep.Primary.Ammo].. "."
+			end
+		end
+	end
+	
 	if(!partial) then
 		local slot = self:getData("customSlot", self.slot)
 		if(slot) then
@@ -501,22 +512,11 @@ function ITEM:getDesc(partial)
 			desc = desc .. "\nQuality: " ..customData.quality
 		end
 		
-		local boosts = self:getData("attrib")
-		if(self.attrib or (boosts and !table.IsEmpty(boosts))) then
+		local boosts = self:getData("attrib", self.attrib)
+		if(boosts and !table.IsEmpty(boosts)) then
 			desc = desc .. "\n\n<color=50,200,50>Bonuses</color>"
 			
-			local temp = {}		
-			--combines both boost lists
-			local customBoosts = self:getData("attrib", {})
-			for k, v in pairs(self.attrib) do
-				temp[k] = v
-			end
-			
-			for k, v in pairs(customBoosts) do
-				temp[k] = (temp[k] or 0) + v
-			end
-			
-			for k, v in pairs(temp) do
+			for k, v in pairs(boosts) do
 				if(v != 0) then
 					desc = desc .. "\n " ..(nut.attribs.list[k] and nut.attribs.list[k].name).. ": " ..v
 				end
@@ -536,6 +536,33 @@ function ITEM:onGetDropModel()
 	end
 	
 	return Format(model)
+end
+
+function ITEM:onSave()
+	if(self.class) then
+		local weapon = self.player:GetWeapon(self.class)
+
+		if (IsValid(weapon)) then
+			self:setData("ammo", weapon:Clip1())
+		end
+	end
+end
+
+function ITEM:onLoadout()
+	if (self.class and self:getData("equip")) then
+		local client = self.player
+		client.equip = client.equip or {}
+
+		local weapon = client:Give(self.class)
+		if (IsValid(weapon)) then
+			client:RemoveAmmo(weapon:Clip1(), weapon:GetPrimaryAmmoType())
+			client.equip[self.slot] = weapon
+
+			weapon:SetClip1(self:getData("ammo", 0))
+		else
+			print(Format("[Nutscript] Weapon %s does not exist!", self.class))
+		end
+	end
 end
 
 -- Inventory drawing

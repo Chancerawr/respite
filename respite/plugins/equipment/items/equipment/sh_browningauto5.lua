@@ -1,7 +1,7 @@
 ITEM.name = "Browning Auto 5"
 ITEM.desc = "An American produced, recoil operated semi-automatic shotgun, hailing from the closing days of the 'Wild West'."
 ITEM.class = "tfa_browningauto5"
-ITEM.weaponCategory = "primary"
+ITEM.slot = "primary"
 ITEM.model = "models/weapons/tfa_w_browning_auto.mdl"
 ITEM.width = 4
 ITEM.height = 1

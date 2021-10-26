@@ -115,7 +115,8 @@ if CLIENT then
 			note.viewer:SetSize( note:GetWide()-4, note:GetTall()-28-30)
 			timer.Simple( 0.05, function()
 				note.viewer:SetFontInternal( "nutChatFont" )
-				note.viewer:SetText( note.text )
+				note.viewer:InsertColorChange(0, 0, 0, 255)
+				note.viewer:AppendText(note.text)
 			end)
 		end
 		

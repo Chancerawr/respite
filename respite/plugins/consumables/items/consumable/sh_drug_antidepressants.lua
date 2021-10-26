@@ -2,9 +2,12 @@ ITEM.name = "Antidepressants"
 ITEM.desc = "A small bottle filled with some pills."
 ITEM.uniqueID = "drug_antidepressants"
 ITEM.model = "models/props_lab/jar01b.mdl"
+ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 30
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
+
+ITEM.mp = 5
 
 ITEM.stomach = false
 
