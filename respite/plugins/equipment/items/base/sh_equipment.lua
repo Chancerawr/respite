@@ -34,18 +34,8 @@ ITEM.buffRefresh = function(item, player)
 
 	local char = client:getChar()
 
-	local temp = {}		
-	--combines both boost lists
-	local customBoosts = item:getData("attrib", {})
-	for k, v in pairs(item.attrib) do
-		temp[k] = v
-	end
-	
+	local customBoosts = item:getData("attrib", item.attrib or {})
 	for k, v in pairs(customBoosts) do
-		temp[k] = (temp[k] or 0) + v
-	end		
-
-	for k, v in pairs(temp) do
 		char:addBoost(item:getName(), k, v)
 	end
 end
@@ -93,19 +83,9 @@ ITEM.functions.EquipUn = { -- sorry, for name order.
 		end
 		
 		--removes the buffs
-		if (item.attrib or item:getData("attrib", nil)) then
-			local temp = {}		
-			--combines both boost lists
-			local customBoosts = item:getData("attrib", {})
-			for k, v in pairs(item.attrib) do
-				temp[k] = v
-			end
-			
+		local customBoosts = item:getData("attrib", item.attrib or {})
+		if (!table.IsEmpty(customBoosts)) then
 			for k, v in pairs(customBoosts) do
-				temp[k] = (temp[k] or 0) + v
-			end
-			
-			for k, v in pairs(temp) do
 				char:removeBoost(item:getName(), k)
 			end
 		end
@@ -309,18 +289,9 @@ ITEM.functions.Scrap = {
 				end
 			end
 			
-			if (item.attrib or item:getData("attrib", nil)) then			
-				local temp = {}		
-				--combines both boost lists
-				local customBoosts = item:getData("attrib", {})
-				for k, v in pairs(item.attrib) do
-					temp[k] = v
-				end		
+			local customBoosts = item:getData("attrib", item.attrib or {})
+			if (!table.IsEmpty(customBoosts)) then			
 				for k, v in pairs(customBoosts) do
-					temp[k] = (temp[k] or 0) + v
-				end
-				
-				for k, v in pairs(temp) do
 					client:getChar():removeBoost(item:getName(), k)
 				end
 			end
@@ -437,19 +408,9 @@ ITEM:hook("drop", function(item)
 			end
 		end
 		
-		if (item.attrib or item:getData("attrib", nil)) then
-			local temp = {}		
-			--combines both boost lists
-			local customBoosts = item:getData("attrib", {})
-			for k, v in pairs(item.attrib) do
-				temp[k] = v
-			end
-			
+		local customBoosts = item:getData("attrib", item.attrib or {})
+		if (!table.IsEmpty(customBoosts)) then
 			for k, v in pairs(customBoosts) do
-				temp[k] = (temp[k] or 0) + v
-			end	
-		
-			for k, v in pairs(temp) do
 				client:getChar():removeBoost(item:getName(), k)
 			end
 		end
