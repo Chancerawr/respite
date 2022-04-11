@@ -1,4 +1,5 @@
 ITEM.name = "Mysterious Yams"
+ITEM.prefix = "Mysterious"
 ITEM.desc = "Who are you really?"
 ITEM.uniqueID = "food_yams_mysterious"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
@@ -13,6 +14,30 @@ ITEM.disease = "fort_nost"
 ITEM.attrib = { 
 	["fortitude"] = -5, 
 	["endurance"] = -5 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Canned"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	mp = 10,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = -5, 
+			["endurance"] = -5 
+		},
+		
+		res = {
+			["Mind"] = 100,
+			["Taunt"] = 100,
+			["Blind"] = 100,
+		}
+	},
 }
 
 ITEM.iconCam = {

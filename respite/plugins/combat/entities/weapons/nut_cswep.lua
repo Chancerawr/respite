@@ -94,6 +94,10 @@ function SWEP:SetActions(target)
 
 	local actions = target:getActions()
 	self.actions = actions
+	
+	if(SERVER) then
+		self:setNetVar("actions", actions)
+	end
 end
 
 --this is clientside
@@ -184,10 +188,10 @@ function SWEP:PrimaryAttack()
 			self.actNum = 1
 		end
 		
-		if(!action.attackOverwrite and !actionTbl.attackOverwrite) then --this lets you make actions that just print stuff or run functions
-			PLUGIN:attackStart(client, attacker, trace, action, partString)
-		else
+		if(actionTbl.attackOverwrite) then --this lets you make actions that just print stuff or run functions
 			actionTbl:attackOverwrite(attacker, trace)
+		else
+			PLUGIN:attackStart(client, attacker, trace, action)
 		end
 	
 		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
@@ -220,13 +224,107 @@ function SWEP:DrawHUD()
 
 		local alpha = 255
 		
+		local scrModX = 1920/ScrW()
+		local scrModY = 1080/ScrH()
+		
 		local actions = self:GetActions()
 		local action = actions[self.actNum]
+
+		local user = self:getNetVar("selected", client)
 
 		if(self:getNetVar("selected")) then
 			local name = self:getNetVar("selectedName", "Unnamed")
 			
 			nut.util.drawText(name.. " Selected", ScrW() * 0.5, ScrH() * 0.3, ColorAlpha(Color(50,50,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+		end
+		
+		local AP = (user.getAP and user:getAP()) or 0
+		local APMax = (user.getAPMax and user:getAPMax()) or 0
+		
+		--[[
+		if(AP and APMax) then
+			surface.SetDrawColor(0,0,0)
+			surface.DrawRect(ScrW() - (120 * scrModX), 20 * scrModY, 100 * scrModX, 40 * scrModY)
+			
+			nut.util.drawText(AP.. "/" ..APMax.. " AP", ScrW() - (70 * scrModX), 40 * scrModY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+		end
+		--]]
+		
+		local posY = ScrH() - 100 * scrModY
+		local posX = ScrW() - 210 * scrModX
+		local textX = ScrW() - (120 * scrModX)
+		
+		local hp = user.getHP and user:getHP()
+		local mp = user.getMP and user:getMP()
+		
+		if(hp and mp) then
+			local hpMax = user:getMaxHP()
+			local mpMax = user:getMaxMP()
+		
+			local textX = ScrW() - 120 * scrModX
+			local boxHeight = 25 * scrModY
+		
+			surface.SetDrawColor(0,0,0)
+			surface.DrawRect(posX, posY, 180 * scrModX, boxHeight)
+			
+			posY = posY + 12
+			nut.util.drawText("Health: (" ..hp.. "/" ..hpMax.. ")", textX, posY, ColorAlpha(Color(255,150,150), alpha), 1, 1, "nutSmallFont", alpha * 1)
+
+			posY = posY + 30
+			surface.SetDrawColor(0,0,0)
+			surface.DrawRect(posX, posY, 180 * scrModX, boxHeight)
+			
+			posY = posY + 12
+			nut.util.drawText("Mind: (" ..mp.. "/" ..mpMax.. ")", textX, posY, ColorAlpha(Color(150,150,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+		end
+		
+		posX = ScrW() - 210 * scrModX
+		posY = 100 * scrModY
+		
+		local buffs = user.getBuffs and user:getBuffs()
+		if(buffs) then
+			
+			local textX = ScrW() - (120 * scrModX)
+			local heightBuff = (25 + 20 * table.Count(buffs)) * scrModY
+		
+			surface.SetDrawColor(0,0,0)
+			surface.DrawRect(posX, posY, 180 * scrModX, heightBuff)
+			
+			posY = posY + 10
+			nut.util.drawText("(BUFFS)", textX, posY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+			
+			for k, v in pairs(buffs) do
+				if(v.name) then
+					posY = posY + 20
+				
+					local nameDur = v.name..((v.duration and (" " ..v.duration.. "T")) or "")
+				
+					nut.util.drawText(nameDur, textX, posY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+				end
+			end
+		end
+		
+		local cooldowns = user.getCooldowns and user:getCooldowns()
+		if(cooldowns) then
+			posY = posY + 40
+			local heightCD = (25 + 20 * table.Count(cooldowns)) * scrModY
+		
+			surface.SetDrawColor(0,0,0)
+			surface.DrawRect(posX, posY, 180 * scrModX, heightCD)
+			
+			posY = posY + 10
+			nut.util.drawText("(COOLDOWNS)", textX, posY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+			
+			for k, v in pairs(cooldowns) do
+				local spell = SPLS.spells[k]
+				if(spell) then
+					posY = posY + 20
+				
+					local nameDur = (spell.name or "Unknown").. " " ..v.. "T"
+				
+					nut.util.drawText(nameDur, textX, posY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+				end
+			end
 		end
 		
 		local altPressed
@@ -251,10 +349,18 @@ function SWEP:DrawHUD()
 					self.viewed = nil
 				end
 				
-				if(action and action.radius) then
-					client.ccAreaShow = {trace.HitPos, action.radius}
+				if(action) then
+					if(action.radius) then
+						client.combatAOE_S = {trace.HitPos, action.radius}
+					elseif(action.box) then
+						client.combatAOE_B = {trace.HitPos, action.box}
+					else
+						client.combatAOE_S = nil
+						client.combatAOE_B = nil
+					end
 				else
-					client.ccAreaShow = nil
+					client.combatAOE_S = nil
+					client.combatAOE_B = nil
 				end
 			end
 		end
@@ -280,4 +386,16 @@ if(CLIENT) then
 	netstream.Hook("CSWep_loadActions", function(swep, actions)
 		swep.actions = util.JSONToTable(actions)
 	end)
+	
+	function PLUGIN:PostDrawOpaqueRenderables()
+		local client = LocalPlayer()
+
+		if(client.combatAOE_S) then
+			render.DrawWireframeSphere(client.combatAOE_S[1], client.combatAOE_S[2], 10, 10, Color(100, 100, 255, 255), true)
+		elseif(client.combatAOE_B) then
+			local boxData = client.combatAOE_B[2]
+			
+			render.DrawWireframeBox(client.combatAOE_B[1] + -0.5 * Vector(boxData[1],boxData[2],0), Angle(0,0,0), Vector(0,0,0), Vector(boxData[1],boxData[2],boxData[3]), Color(100, 100, 255, 255))
+		end
+	end
 end

@@ -1,4 +1,5 @@
 ITEM.name = "Boxed Bread"
+ITEM.prefix = "Bread"
 ITEM.desc = "A loaf of bread conveniently stored in a box."
 ITEM.uniqueID = "food_bread_box"
 ITEM.model = "models/props/cs_office/cardboard_box03.mdl"
@@ -10,6 +11,28 @@ ITEM.container = "j_empty_bread_box"
 ITEM.attrib = { 
 	["stm"] = 3,
 	["end"] = 2
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Bread"] = true,
+	["Food"] = true,
+	["Packaged"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["stm"] = 3,
+			["end"] = 2
+		},
+		
+		res = {
+			["Bleed"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

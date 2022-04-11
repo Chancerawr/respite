@@ -1,4 +1,5 @@
 ITEM.name = "IV Bag"
+ITEM.prefix = "IV"
 ITEM.desc = "A small bag that can be used for IV therapy."
 ITEM.uniqueID = "medical_iv"
 ITEM.model = "models/props_junk/garbage_bag001a.mdl"
@@ -18,6 +19,21 @@ ITEM.stomach = false
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(30, 160, 30, 255), 1, 1)
 end
+
+ITEM.loot = {
+	["Medical"] = true,
+}
+
+ITEM.craft = {
+	hp = 65,
+	
+	buffTbl = {
+		res = {
+			["Cold"] = 5,
+			["Bleed"] = -5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

@@ -1,4 +1,5 @@
 ITEM.name = "Box of Bandages"
+ITEM.prefix = "Bandage"
 ITEM.desc = "A small box filled with bandages."
 ITEM.uniqueID = "medical_bandages"
 ITEM.model = "models/props_lab/box01a.mdl"
@@ -19,6 +20,21 @@ ITEM.stomach = false
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(30, 120, 30, 255), 1, 1)
 end
+
+ITEM.loot = {
+	["Medical"] = true,
+}
+
+ITEM.craft = {
+	hp = 30,
+	
+	buffTbl = {
+		res = {
+			["Fire"] = -3,
+			["Bleed"] = 5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(89.43, 74.9, 54.5),

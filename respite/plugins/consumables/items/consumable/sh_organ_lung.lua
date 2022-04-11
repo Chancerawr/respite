@@ -15,6 +15,35 @@ ITEM.attrib = {
 	["fortitude"] = 10 
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+	["Organ"] = true,
+	["Corpse"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 10 
+		},
+		
+		res = {
+			["Disease"] = -15,
+			["Poison"] = -15,
+			["Bleed"] = -15,
+			["Fear"] = 15,
+			["Pain"] = 15,
+			["Knockdown"] = 15,
+			["Slow"] = 15,
+			["Root"] = 15,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

@@ -1,7 +1,7 @@
 ITEM.name = "The Bell"
 ITEM.uniqueID = "bell"
 ITEM.model = "models/props/de_inferno/bell_largeb.mdl"
-ITEM.material = "models/effects/portalrift_sheet"
+ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.desc = "An end to impossibilities.\nThe bell rings out for no one."
 ITEM.width = 2
 ITEM.height = 2

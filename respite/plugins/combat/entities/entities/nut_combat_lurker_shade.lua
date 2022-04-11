@@ -20,6 +20,36 @@ ENT.attribs = {
 	["fortitude"] = 15,
 }
 
+ENT.dmg = {
+	["Slash"] = 15,
+	["Blight"] = 15,
+}
+
+ENT.hp = 300
+ENT.armor = 60
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = 100,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
+ENT.actions = {
+	"slash",
+	"stab",
+}
+
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()

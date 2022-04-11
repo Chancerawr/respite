@@ -1,4 +1,5 @@
 ITEM.name = "Plastic Onion"
+ITEM.prefix = "Plastic"
 ITEM.desc = "A plastic bulbous plant known to have layers."
 ITEM.uniqueID = "food_onion_plastic"
 ITEM.model = "models/props/de_inferno/crate_fruit_break_gib2.mdl"
@@ -10,6 +11,30 @@ ITEM.attrib = {
 	["str"] = 1,
 	["stm"] = 1,
 	["accuracy"] = 1,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Vegetable"] = true,
+	["Plastic"] = true,
+}
+
+ITEM.craft = {
+	hp = 1,
+
+	buffTbl = {
+		attrib = {
+			["str"] = 1,
+			["stm"] = 1,
+			["accuracy"] = 1,
+		},
+		
+		res = {
+			["Poison"] = 5,
+			["Electric"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

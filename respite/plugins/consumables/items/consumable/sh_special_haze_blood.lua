@@ -1,4 +1,5 @@
 ITEM.name = "Bottled Blood Haze"
+ITEM.prefix = "Blood Haze"
 ITEM.desc = "A thick red gas, it attracts nearby Abominations to the area, but is not quite enough to distract them."
 ITEM.uniqueID = "haze_bottled_blood"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
@@ -7,6 +8,9 @@ ITEM.duration = 6000
 ITEM.price = 200
 ITEM.color = Color(255, 60, 60)
 ITEM.sound = "hl1/ambience/steamburst1.wav"
+
+ITEM.hp = 25
+ITEM.mp = -5
 
 ITEM.noEnhance = true
 
@@ -19,6 +23,32 @@ ITEM.attrib = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(255, 50, 50, 255), 10, 0)
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Gas"] = true,
+	["Drug"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 25,
+	mp = -5,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = -5,
+			["end"] = 4,
+			["str"] = 4
+		},
+		
+		res = {
+			["Mind"] = -15,
+			["Move"] = 10,
+			["Stun"] = 10,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

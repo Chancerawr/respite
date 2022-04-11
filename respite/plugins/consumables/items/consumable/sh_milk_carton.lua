@@ -1,4 +1,5 @@
 ITEM.name = "Milk Carton"
+ITEM.prefix = "Milk"
 ITEM.desc = "A carton filled with milk."
 ITEM.uniqueID = "food_milk_carton"
 ITEM.model = "models/props_junk/garbage_milkcarton002a.mdl"
@@ -11,6 +12,30 @@ ITEM.attrib = {
 	["accuracy"] = 2,
 	["str"] = 2,
 	["end"] = 2,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Milk"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["accuracy"] = 2,
+			["str"] = 2,
+			["end"] = 2,
+		},
+		
+		res = {
+			["Disease"] = 5,
+			["Poison"] = 5,
+			["Sleep"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

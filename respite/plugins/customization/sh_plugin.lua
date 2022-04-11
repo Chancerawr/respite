@@ -44,7 +44,6 @@ if(SERVER) then
 		itemInfo.color = customData.color or item.color or nut.config.get("color") or Color(255, 255, 255)
 		itemInfo.model = customData.model or item.model
 		itemInfo.material = customData.material or item.material
-		itemInfo.quality = customData.quality
 		itemInfo.img = customData.img
 		
 		if(item.isWeapon) then
@@ -61,13 +60,24 @@ if(SERVER) then
 				itemInfo.wepMag = customData.wepMag or swep.Primary.ClipSize
 			end
 			
-			--durability stuff
-			local maxDura = item:getData("maxDura", 7 * 1000)
-			itemInfo.dura = math.Round((((customData.dura or 7000)/maxDura) * 100), 2) or 100
 		end
 		
 		netstream.Start(client, "nut_custom", itemInfo)
 	end
+	
+	--attribute customization start
+	function PLUGIN:startCustomE(client, item)
+		local attribData = item:getData("attrib", item.attribBoosts) or {}
+	
+		local itemInfo = {}
+		itemInfo.id = item.id
+		
+		itemInfo.armor = item:getData("armor", item.armor)
+		itemInfo.dmg = item:getData("dmg", item.dmg)
+		itemInfo.scale = item:getData("scale", item.scaling)
+		
+		netstream.Start(client, "nut_customE", itemInfo)
+	end	
 	
 	--attribute customization start
 	function PLUGIN:startCustomA(client, item)
@@ -94,35 +104,6 @@ if(SERVER) then
 		local item = nut.item.instances[id]
 		local customData = data[2]
 		
-		if(customData.dura and customData.quality) then
-			local qualities = {
-				[1] = "Garbage",
-				[2] = "Terrible",
-				[3] = "Awful",
-				[4] = "Bad",
-				[5] = "Poor",
-				[6] = "Normal",
-				[7] = "Standard",
-				[8] = "Decent",
-				[9] = "Good",
-				[10] = "Great",
-				[11] = "Excellent",
-				[12] = "Master",
-				[14] = "Near-Perfect",
-				[15] = "Perfect",
-				[16] = "Transcendent"
-			}		
-		
-			local maxDura = (table.KeyFromValue(qualities, customData.quality) or 7) * 1000
-			
-			item:setData("maxDura", maxDura)
-			customData.dura = (customData.dura / 100) * maxDura
-			
-			if(customData.quality == "None") then
-				customData.quality = nil
-			end
-		end
-		
 		if (item) then
 			item:setData("custom", customData)
 		end
@@ -142,6 +123,20 @@ if(SERVER) then
 			item:setData("attrib", attribData)
 		end
 	end)
+	
+		--finish hook
+	netstream.Hook("nut_equipF", function(client, data)
+		local id = data[1]
+		local item = nut.item.instances[id]
+		
+		if (item) then
+			for k, v in pairs(data[2]) do
+				item:setData(k, v)
+			end
+			
+			item:setData("edited", client:Name()) --who last edited this thing
+		end
+	end)
 else
 	--clientside hook for menus
 	netstream.Hook("nut_custom", function(data)
@@ -153,10 +148,8 @@ else
 		local color = item.color
 		local model = item.model
 		local material = item.material or ""
-		local quality = item.quality or "None"
 		local img = item.img
 		
-		local dura = item.dura
 		local dmg = item.wepDmg
 		local spd = item.wepSpd
 		local acc = item.wepAcc
@@ -236,42 +229,9 @@ else
 			local ranColor = Color(math.random(0,255), math.random(0,255), math.random(0,255))
 			colorC:SetColor(ranColor)
 		end
-
-		local qualities = {
-			[0] = "None",
-			[1] = "Garbage",
-			[2] = "Terrible",
-			[3] = "Awful",
-			[4] = "Bad",
-			[5] = "Poor",
-			[6] = "Normal",
-			[7] = "Standard",
-			[8] = "Decent",
-			[9] = "Good",
-			[10] = "Great",
-			[11] = "Excellent",
-			[12] = "Master",
-			[14] = "Near-Perfect",
-			[15] = "Perfect",
-			[16] = "Transcendent"
-		}
-		
-		--quality customization
-		local qualityL = vgui.Create("DLabel", scroll)
-		qualityL:SetText("Quality:")
-		qualityL:Dock(TOP)
-		
-		local qualityC = vgui.Create("DComboBox", scroll)
-		qualityC:Dock(TOP)
-		qualityC:SetValue(quality or "None")
-		qualityC:SetSortItems(false)
-		for k, v in SortedPairs(qualities) do
-			qualityC:AddChoice(v)
-		end
 				
 		--weapon stuff
 		local wepC
-		local duraC
 		local dmgC
 		local rpmC
 		local accC
@@ -283,15 +243,7 @@ else
 			wepC:SetText("SWEP Modifiers")
 			wepC:SetValue(0)
 			wepC:SetToolTip("Toggle this if you want any of the stuff below to apply.")
-			wepC:Dock(TOP)			
-		
-			local duraL = vgui.Create("DLabel", scroll)
-			duraL:SetText(" Durability:")
-			duraL:Dock(TOP)		
-			
-			duraC = vgui.Create("DTextEntry", scroll)
-			duraC:SetText(dura or 100)
-			duraC:Dock(TOP)			
+			wepC:Dock(TOP)					
 			
 			local dmgL = vgui.Create("DLabel", scroll)
 			dmgL:SetText(" Damage:")
@@ -362,9 +314,6 @@ else
 			end
 			
 			if(item.weapon and wepC:GetChecked()) then
-				customData[2].quality = qualityC:GetValue()
-				customData[2].dura = duraC:GetValue()
-				
 				customData[2].wepDmg = math.Clamp(tonumber(dmgC:GetValue()), 0, 100000)
 				customData[2].wepSpd = math.Clamp(tonumber(rpmC:GetValue()), 1, 1000000000)
 				customData[2].wepAcc = math.Clamp(tonumber(accC:GetValue()), 0.0001, 100)
@@ -450,6 +399,131 @@ else
 		end		
 	end)
 	
+	local function dataTemp(data, req)
+		return data[req]
+	end	
+	
+	local function dataTempTbl(data, req, sub)
+		if(data[req]) then
+			return data[req][sub]
+		end
+	end
+	
+	timer.Simple(1, function()
+		local menuGenerate = {
+			["nut_customE"] = {
+				["dmg"] = {weight = 1, name = "Base Damage", value = dataTempTbl, panelT = "DNumberWang", extra = nut.plugin.list["combat"].dmgTypes},
+				--["dmgT"] = {weight = 2, name = "Damage Type", value = dataTemp, panelT = "DComboBox", extra = nut.plugin.list["combat"].dmgTypes},
+				["armor"] = {weight = 3, name = "Armor", value = dataTemp, panelT = "DNumberWang"},
+				["scale"] = {weight = 6, name = "Grade Scaling", value = dataTempTbl, panelT = "DNumberWang", extra = nut.attribs.list},
+			},
+		}
+
+		for k, v in pairs(menuGenerate) do
+			netstream.Hook(k, function(data)
+				local item = data
+				
+				local frame = vgui.Create("DFrame")
+				frame:SetSize(450, 600)
+				frame:Center()
+				frame:SetTitle("Stats")
+				frame:MakePopup()
+				frame:ShowCloseButton(true)
+
+				local scroll = vgui.Create("DScrollPanel", frame)
+				scroll:Dock(FILL)
+				
+				local configF = {}
+				for name, field in SortedPairsByMemberValue(v, "weight") do
+					if(!field.extra) then
+						local label = vgui.Create("DLabel", scroll)
+						label:SetText(field.name)
+						label:Dock(TOP)
+
+						local entry = vgui.Create(field.panelT, scroll)
+						entry:SetText(field.value(data, name) or "")
+						entry:Dock(TOP)
+						
+						if(field.panelT == "DComboBox") then
+							for choice, _ in pairs(field.extra) do
+								entry:AddChoice(choice)
+							end
+						end
+						
+						configF[name] = entry
+					else
+						local label = vgui.Create("DLabel", scroll)
+						label:SetText(field.name)
+						label:Dock(TOP)
+
+						local subTbl = {}
+						
+						for subKey, subValue in pairs(field.extra) do
+							local subLabel = vgui.Create("DLabel", scroll)
+							subLabel:SetText(subValue.name)
+							subLabel:Dock(TOP)
+
+							local entry = vgui.Create(field.panelT, scroll)
+							entry:SetText(field.value(data, name, subKey) or "")
+							entry:Dock(TOP)
+							
+							subTbl[subKey] = entry
+						end
+						
+						configF[name] = subTbl
+					end
+				end
+
+				local finishB = vgui.Create("DButton", scroll)
+				finishB:SetSize(60,20)
+				finishB:SetText("Complete")
+				finishB:Dock(TOP)
+				finishB.DoClick = function()
+					local customData = {}
+					customData[1] = item.id
+					customData[2] = {}
+					
+					for configK, configV in pairs(configF) do
+						if(istable(configV)) then
+							local subTbl = {}
+							for k2, v2 in pairs(configV) do
+								local value = (v2.GetValue and v2:GetValue()) or (v2.GetText and v2:GetText())
+								if(value and value != "" and tonumber(value) != 0) then
+									subTbl[k2] = value
+								else
+									subTbl[k2] = nil
+								end
+							end
+							
+							if(!table.IsEmpty(subTbl)) then
+								customData[2][configK] = subTbl
+							end
+						else
+							local value = (configV.GetValue and configV:GetValue()) or (configV.GetText and configV:GetText())
+							if(value and value != "" and tonumber(value) != 0) then
+								customData[2][configK] = value
+							else
+								customData[2][configK] = nil
+							end
+						end
+					end
+					
+					netstream.Start("nut_equipF", customData)
+					
+					frame:Remove()
+				end
+				
+				local cancelB = vgui.Create("DButton", scroll)
+				cancelB:SetSize(60,20)
+				cancelB:SetText("Cancel")
+				cancelB:Dock(TOP)
+				cancelB.DoClick = function()
+					frame:Remove()
+				end
+			end)
+		end
+	end)
+	
 	netstream.Hook("nut_swepUpdate", function(data)
 		local item = data
 		local weapon = LocalPlayer():GetWeapon(item.class)
@@ -487,3 +561,22 @@ else
 		end
 	end)	
 end
+
+nut.command.add("lootgrouptest", {
+	syntax = "<string loot>",
+	onRun = function(client, arguments)
+		local lootTable = {}
+		
+		for k, item in pairs(nut.item.list) do
+			if(item.loot and item.loot[arguments[1]]) then
+				lootTable[#lootTable+1] = item.uniqueID
+			end
+		end
+		
+		local randomItem, _ = table.Random(lootTable)
+		if(randomItem) then
+			local aimPos = client:GetEyeTraceNoCursor().HitPos + Vector(0, 0, 10)
+			nut.item.spawn(randomItem, aimPos)
+		end
+	end
+})

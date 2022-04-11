@@ -24,6 +24,31 @@ ENT.attribs = {
 	["fortitude"] = 20,
 }
 
+ENT.dmg = {
+	["Blunt"] = 10,
+	["Ichor"] = 10,
+}
+
+ENT.hp = 100
+ENT.armor = 40
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 100,
+	["Blight"] = -50,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
 function ENT:Initialize()
 	if(SERVER) then
 		self.TV=ents.Create("prop_physics")

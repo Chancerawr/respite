@@ -1,4 +1,5 @@
 ITEM.name = "Bottled Blue Haze"
+ITEM.prefix = "Blue Haze"
 ITEM.desc = "A gaseous, hallucinogenic substance, individuals that make contact with the blue haze may see vivid hallucinations for an hour or so."
 ITEM.uniqueID = "haze_bottled"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
@@ -22,6 +23,30 @@ ITEM.attrib = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(100, 255, 100, 255), 10, 0)
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Gas"] = true,
+	["Drug"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 5,
+	mp = 5,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 4,
+			["end"] = -2,
+		},
+		
+		res = {
+			["Mind"] = 15,
+			["Stun"] = -10,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

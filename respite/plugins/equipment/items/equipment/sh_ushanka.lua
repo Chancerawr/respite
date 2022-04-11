@@ -2,10 +2,18 @@ ITEM.name = "Ushanka"
 ITEM.uniqueID = "j_ushanka"
 ITEM.model = "models/ushanka.mdl"
 ITEM.desc = "A Russian fur cap with ear flaps that can be tied up to the crown of the cap."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Helmet"
+
+ITEM.armor = 3
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["helmet"] = true,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 3

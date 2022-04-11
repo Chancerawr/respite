@@ -10,6 +10,27 @@ ITEM.attrib = {
 	["end"] = 3
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Fruit"] = true,
+}
+
+ITEM.craft = {
+	hp = 2,
+
+	buffTbl = {
+		attrib = {
+			["end"] = 3
+		},
+		
+		res = {
+			["Slash"] = 8,
+			["Pierce"] = 8,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(143, 126, 91),
 	ang = Angle(25, 220, 0),

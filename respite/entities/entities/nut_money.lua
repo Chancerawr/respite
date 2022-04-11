@@ -32,7 +32,7 @@ if (SERVER) then
 			
 			if (char) then
 				if (self.charID != char:getID() and self.client == activator) then
-					activator:notifyLocalized("logged")
+					activator:notify("You can't pick up money you dropped on another character.")
 					
 					return false
 				end

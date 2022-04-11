@@ -19,6 +19,30 @@ ENT.attribs = {
 	["fortitude"] = 0,
 }
 
+ENT.dmg = {
+	["Blunt"] = 12,
+}
+
+ENT.hp = 100
+ENT.armor = 50
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
 local models = {
 	"models/spite/freak01.mdl",
 	"models/spite/freak02.mdl",

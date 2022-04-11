@@ -11,6 +11,12 @@ ITEM.salvItem = {
 	["j_scrap_adhesive"] = 3
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+	}
+end
+
 ITEM.iconCam = {
 	pos = Vector(0, -3.5, 200),
 	ang = Angle(90, 0, 0),

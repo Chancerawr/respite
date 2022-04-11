@@ -3,7 +3,7 @@ ITEM.uniqueID = "j_stuffed_turtle_blue"
 ITEM.model = "models/props/de_tides/vending_turtle.mdl"
 ITEM.material = "models/props_c17/furniturefabric003a"
 ITEM.desc = "A blue stuffed turtle."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"

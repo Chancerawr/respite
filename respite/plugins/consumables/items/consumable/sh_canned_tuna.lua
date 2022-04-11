@@ -1,4 +1,5 @@
 ITEM.name = "Canned Tuna"
+ITEM.prefix = "Tuna"
 ITEM.desc = "A can of sealed tuna."
 ITEM.uniqueID = "food_tuna"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
@@ -8,6 +9,29 @@ ITEM.container = "j_tinc"
 
 ITEM.attrib = { 
 	["stm"] = 1 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Canned"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		evasion = 3,
+	
+		attrib = {
+			["stm"] = 1 
+		},
+		
+		res = {
+			["Cold"] = 5,
+			["Time"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

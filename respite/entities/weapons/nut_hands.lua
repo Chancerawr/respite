@@ -319,10 +319,14 @@ function SWEP:Pickup(entity)
 		return
 	end
 	
-	if (self.heldEntity != entity) then
+	--[[
+	print(self.heldEntity, entity)
+	if (IsValid(self.heldEntity) and self.heldEntity != entity) then
 		self.heldEntity = nil
 		self:SetNW2Bool("holdingObject", false)
+		return false
 	end
+	--]]
 
 	self.heldEntity = entity
 	self:SetNW2Bool("holdingObject", true)
@@ -339,7 +343,7 @@ function SWEP:Pickup(entity)
 			end
 			entity:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
-			self.Owner:PickupObject(entity) 
+			self.Owner:PickupObject(entity)
 			self.Owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 3)..".wav", 75)
 		end
 	end)
@@ -370,8 +374,8 @@ function SWEP:SecondaryAttack()
 	if (IsValid(entity)) then
 		--drops a carried object if holding one
 		if(IsValid(self.heldEntity)) then
-			local isHeld = self.heldEntity == entity
-		
+			local isHeld = (self.heldEntity == entity)
+
 			client:DropObject()
 
 			self:resetHeld(entity)

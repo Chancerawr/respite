@@ -2,10 +2,18 @@ ITEM.name = "Gas Mask"
 ITEM.uniqueID = "gasmask"
 ITEM.model = "models/tnb/items/gasmask.mdl"
 ITEM.desc = "A mask placed on your head to filter gasses."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"
+
+ITEM.armor = 5
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["accessory"] = true,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 4,

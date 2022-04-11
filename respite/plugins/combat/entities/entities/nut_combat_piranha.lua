@@ -19,3 +19,31 @@ ENT.attribs = {
 	["perception"] = 5,
 	["fortitude"] = 0,
 }
+
+ENT.dmg = {
+	["Pierce"] = 30,
+}
+
+ENT.hp = 2000
+ENT.armor = 200
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 25,
+	["Blunt"] = 25,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
+ENT.actions = {
+	"bone_burst",
+}

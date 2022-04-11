@@ -11,6 +11,22 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Scavenger"
 
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["weapon"] = true,
+	["ranged"] = true,
+	["firearm"] = true,
+}
+
+ITEM.dmg = {
+	["Rifle"] = 12,
+}
+
+ITEM.scaling = {
+	["str"] = 0.2,
+	["perception"] = 0.2,
+}
+
 ITEM.iconCam = {
 	pos = Vector(11.5, 200, 0),
 	ang = Angle(0, 270, 0),

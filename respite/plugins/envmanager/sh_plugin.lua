@@ -6,7 +6,7 @@ PLUGIN.thinkTime = 2
 PLUGIN.spawnDelay = 1
 PLUGIN.spawns = {}
 
-nut.config.add("env_enabled", true, "Whether or not the environmental manager is on.", nil, {
+nut.config.add("env_enabled", false, "Whether or not the environmental manager is on.", nil, {
 	category = "Environmental Manager"
 })
 

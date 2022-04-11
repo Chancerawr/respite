@@ -1,4 +1,5 @@
 ITEM.name = "Bottled Blood"
+ITEM.prefix = "Blood"
 ITEM.desc = "A bottle filled with human blood."
 ITEM.uniqueID = "food_blood"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
@@ -12,7 +13,30 @@ ITEM.color = Color(150,50,50)
 ITEM.attrib = { 
 	["fortitude"] = 3,
 	["end"] = -1,
-} 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Blood"] = true,
+}
+
+ITEM.craft = {
+	hp = 5,
+	mp = -5,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 3,
+			["end"] = -1,
+		},
+		
+		res = {
+			["Mind"] = -5,
+			["Bleed"] = 5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

@@ -2,7 +2,7 @@ ITEM.name = "Camera"
 ITEM.uniqueID = "j_camera"
 ITEM.model = "models/maxofs2d/camera.mdl"
 ITEM.desc = "A digital camera capable of taking high quality pictures and video."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"

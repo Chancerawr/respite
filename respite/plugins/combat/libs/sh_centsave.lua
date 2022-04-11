@@ -42,7 +42,23 @@ if(SERVER) then
 
 						continue
 					elseif(k == "attribs") then
-						entity.savedAttribs = v
+						entity.attribs = v
+						
+						continue
+					elseif(k == "res") then
+						entity.res = v
+						
+						continue
+					elseif(k == "amp") then
+						entity.amp = v
+						
+						continue
+					elseif(k == "dmg") then
+						entity.dmg = v
+						
+						continue
+					elseif(k == "actions") then
+						entity.actions = v
 						
 						continue
 					elseif(k == "mat") then

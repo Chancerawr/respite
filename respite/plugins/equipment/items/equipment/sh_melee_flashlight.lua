@@ -10,7 +10,15 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Illumination"
 
-ITEM.salvItem = {
+ITEM.dmg = {
+	["Blunt"] = 4,
+}
+
+ITEM.scaling = {
+	["str"] = 0.1,
+}
+
+ITEM.salvage = {
 	["j_scrap_metals"] = 3,
 	["j_scrap_adhesive"] = 1,
 	["j_scrap_battery"] = 1,

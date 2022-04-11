@@ -1,4 +1,5 @@
 ITEM.name = "Human Foot"
+ITEM.prefix = "Foot"
 ITEM.desc = "A foot that was once connected to a human being. \n You thought they smelled badly before."
 ITEM.uniqueID = "food_human_foot"
 ITEM.model = "models/dismemberment/gibs/legs/foot.mdl"
@@ -13,6 +14,35 @@ ITEM.organicScrap = 2
 
 ITEM.attrib = { 
 	["fortitude"] = 3 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+	["Corpse"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 3 
+		},
+		
+		res = {
+			["Disease"] = -5,
+			["Poison"] = -5,
+			["Bleed"] = -5,
+			["Mind"] = -5,
+			["Fear"] = 5,
+			["Pain"] = 5,
+			["Knockdown"] = 10,
+			["Slow"] = 5,
+			["Root"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

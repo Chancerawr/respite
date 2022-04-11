@@ -9,8 +9,14 @@ ITEM.price = 0
 ITEM.container = "j_empty_vial"
 ITEM.color = Color(232, 0, 0)
 
+ITEM.hp = 100
+ITEM.mp = 100
+
 ITEM.stomach = false
 ITEM.noEnhance = true
+
+ITEM.sound = "items/medshot4.wav"
+ITEM.soundPitch = 75
 
 ITEM.extraFunc = function(item, client)
 	for k, v in pairs(DISEASES.diseases) do --removes all of them for now
@@ -30,6 +36,17 @@ ITEM.confirm = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(0, 0, 0, 200), 5, 2)
 end
+
+ITEM.loot = {
+	["Medical"] = true,
+	["Drink"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 100,
+	mp = 100,
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 4.75),

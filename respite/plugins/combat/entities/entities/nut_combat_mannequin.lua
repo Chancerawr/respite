@@ -1,5 +1,5 @@
-ENT.Type = "nextbot"
-ENT.Base = "nut_combat"
+ENT.Type = "anim"
+ENT.Base = "nut_combat_prop"
 ENT.PrintName = "Mannequin"
 ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
@@ -19,6 +19,41 @@ ENT.attribs = {
 	["fortitude"] = 30,
 }
 
+ENT.dmg = {
+	["Blunt"] = 0,
+}
+
+ENT.hp = 40
+ENT.armor = 15
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = 100,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = 25,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
 function ENT:Initialize()
 	self:basicSetup()
+
+	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,10))
+	
+	local physObj = self:GetPhysicsObject()
+	if (IsValid(physObj)) then
+		physObj:EnableMotion(true)
+		physObj:EnableGravity(true)
+		--physObj:Sleep()
+		physObj:EnableCollisions(true)
+		physObj:Wake()
+	end
 end

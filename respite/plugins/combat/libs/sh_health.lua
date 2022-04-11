@@ -6,6 +6,7 @@ local playerMeta = FindMetaTable("Player")
 function PLUGIN:PlayerLoadout(client)
 	client:SetMaxHealth(client:getMaxHP())
 	client:SetHealth(client:GetMaxHealth())
+	client:setHP(client:getMaxHP())
 	client:setMP(client:getMaxMP())
 end
 
@@ -26,6 +27,12 @@ function playerMeta:getMP()
 	return self:getNetVar("mp", self:getMaxMP())
 end
 
+--just use a negative value to take away hp
+function playerMeta:getHP()
+	return self:getNetVar("hp", self:getMaxHP())
+	--return self:Health()
+end
+
 --used to calculate what a player's max HP should be
 function playerMeta:getMaxHP()
 	local char = self:getChar()
@@ -39,24 +46,29 @@ end
 if(SERVER) then
 	--just use a negative value to subtract
 	function playerMeta:addHP(amount)
-		local new = math.Clamp(self:Health() + amount, -100, self:GetMaxHealth())
+		local new = math.Clamp(self:getHP() + amount, -1000, self:GetMaxHealth())
 		
 		new = math.Round(new, 3)
 		
-		self:SetHealth(new)
+		self:setHP(new)
 		
 		return new
 	end
 
 	--just use a negative value to subtract
 	function playerMeta:addMP(amount)
-		local new = math.Clamp(self:getMP() + amount, -100, self:getMaxMP())
+		local new = math.Clamp(self:getMP() + amount, -1000, self:getMaxMP())
 		
 		new = math.Round(new, 3)
 		
 		self:setMP(new)
 		
 		return new
+	end
+	
+	--sets to exactly the supplied value
+	function playerMeta:setHP(amount)
+		self:setNetVar("hp", amount)
 	end
 	
 	--sets to exactly the supplied value
@@ -67,8 +79,8 @@ else
 	function PLUGIN:CreateCharInfoText(panel, suppress)
 		local char = LocalPlayer():getChar()
 		if(!char) then return end
-	
-		--health
+
+		--health (turn based)
 		panel.hp = panel.info:Add("DLabel")
 		panel.hp:Dock(TOP)
 		panel.hp:SetTall(25)
@@ -81,7 +93,23 @@ else
 		local hpMax = LocalPlayer():GetMaxHealth()
 		if (hp and hpMax) then
 			panel.hp:SetText("Health: " ..hp.. "/" ..hpMax)
-		end		
+		end
+
+		--[[
+		--health (turn based)
+		panel.hp = panel.info:Add("DLabel")
+		panel.hp:Dock(TOP)
+		panel.hp:SetTall(25)
+		panel.hp:SetFont("nutMediumFont")
+		panel.hp:SetTextColor(Color(200,120,120))
+		panel.hp:SetExpensiveShadow(1, Color(0, 0, 0, 150))
+		panel.hp:DockMargin(0, 10, 0, 0)
+	
+		local hp = LocalPlayer():getHP()
+		local hpMax = LocalPlayer():GetMaxHealth()
+		if (hp and hpMax) then
+			panel.hp:SetText("Health: " ..hp.. "/" ..hpMax)
+		end
 	
 		--mind
 		panel.mp = panel.info:Add("DLabel")
@@ -96,7 +124,8 @@ else
 		local mpMax = LocalPlayer():getMaxMP()
 		if (mp and mpMax) then
 			panel.mp:SetText("Mind: " ..mp.. "/" ..mpMax)
-		end		
+		end	
+		--]]
 	end
 end
 
@@ -117,9 +146,9 @@ nut.command.add("charsethp", {
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then	
 			local new = math.Clamp(tonumber(arguments[2]), 0, target:GetMaxHealth())
-			target:SetHealth(new)
+			target:setHP(new)
 			
-			client:notify("Health is now " ..target:Health().. ".")
+			client:notify("Health is now " ..target:getHP().. ".")
 		end
 	end
 })
@@ -142,7 +171,7 @@ nut.command.add("charaddhp", {
 		if(IsValid(target) and target:getChar()) then	
 			target:addHP(tonumber(arguments[2]))
 
-			client:notify("Health is now " ..target:Health().. ".")
+			client:notify("Health is now " ..target:getHP().. ".")
 		end
 	end
 })
@@ -205,7 +234,7 @@ nut.command.add("charrestore", {
 	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then	
-			target:SetHealth(target:GetMaxHealth())
+			target:setHP(target:GetMaxHealth())
 			
 			client:notify("Health successfully restored.")
 		end
@@ -220,7 +249,7 @@ nut.command.add("charrestoreall", {
 	
 		for k, target in pairs(player.GetAll()) do
 			if(IsValid(target) and target:getChar()) then	
-				target:SetHealth(target:GetMaxHealth())
+				target:setHP(target:GetMaxHealth())
 
 				count = count + 1
 			end

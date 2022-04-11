@@ -8,123 +8,184 @@ local PANEL = {}
 		
 		nut.gui.actionL = self
 		
-		self:SetSize(ScrW() * 0.15, ScrH() * 0.3)
+		self:SetSize(576, 648)
 		self:Center()
-		self:SetTitle("Actions")
+		self:SetTitle("")
 		self:MakePopup()
+		self:ShowCloseButton(false)
+		
+		self.Paint = function(panel, w, h)
+			--background image
+			surface.SetDrawColor(Color(40, 40, 40, 255))
+			surface.DrawRect(0, 0, w, h)
+		end
 		
 		self.buttons = {}
 		
 		local inner = vgui.Create("DScrollPanel", self)
 		inner:Dock(FILL)
+		--inner:SetVerticalScrollbarEnabled(false)
+		local vBar = inner:GetVBar()
+		function vBar:Paint(w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0, 100))
+		end
+		function vBar.btnUp:Paint(w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0))
+		end
+		function vBar.btnDown:Paint(w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0))
+		end
+		function vBar.btnGrip:Paint(w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0))
+		end
+		
+		local closeButton = vgui.Create("DButton", self)
+		closeButton:SetPos(556, 0)
+		closeButton:SetSize(20, 20)
+		closeButton:SetTextColor(Color(255,255,255))
+		closeButton:SetText("X")
+		closeButton.Paint = function(panel, w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0))
+		end
+		closeButton.DoClick = function()
+			self:Close()
+		end
 		
 		local colors = {
-			["Default"] = Color(255,255,255),
-			
-			--[[
 			["Fire"] = Color(200,0,0),
-			["Shock"] = Color(200,200,255),
+			["Earth"] = Color(210,105,30),
+			["Water"] = Color(0,0,200),
+			["Lightning"] = Color(200,200,255),
+			["Dark"] = Color(0,0,0),
+			["Light"] = Color(255,255,255),
+			["Universal"] = Color(200,200,200),
 			
-			["Blight"] = Color(0,0,0),
-			["Shard"] = Color(255,255,255),
-			["Ichor"] = Color(200,200,200),
+			["Martial"] = Color(180,180,180),
 			
-			["Mental"] = Color(0,180,180),
+			--special
+			["Chaos"] = Color(153,50,204),
+			
+			--other
+			["Arcane"] = Color(128,0,128),
+			["Disease"] = Color(173,255,47),
+			["Direct"] = Color(255,255,255),
+			["Poison"] = Color(0,255,0),
 			
 			--physical
 			["Pierce"] = Color(180,180,180),
 			["Slash"] = Color(180,180,180),
 			["Crush"] = Color(180,180,180),
 			["Siege"] = Color(180,180,180),
-			--]]
 		}
 		
-		timer.Simple(0, function()
-			--local customs = nut.plugin.list["spells"] and nut.plugin.list["spells"].spellList
+		local categories = {}
+		local function addActionButton(action)
+			local textColor = Color(150,150,150,255)
 
-			local categories = {}
-			for k, action in SortedPairsByMemberValue(self.actions or {}, "category" or "") do
-				local textColor = Color(150,150,150,255)
-
-				--[[
-				local actionInfo = {}
-				if(v.special) then
-					--actionInfo = customs[v.special] or SPLS.spells[v.special] or {}
-					actionInfo = ACTS.actions[v.special] or {}
-				end
-				--]]
-				local actionData = ACTS.actions[action.uid or -1] or {}
-				
-				if(actionData.category) then
-					if(!categories[actionData.category]) then
-						categories[actionData.category] = true
-						
-						local catLabel = inner:Add("DLabel")
-						catLabel:Dock(TOP)
-						catLabel:DockMargin(2,2,2,2)
-						catLabel:SetText(actionData.category)
-					end
-				
-					textColor = colors[actionData.category] or Color(255,255,255,255)
-				end
-				
-				local desc
-				if(actionData.desc) then
-					desc = actionData.desc or ""
-				else
-					desc = ""
-				end
+			local actionData = {}
+			if(action.uid) then
+				actionData = ACTS.actions[action.uid] or {}
+			end
 			
-				if(actionData.dmg and actionData.dmgT) then
-					desc = desc.. "\nBase Damage: " ..actionData.dmg.. " " ..actionData.dmgT.. "."
-				end		
-				
-				if(actionData.radius) then
-					desc = desc.. "\nArea of Effect: " ..actionData.radius.. "."
-				end
-				
-				if(actionData.CD) then
-					desc = desc.. "\nCooldown: " ..actionData.CD.. " turns."
-				end
-				
-				if(actionData.costAP) then
-					desc = desc.. "\nAP Cost: " ..actionData.costAP.. "."
-				end
-			
-				if(actionData.costHP) then
-					desc = desc.. "\nHP Cost: " ..actionData.costHP.. "."
-				end
-				
-				if(actionData.costMP) then
-					desc = desc.. "\nMP Cost: " ..actionData.costMP.. "."
-				end
-				
-				if(actionData.attribs) then
-					desc = desc.. "\nScaling:"
+			if(actionData.category) then
+				if(!categories[actionData.category]) then
+					categories[actionData.category] = true
 					
-					for attribName, attribMult in pairs(actionData.attribs) do
-						desc = desc.. "\n   " ..((nut.attribs.list[attribName] and nut.attribs.list[attribName].name) or "Unknown").. ": " ..attribMult.. "x."
+					local catLabel = inner:Add("DLabel")
+					catLabel:Dock(TOP)
+					catLabel:SetTall(50)
+					catLabel:DockMargin(8,8,8,8)
+					catLabel:SetFont("nutMenuButtonLightFont")
+					catLabel:SetText(" " ..actionData.category.. " ")
+					
+					catLabel.Paint = function(panel, w, h)
+						local textSizeX, textSizeY = panel:GetTextSize()
+
+						surface.SetDrawColor(Color(255, 255, 255, 255))
+						surface.DrawLine(0, textSizeY, textSizeX, textSizeY)
 					end
 				end
 			
-				local button = inner:Add("DButton")
-				button:Dock(TOP)
-				button:DockMargin(2,2,2,2)
+				textColor = colors[actionData.category] or Color(255,255,255,255)
+			end
+			
+			if(actionData.category) then
+				textColor = colors[actionData.category] or Color(255,255,255,255)
+			end
+			
+			local desc
+			if(actionData.desc) then
+				desc = actionData.desc or ""
+			else
+				desc = ""
+			end
+		
+			if(actionData.dmg and actionData.dmgT) then
+				desc = desc.. "\nBase Damage: " ..actionData.dmg.. " " ..actionData.dmgT.. "."
+			end	
+			
+			if(actionData.weaponMult) then
+				desc = desc.. "\nWeapon Damage Multiplier: " ..actionData.weaponMult.. "x."
+			end		
+			
+			if(actionData.radius) then
+				desc = desc.. "\nArea of Effect: " ..actionData.radius.. "."
+			end
+			
+			if(actionData.CD) then
+				desc = desc.. "\nCooldown: " ..actionData.CD.. " turns."
+			end
+			
+			if(actionData.costAP) then
+				desc = desc.. "\nAP Cost: " ..actionData.costAP.. "."
+			end
+		
+			if(actionData.costHP) then
+				desc = desc.. "\nHP Cost: " ..actionData.costHP.. "."
+			end
+			
+			if(actionData.costMP) then
+				desc = desc.. "\nMP Cost: " ..actionData.costMP.. "."
+			end
+		
+			local button = inner:Add("DButton")
+			button:Dock(TOP)
+			button:DockMargin(2,2,2,2)
+			
+			button:SetFont("nutSmallFont")
+			
+			button:SetTextColor(textColor)
+			button:SetText(actionData.name or action.name or "Unnamed Action")
+			button:SetToolTip(desc)
+			button.DoClick = function()
+				self:actionPress(button)
+			end
+			button.Paint = function(panel, w, h)
+				surface.SetDrawColor(Color(0, 0, 0, 220))
+				surface.DrawRect(0, 0, w, h)
 				
-				button:SetFont("nutSmallFont")
-				
-				button:SetTextColor(textColor)
-				button:SetText(actionData.name or action.name or "Unnamed Action")
-				button:SetToolTip(desc)
-				button.DoClick = function()
-					self:actionPress(button)
+				--button image
+				--[[
+				surface.SetDrawColor(Color(255, 255, 255, 255))
+				surface.SetMaterial(PLUGIN.buttonIcon)
+				surface.DrawTexturedRect(0, 0, w, h)
+				--]]
+			end
+			
+			self.buttons[#self.buttons + 1] = button	
+		end
+		
+		timer.Simple(0, function()
+			for k, action in pairs(self.actions) do
+				if(action.category == "Default") then 
+					addActionButton(action)
 				end
-				button.Paint = function(panel, w, h)
-					surface.SetDrawColor(Color(70, 80, 100, 220))
-					surface.DrawRect(0, 0, w, h)
-				end
+			end
+		
+			for k, action in SortedPairsByMemberValue(self.actions or {}, "category" or "") do
+				if(action.category == "Default") then continue end
 				
-				self.buttons[#self.buttons + 1] = button				
+				addActionButton(action)
 			end
 		end)		
 	end

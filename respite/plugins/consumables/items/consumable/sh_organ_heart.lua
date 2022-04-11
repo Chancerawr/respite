@@ -12,7 +12,39 @@ ITEM.disChance = 10
 ITEM.organicScrap = 5
 
 ITEM.attrib = { 
+	["str"] = 5,
 	["fortitude"] = 10 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+	["Organ"] = true,
+	["Corpse"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["str"] = 5,
+			["fortitude"] = 10,
+		},
+		
+		res = {
+			["Disease"] = -15,
+			["Poison"] = -15,
+			["Bleed"] = -15,
+			["Fear"] = 15,
+			["Pain"] = 15,
+			["Knockdown"] = 15,
+			["Slow"] = 15,
+			["Root"] = 15,
+			["Weak"] = 40,
+		}
+	},
 }
 
 ITEM.iconCam = {

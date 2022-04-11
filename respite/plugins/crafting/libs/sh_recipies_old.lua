@@ -1,3 +1,4 @@
+/*
 local PLUGIN = PLUGIN
 
 local RECIPE = {}
@@ -4351,3 +4352,4 @@ RECIPE.result = {
 
 RECIPES:Register(RECIPE)
 //
+*/

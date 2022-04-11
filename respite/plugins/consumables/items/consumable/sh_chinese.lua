@@ -1,4 +1,5 @@
 ITEM.name = "Chinese Food"
+ITEM.prefix = "Chinese"
 ITEM.desc = "A takeout carton filled with chinese food."
 ITEM.uniqueID = "food_chinese"
 ITEM.model = "models/props_junk/garbage_takeoutcarton001a.mdl"
@@ -9,6 +10,23 @@ ITEM.attrib = {
 	["perception"] = 1, 
 	["fortitude"] = 2,
 	["end"] = 1
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+}
+
+ITEM.craft = {
+	hp = 2,
+
+	buffTbl = {
+		attrib = {
+			["perception"] = 1, 
+			["fortitude"] = 2,
+			["end"] = 1
+		},
+	},
 }
 
 ITEM.iconCam = {

@@ -10,6 +10,13 @@ ITEM.salvItem = {
 	["j_scrap_wood"] = 4
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Decor"] = true,
+	}
+end
+
 ITEM.iconCam = {
 	pos = Vector(200, 0, 3),
 	ang = Angle(180, -0, 180),

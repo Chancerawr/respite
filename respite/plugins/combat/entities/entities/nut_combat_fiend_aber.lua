@@ -21,3 +21,27 @@ ENT.attribs = {
 	["perception"] = 15,
 	["fortitude"] = 50,
 }
+
+ENT.dmg = {
+	["Blight"] = 15,
+}
+
+ENT.hp = 500
+ENT.armor = 50
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = 50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 25,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 50,
+	["Electric"] = 50,
+}

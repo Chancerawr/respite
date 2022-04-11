@@ -11,6 +11,13 @@ ITEM.salvItem = {
 	["cube_chip"] = 1
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Plastic Corpse"] = true,
+	}
+end
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

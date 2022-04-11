@@ -2,7 +2,18 @@ ITEM.name = "Tier 1 Vest"
 ITEM.desc = "This bulletproof vest offers a lower amount of protection than its counterparts, but it's better than nothing. It will stop up to .22LR cartridges, and maybe some lighter pistol calibers from more diminutive machine pistols like the Skorpion vz 83 or MAC11.  If the enemy is concealing their pistol, this vest may save your life."
 ITEM.model = "models/tnb/items/shirt_rebel1.mdl"
 ITEM.slot = "Chest"
-ITEM.flag = "j"
+
+ITEM.armor = 40
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["chest"] = true,
+}
+
+ITEM.scaling = {
+	["end"] = 0.2,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 10

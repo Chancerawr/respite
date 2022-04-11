@@ -1,4 +1,5 @@
 ITEM.name = "Bottled Water"
+ITEM.prefix = "Water"
 ITEM.uniqueID = "food_water"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.desc = "A bottle filled with clear water."
@@ -9,6 +10,28 @@ ITEM.container = "j_empty_water"
 
 ITEM.attrib = { 
 	["stm"] = 2,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Water"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["stm"] = 2,
+		},
+		
+		buffTbl = {
+			res = {
+				["Fire"] = 5,
+			}
+		},
+	},
 }
 
 ITEM.iconCam = {

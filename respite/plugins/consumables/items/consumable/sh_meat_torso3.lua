@@ -1,4 +1,5 @@
 ITEM.name = "Human Torso Chunk"
+ITEM.prefix = "Torso"
 ITEM.uniqueID = "food_human_torso3"
 ITEM.desc = "The torso of a human being."
 ITEM.model = "models/dismemberment/gibs/torso/torso_right_upper.mdl"
@@ -15,6 +16,34 @@ ITEM.organicScrap = 6
 
 ITEM.attrib = { 
 	["fortitude"] = 4
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+	["Corpse"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 4,
+		},
+		
+		res = {
+			["Disease"] = -5,
+			["Poison"] = -5,
+			["Bleed"] = -5,
+			["Fear"] = 5,
+			["Pain"] = 5,
+			["Knockdown"] = 5,
+			["Slow"] = 5,
+			["Root"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

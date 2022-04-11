@@ -10,7 +10,26 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
-ITEM.salvItem = {
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["weapon"] = true,
+	["melee"] = true,
+	["makeshift"] = true,
+	["sharp"] = true,
+	["blunt"] = true,
+}
+
+ITEM.dmg = {
+	["Blunt"] = 10,
+	["Slash"] = 10,
+}
+
+ITEM.scaling = {
+	["stm"] = 0.2,
+	["str"] = 0.2,
+}
+
+ITEM.salvage = {
 	["j_scrap_metals"] = 3,
 	["j_scrap_wood"] = 3
 }

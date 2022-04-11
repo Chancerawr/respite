@@ -1,4 +1,4 @@
-ITEM.name = "Turbulent Phase Bomb"
+ITEM.name = "Distortion Bomb"
 ITEM.uniqueID = "portal_explosives"
 ITEM.model = "models/Items/grenadeammo.mdl"
 ITEM.material = "models/props_combine/stasisfield_beam"

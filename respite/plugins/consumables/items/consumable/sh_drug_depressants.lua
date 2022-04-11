@@ -1,4 +1,5 @@
 ITEM.name = "Depressants"
+ITEM.prefix = "Depressing"
 ITEM.desc = "A small bottle filled with some pills, there's something sad about them."
 ITEM.uniqueID = "drug_depress"
 ITEM.model = "models/props_lab/jar01b.mdl"
@@ -20,6 +21,28 @@ ITEM.attrib = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(255, 255, 255, 255), 3, 0)
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drug"] = true,
+}
+
+ITEM.craft = {
+	mp = -2,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = -3,
+			["end"] = 2,
+		},
+		
+		res = {
+			["Slow"] = -5,
+			["Fear"] = 10,
+			["Pain"] = 10,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

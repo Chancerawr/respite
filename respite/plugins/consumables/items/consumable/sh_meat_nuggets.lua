@@ -1,4 +1,5 @@
 ITEM.name = "Chicken Nuggets"
+ITEM.prefix = "Chicken"
 ITEM.desc = "Delicious chicken nuggets."
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/antlion/antlion_innards"
@@ -10,7 +11,31 @@ ITEM.attrib = {
 	["fortitude"] = 4,
 	["end"] = 2,
 	["str"] = 1
- }
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 4,
+			["end"] = 2,
+			["str"] = 1
+		},
+		
+		res = {
+			["Root"] = 5,
+			["Stun"] = 5,
+			["Slow"] = 5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

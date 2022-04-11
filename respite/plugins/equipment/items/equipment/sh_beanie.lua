@@ -2,10 +2,12 @@ ITEM.name = "Beanie"
 ITEM.uniqueID = "j_beanie"
 ITEM.model = "models/tnb/items/beanie.mdl"
 ITEM.desc = "A warm winter beanie."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"
+
+ITEM.armor = 1
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 2

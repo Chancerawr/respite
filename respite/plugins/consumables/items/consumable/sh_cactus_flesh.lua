@@ -1,4 +1,5 @@
 ITEM.name = "Cactus Flesh"
+ITEM.prefix = "Cactus"
 ITEM.desc = "Flesh of a cactus plant."
 ITEM.uniqueID = "food_cactus"
 ITEM.model = "models/props_wasteland/prison_toiletchunk01f.mdl"
@@ -8,6 +9,26 @@ ITEM.price = 4
 
 ITEM.attrib = { 
 	["medical"] = 3
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Vegetable"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["medical"] = 3,
+		},
+		
+		res = {
+			["Blind"] = 3,
+		}
+	},
 }
 
 ITEM.iconCam = {

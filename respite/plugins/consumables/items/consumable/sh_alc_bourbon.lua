@@ -8,12 +8,30 @@ ITEM.price = 2
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 ITEM.container = "j_empty_bourbon"
 ITEM.color = Color(139,69,19)
- 
+
 ITEM.attrib = { 
 	["str"] = 3,
 	["end"] = 3,
 	["perception"] = -3,
 	["accuracy"] = -3
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["str"] = 3,
+			["end"] = 3,
+			["perception"] = -3,
+			["accuracy"] = -3
+		},
+		
+		res = {
+			["Mind"] = -6,
+			["Pain"] = 12,
+		}
+	},
 }
 
 ITEM.iconCam = {

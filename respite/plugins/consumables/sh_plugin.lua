@@ -172,3 +172,17 @@ end
 function PLUGIN:PrePlayerLoadedChar(client, character, currentChar)
 	character:setData("stomach", 0)
 end
+
+nut.command.add("charstomachempty", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			local char = target:getChar()
+			char:setData("stomach", 0)
+			
+			client:notify(target:Name().. "'s stomach emptied.")
+		end
+	end
+})

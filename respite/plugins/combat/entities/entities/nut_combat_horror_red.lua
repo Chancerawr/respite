@@ -21,3 +21,29 @@ ENT.attribs = {
 	["perception"] = 0,
 	["fortitude"] = 0,
 }
+
+ENT.dmg = {
+	["Fire"] = 5,
+	["Ichor"] = 5,
+	["Slash"] = 10,
+}
+
+ENT.hp = 50
+ENT.armor = 0
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 100,
+	["Blight"] = -50,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}

@@ -1,4 +1,5 @@
 ITEM.name = "Voltaic Liquid"
+ITEM.prefix = "Voltaic"
 ITEM.desc = "A strange liquid with electrical properties. The bottle is vibrating slightly.\nThose who drink this gain inhuman speed for a short time, they are also somewhat twitchy.\nAfter the effect wears off, users will lose consciousness for an entire day."
 ITEM.uniqueID = "voltaic"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
@@ -20,6 +21,34 @@ ITEM.attrib = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(0, 128, 128, 255), 10, 0)
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drug"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 5,
+
+	buffTbl = {
+		evasion = 10,
+		
+		attrib = {
+			["stm"] = 10,
+			["perception"] = -4,
+			["end"] = -4,
+		},
+		
+		res = {
+			["Stun"] = 50,
+			["Root"] = 50,
+			["Knockdown"] = 50,
+			["Slow"] = 100,
+			["Sleep"] = 100,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

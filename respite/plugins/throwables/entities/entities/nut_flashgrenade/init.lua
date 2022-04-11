@@ -82,6 +82,8 @@ function ENT:Explode()
 			pl:SetNetworkedFloat("FLASHED_END_START", CurTime());
 		end
 	end
+	
+	nut.item.spawn("j_grenade_used", self:GetPos())
 	self.Entity:Remove();
 end
 

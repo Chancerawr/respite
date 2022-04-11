@@ -1,4 +1,5 @@
 ITEM.name = "Box of Gauze"
+ITEM.prefix = "Gauze"
 ITEM.desc = "A small box filled with gauze."
 ITEM.uniqueID = "medical_gauze"
 ITEM.model = "models/props_lab/box01a.mdl"
@@ -19,6 +20,21 @@ ITEM.stomach = false
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(30, 120, 30, 255), 1, 1)
 end
+
+ITEM.loot = {
+	["Medical"] = true,
+}
+
+ITEM.craft = {
+	hp = 45,
+	
+	buffTbl = {
+		res = {
+			["Fire"] = -5,
+			["Bleed"] = 15,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(89.432174682617, 74.904991149902, 54.501823425293),

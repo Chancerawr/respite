@@ -1,4 +1,5 @@
 ITEM.name = "Corrupted Water"
+ITEM.prefix = "Water"
 ITEM.desc = "Some sort of container that is filled to the brim with corrupted water. The water itself looks a little bit gray, and smells peculiar."
 ITEM.uniqueID = "food_water_misc"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
@@ -11,6 +12,24 @@ ITEM.color = Color(100, 100, 100)
 
 ITEM.attrib = { 
 	["stm"] = 1,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Water"] = true,
+	["Blight"] = true,
+}
+
+ITEM.craft = {
+	hp = 1,
+	
+	buffTbl = {
+		res = {
+			["Fire"] = 5,
+			["Blight"] = -5,
+		}
+	},
 }
 
 ITEM.iconCam = {

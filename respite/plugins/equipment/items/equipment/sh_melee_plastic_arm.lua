@@ -1,6 +1,7 @@
-ITEM.name = "Mannequin Arm"
-ITEM.desc = "The arm of a mannequin, it's covered in cracks and small pieces are missing here and there."
-ITEM.model = "models/props_mall/mall_mannequin_female_rarm2.mdl"
+ITEM.name = "Plastic Arm"
+ITEM.desc = "The arm of a plastic, it's covered in cracks and small pieces are missing here and there."
+ITEM.model = "models/dismemberment/gibs/arms.mdl"
+ITEM.material = "phoenix_storms/mrref2"
 ITEM.class = "hl2_m_mannequinarm"
 ITEM.uniqueID = "hl2_m_plastic_arm"
 ITEM.slot = "melee"
@@ -10,7 +11,22 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
-ITEM.salvItem = {
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["weapon"] = true,
+	["melee"] = true,
+	["blunt"] = true,
+}
+
+ITEM.dmg = {
+	["Blunt"] = 8,
+}
+
+ITEM.scaling = {
+	["str"] = 0.1,
+}
+
+ITEM.salvage = {
 	["j_scrap_plastics"] = 3
 }
 

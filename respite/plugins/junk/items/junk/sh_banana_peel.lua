@@ -10,8 +10,15 @@ ITEM.salvItem = {
 	["j_scrap_organic"] = 1
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Garbage"] = true,
+	}
+end
+
 ITEM.iconCam = {
-	pos = Vector(109.66854858398, 92.037124633789, 65.99112701416),
+	pos = Vector(109.67, 92.04, 65.99),
 	ang = Angle(25, 220, 0),
-	fov = 4.4171824585877,
+	fov = 4.417,
 }

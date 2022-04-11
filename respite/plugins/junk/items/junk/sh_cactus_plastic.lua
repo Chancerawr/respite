@@ -11,6 +11,14 @@ ITEM.salvItem = {
 	["j_scrap_plastics"] = 1
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Plastic"] = true,
+		["Flora"] = true,
+	}
+end
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

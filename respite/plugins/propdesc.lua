@@ -3,28 +3,25 @@ PLUGIN.author = "Blazing & Angelsaur"
 PLUGIN.desc = "Set descriptions for props."
 
 nut.command.add("propdesc", {
-	syntax = "<string description>",
+	adminOnly = true,
+	syntax = "<string desc>",
 	onRun = function(client, arguments)
-		local objdesc = arguments[1];
+		local objdesc = table.concat(arguments, " ")
 		local ent = client:GetEyeTrace().Entity
 
-		if (!arguments[1]) then
+		if(!objdesc) then
 			ent:setNetVar("exDesc", "")		
 		end
 		
-		if (IsValid(ent)) then
-		   ent:setNetVar("exDesc", objdesc)
-        end
-		
+		if (IsValid(ent) and ent:GetClass("prop_physics")) then
+			ent:setNetVar("exDesc", objdesc)
+		end
 	end
 })
 
 function PLUGIN:ShouldDrawEntityInfo(entity)
-
    if (IsValid(entity) and (entity:GetClass("prop_*")) and entity:getNetVar("exDesc", exdesc)) then
-
        return true
-	
    end
 end
 
@@ -32,7 +29,6 @@ local drawText = nut.util.drawText
 local descInfo = {}
 
 function PLUGIN:DrawEntityInfo(entity, alpha)
-
     local exdesc = entity:getNetVar("exDesc")
 	local stringFind = string.find
 	
@@ -64,10 +60,4 @@ function PLUGIN:DrawEntityInfo(entity, alpha)
 		   end
 		end
 	end
-end
-
-local entityMeta = FindMetaTable("Entity")
-
-function entityMeta:getExDesc()
-	return self:getNetVar("exDesc") 
 end

@@ -16,6 +16,30 @@ ITEM.attrib = {
 	["accuracy"] = -8
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Alcohol"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["str"] = 6,
+			["end"] = 6,
+			["perception"] = -8,
+			["accuracy"] = -8
+		},
+		
+		res = {
+			["Mind"] = -20,
+			["Pain"] = 30,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

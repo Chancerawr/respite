@@ -5,7 +5,7 @@ ITEM.model = "models/props_c17/suitcase_passenger_physics.mdl"
 ITEM.material = "models/props_canal/metalwall005b"
 ITEM.flag = "v"
 ITEM.width = 2
-ITEM.height = 2
+ITEM.height = 1
 ITEM.category = "Machines"
 ITEM.color = Color(70, 120, 70)
 

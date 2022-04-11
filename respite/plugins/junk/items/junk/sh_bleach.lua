@@ -8,10 +8,18 @@ ITEM.salvItem = {
 	["j_scrap_chems"] = 1
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Cleaning"] = true,
+		["Chem"] = true,
+	}
+end
+
 ITEM.iconCam = {
-	pos = Vector(224.21286010742, 188.08586120605, 136.6078338623),
+	pos = Vector(224.21, 188.086, 136.61),
 	ang = Angle(25, 220, 0),
-	fov = 4.8611911663843,
+	fov = 4.86,
 }
 
 ITEM.functions.Drink = {

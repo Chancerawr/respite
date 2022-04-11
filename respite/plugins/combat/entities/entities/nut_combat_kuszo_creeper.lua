@@ -19,3 +19,33 @@ ENT.attribs = {
 	["perception"] = 7,
 	["fortitude"] = 7,
 }
+
+ENT.dmg = {
+	["Slash"] = 20,
+	["Electric"] = 20,
+}
+
+ENT.hp = 40
+ENT.armor = 100
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 90,
+}
+
+ENT.actions = {
+	"slash",
+	"mawed_bite",
+}

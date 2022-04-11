@@ -16,22 +16,63 @@ if (SERVER) then
 		self:SetUseType(SIMPLE_USE)
 		
 		local physicsObject = self:GetPhysicsObject()
-		if ( IsValid(physicsObject) ) then
+		if (IsValid(physicsObject)) then
 			physicsObject:Wake()
 		end
+		
+		self.receivers = {}
+		
+		timer.Simple(1, function()
+			nut.inventory.instance("grid", {10,10})
+				:next(function(inventory)
+					if(IsValid(self) and self.setInventory) then --why is this necessary?
+						self:setInventory(inventory)
+					end
+				end)
+		end)
 	end
 
 	function ENT:Use(activator)
-		netstream.Start( activator, "nut_CraftWindow", activator) 
+		netstream.Start(activator, "nut_CraftWindow", activator, self)
+	end
+	
+	function ENT:setInventory(inventory)
+		assert(inventory, "Storage setInventory called without an inventory!")
+		self:setNetVar("id", inventory:getID())
+
+		hook.Run("StorageInventorySet", self, inventory)
+	end	
+
+	function ENT:getInv()
+		return nut.item.inventories[self:getNetVar("id", 0)]
+	end	
+	
+	function ENT:OnRemove()
+		local index = self:getNetVar("id")
+
+		if (!nut.shuttingDown and !self.nutIsSafe and index) then
+			local item = nut.item.inventories[index]
+
+			if (item) then
+				nut.item.inventories[index] = nil
+
+				nut.db.query("DELETE FROM nut_items WHERE _invID = "..index)
+				nut.db.query("DELETE FROM nut_inventories WHERE _invID = "..index)
+
+				hook.Run("StorageItemRemoved", self, item)
+			end
+		end
 	end
 else
-netstream.Hook("nut_CraftWindow", function(client, data)
+	netstream.Hook("nut_CraftWindow", function(client, ent)
 		if (IsValid(nut.gui.crafting)) then
 			nut.gui.crafting:Remove()
 			return
 		end
-		surface.PlaySound( "items/ammocrate_close.wav" )
+		
+		surface.PlaySound("items/ammocrate_close.wav")
 		nut.gui.crafting = vgui.Create("nut_Crafting")
+		nut.gui.crafting.ent = ent
 		nut.gui.crafting:Center()
 	end)
 
@@ -61,9 +102,6 @@ netstream.Hook("nut_CraftWindow", function(client, data)
 		size.x = size.x + 20; size.y = size.y + 15
 		surface.DrawText("Fabricator")
 	cam.End3D2D()
-	end
-
-	function ENT:OnRemove()
 	end
 end
 

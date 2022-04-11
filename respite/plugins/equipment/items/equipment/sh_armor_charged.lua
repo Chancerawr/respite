@@ -2,7 +2,17 @@ ITEM.name = "Voltaic Armor"
 ITEM.desc = "A type of chest armor composed mostly of rubber with some sort of light metal component lining the outside. Upon making physical contact with another conductive surface, it will discharge its electricity, injuring and potentially stunning a creature if it has the misfortune of touching it.\nCannot discharge on the wearer.\nMust be recharged with a charged battery after each discharge."
 ITEM.model = "models/tnb/items/shirt_rebel1.mdl"
 ITEM.slot = "Chest"
-ITEM.flag = "j"
+
+ITEM.armor = 30
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["chest"] = true,
+}
+ITEM.scaling = {
+	["end"] = 0.2,
+}
 
 ITEM.salvage = {
 	["j_scrap_rubber"] = 8,

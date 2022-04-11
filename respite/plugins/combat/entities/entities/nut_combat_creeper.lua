@@ -20,6 +20,37 @@ ENT.attribs = {
 	["fortitude"] = 60,
 }
 
+ENT.dmg = {
+	["Slash"] = 10,
+	["Electric"] = 20,
+}
+
+ENT.hp = 400
+ENT.armor = 100
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 25,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 50,
+	["Electric"] = 50,
+}
+
+ENT.actions = {
+	"claw_electric",
+	"slash",
+	"stab",
+}
+
 function ENT:Initialize()
 	if (SERVER) then
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)

@@ -143,6 +143,7 @@ nut.command.add("centmodel", {
 	onRun = function(client, arguments)
 		if(!arguments[1]) then
 			client:notify("Specify a model for the entity.")
+			return false
 		end
 		
 		local entity = client:GetEyeTrace().Entity
@@ -285,6 +286,34 @@ nut.command.add("centattrib", {
 				client:notify(attribName.. " set to " ..arguments[2].. ".")
 			else
 				client:notify("Invalid attribute specified.")
+			end
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centactionadd", {
+	adminOnly = true,
+	syntax = "<string action>",
+	onRun = function(client, arguments)
+		if(!arguments[1]) then
+			client:notify("Specify an action to add.")
+			return false
+		end
+	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local action = PLUGIN:actionFind(arguments[1])
+		
+			if(action) then
+				local actions = entity.actions or {}
+				actions[#actions + 1] = action.uid
+				entity.actions = actions
+				
+				client:notify(entity:Name().. " now has the " ..(action.name or " ").. " action.")
+			else
+				client:notify("Invalid action.")
 			end
 		else
 			client:notify("You must be looking at a combat entity.")
@@ -489,6 +518,55 @@ nut.command.add("centfollowstop", {
 	end
 })
 
+nut.command.add("centrestore", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity:SetHealth(entity:getMaxHP())
+			
+			client:notify("Health successfully restored.")
+		end
+	end
+})
+
+nut.command.add("centconfig", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			PLUGIN:CEnt_config(client, entity)
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centres", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			PLUGIN:CEnt_configR(client, entity)
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centdmg", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			PLUGIN:CEnt_configDMG(client, entity)
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
 nut.chat.register("react_fail", { --reaction roll
 	onChatAdd = function(speaker, text)
 		chat.AddText(PLUGIN.CHATCOLOR_RED, text)
@@ -627,3 +705,308 @@ nut.chat.register("scream_npc", {
 	onCanHear = nut.config.get("chatRange", 280) * 4,
 	deadCanChat = true
 })
+
+if(SERVER) then
+	function PLUGIN:CEnt_config(client, entity)
+		local config = {
+			["name"] = {weight = 1, name = "Name", value = entity:Name()},
+			["desc"] = {weight = 2, name = "Description", value = entity:Desc()},		
+			["hp"] = {weight = 3, name = "Health", value = entity:getNetVar("hp", 0)},
+			["hpMax"] = {weight = 4, name = "Max Health", value = entity:getNetVar("hpMax", 0)},
+			["mp"] = {weight = 5, name = "Mana", value = entity:getNetVar("mp", 0)},
+			["mpMax"] = {weight = 6, name = "Max Mana", value = entity:getNetVar("mpMax", 0)},
+			--["magic"] = {weight = 7, name = "Magic Bonus", value = entity.magic},
+			["armor"] = {weight = 7, name = "Armor", value = entity.armor},
+			--["dmg"] = {weight = 8, name = "Base Damage", value = entity.dmg},
+		}
+		
+		local extra = {}
+		extra.attribs = entity.attribs
+		--extra.dmgT = entity.dmgT
+	
+		netstream.Start(client, "CEnt_config", entity, config, extra)
+	end
+	
+	function PLUGIN:CEnt_configR(client, entity)		
+		local extra = {}
+		extra.res = entity.res
+	
+		netstream.Start(client, "CEnt_configR", entity, extra)
+	end
+	
+	function PLUGIN:CEnt_configDMG(client, entity)		
+		local extra = {}
+		extra.dmg = entity.dmg
+	
+		netstream.Start(client, "CEnt_configDMG", entity, extra)
+	end
+	
+	netstream.Hook("CEnt_configF", function(client, entity, data)
+		if(data.attribs) then		
+			entity.attribs = data.attribs
+		end
+		
+		if(data.name) then
+			entity:setNetVar("name", data.name)
+		end
+		
+		if(data.desc) then
+			entity:setNetVar("desc", data.desc)
+		end
+		
+		if(data.hp) then
+			entity:setNetVar("hp", tonumber(data.hp))
+		end		
+		
+		if(data.hpMax) then
+			entity:setNetVar("hpMax", tonumber(data.hpMax))
+		end
+		
+		if(data.mp) then
+			entity:setNetVar("mp", tonumber(data.mp))
+		end
+		
+		if(data.mpMax) then
+			entity:setNetVar("mpMax", tonumber(data.mpMax))
+		end
+		
+		if(data.armor) then
+			entity.armor = tonumber(data.armor)
+		end
+	end)
+	
+	netstream.Hook("CEnt_configRF", function(client, entity, data)
+		if(data) then
+			entity.res = data
+		end
+	end)
+	
+	netstream.Hook("CEnt_configDMGF", function(client, entity, data)
+		if(data) then
+			entity.dmg = data
+		end
+	end)
+else
+	netstream.Hook("CEnt_config", function(entity, config, extra)
+		local attribs = extra.attribs or {}
+		
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(450, 600)
+		frame:Center()
+		frame:SetTitle("CEnt Configuration")
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+
+		local scroll = vgui.Create("DScrollPanel", frame)
+		scroll:Dock(FILL)
+		
+		local configF = {}
+		for k, v in SortedPairsByMemberValue(config, "weight") do
+			local label = vgui.Create("DLabel", scroll)
+			label:SetText(v.name)
+			label:Dock(TOP)
+
+			local entry = vgui.Create("DTextEntry", scroll)
+			entry:SetText(v.value or "")
+			entry:Dock(TOP)
+			
+			configF[k] = entry
+		end
+		
+		local label = vgui.Create("DLabel", scroll)
+		label:SetText("Attributes")
+		label:Dock(TOP)
+		
+		local configA = {}
+		for k, v in pairs(nut.attribs.list) do
+			local label = vgui.Create("DLabel", scroll)
+			label:SetText(v.name)
+			label:Dock(TOP)
+
+			local entry = vgui.Create("DNumberWang", scroll)
+			entry:SetMax(1000)
+			entry:SetValue(attribs[k] or 0)
+			entry:Dock(TOP)
+			
+			configA[k] = entry
+		end
+		
+		local finishB = vgui.Create("DButton", scroll)
+		finishB:SetSize(60,20)
+		finishB:SetText("Complete")
+		finishB:Dock(TOP)
+		finishB.DoClick = function()
+			local data = {}
+
+			for k, v in pairs(configF) do
+				data[k] = v:GetText()
+			end
+			
+			data.attribs = {}
+			for k, v in pairs(configA) do
+				data.attribs[k] = tonumber(v:GetValue())
+			end
+			
+			netstream.Start("CEnt_configF", entity, data)
+			
+			frame:Remove()
+		end
+		
+		local cancelB = vgui.Create("DButton", scroll)
+		cancelB:SetSize(60,20)
+		cancelB:SetText("Cancel")
+		cancelB:Dock(TOP)
+		cancelB.DoClick = function()
+			frame:Remove()
+		end
+	end)
+	
+	netstream.Hook("CEnt_configR", function(entity, extra)
+		local res = extra.res or {}
+
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(450, 600)
+		frame:Center()
+		frame:SetTitle("CEnt Resistances")
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+
+		local scroll = vgui.Create("DScrollPanel", frame)
+		scroll:Dock(FILL)
+		
+		local label = vgui.Create("DLabel", scroll)
+		label:SetText("Resistances")
+		label:Dock(TOP)
+		
+		local config = {}
+		--damage type resistance customization
+		for k, v in SortedPairsByMemberValue((PLUGIN.dmgTypes) or {}, "name") do
+			local resL = vgui.Create("DLabel", scroll)
+			resL:SetText(v.name)
+			resL:Dock(TOP)
+			
+			local resC = vgui.Create("DNumberWang", scroll)
+			resC.res = k
+			resC:SetDecimals(2)
+			resC:Dock(TOP)
+			resC:SetMax(200)
+			resC:SetMin(-200)
+			resC:SetValue(res[k] or 0)
+			
+			config[k] = resC
+		end
+		
+		--effect resistance
+		--[[
+		for k, v in pairs(EFFS.effects) do
+			local resL = vgui.Create("DLabel", scroll)
+			resL:SetText(v.name)
+			resL:Dock(TOP)
+			
+			local resC = vgui.Create("DNumberWang", scroll)
+			resC.resE = k
+			resC:SetDecimals(2)
+			resC:Dock(TOP)
+			resC:SetMax(200)
+			resC:SetMin(-200)
+			resC:SetValue(res[k] or 0)
+			
+			config[k] = resC
+		end
+		--]]
+		
+		local finishB = vgui.Create("DButton", scroll)
+		finishB:SetSize(60,20)
+		finishB:SetText("Complete")
+		finishB:Dock(TOP)
+		finishB.DoClick = function()
+			local data = {}
+
+			for k, v in pairs(config) do
+				local value = tonumber(v:GetText())
+				
+				--exclude 0 values to not inflate data
+				if(value and value != 0) then 
+					data[k] = value
+				end
+			end
+			
+			netstream.Start("CEnt_configRF", entity, data)
+			
+			frame:Remove()
+		end
+		
+		local cancelB = vgui.Create("DButton", scroll)
+		cancelB:SetSize(60,20)
+		cancelB:SetText("Cancel")
+		cancelB:Dock(TOP)
+		cancelB.DoClick = function()
+			frame:Remove()
+		end
+	end)
+	
+	netstream.Hook("CEnt_configDMG", function(entity, extra)
+		local dmg = extra.dmg or {}
+
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(450, 600)
+		frame:Center()
+		frame:SetTitle("CEnt Damage")
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+
+		local scroll = vgui.Create("DScrollPanel", frame)
+		scroll:Dock(FILL)
+		
+		local label = vgui.Create("DLabel", scroll)
+		label:SetText("Damage Types")
+		label:Dock(TOP)
+		
+		local config = {}
+		--damage type resistance customization
+		for k, v in SortedPairsByMemberValue((PLUGIN.dmgTypes) or {}, "name") do
+			local dmgL = vgui.Create("DLabel", scroll)
+			dmgL:SetText(v.name)
+			dmgL:Dock(TOP)
+			
+			local dmgC = vgui.Create("DNumberWang", scroll)
+			dmgC.dmg = k
+			dmgC:SetDecimals(2)
+			dmgC:Dock(TOP)
+			dmgC:SetMax(200)
+			dmgC:SetMin(-200)
+			dmgC:SetValue(dmg[k] or 0)
+			
+			config[k] = dmgC
+		end
+		
+		local finishB = vgui.Create("DButton", scroll)
+		finishB:SetSize(60,20)
+		finishB:SetText("Complete")
+		finishB:Dock(TOP)
+		finishB.DoClick = function()
+			local data = {}
+
+			for k, v in pairs(config) do
+				local value = tonumber(v:GetText())
+				
+				--exclude 0 values to not inflate data
+				if(value and value != 0) then 
+					data[k] = value
+				end
+			end
+			
+			netstream.Start("CEnt_configDMGF", entity, data)
+			
+			frame:Remove()
+		end
+		
+		local cancelB = vgui.Create("DButton", scroll)
+		cancelB:SetSize(60,20)
+		cancelB:SetText("Cancel")
+		cancelB:Dock(TOP)
+		cancelB.DoClick = function()
+			frame:Remove()
+		end
+	end)
+end

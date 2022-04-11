@@ -12,6 +12,21 @@ ITEM.attrib = {
 	["luck"] = 4
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+}
+
+ITEM.craft = {
+	hp = 2,
+
+	buffTbl = {
+		attrib = {
+			["luck"] = 3
+		},
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 0),

@@ -3,7 +3,7 @@ ITEM.uniqueID = "j_dice"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/xqm/boxfull_diffuse"
 ITEM.desc = "A small box that contains several different dice."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"

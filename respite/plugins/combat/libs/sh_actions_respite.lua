@@ -176,38 +176,6 @@ local respiteCommands = {
 			["luck"] = 1,
 		},
 	},
-	["ichor"] = {
-		name = "Ichor Attack",
-		desc = "Used for ichor body part related attacks. Can only be used if you have a significant ichor body part that can be used to attack.",
-		category = "Special",
-		
-		mult = 1,
-		attribs = {
-			["str"] = 1,
-			["accuracy"] = 0.5,
-		},
-	},
-	["blightblast"] = {
-		name = "Blight Blast",
-		desc = "Fires a blast of blight at a target. Requires blighted body parts, or some other method of producing blight.",
-		category = "Special",
-		
-		mult = 1,
-		attribs = {
-			["fortitude"] = 1,
-			["accuracy"] = 0.5,
-		},
-	},
-	["blind"] = {
-		name = "Blind",
-		desc = "Interferes with the mind of an enemy, causing them to lose the ability to see for two turns.",
-		category = "Special",
-		
-		mult = 0.5,
-		attribs = {
-			["fortitude"] = 1,
-		},
-	},
 }
 
 for k, action in pairs(respiteCommands) do
@@ -273,5 +241,23 @@ nut.command.add("cent", {
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
+	end
+})
+
+-- basic attacks that use numbers and stuff
+nut.command.add("attack", {
+	--adminOnly = true,
+	onRun = function(client, arguments)
+		local data = {}
+			data.start = client:GetShootPos()
+			data.endpos = data.start + client:GetAimVector()*4096
+			data.filter = {client, self}
+		local trace = util.TraceLine(data)
+
+		local action = {
+			name = "Attack",
+			category = "Attack",
+		}	
+		PLUGIN:attackStart(client, client, trace, action)
 	end
 })

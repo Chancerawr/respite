@@ -1,4 +1,5 @@
 ITEM.name = "Human Leg"
+ITEM.prefix = "Leg"
 ITEM.desc = "The lower leg of a human being."
 ITEM.uniqueID = "food_human_leg1"
 ITEM.model = "models/dismemberment/gibs/legs/lower_leg.mdl"
@@ -14,6 +15,34 @@ ITEM.organicScrap = 6
 
 ITEM.attrib = { 
 	["fortitude"] = 8
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+	["Corpse"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 8
+		},
+		
+		res = {
+			["Disease"] = -5,
+			["Poison"] = -5,
+			["Bleed"] = -5,
+			["Fear"] = 5,
+			["Pain"] = 5,
+			["Knockdown"] = 8,
+			["Slow"] = 5,
+			["Root"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

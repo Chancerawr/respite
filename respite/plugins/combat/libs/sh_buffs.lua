@@ -54,7 +54,7 @@ function playerMeta:addBuff(buff, id)
 	end
 
 	for k, v in pairs(player.GetAll()) do
-		netstream.Start(v, "buffNetworkAll", self, util.TableToJSON(buff))
+		netstream.Start(v, "buffNetworkAll", self, util.TableToJSON(buff), id)
 	end
 end
 
@@ -66,6 +66,7 @@ function playerMeta:removeBuff(buff, id)
 	char.buffs = buffs
 	
 	local buff = buff or buffs[id or buff.uid] or {}
+	
 	if(buff.attrib) then
 		for k, v in pairs(buff.attrib) do
 			char:removeBoost(buff.name or buff.uid, k)
@@ -79,7 +80,43 @@ function playerMeta:removeBuff(buff, id)
 	end
 end
 
-if(CLIENT) then
+--when the buff holder is hit
+function playerMeta:buffGetHit()
+	local buffs = self:getBuffs()
+	for buffID, buffTbl in pairs(buffs) do
+		if(buffTbl.hitsDef) then
+			buffTbl.hitsDef = buffTbl.hitsDef - 1
+			
+			if(buffTbl.hitsDef == 0) then
+				self:removeBuff(buffTbl)
+			end
+		end
+	end
+end
+
+--when the buff holder hits
+function playerMeta:buffOnHit()
+	local buffs = self:getBuffs()
+	for buffID, buffTbl in pairs(buffs) do
+		if(buffTbl.hitsAttack) then
+			buffTbl.hitsAttack = buffTbl.hitsAttack - 1
+			
+			if(buffTbl.hitsAttack == 0) then
+				self:removeBuff(buffTbl)
+			end
+		end
+	end
+end
+
+--clears all of a player's buffs
+function playerMeta:clearBuffs()
+	local char = self:getChar()
+	char.buffs = nil
+end
+
+if(SERVER) then
+
+else
 	function PLUGIN:DrawCharInfo(client, character, info)
 		if(!LocalPlayer():IsAdmin()) then return end
 		
@@ -122,10 +159,4 @@ if(CLIENT) then
 			end
 		end
 	end)
-end
-
---clears all of a player's buffs
-function playerMeta:clearBuffs()
-	local char = self:getChar()
-	char.buffs = nil
 end

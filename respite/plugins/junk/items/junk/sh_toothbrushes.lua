@@ -9,3 +9,10 @@ ITEM.height = 1
 ITEM.salvItem = {
 	["j_scrap_plastics"] = 1
 }
+
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Bath"] = true,
+	}
+end

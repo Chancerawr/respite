@@ -1,4 +1,5 @@
 ITEM.name = "Energy Pills"
+ITEM.prefix = "Energetic"
 ITEM.desc = "Strange vibrating pills. This drug gives the user a burst of energy.\nAfter it wears off, the user will lose all energy, and collapse for an hour, some experience extreme pain."
 ITEM.uniqueID = "drug_energy"
 ITEM.model = "models/props_lab/jar01b.mdl"
@@ -18,6 +19,25 @@ ITEM.attrib = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(0, 128, 128, 255), 10, 0)
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drug"] = true,
+}
+
+ITEM.craft = {
+	buffTbl = {
+		attrib = {
+			["stm"] = 10,
+		},
+		
+		res = {
+			["Stun"] = 15,
+			["Sleep"] = 15,
+			["Slow"] = 15,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

@@ -1,4 +1,5 @@
 ITEM.name = "Placebo"
+ITEM.prefix = "Medical"
 ITEM.desc = "A bottle filled with some kind of pill."
 ITEM.uniqueID = "drug_placebo"
 ITEM.model = "models/props_junk/glassjug01.mdl"
@@ -13,6 +14,26 @@ ITEM.stomach = false
 
 ITEM.attrib = {
 	["fortitude"] = 1,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drug"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	mp = 1,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 1,
+		},
+		
+		res = {
+			["Mind"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

@@ -16,9 +16,11 @@ ITEM.attrib = {
 	["fortitude"] = 2
 }
 
-ITEM.tags = {
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
 	["Vegetable"] = true,
-	["Ingredient"] = true,
+	["Special"] = true,
 }
 
 ITEM.craft = {
@@ -26,7 +28,7 @@ ITEM.craft = {
 
 	buffTbl = {
 		res = {
-			["Charm"] = 5,
+			["Mind"] = 5,
 		},
 	},
 }

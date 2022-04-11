@@ -1,4 +1,5 @@
 ITEM.name = "Bottled Purple Mist"
+ITEM.prefix = "Purple Mist"
 ITEM.desc = "A bottle filled with a purple gas, inhaling it makes you feel happy and lighter than air for a few hours.\nHeavy users may see strange visions."
 ITEM.uniqueID = "bottled_purple"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
@@ -23,6 +24,32 @@ ITEM.attrib = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(155, 50, 200, 255), 10, 0)
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Gas"] = true,
+	["Drug"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	mp = 10,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 5,
+			["perception"] = -5
+		},
+		
+		res = {
+			["Blight"] = 8,
+			
+			["Mind"] = -5,
+			["Fear"] = 10,
+			["Pain"] = 5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

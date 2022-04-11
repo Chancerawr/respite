@@ -19,11 +19,36 @@ ENT.attribs = {
 	["fortitude"] = 5,
 }
 
+ENT.dmg = {
+	["Blight"] = 10,
+}
+
+ENT.hp = 70
+ENT.armor = 0
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = 100,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
 	self:SetColor(Color(0,0,0,255))
+	self:SetMaterial("models/player/player_chrome1")
 	--self:SetRenderFX(kRenderFxDistort)
 
 	self:basicSetup()

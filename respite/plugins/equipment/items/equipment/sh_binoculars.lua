@@ -2,7 +2,7 @@ ITEM.name = "Binoculars"
 ITEM.uniqueID = "j_binoculars"
 ITEM.model = "models/warz/items/binocs.mdl"
 ITEM.desc = "A pair of binoculars."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"

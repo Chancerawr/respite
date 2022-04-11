@@ -2,10 +2,18 @@ ITEM.name = "Leather Boonie"
 ITEM.uniqueID = "j_boonie"
 ITEM.model = "models/warz/leatherboonie.mdl"
 ITEM.desc = "A form of wide-brim hat commonly used by military forces. Its design is similar to a bucket hat but with a stiffer brim."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Helmet"
+
+ITEM.armor = 2
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["helmet"] = true,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 3

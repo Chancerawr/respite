@@ -17,6 +17,32 @@ ITEM.attrib = {
 	["stm"] = 1,
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Soda"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 4,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 3,
+			["stm"] = 1,
+		},
+		
+		res = {
+			["Mind"] = 5,
+			["Sleep"] = 10,
+			["Slow"] = 20,
+			["Fear"] = -5,
+			["Pain"] = -5,
+		}
+	},
+}
+
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(255, 255, 255, 255), 3, 0)
 end

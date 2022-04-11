@@ -1,0 +1,2 @@
+--AMMO
+local PLUGIN = PLUGIN

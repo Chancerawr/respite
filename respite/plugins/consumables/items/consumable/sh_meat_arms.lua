@@ -1,4 +1,5 @@
 ITEM.name = "Human Arm"
+ITEM.prefix = "Arm"
 ITEM.desc = "The upper arm of a human being."
 ITEM.uniqueID = "food_human_arms"
 ITEM.model = "models/dismemberment/gibs/arms.mdl"
@@ -14,6 +15,35 @@ ITEM.organicScrap = 7
 
 ITEM.attrib = { 
 	["fortitude"] = 7
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+	["Corpse"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 7
+		},
+		
+		res = {
+			["Disease"] = -5,
+			["Poison"] = -5,
+			["Bleed"] = -5,
+			["Mind"] = -5,
+			["Fear"] = 5,
+			["Pain"] = 5,
+			["Slow"] = 5,
+			["Root"] = 5,
+			["Disarm"] = 10,
+		}
+	},
 }
 
 ITEM.iconCam = {

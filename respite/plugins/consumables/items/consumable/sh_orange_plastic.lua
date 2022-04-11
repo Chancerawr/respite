@@ -1,4 +1,5 @@
 ITEM.name = "Plastic Orange"
+ITEM.prefix = "Plastic"
 ITEM.desc = "A spherical plastic fruit."
 ITEM.uniqueID = "food_orange_plastic"
 ITEM.model = "models/props/cs_italy/orange.mdl"
@@ -8,6 +9,28 @@ ITEM.price = 2
 
 ITEM.attrib = { 
 	["accuracy"] = 1 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Fruit"] = true,
+	["Plastic"] = true,
+}
+
+ITEM.craft = {
+	hp = 1,
+
+	buffTbl = {
+		attrib = {
+			["accuracy"] = 1,
+		},
+		
+		res = {
+			["Poison"] = 5,
+			["Electric"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

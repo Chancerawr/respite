@@ -84,9 +84,8 @@ if (SERVER) then
 					end
 				end
 			elseif(dmginfo:IsDamageType(DMG_BLAST)) then --if they blow it up, destroy it entirely.
-				local gather = self.resources[math.random(#self.resources)]
-				
 				for i = 1, math.random(4,6) do
+					local gather = self.resources[math.random(#self.resources)]
 					nut.item.spawn(gather, self:GetPos() + self:GetUp() * 40)
 				end
 					

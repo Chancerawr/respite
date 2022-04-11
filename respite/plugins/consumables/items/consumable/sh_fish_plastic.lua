@@ -1,4 +1,5 @@
 ITEM.name = "Plastic Fish"
+ITEM.prefix = "Plastic"
 ITEM.desc = "A plastic fish."
 ITEM.uniqueID = "food_fish_plastic"
 ITEM.model = "models/props/cs_militia/fishriver01.mdl"
@@ -14,6 +15,28 @@ ITEM.color = Color(80, 80, 180)
 
 ITEM.attrib = {
 	["stm"] = 1
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Fish"] = true,
+	["Plastic"] = true,
+}
+
+ITEM.craft = {
+	hp = 1,
+
+	buffTbl = {
+		attrib = {
+			["stm"] = 1,
+		},
+		
+		res = {
+			["Poison"] = 5,
+			["Electric"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

@@ -1,4 +1,5 @@
 ITEM.name = "Canned Madness"
+ITEM.prefix = "Madness"
 ITEM.desc = "A can filled with.. Something bad, probably."
 ITEM.uniqueID = "food_madness"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
@@ -16,6 +17,30 @@ ITEM.disChance = 100
 
 ITEM.attrib = {
 	["fortitude"] = -10,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Canned"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	mp = -10,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = -10,
+		},
+		
+		res = {
+			["Silence"] = 40,
+			["Mind"] = 40,
+			["Sleep"] = 40,
+			["Fear"] = 40,
+		}
+	},
 }
 
 ITEM.iconCam = {

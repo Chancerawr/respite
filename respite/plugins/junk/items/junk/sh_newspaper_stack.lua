@@ -10,6 +10,13 @@ ITEM.salvItem = {
 	["j_newspaper"] = 4
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Garbage"] = true,
+	}
+end
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 12),
 	ang = Angle(0, -0, 0),

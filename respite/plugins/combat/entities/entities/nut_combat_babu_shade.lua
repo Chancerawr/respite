@@ -19,6 +19,31 @@ ENT.attribs = {
 	["fortitude"] = 10,
 }
 
+ENT.dmg = {
+	["Blunt"] = 10,
+	["Blight"] = 5,
+}
+
+ENT.hp = 200
+ENT.armor = 20
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = 100,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = 25,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 50,
+	["Electric"] = 25,
+}
+
 function ENT:Initialize()
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
 	self:SetRenderFX(kRenderFxDistort)

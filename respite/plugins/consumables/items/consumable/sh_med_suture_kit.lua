@@ -1,4 +1,5 @@
 ITEM.name = "Suture Kit"
+ITEM.prefix = "Suture"
 ITEM.desc = "A small box filled tools and sutures."
 ITEM.uniqueID = "medical_suture"
 ITEM.model = "models/props_lab/box01a.mdl"
@@ -19,6 +20,20 @@ ITEM.stomach = false
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(30, 160, 30, 255), 1, 1)
 end
+
+ITEM.loot = {
+	["Medical"] = true,
+}
+
+ITEM.craft = {
+	hp = 60,
+	
+	buffTbl = {
+		res = {
+			["Bleed"] = 15,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(89.43, 74.9, 54.5),

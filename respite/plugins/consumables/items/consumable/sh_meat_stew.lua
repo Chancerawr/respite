@@ -1,4 +1,5 @@
 ITEM.name = "Meaty Stew"
+ITEM.prefix = "Meaty"
 ITEM.desc = "A delicious meaty stew made out of a whole lotta meat."
 ITEM.model = "models/props/cs_militia/paintbucket01.mdl"
 ITEM.uniqueID = "food_meat_stew"
@@ -10,6 +11,23 @@ ITEM.height = 2
 ITEM.attrib = { 
 	["str"] = 4,
 	["end"] = 4,
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Meat"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["str"] = 4,
+			["end"] = 4,
+		},
+	},
 }
 
 ITEM.iconCam = {

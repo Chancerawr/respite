@@ -1,10 +1,10 @@
 ITEM.name = "Plastic Converter"
 ITEM.desc = "A strange box, it appears to be made out of some kind of very hard plastic. The box has a large slot at the top, and some sort of output slot on the left side. The top says 'PLASTIC FOOD'."
 ITEM.uniqueID = "converter"
-ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
+ITEM.model = "models/hunter/blocks/cube025x025x025.mdl"
 ITEM.material = "phoenix_storms/mrref2"
-ITEM.width = 2
-ITEM.height = 2
+ITEM.width = 1
+ITEM.height = 1
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"

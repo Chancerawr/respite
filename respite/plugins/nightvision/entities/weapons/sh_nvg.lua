@@ -91,12 +91,8 @@ function SWEP:OnRemove()
 	
 end
 
-
-
 if( CLIENT ) then
-
 	net.Receive( "AM_NightvisionOn", function ( len, ply )
-	
 		local ply = net.ReadEntity()
 		am_nightvision = DynamicLight( 0 )
 		if ( am_nightvision ) then

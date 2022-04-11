@@ -11,7 +11,7 @@ ENT.models = {
 	"models/Humans/Group01/male_01.mdl",
 	"models/Humans/Group01/male_02.mdl",
 	"models/Humans/Group01/male_03.mdl",
-	"models/Humans/Group01/male_04.mdl",
+	"models/player/group01/male_04.mdl",
 	"models/Humans/Group01/male_05.mdl",
 	"models/Humans/Group01/male_06.mdl",
 	"models/Humans/Group01/male_07.mdl",
@@ -28,6 +28,30 @@ ENT.attribs = {
 	["luck"] = 0,
 	["perception"] = 2,
 	["fortitude"] = 3,
+}
+
+ENT.dmg = {
+	["Blunt"] = 20,
+}
+
+ENT.hp = 500
+ENT.armor = 50
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 20,
+	["Blunt"] = 20,
+	
+	["Ichor"] = 0,
+	["Blight"] = 25,
+	["Shard"] = 25,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
 }
 
 function ENT:Initialize()

@@ -280,7 +280,7 @@ local funcTableC = {
 			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
 		startString = "You begin to imagine a cat in your mind, it calms you somewhat.",
-		endString = "You completely visualize a smooth plastic cat.",
+		endString = "You completely visualize a plastic cat.",
 		prodMult = 1,
 		required = {
 			resources = {

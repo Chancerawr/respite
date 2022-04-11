@@ -3,7 +3,18 @@ ITEM.desc = "A crude helmet fashioned out of scrap cloth and scrap metal. May pr
 ITEM.model = "models/helm_04.mdl"
 ITEM.material = "models/props_wasteland/tugboat02"
 ITEM.slot = "Helmet"
-ITEM.flag = "j"
+
+ITEM.armor = 10
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["helmet"] = true,
+}
+
+ITEM.scaling = {
+	["end"] = 0.2,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 2,

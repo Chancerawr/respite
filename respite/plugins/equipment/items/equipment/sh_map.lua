@@ -1,11 +1,11 @@
 ITEM.name = "Map"
+ITEM.desc = "An old paper map."
 ITEM.uniqueID = "j_map"
 ITEM.model = "models/props_c17/paper01.mdl"
-ITEM.desc = "An old paper map."
-ITEM.flag = "j"
+ITEM.material = "models/props_canal/canalmap_sheet"
+
 ITEM.width = 1
 ITEM.height = 1
-ITEM.material = "models/props_canal/canalmap_sheet"
 ITEM.slot = "Accessory"
 
 ITEM.salvage = {

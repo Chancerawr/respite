@@ -94,9 +94,9 @@ function SWEP:SecondaryAttack()
 	if (trace.Hit) then
 		local entity = trace.Entity
 		
-		if(self.Owner:IsAdmin() or entity:GetCreator() == self.Owner) then
+		--if(self.Owner:IsAdmin() or entity:GetCreator() == self.Owner) then
 			self:selectTarget(entity)
-		end	
+		--end	
 	end
 end
 

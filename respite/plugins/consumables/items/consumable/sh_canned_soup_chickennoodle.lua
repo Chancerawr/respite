@@ -1,4 +1,5 @@
 ITEM.name = "Canned Chicken Noodle Soup"
+ITEM.prefix = "Chicken Noodle"
 ITEM.desc = "A tin can filled with chicken noodle soup."
 ITEM.uniqueID = "food_chickennoodle"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
@@ -9,6 +10,28 @@ ITEM.container = "j_tinc"
  
 ITEM.attrib = { 
 	["stm"] = 1 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Canned"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["stm"] = 1,
+		},
+		
+		res = {
+			["Disease"] = 4,
+			["Poison"] = 4,
+			["Time"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

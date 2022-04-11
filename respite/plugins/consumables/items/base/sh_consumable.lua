@@ -136,13 +136,22 @@ local function buffRemoval(item, client, charID)
 		if (curChar and curChar:getID() == charID) then
 			client:notify(Format("%s has worn off.", name))
 
-			local buffs = item:getData("attrib", item.attrib)
-			if (buffs) then
-				for k, v in pairs(buffs) do
+			-- attribute boost removal
+			local attribs = item:getData("attrib", item.attrib)
+			if (attribs) then
+				for k, v in pairs(attribs) do
 					char:removeBoost(item:getName(), k)
 				end
 			end
+			
+			-- buff removal
+			local buff = item:getData("buffTbl", item.buffTbl)
+			if(buff) then
+				client:removeBuff(nil, item.uniqueID)
+			end		
 		end
+		
+		
 	end
 end
 
@@ -164,29 +173,58 @@ local function consume(client, item)
 	local charID = char:getID()
 	local name = item:getName()
 	
-	local cooked = item:getData("cooked", 1)
-	local cookBonus = COOKLEVEL[cooked][2]
-	local mul = COOKLEVEL[cooked][2]
-	
 	if (char and client:Alive()) then
 		--buff duration modification
 		local durationB = item.durationB
-		if(cooked > 1) then --cooking bonus
-			durationB = durationB * (cookBonus * 0.6)
-		end
 		
 		--trait bonuses
 		if(TRAITS and hasTrait(client, "survival")) then
 			durationB = durationB * 1.2
 		end
 
-		--buffs
-		local buffs = item:getData("attrib", item.attrib)
-		if(buffs) then
-			--adds buffs
-			for buffAttrib, buffValue in pairs(buffs) do
+		--attribs
+		local attribs = item:getData("attrib", item.attrib)
+		if(attribs) then
+			--adds attribs
+			for buffAttrib, buffValue in pairs(attribs) do
 				char:addBoost(name, buffAttrib, buffValue)
 			end
+
+			--timer for buff removal
+			if(timer.Exists("DrugEffect_" ..name.. "_" ..client:EntIndex())) then --refreshes existing buffs if they exist
+				timer.Adjust("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
+					buffRemoval(item, client, charID)
+				end)
+			else				
+				timer.Create("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
+					buffRemoval(item, client, charID)
+				end)
+			end
+		end
+		
+		--buffs
+		local buff = item:getData("buffTbl", item.buffTbl)
+		if(buff) then		
+			--this duration is for turn based combat
+			if(!buff.duration) then
+				--[[
+				if(potion) then
+					buff.duration = 3 --for turn based
+				else
+					buff.duration = 6 --for turn based
+				end
+				--]]
+			end
+			
+			if(!buff.uid) then
+				buff.uid = item.uniqueID
+			end
+			
+			if(!buff.name) then
+				buff.name = name
+			end
+		
+			client:addBuff(buff)
 
 			--timer for buff removal
 			if(timer.Exists("DrugEffect_" ..name.. "_" ..client:EntIndex())) then --refreshes existing buffs if they exist
@@ -202,19 +240,22 @@ local function consume(client, item)
 	end
 	
 	--disease support
-	if(item.disease) then
-		local roll = math.random(1,100)
-		
-		if(roll <= (item.disChance or 100)) then
-			client:giveDisease(item.disease)
+	if(DISEASES) then
+		--gives diseases
+		if(item.disease) then
+			local roll = math.random(1,100)
+			
+			if(roll <= (item.disChance or 100)) then
+				client:giveDisease(item.disease)
+			end
 		end
-	end
-	
-	--cures diseases
-	if(item.cures) then
-		for k, v in pairs(item.cures) do
-			if(client:hasDisease(k)) then
-				client:removeDisease(k)
+		
+		--cures diseases
+		if(item.cures) then
+			for k, v in pairs(item.cures) do
+				if(client:hasDisease(k)) then
+					client:removeDisease(k)
+				end
 			end
 		end
 	end
@@ -236,10 +277,10 @@ local function consume(client, item)
 		local id = "nutHealMP_"..FrameTime()
 		timer.Create(id, 1, item.mpTime or 0, function()
 			if (!IsValid(client) or !client:Alive()) then
-				timer.Destroy(id)	
+				timer.Destroy(id)
 			end
 
-			client:setMP(math.Clamp(client:getMP() + (item.mp/item.mpTime or 0), 0, client:getMaxMP()))
+			client:setMP(math.Clamp(client:getMP() + (item.mp/(item.mpTime or 1)), 0, client:getMaxMP()))
 		end)
 	end
 	
@@ -257,7 +298,17 @@ local function consume(client, item)
 		client:nutEffectAdd(item.id, item.effect)
 	end
 	
-	client:EmitSound(item.sound, 75, item.soundPitch or 100)
+	--emits sound from player
+	if(item.sound) then
+		client:EmitSound(item.sound, 75, item.soundPitch or 100)
+	end
+	
+	--this is garbage and should be redone properly.
+	if(item.soundURL) then 
+		local stupidlua = "sound.PlayURL('" ..item.soundURL.. "', '', function() end)"
+		
+		client:SendLua(stupidlua)
+	end
 	
 	--reduce quantity by 1
 	local quantity2 = item:getData("quantity2", item.quantity2)
@@ -266,10 +317,21 @@ local function consume(client, item)
 		item:setData("quantity2", quantity2)
 		return false
 	else
-		if(item.container) then --container dropping
+		--whether or not to drop a container
+		if(item.container) then
 			local position = client:getItemDropPos()
 			local inventory = char:getInv()
-			inventory:addSmart(item.container, 1, position)
+			
+			local newCustom = {}
+			
+			--whether or not to save the model
+			if(item.containerMdl) then
+				local customData = item:getData("custom", {})				
+				newCustom.model = customData.model
+				newCustom.material = customData.material
+			end
+			
+			inventory:addSmart(item.container, 1, position, {custom = newCustom})
 		end
 	end
 	
@@ -521,44 +583,96 @@ function ITEM:getDesc(partial)
 		if (self.mustCooked != false) then
 			desc = desc .. "\nThis food must be cooked."
 		end
-
-		if (self.cookable != false) then
-			desc = desc.. "\nFood Status: " ..COOKLEVEL[(self:getData("cooked") or 1)][1].. "."
-		end
 		
 		if(customData.quality) then
 			desc = desc.. "\nQuality: " ..customData.quality
-		end		
+		end
 
 		if(self.quantity2) then
 			desc = desc.. "\nRemaining Uses: " ..self:getData("quantity2", self.quantity2)
 		end
 		
-		if(self.hp) then
-			desc = desc.. "\nHP Restore: " ..self.hp
+		local hp = self:getData("hp", self.hp)
+		if(hp) then
+			desc = desc.. "\nHP Restore: " ..hp
 			
 			if(self.hpTime) then
-				desc = desc.. " Over " ..self.hpTime.. " seconds."
+				desc = desc.. " HP over " ..self.hpTime.. " seconds."
 			end
 		end
 		
-		if(self.mp) then
-			desc = desc.. "\nMP Restore: " ..self.mp
+		local mp = self:getData("mp", self.mp)
+		if(mp) then
+			desc = desc.. "\nMP Restore: " ..mp
 			
 			if(self.mpTime) then
-				desc = desc.. " Over " ..self.mpTime.. " seconds."
+				desc = desc.. " MP over " ..self.mpTime.. " seconds."
 			end
 		end
 		
-		if(self:getData("attrib", self.attrib)) then
+		local attribs = self:getData("attrib", self.attrib)
+		if(attribs) then
 			desc = desc.. "\n\n<color=50,200,50>Bonuses</color>"
 			
-			local buffs = self:getData("attrib", self.attrib)
-			for buffAttrib, buffValue in pairs(buffs) do
+			for buffAttrib, buffValue in pairs(attribs) do
 				if(buffValue != 0) then
 					desc = desc .. "\n " ..((nut.attribs.list[buffAttrib] and nut.attribs.list[buffAttrib].name) or "Unknown Attribute").. ": " ..buffValue
 				end
 			end
+		end
+		
+		local buffTbl = self:getData("buffTbl", self.buff)
+		if(buffTbl) then
+			desc = desc.. "\n\n<color=50,200,50>Buffs</color>"
+			
+			local attribs = buffTbl.attrib or {}
+			for buffAttrib, buffValue in pairs(attribs) do
+				if(buffValue != 0) then
+					desc = desc .. "\n " ..((nut.attribs.list[buffAttrib] and nut.attribs.list[buffAttrib].name) or "Unknown Attribute").. ": " ..buffValue
+				end
+			end
+			
+			local accuracy = buffTbl.accuracy
+			if(accuracy) then
+				desc = desc .. "\n Accuracy: " ..accuracy
+			end
+			
+			local evasion = buffTbl.evasion
+			if(evasion) then
+				desc = desc .. "\n Evasion: " ..evasion
+			end
+			
+			local armor = buffTbl.armor
+			if(armor) then
+				desc = desc .. "\n Armor: " ..armor
+			end
+			
+			local res = buffTbl.res
+			if(res) then
+				desc = desc .. "\n\n Resistances: "
+				
+				for k, v in pairs(res) do
+					desc = desc.. "\n   " ..k..": " ..v.. "%"
+				end
+			end
+			
+			local amp = buffTbl.amp
+			if(amp) then
+				desc = desc .. "\n\n Amplifications: "
+				
+				for k, v in pairs(amp) do
+					desc = desc.. "\n   " ..k..": " ..v
+				end
+			end
+		end
+	end
+	
+	-- Only show these things in the crafting menu
+	if(IsValid(nut.gui.craftingDynamic)) then
+		desc = desc.. "\n\n<color=50,200,50>Ingredient Tags</color>"
+		
+		for tag, _ in pairs(self.loot) do
+			desc = desc .. "\n ["..tag.. "]"
 		end
 	end
 		

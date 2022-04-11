@@ -7,6 +7,13 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.material = "models/props_c17/furnituremetal001a"
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Garbage"] = true,
+	}
+end
+
 ITEM.salvItem = {
 	["j_scrap_cloth"] = 1
 }

@@ -1,4 +1,5 @@
 ITEM.name = "Plastic Banana"
+ITEM.prefix = "Plastic"
 ITEM.desc = "A curved plastic fruit."
 ITEM.uniqueID = "food_banana_plastic"
 ITEM.model = "models/props/cs_italy/bananna.mdl"
@@ -9,6 +10,28 @@ ITEM.container = "j_scrap_plastics"
 
 ITEM.attrib = { 
 	["perception"] = 1 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Fruit"] = true,
+	["Plastic"] = true,
+}
+
+ITEM.craft = {
+	hp = 1,
+
+	buffTbl = {
+		attrib = {
+			["perception"] = 1 
+		},
+		
+		res = {
+			["Poison"] = 5,
+			["Electric"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

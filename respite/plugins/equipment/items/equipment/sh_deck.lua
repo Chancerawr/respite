@@ -3,7 +3,7 @@ ITEM.uniqueID = "j_cards"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/props_combine/metal_combinebridge001"
 ITEM.desc = "A standard 52 card deck."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"

@@ -2,7 +2,18 @@ ITEM.name = "Firefighter's Helmet"
 ITEM.desc = "A sturdy helmet designed to defend from falling debris."
 ITEM.model = "models/warz/firehelmet.mdl"
 ITEM.slot = "Helmet"
-ITEM.flag = "j"
+
+ITEM.armor = 10
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["helmet"] = true,
+}
+
+ITEM.scaling = {
+	["end"] = 0.2,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 2,

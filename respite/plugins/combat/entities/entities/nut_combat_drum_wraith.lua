@@ -20,6 +20,32 @@ ENT.attribs = {
 	["fortitude"] = 0,
 }
 
+ENT.dmg = {
+	["Blunt"] = 10,
+	["Cold"] = 15,
+	["Ichor"] = 15,
+}
+
+ENT.hp = 600
+ENT.armor = 200
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 100,
+	["Blight"] = -50,
+	["Shard"] = -50,
+	["Distort"] = 0,
+	
+	["Fire"] = -25,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
 function ENT:Initialize()
 	self:SetColor()
 	

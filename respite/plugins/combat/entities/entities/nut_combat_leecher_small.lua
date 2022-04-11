@@ -21,6 +21,34 @@ ENT.attribs = {
 	["fortitude"] = 5,
 }
 
+ENT.dmg = {
+	["Blunt"] = 20,
+}
+
+ENT.hp = 150
+ENT.armor = 20
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
+ENT.actions = {
+	"whack",
+}
+
 function ENT:Initialize()
 	if(SERVER) then
 		self:SetColor(Color(0,0,0,0))

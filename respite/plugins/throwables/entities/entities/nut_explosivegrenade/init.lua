@@ -44,7 +44,11 @@ function ENT:Think()
 
 --	cbt_hcgexplode( self.Entity:GetPos(), 75, 200, 6)
 
+	
 	self:Explosion()
+	
+	nut.item.spawn("j_grenade_used", self:GetPos())
+	
 	self.Entity:Remove()
 	end
 end

@@ -18,6 +18,35 @@ ITEM.attrib = {
 	["medical"] = 1
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["end"] = 1, 
+			["stm"] = 1, 
+			["str"] = 1, 
+			["perception"] = 2, 
+			["fortitude"] = 2, 
+			["luck"] = 1, 
+			["accuracy"] = 1, 
+			["medical"] = 1
+		},
+		
+		res = {
+			["Blight"] = 5,
+			["Ichor"] = 5,
+			["Shard"] = 5,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

@@ -32,10 +32,14 @@ if (SERVER) then
 
 	function ENT:Think()
 		if self.lifetime < CurTime() then
+			nut.item.spawn("j_grenade_used", self:GetPos())
+		
 			self:Remove()
 		end
 
 		if self:WaterLevel() > 0 then
+			nut.item.spawn("j_grenade_used", self:GetPos())
+		
 			self:Remove()
 		end
 

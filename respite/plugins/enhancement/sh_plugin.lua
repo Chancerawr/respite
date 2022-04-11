@@ -21,6 +21,10 @@ local functionInfo = {
 		itemDesc = "\nIt glows lightly.", --item description append
 		itemColor = Color(255, 255, 255), --color of item text and icon
 		confirm = "Are you sure you want to infuse Shard Dust into this item?", --confirmation prompt
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Shard",
+		},
 	},
 	["blight"] = {
 		name = "Blight",
@@ -30,15 +34,23 @@ local functionInfo = {
 		itemDesc = "\nIt is coated in a pitch black material, touching it makes you feel nostalgic somehow.",
 		itemColor = Color(0, 0, 0),
 		confirm = "Are you sure you want to Blight this item?",
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Blight",
+		},
 	},
-	["phase"] = {
-		name = "Phase", 
+	["distort"] = {
+		name = "Distort", 
 		required = "cube_chip_enhanced",
 		removal = "shard_dust",
-		itemName = "Phased ",
+		itemName = "Distorted ",
 		itemDesc = "\nIts appearance distorts randomly and sometimes becomes translucent.",
 		itemColor = Color(140, 20, 140),
-		confirm = "Are you sure you want to Portal Phase this item?",
+		confirm = "Are you sure you want to Distort this item?",
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Distortion",
+		},
 	},
 }
 
@@ -91,6 +103,22 @@ timer.Simple(0, function()
 				custom.color = funcTable.itemColor
 				
 				item:setData("custom", custom)
+				
+				if(funcTable.dmg) then
+					local dmgTbl = item:getData("dmg", item.dmg or {})
+					
+					local newDmg = 0
+					for dmgT, dmgV in pairs(dmgTbl) do
+						if(dmgT == funcTable.dmg.dmgT) then continue end 
+
+						dmgTbl[dmgT] = dmgV * (1 - funcTable.dmg.ratio)
+						newDmg = newDmg + dmgV * funcTable.dmg.ratio
+					end
+					
+					dmgTbl[funcTable.dmg.dmgT] = newDmg
+					
+					item:setData("dmg", dmgTbl)
+				end
 			end)
 			return false
 		end,
@@ -135,6 +163,30 @@ timer.Simple(0, function()
 				
 				item:setData("custom", custom)
 				item:setData("infused", nil) --can be enhanced again
+				
+				--undo damage things
+				if(funcTable.dmg) then
+					local dmgTbl = item:getData("dmg", item.dmg or {})
+					
+					
+					local newDmg = 0
+					for dmgT, dmgV in pairs(dmgTbl) do
+						if(dmgT == funcTable.dmg.dmgT) then continue end 
+					
+						dmgTbl[dmgT] = dmgV / (1 * funcTable.dmg.ratio) --undo other damage things
+						newDmg = newDmg - dmgTbl[dmgT] * funcTable.dmg.ratio --remove that damage and stuff
+					end
+					
+					dmgTbl[funcTable.dmg.dmgT] = dmgTbl[funcTable.dmg.dmgT] + newDmg
+					
+					--if it's 0 just get rid of it
+					if(dmgTbl[funcTable.dmg.dmgT] == 0) then
+						dmgTbl[funcTable.dmg.dmgT] = nil
+					end
+
+					--save it please
+					item:setData("dmg", dmgTbl)
+				end
 			end
 
 			return false

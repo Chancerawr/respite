@@ -8,8 +8,14 @@ ITEM.salvItem = {
 	["j_scrap_cloth"] = 3
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+	}
+end
+
 ITEM.iconCam = {
-	pos = Vector(197.5005645752, 165.72262573242, 120.22281646729),
+	pos = Vector(197.50, 165.72, 120.22),
 	ang = Angle(25, 220, 0),
-	fov = 4.7585904840287,
+	fov = 4.76,
 }

@@ -1,4 +1,5 @@
 ITEM.name = "Bottled Cloud"
+ITEM.prefix = "Cloud"
 ITEM.desc = "A glass bottle filled with something strange."
 ITEM.uniqueID = "alc_cloud"
 ITEM.model = "models/props_junk/garbage_glassbottle003a.mdl"
@@ -14,6 +15,32 @@ ITEM.attrib = {
 	["stm"] = 2, 
 	["str"] = -2,
 	["perception"] = -2 
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drink"] = true,
+	["Alcohol"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 5, 
+			["end"] = 2, 
+			["stm"] = 2, 
+			["str"] = -2,
+			["perception"] = -2 
+		},
+		
+		res = {
+			["Slow"] = 10,
+			["Root"] = 10,
+		}
+	},
 }
 
 ITEM.extraFunc = function(item, client)

@@ -9,6 +9,22 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Snipers"
 
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["weapon"] = true,
+	["ranged"] = true,
+	["firearm"] = true,
+}
+
+ITEM.dmg = {
+	["Sniper"] = 15,
+}
+
+ITEM.scaling = {
+	["accuracy"] = 0.2,
+	["perception"] = 0.2,
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 15.5, 4),
 	ang = Angle(0, -0, 6),

@@ -260,49 +260,9 @@ nut.command.add("traitsadmin", {
 	end
 })
 
-function PLUGIN:CanDeleteChar( client, character )
-    if( character.vars.traits["finedollar"] and character.vars.money < 200 ) then
-        return true
-    end
-end
-
 --adds the traitstep gui to the char creation menu
 if(CLIENT) then
 	function PLUGIN:ConfigureCharacterCreationSteps(panel)
 		panel:addStep(vgui.Create("nutCharTraits"), 100)
-	end
-end
-
-if(SERVER) then
-	--for the "Ravenous" trait
-	function PLUGIN:stomachOverwrite(item, client, char)
-		if(!client:hasDisease("trait_hunger")) then
-			return false
-		elseif(client:hasDisease("trait_hunger")) then --if they have the hungering trait
-			if(char:getData("stomach", 0) < 10) then
-				char:setData("stomach", char:getData("stomach", 0) + 1)
-				if(char:getData("stomach", 0) > 5) then
-					client:notify("Your stomach painfully bulges, it might be a bad idea to continue eating.")
-				end
-				
-				timer.Simple(item.durationB, function() --needs to be independent of attribute since those don't stack for the same item.
-					char:setData("stomach", char:getData("stomach", 0) - 1)
-				end)
-			else
-				char:setData("stomach", char:getData("stomach", 0) + 1)
-				timer.Simple(item.durationB, function() --needs to be independent of attribute since those don't stack for the same item.
-					char:setData("stomach", char:getData("stomach", 0) - 1)
-				end)
-				
-				client:TakeDamage(char:getData("stomach", 0) * 2, client, client)
-				nut.chat.send(client, "meclose's", "stomach bulges painfully, and partially ruptures.")
-				
-				if(!client:Alive()) then
-					nut.log.addRaw(client:Name().. " has eaten themselves to death.")
-				end
-			end
-
-			return 1
-		end
 	end
 end

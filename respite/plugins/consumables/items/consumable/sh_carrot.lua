@@ -10,6 +10,27 @@ ITEM.attrib = {
 	["perception"] = 3,
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Vegetable"] = true,
+}
+
+ITEM.craft = {
+	hp = 2,
+
+	buffTbl = {
+		attrib = {
+			["accuracy"] = 1,
+			["perception"] = 3,
+		},
+		
+		res = {
+			["Blind"] = 10,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

@@ -386,19 +386,19 @@ ITEM.functions.Blight = {
 --]]
 
 --[[
-ITEM.functions.Phase = {
-	name = "Phase",
+ITEM.functions.Distort = {
+	name = "Distort",
 	icon = "icon16/wrench.png",
 	onRun = function(item)
 		local client = item.player
 		local chip = client:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
-		client:requestQuery("Are you sure you want to Portal Phase this weapon?", "Phase", function(text)
+		client:requestQuery("Are you sure you want to Distort this weapon?", "Phase", function(text)
 			chip:remove()
 
 			item:setData("infused", true)
 			
 			local customData = item:getData("custom", {})
-			customData.name = "Phased " .. item:getName()
+			customData.name = "Distorted " .. item:getName()
 			customData.desc = item:getDesc(true) .. "\nThis weapon's appearance distorts randomly and sometimes becomes translucent."
 			customData.color = Color(140, 20, 140)
 			

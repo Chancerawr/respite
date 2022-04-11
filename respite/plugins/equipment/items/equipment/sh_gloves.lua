@@ -2,10 +2,18 @@ ITEM.name = "Gloves"
 ITEM.uniqueID = "j_gloves"
 ITEM.model = "models/tnb/items/gloves.mdl"
 ITEM.desc = "A warm pair of gloves to protect against the cold."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"
+
+ITEM.armor = 4
+
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["armor"] = true,
+	["accessory"] = true,
+}
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 3

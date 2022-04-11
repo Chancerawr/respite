@@ -11,6 +11,13 @@ ITEM.salvItem = {
 	["c_scrap_gnome"] = 2
 }
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Special"] = true,
+	}
+end
+
 ITEM.iconCam = {
 	pos = Vector(280.4, 236.9, 184.8),
 	ang = Angle(25, 220, 0),

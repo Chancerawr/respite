@@ -60,6 +60,10 @@ ITEM.functions.toggle = { -- sorry, for name order.
 	onRun = function(item)
 		item:setData("power", !item:getData("power", false), nil, nil, true)
 		item.player:EmitSound("buttons/button14.wav", 70, 150)
+		
+		if(item.entity) then
+			item.entity:setNetVar("data", item.data)
+		end
 
 		return false
 	end

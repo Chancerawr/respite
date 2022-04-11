@@ -24,6 +24,9 @@ ITEM.armor = 0
 ITEM.dmg = {
 	["Crush"] = 5,
 }
+ITEM.scaling = {
+	["str"] = 0.2,
+}
 --]]
 
 ITEM.buffRefresh = function(item, player)
@@ -371,6 +374,22 @@ ITEM.functions.Custom = {
 	end
 }
 
+ITEM.functions.CustomStats = {
+	name = "Customize Stats",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustomE(item.player, item)
+		
+		return false
+	end,
+	
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
 ITEM.functions.CustomAtr = {
 	name = "Customize Attributes",
 	tip = "Customize this item",
@@ -449,19 +468,19 @@ function ITEM:getDesc(partial)
 	if(customData.desc) then
 		desc = customData.desc
 	end
-	
-	if(self.ammoString) then
-		desc = desc .. "\nThis weapon uses " ..self.ammoString.. "."
-	elseif(self.class) then
-		local swep = weapons.Get(self.class)
-		if(swep) then
-			if(nut.ammo and nut.ammo.descs and nut.ammo.descs[swep.Primary.Ammo]) then
-				desc = desc .. "\nThis weapon uses " ..nut.ammo.descs[swep.Primary.Ammo].. "."
+
+	if(!partial) then
+		if(self.ammoString) then
+			desc = desc .. "\nThis weapon uses " ..self.ammoString.. "."
+		elseif(self.class) then
+			local swep = weapons.Get(self.class)
+			if(swep) then
+				if(nut.ammo and nut.ammo.descs and nut.ammo.descs[swep.Primary.Ammo]) then
+					desc = desc .. "\nThis weapon uses " ..nut.ammo.descs[swep.Primary.Ammo].. "."
+				end
 			end
 		end
-	end
 	
-	if(!partial) then
 		local slot = self:getData("customSlot", self.slot)
 		if(slot) then
 			slot = string.upper(string.sub(slot, 0, 1))..string.sub(slot, 2)
@@ -480,6 +499,39 @@ function ITEM:getDesc(partial)
 			for k, v in pairs(boosts) do
 				if(v != 0) then
 					desc = desc .. "\n " ..(nut.attribs.list[k] and nut.attribs.list[k].name).. ": " ..v
+				end
+			end
+		end
+		
+		local dmg = self:getData("dmg", self.dmg)
+		local armor = self:getData("armor", self.armor)
+		local scaling = self:getData("scale", self.scaling)
+
+		if(dmg or armor or scaling or magic) then
+			desc = desc.. "\n\n<color=50,200,50>Properties</color>"
+			
+			if(dmg and !table.IsEmpty(dmg)) then
+				desc = desc .. "\n\n<color=50,200,50>Base Damage</color>"
+				
+				for dmgT, dmgV in pairs(dmg) do
+					if(dmgV != 0) then
+						desc = desc .. "\n " ..dmgV.. " " ..dmgT.. " Damage."
+					end
+				end
+			end
+			
+			if(armor) then
+				desc = desc.. "\n\nPhysical Armor: " ..armor.. "."
+			end
+			
+			if((scaling and !table.IsEmpty(scaling))) then
+				desc = desc.. "\n\n<color=50,200,50>Attribute Scaling</color>"
+				
+				for k, v in pairs(scaling) do
+					local attrib = nut.attribs.list[k]
+					if(attrib and attrib.name) then
+						desc = desc.. "\n " ..attrib.name.. ": Grade[" ..nut.plugin.list["equipment"]:getGrade(v).. "]"
+					end
 				end
 			end
 		end

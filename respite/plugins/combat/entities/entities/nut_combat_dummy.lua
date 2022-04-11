@@ -1,5 +1,5 @@
-ENT.Type = "nextbot"
-ENT.Base = "nut_combat"
+ENT.Type = "anim"
+ENT.Base = "nut_combat_prop"
 ENT.PrintName = "Practice Dummy"
 ENT.Category = "NutScript - Combat (Other)"
 ENT.Spawnable = true
@@ -19,4 +19,28 @@ ENT.attribs = {
 	["luck"] = 0,
 	["perception"] = 0,
 	["fortitude"] = 0,
+}
+
+ENT.dmg = {
+	["Blunt"] = 0,
+}
+
+ENT.hp = 99999
+ENT.armor = 0
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = 0,
+	["Shard"] = 0,
+	["Distort"] = 0,
+	
+	["Fire"] = 0,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
 }

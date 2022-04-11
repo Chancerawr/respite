@@ -1,4 +1,5 @@
 ITEM.name = "Plastic Fish"
+ITEM.prefix = "Plastic"
 ITEM.desc = "A common fish."
 ITEM.uniqueID = "food_fish2_plastic"
 ITEM.model = "models/props/de_inferno/goldfish.mdl"
@@ -14,6 +15,28 @@ ITEM.color = Color(80, 80, 180)
 
 ITEM.attrib = { 
 	["stm"] = 1
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Fish"] = true,
+	["Plastic"] = true,
+}
+
+ITEM.craft = {
+	hp = 1,
+
+	buffTbl = {
+		attrib = {
+			["stm"] = 1,
+		},
+		
+		res = {
+			["Poison"] = 5,
+			["Electric"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

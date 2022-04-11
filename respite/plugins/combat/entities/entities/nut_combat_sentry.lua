@@ -21,6 +21,30 @@ ENT.attribs = {
 	["fortitude"] = 0,
 }
 
+ENT.dmg = {
+	["9x19mm"] = 10,
+}
+
+ENT.hp = 60
+ENT.armor = 0
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 20,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 100,
+	["Blight"] = 100,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = -50,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 100,
+	["Electric"] = -50,
+}
+
 ENT.ammoTypes = {
 	"12g",
 	"22lr",

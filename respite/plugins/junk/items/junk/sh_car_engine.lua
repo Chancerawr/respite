@@ -6,6 +6,14 @@ ITEM.flag = "j"
 ITEM.width = 5
 ITEM.height = 4
 
+if(SERVER) then
+	ITEM.loot = {
+		["Junk"] = true,
+		["Car"] = true,
+		["Garbage"] = true,
+	}
+end
+
 ITEM.salvItem = {
 	["j_scrap_metals"] = 8,
 	["j_scrap_chems"] = 2

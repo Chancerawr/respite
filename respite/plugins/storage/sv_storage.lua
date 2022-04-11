@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 -- This file is responsible for creating, saving, and loading storage
 -- entities.
 function PLUGIN:PlayerSpawnedProp(client, model, entity)
@@ -82,7 +83,6 @@ function PLUGIN:saveStorage()
 				entity:GetMaterial(),
 				entity:getNetVar("owner", nil),
 				entity:getNetVar("overwrite", nil),
-				entity:GetColor(),
 			}
 		end
   	end
@@ -94,6 +94,10 @@ function PLUGIN:StorageItemRemoved(entity, inventory)
 end
 
 function PLUGIN:LoadData()
+
+end
+
+function PLUGIN:loadStorage()
 	local data = self:getData()
 	if (not data) then return end
 
@@ -112,7 +116,6 @@ function PLUGIN:LoadData()
 		local mat = info[11]
 		local owner = info[12]
 		local overwrite = info[13]
-		local color = info[14]
 		
 		local storage = self.definitions[overwrite or model]
 		if (not storage) then continue end
@@ -127,14 +130,15 @@ function PLUGIN:LoadData()
 		
 		nut.inventory.loadByID(inv)
 			:next(function(inventory)
-				if (inventory and IsValid(storage)) then
+				if (inventory and IsValid(storage) and !(inventory.loaded and IsValid(inventory.loaded))) then
+					inventory.loaded = storage
 					inventory.isStorage = true
 					storage:setInventory(inventory)
 					hook.Run("StorageRestored", storage, inventory)
 				elseif (IsValid(storage)) then
 					timer.Simple(1, function()
 						if (IsValid(storage)) then
-							storage:Remove()
+							--storage:Remove()
 						end
 					end)
 				end
@@ -173,10 +177,6 @@ function PLUGIN:LoadData()
 			storage:setNetVar("overwrite", overwrite)
 		end
 		
-		if(color) then
-			storage:SetColor(color)
-		end
-		
 		local physObject = storage:GetPhysicsObject()
 		if (physObject) then
 			physObject:EnableMotion(motion)
@@ -187,4 +187,11 @@ function PLUGIN:LoadData()
 	end
 
 	self.loadedData = true
+end
+
+-- this stupid time stuff stops them from getting broken when other things break when the load hook is called
+function PLUGIN:InitPostEntity()
+	timer.Simple(60, function()
+		PLUGIN:loadStorage()
+	end)
 end

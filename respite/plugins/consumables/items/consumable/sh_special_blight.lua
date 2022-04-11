@@ -1,4 +1,5 @@
 ITEM.name = "Blight"
+ITEM.prefix = "Blighted"
 ITEM.desc = "A strange vial that is filled with some black liquid."
 ITEM.uniqueID = "blight"
 ITEM.model = "models/items/healthvial2.mdl"
@@ -25,6 +26,28 @@ ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(0, 0, 0, 200), 5, 2)
 	--nut.plugin.list["parts"]:partsAdd(client, 25, "Blight")
 end
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Shade"] = true,
+	["Special"] = true,
+}
+
+ITEM.craft = {
+	mp = -5,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 5,
+		},
+		
+		res = {
+			["Blight"] = 5,
+			["Shard"] = -5,
+			["Ichor"] = -5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 4.75),

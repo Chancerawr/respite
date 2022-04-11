@@ -22,6 +22,30 @@ ENT.attribs = {
 	["fortitude"] = 0,
 }
 
+ENT.dmg = {
+	["Blunt"] = 30,
+}
+
+ENT.hp = 1000
+ENT.armor = 200
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = -50,
+	
+	["Fire"] = 25,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 50,
+	["Electric"] = 50,
+}
+
 function ENT:Initialize()
 	self:basicSetup()
 	

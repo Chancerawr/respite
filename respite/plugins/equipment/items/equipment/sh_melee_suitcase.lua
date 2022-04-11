@@ -10,7 +10,22 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
-ITEM.salvItem = {
+ITEM.rarity = 10
+ITEM.lootTags = {
+	["weapon"] = true,
+	["melee"] = true,
+	["blunt"] = true,
+}
+
+ITEM.dmg = {
+	["Blunt"] = 2,
+}
+
+ITEM.scaling = {
+	["str"] = 0.2,
+}
+
+ITEM.salvage = {
 	["j_scrap_cloth"] = 4
 }
 
@@ -20,6 +35,7 @@ ITEM.iconCam = {
 	fov = 8,
 }
 
+--[[
 ITEM.functions.Storage = {
   tip = "Use this item for storage",
   icon = "icon16/box.png",
@@ -29,3 +45,4 @@ ITEM.functions.Storage = {
 	nut.item.spawn("stor_suitcase", position)
   end
 }
+--]]

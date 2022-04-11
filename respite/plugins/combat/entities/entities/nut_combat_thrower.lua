@@ -20,6 +20,37 @@ ENT.attribs = {
 	["fortitude"] = 0,
 }
 
+ENT.dmg = {
+	["Blunt"] = 15,
+	["Fire"] = 5,
+}
+
+ENT.hp = 100
+ENT.armor = 20
+
+ENT.res = {
+	["Pierce"] = 0,
+	["Slash"] = 0,
+	["Blunt"] = 0,
+	
+	["Ichor"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
+	["Distort"] = 0,
+	
+	["Fire"] = 50,
+	["Explosion"] = 0,
+	["Acid"] = 0,
+	["Poison"] = 0,
+	["Electric"] = 0,
+}
+
+ENT.actions = {
+	"throw_meat",
+	"whack",
+	"flail",
+}
+
 function ENT:Initialize()
 	timer.Simple(0.6, function()
 		self:SetModelScale(1.2)

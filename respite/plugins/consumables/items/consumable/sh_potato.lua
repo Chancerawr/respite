@@ -9,6 +9,27 @@ ITEM.attrib = {
 	["str"] = 2,
 }
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+	["Vegetable"] = true,
+}
+
+ITEM.craft = {
+	hp = 3,
+
+	buffTbl = {
+		attrib = {
+			["str"] = 2,
+		},
+		
+		res = {
+			["Disease"] = 5,
+			["Bleed"] = 5,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(63.86, 54.79, 38.88),
 	ang = Angle(25, 220, 0),

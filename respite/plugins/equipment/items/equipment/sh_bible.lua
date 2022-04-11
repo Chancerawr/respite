@@ -2,10 +2,12 @@ ITEM.name = "Bible"
 ITEM.uniqueID = "j_bible"
 ITEM.model = "models/props_lab/bindergreen.mdl"
 ITEM.desc = "A thick book filled with religious teachings."
-ITEM.flag = "j"
+
 ITEM.width = 1
 ITEM.height = 1
 ITEM.slot = "Accessory"
+
+ITEM.armor = 1
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 2

@@ -1,4 +1,5 @@
 ITEM.name = "Cookies"
+ITEM.prefix = "Cookie"
 ITEM.desc = "A box of delicious cookies."
 ITEM.uniqueID = "food_cookies"
 ITEM.model = "models/props_lab/box01a.mdl"
@@ -10,6 +11,28 @@ ITEM.container = "j_empty_chocolate_box"
 ITEM.attrib = { 
 	["stm"] = 3,
 	["end"] = 1
+}
+
+ITEM.loot = {
+	["Consumable"] = true,
+	["Food"] = true,
+}
+
+ITEM.craft = {
+	hp = 2,
+
+	buffTbl = {
+		attrib = {
+			["stm"] = 3,
+			["end"] = 1,
+		},
+		
+		res = {
+			["Slow"] = 10,
+			["Stun"] = 5,
+			["Time"] = 5,
+		}
+	},
 }
 
 ITEM.iconCam = {

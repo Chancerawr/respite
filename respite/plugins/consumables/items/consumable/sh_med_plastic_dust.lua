@@ -1,4 +1,5 @@
 ITEM.name = "Plastic Dust"
+ITEM.prefix = "Plastic"
 ITEM.desc = "A small box filled with some sort of plastic dust."
 ITEM.uniqueID = "medical_plastic"
 ITEM.model = "models/props_lab/box01a.mdl"
@@ -21,6 +22,21 @@ ITEM.faction = {
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(100, 100, 100, 200), 1, 0)
 end
+
+ITEM.loot = {
+	["Medical"] = true,
+	["Plastic"] = true,
+}
+
+ITEM.craft = {
+	hp = 5,
+	
+	buffTbl = {
+		res = {
+			["Electric"] = 5,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(89.43, 74.9, 54.5),

@@ -16,6 +16,26 @@ ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(255, 255, 255, 255), 3, 0)
 end
 
+ITEM.loot = {
+	["Consumable"] = true,
+	["Drug"] = true,
+}
+
+ITEM.craft = {
+	mp = 10,
+	
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 2,
+			["perception"] = -1
+		},
+		
+		res = {
+			["Poison"] = 20,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

@@ -1,4 +1,4 @@
-ITEM.name = "Enhanced Chip"
+ITEM.name = "Distorted Chip"
 ITEM.uniqueID = "cube_chip_enhanced"
 ITEM.desc = "A thin chip made out of an unknown substance. It seemingly changes color and texture every so often."
 ITEM.model = "models/gibs/metal_gib4.mdl"
