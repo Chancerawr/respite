@@ -353,22 +353,37 @@ nut.command.add("centclone", {
 			clone:SetMaterial(entity:GetMaterial() or "") --set its material
 			clone:SetColor(entity:GetColor() or Color(255,255,255))
 			
+			clone:setNetVar("name", entity:Name()) --set its custom name
+			clone:setNetVar("desc", entity:Desc()) --set its description
+
+			clone.inv = entity.inv
+			
+			--set its attributes
+			clone.attribs = entity.attribs
+			
+			--combat stats
+			clone.armor = entity.armor
+			
+			clone:setNetVar("hp", entity:getHP())
+			clone:setNetVar("hpMax", entity:getMaxHP())
+			
+			clone:setNetVar("mp", entity:getMP())
+			clone:setNetVar("mpMax", entity:getMaxMP())
+			
+			clone.actions = entity.actions
+			
+			clone.dmg = entity.dmg
+			clone.res = entity:getNetVar("res")
+			clone.amp = entity:getNetVar("amp")
+			
+			clone:SetCreator(client) --prop protection
+			
 			--sets its animation
 			timer.Simple(1, function()
 				if(IsValid(clone)) then
 					clone:ResetSequence(entity:GetSequence())
 				end
 			end)
-			
-			clone:setNetVar("name", entity:getNetVar("name", entity.PrintName)) --set its custom name
-			clone:setNetVar("desc", entity:getNetVar("desc", "")) --set its description			
-			
-			clone.inv = entity.inv
-			
-			--set its attributes
-			clone.attribs = entity.attribs
-			
-			clone:SetCreator(client) --prop protection
 
 			local name = entity:getNetVar("name", entity.PrintName)
 			client:notify(name.. " has been cloned.") --notify the player
@@ -395,7 +410,22 @@ nut.command.add("centcopy", {
 				desc = entity:getNetVar("desc", ""),
 				ani = entity:GetSequence(),
 				inv = entity.inv,
-				attribs = entity.attribs
+				
+				actions = entity.actions,
+				
+				hp = entity:getHP(),
+				hpMax = entity:getMaxHP(),
+				
+				mp = entity:getMP(),
+				mpMax = entity:getMaxMP(),
+				
+				armor = entity.armor,
+				
+				dmg = entity.dmg,
+				res = entity:getNetVar("res"),
+				amp = entity:getNetVar("amp"),
+				
+				attribs = entity.attribs,
 			}	
 
 			client.CEntC = info
@@ -434,8 +464,20 @@ nut.command.add("centpaste", {
 			clone:setNetVar("desc", info.desc) --set its description			
 			
 			clone.inv = info.inv
+
+			clone.armor = info.armor
 			
-			local attrib = info.attribs
+			clone:setNetVar("hp", info.hp)
+			clone:setNetVar("hpMax", info.hpMax)
+			
+			clone:setNetVar("mp", info.mp)
+			clone:setNetVar("mpMax", info.mpMax)
+			
+			clone.actions = info.actions
+			clone.dmg = info.dmg
+			clone.res = info.res
+			clone.amp = info.amp
+			
 			--set its attributes
 			clone.attribs = info.attribs
 			
@@ -525,6 +567,7 @@ nut.command.add("centrestore", {
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			entity:SetHealth(entity:getMaxHP())
+			entity:setHP(entity:getMaxHP())
 			
 			client:notify("Health successfully restored.")
 		end
@@ -711,10 +754,10 @@ if(SERVER) then
 		local config = {
 			["name"] = {weight = 1, name = "Name", value = entity:Name()},
 			["desc"] = {weight = 2, name = "Description", value = entity:Desc()},		
-			["hp"] = {weight = 3, name = "Health", value = entity:getNetVar("hp", 0)},
-			["hpMax"] = {weight = 4, name = "Max Health", value = entity:getNetVar("hpMax", 0)},
-			["mp"] = {weight = 5, name = "Mana", value = entity:getNetVar("mp", 0)},
-			["mpMax"] = {weight = 6, name = "Max Mana", value = entity:getNetVar("mpMax", 0)},
+			["hp"] = {weight = 3, name = "Health", value = entity:getHP()},
+			["hpMax"] = {weight = 4, name = "Max Health", value = entity:getMaxHP()},
+			["mp"] = {weight = 5, name = "Mana", value = entity:getMP()},
+			["mpMax"] = {weight = 6, name = "Max Mana", value = entity:getMaxMP()},
 			--["magic"] = {weight = 7, name = "Magic Bonus", value = entity.magic},
 			["armor"] = {weight = 7, name = "Armor", value = entity.armor},
 			--["dmg"] = {weight = 8, name = "Base Damage", value = entity.dmg},

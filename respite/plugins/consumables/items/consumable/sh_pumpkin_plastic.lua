@@ -37,5 +37,5 @@ ITEM.craft = {
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 1),
 	ang = Angle(0, -0, 0),
-	fov = 6.5,
+	fov = 9,
 }

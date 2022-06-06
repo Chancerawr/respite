@@ -1,4 +1,4 @@
-ITEM.name = "Weird Vase"
+ITEM.name = "Vase"
 ITEM.desc = "An oddly rigid and solid vase. Looks like it can take a few hits."
 ITEM.model = "models/props_c17/pottery08a.mdl"
 ITEM.class = "hl2_m_weirdvase"

@@ -9,6 +9,9 @@ ENT.name = "Cracked Blood Fiend"
 
 ENT.model = "models/Zombie/Poison.mdl"
 ENT.material = "models/flesh"
+
+ENT.AttackAnim = "Melee_01"
+
 ENT.color = Color(128, 20, 20)
 
 --all attributes

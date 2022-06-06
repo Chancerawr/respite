@@ -9,6 +9,9 @@ ENT.name = "Viper Blood Fiend"
 
 ENT.model = "models/sient hill custom/homecoming/lurker.mdl"
 ENT.material = "models/flesh"
+
+ENT.AttackAnim = "Attack"
+
 ENT.color = Color(128, 20, 20)
 
 --all attributes

@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/_maz_ter_/deadspace/deadspacenecros/twitcher.mdl"
 ENT.material = "models/effects/comball_glow1"
+
+ENT.AttackAnim = "Twitcher_Attack01"
+
 ENT.color = Color(128, 0, 0)
 
 --all attributes

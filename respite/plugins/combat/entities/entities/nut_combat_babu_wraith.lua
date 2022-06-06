@@ -8,6 +8,9 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/babu.mdl"
 ENT.material = "models/props_lab/security_screens"
 
+ENT.IdleAnim = "Idle01"
+ENT.AttackAnim = "AttackB"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,

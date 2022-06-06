@@ -9,6 +9,9 @@ ENT.name = "Leecher"
 
 ENT.model = "models/zombie/poison.mdl"
 ENT.material = "models/weapons/v_smg1/texture5"
+
+ENT.AttackAnim = "Melee_01"
+
 ENT.color = Color(0, 0, 0, 0)
 
 --all attributes

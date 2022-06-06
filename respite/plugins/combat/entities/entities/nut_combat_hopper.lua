@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/sin/hopper.mdl"
 ENT.name = "Hopper"
 
+ENT.AttackAnim = "Morph_In"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,

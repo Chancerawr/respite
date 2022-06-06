@@ -10,6 +10,8 @@ ENT.name = "Small Leecher"
 ENT.model = "models/zombie/grabber_01.mdl"
 ENT.material = "models/weapons/v_smg1/texture5"
 
+ENT.AttackAnim = "AttackA"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

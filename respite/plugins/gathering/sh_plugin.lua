@@ -98,8 +98,9 @@ if SERVER then
 			
 			if(IsValid(entity)) then
 				entity:SetPos(point[1])
-
+				entity.nodeSpawned = true -- mark it as being spawned by a node
 				entity:Spawn()
+
 				table.insert(self.spawnedGathers, {entity, point})
 			else
 				table.RemoveByValue(self.gatherPoints, point)
@@ -108,8 +109,9 @@ if SERVER then
 			local entity = ents.Create("nut_"..table.Random(point[2]))
 			if(IsValid(entity)) then
 				entity:SetPos(point[1])
+				entity.nodeSpawned = true -- mark it as being spawned by a node
 				entity:Spawn()
-				
+
 				table.insert(self.spawnedGathers, {entity, point})
 			else
 				table.RemoveByValue(self.gatherPoints, point)

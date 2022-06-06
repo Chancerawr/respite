@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/sient hill custom/Homecoming/lurker.mdl"
 ENT.material = "phoenix_storms/lag_sign"
+
+ENT.AttackAnim = "Attack"
+
 ENT.color = Color(0, 0, 0)
 
 --all attributes

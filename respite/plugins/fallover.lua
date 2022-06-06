@@ -208,8 +208,10 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 
 						return
 					elseif (entity.nutPausing) then
-						self:setAction("@wakingUp", time)
-						entity.nutPausing = false
+						if(self:Alive()) then
+							self:setAction("@wakingUp", time)
+							entity.nutPausing = false
+						end
 					end
 
 					time = time - 0.33

@@ -10,6 +10,8 @@ ENT.name = "Static"
 ENT.model = "models/zombie/fast.mdl"
 ENT.material = "models/downpour/filmgrain_1a"
 
+ENT.AttackAnim = "Melee"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,

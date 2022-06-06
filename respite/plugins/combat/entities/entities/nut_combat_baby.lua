@@ -7,6 +7,8 @@ ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombibaba.mdl"
 
+ENT.AttackAnim = "AttackB"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

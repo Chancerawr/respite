@@ -90,8 +90,16 @@ function RECIPES:Register( tbl )
 					end
 				end
 				
+				local inventory = player:getChar():getInv()
+				
 				for k, v in pairs(self.result) do
-					player:getChar():getInv():addSmart(k, v, player:getItemDropPos(), itemData)
+					if(self.stackedResults) then
+						inventory:addSmart(k, 1, player:getItemDropPos(), {Amount = v, ammo = v})
+					else
+						inventory:addSmart(k, v, player:getItemDropPos())
+					end
+				
+					--inventory:addSmart(k, v, player:getItemDropPos(), itemData)
 					
 					nut.log.addRaw(player:Name().. " crafted " ..nut.item.list[k].name.. ".")
 				end

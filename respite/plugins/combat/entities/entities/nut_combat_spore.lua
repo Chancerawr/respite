@@ -5,8 +5,11 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/respite/spore.mdl"
 ENT.name = "Lump"
+
+ENT.model = "models/respite/spore.mdl"
+
+ENT.AttackAnim = "Attack1"
 
 --all attributes
 ENT.attribs = {

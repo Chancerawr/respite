@@ -4,7 +4,7 @@ ITEM.desc = "A can filled with weird laughter?"
 ITEM.uniqueID = "food_laugh_p"
 ITEM.model = "models/props_junk/garbage_metalcan001a.mdl"
 ITEM.hungerAmount = 10
-ITEM.quantity2 = 1
+ITEM.quantity2 = 3
 ITEM.price = 0
 
 ITEM.soundURL = "http://rtv.site.nfoservers.com/items/pekora"

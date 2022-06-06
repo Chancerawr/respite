@@ -6,8 +6,8 @@ ITEM.class = "tfa_cr1ka"
 ITEM.uniqueID = "tfa_cr1ka"
 ITEM.slot = "primary"
 ITEM.width = 4
+ITEM.height = 1
 ITEM.price = 0
-ITEM.height = 2
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
 

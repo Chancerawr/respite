@@ -52,8 +52,8 @@ ITEM.functions.Medical = {
 		
 		nut.chat.send(client, "itclose", "The machine accepts the materials, vibrates intensely, and outputs a something medical after a short period of time.")
 
-		if(amount > 10) then
-			organic:setData("Amount", amount - 10)
+		if(amount > 5) then
+			organic:setData("Amount", amount - 5)
 		else
 			organic:remove()
 		end		
@@ -64,7 +64,11 @@ ITEM.functions.Medical = {
 			depress:remove()
 		end
 		
-		nut.item.spawn(table.Random(meds), position)
+		if(!IsValid(item:getEntity())) then
+			inventory:addSmart(table.Random(meds), 1, position)
+		else
+			nut.item.spawn(table.Random(meds), item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the reward item above the entity
+		end
 		
 		return false
 	end,

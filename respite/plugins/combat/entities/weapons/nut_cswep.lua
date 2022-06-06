@@ -193,6 +193,10 @@ function SWEP:PrimaryAttack()
 		else
 			PLUGIN:attackStart(client, attacker, trace, action)
 		end
+		
+		if(attacker.AttackAnim) then
+			attacker:attackAnimStart()
+		end
 	
 		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	end
@@ -238,10 +242,10 @@ function SWEP:DrawHUD()
 			nut.util.drawText(name.. " Selected", ScrW() * 0.5, ScrH() * 0.3, ColorAlpha(Color(50,50,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
 		end
 		
+		--[[
 		local AP = (user.getAP and user:getAP()) or 0
 		local APMax = (user.getAPMax and user:getAPMax()) or 0
-		
-		--[[
+
 		if(AP and APMax) then
 			surface.SetDrawColor(0,0,0)
 			surface.DrawRect(ScrW() - (120 * scrModX), 20 * scrModY, 100 * scrModX, 40 * scrModY)
@@ -251,7 +255,7 @@ function SWEP:DrawHUD()
 		--]]
 		
 		local posY = ScrH() - 100 * scrModY
-		local posX = ScrW() - 210 * scrModX
+		local posX = ScrW() - 220 * scrModX
 		local textX = ScrW() - (120 * scrModX)
 		
 		local hp = user.getHP and user:getHP()
@@ -262,25 +266,26 @@ function SWEP:DrawHUD()
 			local mpMax = user:getMaxMP()
 		
 			local textX = ScrW() - 120 * scrModX
-			local boxHeight = 25 * scrModY
+			local boxHeight = 30 * scrModY
 		
 			surface.SetDrawColor(0,0,0)
-			surface.DrawRect(posX, posY, 180 * scrModX, boxHeight)
+			surface.DrawRect(posX, posY, 200 * scrModX, boxHeight)
 			
-			posY = posY + 12
-			nut.util.drawText("Health: (" ..hp.. "/" ..hpMax.. ")", textX, posY, ColorAlpha(Color(255,150,150), alpha), 1, 1, "nutSmallFont", alpha * 1)
+			posY = posY + 15
+			nut.util.drawText("Health: (" ..hp.. "/" ..hpMax.. ")", textX, posY, ColorAlpha(Color(255,150,150), alpha), 1, 1, "nutMediumFont", alpha * 1)
 
 			posY = posY + 30
 			surface.SetDrawColor(0,0,0)
-			surface.DrawRect(posX, posY, 180 * scrModX, boxHeight)
+			surface.DrawRect(posX, posY, 200 * scrModX, boxHeight)
 			
-			posY = posY + 12
-			nut.util.drawText("Mind: (" ..mp.. "/" ..mpMax.. ")", textX, posY, ColorAlpha(Color(150,150,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
+			posY = posY + 15
+			nut.util.drawText("Mind: (" ..mp.. "/" ..mpMax.. ")", textX, posY, ColorAlpha(Color(150,150,255), alpha), 1, 1, "nutMediumFont", alpha * 1)
 		end
 		
 		posX = ScrW() - 210 * scrModX
 		posY = 100 * scrModY
 		
+		--buff display
 		local buffs = user.getBuffs and user:getBuffs()
 		if(buffs) then
 			
@@ -304,6 +309,7 @@ function SWEP:DrawHUD()
 			end
 		end
 		
+		--cooldown display
 		local cooldowns = user.getCooldowns and user:getCooldowns()
 		if(cooldowns) then
 			posY = posY + 40
@@ -316,11 +322,11 @@ function SWEP:DrawHUD()
 			nut.util.drawText("(COOLDOWNS)", textX, posY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
 			
 			for k, v in pairs(cooldowns) do
-				local spell = SPLS.spells[k]
-				if(spell) then
+				local action = ACTS.actions[k]
+				if(action) then
 					posY = posY + 20
 				
-					local nameDur = (spell.name or "Unknown").. " " ..v.. "T"
+					local nameDur = (action.name or "Unknown").. " " ..v.. "T"
 				
 					nut.util.drawText(nameDur, textX, posY, ColorAlpha(Color(255,255,255), alpha), 1, 1, "nutSmallFont", alpha * 1)
 				end

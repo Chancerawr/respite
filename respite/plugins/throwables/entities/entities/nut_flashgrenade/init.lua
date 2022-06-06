@@ -28,11 +28,11 @@ function ENT:Initialize()
 	
 	self.timer = CurTime() + 3
 	
-  			local trail = util.SpriteTrail(self.Entity, self.Entity:LookupAttachment("fuse"), Color(255, 255, 0), true, 8, 1, 1, (1 / 9) * 0.5, "sprites/bluelaser1.vmt");
-			
-			if (IsValid(trail)) then
-				self.Entity:DeleteOnRemove(trail);
-			end
+	local trail = util.SpriteTrail(self.Entity, self.Entity:LookupAttachment("fuse"), Color(255, 255, 255), true, 8, 1, 1, (1 / 9) * 0.5, "sprites/bluelaser1.vmt");
+	
+	if (IsValid(trail)) then
+		self.Entity:DeleteOnRemove(trail);
+	end
 	
 	timer.Simple(2,
 	function()

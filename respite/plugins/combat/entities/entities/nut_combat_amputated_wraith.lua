@@ -9,6 +9,8 @@ ENT.name = "Burning Amputated"
 ENT.model = "models/am_npc/amputated.mdl"
 ENT.material = "models/effects/splode1_sheet" 
 
+ENT.AttackAnim = "AttackA"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,

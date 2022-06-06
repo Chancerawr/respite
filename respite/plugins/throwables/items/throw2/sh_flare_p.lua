@@ -1,5 +1,6 @@
 ITEM.name = "Flare - Pink"
 ITEM.model = "models/items/grenadeammo.mdl"
+ITEM.material = "phoenix_storms/top"
 ITEM.desc = "A flare that emits a bright pink light."
 ITEM.class = "tfa_fl_p"
 ITEM.uniqueID = "nut_flare_p"

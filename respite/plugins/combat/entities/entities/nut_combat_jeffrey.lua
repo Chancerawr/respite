@@ -10,6 +10,8 @@ ENT.noRag = true
 ENT.model = "models/Zombie/Poison.mdl"
 ENT.material = "models/props_lab/security_screens"
 
+ENT.AttackAnim = "Melee_01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,

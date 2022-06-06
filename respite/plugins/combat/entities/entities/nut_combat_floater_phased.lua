@@ -12,6 +12,8 @@ ENT.models = {
 }
 ENT.material = "models/props_combine/stasisfield_beam"
 
+ENT.AttackAnim = "AttackA"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,

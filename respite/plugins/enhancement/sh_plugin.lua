@@ -26,6 +26,19 @@ local functionInfo = {
 			dmgT = "Shard",
 		},
 	},
+	["shard"] = {
+		name = "Shard", --name of item function
+		required = "shard", --item required to put this on
+		removal = "blight", --item required to remove it
+		itemName = "Shard ", --item name append
+		itemDesc = "\nIt glows brightly.", --item description append
+		itemColor = Color(255, 255, 255), --color of item text and icon
+		confirm = "Are you sure you want to infuse a Shard into this item?", --confirmation prompt
+		dmg = {
+			ratio = 1,
+			dmgT = "Shard",
+		},
+	},
 	["blight"] = {
 		name = "Blight",
 		required = "blight",
@@ -39,9 +52,22 @@ local functionInfo = {
 			dmgT = "Blight",
 		},
 	},
+	["blight_chip"] = {
+		name = "Blacken",
+		required = "cube_chip_blight",
+		removal = "shard_dust",
+		itemName = "Blackened ",
+		itemDesc = "\nIt is coated in a pitch black material, touching it makes you feel numb.",
+		itemColor = Color(0, 0, 0),
+		confirm = "Are you sure you want to Blacken this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Blight",
+		},
+	},
 	["distort"] = {
 		name = "Distort", 
-		required = "cube_chip_enhanced",
+		required = "distortion",
 		removal = "shard_dust",
 		itemName = "Distorted ",
 		itemDesc = "\nIts appearance distorts randomly and sometimes becomes translucent.",
@@ -49,7 +75,46 @@ local functionInfo = {
 		confirm = "Are you sure you want to Distort this item?",
 		dmg = {
 			ratio = 0.5,
-			dmgT = "Distortion",
+			dmgT = "Distort",
+		},
+	},
+	["distort_chip"] = {
+		name = "Distort (Chip)", 
+		required = "cube_chip_enhanced",
+		removal = "shard_dust",
+		itemName = "Extremely Distorted ",
+		itemDesc = "\nIts appearance distorts constantly and sometimes becomes translucent.",
+		itemColor = Color(140, 20, 140),
+		confirm = "Are you sure you want to Distort this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Distort",
+		},
+	},
+	["ichor"] = {
+		name = "Ichor", 
+		required = "ichor",
+		removal = "shard_dust",
+		itemName = "Ichor Coated ",
+		itemDesc = "\nIt's coated in a wriggling, seemingly alive substance.",
+		itemColor = Color(0, 128, 128),
+		confirm = "Are you sure you want to Ichor this item?",
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Ichor",
+		},
+	},
+	["ichor_chip"] = {
+		name = "Soul Mark", 
+		required = "ichor",
+		removal = "shard_dust",
+		itemName = "Wriggling ",
+		itemDesc = "\nIt's form wriggles and moves by itself, as if it were alive.",
+		itemColor = Color(0, 128, 128),
+		confirm = "Are you sure you want to Ichor this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Ichor",
 		},
 	},
 }

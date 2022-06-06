@@ -10,6 +10,8 @@ ENT.name = "Burning Demon"
 ENT.model = "models/nh2zombies/friendly.mdl"
 ENT.material = "models/effects/splode1_sheet"
 
+ENT.AttackAnim = "Melee"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,

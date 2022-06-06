@@ -41,7 +41,7 @@ PLUGIN.dmgTypes = {
 	},
 	["Electric"] = {
 		name = "Electrical Damage",
-		color = Color(0,128,128),
+		color = Color(0,162,255),
 		armor = 0.4,
 	},
 	["Explosion"] = {
@@ -100,9 +100,15 @@ PLUGIN.dmgTypes = {
 		color = Color(255,255,255),
 		armor = 0.5,
 	},
+	
 	["Distort"] = {
 		name = "Distortion Damage",
 		color = Color(128,20,128),
+		armor = 0,
+	},
+	["Time"] = {
+		name = "Time Damage",
+		color = Color(0,128,128),
 		armor = 0,
 	},
 	

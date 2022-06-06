@@ -1,20 +1,15 @@
 ITEM.name = "Cube - Blight"
+ITEM.desc = "An unknown cubic device. There is a single button on it that says 'BLIGHT' and a slot for chips."
 ITEM.uniqueID = "cube_blight"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
-ITEM.desc = "An unknown cubic device. There is a single button on it that says 'BLIGHT' and a slot for chips."
-ITEM.width = 3
-ITEM.height = 3
+ITEM.material = "models/props_pipes/destroyedpipes01a"
+ITEM.width = 2
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
-ITEM.material = "models/props_pipes/destroyedpipes01a"
+
 ITEM.category = "Machines"
 ITEM.color = Color(0, 0, 0)
-
-ITEM.iconCam = {
-	ang = Angle(0, 270, 0),
-	fov	= 9.4,
-	pos	= Vector(0, 200, 0)
-}
 
 ITEM.functions.Activate = {
 	icon = "icon16/arrow_down.png",
@@ -105,4 +100,10 @@ ITEM.functions.Battery = {
 		
 		return true
 	end
+}
+
+ITEM.iconCam = {
+	ang = Angle(0, 270, 0),
+	fov	= 9.4,
+	pos	= Vector(0, 200, 0)
 }

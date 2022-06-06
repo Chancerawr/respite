@@ -31,15 +31,21 @@ if (CLIENT) then
 				alpha = math.Clamp(255*factor, 80, 255)
 
 				surface.SetDrawColor(teamColor.r, teamColor.g, teamColor.b, alpha)
-				surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
+				--surface.DrawLine(sx * 0.5, sy * 0.5, x, y)
 				--surface.DrawRect(x - size/2, y - size/2, size, size)
 
 				nut.util.drawText(v:Name() .. "(" .. v:Health() .. ")", x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 
+				if(v.getHP) then
+					local HP = v:getHP()
+				
+					nut.util.drawText("[ " ..HP.. " ]", x, y - size + 16, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+				end
+				
 				if(v.getMP) then
 					local MP = v:getMP()
 				
-					nut.util.drawText("[ " ..MP.. " ]", x, y - size + 16, ColorAlpha(Color(50,50,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					nut.util.drawText("[ " ..MP.. " ]", x, y - size + 32, ColorAlpha(Color(50,50,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
 			end
 			
@@ -59,10 +65,10 @@ if (CLIENT) then
 					alpha = math.Clamp(255*factor, 80, 255)
 
 					nut.util.drawText(v:Name(), x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
-					nut.util.drawText("(" ..(v:getHP()).. "/" ..(v:getHPMax()).. ")", x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					nut.util.drawText("(" ..(v:getHP()).. "/" ..(v:getMaxHP()).. ")", x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					
-					if(v:getMPMax() > 0) then
-						nut.util.drawText("(" ..(v:getMP()).. "/" ..(v:getMPMax()).. ")", x, y - size + 36, ColorAlpha(Color(20,20,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					if(v:getMaxMP() > 0) then
+						nut.util.drawText("(" ..(v:getMP()).. "/" ..(v:getMaxMP()).. ")", x, y - size + 34, ColorAlpha(Color(20,20,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					end
 				end
 			end	

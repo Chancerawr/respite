@@ -74,7 +74,9 @@ local function buyItemFromVendor(panel)
 end
 
 function PANEL:showAction()
-	if (IsValid(self.action)) then return end
+	if (IsValid(self.action)) then 
+		self.action:Remove()
+	end
 
 	self.action = self:Add("DButton")
 	self.action:Dock(FILL)

@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombineplayer.mdl"
 ENT.material = "models/flesh"
+
+ENT.AttackAnim = "AttackC"
+
 ENT.color = Color(130, 220, 130)
 
 --all attributes

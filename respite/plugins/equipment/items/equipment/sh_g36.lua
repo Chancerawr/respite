@@ -4,8 +4,8 @@ ITEM.model = "models/weapons/tfa_w_hk_g36c.mdl"
 ITEM.class = "tfa_g36"
 ITEM.slot = "primary"
 ITEM.width = 4
+ITEM.height = 1
 ITEM.price = 0
-ITEM.height = 2
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
 

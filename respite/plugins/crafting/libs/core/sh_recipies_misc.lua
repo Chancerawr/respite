@@ -9,11 +9,11 @@ RECIPE.model = "models/props_lab/citizenradio.mdl"
 RECIPE.desc = "A stationary radio."
  
 RECIPE.items = {
-	["j_scrap_elecs"] = 12,
-	["j_scrap_metals"] = 25,
-	["j_scrap_adhesive"] = 5,
-	["j_scrap_screws"] = 6,
-	["cube_chip"] = 5
+	["j_scrap_elecs"] = 6,
+	["j_scrap_metals"] = 12,
+	["j_scrap_adhesive"] = 2,
+	["j_scrap_screws"] = 3,
+	["cube_chip"] = 3
 }
 RECIPE.result = {
 	["comm_radio_stationary"] = 1
@@ -45,7 +45,7 @@ RECIPE.model = "models/gibs/shield_scanner_gib1.mdl"
 RECIPE.desc = "A handheld radio."
  
 RECIPE.items = {
-	["cube_chip"] = 5,
+	["cube_chip"] = 2,
 	["comm_signal"] = 1
 }
 RECIPE.result = {
@@ -61,9 +61,9 @@ RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
 RECIPE.desc = "A useful piece of equipment that can be attached to radios to reduce or remove distortion."
  
 RECIPE.items = {
-	["cube_chip"] = 10,
-	["j_scrap_elecs"] = 20,
-	["j_scrap_metals"] = 10
+	["cube_chip"] = 5,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_metals"] = 5
 }
 RECIPE.result = {
 	["radio_booster"] = 1
@@ -78,11 +78,11 @@ RECIPE.model = "models/weapons/cof/w_lantern.mdl"
 RECIPE.desc = "A lantern."
  
 RECIPE.items = {
-	["j_scrap_light"] = 2,
-	["j_scrap_metals"] = 15,
-	["j_scrap_adhesive"] = 5,
-	["j_scrap_battery"] = 5,
-	["cube_chip"] = 2
+	["j_scrap_light"] = 1,
+	["j_scrap_metals"] = 7,
+	["j_scrap_adhesive"] = 2,
+	["j_scrap_battery"] = 2,
+	["cube_chip"] = 1
 }
 RECIPE.result = {
 	["coflantern"] = 1
@@ -97,7 +97,7 @@ RECIPE.model = "models/props_canal/mattpipe.mdl"
 RECIPE.desc = "A pipe made out of metal."
  
 RECIPE.items = {
-	["j_scrap_metals"] = 10
+	["j_scrap_metals"] = 5
 }
 RECIPE.result = {
 	["hl2_m_pipe"] = 1
@@ -112,7 +112,7 @@ RECIPE.model = "models/props_junk/cinderblock01a.mdl"
 RECIPE.desc = "A heavy block of concrete."
  
 RECIPE.items = {
-	["j_scrap_concrete"] = 7
+	["j_scrap_concrete"] = 4
 }
 RECIPE.result = {
 	["j_cinder_block"] = 1
@@ -143,8 +143,8 @@ RECIPE.desc = "A peculiar tool with a climb and a lever."
  
 RECIPE.items = {
 	["j_meat_grinder"] = 1,
-	["blight"] = 5,
-	["j_scrap_organic"] = 10
+	["blight"] = 2,
+	["j_scrap_organic"] = 5
 }
 RECIPE.result = {
 	["converter_meat"] = 1
@@ -159,7 +159,7 @@ RECIPE.model = "models/props_lab/jar01a.mdl"
 RECIPE.desc = "A resource used for crafting and other things."
  
 RECIPE.items = {
-	["j_scrap_organic"] = 15
+	["j_scrap_organic"] = 5
 }
 RECIPE.result = {
 	["j_scrap_adhesive"] = 1
@@ -190,9 +190,8 @@ RECIPE.model = "models/props_junk/cardboard_box003b.mdl"
 RECIPE.desc = "A box full of expendable materials and tools. This is used to repair broken generators."
  
 RECIPE.items = {
-	["j_scrap_metals"] = 15,
-	["j_scrap_screws"] = 4,
-	["j_scrap_chems"] = 2
+	["j_scrap_metals"] = 5,
+	["j_scrap_screws"] = 2,
 }
 RECIPE.result = {
 	["generator_repair"] = 1
@@ -207,9 +206,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,	
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,	
 	["food_potato"] = 1,
 	["shard_dust"] = 1
 }
@@ -226,9 +225,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,	
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,	
 	["food_onion"] = 1,
 	["shard_dust"] = 1
 }
@@ -245,9 +244,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,	
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,	
 	["food_apple"] = 1,
 	["shard_dust"] = 1
 }
@@ -264,9 +263,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,	
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,
 	["food_orange"] = 1,
 	["shard_dust"] = 1
 }
@@ -283,9 +282,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,	
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,
 	["food_lemon"] = 1,
 	["shard_dust"] = 1
 }
@@ -302,9 +301,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,
 	["food_banana"] = 1,
 	["shard_dust"] = 1
 }
@@ -321,9 +320,9 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 20,
-	["j_scrap_organic"] = 20,
-	["j_scrap_concrete"] = 5,
+	["j_scrap_plastics"] = 8,
+	["j_scrap_organic"] = 8,
+	["j_scrap_concrete"] = 3,
 	["food_melon"] = 1,
 	["shard_dust"] = 1
 }
@@ -340,14 +339,33 @@ RECIPE.model = "models/props_junk/terracotta01.mdl"
 RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 20,
-	["j_scrap_organic"] = 20,
-	["j_scrap_concrete"] = 5,
+	["j_scrap_plastics"] = 8,
+	["j_scrap_organic"] = 8,
+	["j_scrap_concrete"] = 3,
 	["food_pumpkin"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
 	["farm_pumpkin"] = 1
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_farm_cactus"
+RECIPE.name = "Farm - Cactus"
+RECIPE.category = "Farms"
+RECIPE.model = "models/props_junk/terracotta01.mdl"
+RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
+ 
+RECIPE.items = {
+	["j_scrap_plastics"] = 5,
+	["j_scrap_organic"] = 5,
+	["j_scrap_concrete"] = 2,
+	["j_cactus_plant"] = 1,
+	["shard_dust"] = 1
+}
+RECIPE.result = {
+	["farm_cactus"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -359,10 +377,10 @@ RECIPE.model = "models/props_junk/harpoon002a.mdl"
 RECIPE.desc = "A pole with a line and a reel attached to it."
  
 RECIPE.items = {
-	["j_scrap_cloth"] = 5,
-	["j_scrap_wood"] = 10,
-	["j_scrap_metals"] = 5,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_cloth"] = 2,
+	["j_scrap_wood"] = 5,
+	["j_scrap_metals"] = 3,
+	["j_scrap_adhesive"] = 1,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -378,10 +396,10 @@ RECIPE.model = "models/props_c17/trappropeller_engine.mdl"
 RECIPE.desc = "A large metallic object, it seems to have a chip slot and a circular hole."
  
 RECIPE.items = {
-	["hl2_m_pipe"] = 4,
-	["j_scrap_plastics"] = 10,
-	["j_scrap_metals"] = 10,
-	["j_scrap_adhesive"] = 2,
+	["hl2_m_pipe"] = 2,
+	["j_scrap_plastics"] = 5,
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1,
 	["cube_chip_enhanced"] = 1
 }
 RECIPE.result = {
@@ -397,8 +415,8 @@ RECIPE.model = "models/props_junk/garbage_metalcan001a.mdl"
 RECIPE.desc = "???"
  
 RECIPE.items = {
-	["food_yams"] = 4,
-	["j_scrap_memory"] = 1
+	["food_yams"] = 1,
+	["j_scrap_memory"] = 10
 }
 RECIPE.result = {
 	["food_yams_mysterious"] = 1
@@ -413,11 +431,9 @@ RECIPE.model = "models/props_c17/suitcase_passenger_physics.mdl"
 RECIPE.desc = "A strange metallic device. It appears to be vibrating slightly."
  
 RECIPE.items = {
-	["blight"] = 5,
-	["hl2_m_wrench"] = 1,
-	["j_drill"] = 1,
-	["j_power_saw"] = 1,
-	["hl2_m_hammer"] = 1
+	["blight"] = 2,
+	["j_scrap_memory"] = 5,
+	["j_scrap_metals"] = 10,
 }
 RECIPE.result = {
 	["kit_salvager"] = 1
@@ -432,8 +448,8 @@ RECIPE.model = "models/warz/melee/hammer.mdl"
 RECIPE.desc = "A tool used to apply blunt force."
  
 RECIPE.items = {
-	["j_scrap_metals"] = 10,
-	["j_scrap_wood"] = 10
+	["j_scrap_metals"] = 5,
+	["j_scrap_wood"] = 5
 }
 RECIPE.result = {
 	["hl2_m_hammer"] = 1
@@ -448,7 +464,7 @@ RECIPE.model = "models/warz/melee/wrench.mdl"
 RECIPE.desc = "A useful metal tool."
  
 RECIPE.items = {
-	["j_scrap_metals"] = 15
+	["j_scrap_metals"] = 8
 }
 RECIPE.result = {
 	["hl2_m_wrench"] = 1
@@ -463,12 +479,11 @@ RECIPE.model = "models/props_combine/combine_mine01.mdl"
 RECIPE.desc = "A strange contraption, it seems to have some kind of small opening in the middle. Its center is raised above the ground slightly, and underneath it there is another small opening."
  
 RECIPE.items = {
-	["j_scrap_screws"] = 10,
-	["j_scrap_adhesive"] = 10,
-	["j_scrap_chems"] = 6,
-	["j_scrap_metals"] = 25,
-	["j_scrap_plastics"] = 25,
-	["cube_chip_enhanced"] = 1
+	["j_scrap_screws"] = 4,
+	["j_scrap_adhesive"] = 2,
+	["j_scrap_chems"] = 1,
+	["j_scrap_metals"] = 12,
+	["cube_chip"] = 4
 }
 RECIPE.result = {
 	["generator_chip"] = 1
@@ -513,8 +528,8 @@ RECIPE.model = "models/hunter/blocks/cube05x05x05.mdl"
 RECIPE.desc = "A device capable of turning plastic food into regular food."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 25,
-	["j_scrap_concrete"] = 10,
+	["j_scrap_plastics"] = 12,
+	["j_scrap_concrete"] = 5,
 	["shard_dust"] = 1
 }
 RECIPE.result = {
@@ -530,7 +545,7 @@ RECIPE.model = "models/Gibs/HGIBS.mdl"
 RECIPE.desc = "???"
  
 RECIPE.items = {
-	["blight"] = 10,
+	["blight"] = 5,
 	["j_skull"] = 1
 }
 RECIPE.result = {
@@ -546,10 +561,10 @@ RECIPE.model = "models/gibs/shield_scanner_gib1.mdl"
 RECIPE.desc = "A device that allows you to send a simple signal to others far away."
  
 RECIPE.items = {
-	["j_scrap_elecs"] = 6,
-	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 3,
+	["j_scrap_metals"] = 5,
 	["j_scrap_adhesive"] = 1,
-	["j_scrap_screws"] = 2
+	["j_scrap_screws"] = 1
 }
 RECIPE.result = {
 	["comm_signal"] = 1
@@ -564,7 +579,7 @@ RECIPE.model = "models/Gibs/hgibs.mdl"
 RECIPE.desc = "A skull made out of other bones."
  
 RECIPE.items = {
-	["j_scrap_bone"] = 15
+	["j_scrap_bone"] = 5
 }
 RECIPE.result = {
 	["j_skull"] = 1
@@ -579,7 +594,7 @@ RECIPE.model = "models/props_debris/wood_board04a.mdl"
 RECIPE.desc = "A nice chunk of wood."
  
 RECIPE.items = {
-	["j_scrap_wood"] = 10
+	["j_scrap_wood"] = 5
 }
 RECIPE.result = {
 	["hl2_m_plank"] = 1
@@ -594,8 +609,8 @@ RECIPE.model = "models/props_junk/gascan001a.mdl"
 RECIPE.desc = "A can of fuel for anything that needs to be fueled."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 12,
-	["cube_chip"] = 4
+	["j_scrap_chems"] = 5,
+	["cube_chip"] = 1
 }
 RECIPE.result = {
 	["j_fuel"] = 1
@@ -610,29 +625,13 @@ RECIPE.model = "models/Items/item_item_crate.mdl"
 RECIPE.desc = "???"
  
 RECIPE.items = {
-	["cube_chip"] = 5,
+	["cube_chip"] = 3,
 	["cube_chip_enhanced"] = 1,
-	["j_scrap_wood"] = 15,
-	["j_scrap_metals"] = 15
+	["j_scrap_wood"] = 10,
+	["j_scrap_metals"] = 10,
 }
 RECIPE.result = {
 	["mystery_box"] = 1
-}
-RECIPES:Register( RECIPE )
-//
-RECIPE = {}
-RECIPE.uid = "nut_ammo_battery"
-RECIPE.name = "Charged Battery"
-RECIPE.category = "Ammunition"
-RECIPE.model = "models/items/battery.mdl"
-RECIPE.desc = "A single, seemingly enhanced battery."
- 
-RECIPE.items = {
-	["j_scrap_battery"] = 4,
-	["cube_chip"] = 2
-}
-RECIPE.result = {
-	["ammo_battery"] = 1
 }
 RECIPES:Register( RECIPE )
 //
@@ -659,10 +658,10 @@ RECIPE.model = "models/warz/melee/powerdrill.mdl"
 RECIPE.desc = "An electric drill. (This is not a weapon.)"
  
 RECIPE.items = {
-	["j_scrap_metals"] = 5,
-	["j_scrap_plastics"] = 5,
-	["j_scrap_elecs"] = 3,
-	["j_scrap_chems"] = 2
+	["j_scrap_metals"] = 3,
+	["j_scrap_plastics"] = 3,
+	["j_scrap_elecs"] = 2,
+	["j_scrap_screws"] = 2,
 }
 RECIPE.result = {
 	["j_drill"] = 1
@@ -677,10 +676,10 @@ RECIPE.model = "models/props/cs_militia/circularsaw01.mdl"
 RECIPE.desc = "An electric saw, it won't work without electricity. (This is not a weapon.)"
  
 RECIPE.items = {
-	["j_scrap_metals"] = 10,
-	["j_scrap_plastics"] = 5,
-	["j_scrap_elecs"] = 4,
-	["j_scrap_chems"] = 2
+	["j_scrap_metals"] = 5,
+	["j_scrap_plastics"] = 3,
+	["j_scrap_elecs"] = 2,
+	["j_scrap_screws"] = 2
 }
 RECIPE.result = {
 	["j_power_saw"] = 1
@@ -705,25 +704,6 @@ RECIPE.result = {
 RECIPES:Register( RECIPE )
 //
 RECIPE = {}
-RECIPE.uid = "nut_farm_cactus"
-RECIPE.name = "Farm - Cactus"
-RECIPE.category = "Farms"
-RECIPE.model = "models/props_junk/terracotta01.mdl"
-RECIPE.desc = "A strange pot, the dirt in it gives off a dim light."
- 
-RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_organic"] = 10,
-	["j_scrap_concrete"] = 5,	
-	["j_cactus_plant"] = 1,
-	["shard_dust"] = 1
-}
-RECIPE.result = {
-	["farm_cactus"] = 1
-}
-RECIPES:Register( RECIPE )
-//
-RECIPE = {}
 RECIPE.uid = "nut_lightbulb"
 RECIPE.name = "Light Bulb"
 RECIPE.category = "Resources"
@@ -731,7 +711,7 @@ RECIPE.model = "models/props_lab/box01a.mdl"
 RECIPE.desc = "A bulb that creates light when hooked to a power source."
  
 RECIPE.items = {
-	["j_scrap_elecs"] = 2,
+	["j_scrap_elecs"] = 1,
 	["j_scrap_glass"] = 2
 }
 RECIPE.result = {
@@ -747,8 +727,8 @@ RECIPE.model = "models/warz/items/binocs.mdl"
 RECIPE.desc = "A pair of binoculars."
  
 RECIPE.items = {
-	["j_scrap_plastics"] = 10,
-	["j_scrap_glass"] = 15
+	["j_scrap_plastics"] = 5,
+	["j_scrap_glass"] = 5
 }
 RECIPE.result = {
 	["j_binoculars"] = 1
@@ -763,7 +743,7 @@ RECIPE.model = "models/props_lab/jar01b.mdl"
 RECIPE.desc = "???"
  
 RECIPE.items = {
-	["drug_sleepingpills"] = 4,
+	["drug_sleepingpills"] = 2,
 	["j_scrap_memory"] = 5
 }
 RECIPE.result = {
@@ -779,7 +759,7 @@ RECIPE.model = "models/props_trainstation/handrail_64decoration001a.mdl"
 RECIPE.desc = "???"
  
 RECIPE.items = {
-	["sacrificial_skull"] = 4,
+	["sacrificial_skull"] = 2,
 	["j_scrap_memory"] = 10
 }
 RECIPE.result = {
@@ -810,7 +790,7 @@ RECIPE.model = "models/props_interiors/pot01a.mdl"
 RECIPE.desc = "An empty teapot."
  
 RECIPE.items = {
-	["j_scrap_metals"] = 5
+	["j_scrap_metals"] = 3
 }
 RECIPE.result = {
 	["j_empty_teapot"] = 1
@@ -825,8 +805,8 @@ RECIPE.model = "models/warz/items/syringe.mdl"
 RECIPE.desc = "A simple pump consisting of a plunger that fits tightly in a tube."
  
 RECIPE.items = {
-	["j_scrap_glass"] = 4,
-	["j_scrap_rubber"] = 2
+	["j_scrap_glass"] = 3,
+	["j_scrap_rubber"] = 1
 }
 RECIPE.result = {
 	["j_syringe"] = 1
@@ -841,12 +821,13 @@ RECIPE.model = "models/props_junk/metal_paintcan001a.mdl"
 RECIPE.desc = "A can filled with paint."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 4
+	["j_scrap_chems"] = 2
 }
 RECIPE.result = {
 	["j_paint_can"] = 1
 }
 RECIPES:Register( RECIPE )
+//
 local RECIPE = {}
 RECIPE.uid = "nut_bleach"
 RECIPE.name = "Bleach"
@@ -855,8 +836,8 @@ RECIPE.model = "models/props_junk/garbage_plasticbottle001a.mdl"
 RECIPE.desc = "Cleaning solution often used for disinfecting surfaces."
 
 RECIPE.items = {
-	["j_scrap_chems"] = 3,
-	["j_scrap_plastics"] = 4,
+	["j_scrap_chems"] = 2,
+	["j_scrap_plastics"] = 1,
 }
 RECIPE.result = {
 	["bleach"] = 1

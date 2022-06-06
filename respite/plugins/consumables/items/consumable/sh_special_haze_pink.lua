@@ -58,6 +58,40 @@ ITEM.craft = {
 	},
 }
 
+ITEM.effect = {
+	colorMod = {
+		[ "$pp_colour_addr" ] = 0.1,
+		[ "$pp_colour_addg" ] = 0.05,
+		[ "$pp_colour_addb" ] = 0.05,
+		[ "$pp_colour_brightness" ] = 0.1,
+		[ "$pp_colour_contrast" ] = 3,
+		[ "$pp_colour_colour" ] = 3,
+		[ "$pp_colour_mulr" ] = 1,
+		[ "$pp_colour_mulg" ] = 0.8,
+		[ "$pp_colour_mulb" ] = 0.8
+	},
+	
+	bloom = {
+		darken = 0.7,
+		mult = 0.2,
+		sizeX = 9,
+		sizeY = 9,
+		passes = 1,
+		colorMult = 1,
+		r = 1,
+		g = 0.8,
+		b = 0.8
+	},
+	
+	motionblur = {
+		addAlpha = 0.4,
+		drawAlpha = 0.8,
+		delay = 0.01,
+	},
+	
+	duration = 30,
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

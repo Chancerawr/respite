@@ -7,6 +7,8 @@ ENT.AdminOnly = true
 
 ENT.model = "models/sient hill custom/Homecoming/smog.mdl"
 
+ENT.AttackAnim = "Attack"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 4,

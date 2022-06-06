@@ -28,7 +28,7 @@ end
 
 function ENT:Explosion()
  	--util.BlastDamage( self.Entity, self.Entity:GetOwner(), self.Entity:GetPos(), 20, 10 )
-	/*
+	--[[
 	local explo = ents.Create( "env_explosion" )
 		explo:SetOwner( self.Owner )
 		explo:SetPos( self.Entity:GetPos() )
@@ -37,7 +37,7 @@ function ENT:Explosion()
 		explo:Spawn()
 		explo:Activate()
 		explo:Fire( "Explode", "", 0 )
-	*/
+	--]]
 	
 	for i=1, 5 do
 		local fire = ents.Create( "env_fire" )
@@ -90,6 +90,9 @@ function ENT:Explosion()
 			v:Ignite(10, 5)
 		end
 	end
+	
+	nut.item.spawn("hl2_m_brokenbottle", self:GetPos())
+	nut.item.spawn("j_scrap_glass", self:GetPos())
 end
 
 

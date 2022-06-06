@@ -235,7 +235,12 @@ if(SERVER) then
 			else --normal crafting
 				for k, v in pairs(itemTable.result) do
 					local inventory = client:getChar():getInv()
-					inventory:addSmart(k, v, client:getItemDropPos())
+					
+					if(itemTable.stackedResults) then
+						inventory:addSmart(k, 1, client:getItemDropPos(), {Amount = v, ammo = v})
+					else
+						inventory:addSmart(k, v, client:getItemDropPos())
+					end
 				end
 			end
 			
@@ -436,7 +441,68 @@ else
 										end
 									end
 								end
-								icon:SetToolTip(text) -- should be fixed.
+								icon:SetToolTip(text)
+								
+								function icon:OnCursorEntered()
+									if(icon.recipeDesc) then
+										icon.recipeDesc:Remove()
+									end
+								
+									icon.recipeDesc = self:Add("DTextEntry")
+									icon.recipeDesc:SetSize(320, 100)
+									icon.recipeDesc:SetText("")
+									
+									local recipeDescPosX = icon:GetX() + icon:GetWide()
+									--[[
+									if(skillDescPosX > frame:GetWide()*0.55) then
+										skillDescPosX = button:GetX() - button.recipeDesc:GetWide()
+									end
+									--]]
+									
+									icon.recipeDesc:SetPos(recipeDescPosX, icon:GetY())
+									
+									function icon.recipeDesc:Paint(w, h)
+										--inner box of tooltip
+										surface.SetDrawColor(0, 0, 0, 255)
+										surface.DrawRect(0, 0, w, h)
+									
+										--outline of skill desc
+										surface.SetDrawColor(255, 255, 255, 255)
+										surface.DrawOutlinedRect(0, 0, w, h, 1)
+										
+										--[[
+										if(ability.name) then
+											local learned
+											if(treeLevel >= k) then
+												learned = "Learned"
+											else
+												learned = "Unlearned"
+											end
+										
+											local abilityName = ability.name.. " (" ..learned.. ")"
+										
+											draw.DrawText(abilityName, "DermaDefault", w/2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
+										end
+										--]]
+										
+										if(text) then
+											local descLines = nut.util.wrapText(text, 250, "DermaDefault")
+										
+											for lineIt, line in pairs(descLines) do
+												draw.DrawText(line, "DermaDefault", 5, 4 + 12 * lineIt, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT)
+											end
+										end
+										--]]
+									end
+									
+									icon.recipeDesc:MoveToFront()
+								end
+								
+								function icon:OnCursorExited()
+									if(IsValid(icon.skillDesc)) then
+										icon.recipeDesc:Remove()
+									end
+								end
 								
 								icon.DoClick = function(panel)
 									if(itemTable.special) then

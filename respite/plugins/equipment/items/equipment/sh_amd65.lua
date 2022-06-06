@@ -3,9 +3,9 @@ ITEM.desc = "A Hungarian produced paratrooper carbine based heavily upon the AKM
 ITEM.model = "models/weapons/tfa_w_amd_65.mdl"
 ITEM.class = "tfa_amd65"
 ITEM.slot = "primary"
-ITEM.width = 4
-ITEM.price = 0
+ITEM.width = 3
 ITEM.height = 2
+ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
 

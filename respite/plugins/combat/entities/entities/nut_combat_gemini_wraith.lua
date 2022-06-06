@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/gemini.mdl"
 ENT.material = "models/props_lab/security_screens"
 
+ENT.AttackAnim = "Bite"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 20,

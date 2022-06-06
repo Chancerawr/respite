@@ -1,5 +1,6 @@
 ITEM.name = "Flare - Yellow"
 ITEM.model = "models/items/grenadeammo.mdl"
+ITEM.material = "phoenix_storms/top"
 ITEM.desc = "A flare that emits a bright yellow light."
 ITEM.class = "tfa_fl_y"
 ITEM.uniqueID = "nut_flare_y"

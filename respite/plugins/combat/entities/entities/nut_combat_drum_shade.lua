@@ -6,6 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombineplayer.mdl"
+
+ENT.AttackAnim = "AttackC"
+
 ENT.color = Color(0,0,0)
 
 --all attributes

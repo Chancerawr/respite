@@ -243,6 +243,11 @@ nut.command.add("spawnitem", {
 	adminOnly = true,
 	syntax = "<string item> <number amount>",
 	onRun = function(client, arguments)
+		if(!arguments[1]) then 
+			client:notify("No item specified.")
+			return false
+		end
+	
 		if(IsValid(client)) then
 			local uniqueID = arguments[1]:lower()
 
@@ -256,10 +261,10 @@ nut.command.add("spawnitem", {
 				end
 			end
 
-            local aimPos = client:GetEyeTraceNoCursor().HitPos 
-            aimPos:Add(Vector(0, 0, 10))  
-
 			if(nut.item.list[uniqueID]) then
+				local aimPos = client:GetEyeTraceNoCursor().HitPos 
+				aimPos:Add(Vector(0, 0, 10))  
+			
 				local amount = math.min(tonumber(arguments[2]) or 1, 10)
 			
 				for i = 1, amount do

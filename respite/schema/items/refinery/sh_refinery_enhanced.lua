@@ -1,4 +1,4 @@
-ITEM.name = "Refinery - Enhanced Chips"
+ITEM.name = "Refinery - Distorted Chips"
 ITEM.uniqueID = "refinery_enhanced"
 ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.desc = "A strange metal box, It has a large slot that is labelled 'MEMORIES', another slot labelled 'SHARD DUST', and a small output slot labelled 'ENHANCED CHIP'."
@@ -6,14 +6,14 @@ ITEM.desc = "A strange metal box, It has a large slot that is labelled 'MEMORIES
 ITEM.funcTable = {
 	{
 		id = "chip",
-		name = "Enhanced Chip",
+		name = "Distorted Chip",
 		icon = "icon16/cog.png",
 		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
 		--endString = "The machine accepts the materials and outputs adhesive."
 		required = {
-			["j_scrap_memory"] = 10,
-			["j_scrap_idea"] = 1,
+			["distortion"] = 3,
+			["cube_chip"] = 1,
 		},	
 		
 		results = {

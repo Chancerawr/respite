@@ -10,6 +10,27 @@ ENT.name = "Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.WalkAnim = "walk_all"
+ENT.RunAnim = "run_all_01"
+
+ENT.models = {
+	"models/player/group03/female_01.mdl",
+	"models/player/group03/female_02.mdl",
+	"models/player/group03/female_03.mdl",
+	"models/player/group03/female_04.mdl",
+	"models/player/group03/female_05.mdl",
+	"models/player/group03/female_06.mdl",
+	"models/player/group03/male_01.mdl",
+	"models/player/group03/male_02.mdl",
+	"models/player/group03/male_03.mdl",
+	"models/player/group03/male_04.mdl",
+	"models/player/group03/male_05.mdl",
+	"models/player/group03/male_06.mdl",
+	"models/player/group03/male_07.mdl",
+	"models/player/group03/male_08.mdl",
+	"models/player/group03/male_09.mdl",
+}
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,

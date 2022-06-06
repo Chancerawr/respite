@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.material = "models/alyx/emptool_glow"
+
+ENT.AttackAnim = "Melee"
+
 ENT.color = Color(128,0,0)
 
 --all attributes
@@ -60,16 +63,8 @@ function ENT:Initialize()
 	self:basicSetup()
 end
 
-function ENT:Think()
-	if(SERVER) then
-		if(!self:IsPlayerHolding()) then
-			local physObj = self:GetPhysicsObject()
-			
-			if(!physObj:IsAsleep()) then
-				physObj:Sleep()
-			end
-		end
-	else
+function ENT:CustomThink()
+	if(CLIENT) then
 		local pos = self:GetPos() + self:GetUp()
 		local dlight = DynamicLight(self:EntIndex())
 		dlight.Pos = pos

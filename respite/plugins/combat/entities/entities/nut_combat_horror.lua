@@ -6,6 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/horror/zm_f4zt.mdl"
+
+ENT.AttackAnim = "Melee"
+
 ENT.color = Color(0, 0, 0)
 
 --all attributes

@@ -75,6 +75,8 @@ ACT.effects = {
 		duration = 1,
 		strength = 1,
 		
+		accuracy = -15,
+		
 		debuff = true,
 	}
 }

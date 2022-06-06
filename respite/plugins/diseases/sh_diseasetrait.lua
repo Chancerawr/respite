@@ -296,7 +296,7 @@ DISEASE.uid = "trait_lunatic"
 DISEASE.name = "Lunatic"
 DISEASE.desc = "Bark at the moon."
 DISEASE.category = "Trait"
-DISEASE.unpurgeable = true
+DISEASE.unpurgeable = false
 DISEASE.symptoms = {
 	{
 		text = {

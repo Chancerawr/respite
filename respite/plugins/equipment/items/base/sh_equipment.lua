@@ -405,6 +405,32 @@ ITEM.functions.CustomAtr = {
 	end
 }
 
+ITEM.functions.Clone = {
+	name = "Clone",
+	tip = "Clone this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player	
+	
+		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
+			local inventory = client:getChar():getInv()
+			local data = item.data
+			data.x = nil
+			data.y = nil
+			data.equip = nil
+
+			if(!inventory:add(item.uniqueID, 1, data)) then
+				client:notify("Inventory is full")
+			end
+		end)
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
 -- On item is dropped, Remove a weapon from the player and keep the ammo in the item.
 ITEM:hook("drop", function(item)
 	if (item:getData("equip")) then

@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
 ENT.material = "models/props_combine/tpballglow"
 
+ENT.AttackAnim = "Attack2"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

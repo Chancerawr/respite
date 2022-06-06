@@ -7,6 +7,8 @@ ENT.AdminOnly = true
 
 ENT.model = "models/ninja/signalvariance/monsters/chimera.mdl"
 
+ENT.AttackAnim = "Attack1"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 12,

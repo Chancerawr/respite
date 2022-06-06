@@ -10,6 +10,8 @@ ENT.name = "Burning Hunter"
 ENT.model = "models/sin/leperkin.mdl"
 ENT.material = "models/effects/splode1_sheet"
 
+ENT.AttackAnim = "Melee"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

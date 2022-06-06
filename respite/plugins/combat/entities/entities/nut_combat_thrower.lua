@@ -9,6 +9,11 @@ ENT.model = "models/player/zombie_fast.mdl"
 ENT.material = "models/flesh"
 ENT.color = Color(155, 255, 155)
 
+ENT.IdleAnim = "Zombie Idle 01"
+ENT.WalkAnim = "Zombie Walk 01"
+ENT.RunAnim = "Zombie Walk 01"
+ENT.AttackAnim = "Zombie Attack 06 Original"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,

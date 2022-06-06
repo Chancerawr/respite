@@ -26,7 +26,7 @@ ITEM.scaling = {
 }
 
 ITEM.salvage = {
-	["j_scrap_metals"] = 4
+	["j_scrap_metals"] = 3
 }
 
 ITEM.iconCam = {

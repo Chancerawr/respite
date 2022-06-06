@@ -5,8 +5,11 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/spite/freak01.mdl"
 ENT.name = "Deformed"
+
+ENT.model = "models/spite/freak01.mdl"
+
+ENT.AttackAnim = "Attack"
 
 --all attributes
 ENT.attribs = {

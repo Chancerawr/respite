@@ -300,6 +300,74 @@ local funcTableC = {
 			["b1"] = true,
 		}
 	},
+	["metal"] = {
+		name = "Salvage Metals",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "You begin to imagine plastics taking apart a scrap vehicle.",
+		endString = "Your plastics have dissassembled a scrap vehicle.",
+		prodMult = 1,
+		results = {
+			items = {
+				["j_scrap_metals"] = 1
+			}
+		},
+		dev = {
+			["b_m"] = true,
+		}
+	},
+	["plastic"] = {
+		name = "Collect Plastics (Material)",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "You imagine your plastics slowly processing plastic dust.",
+		endString = "You can clearly see a hardened chunk of plastic.",
+		prodMult = 1,
+		results = {
+			items = {
+				["j_scrap_plastics"] = 1
+			}
+		},
+		dev = {
+			["b_p"] = true,
+		}
+	},
+	["tablet"] = {
+		name = "Create Purification Tablet",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "You imagine a vague object, one that can purify filth.",
+		endString = "You can clearly imagine a small tablet, capable of purifying.",
+		prodMult = 1,
+		results = {
+			items = {
+				["purifier_water_tablet"] = 1
+			}
+		},
+		dev = {
+			["b_w"] = true,
+		}
+	},
+	["chip"] = {
+		name = "Generate Chip",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "You imagine a rotating device, it is producing something.",
+		endString = "You can clearly imagine a chip generator, it has finished generating.",
+		prodMult = 1,
+		results = {
+			items = {
+				["cube_chip"] = 1
+			}
+		},
+		dev = {
+			["b_c"] = true,
+		}
+	},
 	["weather"] = {
 		name = "Weather",
 		sound = function(client)
@@ -443,22 +511,108 @@ local funcTableD = {
 			["b1"] = true,
 		}		
 	},
-	["b3"] = {
-		name = "Outposts",
+	["b4"] = {
+		name = "Industry",
 		sound = function(client)
 			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
 		end,
-		startString = "Images of numerous wooden towers fill your mind, they are blurry and hard to focus on.",
-		endString = "You can clearly picture a perimeter of wooden outposts.",
+		startString = "Images of vague figures bustling around fill your mind.",
+		endString = "You can clearly picture many plastics going about their business, working hard.",
 		prodMult = 1,
 		required = {
+			units = 3,
+		
 			resources = {
-				["mem"] = 40,
+				["mem"] = 20,
+				["chip"] = 10,
 			}
 		},
 		dev = {
-			["b2"] = true,
+			["b1"] = true,
 		}		
+	},
+	["b_w"] = {
+		name = "Water Purification",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Images of dark, murky water fill your mind.",
+		endString = "You clearly see fresh and clean water in your thoughts.",
+		prodMult = 1,
+		required = {
+			units = 5,
+		
+			resources = {
+				["dream"] = 1,
+				["mem"] = 20,
+				["chip"] = 10,
+			}
+		},
+		dev = {
+			["b4"] = true,
+		}		
+	},
+	["b_c"] = {
+		name = "Chip Generator",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Images of dark, murky water fill your mind.",
+		endString = "You clearly see fresh and clean water in your thoughts.",
+		prodMult = 1,
+		required = {
+			units = 5,
+		
+			resources = {
+				["dream"] = 1,
+				["chip"] = 50,
+			}
+		},
+		dev = {
+			["b4"] = true,
+		}
+	},
+	["b_m"] = {
+		name = "Metal Salvaging Station",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Images of scrap cars, ruined buildings, and junkyards are vague in your mind.",
+		endString = "You clearly imagine scrap parts and other junk being processed into new, useful materials.",
+		prodMult = 1,
+		required = {
+			units = 5,
+		
+			resources = {
+				["dream"] = 1,
+				["mem"] = 20,
+				["chip"] = 10,
+			}
+		},
+		dev = {
+			["b4"] = true,
+		}
+	},
+	["b_p"] = {
+		name = "Plastic Collection Station",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Images of your hard working plastics vaguely fill your mind.",
+		endString = "You can clearly imagine your plastic workers carefully preserving excess plastic from themselves.",
+		prodMult = 1,
+		required = {
+			units = 10,
+		
+			resources = {
+				["dream"] = 1,
+				["mem"] = 10,
+				["chip"] = 10,
+			}
+		},
+		dev = {
+			["b4"] = true,
+		}
 	},
 	["ca"] = {
 		name = "Caves",
@@ -540,6 +694,7 @@ local funcTableD = {
 			units = 20,
 			
 			resources = {
+				["chip_ic"] = 1,
 				["mem"] = 100,
 				["ich"] = 50,
 			},
@@ -560,8 +715,30 @@ local funcTableD = {
 			units = 20,
 			
 			resources = {
+				["chip_b"] = 1,
 				["mem"] = 100,
 				["bli"] = 50,
+			},
+		},
+		dev = {
+			["st"] = true,
+		}
+	},
+	["pres"] = {
+		name = "Present",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 65, 70)
+		end,
+		startString = "Your present is blurry, you don't know what surrounds you.",
+		endString = "Your present is clear, you know what lies around you.",
+		prodMult = 3,
+		required = {
+			units = 20,
+			
+			resources = {
+				["chip_s"] = 1,
+				["mem"] = 100,
+				["sha"] = 5,
 			},
 		},
 		dev = {
@@ -601,7 +778,7 @@ ITEM.funcTableA = {
 		absorb = "j_scrap_plastics",
 	},
 	["chip_e"] = {
-		name = "Enhanced Chips",
+		name = "Distorted Chips",
 		sound = function(client)
 			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
 		end,
@@ -613,6 +790,27 @@ ITEM.funcTableA = {
 			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
 		end,
 		absorb = "cube_chip_memory",
+	},
+	["chip_b"] = {
+		name = "Mind Sigils",
+		sound = function(client)
+			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
+		end,
+		absorb = "cube_chip_blight",
+	},
+	["chip_ic"] = {
+		name = "Soul Marks",
+		sound = function(client)
+			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
+		end,
+		absorb = "cube_chip_ichor",
+	},
+	["chip_s"] = {
+		name = "Flesh Icons",
+		sound = function(client)
+			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
+		end,
+		absorb = "cube_chip_shard",
 	},
 	["ich"] = {
 		name = "Ichor",
@@ -627,6 +825,20 @@ ITEM.funcTableA = {
 			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
 		end,
 		absorb = "j_scrap_memory",
+	},
+	["dream"] = {
+		name = "Dreams",
+		sound = function(client)
+			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
+		end,
+		absorb = "j_scrap_dream",
+	},
+	["dist"] = {
+		name = "Distortion",
+		sound = function(client)
+			client:EmitSound("ambient/levels/citadel/portal_beam_shoot"..math.random(1,6)..".wav", 65, 80)
+		end,
+		absorb = "distortion",
 	},
 }
 
@@ -834,17 +1046,17 @@ function ITEM:getDesc()
 	if(units and istable(units)) then
 		str = str.."\n\n"
 		if(units.w) then
-			str = str.. " Workers:" ..units.w
+			str = str.. " Workers: " ..units.w
 		end
 		
 		if(units.f) then
 			str = str.."\n"
-			str = str.. " Fighters:" ..units.f
+			str = str.. " Fighters: " ..units.f
 		end
 		
 		if(units.c) then
 			str = str.."\n"
-			str = str.. " Cats:" ..units.c
+			str = str.. " Cats: " ..units.c
 		end
 	end
 	
@@ -915,6 +1127,21 @@ if(CLIENT) then
 		["mem"] = "Memories",
 		["ich"] = "Ichor",
 		["bli"] = "Blight",
+		["plas"] = "Plastic",
+		["chip"] = "Chip",
+		["dist"] = "Distortion",
+		["dream"] = "Dream",
+		["ich"] = "Ichor",
+		["chip_s"] = "Flesh Icon",
+		["chip_i"] = "Intrinsic Symbol",
+		["chip_ic"] = "Soul Marks",
+		["chip_b"] = "Mind Sigils",
+		["chip_e"] = "Distorted Chips",
+		["sha"] = "Shard",
+		
+		["units"] = "Units",
+		["workers"] = "Workers",
+		["fighters"] = "Fighters",
 	}
 
 	netstream.Hook("respMenu", function(item, actions)
@@ -1065,7 +1292,7 @@ else
 			end
 			
 			if(reqTbl.resources) then
-				local absorbed = item:getData("abs", {})
+				local absorbed = table.Copy(item:getData("abs", {}))
 				
 				local success = true
 				for k, v in pairs(reqTbl.resources) do
@@ -1074,6 +1301,7 @@ else
 					if(resource >= v) then
 						absorbed[k] = resource - v
 					else
+						success = false
 						client:notify("You do not have the required resources absorbed.")
 						return false
 					end

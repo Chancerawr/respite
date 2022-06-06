@@ -361,7 +361,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 					continue
 				end
 
-				if (!client:Alive()) then
+				if (!client:Alive() or client:InVehicle()) then
 					if (client.flash and client.flash.Remove) then
 						client.flash:Remove()
 					end

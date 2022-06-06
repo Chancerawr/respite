@@ -3,9 +3,9 @@ ITEM.desc = "A bullpup assault rifle of Austrian design, featuring an average de
 ITEM.model = "models/weapons/tfa_w_auga3.mdl"
 ITEM.class = "tfa_auga3"
 ITEM.slot = "primary"
-ITEM.width = 4
+ITEM.width = 3
+ITEM.height = 1
 ITEM.price = 0
-ITEM.height = 2
 ITEM.category = "Weapons - Rifles"
 
 ITEM.rarity = 10

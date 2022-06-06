@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
 ENT.material = "models/angelsaur/ghosts/shadow"
 
+ENT.AttackAnim = "Attack1"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 6,

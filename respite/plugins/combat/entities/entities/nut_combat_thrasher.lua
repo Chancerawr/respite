@@ -9,6 +9,8 @@ ENT.model = "models/_maz_ter_/deadspace/deadspacenecros/twitcher.mdl"
 ENT.material = "models/flesh"
 ENT.color = Color(150, 150, 150)
 
+ENT.AttackAnim = "Trasher_Attack01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 12,

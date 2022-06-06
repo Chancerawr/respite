@@ -40,12 +40,40 @@ function ENT:addHP(amount)
 	return new
 end
 
+function ENT:setHP(amount)
+	local new = math.Round(math.Clamp(amount, -1000, self:getMaxHP()), 2)
+	
+	self:setNetVar("hp", new)
+	
+	return new
+end
+
+function ENT:setMaxHP(amount)
+	self:setNetVar("hpMax", amount)
+	
+	return amount
+end
+
 function ENT:addMP(amount)
 	local new = math.Round(math.Clamp(self:getMP() + amount, -1000, self:getMaxMP()), 2)
 	
 	self:setNetVar("mp", new)
 	
 	return new
+end
+
+function ENT:setMP(amount)
+	local new = math.Round(math.Clamp(amount, -1000, self:getMaxMP()), 2)
+	
+	self:setNetVar("mp", new)
+	
+	return new
+end
+
+function ENT:setMaxMP(amount)
+	self:setNetVar("mpMax", amount)
+	
+	return amount
 end
 
 -- Exists for ocnvenience

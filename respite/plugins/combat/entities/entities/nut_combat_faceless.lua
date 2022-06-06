@@ -7,6 +7,8 @@ ENT.AdminOnly = true
 
 ENT.model = "models/cryoffear/faceless/faceless3.mdl"
 
+ENT.AttackAnim = "Attack1"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

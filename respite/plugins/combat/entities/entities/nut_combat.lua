@@ -384,6 +384,31 @@ function ENT:turnProcess(turn, you)
 	end
 end
 
+--adds a weapon model to a CEnt's hands
+function ENT:EquipWeapon(modelPath, materialPath)
+	if(IsValid(self.weapon)) then 
+		SafeRemoveEntity(self.weapon)
+	end
+
+	self.WeaponMount = self:LookupAttachment("anim_attachment_RH")
+	self.WeaponPosition = self:GetAttachment(self.WeaponMount)
+
+	self.weapon = ents.Create("prop_dynamic")
+	self.weapon:SetModel(modelPath)
+	
+	if(materialPath) then
+		self.weapon:SetModel(materialPath)
+	end
+	
+	self.weapon:Spawn()
+	self.weapon:SetParent(self, self.WeaponMount)
+	
+	self.weapon:SetMoveType(MOVETYPE_NONE)
+	self.weapon:SetLocalPos(Vector(0, 0, 0))
+	self.weapon:SetLocalAngles(Angle(0, 0, 0))
+	self.weapon:AddEffects(EF_BONEMERGE)
+end
+
 if (CLIENT) then
 	function ENT:Draw()
 		self:DrawModel()
@@ -401,10 +426,10 @@ if (CLIENT) then
 		--local position = toScreen(self:LocalToWorld(self, self:WorldSpaceCenter(self)) + TEXT_OFFSET)
 		local position = toScreen(self:WorldSpaceCenter(self))
 		local x, y = position.x, position.y
-		drawText(self:getNetVar("name", ""), x, y, colorAlpha(Color(190,50,50), alpha), 1, 1, nil, alpha * 0.65)
+		drawText(self:Name(), x, y, colorAlpha(Color(190,50,50), alpha), 1, 1, nil, alpha * 0.65)
 
-		if (self:getNetVar("desc")) then
-			drawText(self:getNetVar("desc"), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
+		if (self:Desc()) then
+			drawText(self:Desc(), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 		end
 	end
 end

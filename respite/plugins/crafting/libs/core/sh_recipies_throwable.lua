@@ -10,9 +10,9 @@ RECIPE.model = "models/items/grenadeammo.mdl"
 RECIPE.desc = "A makeshift bomb that creates a large shockwave from its detonation area. Generally non-lethal, but typically stunning and disorienting, capable of knocking down most drifters and even fairly large creatures."
  
 RECIPE.items = {
-	["ichor"] = 4,
-	["blight"] = 4,
-	["j_scrap_metals"] = 10,
+	["ichor"] = 1,
+	["blight"] = 1,
+	["j_scrap_metals"] = 5,
 }
 RECIPE.result = {
 	["tfa_yinyang"] = 1
@@ -28,7 +28,7 @@ RECIPE.desc = "A makeshift shrapnel bomb that uses nails and other sharp pieces 
  
 RECIPE.items = {
 	["j_scrap_nails"] = 1,
-	["j_scrap_metals"] = 10,
+	["j_scrap_metals"] = 5,
 	["j_scrap_chems"] = 1,
 }
 RECIPE.result = {
@@ -44,9 +44,9 @@ RECIPE.model = "models/Items/grenadeammo.mdl"
 RECIPE.desc = "A haze grenade that disorients those caught in its fumes."
  
 RECIPE.items = {
-	["haze_bottled"] = 2,
-	["j_scrap_metals"] = 10,
-	["cube_chip"] = 5
+	["haze_bottled"] = 1,
+	["j_scrap_metals"] = 5,
+	["cube_chip"] = 2
 }
 RECIPE.result = {
 	["nut_haze"] = 1
@@ -61,9 +61,9 @@ RECIPE.model = "models/props_junk/garbage_glassbottle003a.mdl"
 RECIPE.desc = "A molotov cocktail."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 2,
+	["j_scrap_chems"] = 1,
 	["j_scrap_glass"] = 2,
-	["j_scrap_cloth"] = 2
+	["j_scrap_cloth"] = 1
 }
 RECIPE.result = {
 	["molotov"] = 1
@@ -78,10 +78,8 @@ RECIPE.model = "models/Items/grenadeammo.mdl"
 RECIPE.desc = "A red beacon used for signalling or illumination."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 1,
-	["j_scrap_metals"] = 10,
-	["j_scrap_adhesive"] = 1,
-	["j_scrap_screws"] = 2
+	["j_scrap_elecs"] = 1,
+	["j_scrap_metals"] = 5,
 }
 RECIPE.result = {
 	["nut_beacon"] = 1
@@ -96,9 +94,9 @@ RECIPE.model = "models/Items/grenadeAmmo.mdl"
 RECIPE.desc = "An explosive grenade."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 10,
-	["j_scrap_metals"] = 20,
-	["j_scrap_adhesive"] = 10,
+	["j_scrap_chems"] = 1,
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1,
 }
 RECIPE.result = {
 	["nut_explosivegrenade"] = 1
@@ -113,9 +111,9 @@ RECIPE.model = "models/Items/grenadeAmmo.mdl"
 RECIPE.desc = "A tear gas grenade."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 5,
-	["j_scrap_metals"] = 15,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_chems"] = 2,
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1,
 }
 RECIPE.result = {
 	["nut_teargas"] = 1
@@ -131,8 +129,8 @@ RECIPE.desc = "A smoke grenade."
  
 RECIPE.items = {
 	["j_scrap_chems"] = 1,
-	["j_scrap_metals"] = 8,
-	["j_scrap_adhesive"] = 2,
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1,
 }
 RECIPE.result = {
 	["nut_smokegrenade"] = 1
@@ -149,9 +147,9 @@ RECIPE.desc = "A grenade that will temporarily prevent all light from entering a
  
 RECIPE.items = {
 	["j_scrap_chems"] = 1,
-	["j_scrap_metals"] = 20,
-	["j_scrap_adhesive"] = 2,
-	["blight"] = 4
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1,
+	["blight"] = 2
 }
 RECIPE.result = {
 	["nut_darkgrenade"] = 1
@@ -166,9 +164,9 @@ RECIPE.model = "models/Items/grenadeAmmo.mdl"
 RECIPE.desc = "A grenade used for stunning and disorienting those affected."
  
 RECIPE.items = {
-	["j_scrap_chems"] = 2,
-	["j_scrap_metals"] = 20,
-	["j_scrap_adhesive"] = 2
+	["j_scrap_chems"] = 1,
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1
 }
 RECIPE.result = {
 	["nut_flashgrenade"] = 1
@@ -184,7 +182,7 @@ RECIPE.desc = "A flare."
  
 RECIPE.items = {
 	["j_scrap_chems"] = 1,
-	["j_scrap_metals"] = 10,
+	["j_scrap_metals"] = 5,
 	["j_scrap_adhesive"] = 1,
 }
 RECIPE.result = {

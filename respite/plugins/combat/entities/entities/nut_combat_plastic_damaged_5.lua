@@ -10,6 +10,9 @@ ENT.name = "Decrepit Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "models/props_buildings/destroyedbuilldingwall01a"
 
+ENT.WalkAnim = "walk_all"
+ENT.RunAnim = "run_all_01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,

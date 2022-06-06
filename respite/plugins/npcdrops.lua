@@ -173,7 +173,7 @@ if SERVER then
 			["nothing"] = 10,
 		},
 		["nz_jeffrey"] = {
-			["j_scrap_idea"] = 10,
+			["j_scrap_idea"] = 5,
 			["j_scrap_memory"] = 20,
 		},
 		["nz_leecher"] = {

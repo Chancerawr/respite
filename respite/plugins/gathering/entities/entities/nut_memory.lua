@@ -47,9 +47,10 @@ if (SERVER) then
 		
 		self:SetHealth(math.random(5,10))
 		
-		local pos = self:GetPos()
+		if(!self.nodeSpawned) then
+			self:SetPos(self:GetPos() - self:GetUp()*11)
+		end
 		
-		self:SetPos(Vector(pos.X,pos.Y,pos.Z + 15))
 		self:SetAngles(Angle(0,math.random(0,360),0))
 		self:SetColor(Color(math.random(150,255), math.random(150,255), math.random(150,255)))
 		

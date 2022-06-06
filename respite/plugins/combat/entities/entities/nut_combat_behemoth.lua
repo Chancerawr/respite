@@ -6,7 +6,10 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Behemoth"
+
 ENT.model = "models/sin/quadralex.mdl"
+
+ENT.AttackAnim = "Shockwave_Attack"
 
 --all attributes
 ENT.attribs = {

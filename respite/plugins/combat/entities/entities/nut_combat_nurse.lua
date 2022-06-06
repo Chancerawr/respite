@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.name = "Nurse"
 ENT.model = "models/chillax_sf2/silenthill/sh2/nurse/nurse.mdl"
+
+ENT.AttackAnim = "Attack"
+
 ENT.noRag = true
 
 --all attributes

@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.name = "Dollmother"
 ENT.model = "models/spite/scarlet.mdl"
 
+ENT.AttackAnim = "Attack1"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

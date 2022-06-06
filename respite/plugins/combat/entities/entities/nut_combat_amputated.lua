@@ -10,8 +10,7 @@ ENT.model = "models/am_npc/amputated.mdl"
 ENT.WalkAnim = "walk"
 ENT.RunAnim = "walk"
 ENT.IdleAnim = "tantrum"
-
-ENT.AttackAnim = ACT_MELEE_ATTACK1
+ENT.AttackAnim = "AttackA"
 
 --all attributes
 ENT.attribs = {

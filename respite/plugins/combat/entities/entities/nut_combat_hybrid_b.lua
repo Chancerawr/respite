@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/cryoffear/taller/taller.mdl"
 ENT.material = "models/effects/comball_glow1"
+
+ENT.AttackAnim = "Attack"
+
 ENT.color = Color(128, 0, 0)
 
 --all attributes

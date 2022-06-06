@@ -43,13 +43,12 @@ function ENT:walkAnims(distance)
 			end
 		end
 	end
-	
-	--how fast this thing moves
-	local groundspeed
 
+	groundSpeed = 200
+	
 	if(seq != -1) then
 		local tempAnim = self:GetSequence()
-		if(tempAnim != seq) then
+		if(tempAnim != seq and !self.prevAnim) then
 			self.prevAnim = tempAnim
 		end
 	
@@ -58,13 +57,12 @@ function ENT:walkAnims(distance)
 		end
 		
 		if(seq) then
-			self:SetSequence(seq)
+			self:ResetSequence(seq)
 		end
 		
 		--this tries to set the speed based on how fast the anim is
 		groundSpeed = self:GetSequenceGroundSpeed(seq)
-		
-		if(groundSpeed == 0) then
+		if(groundSpeed < 1) then
 			if(run) then --this is just a default value if the animation fails
 				groundSpeed = 200
 			else
@@ -82,6 +80,8 @@ function ENT:resetAnim()
 	local prevAnim = self.prevAnim or self.idle
 	
 	self:SetSequence(prevAnim)
+	
+	self.prevAnim = nil
 end
 
 function ENT:setAnim()
@@ -117,5 +117,19 @@ function ENT:setAnim()
 
 		self.idle = 4
 		self:ResetSequence(4)
+	end
+end
+
+function ENT:attackAnimStart()
+	if(self.AttackAnim) then
+		local sequence = self:LookupSequence(self.AttackAnim)
+		
+		self:ResetSequence(sequence)
+		
+		timer.Simple(self:SequenceDuration(sequence), function()
+			if(IsValid(self)) then
+				self:setAnim()
+			end
+		end)
 	end
 end

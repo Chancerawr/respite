@@ -7,6 +7,10 @@ ENT.AdminOnly = true
 
 ENT.name = "Lying Figure"
 ENT.model = "models/chillax_sf2/silenthill/sh2/lying_figure/lying_figure.mdl"
+
+ENT.IdleAnim = "Walk"
+ENT.AttackAnim = "Attack"
+
 ENT.noRag = true
 
 --all attributes

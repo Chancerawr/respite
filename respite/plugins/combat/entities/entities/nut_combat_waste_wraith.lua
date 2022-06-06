@@ -9,6 +9,8 @@ ENT.model = "models/prosperity/freak.mdl"
 ENT.material = "models/effects/splode1_sheet"
 ENT.color = Color(0, 150, 255)
 
+ENT.AttackAnim = "Attack01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 3,

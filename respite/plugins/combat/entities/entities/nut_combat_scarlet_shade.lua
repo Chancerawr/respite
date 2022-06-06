@@ -8,6 +8,9 @@ ENT.AdminOnly = true
 ENT.name = "Decrepit Puppet"
 
 ENT.model = "models/spite/scarlet.mdl"
+
+ENT.AttackAnim = "Attack1"
+
 ENT.color = Color(0, 0, 0)
 
 --all attributes

@@ -1,20 +1,14 @@
 ITEM.name = "Cube - Dirt"
+ITEM.desc = "A cube of solid dirt. Could there be something inside?"
 ITEM.uniqueID = "cube_dirt"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
 ITEM.material = "phoenix_storms/potato"
-ITEM.desc = "A cube of solid dirt. Could there be something inside?"
 ITEM.width = 2
 ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Miscellaneous"
 ITEM.color = Color(80, 50, 50)
-
-ITEM.iconCam = {
-	ang = Angle(0, 270, 0),
-	fov	= 9.4,
-	pos	= Vector(0, 200, 0)
-}
 
 ITEM.functions.Dig = {
 	icon = "icon16/arrow_down.png",
@@ -56,4 +50,10 @@ ITEM.functions.Dig = {
 			inventory:addSmart(reward, 1, position)
 		end
 	end
+}
+
+ITEM.iconCam = {
+	ang = Angle(0, 270, 0),
+	fov	= 9.4,
+	pos	= Vector(0, 200, 0)
 }

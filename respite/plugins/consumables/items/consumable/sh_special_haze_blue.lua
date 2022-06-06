@@ -21,7 +21,7 @@ ITEM.attrib = {
 }
 
 ITEM.extraFunc = function(item, client)
-	client:ScreenFade(1, Color(100, 255, 100, 255), 10, 0)
+	client:ScreenFade(1, Color(100, 100, 255, 255), 10, 0)
 end
 
 ITEM.loot = {
@@ -46,6 +46,34 @@ ITEM.craft = {
 			["Stun"] = -10,
 		}
 	},
+}
+
+ITEM.effect = {
+colorMod = {
+		[ "$pp_colour_addr" ] = 0,
+		[ "$pp_colour_addg" ] = 0,
+		[ "$pp_colour_addb" ] = 0.1,
+		[ "$pp_colour_brightness" ] = -0.1,
+		[ "$pp_colour_contrast" ] = 1.5,
+		[ "$pp_colour_colour" ] = 2,
+		[ "$pp_colour_mulr" ] = 0,
+		[ "$pp_colour_mulg" ] = 0,
+		[ "$pp_colour_mulb" ] = 1
+	},
+	
+	bloom = {
+		darken = 0.9,
+		mult = 0.2,
+		sizeX = 9,
+		sizeY = 9,
+		passes = 1,
+		colorMult = 1,
+		r = 0.8,
+		g = 0.8,
+		b = 1
+	},
+	
+	duration = 60,
 }
 
 ITEM.iconCam = {

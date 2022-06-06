@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/horror/zm_f4zt.mdl"
 ENT.material = "models/effects/splode1_sheet"
+
+ENT.AttackAnim = "Melee"
+
 ENT.color = Color(255, 93, 0)
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT

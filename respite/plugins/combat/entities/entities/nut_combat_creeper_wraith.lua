@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.material = "models/props_combine/tpballglow"
 
+ENT.AttackAnim = "Melee"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 20,

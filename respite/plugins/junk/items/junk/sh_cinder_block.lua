@@ -7,7 +7,7 @@ ITEM.width = 1
 ITEM.height = 2
 
 ITEM.salvItem = {
-	["j_scrap_concrete"] = 3
+	["j_scrap_concrete"] = 2
 }
 
 if(SERVER) then

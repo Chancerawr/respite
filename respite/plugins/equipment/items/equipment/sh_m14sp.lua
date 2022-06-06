@@ -3,9 +3,9 @@ ITEM.desc = "An American designed and produced battle rifle, descended from the 
 ITEM.model = "models/weapons/tfa_w_snip_m14sp.mdl"
 ITEM.class = "tfa_m14sp"
 ITEM.slot = "primary"
-ITEM.width = 4
+ITEM.width = 5
+ITEM.height = 1
 ITEM.price = 0
-ITEM.height = 2
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
 

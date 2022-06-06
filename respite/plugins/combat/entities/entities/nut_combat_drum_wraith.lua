@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/zombie/zombineplayer.mdl"
 ENT.material = "models/effects/splode1_sheet"
+
+ENT.AttackAnim = "AttackC"
+
 ENT.color = Color(0, 150, 255)
 
 --all attributes

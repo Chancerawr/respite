@@ -7,6 +7,8 @@ ENT.AdminOnly = true
 
 ENT.model = "models/prosperity/freak.mdl"
 
+ENT.AttackAnim = "Attack01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 3,

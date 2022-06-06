@@ -10,6 +10,9 @@ ENT.name = "Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.WalkAnim = "walk_all"
+ENT.RunAnim = "run_all_01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,

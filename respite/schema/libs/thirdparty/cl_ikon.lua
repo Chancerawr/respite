@@ -101,17 +101,15 @@ local TEXTURE_FLAGS_CLAMP_S = 0x0004
 local TEXTURE_FLAGS_CLAMP_T = 0x0008
 ikon.max = ikon.maxSize * 64
 ikon.RT = GetRenderTargetEx("nsIconRendered",
-												ikon.max,
-												ikon.max, 
-												RT_SIZE_NO_CHANGE,
-												MATERIAL_RT_DEPTH_SHARED,
-												bit.bor(TEXTURE_FLAGS_CLAMP_S, TEXTURE_FLAGS_CLAMP_T),
-												CREATERENDERTARGETFLAGS_UNFILTERABLE_OK,
- 												IMAGE_FORMAT_RGBA8888)
+	ikon.max,
+	ikon.max, 
+	RT_SIZE_NO_CHANGE,
+	MATERIAL_RT_DEPTH_SHARED,
+	bit.bor(TEXTURE_FLAGS_CLAMP_S, TEXTURE_FLAGS_CLAMP_T),
+	CREATERENDERTARGETFLAGS_UNFILTERABLE_OK,
+	IMAGE_FORMAT_RGBA8888)
 
-local tex_effect = GetRenderTarget( "nsIconRenderedOutline",
-												ikon.max,
-												ikon.max)
+local tex_effect = GetRenderTarget("nsIconRenderedOutline", ikon.max, ikon.max)
 
 local mat_outline = CreateMaterial("nsIconRenderedTemp","UnlitGeneric",{
 	["$basetexture"] = tex_effect:GetName(),
@@ -209,7 +207,6 @@ function ikon:renderHook()
 			tab.drawPostHook(ikon.renderEntity, w, h)
 		end
 		
-
 		if (tab.outline) then
 			render.PushRenderTarget( tex_effect )
 			render.Clear(0,0,0,0)
@@ -282,10 +279,6 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, color, material,
 	if (#ikon.requestList > 0) then return IKON_BUSY end
 	if (ikon.requestList[name]) then return IKON_PROCESSING end
 	if (!w or !h or !mdl) then return IKON_SOMETHINGWRONG end
-
-	if(camInfo) then
-		PrintTable(camInfo)
-	end
 	
 	local capturedIcon
 	ikon.curWidth = w or 1
@@ -357,13 +350,15 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, color, material,
 	ikon.requestList[name] = nil
 	
 	if(material) then --reset material when done
-		ikon.renderEntity:SetColor(Color(0,0,0,255)) --reset the
+		ikon.renderEntity:SetColor(Color(0,0,0,255)) --reset render entity
 	end
+	
 	if(material) then --reset material when done
-		ikon.renderEntity:SetMaterial("") --reset the
+		ikon.renderEntity:SetMaterial("") --reset render entity
 	end
-	if(skin) then --reset skin when done
-		ikon.renderEntity:SetSkin(0)
+	
+	if(skin) then 
+		ikon.renderEntity:SetSkin(0) --reset render entity
 	end	
 	
 	return true

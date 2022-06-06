@@ -126,12 +126,8 @@ function ENT:Initialize()
 		}
 		
 		local legs = {
-			"ValveBiped.Bip01_R_Thigh",
-			"ValveBiped.Bip01_L_Thigh",
-			"ValveBiped.Bip01_L_Calf",
 			"ValveBiped.Bip01_L_Foot",
 			"ValveBiped.Bip01_L_Toe0",
-			"ValveBiped.Bip01_R_Calf",
 			"ValveBiped.Bip01_R_Foot",
 			"ValveBiped.Bip01_R_Toe0",
 		}
@@ -140,26 +136,99 @@ function ENT:Initialize()
 			"ValveBiped.Bip01_L_Hand",
 			"ValveBiped.Bip01_R_Hand",
 		}
+		
+		local torso = {
+			"ValveBiped.Bip01_Pelvis",
+			"ValveBiped.Bip01_Spine",
+			"ValveBiped.Bip01_Spine1",
+			"ValveBiped.Bip01_Spine2",
+			"ValveBiped.Bip01_Spine4",
+		}
 
 		for k, v in pairs(arms) do
 			local bone = self:LookupBone(v)
-			
 			if(bone) then
 				self:ManipulateBonePosition(bone, Vector(-12,5,0))
 			end
 		end
 		
 		for k, v in pairs(hands) do
-			self:ManipulateBoneAngles(self:LookupBone(v), Angle(0,-90,0))
-			self:ManipulateBoneScale(self:LookupBone(v), Vector(5,2,2))
+			local bone = self:LookupBone(v)
+			if(bone) then
+				self:ManipulateBoneAngles(bone, Angle(0,-90,0))
+				self:ManipulateBoneScale(bone, Vector(5,2,2))
+			end
 		end
 		
-		--self:SetModelScale(1.2)
+		for k, v in pairs(torso) do
+			--self:ManipulateBoneScale(self:LookupBone(v), Vector(0/0,0/0,0/0))
+		end
+		
+		for k, v in pairs(legs) do
+			local bone = self:LookupBone(v)
+			
+			if(bone) then
+				self:ManipulateBoneScale(bone, Vector(0/0,0/0,0/0))
+			end
+		end
+		
+		local faces = {
+			"models/humans/female/group01/joey_facemap",
+			"models/humans/female/group01/kanisha_cylmap",
+			"models/humans/female/group01/naomi_facemap",
+			"models/humans/male/group01/eric_facemap",
+			"models/humans/male/group01/ted_facemap",
+			"models/humans/male/group01/sandro_facemap",
+			"models/humans/male/group01/mike_facemap",
+			"models/humans/male/group01/vance_facemap",
+			"models/humans/male/group01/erdim_cylmap",
+			"models/humans/male/group01/mike_facemap",
+		}
+		
+		for k, v in pairs(self:GetMaterials()) do
+			self:SetSubMaterial(k-1, table.Random(faces))
+		end
+		
+		self:SetColor(Color(120,120,120))
 		
 		local scale = Vector(1.2, 1.2, 1.2)
 
 		local mat = Matrix()
 		mat:Scale(scale)
-		self:EnableMatrix("RenderMultiply", mat)	
+		self:EnableMatrix("RenderMultiply", mat)
+		
+		self.NeckBone2 = self:LookupBone("ValveBiped.Bip01_L_Hand")
+		self.HeadBone2 = self:LookupBone("ValveBiped.Bip01_R_Hand")
 	end
+end
+
+function ENT:Draw()
+	if(self.NeckBone2 and self.HeadBone2) then
+		local TEMP_Cyc = self:GetCycle()
+		local TEMP_NewCyc = TEMP_Cyc
+		
+		local TEMP_HeadAng = Angle(0,0,0)
+		local TEMP_HeadPos = Vector(0,0,0)
+		local TEMP_NeckAng = Angle(0,0,0)
+		local TEMP_NeckPos = Vector(0,0,0)
+
+		TEMP_HeadAng = Angle(0,-90,0)
+		TEMP_HeadPos = Vector(0,0,0)
+		TEMP_HeadScale = Vector(1,1,1)
+		TEMP_NeckAng = Angle(0,-90,0)
+		TEMP_NeckPos = Vector(0,0,0)
+		 
+		local twitch_ang1 = math.random(-2,2)
+		
+		TEMP_HeadAng = TEMP_HeadAng+Angle(twitch_ang1,twitch_ang1,twitch_ang1)
+		TEMP_NeckAng = TEMP_HeadAng+Angle(twitch_ang1,twitch_ang1,twitch_ang1)
+
+		self:ManipulateBoneAngles(self.HeadBone2,TEMP_HeadAng)
+		self:ManipulateBoneAngles(self.NeckBone2,TEMP_NeckAng)
+	end
+	
+	self:DrawModel()
+	self:SetupBones()
+
+	self.PrevCycle = TEMP_Cyc
 end

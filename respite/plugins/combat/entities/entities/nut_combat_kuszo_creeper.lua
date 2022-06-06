@@ -7,6 +7,10 @@ ENT.AdminOnly = true
 
 ENT.model = "models/zombie/kuszo.mdl"
 ENT.material = "models/props_lab/warp_sheet"
+
+ENT.IdleAnim = "Idle01"
+ENT.AttackAnim = "AttackA"
+
 ENT.color = Color(190, 0, 0)
 
 --all attributes

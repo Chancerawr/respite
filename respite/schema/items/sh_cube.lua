@@ -3,18 +3,12 @@ ITEM.desc = "A strange metal box, it would be seemingly vibrating lightly. The b
 ITEM.uniqueID = "cube_b"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
 ITEM.material = "models/props_canal/canal_bridge_railing_01a"
-ITEM.width = 3
-ITEM.height = 3
+ITEM.width = 2
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(70, 120, 70)
-
-ITEM.iconCam = {
-	ang = Angle(0, 270, 0),
-	fov	= 9.4,
-	pos	= Vector(0, 200, 0)
-}
 
 ITEM.functions.Chip = {
 	icon = "icon16/arrow_down.png",
@@ -117,4 +111,10 @@ ITEM.functions.Battery = {
 		
 		return true
 	end
+}
+
+ITEM.iconCam = {
+	ang = Angle(0, 270, 0),
+	fov	= 9.4,
+	pos	= Vector(0, 200, 0)
 }

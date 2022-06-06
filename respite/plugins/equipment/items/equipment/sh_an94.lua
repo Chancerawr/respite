@@ -5,8 +5,8 @@ ITEM.model = "models/weapons/tfa_w_rif_an_94.mdl"
 ITEM.class = "tfa_an94"
 ITEM.slot = "primary"
 ITEM.width = 4
-ITEM.price = 0
 ITEM.height = 2
+ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Rifles"
 

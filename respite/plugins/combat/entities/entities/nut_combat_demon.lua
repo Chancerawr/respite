@@ -6,7 +6,10 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.name = "Demon"
+
 ENT.model = "models/nh2zombies/friendly.mdl"
+
+ENT.AttackAnim = "Melee"
 
 --all attributes
 ENT.attribs = {

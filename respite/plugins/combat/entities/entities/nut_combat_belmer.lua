@@ -10,6 +10,8 @@ ENT.noRag = true
 ENT.model = "models/chillax_sf2/silenthill/sh2/mannequin/mannequin.mdl"
 ENT.material = "models/props_lab/security_screens"
 
+ENT.AttackAnim = "Attack_01"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 12,

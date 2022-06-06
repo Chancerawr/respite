@@ -7,6 +7,8 @@ ENT.AdminOnly = true
 
 ENT.model = "models/respite/paperzombie.mdl"
 
+ENT.AttackAnim = "AttackA"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,

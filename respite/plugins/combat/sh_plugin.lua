@@ -39,4 +39,17 @@ function PLUGIN:actionFind(partial)
 	end
 	
 	return action
-end		
+end
+
+--function that determines how many attributes a player gets on character creation
+function PLUGIN:Think()
+	if(!SERVER) then return end
+
+	if(PLUGIN.buffThink) then
+		PLUGIN:buffThink()
+	end
+	
+	if(PLUGIN.cdThink) then
+		PLUGIN:cdThink()
+	end
+end

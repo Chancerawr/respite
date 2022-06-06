@@ -1,20 +1,14 @@
 ITEM.name = "Cube - Water"
+ITEM.desc = "A strange metal box, it would be seemingly vibrating lightly. The box appears to have only a single button, labelled 'WATER', and a slot in the top for some sort of chip."
 ITEM.uniqueID = "cube_water"
 ITEM.model = "models/hunter/blocks/cube05x05x05.mdl"
-ITEM.desc = "A strange metal box, it would be seemingly vibrating lightly. The box appears to have only a single button, labelled 'WATER', and a slot in the top for some sort of chip."
-ITEM.width = 3
-ITEM.height = 3
+ITEM.material = "models/props_c17/metalladder001"
+ITEM.width = 2
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
-ITEM.material = "models/props_c17/metalladder001"
 ITEM.category = "Machines"
 ITEM.color = Color(70, 120, 70)
-
-ITEM.iconCam = {
-	ang = Angle(0, 270, 0),
-	fov	= 9.4,
-	pos	= Vector(0, 200, 0)
-}
 
 ITEM.functions.Chip = {
 	icon = "icon16/arrow_down.png",
@@ -92,4 +86,10 @@ ITEM.functions.Battery = {
 		
 		return true
 	end
+}
+
+ITEM.iconCam = {
+	ang = Angle(0, 270, 0),
+	fov	= 9.4,
+	pos	= Vector(0, 200, 0)
 }

@@ -8,6 +8,9 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/babu.mdl"
 ENT.color = Color(0,0,0)
 
+ENT.IdleAnim = "Idle01"
+ENT.AttackAnim = "AttackB"
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 5,

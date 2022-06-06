@@ -94,7 +94,7 @@ ITEM.effect = {
 		dist = 1
 	},
 
-	sharpen = {
+	motionblur = {
 		addAlpha = 1,
 		drawAlpha = 1,
 		delay = 1,
@@ -263,12 +263,17 @@ local function consume(client, item)
 	--hp healing
 	if(item.hp) then
 		local id = "nutHeal_"..FrameTime()
-		timer.Create(id, 1, item.hpTime or 0, function()
+		local hpTime = item.hpTime or 1
+		
+		timer.Create(id, 1, hpTime, function()
 			if (!IsValid(client) or !client:Alive()) then
 				timer.Destroy(id)	
 			end
 
-			client:SetHealth(math.Clamp(client:Health() + (item.hp/item.hpTime or 0), 0, client:GetMaxHealth()))
+			local newHP = math.Clamp(client:Health() + (item.hp/hpTime), 0, client:GetMaxHealth())
+
+			client:SetHealth(newHP) -- actual health
+			client:setHP(newHP) -- for combat system
 		end)
 	end
 	
@@ -668,7 +673,7 @@ function ITEM:getDesc(partial)
 	end
 	
 	-- Only show these things in the crafting menu
-	if(IsValid(nut.gui.craftingDynamic)) then
+	if(CLIENT and IsValid(nut.gui.craftingDynamic)) then
 		desc = desc.. "\n\n<color=50,200,50>Ingredient Tags</color>"
 		
 		for tag, _ in pairs(self.loot) do

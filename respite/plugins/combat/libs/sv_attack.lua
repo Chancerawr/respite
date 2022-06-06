@@ -151,6 +151,14 @@ function PLUGIN:getAttackData(attacker, action)
 			if(action.costHP) then
 				attacker:addHP(action.costHP * -1)
 			end
+			
+			if(action.costAP) then
+				attacker:addAP(action.costAP * -1)
+			end
+			
+			if(action.CD) then
+				attacker:addCooldown(action.uid, action.CD)
+			end
 		else
 			--attacker:notify("You do not have enough mana to use " ..action.name.. ".")
 			data.failed = true --tell it that it failed

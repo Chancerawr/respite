@@ -5,8 +5,11 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/sin/leperkin.mdl"
 ENT.name = "Hunter"
+
+ENT.model = "models/sin/leperkin.mdl"
+
+ENT.AttackAnim = "Melee"
 
 --all attributes
 ENT.attribs = {

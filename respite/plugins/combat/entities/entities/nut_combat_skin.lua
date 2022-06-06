@@ -6,15 +6,22 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.models = {
-	"models/Humans/Group01/male_01.mdl",
-	"models/Humans/Group01/male_02.mdl",
-	"models/Humans/Group01/male_03.mdl",
+	"models/player/group01/male_01.mdl",
+	"models/player/group01/male_02.mdl",
+	"models/player/group01/male_03.mdl",
 	"models/player/group01/male_04.mdl",
-	"models/Humans/Group01/male_05.mdl",
-	"models/Humans/Group01/male_06.mdl",
-	"models/Humans/Group01/male_07.mdl",
-	"models/Humans/Group01/male_08.mdl",
-	"models/Humans/Group01/male_09.mdl",
+	"models/player/group01/male_05.mdl",
+	"models/player/group01/male_06.mdl",
+	"models/player/group01/male_07.mdl",
+	"models/player/group01/male_08.mdl",
+	"models/player/group01/male_09.mdl",
+	
+	"models/player/group01/female_01.mdl",
+	"models/player/group01/female_02.mdl",
+	"models/player/group01/female_03.mdl",
+	"models/player/group01/female_04.mdl",
+	"models/player/group01/female_05.mdl",
+	"models/player/group01/female_06.mdl",
 }
 
 --all attributes
@@ -55,6 +62,9 @@ ENT.res = {
 function ENT:Initialize()
 	self:basicSetup()
 	
+	-- Change appearance (color, material, etc)
+	self:SetColor(Color(200,200,200))
+	
 	local faces = {
 		"models/humans/female/group01/joey_facemap",
 		"models/humans/female/group01/kanisha_cylmap",
@@ -70,5 +80,34 @@ function ENT:Initialize()
 	
 	for k, v in pairs(self:GetMaterials()) do
 		self:SetSubMaterial(k-1, table.Random(faces))
+	end
+	
+	self.WalkAnim = "Zombie Walk 0" ..math.random(1,6)
+end
+
+ENT.vectorMult = 0.05
+function ENT:CustomThink()
+	if(SERVER) then return end
+
+	if(self.nextBoneUpdate or 0) < CurTime() then
+		local curTime = CurTime()
+	
+		self.nextBoneUpdate = curTime + 0
+		
+		if(!self.targetBones) then
+			self.targetBones = {}
+		
+			for i = 1, self:GetBoneCount() do
+				self.targetBones[i] = Vector(math.random(-8,8),math.random(-8,8),math.random(-4,8))
+			end
+			
+			self.startTime = curTime
+		end
+
+		if(curTime-self.startTime < 20) then
+			for i = 1, self:GetBoneCount() do
+				self:ManipulateBonePosition(i, self.targetBones[i] * math.min((curTime-self.startTime)*self.vectorMult, 1))
+			end
+		end
 	end
 end

@@ -6,7 +6,12 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/freshdead/freshdead_01.mdl"
---ENT.material = "models/angelsaur/ghosts/shadow"
+ENT.material = "models/player/player_chrome1"
+ENT.color = Color(0, 0, 0)
+
+ENT.AttackAnim = "Attack01"
+
+ENT.color = Color(0, 0, 0)
 
 --all attributes
 ENT.attribs = {
@@ -47,9 +52,6 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()
 	self:SetRenderMode(RENDERMODE_TRANSALPHA)
-	self:SetColor(Color(0,0,0,255))
-	self:SetMaterial("models/player/player_chrome1")
-	--self:SetRenderFX(kRenderFxDistort)
 
 	self:basicSetup()
 end

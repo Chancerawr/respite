@@ -41,11 +41,13 @@ _STORMFOX_REPLACETEX_STR = _STORMFOX_REPLACETEX_STR or {}
 				end
 			end
 		end
+		
 		local function LoadTexts(tab)
 			for str,_ in pairs(tab) do
 				Material(str)
 			end
 		end
+		
 		local function ScanMapTextures(tab)
 			local mat_layers = {"grass","roof","pavement","road"}
 			local t = {}
@@ -73,6 +75,7 @@ _STORMFOX_REPLACETEX_STR = _STORMFOX_REPLACETEX_STR or {}
 			end
 			return t
 		end
+		
 		local function ETHull(pos,pos2,min,max,mask)
 			max.z = 0
 			local t = util.TraceHull( {
@@ -126,13 +129,14 @@ end
 hook.Add("InitPostEntity","StormFox - MaterialLoader", LoadMapData)
 if #player.GetAll() > 0 then LoadMapData() end
 
-local function ReplaceMaterial(str,texture,id)
+local function ReplaceMaterial(str, texture, id)
 	if not id then id = 1 end
 	-- Save old material
 	local mat = str
 	if type(str) != "IMaterial" then
 		mat = Material(str)
 	end
+	
 	local parm = "$basetexture" .. (id == 1 and "" or id)
 	local currentbase = mat:GetTexture(parm)
 	if (currentbase and currentbase:GetName() or "null") == texture then return end
@@ -140,20 +144,21 @@ local function ReplaceMaterial(str,texture,id)
 	if not _STORMFOX_REPLACETEX_STR[str] then
 		_STORMFOX_REPLACETEX_STR[str] = {}
 	end
+	
 	if not _STORMFOX_REPLACETEX_STR[str][id] and (currentbase:GetName() or "null") != "nature/snowfloor001a" then
 		_STORMFOX_REPLACETEX_STR[str][id] = currentbase:GetName()
 	end
+	
 	mat:SetTexture(parm,texture)
 end
 
 local function UndoAll()
 	for mat,data in pairs(_STORMFOX_REPLACETEX_STR) do
-		for id,str in pairs(data) do
-			--print("undo",mat,id,str:GetName())
-			if str == "nature/snowfloor001a" then
-				print("SNOW ERROR!")
+		for id, str in pairs(data) do
+			if str != "nature/snowfloor001a" then
+				--print("SNOW ERROR!")
+				ReplaceMaterial(mat, str, id)
 			end
-			ReplaceMaterial(mat,str,id)
 		end
 	end
 --	Material("detail/detailsprites"):SetVector("$color",Vector(1,1,1))
@@ -174,7 +179,7 @@ local function MakeSnow(lvl)
 			for mat,textab in pairs(data) do
 				for id,_ in pairs(textab) do
 					--print(mat,tex,id)
-					ReplaceMaterial(mat,"nature/snowfloor001a",id)
+					ReplaceMaterial(mat, "nature/snowfloor001a", id)
 				end
 			end
 		end
@@ -235,16 +240,19 @@ hook.Add("PlayerFootstep","StormFox - Material Footstep",function( ply, pos, foo
 		end
 		return
 	end
+	
 	if _STORMFOX_REPLACETEX_STR[mat_name] then
 		ply:EmitSound( "player/footsteps/snow" .. math.random(1,6) .. ".wav" )
 		return true
 	end
+	
 	if mat:GetTexture("$basetexture") then
 		if mat:GetTexture("$basetexture"):GetName() == "nature/snowfloor001a" then
 			ply:EmitSound( "player/footsteps/snow" .. math.random(1,6) .. ".wav" )
 			return true
 		end
 	end
+	
 	if mat:GetTexture("$basetexture2") then
 		if mat:GetTexture("$basetexture2"):GetName() == "nature/snowfloor001a" then
 			ply:EmitSound( "player/footsteps/snow" .. math.random(1,6) .. ".wav" )

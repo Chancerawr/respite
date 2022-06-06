@@ -16,6 +16,11 @@ nut.config.add("safeWidth", 4, "The width of the safe", nil, {
 	category = "Safebox"
 })
 
+nut.config.add("groupStorage", nil, "Do not touch this", nil, {
+	data = {min = -1, max = 99999999},
+	category = "Safebox"
+})
+
 if (SERVER) then
 	function PLUGIN:saveBox()
 		local data = {}
