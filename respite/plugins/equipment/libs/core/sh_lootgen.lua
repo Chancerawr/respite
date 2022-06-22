@@ -159,6 +159,7 @@ if(SERVER) then
 
 		local potentialLoot = table.Copy(LOOTGEN.loot) --the entire loot table
 		local loot
+
 		if(dropType) then --specific type of item specified in arguments
 			dropFind = getItemFromString(potentialLoot, string.lower(dropType))
 			if(dropFind) then

@@ -222,15 +222,17 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 				end
 				
 				--critical hits
-				local crit, critMsg, what = self:rollCrit()
+				--[[
+				local crit, critMsg = self:rollCrit()
 				if(crit) then
 					dmg = dmg * crit
 				end
+				--]]
 			
 				totalDam[#totalDam + 1] = {
 					dmg = dmg, 
 					dmgT = dmgT,
-					crit = critMsg,
+					--crit = critMsg,
 					accuracy = self:getAccuracy()
 				}
 			end
@@ -273,10 +275,12 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 						end
 					
 						--critical hits
+						--[[
 						local crit, critMsg = self:rollCrit()
 						if(crit) then
 							dmg = dmg * crit
 						end
+						--]]
 						
 						--direct dmg buffs
 						dmg = dmg + self:getBuffAttribute("dmg")
@@ -285,7 +289,7 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 							dmg = dmg, 
 							dmgT = dmgT,
 							weap = v:getName(),
-							crit = critMsg,
+							--crit = critMsg,
 							accuracy = self:getAccuracy()
 						}
 					end
@@ -342,7 +346,7 @@ PLUGIN.helperFuncs["getRes"] = function(self)
 	--resist from items
 	for k, v in pairs(inv:getItems()) do
 		if(v:getData("equip")) then
-			for k2, v2 in pairs(v:getData("res", {})) do
+			for k2, v2 in pairs(v:getData("res", self.res) or {}) do
 				if(res[k2]) then --lets round it to stop any funny business
 					res[k2] = 1 - (1 - res[k2]) * (1 - v2 * 0.01)
 				else
@@ -497,7 +501,7 @@ end
 
 --rolls for a crit
 --function playerMeta:rollCrit()
-PLUGIN.helperFuncs["rollCrit"] = function(self)
+PLUGIN.helperFuncs["rollCrit"] = function(self, bonusC, bonusM, bonusF)
 	local char = self:getChar()
 	
 	local mult = 1
@@ -505,6 +509,10 @@ PLUGIN.helperFuncs["rollCrit"] = function(self)
 	local critMsg = ""
 	
 	local critC, critM, critF = self:getCrit()
+	
+	critC = critC + (bonusC or 0)
+	critM = critM + (bonusM or 0)
+	critF = critF + (bonusF or 0)
 	
 	local luck = char:getAttrib("luck", 0)
 	

@@ -38,9 +38,9 @@ ITEM.extraFunc = function(item, client)
 end
 
 ITEM.loot = {
-	["Medical"] = true,
-	["Drink"] = true,
-	["Special"] = true,
+	["Medical"] = 0.1,
+	["Drink"] = 0.1,
+	["Special"] = 1,
 }
 
 ITEM.craft = {

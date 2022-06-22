@@ -1,17 +1,13 @@
 ITEM.name = "Darkened Wood"
 ITEM.uniqueID = "j_dark_wood"
-ITEM.model = "models/gibs/wood_gib01a.mdl"
-ITEM.material = "models/effects/portalrift_sheet"
+ITEM.model = "models/props_debris/wood_chunk02a.mdl"
+ITEM.material = "models/player/player_chrome1"
 ITEM.desc = "A strange black wood, it gives off an eerie feeling."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.maxstack = 20
 ITEM.color = Color(0, 0, 0)
-
-ITEM.data = {
-	Amount = 1
-}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

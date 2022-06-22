@@ -570,9 +570,17 @@ function ITEM:onEntityCreated(entity)
 	if(self.modelColor) then
 		entity:SetColor(self.modelColor)
 	end
-	
+
 	if(self.modelScale) then
-		entity:SetModelScale(self.modelScale)
+		entity:SetModelScale(self.modelScale, 0.0001)
+		entity:Activate()
+	end
+
+	if(self.entMass) then
+		local physObj = entity:GetPhysicsObject()
+		if(IsValid(physObj)) then
+			physObj:SetMass(self.entMass)
+		end
 	end
 end
 

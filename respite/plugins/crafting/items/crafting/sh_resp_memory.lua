@@ -115,9 +115,33 @@ end
 if (CLIENT) then
 	function ITEM:drawEntity(entity, item)
 		entity:DrawModel()
-		entity:SetModelScale(.7)
 		entity:DrawShadow(false)
 	end
+end
+
+function ITEM:onEntityCreated(item)
+	local scale = 0.7
+	item:SetModelScale(scale, 0.0001)
+	item:Activate()
+
+	--[[
+	local physobj = item:GetPhysicsObject()
+
+	if (!IsValid(physobj)) then return false end
+
+	local physmesh = physobj:GetMeshConvexes()
+
+	if (!istable(physmesh)) or (#physmesh < 1) then return false end
+
+	for convexkey, convex in pairs(physmesh) do
+		for poskey, postab in pairs(convex) do
+			convex[poskey] = postab.pos * scale
+		end
+	end
+
+	item:PhysicsInitMultiConvex(physmesh)
+	item:EnableCustomCollisions(true)
+	--]]
 end
 
 local emotions = {

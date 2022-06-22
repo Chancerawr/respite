@@ -11,8 +11,8 @@ ITEM.attrib = {
 }
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Food"] = true,
+	["Consumable"] = 2,
+	["Food"] = 3,
 }
 
 ITEM.craft = {
@@ -20,7 +20,7 @@ ITEM.craft = {
 
 	buffTbl = {
 		attrib = {
-			["medical"] = 7
+			["medical"] = 4
 		},
 		
 		res = {

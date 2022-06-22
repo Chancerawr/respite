@@ -10,13 +10,25 @@ ITEM.salvItem = {
 	["j_scrap_bone"] = 1
 }
 
-if(SERVER) then
-	ITEM.loot = {
-		["Junk"] = true,
-		["Bone"] = true,
-		["Corpse"] = true,
-	}
-end
+ITEM.loot = {
+	["Consumable"] = 0.01,
+	["Junk"] = 0.1,
+	["Bone"] = 10,
+	["Corpse"] = 5,
+}
+
+ITEM.craft = {
+	buffTbl = {
+		attrib = {
+			["end"] = 1,
+		},
+		
+		res = {
+			["Blunt"] = -2,
+			["Slash"] = 2,
+		}
+	},
+}
 
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),

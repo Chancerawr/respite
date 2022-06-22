@@ -1,7 +1,8 @@
 ITEM.name = "Popcorn"
 ITEM.desc = "Some delicious buttery popcorn."
 ITEM.uniqueID = "food_popcorn"
-ITEM.model = "models/props_lab/box01a.mdl"
+ITEM.model = "models/props_junk/MetalBucket01a.mdl"
+ITEM.material = "models/props_debris/plasterwall039c"
 ITEM.quantity2 = 8
 ITEM.price = 10
 
@@ -11,8 +12,8 @@ ITEM.attrib = {
 }
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Food"] = true,
+	["Consumable"] = 10,
+	["Food"] = 1,
 }
 
 ITEM.craft = {

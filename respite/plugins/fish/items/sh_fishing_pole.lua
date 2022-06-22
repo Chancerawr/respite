@@ -31,7 +31,7 @@ ITEM.functions.FishBait = {
 			local ang = client:EyeAngles()
 			phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
 			phys:SetMass(1)
-			phys:SetBuoyancyRatio(0.3)
+			phys:SetBuoyancyRatio(0.28)
 		end
 		
 		timer.Simple(2, function()
@@ -202,7 +202,7 @@ ITEM.functions.FishNoBait = {
 			local ang = client:EyeAngles()
 			phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
 			phys:SetMass(1)
-			phys:SetBuoyancyRatio(0.3)
+			phys:SetBuoyancyRatio(0.28)
 		end
 		
 		timer.Simple(2, function()

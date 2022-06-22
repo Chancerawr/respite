@@ -14,5 +14,5 @@ ITEM.attrib = {
 }
 
 ITEM.loot = {
-	["Cooked"] = true,
+	["Cooked"] = 10,
 }

@@ -35,8 +35,6 @@ nut.command.add("centequipitem", {
 
 if(SERVER) then
 	netstream.Hook("nut_centEquip", function(client, entity, uniqueID)
-		print(client, entity, uniqueID)
-		
 		local itemTable = nut.item.list[uniqueID]
 		
 		if(itemTable) then
@@ -68,9 +66,6 @@ else --CLIENT
 		end
 		
 		itemList.OnSelect = function(self, index, value, uniqueID)
-			print(value.. " was selected at index " ..index)
-			print(uniqueID)
-			
 			netstream.Start("nut_centEquip", entity, uniqueID)
 		end
 	end)

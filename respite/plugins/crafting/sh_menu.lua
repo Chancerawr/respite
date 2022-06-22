@@ -288,7 +288,6 @@ if(SERVER) then
 	
 		--uses loot generation system to grab some extra values
 		local generatedData = nut.plugin.list["equipment"]:generateLoot(level, uniqueID, true) or {}
-		
 		if(generatedData and generatedData.custom) then
 			generatedData.custom.name = name --name based on the ingredients
 			generatedData.realName = name --realname is used for buffs usually
@@ -296,8 +295,6 @@ if(SERVER) then
 		
 		--merges the two tables hell yeah computer science
 		tableMerger(generatedData, craftInfo)
-		
-		PrintTable(generatedData)
 		
 		--used for special stuff, like noting that something is a potion or not
 		if(recipe.data) then

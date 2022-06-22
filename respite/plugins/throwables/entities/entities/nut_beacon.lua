@@ -62,7 +62,7 @@ else
 		self.beep = 255
 		
 		self.beaconSound = self.beaconSounds[math.random(#self.beaconSounds)]
-		print(self.beaconSound)
+
 		if(istable(self.beaconSound)) then
 			PrintTable(self.beaconSound)
 		end

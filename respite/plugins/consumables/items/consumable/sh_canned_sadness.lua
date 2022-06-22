@@ -18,9 +18,9 @@ ITEM.attrib = {
 ITEM.notify = "You feel sad."
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Food"] = true,
-	["Canned"] = true,
+	["Consumable"] = 5,
+	["Food"] = 1,
+	["Canned"] = 5,
 }
 
 ITEM.craft = {

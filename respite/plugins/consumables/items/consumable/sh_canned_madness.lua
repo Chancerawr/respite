@@ -12,18 +12,20 @@ ITEM.sound = "vo/citadel/br_laugh01.wav"
 ITEM.soundPitch = 20
 ITEM.container = "j_tinc"
 
+--[[
 ITEM.disease = "dis_mind"
 ITEM.disChance = 100
+--]]
 
 ITEM.attrib = {
 	["fortitude"] = -10,
 }
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Food"] = true,
-	["Canned"] = true,
-	["Special"] = true,
+	["Consumable"] = 1,
+	["Food"] = 0.1,
+	["Canned"] = 1,
+	["Special"] = 1,
 }
 
 ITEM.craft = {

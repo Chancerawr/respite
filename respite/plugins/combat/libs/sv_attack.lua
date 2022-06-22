@@ -140,6 +140,10 @@ function PLUGIN:getAttackData(attacker, action)
 		if(action.notarget) then
 			data.notarget = true
 		end
+		
+		if(action.noSelf) then
+			data.noSelf = true
+		end
 	
 		--check costs when they try to do the action
 		if(PLUGIN:costCheck(attacker, action)) then
@@ -228,6 +232,12 @@ function PLUGIN:getAttackData(attacker, action)
 					action.dmg = action.dmg * (1 + amp[action.dmgT])
 				end
 			end
+			
+			--critical hits
+			local crit, critMsg = attacker:rollCrit(action.critC, action.critM, action.critF)
+			if(crit) then
+				action.dmg = action.dmg * crit
+			end
 
 			local accuracy = attacker:getAccuracy() + (action.accuracy or 0)
 			
@@ -239,6 +249,7 @@ function PLUGIN:getAttackData(attacker, action)
 					dmg = action.dmg,
 					dmgT = action.dmgT,
 					accuracy = accuracy,
+					crit = critMsg,
 					special = action.special,
 				}
 			end
@@ -256,7 +267,20 @@ function PLUGIN:getAttackData(attacker, action)
 		data.special = action.special
 	else
 		--basic attack
-		data.damage = attacker:getDamage()
+		local dmgTbl = attacker:getDamage()
+		
+		--applies crits
+		for k, v in pairs(dmgTbl) do
+			if(!v.dmg) then continue end
+		
+			local crit, critMsg = attacker:rollCrit()
+			if(crit) then
+				v.dmg = v.dmg * crit
+				v.crit = critMsg
+			end
+		end
+		
+		data.damage = dmgTbl
 	end
 	
 	data.text = nil

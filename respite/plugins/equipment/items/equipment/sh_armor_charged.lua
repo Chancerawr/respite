@@ -23,6 +23,10 @@ ITEM.attrib = {
 	["stm"] = -6,
 }
 
+ITEM.res = {
+	["Electric"] = 25,
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 5.5, 200),
 	ang = Angle(90, 0, 0),

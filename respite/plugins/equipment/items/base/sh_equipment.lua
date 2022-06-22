@@ -533,7 +533,7 @@ function ITEM:getDesc(partial)
 		local armor = self:getData("armor", self.armor)
 		local scaling = self:getData("scale", self.scaling)
 
-		if(dmg or armor or scaling or magic) then
+		if(dmg or armor or scaling) then
 			desc = desc.. "\n\n<color=50,200,50>Properties</color>"
 			
 			if(dmg and !table.IsEmpty(dmg)) then
@@ -561,6 +561,43 @@ function ITEM:getDesc(partial)
 				end
 			end
 		end
+		
+		local res = self:getData("res", self.res)
+		if(res and !table.IsEmpty(res)) then --no bonuses means no need for bonuses in the desc
+			desc = desc.. "\n\n<color=50,200,50>Resistances</color>"
+			
+			local combatPlugin = nut.plugin.list["combat"]
+			
+			for k, v in pairs(res) do
+				if(v != 0) then
+					local dmgType = (combatPlugin and combatPlugin.dmgTypes[k])
+					
+					local effect = EFFS.effects[k]
+					
+					if(dmgType) then
+						desc = desc.. "\n " ..dmgType.name.. " Resistance: " ..v.. "%."
+					elseif(effect) then
+						desc = desc.. "\n " ..effect.name.. " Resistance: " ..v.. "%."
+					end
+				end
+			end
+		end	
+		
+		local amp = self:getData("amp", self.amp)
+		if(amp and !table.IsEmpty(amp)) then --no bonuses means no need for bonuses in the desc
+			desc = desc.. "\n\n<color=50,200,50>Amplifications</color>"
+			
+			local combatPlugin = nut.plugin.list["combat"]
+			
+			for k, v in pairs(amp) do
+				if(v != 0) then
+					local dmgType = (combatPlugin and combatPlugin.dmgTypes[k])
+					if(dmgType) then
+						desc = desc.. "\n " ..dmgType.name.. " Amplification: " ..v.. "%."
+					end
+				end
+			end
+		end		
 	end
 	
 	return desc

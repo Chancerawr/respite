@@ -15,10 +15,10 @@ ITEM.attrib = {
 }
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Food"] = true,
-	["Canned"] = true,
-	["Special"] = true,
+	["Consumable"] = 4,
+	["Food"] = 5,
+	["Canned"] = 4,
+	["Special"] = 2,
 }
 
 ITEM.craft = {

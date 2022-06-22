@@ -18,9 +18,9 @@ ITEM.attrib = {
 }
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Food"] = true,
-	["Egg"] = true,
+	["Consumable"] = 10,
+	["Food"] = 3,
+	["Egg"] = 10,
 }
 
 ITEM.craft = {

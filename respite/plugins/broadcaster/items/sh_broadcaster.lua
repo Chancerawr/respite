@@ -31,15 +31,11 @@ if (CLIENT) then
 
 	function ITEM:drawEntity(entity, item)
 		entity:DrawModel()
-		local rt = RealTime()*100
-		local position = entity:GetPos() + entity:GetForward() * 0 + entity:GetUp() * 2 + entity:GetRight() * 0
 
-		if (entity:getData("power", false) == true) then
-			if (math.ceil(rt/14)%10 == 0) then
-				render.SetMaterial(GLOW_MATERIAL)
-				render.DrawSprite(position, rt % 14, rt % 14, entity:getData("power", false) and COLOR_ACTIVE or COLOR_INACTIVE)
-			end
-		end
+		local position = entity:GetPos() + entity:GetForward() * 10 + entity:GetUp() * 11 + entity:GetRight() * 9.5
+
+		render.SetMaterial(GLOW_MATERIAL)
+		render.DrawSprite(position, 14, 14, entity:getData("power", false) and COLOR_ACTIVE or COLOR_INACTIVE)
 	end
 end
 
@@ -51,6 +47,10 @@ ITEM.functions.toggle = { -- sorry, for name order.
 	onRun = function(item)
 		item:setData("power", !item:getData("power", false), player.GetAll(), false, true)
 		item.player:EmitSound("buttons/button14.wav", 70, 150)
+
+		if(item.entity) then
+			item.entity:setNetVar("data", item.data)
+		end
 
 		return false
 	end

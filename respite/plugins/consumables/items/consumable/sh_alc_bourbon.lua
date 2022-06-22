@@ -16,6 +16,12 @@ ITEM.attrib = {
 	["accuracy"] = -3
 }
 
+ITEM.loot = {
+	["Consumable"] = 10,
+	["Drink"] = 2,
+	["Alcohol"] = 4,
+}
+
 ITEM.craft = {
 	hp = 3,
 

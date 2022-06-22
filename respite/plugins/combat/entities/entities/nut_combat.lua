@@ -3,6 +3,7 @@ local PLUGIN = PLUGIN
 nut.util.include("sh_anim.lua")
 nut.util.include("sh_buffs.lua")
 nut.util.include("sh_helpers.lua")
+nut.util.include("sh_cd.lua")
 
 ENT.Type = "nextbot"
 ENT.Base = "base_nextbot"
@@ -397,16 +398,20 @@ function ENT:EquipWeapon(modelPath, materialPath)
 	self.weapon:SetModel(modelPath)
 	
 	if(materialPath) then
-		self.weapon:SetModel(materialPath)
+		self.weapon:SetMaterial(materialPath)
 	end
 	
 	self.weapon:Spawn()
 	self.weapon:SetParent(self, self.WeaponMount)
-	
 	self.weapon:SetMoveType(MOVETYPE_NONE)
-	self.weapon:SetLocalPos(Vector(0, 0, 0))
-	self.weapon:SetLocalAngles(Angle(0, 0, 0))
-	self.weapon:AddEffects(EF_BONEMERGE)
+	
+	if(self.weapon:GetBoneCount() > 1) then
+		self.weapon:AddEffects(EF_BONEMERGE)
+	elseif(self.WeaponPosition) then
+		PrintTable(self.WeaponPosition)
+		self.weapon:SetPos(self.WeaponPosition.Pos)
+		self.weapon:SetAngles(self.WeaponPosition.Ang)
+	end
 end
 
 if (CLIENT) then
@@ -430,6 +435,17 @@ if (CLIENT) then
 
 		if (self:Desc()) then
 			drawText(self:Desc(), x, y + 16, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
+		end
+		
+		local buffs = (self.getBuffs and self:getBuffs())
+		if(buffs and !table.IsEmpty(buffs)) then
+			local buffText = ""
+			
+			for k, v in pairs(buffs) do
+				buffText = buffText.. " " ..v.name.. "."
+			end
+			
+			drawText(buffText, x, y + 32, colorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 		end
 	end
 end

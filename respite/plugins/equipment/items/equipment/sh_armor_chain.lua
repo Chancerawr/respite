@@ -24,6 +24,11 @@ ITEM.attrib = {
 	["stm"] = -4,
 }
 
+ITEM.res = {
+	["Slash"] = 20,
+	["Pistol"] = 10,
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 5.5, 200),
 	ang = Angle(90, 0, 0),

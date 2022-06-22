@@ -17,6 +17,28 @@ ITEM.attrib = {
 	["fortitude"] = 3,
 }
 
+--this is a consumable so that it can be an ingredient for crafting
+ITEM.loot = {
+	["Consumable"] = 0.1,
+}
+
+ITEM.craft = {
+	hp = -10,
+	mp = 5,
+
+	buffTbl = {
+		attrib = {
+			["str"] = -2,
+			["end"] = 3,
+		},
+		
+		res = {
+			["Poison"] = -5,
+			["Fire"] = 5,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(89.43, 74.9, 54.5),
 	ang = Angle(25, 220, 0),

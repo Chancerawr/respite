@@ -25,10 +25,10 @@ ITEM.extraFunc = function(item, client)
 end
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Gas"] = true,
-	["Drug"] = true,
-	["Special"] = true,
+	["Consumable"] = 10,
+	["Gas"] = 4,
+	["Drug"] = 1,
+	["Special"] = 6,
 }
 
 ITEM.craft = {
@@ -37,8 +37,8 @@ ITEM.craft = {
 
 	buffTbl = {
 		attrib = {
-			["fortitude"] = 4,
-			["end"] = -2,
+			["fortitude"] = 5,
+			["end"] = -3,
 		},
 		
 		res = {

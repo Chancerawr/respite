@@ -31,6 +31,26 @@ ITEM.salvage = {
 	["j_scrap_bone"] = 4
 }
 
+--consumable for the sake of crafting
+ITEM.loot = {
+	["Consumable"] = 0.01,
+}
+
+ITEM.craft = {
+	buffTbl = {
+		attrib = {
+			["str"] = 2,
+			["stm"] = 0.5,
+			["fortitude"] = -0.5,
+			["perception"] = -0.5,
+		},
+		
+		amp = {
+			["Bleed"] = 2.5,
+		}
+	},
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 90),

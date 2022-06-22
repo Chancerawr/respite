@@ -18,6 +18,10 @@ ITEM.loot = {
 	["Medical"] = true,
 }
 
+ITEM.loot = {
+	["Medical"] = 5,
+}
+
 ITEM.craft = {
 	hp = 10,
 

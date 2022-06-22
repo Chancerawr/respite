@@ -10,12 +10,8 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(70, 120, 70)
 
-ITEM.data = {
-	sTime = 0
-}
-
 ITEM.iconCam = {
-	pos = Vector(333.14343261719, 278.97738647461, 198.79190063477),
+	pos = Vector(333.14, 278.98, 198.79),
 	ang = Angle(25, 220, 0),
 	fov = 4,
 }
@@ -24,7 +20,6 @@ ITEM.iconCam = {
 local timeCharge = 120
 
 local function chargeTimer(startTime)
-
 	if(!startTime) then
 		return false
 	end

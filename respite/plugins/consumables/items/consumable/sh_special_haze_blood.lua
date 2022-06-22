@@ -6,7 +6,7 @@ ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.material = "models/props_c17/furniturefabric002a"
 ITEM.duration = 6000
 ITEM.price = 200
-ITEM.color = Color(255, 60, 60)
+ITEM.color = Color(255, 30, 30)
 ITEM.sound = "hl1/ambience/steamburst1.wav"
 
 ITEM.hp = 25
@@ -25,10 +25,10 @@ ITEM.extraFunc = function(item, client)
 end
 
 ITEM.loot = {
-	["Consumable"] = true,
-	["Gas"] = true,
-	["Drug"] = true,
-	["Special"] = true,
+	["Consumable"] = 10,
+	["Gas"] = 4,
+	["Drug"] = 1,
+	["Special"] = 6,
 }
 
 ITEM.craft = {
@@ -38,8 +38,8 @@ ITEM.craft = {
 	buffTbl = {
 		attrib = {
 			["fortitude"] = -5,
-			["end"] = 4,
-			["str"] = 4
+			["end"] = 5,
+			["str"] = 5
 		},
 		
 		res = {

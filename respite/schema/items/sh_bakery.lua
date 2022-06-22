@@ -1,19 +1,14 @@
 ITEM.name = "Bakery"
 ITEM.uniqueID = "bakery"
-ITEM.model = "models/props_c17/FurnitureCupboard001a.mdl"
+ITEM.model = "models/props_c17/furnituredrawer003a.mdl"
+ITEM.material = "models/props_wasteland/tugboat02"
 ITEM.desc = "A strange wooden cupboard, the left door is labelled 'ORGANIC', and the right door is labelled 'WATER'."
-ITEM.width = 2
+ITEM.width = 1
 ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
-
-ITEM.iconCam = {
-	pos = Vector(200, -11, 10),
-	ang = Angle(180, -0, 180),
-	fov = 10.5,
-}
 
 ITEM.functions.Bake = {
 	icon = "icon16/cake.png",
@@ -25,7 +20,7 @@ ITEM.functions.Bake = {
 		local water = inventory:getFirstItemOfType("food_water_misc") or inventory:getFirstItemOfType("food_water") or inventory:getFirstItemOfType("food_blood") or inventory:getFirstItemOfType("food_water_mountain")
 		
 		if (!organic or !water) then
-			client:notify("You need 2 organic materials and one bottle of water!") return false
+			client:notify("You need 2 organic materials and one bottle of water.") return false
 		end
 			
 		local amount = organic:getData("Amount", 1)

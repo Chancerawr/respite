@@ -8,7 +8,7 @@ if(CLIENT) then
 		LocalPlayer().eventCenter = {
 			text = text,
 			startTime = CurTime(),
-			duration = 15,
+			duration = 12,
 		}
 	end
 
@@ -43,13 +43,17 @@ if(CLIENT) then
 				fade2 = Lerp(fraction2, 400, 0)
 			end
 			
+			local textLines = nut.util.wrapText(client.eventCenter.text, ScrW()*0.8, "nutTitleFont")
+			
 			--display text at center
 			surface.SetFont("nutTitleFont")
 			surface.SetTextColor(255, 255, 255, fade2)
 			
-			tSizeX, tSizeY = surface.GetTextSize(client.eventCenter.text)
-			surface.SetTextPos(w*0.5 - tSizeX*0.5, h*0.3 - tSizeY*0.5)
-			surface.DrawText(client.eventCenter.text)
+			for lineNum, text in pairs(textLines) do
+				tSizeX, tSizeY = surface.GetTextSize(text)
+				surface.SetTextPos(w*0.5 - tSizeX*0.5, h*0.3 - tSizeY*0.5 + tSizeY*(lineNum-1))
+				surface.DrawText(text)
+			end
 
 			--timer
 			if(curTime > client.eventCenter.startTime + client.eventCenter.duration) then

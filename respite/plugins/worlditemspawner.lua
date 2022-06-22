@@ -9,12 +9,11 @@ nut.config.add("item_spawnrate", 120, "How often a new item will be spawned at a
 	category = "Scavenging"
 })
 
-PLUGIN.spawngroups = { -- Example is based on HL2RP items.
+PLUGIN.spawngroups = {
 	["default"] = {
 		"food_banana",
 	},
 	["food"] = {
-		"food_juice",
 		"food_soda_bottled",
 		"food_water",
 		"food_water_mountain",
@@ -466,7 +465,6 @@ if SERVER then
 	end
 
 else
-
 	netstream.Hook("nut_DisplaySpawnPoints", function(data)
 		for k, v in pairs(data) do
 			local emitter = ParticleEmitter( v[1] )
@@ -481,7 +479,27 @@ else
 			smoke:SetAirResistance(300)
 		end
 	end)
+end
 
+local function GetWeightedRandomKey(items)
+	local sum = 0
+	
+	for item, rarity in pairs(items) do
+		sum = sum + (rarity or 10)
+	end
+
+	local select = math.random() * sum
+
+	for item, rarity in pairs(items) do
+		select = select - (rarity or 10)
+		if select < 0 then 
+			return item
+		end
+	end
+end
+
+function PLUGIN:generateItemFromGroup(group)
+	return GetWeightedRandomKey(group)
 end
 
 nut.command.add("itemspawnadd", {
@@ -542,6 +560,49 @@ nut.command.add("spawnitemgroup", {
 		
 			for i = 1, amount do
 				local uniqueID = table.Random(spawnGroup)
+			
+				if (!nut.item.list[uniqueID]) then
+					client:notify("Invalid item " ..uniqueID.. " in item group.")
+					return false
+				end
+
+				if(nut.item.list[uniqueID]) then
+					nut.item.spawn(uniqueID, aimPos)
+				else
+					client:notify("Invalid Item " ..uniqueID.. ".")
+				end
+			end
+			
+			client:notify("Spawned " ..amount.. " items from the " ..groupID.. " group.")
+		else
+			client:notify("Invalid spawn group")
+		end
+	end
+})
+
+nut.command.add("spawnitemgrouptest", {
+	adminOnly = true,
+	syntax = "<string itemgroup> <number amount>",
+	onRun = function(client, arguments)
+		local groupID = arguments[1] or "default"
+		local amount = math.min(tonumber(arguments[2]) or 1, 10)
+		
+		local spawnGroup = {}
+		
+		for k, item in pairs(nut.item.list) do
+			if(item.loot and item.loot[groupID]) then
+				spawnGroup[k] = item.loot[groupID]
+			end
+		end
+		
+		PrintTable(spawnGroup)
+		
+		if(spawnGroup) then
+			local aimPos = client:GetEyeTraceNoCursor().HitPos
+			aimPos:Add(Vector(0, 0, 10))  
+		
+			for i = 1, amount do
+				local uniqueID = PLUGIN:generateItemFromGroup(spawnGroup)
 			
 				if (!nut.item.list[uniqueID]) then
 					client:notify("Invalid item " ..uniqueID.. " in item group.")

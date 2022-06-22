@@ -42,8 +42,6 @@ ENT.res = {
 }
 
 function ENT:SpawnFunction(ply, tr, ClassName)
-	print("spawn function")
-
 	if (!tr.Hit) then return end
 
 	local SpawnPos = tr.HitPos + tr.HitNormal * 16
