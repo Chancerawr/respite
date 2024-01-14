@@ -4,8 +4,14 @@ ITEM.desc = "This gnome is wearing a hard hat."
 ITEM.uniqueID = "gnome_crafty"
 ITEM.slot = "Gnome"
 
+ITEM.gnome = true
+
 ITEM.attrib = {
 	["medical"] = 5,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
 }
 
 ITEM.iconCam = {

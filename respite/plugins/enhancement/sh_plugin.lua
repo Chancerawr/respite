@@ -10,10 +10,13 @@ local bases = {
 	"base_junk",
 	"base_weapons",
 	"base_equipment",
+	"base_ammo",
+	"base_throw",
+	"base_throw2",
 }
 
 local functionInfo = {
-	["shard"] = {
+	["shard_dust"] = {
 		name = "Shard Dust", --name of item function
 		required = "shard_dust", --item required to put this on
 		removal = "blight", --item required to remove it
@@ -117,6 +120,73 @@ local functionInfo = {
 			dmgT = "Ichor",
 		},
 	},
+	["drug_venom"] = {
+		name = "Envenom", 
+		required = "drug_venom",
+		removal = "drug_antivenom",
+		itemName = "Envenomed ",
+		itemDesc = "\nIt is dripping with a venomous substance.",
+		itemColor = Color(0, 128, 0),
+		confirm = "Are you sure you want to Envenom this item?",
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Poison",
+			dmgBonus = 5,
+		},
+	},
+	["curse"] = {
+		name = "Curse", 
+		required = "cube_chip_venom",
+		removal = "drug_antivenom",
+		itemName = "Cursing ",
+		itemDesc = "\nIt drips with a malicious looking substance.",
+		itemColor = Color(64, 128, 80),
+		confirm = "Are you sure you want to Curse this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Poison",
+			dmgBonus = 10,
+		},
+	},
+	["energy"] = {
+		name = "Charge", 
+		required = "j_scrap_energy",
+		removal = "ammo_battery",
+		itemName = "Charged ",
+		itemDesc = "\nIt is warm to the touch.",
+		itemColor = Color(130, 130, 200),
+		confirm = "Are you sure you want to Charge this item?",
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Electric",
+		},
+	},
+	["energy_chip"] = {
+		name = "Energize", 
+		required = "cube_chip_energy",
+		removal = "ammo_battery",
+		itemName = "Charged ",
+		itemDesc = "\nIt crackles with electricity.",
+		itemColor = Color(130, 130, 200),
+		confirm = "Are you sure you want to Energize this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Electric",
+		},
+	},
+	["cold_chip"] = {
+		name = "Freeze", 
+		required = "cube_chip_cold",
+		removal = "ammo_battery",
+		itemName = "Frozen ",
+		itemDesc = "\nIt's freezing to the touch.",
+		itemColor = Color(70, 80, 128),
+		confirm = "Are you sure you want to Freeze this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Cold",
+		},
+	},
 }
 
 timer.Simple(0, function()
@@ -131,6 +201,7 @@ timer.Simple(0, function()
 
 			for k, v in pairs(functionInfo) do
 				if(!inventory:hasItem(v.required)) then continue end
+				if(v.required == item.uniqueID) then continue end
 			
 				local newAbs = {
 					name = v.name,
@@ -180,7 +251,7 @@ timer.Simple(0, function()
 						newDmg = newDmg + dmgV * funcTable.dmg.ratio
 					end
 					
-					dmgTbl[funcTable.dmg.dmgT] = newDmg
+					dmgTbl[funcTable.dmg.dmgT] = newDmg + (funcTable.dmg.dmgBonus or 0)
 					
 					item:setData("dmg", dmgTbl)
 				end
@@ -198,7 +269,15 @@ timer.Simple(0, function()
 				return false
 			end
 			
-			return true
+			local inventory = client:getChar():getInv()
+			for k, v in pairs(functionInfo) do
+				if(!inventory:hasItem(v.required)) then continue end
+				if(v.required == item.uniqueID) then continue end
+				
+				return true
+			end
+			
+			return false
 		end
 	}
 	
@@ -259,7 +338,9 @@ timer.Simple(0, function()
 		onCanRun = function(item)
 			local client = item.player
 			
-			--return (!item:getData("infused") and client:getChar():getInv():getFirstItemOfType(funcTable.required) and !IsValid(item.entity))
+			if(!item:getData("infused")) then
+				return false
+			end
 			
 			if(item.noEnhance) then
 				return false

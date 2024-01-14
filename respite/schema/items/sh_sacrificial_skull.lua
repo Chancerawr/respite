@@ -81,25 +81,8 @@ ITEM.functions.Sacrifice = {
 			
 			local reward = math.random(fortRan, 100) -- rolls from character's fortitude attribute to 100.
 			local rewardI
-			
-			if(reward < 10) then
-				client:notify("You receive an ailment.")
-				
-				local ails = {
-					"fort_nost",
-					"fort_pani",
-					"fort_noia",
-					"fort_para",
-					"fort_insa",
-					"fort_hall",
-					"fort_migraine",
-					"fort_headache",
-					"fort_enrage",
-					"fort_conf"
-				}
-				
-				client:giveDisease(table.Random(ails))
-			elseif (reward < 61) then
+
+			if (reward < 50) then
 				client:notify("You receive a bottle of pills for your sacrifice.")
 				
 				if(math.random(0,1) == 1) then
@@ -131,8 +114,6 @@ ITEM.functions.Sacrifice = {
 			elseif (reward == 100) then
 				client:notify("You feel like you've changed somehow.")	
 				char:updateAttrib("fortitude", 0.5)
-
-				nut.plugin.list["parts"]:partsAdd(client, math.random(1,5), "Blight")
 			end
 			
 			if(rewardI) then

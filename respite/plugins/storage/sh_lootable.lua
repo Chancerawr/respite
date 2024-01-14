@@ -65,7 +65,7 @@ if SERVER then
 					local itemObj = nut.item.list[item]
 					if(!itemObj) then return false end
 				
-					x, y = inventory:findFreePosition(itemObj)
+					local x, y = inventory:findFreePosition(itemObj)
 					
 					if(x) then
 						inventory:add(item, 1)

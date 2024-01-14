@@ -1,7 +1,7 @@
 ITEM.name = ".44 Ammo"
 ITEM.model = "models/items/357ammo.mdl"
 ITEM.ammo = "44" 
-ITEM.ammoAmount = 1--12 
+ITEM.ammoAmount = 12
 ITEM.desc = "A box that contains %s .44 bullets."
 ITEM.price = 10
 ITEM.category = "Ammunition"

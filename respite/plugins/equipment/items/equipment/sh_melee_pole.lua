@@ -1,7 +1,7 @@
 ITEM.name = "Metal Pole"
 ITEM.desc = "A long metallic pole, it is very heavy."
 ITEM.model = "models/props_c17/signpole001.mdl"
-ITEM.class = "hl2_m_pole"
+ITEM.class = "respite_pole"
 ITEM.uniqueID = "hl2_m_pole"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

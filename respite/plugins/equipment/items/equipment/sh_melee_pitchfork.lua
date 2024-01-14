@@ -1,7 +1,7 @@
 ITEM.name = "Pitchfork"
 ITEM.desc = "An agricultural tool."
 ITEM.model = "models/warz/melee/pitchfork.mdl"
-ITEM.class = "hl2_m_pitchfork"
+ITEM.class = "respite_pitchfork"
 ITEM.slot = "melee"
 ITEM.width = 3
 ITEM.height = 1
@@ -30,6 +30,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 3,
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

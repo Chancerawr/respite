@@ -4,8 +4,14 @@ ITEM.desc = "This gnome has a four leaf clover painted on its back."
 ITEM.uniqueID = "gnome_lucky"
 ITEM.slot = "Gnome"
 
+ITEM.gnome = true
+
 ITEM.attrib = {
 	["luck"] = 3,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
 }
 
 ITEM.iconCam = {

@@ -3,10 +3,10 @@ ENT.PrintName = "Creep"
 ENT.Category = "Respite"
 ENT.Spawnable = true
 ENT.AdminOnly = true
-ENT.creationTime = 0 --when the fire was created (for duration)
-ENT.duration = 240 --how long the fire will last (in seconds)
-ENT.size = 0 --the current size
-ENT.type = 0 --the type of fire it is (house, car, gas station)
+ENT.creationTime = 0
+ENT.duration = 240
+ENT.size = 0
+ENT.type = 0
 ENT.nextSpread = 0
 ENT.spreadTime = 60
 ENT.health = 100
@@ -20,13 +20,38 @@ ENT.models = {
 
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
+ENT.drops = {
+	"food_monster_meat",
+	"food_human_arm1",
+	"food_human_arm2",
+	"food_human_arms",
+	"food_human_foot",
+	"food_human_hand",
+	"food_human_leg1",
+	"food_human_leg2",
+	"food_human_legs",
+	"food_human_pelvis",
+	"food_human_torso1",
+	"food_human_torso2",
+	"food_human_torso3",
+	"food_brain",
+	"food_eye",
+	"food_heart",
+	"food_lung",
+	"food_liver",
+	"j_skull",
+	"j_spine",
+	"j_scapula",
+	"j_rib",
+}
+
 function ENT:Initialize()
 	if SERVER then
 		--self:selectModel()
 		self:SetModel("models/props_foliage/tree_deciduous_03b.mdl")
 		self:SetHealth(self.health)
 		
-		self:PhysicsInit( SOLID_VPHYSICS )
+		self:PhysicsInit(SOLID_VPHYSICS)
 		local phys = self:GetPhysicsObject()  	
 		if phys:IsValid() then
 			phys:EnableMotion(false)
@@ -35,7 +60,13 @@ function ENT:Initialize()
 		
 		self.size = 0
 		
-		self:SetMaterial("models/flesh")
+		if(math.random(0,1) == 1) then
+			self:SetMaterial("models/flesh")
+		else
+			self:SetMaterial("models/skeleton/skeleton_bloody")
+			self:SetColor(Color(164,132,132,255))
+		end
+			
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		
 		self.creationTime = CurTime()
@@ -178,10 +209,9 @@ function ENT:createSpread()
 		spread:SetPos(self:GetPos() + Vector(0,0,30))
 		spread:Spawn()
 		spread:SetOwner( self )
-							
+
 		local phys = spread:GetPhysicsObject()
-					
-		if phys:IsValid() then
+		if IsValid(phys) then
 			local ang = self:EyeAngles()
 			ang:RotateAroundAxis(ang:Forward(), math.random(-15, 15))
 			ang:RotateAroundAxis(ang:Up(), math.random(-15, 15))
@@ -195,14 +225,15 @@ function ENT:createPod()
 	if(table.Count(nut.plugin.list["creep"].spawns) > nut.config.get("maxCreepSpawns", 15)) then return end
 
 	local spread = ents.Create("nut_pod")
-			
+
 	if spread:IsValid() and self:IsValid() then
 		spread:SetPos(self:GetPos() + Vector(0,0,30))
 		spread:Spawn()
-		spread:SetOwner( self )
-							
+		spread:SetMaterial(self:GetMaterial())
+		spread:SetOwner(self)
+		
 		local phys = spread:GetPhysicsObject()
-					
+
 		if phys:IsValid() then
 			local ang = self:EyeAngles()
 			ang:RotateAroundAxis(ang:Forward(), math.random(-15, 15))
@@ -213,7 +244,30 @@ function ENT:createPod()
 	end
 end
 
-function ENT:OnTakeDamage( dmginfo )
+function ENT:createPodWeak()
+	if(table.Count(nut.plugin.list["creep"].spawns) > nut.config.get("maxCreepSpawns", 15)) then return end
+
+	local spread = ents.Create("nut_podweak")
+
+	if spread:IsValid() and self:IsValid() then
+		spread:SetPos(self:GetPos() + Vector(0,0,30))
+		spread:Spawn()
+		spread:SetMaterial(self:GetMaterial())
+		spread:SetOwner(self)
+		
+		local phys = spread:GetPhysicsObject()
+
+		if phys:IsValid() then
+			local ang = self:EyeAngles()
+			ang:RotateAroundAxis(ang:Forward(), math.random(-15, 15))
+			ang:RotateAroundAxis(ang:Up(), math.random(-15, 15))
+			ang:RotateAroundAxis(ang:Right(), math.random(-15, 15))
+			phys:SetVelocityInstantaneous(ang:Up() * (math.random(500, 550) + (15 * self.size)))
+		end
+	end
+end
+
+function ENT:OnTakeDamage(dmginfo)
 	if(dmginfo:IsDamageType(DMG_BURN) or dmginfo:IsDamageType(DMG_BLAST)) then
 		self:Ignite(45)
 		self:SetColor(Color(200,200,200,255))
@@ -223,23 +277,32 @@ function ENT:OnTakeDamage( dmginfo )
 	
 	if(self:Health() <= 0 and !self.dead) then
 		if(self.size >= 3) then
+			local spread
+		
 			if(self.heart) then
-				local spread = ents.Create("nz_leecher")
+				spread = ents.Create("nz_leecher")
 				spread:SetPos(self:GetPos() + Vector(0,0,30))
 				spread:Spawn()
 				spread:SetOwner(self)
 			else
-				local spread = ents.Create("nz_freak")
+				--[[
+				spread = ents.Create("nz_freak")
 				spread:SetPos(self:GetPos() + Vector(0,0,30))
 				spread:Spawn()
 				spread:SetOwner(self)
-				spread:SetMaterial("models/flesh")
+				spread:SetMaterial(self:GetMaterial())
+				--]]
+				
+				self:createPodWeak()
 			end
+			
 			self.dead = true
 		end
 		
 		if(self.size > 1) then
-			nut.item.spawn("food_monster_meat", self:GetPos() + Vector(0,0,30))
+			local drop = table.Random(self.drops)
+			
+			nut.item.spawn(drop, self:GetPos() + Vector(0,0,30))
 		end
 		
 		SafeRemoveEntity(self)

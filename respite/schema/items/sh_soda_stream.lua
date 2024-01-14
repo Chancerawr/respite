@@ -10,12 +10,6 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
 
-ITEM.iconCam = {
-	pos = Vector(9.5, 0, 200),
-	ang = Angle(90, 0, 0),
-	fov = 7,
-}
-
 ITEM.functions.Ichor = {
 	name = "Produce Ichor",
 	icon = "icon16/cup.png",
@@ -159,7 +153,7 @@ ITEM.functions.Depress = {
 }
 
 ITEM.functions.Antidepress = {
-	name = "Depressant",
+	name = "Antidepressant",
 	icon = "icon16/cup.png",
 	sound = "HL1/fvox/hiss.wav",
 	onRun = function(item)
@@ -490,8 +484,6 @@ ITEM.functions.Battery = {
 		timer.Simple(45 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 			
-			local soda = "food_soda_cold"
-
 			local rewards = {
 				"food_soda_cold",
 				"j_battery_dead"
@@ -532,7 +524,7 @@ ITEM.functions.Battery = {
 }
 
 ITEM.functions.EChip = {
-	name = "Enhanced Chip",
+	name = "Distorted Chip",
 	icon = "icon16/map.png",
 	sound = "ambient/water/distant_drip4.wav",
 	onRun = function(item)
@@ -570,7 +562,74 @@ ITEM.functions.EChip = {
 	end
 }
 
+ITEM.functions.Battery = {
+	name = "Violet Soda",
+	icon = "icon16/cup.png",
+	sound = "HL1/fvox/hiss.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		
+		local water = inventory:getFirstItemOfType("food_water")
+		local battery = inventory:getFirstItemOfType("ammo_battery")
+		
+		client:notifyLocalized("Converting has started.")
+		nut.chat.send(client, "itclose", "The machine accepts the objects.")	
+		
+		item:setData("producing", CurTime())
+		battery:remove()
+		water:remove()
+		
+		timer.Simple(45 * nut.config.get("devTimeMult", 1), function()
+			item:setData("producing", nil)
+			
+			local rewards = {
+				"drug_violet",
+				"j_battery_dead"
+			}
+			
+			for k, v in pairs(rewards) do
+				timer.Simple(k, function()
+					if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+						inventory:addSmart(v, 1, client:getItemDropPos())
+					else --if the item is on the ground
+						nut.item.spawn(v, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
+					end
+				end)
+			end
+			
+			nut.chat.send(client, "itclose", "Something is dispensed from the machine.")
+		end)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one conversion action should be happening at once with one item.
+		local player = item.player
+		local water = player:getChar():getInv():getFirstItemOfType("food_water")
+		local battery = player:getChar():getInv():getFirstItemOfType("ammo_battery")
+
+		if(!battery) then
+			return false
+		end
+		
+		if(!water) then
+			return false
+		end
+		
+		local prodTime = 45 * nut.config.get("devTimeMult", 1)
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
+		end
+		
+		return true
+	end
+}
+
 function ITEM:onEntityCreated(entity)
+	entity:SetAngles(Angle(-90,0,0))
+
 	local physObj = entity:GetPhysicsObject()
 	if(IsValid(physObj)) then
 		physObj:SetMass(250)
@@ -586,3 +645,9 @@ function ITEM:getDesc()
 	
 	return Format(desc)
 end
+
+ITEM.iconCam = {
+	pos = Vector(9.5, 0, 200),
+	ang = Angle(90, 0, 0),
+	fov = 7,
+}

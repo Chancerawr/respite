@@ -1,7 +1,7 @@
 ITEM.name = "Harpoon"
 ITEM.desc = "A long spear-like instrument."
 ITEM.model = "models/props_junk/harpoon002a.mdl"
-ITEM.class = "hl2_m_harpoon"
+ITEM.class = "respite_harpoon"
 ITEM.uniqueID = "hl2_m_harpoon"
 ITEM.slot = "melee"
 ITEM.width = 5
@@ -29,6 +29,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 7
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

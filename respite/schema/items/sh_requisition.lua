@@ -388,12 +388,18 @@ for k, v in pairs(dropFunctions) do
 				return false
 			end
 			
-			local chip = inventory:getFirstItemOfType("cube_chip_enhanced")
+			local chip = inventory:getFirstItemOfType("distortion")
 		
-			client:requestQuery("This costs " ..cost.. " scrap coins and an enhanced chip. Are you sure?", "Order", function(text)
+			client:requestQuery("This costs " ..cost.. " scrap coins and a distortion. Are you sure?", "Order", function(text)
 				if(!chip) then return false end
 			
-				chip:remove()
+				local amount = chip:getData("Amount", 1)
+				if(amount > 1) then
+					chip:setData("Amount", amount-1)
+				else
+					chip:remove()
+				end
+				
 				char:takeMoney(cost)
 				
 				nut.chat.send(client, "it", "The requsition device begins to emit some sort of noise.")
@@ -429,11 +435,11 @@ for k, v in pairs(dropFunctions) do
 							client:notify("Sky not found, enhanced chip refunded.")
 							
 							if(!IsValid(item:getEntity())) then --checks if item is not on the ground								
-								inventory:addSmart("cube_chip_enhanced", 1, client:getItemDropPos())
+								inventory:addSmart("distortion", 1, client:getItemDropPos())
 								
 								char:giveMoney(cost)	
 							else --if the item it on the ground
-								nut.item.spawn("cube_chip_enhanced", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
+								nut.item.spawn("distortion", item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the created item above the item
 								char:giveMoney(cost)
 							end
 						end
@@ -446,7 +452,7 @@ for k, v in pairs(dropFunctions) do
 		onCanRun = function(item)
 			local client = item.player
 			
-			if (!client:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")) then 
+			if (!client:getChar():getInv():getFirstItemOfType("distortion")) then 
 				return false
 			end
 			

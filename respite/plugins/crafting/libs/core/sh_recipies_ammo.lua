@@ -426,3 +426,37 @@ RECIPE.result = {
 	["ammo_battery"] = 1
 }
 RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_ammo_bone"
+RECIPE.name = "Bone Shards"
+RECIPE.category = "Ammunition"
+RECIPE.model = "models/gibs/hgibs_scapula.mdl"
+RECIPE.desc = "Sharp shards of bone, a very crude and unreliable ammunition."
+RECIPE.stackedResults = true
+ 
+RECIPE.items = {
+	["j_scrap_bone"] = 5,
+	["cube_chip"] = 1
+}
+RECIPE.result = {
+	["ammo_bone"] = 5
+}
+RECIPES:Register( RECIPE )
+//
+RECIPE = {}
+RECIPE.uid = "nut_ammo_bone"
+RECIPE.name = "Meat Chunks"
+RECIPE.category = "Ammunition"
+RECIPE.model = "models/gibs/antlion_gib_small_2.mdl"
+RECIPE.desc = "Chunks of meat, heated by some unknown force."
+RECIPE.stackedResults = true
+ 
+RECIPE.items = {
+	["j_scrap_organic"] = 5,
+	["cube_chip"] = 1
+}
+RECIPE.result = {
+	["ammo_flesh"] = 2
+}
+RECIPES:Register( RECIPE )

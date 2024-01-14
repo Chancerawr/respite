@@ -82,6 +82,7 @@ function PLUGIN:costCheck(client, spell)
 	return true
 end
 
+--creates a table for targeting data for the cswep
 local function actionFormat(actionTbl, item)
 	local action = {
 		uid = actionTbl.uid,
@@ -93,6 +94,7 @@ local function actionFormat(actionTbl, item)
 		cone2 = actionTbl.cone2,
 		box = actionTbl.box,
 		selfOnly = actionTbl.selfOnly,
+		itemUse = actionTbl.itemUse,
 		--attackOverwrite = actionTbl.attackOverwrite,
 		weapon = item, --ID of the weapon
 	}
@@ -207,7 +209,7 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 				local dmg = dmgV
 				
 				--direct dmg buffs
-				dmg = dmg + self:getBuffAttribute("dmg")
+				dmg = dmg + self:getBuffAttribute("dmgB")
 				
 				local amp = self:getAmp()
 				if(amp) then
@@ -452,8 +454,6 @@ PLUGIN.helperFuncs["getEvasion"] = function(self)
 	
 	if(char) then
 		evasion = evasion + (char:getAttrib("stm", 0) * 0.5)
-
-		--evasion = evasion + (char:getAttrib("talent", 0) * 0.75)
 		
 		evasion = evasion + (char:getAttrib("luck", 0) * 0.25)
 		
@@ -487,11 +487,11 @@ PLUGIN.helperFuncs["getAccuracy"] = function(self)
 	local accuracy = 1
 	
 	if(char) then
-		accuracy = accuracy + (char:getAttrib("accuracy", 0) * 2)
+		accuracy = accuracy + (char:getAttrib("accuracy", 0) * 1)
 		
-		accuracy = accuracy + (char:getAttrib("perception", 0) * 2)
+		accuracy = accuracy + (char:getAttrib("perception", 0) * 1)
 		
-		accuracy = accuracy + (char:getAttrib("luck", 0) * 0.2)
+		accuracy = accuracy + (char:getAttrib("luck", 0) * 0.25)
 		
 		accuracy = accuracy + self:getBuffAttribute("accuracy")
 	end

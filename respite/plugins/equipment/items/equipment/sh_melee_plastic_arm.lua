@@ -1,8 +1,8 @@
 ITEM.name = "Plastic Arm"
 ITEM.desc = "The arm of a plastic, it's covered in cracks and small pieces are missing here and there."
 ITEM.model = "models/dismemberment/gibs/arms.mdl"
-ITEM.material = "phoenix_storms/mrref2"
-ITEM.class = "hl2_m_mannequinarm"
+ITEM.material = "models/props_wasteland/prison_toilet01"
+ITEM.class = "respite_arm_mannequin"
 ITEM.uniqueID = "hl2_m_plastic_arm"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -28,6 +28,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_plastics"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

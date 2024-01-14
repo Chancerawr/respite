@@ -1,7 +1,7 @@
 ITEM.name = "Flashlight"
 ITEM.model = "models/warz/melee/flashlight.mdl"
 ITEM.desc = "A regular flashlight with batteries included."
-ITEM.class = "hl2_m_flashlight"
+ITEM.class = "respite_flashlight"
 ITEM.uniqueID = "flashlight"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -23,6 +23,12 @@ ITEM.salvage = {
 	["j_scrap_adhesive"] = 1,
 	["j_scrap_battery"] = 1,
 	["j_scrap_light"] = 1
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

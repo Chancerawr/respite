@@ -7,3 +7,6 @@ ITEM.uniqueID = "nut_darkgrenade"
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Grenades"
+ITEM.color = Color(0, 0, 0)
+
+ITEM.action = "grenade_dark"

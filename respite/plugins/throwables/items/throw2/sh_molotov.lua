@@ -8,6 +8,8 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Makeshift"
 
+ITEM.action = "grenade_molotov"
+
 ITEM.functions.Load = { -- sorry, for name order.
 	name = "Load",
 	tip = "useTip",

@@ -1,6 +1,6 @@
 ITEM.name = "Chip Pouch"
 ITEM.uniqueID = "cube_chip_pouch"
-ITEM.desc = "A small sack, it has many slots within it. It can hold 25 chips."
+ITEM.desc = "A small sack, it has many slots within it. It can hold 50 chips."
 ITEM.model = "models/props_junk/garbage_bag001a.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.width = 1
@@ -24,7 +24,7 @@ ITEM.functions.Fill = {
 		local chip = inventory:getFirstItemOfType("cube_chip")	
 		while(chip) do
 			local chipcount = item:getData("chipcount", 0)
-			if (chip and chipcount < 25) then
+			if (chip and chipcount < 50) then
 				chip:remove()
 				item:setData("chipcount", chipcount + 1)
 				item.player:EmitSound("ambient/materials/dinnerplates1.wav", 65, 60)
@@ -82,7 +82,7 @@ ITEM.functions.Extract = {
 function ITEM:getDesc()
 	local str
 	if (!self.entity or !IsValid(self.entity)) then
-		str = "A small bag with dozens of small pouches within it.\nCapacity: 25\nChip Count: %s"
+		str = "A small bag with dozens of small pouches within it.\nCapacity: 50\nChip Count: %s"
 	else
 		str = "A small bag with dozens of small pouches within it."
 	end

@@ -1,7 +1,7 @@
 ITEM.name = "Track Sign"
 ITEM.desc = "A sign commonly seen along race tracks that warn drivers to slowdown. Or something."
 ITEM.model = "models/props_trainstation/tracksign03.mdl"
-ITEM.class = "hl2_m_tracksign"
+ITEM.class = "respite_tracksign"
 ITEM.uniqueID = "hl2_m_tracksign"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 8
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

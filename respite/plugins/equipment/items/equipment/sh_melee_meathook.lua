@@ -1,7 +1,7 @@
 ITEM.name = "Meat Hook"
 ITEM.desc = "A metal instrument usually used to hang meat."
 ITEM.model = "models/props_junk/meathook001a.mdl"
-ITEM.class = "hl2_m_meathook"
+ITEM.class = "respite_hook"
 ITEM.uniqueID = "hl2_m_meathook"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -28,6 +28,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

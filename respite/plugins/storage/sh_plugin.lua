@@ -69,6 +69,8 @@ nut.command.add("storagename", {
 				ent:setNetVar("name", name)
 				
 				PLUGIN:saveStorage()
+				
+				client:notify("Storage name updated.")
 			else
 				client:notify("You do not own that.")
 			end
@@ -91,6 +93,8 @@ nut.command.add("storagedesc", {
 				ent:setNetVar("desc", desc)
 				
 				PLUGIN:saveStorage()
+				
+				client:notify("Storage description updated.")
 			else
 				client:notify("You do not own that.")
 			end
@@ -149,6 +153,8 @@ nut.command.add("storageunlockall", {
 			end
 			
 			PLUGIN:saveStorage()
+			
+			client:notify("All storage unlocked.")
 		end)
 	end
 })
@@ -179,7 +185,10 @@ nut.command.add("storagecreate", {
 		
 		local data
 		if(arguments[2] and arguments[3]) then
-			local name = tostring(arguments[2])..tostring(arguments[3])
+			local width = math.Clamp(tonumber(arguments[2]), 1, 10)
+			local height = math.Clamp(tonumber(arguments[3]), 1, 10)
+		
+			local name = tostring(width)..tostring(height)
 			data = STORAGE_DEFINITIONS[name]
 			storage:setNetVar("overwrite", name)
 		else
@@ -207,6 +216,8 @@ nut.command.add("storagecreate", {
 					storage:Remove()
 				end
 			end)
+			
+		client:notify("Storage created.")
 	end
 })
 
@@ -258,6 +269,8 @@ nut.command.add("storageclone", {
 						storage:Remove()
 					end
 				end)
+				
+			client:notify("Storage cloned.")
 		else
 			client:notify("Look at a valid storage entity.")
 			return false
@@ -282,6 +295,8 @@ nut.command.add("storageempty", {
 				v:removeFromInventory(true)
 				:next(function() v:spawn((trace.HitPos + VectorRand(0, 10))) end)
 			end
+			
+			client:notify("Storage emptied.")
 		else
 			client:notify("Look at a storage entity.")
 		end
@@ -307,6 +322,24 @@ nut.command.add("storageforceunequip", {
 			client:notify("Item(s) unequipped.")
 		else
 			client:notify("Look at a storage entity.")
+		end
+	end
+})
+
+--lets admins open a storage entity even if it's passworded
+nut.command.add("storageopen", {
+	adminOnly = true,
+	syntax = "<none>",
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		local ent = trace.Entity
+
+		if (ent and ent:IsValid()) then
+			client.nutStorageEntity = ent
+		
+			ent:openInv(client)
+		else
+			client:notifyLocalized("invalid", "Entity")
 		end
 	end
 })

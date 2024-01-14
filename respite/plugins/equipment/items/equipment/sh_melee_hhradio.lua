@@ -1,7 +1,7 @@
 ITEM.name = "Hand-held Radio"
 ITEM.desc = "A busted hand-held radio. You can still hit things with it I guess."
 ITEM.model = "models/props/cs_office/radio.mdl"
-ITEM.class = "hl2_m_hhradio"
+ITEM.class = "respite_hhradio"
 ITEM.uniqueID = "hl2_m_hhradio"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -29,6 +29,12 @@ ITEM.salvage = {
 	["j_scrap_elecs"] = 2,
 	["j_scrap_screws"] = 2,
 	["j_scrap_plastics"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

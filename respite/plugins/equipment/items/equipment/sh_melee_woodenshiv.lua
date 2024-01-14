@@ -1,7 +1,7 @@
 ITEM.name = "Wooden Shiv"
 ITEM.desc = "A sharpened piece of wood, clearly splintered off something bigger."
 ITEM.model = "models/props_c17/FurnitureDrawer001a_Shard01.mdl"
-ITEM.class = "hl2_m_woodenshiv"
+ITEM.class = "respite_shiv_wood"
 ITEM.uniqueID = "hl2_m_woodenshiv"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -30,6 +30,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 ITEM.iconCam = {

@@ -1,7 +1,7 @@
 ITEM.name = "Trap-scrap Sword"
 ITEM.desc = "An odd sword/cleaver type weapon made of scrap metal."
 ITEM.model = "models/props_c17/trappropeller_blade.mdl"
-ITEM.class = "hl2_m_trapscrap"
+ITEM.class = "respite_trapscrap"
 ITEM.uniqueID = "hl2_m_trapscrap"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -29,6 +29,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

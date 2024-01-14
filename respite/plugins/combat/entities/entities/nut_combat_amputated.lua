@@ -36,8 +36,8 @@ ENT.res = {
 	["Blunt"] = 0,
 	
 	["Ichor"] = 0,
-	["Blight"] = 0,
-	["Shard"] = 0,
+	["Blight"] = -50,
+	["Shard"] = 100,
 	["Distort"] = 0,
 	
 	["Fire"] = 0,
@@ -49,6 +49,7 @@ ENT.res = {
 
 ENT.actions = {
 	"maw_bite",
+	"throw_meat",
 }
 
 function ENT:Initialize()

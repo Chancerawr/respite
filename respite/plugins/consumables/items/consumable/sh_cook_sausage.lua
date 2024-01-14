@@ -1,7 +1,7 @@
 ITEM.name = "Sausage"
 ITEM.desc = "A meaty sausage."
 ITEM.uniqueID = "cook_sausage"
-ITEM.model = "models/gibs/antlion_gib_small_2.mdl"
+ITEM.model = "models/food/hotdog.mdl"
 ITEM.material = "models/flesh"
 ITEM.quantity2 = 2
 --ITEM.price = 3

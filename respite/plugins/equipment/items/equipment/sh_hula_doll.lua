@@ -15,6 +15,10 @@ ITEM.attrib = {
 	["luck"] = 2,
 }
 
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}
+
 ITEM.iconCam = {
 	pos = Vector(200, 0, 3.3),
 	ang = Angle(180, -0, 180),

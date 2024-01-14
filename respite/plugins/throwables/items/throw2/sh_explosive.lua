@@ -7,11 +7,7 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Grenades"
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0.5),
-	ang = Angle(0, -0, 0),
-	fov = 3.25,
-}
+ITEM.action = "grenade_explosive"
 
 ITEM.functions.Load = { -- sorry, for name order.
 	name = "Load",
@@ -31,4 +27,10 @@ ITEM.functions.Load = { -- sorry, for name order.
 		
 		return true
 	end
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0.5),
+	ang = Angle(0, -0, 0),
+	fov = 3.25,
 }

@@ -161,7 +161,8 @@ RECIPE.items = {
 	["j_scrap_elastic"] = 2,
 	["j_scrap_metals"] = 10,
 	["j_scrap_elecs"] = 10,
-	["charged_cube"] = 1
+	["ammo_battery"] = 2,
+	["j_scrap_energy"] = 1
 }
 RECIPE.result = {
 	["armor_charged"] = 1
@@ -237,7 +238,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["shield_wood"] = 1
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_shield_metal"
@@ -251,5 +252,24 @@ RECIPE.items = {
 }
 RECIPE.result = {
 	["shield_metal"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_shield_ballistic"
+RECIPE.name = "Ballistic Shield"
+RECIPE.category = "Shields"
+RECIPE.model = "models/cloud/ballisticshield_mod.mdl"
+RECIPE.desc = "A large metal shield."
+ 
+RECIPE.items = {
+	["j_scrap_plastics"] = 25,
+	["j_scrap_rubber"] = 10,
+	["j_scrap_chems"] = 10,
+	["j_scrap_steel"] = 5,
+	["cube_chip"] = 15,
+}
+RECIPE.result = {
+	["shield_ballistic"] = 1
 }
 RECIPES:Register( RECIPE )

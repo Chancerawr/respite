@@ -47,15 +47,13 @@ ENT.res = {
 
 function ENT:Initialize()
 	self:basicSetup()
-
-	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,10))
 	
-	local physObj = self:GetPhysicsObject()
-	if (IsValid(physObj)) then
-		physObj:EnableMotion(true)
-		physObj:EnableGravity(true)
-		--physObj:Sleep()
-		physObj:EnableCollisions(true)
-		physObj:Wake()
+	if(SERVER) then
+		local ran = math.random(0,1)
+		if(ran == 1) then
+			self:SetMaterial("models/flesh")
+		else
+			self:SetMaterial("models/zombie_fast/fast_zombie_sheet")
+		end
 	end
 end

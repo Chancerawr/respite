@@ -2,7 +2,7 @@ ITEM.name = "Makeshift Spear"
 ITEM.desc = "A chunk of wood with a sharp piece of metal on the end."
 ITEM.model = "models/props_c17/signpole001.mdl"
 ITEM.material = "models/props/cs_militia/roofbeams03"
-ITEM.class = "hl2_m_makeshift_spear"
+ITEM.class = "respite_makeshift_spear"
 ITEM.uniqueID = "hl2_m_makeshift_spear"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -32,6 +32,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 3,
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

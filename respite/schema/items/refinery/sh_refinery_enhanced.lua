@@ -1,12 +1,12 @@
-ITEM.name = "Refinery - Distorted Chips"
+ITEM.name = "Refinery - Enhanced Chips"
 ITEM.uniqueID = "refinery_enhanced"
 ITEM.material = "models/props_combine/stasisfield_beam"
-ITEM.desc = "A strange metal box, It has a large slot that is labelled 'MEMORIES', another slot labelled 'SHARD DUST', and a small output slot labelled 'ENHANCED CHIP'."
+ITEM.desc = "A strange metal box, It has a large slot that is labelled 'DISTORTIONS', another slot labelled 'CHIP', and a small output slot labelled 'ENHANCED CHIP'."
 
 ITEM.funcTable = {
 	{
 		id = "chip",
-		name = "Distorted Chip",
+		name = "Distortion Key",
 		icon = "icon16/cog.png",
 		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
@@ -19,7 +19,103 @@ ITEM.funcTable = {
 		results = {
 			["cube_chip_enhanced"] = 1,
 		},
-	}
+	},
+	{
+		id = "chip2",
+		name = "Soul Mark",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/spindown.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		required = {
+			["ichor"] = 7,
+			["cube_chip"] = 1,
+		},	
+		
+		results = {
+			["cube_chip_ichor"] = 1,
+		},
+	},
+	{
+		id = "chip3",
+		name = "Mind Sigil",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/spindown.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		required = {
+			["blight"] = 7,
+			["cube_chip"] = 1,
+		},	
+		
+		results = {
+			["cube_chip_blight"] = 1,
+		},
+	},
+	{
+		id = "chip4",
+		name = "Flesh Icon",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/spindown.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		required = {
+			["shard_dust"] = 7,
+			["cube_chip"] = 1,
+		},	
+		
+		results = {
+			["cube_chip_shard"] = 1,
+		},
+	},
+	{
+		id = "chip5",
+		name = "Intrinsic Symbol",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/spindown.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		required = {
+			["j_scrap_memory"] = 10,
+			["cube_chip"] = 1,
+		},	
+		
+		results = {
+			["cube_chip_memory"] = 1,
+		},
+	},
+	{
+		id = "chip6",
+		name = "Voltaic Crest",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/spindown.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		required = {
+			["j_scrap_energy"] = 3,
+			["cube_chip"] = 1,
+		},	
+		
+		results = {
+			["cube_chip_energy"] = 1,
+		},
+	},
+	{
+		id = "chip7",
+		name = "Toxic Curse",
+		icon = "icon16/cog.png",
+		sound = "ambient/machines/spindown.wav",	
+		--startString = "The machine accepts the materials and outputs adhesive."
+		--endString = "The machine accepts the materials and outputs adhesive."
+		required = {
+			["drug_venom"] = 7,
+			["cube_chip"] = 1,
+		},	
+		
+		results = {
+			["cube_chip_venom"] = 1,
+		},
+	},
 }
 
 local function requiredItems(inventory, item, required)

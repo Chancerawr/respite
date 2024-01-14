@@ -7,6 +7,8 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.color = Color(255, 140, 20)
 
+ITEM.gnome = true
+
 ITEM.salvItem = {
 	["c_scrap_gnome"] = 2
 }
@@ -39,7 +41,7 @@ ITEM.functions.Scrap = {
 		local chance = item.multiChance
 		local multi = 1
 		
-		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+		if(TRAITS and client:hasTrait("scrapper")) then --trait increases chance of multi result
 			chance = chance + 10
 		end
 		

@@ -75,6 +75,8 @@ nut.anim.setModelClass("models/tnb/combine/metrocop.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/metrocop_female.mdl", "player")
 nut.anim.setModelClass("models/tnb/combine/synth_soldier.mdl", "player")
 
+nut.anim.setModelClass("models/violet_shuriken/violet_mk2/female_violet_mk2.mdl", "player")
+
 nut.config.add("devTimeMult", 1, "A multiplier on the machine time.", nil, {
 	form = "Float",
 	data = {min = 0, max = 100},

@@ -1,7 +1,7 @@
 ITEM.name = "Car Muffler"
 ITEM.desc = "A metal muffler that was once attached to a car."
 ITEM.model = "models/props_vehicles/carparts_muffler01a.mdl"
-ITEM.class = "hl2_m_muffler"
+ITEM.class = "respite_muffler"
 ITEM.uniqueID = "j_car_muffler"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 6
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

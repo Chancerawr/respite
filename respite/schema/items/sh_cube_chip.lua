@@ -16,7 +16,7 @@ ITEM.onCombineTo = function(itemSelf, itemTarget)
 	if(itemTarget.uniqueID == "cube_chip_pouch") then
 		local chipcount = itemTarget:getData("chipcount", 0)
 
-		if(chipcount < 25) then
+		if(chipcount < 50) then
 			itemSelf.player:EmitSound("ambient/materials/dinnerplates1.wav", 65, 130)
 			itemSelf:remove()
 			itemTarget:setData("chipcount", chipcount + 1)

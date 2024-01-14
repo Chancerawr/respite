@@ -1,0 +1,10 @@
+ITEM.name = "Iron"
+ITEM.desc = "A gray metal useful in a variety of applications."
+ITEM.uniqueID = "j_scrap_iron"
+ITEM.model = "models/gibs/scanner_gib02.mdl"
+ITEM.material = "models/props_c17/metalladder001"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(90, 90, 90)

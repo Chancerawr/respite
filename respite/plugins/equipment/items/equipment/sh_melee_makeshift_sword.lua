@@ -2,7 +2,7 @@ ITEM.name = "Makeshift Sword"
 ITEM.desc = "A sharpened piece of scrap metal."
 ITEM.model = "models/props_debris/wood_chunk03e.mdl"
 ITEM.material = "models/props_pipes/pipesystem01a_skin2"
-ITEM.class = "hl2_m_makeshift_sword"
+ITEM.class = "respite_makeshift_sword"
 ITEM.uniqueID = "hl2_m_makeshift_sword"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -30,6 +30,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

@@ -47,17 +47,22 @@ PLUGIN.dmgTypes = {
 	["Explosion"] = {
 		name = "Explosion Damage",
 		color = Color(200,165,0),
-		armor = 0.8,
+		armor = 0.5,
 	},
 	["Poison"] = {
 		name = "Poison Damage",
 		color = Color(0,255,0),
 		armor = 0.5,
 	},
+	["Rot"] = {
+		name = "Rot Damage",
+		color = Color(0,255,0),
+		armor = 0.25,
+	},
 	["Acid"] = {
 		name = "Acid Damage",
 		color = Color(200,200,0),
-		armor = 0.5,
+		armor = 0.25,
 	},
 	
 	--regular physical things
@@ -81,7 +86,7 @@ PLUGIN.dmgTypes = {
 	["Siege"] = {
 		name = "Siege Damage",
 		color = Color(180,180,180),
-		armor = 1,
+		armor = 0.1,
 	},
 	
 	--special things
@@ -109,6 +114,11 @@ PLUGIN.dmgTypes = {
 	["Time"] = {
 		name = "Time Damage",
 		color = Color(0,128,128),
+		armor = 0.25,
+	},
+	["Erasure"] = {
+		name = "Erasure Damage",
+		color = Color(255,255,255),
 		armor = 0,
 	},
 	

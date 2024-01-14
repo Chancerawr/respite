@@ -1,7 +1,7 @@
 ITEM.name = "Shovel"
 ITEM.desc = "A tool used for digging."
 ITEM.model = "models/warz/melee/shovel.mdl"
-ITEM.class = "hl2_m_shovel"
+ITEM.class = "respite_shovel"
 ITEM.uniqueID = "hl2_m_shovel"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -31,6 +31,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 2,
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

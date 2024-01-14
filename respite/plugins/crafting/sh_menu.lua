@@ -288,9 +288,14 @@ if(SERVER) then
 	
 		--uses loot generation system to grab some extra values
 		local generatedData = nut.plugin.list["equipment"]:generateLoot(level, uniqueID, true) or {}
-		if(generatedData and generatedData.custom) then
-			generatedData.custom.name = name --name based on the ingredients
-			generatedData.realName = name --realname is used for buffs usually
+		if(generatedData) then
+			if(generatedData.custom) then
+				generatedData.custom.name = name --name based on the ingredients
+				generatedData.realName = name --realname is used for buffs usually
+			else --make absolutely sure the name goes through
+				generatedData.custom = {}
+				generatedData.custom.name = name
+			end
 		end
 		
 		--merges the two tables hell yeah computer science
@@ -375,16 +380,6 @@ else
 			hook.Call("CraftingPrePopulateItems", self)
 
 			timer.Simple(0, function()
-				--local trait = LocalPlayer():hasTrait(self.profession)
-					
-				--[[
-				local level = LocalPlayer():getChar():getData("craft", {})[self.profession] or 0
-
-				if(self.profession) then
-					self:SetTitle(string.upper(self.profession))--.. " Level: " ..math.Round(level)))
-				end
-				--]]
-				
 				for class, itemTable in SortedPairsByMemberValue(RECIPES:GetAll(), "category") do
 					if(itemTable.level and level < itemTable.level) then continue end
 				
@@ -441,7 +436,7 @@ else
 								icon:SetToolTip(text)
 								
 								function icon:OnCursorEntered()
-									if(icon.recipeDesc) then
+									if(IsValid(icon.recipeDesc)) then
 										icon.recipeDesc:Remove()
 									end
 								
@@ -552,15 +547,50 @@ else
 								end
 							end
 							icon:SetToolTip(text)
-
-							icon.PaintOver = function(icon, w, h)
-								surface.SetDrawColor(0, 0, 0, 45)
-								surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
-
-								if(itemTable.level) then
-									draw.SimpleText(itemTable.level, "DermaDefault", w - 12, h - 14, Color(64,128,64), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
+							
+							--[[
+							icon.OnCursorEntered = function(panel)
+								if(IsValid(self.recipeDesc)) then
+									self.recipeDesc:Remove()
 								end
-							end						
+							
+								self.recipeDesc = self:Add("DTextEntry")
+								local recipeDesc = self.recipeDesc
+								
+								recipeDesc:SetSize(320, 100)
+								recipeDesc:SetText("")
+								
+								local recipeDescPosX = icon:GetX() + icon:GetWide()
+								recipeDesc:SetPos(recipeDescPosX, icon:GetY())
+								
+								function recipeDesc:Paint(w, h)
+									--inner box of tooltip
+									surface.SetDrawColor(0, 0, 0, 255)
+									surface.DrawRect(0, 0, w, h)
+								
+									--outline of skill desc
+									surface.SetDrawColor(255, 255, 255, 255)
+									surface.DrawOutlinedRect(0, 0, w, h, 1)
+									
+									if(text) then
+										local descLines = nut.util.wrapText(text, 250, "DermaDefault")
+									
+										for lineIt, line in pairs(descLines) do
+											draw.DrawText(line, "DermaDefault", 5, 4 + 12 * lineIt, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT)
+										end
+									end
+								end
+								
+								recipeDesc:MoveToFront()
+							end
+							
+							icon.OnCursorExited = function(panel)
+								if(IsValid(self.recipeDesc)) then
+									self.recipeDesc:Remove()
+								end
+							end
+							--]]
+							
 							icon.DoClick = function(panel)
 								if(itemTable.special) then
 									netstream.Start("nut_craftSpecial", self.ent, itemTable.uid)

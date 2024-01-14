@@ -6,3 +6,5 @@ ITEM.uniqueID = "nut_flashgrenade"
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Grenades"
+
+ITEM.action = "grenade_flash"

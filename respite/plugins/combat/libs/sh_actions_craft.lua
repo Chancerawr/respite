@@ -145,9 +145,9 @@ ACT.effects = {
 		duration = 3,
 		strength = 1,
 		
-		accuracy = 10,
-		evasion = 10,
-		armor = 25,
+		accuracy = 20,
+		evasion = 25,
+		armor = 50,
 		
 		buff = true,
 	},
@@ -159,9 +159,9 @@ ACT.effects = {
 		duration = 3,
 		strength = 1,
 		
-		accuracy = 10,
-		evasion = 10,
-		armor = 25,
+		accuracy = 20,
+		evasion = 25,
+		armor = 50,
 		
 		selfApply = true,
 		buff = true,

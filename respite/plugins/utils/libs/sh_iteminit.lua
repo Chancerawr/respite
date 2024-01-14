@@ -4,6 +4,86 @@ local PLUGIN = PLUGIN
 
 local playerMeta = FindMetaTable("Player")
 
+NUT_ITEM_DEFAULT_FUNCTIONS = {
+	drop = {
+		tip = "dropTip",
+		icon = "icon16/world.png",
+		onRun = function(item)
+			local client = item.player
+		
+			if(hook.Run("nut_onDropCheck", client, item)) then
+				return false
+			end
+		
+			item:removeFromInventory(true)
+				:next(function() item:spawn(client) end)
+			nut.log.add(item.player, "itemDrop", item.name, 1)
+
+			return false
+		end,
+		onCanRun = function(item)
+			return item.entity == nil
+				and not IsValid(item.entity)
+				and not item.noDrop
+		end
+	},
+	take = {
+		tip = "takeTip",
+		icon = "icon16/box.png",
+		onRun = function(item)
+			local client = item.player
+			local inventory = client:getChar():getInv()
+			local entity = item.entity
+
+			if(hook.Run("nut_onTakeCheck", client, item)) then
+				return false
+			end
+
+			if (client.itemTakeTransaction and client.itemTakeTransactionTimeout > RealTime()) then
+				return false
+			end
+
+			client.itemTakeTransaction = true 
+			client.itemTakeTransactionTimeout = RealTime()
+
+			if (not inventory) then return false end
+			
+			local d = deferred.new()
+
+			inventory:add(item)
+				:next(function(res)
+					client.itemTakeTransaction = nil
+
+					if (IsValid(entity)) then
+						entity.nutIsSafe = true
+						entity:Remove()
+					end
+					
+					if (not IsValid(client)) then return end
+					nut.log.add(client, "itemTake", item.name, 1)
+
+					d:resolve()
+				end)
+				:catch(function(err)
+					client.itemTakeTransaction = nil
+					
+					if(err == "noFit") then
+						client:notify("This item can't fit in your inventory. (" ..item.width.. "x" ..item.height..  ")")
+					else
+						client:notifyLocalized(err)
+					end
+					
+					--d:reject()
+				end)
+
+			return d 
+		end,
+		onCanRun = function(item)
+			return IsValid(item.entity)
+		end
+	},
+}
+
 function nut.item.register(uniqueID, baseID, isBaseItem, path, luaGenerated)
 	assert(isstring(uniqueID), "uniqueID must be a string")
 
@@ -50,77 +130,6 @@ function nut.item.register(uniqueID, baseID, isBaseItem, path, luaGenerated)
 
 	return targetTable[itemType]
 end
-
-NUT_ITEM_DEFAULT_FUNCTIONS = {
-	drop = {
-		tip = "dropTip",
-		icon = "icon16/world.png",
-		onRun = function(item)
-			local client = item.player
-			item:removeFromInventory(true)
-				:next(function() item:spawn(client) end)
-			nut.log.add(item.player, "itemDrop", item.name, 1)
-
-			return false
-		end,
-		onCanRun = function(item)
-			return item.entity == nil
-				and not IsValid(item.entity)
-				and not item.noDrop
-		end
-	},
-	take = {
-		tip = "takeTip",
-		icon = "icon16/box.png",
-		onRun = function(item)
-			local client = item.player
-			local inventory = client:getChar():getInv()
-			local entity = item.entity
-
-			if (client.itemTakeTransaction and client.itemTakeTransactionTimeout > RealTime()) then
-				return false
-			end
-
-			client.itemTakeTransaction = true 
-			client.itemTakeTransactionTimeout = RealTime()
-
-			if (not inventory) then return false end
-			
-			local d = deferred.new()
-
-			inventory:add(item)
-				:next(function(res)
-					client.itemTakeTransaction = nil
-
-					if (IsValid(entity)) then
-						entity.nutIsSafe = true
-						entity:Remove()
-					end
-					
-					if (not IsValid(client)) then return end
-					nut.log.add(client, "itemTake", item.name, 1)
-
-					d:resolve()
-				end)
-				:catch(function(err)
-					client.itemTakeTransaction = nil
-					
-					if(err == "noFit") then
-						client:notify("This item can't fit in your inventory. (" ..item.width.. "x" ..item.height..  ")")
-					else
-						client:notifyLocalized(err)
-					end
-					
-					--d:reject()
-				end)
-
-			return d 
-		end,
-		onCanRun = function(item)
-			return IsValid(item.entity)
-		end
-	},
-}
 
 if(SERVER) then
 	local ITEM = nut.meta.item
@@ -190,79 +199,82 @@ if(SERVER) then
 else
 	-- Called when use has been pressed on an item.
 	function PLUGIN:ItemShowEntityMenu(entity)
-		timer.Simple(0, function() --timer prevents GM hook from overwriting this one
-			if(!entity) then return end
+		--used to overwrite the hook defined by the gamemode
+		--prevents conflict with the menu
+		local GM = gmod.GetGamemode()
+		GM.ItemShowEntityMenu = nil
+	
+		if(!entity) then return end
+	
+		for k, v in ipairs(nut.menu.list) do
+			if (v.entity == entity) then
+				table.remove(nut.menu.list, k)
+			end
+		end
+
+		local options = {}
 		
-			for k, v in ipairs(nut.menu.list) do
-				if (v.entity == entity) then
-					table.remove(nut.menu.list, k)
+		local itemTable = entity and entity:getItemTable()
+		if (!itemTable) then return end -- MARK: This is the where error came from.
+
+		local function callback(index)
+			if (IsValid(entity)) then
+				netstream.Start("invAct", index, entity)
+			end
+		end
+
+		itemTable.player = LocalPlayer()
+		itemTable.entity = entity
+
+		if (input.IsShiftDown()) then
+			callback("take") 
+		end
+
+		local itemFunctions = {}
+		
+		for k, v in pairs(itemTable.functionsB) do
+			itemFunctions[k] = v
+		end
+		
+		for k, v in pairs(itemTable.functions) do
+			itemFunctions[k] = v
+		end
+		
+		for k, v in pairs(itemTable.functionsD) do
+			itemFunctions[k] = v
+		end
+
+		for k, v in SortedPairs(itemFunctions) do
+			if (k == "combine") then continue end -- yeah, noob protection
+
+			if (isfunction(v.onCanRun)) then
+				if (not v.onCanRun(itemTable)) then
+					continue
 				end
 			end
 
-			local options = {}
-			
-			local itemTable = entity and entity:getItemTable()
-			if (!itemTable) then return end -- MARK: This is the where error came from.
+			options[L(v.name or k)] = function()
+				local send = true
 
-			local function callback(index)
-				if (IsValid(entity)) then
-					netstream.Start("invAct", index, entity)
-				end
-			end
-
-			itemTable.player = LocalPlayer()
-			itemTable.entity = entity
-
-			if (input.IsShiftDown()) then
-				callback("take") 
-			end
-
-			local itemFunctions = {}
-			
-			for k, v in pairs(itemTable.functionsB) do
-				itemFunctions[k] = v
-			end
-			
-			for k, v in pairs(itemTable.functions) do
-				itemFunctions[k] = v
-			end
-			
-			for k, v in pairs(itemTable.functionsD) do
-				itemFunctions[k] = v
-			end
-
-			for k, v in SortedPairs(itemFunctions) do
-				if (k == "combine") then continue end -- yeah, noob protection
-
-				if (isfunction(v.onCanRun)) then
-					if (not v.onCanRun(itemTable)) then
-						continue
-					end
+				if (v.onClick) then
+					send = v.onClick(itemTable)
 				end
 
-				options[L(v.name or k)] = function()
-					local send = true
+				if (v.sound) then
+					surface.PlaySound(v.sound)
+				end
 
-					if (v.onClick) then
-						send = v.onClick(itemTable)
-					end
-
-					if (v.sound) then
-						surface.PlaySound(v.sound)
-					end
-
-					if (send != false) then
-						callback(k)
-					end
+				if (send != false) then
+					callback(k)
 				end
 			end
+		end
 
-			if (table.Count(options) > 0) then
-				entity.nutMenuIndex = nut.menu.add(options, entity)
-			end
+		if (table.Count(options) > 0) then
+			entity.nutMenuIndex = nut.menu.add(options, entity)
+		end
 
-			itemTable.player = nil
-			itemTable.entity = nil
-		end)
+		itemTable.player = nil
+		itemTable.entity = nil
 	end
 end

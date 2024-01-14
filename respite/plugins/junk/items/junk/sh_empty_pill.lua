@@ -1,7 +1,7 @@
 ITEM.name = "Empty Pill Bottle"
 ITEM.uniqueID = "j_empty_pill"
 ITEM.model = "models/props_lab/jar01b.mdl"
-ITEM.desc = "An empty pill bottle.\nThis container can be filled with water."
+ITEM.desc = "An empty pill bottle."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1

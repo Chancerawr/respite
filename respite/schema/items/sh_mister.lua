@@ -64,6 +64,61 @@ ITEM.functions.HazeBlue = {
 	end
 }
 
+ITEM.functions.PurpleMist = {
+	name = "Purple Mist",
+	icon = "icon16/bullet_purple.png",
+	sound = "hl1/ambience/steamburst1.wav",
+	onRun = function(item)
+		local client = item.player
+		local inventory = client:getChar():getInv()
+		local object = inventory:getFirstItemOfType("herb_purple")
+		
+		nut.chat.send(client, "itclose", "The plant is put into the machine.")
+		object:remove()
+		
+		item:setData("producing", CurTime())
+		timer.Simple(30 * nut.config.get("devTimeMult", 1), 
+			function()
+				local position = client:getItemDropPos()
+				
+				local rewards = {
+					"bottled_purple",
+				}
+				
+				local reward = table.Random(rewards)
+				
+				item:setData("producing", nil)
+				
+				if(!IsValid(item:getEntity())) then
+					inventory:addSmart(reward, 1, position)
+				else
+					nut.item.spawn(reward, item:getEntity():GetPos() + item:getEntity():GetForward()*5 + item:getEntity():GetForward()*50) --spawn the reward item above the entity
+				end
+				
+				nut.chat.send(client, "itclose", "The machine rumbles, and it dispenses something.")
+			end
+		)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local player = item.player
+		
+		if !player:getChar():getInv():getFirstItemOfType("herb_purple") then --if item of importance isn't in the inventory.
+			return false
+		end
+		
+		local prodTime = 30 * nut.config.get("devTimeMult", 1)
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
+		end
+		
+		return true
+	end
+}
+
 ITEM.functions.HazeBlood = {
 	name = "Blood Haze",
 	icon = "icon16/bullet_red.png",

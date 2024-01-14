@@ -21,9 +21,7 @@ function playerMeta:addCooldown(spell, duration)
 	local char = self:getChar()
 	char.cooldowns = cooldowns
 
-	--for k, recipient in pairs(player.GetAll()) do
-		PLUGIN:cdNetworkAll(self, self, spell, duration)
-	--end
+	PLUGIN:cdNetworkAll(self, spell, duration)
 end
 
 --removes a cooldown from a player
@@ -34,10 +32,8 @@ function playerMeta:removeCooldown(spell)
 	char.cooldowns = cooldowns
 	
 	cooldowns[spell] = nil
-	
-	--for k, recipient in pairs(player.GetAll()) do
-		PLUGIN:cdNetworkAll(self, self, spell)
-	--end
+
+	PLUGIN:cdNetworkAll(self, spell)
 end
 
 --clears all of a player's cooldowns
@@ -49,8 +45,8 @@ end
 if(SERVER) then
 	PLUGIN.networkQueueCD = {}
 
-	function PLUGIN:cdNetworkAll(recipient, entity, spell, duration)
-		PLUGIN.networkQueueCD[recipient] = PLUGIN.networkQueueCD[recipient] or {}
+	function PLUGIN:cdNetworkAll(entity, spell, duration)
+		PLUGIN.networkQueueCD = PLUGIN.networkQueueCD or {}
 		
 		local tempTbl = {
 			entity = entity, 
@@ -58,24 +54,21 @@ if(SERVER) then
 			duration = duration,
 		}
 		
-		table.insert(PLUGIN.networkQueueCD[recipient], tempTbl)
+		table.insert(PLUGIN.networkQueueCD, tempTbl)
 	end
 
 	function PLUGIN:cdThink()
 		if((self.nextNetworkCD or 0) > CurTime()) then return end
 		self.nextNetworkCD = CurTime() + 1
 
-		for k, client in pairs(player.GetAll()) do
-			local clientNet = PLUGIN.networkQueueCD[client]
-		
-			if(clientNet and !table.IsEmpty(clientNet)) then
-				local firstEntry = PLUGIN.networkQueueCD[client][1]
-				
-				netstream.Start(client, "cooldownNetworkAll", firstEntry.entity, firstEntry.spell, firstEntry.duration)
-				
-				table.remove(PLUGIN.networkQueueCD[client], 1)
-			end
+		if(table.IsEmpty(PLUGIN.networkQueueCD)) then return end
+
+		for k, client in ipairs(player.GetAll()) do
+			local netCD = PLUGIN.networkQueueCD[1]
+			netstream.Start(client, "cooldownNetworkAll", netCD.entity, netCD.spell, netCD.duration)
 		end
+		
+		table.remove(PLUGIN.networkQueueCD, 1)
 	end
 else
 	netstream.Hook("cooldownNetwork", function(data)

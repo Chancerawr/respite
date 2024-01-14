@@ -1,7 +1,7 @@
 ITEM.name = "Glass Shiv"
 ITEM.desc = "A makeshift tool used to shiv things."
 ITEM.model = "models/gibs/glass_shard04.mdl"
-ITEM.class = "hl2_m_glassshiv"
+ITEM.class = "respite_shiv_glass"
 ITEM.uniqueID = "hl2_m_glassshiv"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -29,6 +29,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_glass"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 ITEM.iconCam = {

@@ -2,15 +2,6 @@ PLUGIN.name = "Extra Commands"
 PLUGIN.author = "Chancer & Angelsaur"
 PLUGIN.desc = "A few useful commands."
 
--- nut.command.add("refreshfonts", {
-	-- syntax = "<No Input>",
-	-- onRun = function(client, arguments)
-	-- RunConsoleCommand("fixchatplz")
-	-- hook.Run("LoadFonts", nut.config.get("font"))
-	-- client:ChatPrint("Fonts have been refreshed!")		
-    -- end
--- })
-
 nut.command.add("setnick", {
 	syntax = "[String Nickname]",
 	onRun = function(client, arguments)
@@ -190,6 +181,61 @@ nut.command.add("cleannpcs", {
 	end
 })
 
+nut.command.add("cleananomalies", {
+	syntax = "[number range]",
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local count = 0
+	
+		local anomalies = {
+			["anom_bead"] = true,
+			["anom_bubble"] = true,
+			["anom_burner"] = true,
+			["anom_damage"] = true,
+			["anom_deathfog"] = true,
+			["anom_divide"] = true,
+			["anom_electro"] = true,
+			["anom_evade"] = true,
+			["anom_heat"] = true,
+			["anom_hoverstone"] = true,
+			["anom_hydro"] = true,
+			["anom_mystic"] = true,
+			["anom_static"] = true,
+			["anom_trapper"] = true,
+			["anom_vortex"] = true,
+			["anom_whirlgig"] = true,
+			["anom_bigvortex"] = true,
+		}
+
+		if(!arguments[1]) then
+			client:requestQuery("Are you sure you want delete all anomalies on the map?", "Clean Anomalies", function(text) --confirmation message
+				for k, v in ipairs(ents.GetAll()) do
+					if(IsValid(v)) then
+						if(anomalies[v:GetClass()]) then
+							count = count + 1
+							SafeRemoveEntity(v)
+						end
+					end
+				end
+				
+				client:notify(count.. " anomalies have been cleaned up from the map.")
+			end)
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do	
+				if(IsValid(v)) then
+					if(anomalies[v:GetClass()]) then
+						count = count + 1
+						SafeRemoveEntity(v)
+					end
+				end
+			end
+			
+			client:notify(count.. " anomalies have been cleaned up from the map.")
+		end
+	end
+})
 
 nut.command.add("checknpcs", {
 	adminOnly = true,
@@ -456,6 +502,90 @@ nut.command.add("charforcedropall", {
 					:next(function() item:spawn(client) end)
 				nut.log.add(target, "itemDrop", (item.getName and item:getName()) or item.name, 1)
 			end
+		end
+	end
+})
+
+--this command only really works for my nextbot base currently
+nut.command.add("npcrally", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local aimPos = client:GetEyeTraceNoCursor().HitPos
+	
+		for k, entity in ipairs(ents.GetAll()) do
+			if(IsValid(entity) and entity.respite and entity.SetEnemy) then
+				entity.rallyPoint = aimPos
+				
+				--[[
+				local tempEnt = ents.Create("info_particle_system")
+				tempEnt:SetParent(self)
+				tempEnt:SetPos(aimPos)
+				
+				entity:SetEnemy(tempEnt, 1)
+				
+				timer.Simple(5, function()
+					SafeRemoveEntity(tempEnt)
+				end)
+				--]]
+			end
+		end
+	end
+})
+
+nut.command.add("notarget", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			if(!target:IsFlagSet(FL_NOTARGET)) then
+				target:SetNoTarget(true)
+				client:notify("Notarget enabled.")
+			else
+				target:SetNoTarget(false)
+				client:notify("Notarget disabled.")
+			end
+		end
+	end
+})
+
+nut.command.add("rocket", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target) and target:getChar()) then
+			local rocketVelo = Vector(0,0,5000)
+			target:SetVelocity(rocketVelo)
+			
+			timer.Simple(1.5, function()
+				local explode=EffectData()
+				explode:SetOrigin(target:GetPos())
+				explode:SetScale(1)
+				explode:SetRadius(1)
+				--explode:SetNormal(vector_up)
+				util.Effect("explosion", explode, true, true)
+				
+				target:TakeDamage(5000, self, self)
+			end)
+		end
+	end
+})
+
+nut.command.add("ai_ignoreplayers", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		local ignorePlayers = GetConVar("ai_ignoreplayers")
+	
+		local bool = ignorePlayers:GetBool()
+		
+		if(bool) then
+			RunConsoleCommand("ai_ignoreplayers", 0)
+			client:notify("ai_ignoreplayers toggled off.")
+		else
+			RunConsoleCommand("ai_ignoreplayers", 1)
+			client:notify("ai_ignoreplayers toggled on.")
 		end
 	end
 })

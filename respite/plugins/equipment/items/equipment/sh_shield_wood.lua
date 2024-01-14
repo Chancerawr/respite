@@ -29,6 +29,24 @@ ITEM.attrib = {
 	["stm"] = -2,
 }
 
+ITEM.res = {
+	["Slash"] = 8,
+	["Blunt"] = 8,
+	["Pierce"] = 4,
+	
+	["Cold"] = 5,
+	["Fire"] = -5,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 2,
+	["Barrel"] = 1,
+}
+
+ITEM.actions = {
+	"shield_hunker",
+}
+
 ITEM.salvage = {
 	["j_scrap_wood"] = 10
 }

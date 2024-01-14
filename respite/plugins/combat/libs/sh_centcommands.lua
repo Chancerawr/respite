@@ -116,6 +116,28 @@ nut.command.add("centname", {
 	end
 })
 
+nut.command.add("centnamerand", {
+	adminOnly = true,
+	syntax = "<bool lastname>",
+	onRun = function(client, arguments)
+		local name = nut.plugin.list["randomname"]:generateName()
+
+		--only grab the first name
+		if(!arguments[1]) then
+			local nameTbl = string.Explode(" ", name)
+			name = nameTbl[1]
+		end
+		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity:setNetVar("name", name)
+			client:notify("Entity's name has been changed to " ..name.. ".")
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
 nut.command.add("centdesc", {
 	adminOnly = true,
 	syntax = "<string description>",
@@ -150,6 +172,11 @@ nut.command.add("centmodel", {
 		if (IsValid(entity) and entity.combat) then
 			entity:SetModel(arguments[1])
 			
+			if(entity.Type == "anim") then
+				-- re-init the physics for prop CEnts
+				entity:PhysicsInit(SOLID_VPHYSICS)
+			end
+			
 			for k, v in ipairs(entity:GetSequenceList()) do
 				if (v:lower():find("idle") and v != "idlenoise") then
 					entity:ResetSequence(k)
@@ -164,13 +191,58 @@ nut.command.add("centmodel", {
 	end
 })
 
+nut.command.add("centmodelscale", {
+	adminOnly = true,
+	syntax = "<string model>",
+	onRun = function(client, arguments)
+		if(!tonumber(arguments[1])) then
+			client:notify("Specify a model scale for the entity.")
+			return false
+		end
+		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity:SetModelScale(tonumber(arguments[1]))
+			entity:Activate()
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
 nut.command.add("centkill", {
 	adminOnly = true,
 	onRun = function(client, arguments)		
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			entity:die()
-			client:notify(entity:getNetVar("name").. " has been slain.")
+			client:notify(entity:Name().. " has been slain.")
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centstatue", {
+	adminOnly = true,
+	onRun = function(client, arguments)		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity:statue()
+			client:notify(entity:Name().. " has been turned into a statue.")
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centplayercontrolled", {
+	adminOnly = true,
+	onRun = function(client, arguments)		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity.playerControlled = true
+			client:notify(entity:Name().. " can now be selected by players.")
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
@@ -321,6 +393,40 @@ nut.command.add("centactionadd", {
 	end
 })
 
+nut.command.add("centactionremove", {
+	adminOnly = true,
+	syntax = "<string action>",
+	onRun = function(client, arguments)
+		if(!arguments[1]) then
+			client:notify("Specify an action to remove.")
+			return false
+		end
+	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local action = PLUGIN:actionFind(arguments[1])
+		
+			if(action) then
+				local actions = entity.actions or {}
+				
+				for k, v in pairs(actions) do
+					if(v == action.uid) then
+						actions[k] = nil
+					end
+				end
+
+				entity.actions = actions
+				
+				client:notify(entity:Name().. " now has the " ..(action.name or " ").. " action.")
+			else
+				client:notify("Invalid action.")
+			end
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
 nut.command.add("centattribs", {
 	adminOnly = true,
 	onRun = function(client, arguments)	
@@ -350,8 +456,15 @@ nut.command.add("centclone", {
 			clone:Spawn() --spawn it
 			
 			clone:SetModel(entity:GetModel()) --set its model
+			clone:SetModelScale(entity:GetModelScale()) --set its model
 			clone:SetMaterial(entity:GetMaterial() or "") --set its material
 			clone:SetColor(entity:GetColor() or Color(255,255,255))
+			
+			clone:physicsSetup()
+			
+			for k, v in pairs(entity:GetBodyGroups() or {}) do
+				clone:SetBodygroup(v.id, entity:GetBodygroup(v.id))
+			end
 			
 			clone:setNetVar("name", entity:Name()) --set its custom name
 			clone:setNetVar("desc", entity:Desc()) --set its description
@@ -375,6 +488,12 @@ nut.command.add("centclone", {
 			clone.dmg = entity.dmg
 			clone.res = entity:getNetVar("res")
 			clone.amp = entity:getNetVar("amp")
+
+			clone.savedWeapon = entity.savedWeapon
+			
+			if(entity.savedWeapon) then
+				clone:EquipWeapon(entity.savedWeapon[1], entity.savedWeapon[2])
+			end
 			
 			clone:SetCreator(client) --prop protection
 			
@@ -400,16 +519,24 @@ nut.command.add("centcopy", {
 		local entity = client:GetEyeTrace().Entity --entity that we're looking at
 		
 		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
+			local groups = {}
+			for k, v in pairs(entity:GetBodyGroups() or {}) do
+				groups[v.id] = entity:GetBodygroup(v.id)
+			end
+			
 			local info = {
 				class = entity:GetClass(),
 				ang = entity:GetAngles(),
 				mdl = entity:GetModel(),
+				mdlScale = entity:GetModelScale(),
 				mat = entity:GetMaterial(),
 				col = entity:GetColor(),
 				name = entity:getNetVar("name", entity.PrintName),
 				desc = entity:getNetVar("desc", ""),
 				ani = entity:GetSequence(),
 				inv = entity.inv,
+				
+				groups = groups,
 				
 				actions = entity.actions,
 				
@@ -426,6 +553,8 @@ nut.command.add("centcopy", {
 				amp = entity:getNetVar("amp"),
 				
 				attribs = entity.attribs,
+				
+				savedWeapon = entity.savedWeapon,
 			}	
 
 			client.CEntC = info
@@ -450,8 +579,15 @@ nut.command.add("centpaste", {
 			clone:Spawn() --spawn it
 			
 			clone:SetModel(info.mdl) --set its model
+			clone:SetModelScale(info.mdlScale) --set its model
 			clone:SetMaterial(info.mat) --set its material
 			clone:SetColor(info.col)
+			
+			clone:physicsSetup()
+			
+			for k, v in pairs(info.groups or {}) do
+				clone:SetBodygroup(k, v)
+			end
 			
 			--sets its animation
 			timer.Simple(1, function()
@@ -481,6 +617,10 @@ nut.command.add("centpaste", {
 			--set its attributes
 			clone.attribs = info.attribs
 			
+			if(info.savedWeapon) then
+				clone:EquipWeapon(info.savedWeapon[1], info.savedWeapon[2])
+			end
+			
 			clone:SetCreator(client) --prop protection
 
 			local name = clone:getNetVar("name", clone.PrintName)
@@ -496,7 +636,9 @@ nut.command.add("centmirror", {
 		local entity = client:GetEyeTrace().Entity --entity that we're looking at
 		
 		if (IsValid(entity) and entity:IsPlayer()) then --makes sure it's a CEnt (Combat Entity)
-			local clone = ents.Create("nut_combat_dummy") --the new clone entity
+			local clone = ents.Create("nut_combat_drifter") --the new clone entity
+			
+			local char = entity:getChar()
 			
 			clone:SetPos(entity:GetPos())
 			clone:SetAngles(entity:GetAngles())
@@ -509,9 +651,28 @@ nut.command.add("centmirror", {
 			clone:SetModel(entity:GetModel())
 			clone:SetMaterial(entity:GetMaterial())
 			
+			for k, v in pairs(entity:GetBodyGroups() or {}) do
+				clone:SetBodygroup(v.id, entity:GetBodygroup(v.id))
+			end
+			
 			clone:SetColor(entity:GetColor())
 			
-			clone.attribs = entity:getChar():getAttribs()
+			clone.attribs = char:getAttribs()
+			clone.res = entity:getRes()
+			clone.amp = entity:getAmp()
+			clone.armor = 0
+
+			clone.dmg = {}
+
+			for k, v in pairs(entity:getDamage()) do
+				clone.dmg[v.dmgT] = v.dmg
+			end
+			
+			clone.hp = entity:getHP()
+			clone.hpMax = entity:getMaxHP()
+			
+			clone.mp = entity:getMP()
+			clone.mpMax = entity:getMaxMP()
 
 			clone:SetCreator(client) --prop protection
 			
@@ -570,6 +731,28 @@ nut.command.add("centrestore", {
 			entity:setHP(entity:getMaxHP())
 			
 			client:notify("Health successfully restored.")
+		end
+	end
+})
+
+nut.command.add("centhpadd", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local addHP = tonumber(arguments[1])
+		if(!addHP) then
+			client:notify("Specify an HP Amount.")
+			return false
+		end
+	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local newHP = entity:getHP()+addHP
+		
+			entity:SetHealth(newHP)
+			entity:setHP(newHP)
+			
+			client:notify("CEnt health set to " ..newHP.. ".")
 		end
 	end
 })
@@ -652,8 +835,30 @@ nut.chat.register("fort_npc", {
 })
 
 nut.chat.register("react_npc", { --reaction roll
+	onGetColor = function(speaker, text)
+		local client = LocalPlayer()
+		local findName = client.Name and string.find(text, client:Name())
+	
+		if(speaker == client) then
+			return PLUGIN.CHATCOLOR_REACT3
+		elseif(findName) then
+			return PLUGIN.CHATCOLOR_REACT2
+		else
+			return PLUGIN.CHATCOLOR_REACT
+		end
+	end,
 	onChatAdd = function(speaker, text)
-		chat.AddText(PLUGIN.CHATCOLOR_REACT, text)
+		-- If the player's name is in there, make the color different so they know it involves them.
+		local client = LocalPlayer()
+		local findName = client.Name and string.find(text, client:Name())
+		
+		if(speaker == client) then 
+			chat.AddText(PLUGIN.CHATCOLOR_REACT3, text)
+		elseif(findName) then
+			chat.AddText(PLUGIN.CHATCOLOR_REACT2, text)
+		else
+			chat.AddText(PLUGIN.CHATCOLOR_REACT, text)
+		end
 	end,
 	filter = "actions",
 	font = PLUGIN.COMBAT_FONT,
@@ -770,9 +975,9 @@ if(SERVER) then
 		netstream.Start(client, "CEnt_config", entity, config, extra)
 	end
 	
-	function PLUGIN:CEnt_configR(client, entity)		
+	function PLUGIN:CEnt_configR(client, entity)	
 		local extra = {}
-		extra.res = entity.res
+		extra.res = entity:getNetVar("res", entity.res)
 	
 		netstream.Start(client, "CEnt_configR", entity, extra)
 	end
@@ -988,11 +1193,44 @@ else
 		end
 	end)
 	
+	local function dmgAddHelper(parent, line, dmg)
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(200, 60)
+		frame:Center()
+		frame:SetTitle("Damage")
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+		
+		local scroll = vgui.Create("DScrollPanel", frame)
+		scroll:Dock(FILL)
+		
+		local typeList = vgui.Create("DComboBox", scroll)
+		typeList:SetPos(5, 30)
+		typeList:SetSize(200, 20)
+		typeList:Dock(TOP)
+		
+		for dmgT, dmgTbl in pairs(PLUGIN.dmgTypes) do
+			typeList:AddChoice(dmgTbl.name or dmgT, dmgT)
+		end
+		
+		typeList.OnSelect = function(self, index, value, dmgT)
+			Derma_StringRequest("Damage Value", "Damage Value", 1, function(dmgV)
+				local newLine = parent:AddLine(dmgT, tonumber(dmgV))
+				newLine.id = newLine:GetID()
+				newLine.OnRightClick = line.OnRightClick
+				
+				dmg[dmgT] = tonumber(dmgV)
+				
+				frame:Remove()
+			end)
+		end
+	end
+	
 	netstream.Hook("CEnt_configDMG", function(entity, extra)
 		local dmg = extra.dmg or {}
 
 		local frame = vgui.Create("DFrame")
-		frame:SetSize(450, 600)
+		frame:SetSize(300, 240)
 		frame:Center()
 		frame:SetTitle("CEnt Damage")
 		frame:MakePopup()
@@ -1001,54 +1239,63 @@ else
 		local scroll = vgui.Create("DScrollPanel", frame)
 		scroll:Dock(FILL)
 		
-		local label = vgui.Create("DLabel", scroll)
-		label:SetText("Damage Types")
-		label:Dock(TOP)
-		
-		local config = {}
-		--damage type resistance customization
-		for k, v in SortedPairsByMemberValue((PLUGIN.dmgTypes) or {}, "name") do
-			local dmgL = vgui.Create("DLabel", scroll)
-			dmgL:SetText(v.name)
-			dmgL:Dock(TOP)
-			
-			local dmgC = vgui.Create("DNumberWang", scroll)
-			dmgC.dmg = k
-			dmgC:SetDecimals(2)
-			dmgC:Dock(TOP)
-			dmgC:SetMax(200)
-			dmgC:SetMin(-200)
-			dmgC:SetValue(dmg[k] or 0)
-			
-			config[k] = dmgC
+		frame.list = scroll:Add("DListView")
+		frame.list:SetSize(60,160)
+		frame.list:Dock(TOP)
+		frame.list:DockMargin(0, 5, 0, 0)
+		--self.list:EnableVerticalScrollbar()
+
+		frame.list:AddColumn("Damage Type", 1)
+		frame.list:AddColumn("Damage Value", 2)
+	
+		if(!dmg or table.IsEmpty(dmg)) then
+			dmg = {
+				["Slash"] = 1,
+			}
 		end
-		
-		local finishB = vgui.Create("DButton", scroll)
+
+		for dmgT, dmgV in pairs(dmg) do
+			local line = frame.list:AddLine(dmgT, dmgV)
+			line.dmgT = dmgT
+			line.dmgV = tonumber(dmgV)
+			line.id = dmgT
+			
+			--options here, like add a new line or something
+			line.OnRightClick = function(panel)
+				-- Just make sure this is defined
+				--self.areaData.music[panel.id] = self.areaData.music[panel.id] or {}
+			
+				local menu = DermaMenu()
+				menu:AddOption("Edit Damage", function()
+					Derma_StringRequest("Edit Damage", "Damage Value", panel.dmgV, function(text)
+						local newDmg = tonumber(text)
+						
+						panel:SetValue(2, newDmg or panel.dmgV)
+						panel.dmgV = newDmg
+						
+						dmg[panel.dmgT] = newDmg
+					end)
+				end):SetImage("icon16/textfield_add.png")
+				menu:AddOption("Remove Entry", function()
+					dmg[panel.dmgT] = nil
+
+					panel:Remove()
+				end):SetImage("icon16/textfield_delete.png")
+				menu:AddOption( "Add Line", function()	
+					dmgAddHelper(frame.list, panel, dmg)
+				end):SetImage("icon16/textfield_add.png")
+				
+				menu:Open()
+			end
+		end
+	
+		local finishB = scroll:Add("DButton")
 		finishB:SetSize(60,20)
 		finishB:SetText("Complete")
 		finishB:Dock(TOP)
 		finishB.DoClick = function()
-			local data = {}
-
-			for k, v in pairs(config) do
-				local value = tonumber(v:GetText())
-				
-				--exclude 0 values to not inflate data
-				if(value and value != 0) then 
-					data[k] = value
-				end
-			end
+			netstream.Start("CEnt_configDMGF", entity, dmg)
 			
-			netstream.Start("CEnt_configDMGF", entity, data)
-			
-			frame:Remove()
-		end
-		
-		local cancelB = vgui.Create("DButton", scroll)
-		cancelB:SetSize(60,20)
-		cancelB:SetText("Cancel")
-		cancelB:Dock(TOP)
-		cancelB.DoClick = function()
 			frame:Remove()
 		end
 	end)

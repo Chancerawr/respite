@@ -138,21 +138,23 @@ else
 	local toScreen = FindMetaTable("Vector").ToScreen
 	local colorAlpha = ColorAlpha
 
+	--[[
 	function ENT:computeDescMarkup(description)
 		if (self.desc ~= description) then
 			self.desc = description
 			
 			local test = nut.markup.parse("<font=nutItemDescFont>"..description.."</font>")
-			local descW = math.min(test:getWidth() or ScrW()*.15)
+			--local descW = math.min(test:getWidth() or ScrW()*.15)
 			
 			self.markup = nut.markup.parse(
 				"<font=nutItemDescFont>"..description.."</font>",
-				ScrW()*.15
+				ScrW()*.15+12
 			)
 		end
 		
 		return self.markup
 	end
+	--]]
 
 	function ENT:onDrawEntityInfo(alpha)
 		local itemTable = self:getItemTable()
@@ -168,7 +170,7 @@ else
 		local x, y = position.x, position.y
 
 		local description = itemTable:getDesc(true)
-		self:computeDescMarkup(description)
+		--self:computeDescMarkup(description)
 
 		local name = L(itemTable.getName and itemTable:getName() or itemTable.name)
 		
@@ -177,22 +179,26 @@ else
 		local nameCol = colorAlpha(customData.color or itemTable.color or nut.config.get("color"), alpha)
 		
 		local color = customData.color or itemTable.color or nut.config.get("color")
-		local text = "<font=nutItemBoldFont>".."<color="..color.r..","..color.g..","..color.b..">"..itemTable:getName().."</color>".."</font>\n"..
+		local text = "<font=nutItemBoldFont>".."<color="..color.r..","..color.g..","..color.b..">"..itemTable:getName().."</color>".."</font> \n"..
 		"<font=nutItemDescFont>"..itemTable:getDesc(true)
 		
-		local descObj = nut.markup.parse("<font=nutItemDescFont>"..description.."</font>")
+		local descObj = nut.markup.parse("<font=nutItemDescFont>"..description.."</font>", ScrW()*.15)
 		local nameObj = nut.markup.parse("<font=nutItemBoldFont>"..name.."</font>")
-		local w = math.min(descObj:getWidth() + 14, ScrW()*.15 + 12)
+		--local w = math.min(descObj:getWidth(), ScrW()*.15)
+		local w = descObj:getWidth()
 		w = math.max(w, nameObj:getWidth() + 14)
 		
 		fullObj = nut.markup.parse(text, w)
-		local h = math.max(fullObj:getHeight() + nameObj:getHeight() * 0.6, ScrH()*.05 + 12)
+		--local h = --math.max(fullObj:getHeight(), ScrH()*.05) + 12
+		local h = fullObj:getHeight() + 12
+	
+		local boxW = w + 16
 	
 		surface.SetDrawColor(40, 50, 55, alpha * 0.97)
-		surface.DrawRect(x - w/2, y - 14, w, h)
+		surface.DrawRect(x - boxW/2, y - 14, boxW, h)
 
 		surface.SetDrawColor(70, 90, 95, alpha * 0.97)
-		surface.DrawOutlinedRect(x - w/2, y - 14, w, h)		
+		surface.DrawOutlinedRect(x - boxW/2, y - 14, boxW, h)		
 		
 		nut.util.drawText(
 			name,
@@ -204,8 +210,8 @@ else
 		)
 		y = y + 12
 
-		if (self.markup) then
-			self.markup:draw(x, y, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, alpha)
+		if (descObj) then
+			descObj:draw(x, y, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, alpha)
 		end
 
 		itemTable.data = oldData

@@ -119,18 +119,15 @@ if (CLIENT) then
 	end
 end
 
-function ITEM:onEntityCreated(item)
+function ITEM:onEntityCreated(entity)
 	local scale = 0.7
-	item:SetModelScale(scale, 0.0001)
-	item:Activate()
-
-	--[[
-	local physobj = item:GetPhysicsObject()
-
+	entity:SetModelScale(scale)
+	
+	local physobj = entity:GetPhysicsObject()
 	if (!IsValid(physobj)) then return false end
 
+	--grabbed from a collision resizer tool
 	local physmesh = physobj:GetMeshConvexes()
-
 	if (!istable(physmesh)) or (#physmesh < 1) then return false end
 
 	for convexkey, convex in pairs(physmesh) do
@@ -139,9 +136,13 @@ function ITEM:onEntityCreated(item)
 		end
 	end
 
-	item:PhysicsInitMultiConvex(physmesh)
-	item:EnableCustomCollisions(true)
-	--]]
+	local asleep = physobj:IsAsleep()
+
+	entity:PhysicsInitMultiConvex(physmesh)
+	
+	if(!asleep) then
+		entity:GetPhysicsObject():Wake()
+	end
 end
 
 local emotions = {

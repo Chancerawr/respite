@@ -2,7 +2,7 @@ ITEM.name = "Metal Shiv"
 ITEM.desc = "A makeshift tool used to shiv things."
 ITEM.model = "models/gibs/glass_shard04.mdl"
 ITEM.material = "models/props_canal/metalwall005b"
-ITEM.class = "hl2_m_shiv_metal"
+ITEM.class = "respite_shiv_metal"
 ITEM.uniqueID = "hl2_m_shiv_metal"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -30,6 +30,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 ITEM.iconCam = {

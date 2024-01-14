@@ -7,7 +7,7 @@ ITEM.material = "models/alyx/emptool_glow"
 ITEM.category = "Drug"
 ITEM.duration = 6000
 ITEM.price = 200
-ITEM.color = Color(50, 255, 50)
+ITEM.color = Color(130, 130, 200)
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
 ITEM.stomach = false

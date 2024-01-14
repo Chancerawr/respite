@@ -10,6 +10,9 @@ ENT.material = "models/props_combine/tpballglow"
 
 ENT.AttackAnim = "Attack2"
 
+ENT.hp = 250
+ENT.armor = 40
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 10,
@@ -24,9 +27,6 @@ ENT.attribs = {
 ENT.dmg = {
 	["Ichor"] = 20,
 }
-
-ENT.hp = 250
-ENT.armor = 40
 
 ENT.res = {
 	["Pierce"] = 0,
@@ -43,4 +43,8 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 0,
 	["Electric"] = 0,
+}
+
+ENT.actions = {
+	"ichor_spit",
 }

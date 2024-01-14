@@ -4,10 +4,29 @@ ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/XQM/WoodPlankTexture"
 ITEM.uniqueID = "herb_bloodberry"
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 0),
-	fov = 2.75,
+ITEM.loot = {
+	["Consumable"] = 10,
+	["Fruit"] = 0.1,
+}
+
+ITEM.craft = {
+	hp = 2,
+
+	buffTbl = {
+		attrib = {
+			["end"] = 1,
+			["str"] = 1,
+		},
+		
+		res = {
+			["Mind"] = -2.5,
+			["Bleed"] = 5,
+		},
+		
+		amp = {
+			["Pierce"] = 1.5,
+		},
+	},
 }
 
 ITEM.functions.Jam = {
@@ -41,4 +60,10 @@ ITEM.functions.Jam = {
 
 		return char:hasFlags("q") or char:getInv():hasItem("converter_meat")
 	end
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 2.75,
 }

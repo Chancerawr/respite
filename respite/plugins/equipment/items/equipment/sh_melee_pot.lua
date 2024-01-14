@@ -1,7 +1,7 @@
 ITEM.name = "Pot"
 ITEM.desc = "Common kitchen pot for boiling food and stuff."
 ITEM.model = "models/props_interiors/pot02a.mdl"
-ITEM.class = "hl2_m_pot"
+ITEM.class = "respite_pot"
 ITEM.uniqueID = "hl2_m_pot"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

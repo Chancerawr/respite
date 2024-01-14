@@ -10,6 +10,8 @@ ENT.name = "Viper Blood Fiend"
 ENT.model = "models/sient hill custom/homecoming/lurker.mdl"
 ENT.material = "models/flesh"
 
+ENT.modelScale = 1.3
+
 ENT.AttackAnim = "Attack"
 
 ENT.color = Color(128, 20, 20)
@@ -53,6 +55,6 @@ function ENT:Initialize()
 	self:basicSetup()
 	
 	timer.Simple(0.6, function()
-		self:SetModelScale(1.3)
+		--self:SetModelScale(1.3)
 	end)	
 end

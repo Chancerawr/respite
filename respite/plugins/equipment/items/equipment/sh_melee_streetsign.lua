@@ -1,7 +1,7 @@
 ITEM.name = "Street Sign"
 ITEM.desc = "A huge street sign ripped straight from the pavement."
 ITEM.model = "models/props/cs_assault/streetsign01.mdl"
-ITEM.class = "hl2_m_streetsign"
+ITEM.class = "respite_streetsign"
 ITEM.uniqueID = "hl2_m_streetsign"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

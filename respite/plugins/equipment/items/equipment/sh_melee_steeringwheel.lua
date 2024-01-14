@@ -1,7 +1,7 @@
 ITEM.name = "Steering Wheel"
 ITEM.desc = "A steering wheel that has been removed from whatever vehicle it came from."
 ITEM.model = "models/gantry_crane/crane_wheel.mdl"
-ITEM.class = "hl2_m_steeringwheel"
+ITEM.class = "respite_steeringwheel"
 ITEM.uniqueID = "hl2_m_steeringwheel"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -27,6 +27,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

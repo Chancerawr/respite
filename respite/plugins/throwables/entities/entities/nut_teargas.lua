@@ -27,6 +27,7 @@ if (SERVER) then
 	end
 
 	function ENT:OnRemove()
+		nut.item.spawn("j_grenade_used", self:GetPos())
 		self.loopsound:Stop()
 	end
 
@@ -134,6 +135,6 @@ function ENT:PhysicsCollide(data, phys)
 		self.Entity:EmitSound( Format( "physics/metal/metal_grenade_impact_hard%s.wav", math.random( 1, 3 ) ) ) 
 	end
 	
-	local impulse = -data.Speed * data.HitNormal * 0.3 + (data.OurOldVelocity * -0.5)
+	local impulse = -data.Speed * data.HitNormal * 0.2 + (data.OurOldVelocity * -0.5)
 	phys:ApplyForceCenter(impulse)
 end

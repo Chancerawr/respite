@@ -1,7 +1,7 @@
 ITEM.name = "Gear Mace"
 ITEM.desc = "A makeshift weapon made out of a gear and car parts."
 ITEM.model = "models/props_vehicles/carparts_muffler01a.mdl"
-ITEM.class = "hl2_m_gearmace"
+ITEM.class = "respite_gearmace"
 ITEM.uniqueID = "hl2_m_gearmace"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -28,6 +28,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 6
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

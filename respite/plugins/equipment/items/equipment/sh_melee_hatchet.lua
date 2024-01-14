@@ -1,7 +1,7 @@
 ITEM.name = "Hatchet"
 ITEM.desc = "A sharp tool made out of metal and wood, used for chopping."
 ITEM.model = "models/warz/melee/hatchet.mdl"
-ITEM.class = "hl2_m_axe"
+ITEM.class = "respite_hatchet"
 ITEM.uniqueID = "hl2_m_axe"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -30,6 +30,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 2,
 	["j_scrap_wood"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

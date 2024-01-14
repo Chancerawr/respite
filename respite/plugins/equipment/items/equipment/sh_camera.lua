@@ -17,3 +17,7 @@ ITEM.attrib = {
 	["perception"] = 2,
 	["accuracy"] = 1
 }
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}

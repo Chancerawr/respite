@@ -29,6 +29,12 @@ ITEM.scaling = {
 }
 --]]
 
+ITEM.updateSWEP = function(item, client, weapon)
+	if(nut.plugin.list["customization"]) then
+		nut.plugin.list["customization"]:updateSWEP(client, item, weapon)
+	end
+end
+
 ITEM.buffRefresh = function(item, player)
 	local client = player
 	if(item.player) then
@@ -36,6 +42,7 @@ ITEM.buffRefresh = function(item, player)
 	end
 
 	local char = client:getChar()
+	if(!char) then return end
 
 	local customBoosts = item:getData("attrib", item.attrib or {})
 	for k, v in pairs(customBoosts) do
@@ -145,52 +152,16 @@ ITEM.functions.Equip = {
 			local weapon = client:Give(item.class)
 
 			if (IsValid(weapon)) then
-				--weapon stat customization stuff, needs to be reworked or moved for sure
-				--[[
-				timer.Simple(0, function()
-					local custom = item:getData("custom", {})
-					
-					if(custom.wepDmg) then
-						weapon.Primary.Damage = tonumber(custom.wepDmg)
-					end
-					
-					if(custom.wepSpd) then
-						weapon.Primary.RPM = tonumber(custom.wepSpd)
-					end
-					
-					if(custom.wepRec) then
-						weapon.Primary.KickUp = weapon.Primary.KickUp and (weapon.Primary.KickUp * custom.wepRec)
-						
-						weapon.Primary.KickDown = weapon.Primary.KickDown and (weapon.Primary.KickDown * custom.wepRec)
-						
-						weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal and (weapon.Primary.KickHorizontal * custom.wepRec)
-						
-						weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor and (weapon.Primary.StaticRecoilFactor * custom.wepRec)
-					end
-
-					if(custom.wepAcc) then
-						weapon.Primary.Spread = weapon.Primary.Spread * custom.wepAcc
-						weapon.Primary.IronAccuracy = weapon.Primary.IronAccuracy * custom.wepAcc
-					end				
-
-					if(custom.wepMag) then
-						weapon.Primary.ClipSize = tonumber(custom.wepMag)
-					end
-				
-					client:SelectWeapon(weapon:GetClass())
-					
-					timer.Simple(1, function()
-						if(nut.plugin.list["customization"]) then
-							nut.plugin.list["customization"]:updateSWEP(client, item)
-						end
-					end)
-				end)
-				--]]
+				weapon.item = item
+				--item:updateSWEP(client, weapon)
+			
 				client.equip = client.equip or {}
 				
 				weapon:SetClip1(item:getData("ammo", 0))
 				weapon.item = item.id
 				client.equip[item.slot] = weapon
+				
+				client:SelectWeapon(item.class)
 				
 				if (item.onEquipWeapon) then
 					item:onEquipWeapon(client, weapon)
@@ -213,6 +184,87 @@ ITEM.functions.Equip = {
 	end,
 	onCanRun = function(item)
 		return (!IsValid(item.entity) and item:getData("equip") != true)
+	end
+}
+
+ITEM.functions.Upgrades = {
+	name = "Remove Upgrades",
+	icon = "icon16/contrast.png",
+	isMulti = true,
+	multiOptions = function(item, client)
+		local targets = {}
+		
+		local openSlots = item.upgradeSlots or {}
+		local upgradeSlots = item:getData("upgradeSlots", {})
+		
+		for slotName, v in pairs(openSlots) do
+			if(slotName == "Dream") then continue end --excluded
+
+			if(upgradeSlots[slotName]) then
+				local newAbs = {
+					name = slotName,
+					data = {
+						slotName,
+						upgradeSlots[slotName]
+					}
+				}
+				
+				table.insert(targets, newAbs)
+			end
+		end
+		
+		return targets
+	end,
+	onRun = function(item, data)
+		local client = item.player
+		
+		local slotName = data[1]
+		local slotData = data[2]
+		
+		if(slotData) then
+			local client = item.player
+			local char = client:getChar()
+			local inventory = char:getInv()
+			local position = client:getItemDropPos()
+			
+			local upgradeSlots = item:getData("upgradeSlots", {})
+			
+			for itemID, slotWeight in pairs(slotData) do
+				--item that's in the slot
+				local itemU = nut.item.instances[itemID]
+
+				if(itemU) then
+					x, y = inventory:findFreePosition(itemU)
+					if(x and y) then
+						itemU:setData("x", x)
+						itemU:setData("y", y)
+					
+						inventory:addItem(itemU)
+					else
+						itemU:spawn(position)
+					end
+					
+					itemU:upgrade(itemU, item, true)
+				end
+			end
+			
+			upgradeSlots[slotName] = nil
+			
+			item:setData("upgradeSlots", upgradeSlots)
+		end
+
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player
+		
+		local upgradeSlots = item:getData("upgradeSlots", {})
+		upgradeSlots["Dream"] = nil
+		if(table.IsEmpty(upgradeSlots)) then
+			return false
+		end
+		
+		return true
 	end
 }
 
@@ -267,7 +319,7 @@ ITEM.functions.Scrap = {
 			local chance = item.multiChance or 0
 			local multi = 1
 			
-			if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+			if(TRAITS and client:hasTrait("scrapper")) then --trait increases chance of multi result
 				chance = chance + 10
 			end
 			
@@ -312,49 +364,12 @@ ITEM.functions.Scrap = {
 			return false
 		end
 		
+		if(item:getData("equip")) then
+			return false
+		end
+		
 		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
-	end
-}
-
-ITEM.functions.Repair = {
-	name = "Repair",
-	tip = "useTip",
-	icon = "icon16/wrench_orange.png",
-	onRun = function(item)
-		local inventory = item.player:getChar():getInv()
-		local kit = inventory:getFirstItemOfType("repair_kit")
-		kit:remove()
-		
-		local customData = item:getData("custom", {})
-		customData.dura = item:getData("maxDura", 7000)
-		item:setData("custom", customData)
-		
-		item.player:EmitSound("doors/vent_open1.wav", 50, 140)
-		
-		return false
-	end,
-	onCanRun = function(item)
-		local client = item.player
-		local inventory = client:getChar():getInv()
-	
-		if(!item.dura) then return false end
-	
-		local kit = inventory:getFirstItemOfType("repair_kit")
-		if(!kit) then
-			return false
-		end
-		
-		local customData = item:getData("custom", {})
-		if(customData.dura) then
-			local maxDura = item:getData("maxDura", 7000)
-		
-			if(customData.dura < maxDura) then
-				return true
-			end
-		else
-			return false
-		end
 	end
 }
 
@@ -370,6 +385,28 @@ ITEM.functions.Custom = {
 	
 	onCanRun = function(item)
 		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomW = {
+	name = "Customize Weapon",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustomWeap(item.player, item)
+		
+		return false
+	end,
+	
+	onCanRun = function(item)
+		local client = item.player
+		
+		--only for weapons
+		if(!item.class) then
+			return false
+		end
+		
 		return client:getChar():hasFlags("1")
 	end
 }
@@ -396,6 +433,21 @@ ITEM.functions.CustomAtr = {
 	icon = "icon16/wrench.png",
 	onRun = function(item, data)
 		nut.plugin.list["customization"]:startCustomA(item.player, item)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
+ITEM.functions.CustomRes = {
+	name = "Customize Resistances",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item, data)
+		nut.plugin.list["customization"]:startCustomR(item.player, item)
 		
 		return false
 	end,
@@ -501,8 +553,8 @@ function ITEM:getDesc(partial)
 		elseif(self.class) then
 			local swep = weapons.Get(self.class)
 			if(swep) then
-				if(nut.ammo and nut.ammo.descs and nut.ammo.descs[swep.Primary.Ammo]) then
-					desc = desc .. "\nThis weapon uses " ..nut.ammo.descs[swep.Primary.Ammo].. "."
+				if(nut.ammo and nut.ammo.types and nut.ammo.types[swep.Primary.Ammo]) then
+					desc = desc .. "\nThis weapon uses " ..nut.ammo.types[swep.Primary.Ammo].name.. "."
 				end
 			end
 		end
@@ -513,9 +565,20 @@ function ITEM:getDesc(partial)
 		
 			desc = desc .. "\nSlot: " ..slot.. "."
 		end
+		
+		if(self.upgradeSlots) then
+			desc = desc .. "\n\n<color=50,200,50>Upgrade Slots</color>"
 			
-		if(customData.quality) then
-			desc = desc .. "\nQuality: " ..customData.quality
+			for slotName, slotMax in pairs(self.upgradeSlots) do
+				local slotData = self:getData("upgradeSlots", {})
+
+				local slotUsed = 0
+				for k, v in pairs(slotData[slotName] or {}) do
+					slotUsed = slotUsed+v
+				end
+
+				desc = desc .. "\n[" ..slotName.. "](" ..slotUsed.. "/" ..slotMax..")"
+			end
 		end
 		
 		local boosts = self:getData("attrib", self.attrib)
@@ -534,7 +597,7 @@ function ITEM:getDesc(partial)
 		local scaling = self:getData("scale", self.scaling)
 
 		if(dmg or armor or scaling) then
-			desc = desc.. "\n\n<color=50,200,50>Properties</color>"
+			--desc = desc.. "\n\n<color=50,200,50>Properties</color>"
 			
 			if(dmg and !table.IsEmpty(dmg)) then
 				desc = desc .. "\n\n<color=50,200,50>Base Damage</color>"
@@ -556,7 +619,7 @@ function ITEM:getDesc(partial)
 				for k, v in pairs(scaling) do
 					local attrib = nut.attribs.list[k]
 					if(attrib and attrib.name) then
-						desc = desc.. "\n " ..attrib.name.. ": Grade[" ..nut.plugin.list["equipment"]:getGrade(v).. "]"
+						desc = desc.. "\n " ..attrib.name.. ": Grade [" ..nut.plugin.list["equipment"]:getGrade(v).. "]"
 					end
 				end
 			end
@@ -624,19 +687,99 @@ function ITEM:onSave()
 	end
 end
 
+function ITEM:onRestored()
+	local item = self
+
+	--make sure to load in all of its upgrade items just in case
+	local upgradeSlots = item:getData("upgradeSlots", {})
+	
+	for slotName, slotData in pairs(upgradeSlots) do
+		for itemID, slotWeight in pairs(slotData) do
+			local item = nut.item.instances[itemID]
+
+			if(!item) then
+				nut.item.loadItemByID(itemID)
+			end
+		end
+	end
+end
+
 function ITEM:onLoadout()
-	if (self.class and self:getData("equip")) then
-		local client = self.player
-		client.equip = client.equip or {}
+	local client = self.player
 
-		local weapon = client:Give(self.class)
-		if (IsValid(weapon)) then
-			client:RemoveAmmo(weapon:Clip1(), weapon:GetPrimaryAmmoType())
-			client.equip[self.slot] = weapon
+	if(self:getData("equip")) then
+		self:buffRefresh(self, client)
+	
+		if(self.class) then
+			client.equip = client.equip or {}
 
-			weapon:SetClip1(self:getData("ammo", 0))
-		else
-			print(Format("[Nutscript] Weapon %s does not exist!", self.class))
+			local weapon = client:Give(self.class)
+			
+			if (IsValid(weapon)) then
+				weapon.item = self
+				--self:updateSWEP(client, weapon)
+				
+				client:RemoveAmmo(weapon:Clip1(), weapon:GetPrimaryAmmoType())
+				client.equip[self.slot] = weapon
+
+				weapon:SetClip1(self:getData("ammo", 0))
+			else
+				print(Format("[Nutscript] Weapon %s does not exist!", self.class))
+			end
+		end
+	end
+end
+
+--might mess with this later
+hook.Add("PlayerDeath", "nutStripClip", function(client)
+	client.carryWeapons = {}
+
+	for k, v in pairs(client:getChar():getInv():getItems()) do
+		if (v.class and v:getData("equip")) then
+			local weapon = client:GetWeapon(v.class)
+			
+			if(IsValid(weapon)) then
+				v:setData("ammo", weapon:Clip1())
+			end
+		end
+	end
+end)
+
+function ITEM:onEntityCreated(entity)
+	if(self.modelColor) then
+		entity:SetColor(self.modelColor)
+	end
+
+	if(self.modelScale) then
+		local scale = self.modelScale
+		entity:SetModelScale(scale)
+
+		local physobj = entity:GetPhysicsObject()
+		if (!IsValid(physobj)) then return false end
+
+		--grabbed from a collision resizer tool
+		local physmesh = physobj:GetMeshConvexes()
+		if (!istable(physmesh)) or (#physmesh < 1) then return false end
+
+		for convexkey, convex in pairs(physmesh) do
+			for poskey, postab in pairs(convex) do
+				convex[poskey] = postab.pos * scale
+			end
+		end
+
+		local asleep = physobj:IsAsleep()
+
+		entity:PhysicsInitMultiConvex(physmesh)
+		
+		if(!asleep) then
+			entity:GetPhysicsObject():Wake()
+		end
+	end
+
+	if(self.entMass) then
+		local physObj = entity:GetPhysicsObject()
+		if(IsValid(physObj)) then
+			physObj:SetMass(self.entMass)
 		end
 	end
 end

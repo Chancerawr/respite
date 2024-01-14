@@ -36,6 +36,23 @@ ENT.resources = {
 }
 
 if (SERVER) then
+	--[[
+	function ENT:SpawnFunction(client, trace, className)
+		if (!trace.Hit) then return end
+	
+		local SpawnPos = trace.HitPos + trace.HitNormal * 10
+		local SpawnAng = trace.HitNormal:Angle()
+		
+		local ent = ents.Create(className)
+		ent:SetPos(SpawnPos)
+		ent:SetAngles(SpawnAng)
+		ent:Spawn()
+		ent:Activate()
+		
+		return ent
+	end
+	--]]
+
 	function ENT:Initialize()
 		local model = self.models[math.random(#self.models)]
 		self:SetModel(model)

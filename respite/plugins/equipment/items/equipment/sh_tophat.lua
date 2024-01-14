@@ -21,3 +21,7 @@ ITEM.attrib = {
 	["stm"] = -1,
 	["luck"] = 3,
 }
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}

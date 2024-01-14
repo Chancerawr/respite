@@ -1,7 +1,7 @@
 ITEM.name = "Reloading Press"
 ITEM.desc = "A press used for reloading spent cartridges by hand."
 ITEM.model = "models/props/cs_militia/reloadingpress01.mdl"
-ITEM.class = "hl2_m_reloadingpress"
+ITEM.class = "respite_reloading_press"
 ITEM.uniqueID = "hl2_m_reloadingpress"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

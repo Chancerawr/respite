@@ -6,531 +6,981 @@ PLUGIN.author = ""
 if SERVER then
 	PLUGIN.npcDrops = {
 		["amputated"] = {
-			["food_monster_meat"] = 5,
-			["medical_bandages"] = 5,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 30,
+			},
+			["medical_bandages"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["amputated_flame"] = {
-			["ichor"] = 3,
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 20,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
-		["amputated_shade"] = {
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+		["amputated_shade"] = { --add memory wrap, cloth
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 15,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 5,
+			},
 		},
-		["cof_child"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["cof_child"] = { --add shiv
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["hl2_m_shiv_metal"] = {
+				max = 2, 
+				chance = 10,
+			},
 		},
-		["cof_crazywoman"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["cof_crazywoman"] = { --add shiv
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["hl2_m_shiv_metal"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
-		["cof_faceless"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["cof_faceless"] = { --add something
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
 		},
-		["cof_faster"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["cof_faster"] = { --add talon/claw
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
 		},
-		["cof_upper"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["cof_upper"] = { --add shoes
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
 		},
 		["doll_runner"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 5,
-			["nothing"] = 10,
+			["medical_plastic"] = {
+				max = 2, 
+				chance = 30,
+			},
+			["j_scrap_plastics"] = {
+				max = 3, 
+				chance = 25,
+			},
 		},
 		["doll_walker"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 5,
-			["nothing"] = 10,
+			["medical_plastic"] = {
+				max = 2, 
+				chance = 30,
+			},
+			["j_scrap_plastics"] = {
+				max = 3, 
+				chance = 25,
+			},
 		},
 		["doll_runner_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["blight"] = {
+				max = 1, 
+				chance = 10,
+			},
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
 		},
 		["doll_walker_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
-		},
-		["doll_walker_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["blight"] = {
+				max = 1, 
+				chance = 10,
+			},
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
 		},
 		["freak"] = {
-			["j_old_rag"] = 1,
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 35,
+			},
 		},
 		["freak_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
 		["housewife"] = {
-			["hl2_m_shiv_metal"] = 1,
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["hl2_m_shiv_metal"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
 		["housewife_shade"] = {
-			["hl2_m_shiv_metal"] = 1,
-			["blight"] = 5,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 10,
+			},
+			["hl2_m_shiv_metal"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
-		["housewife_shade"] = {
-			["hl2_m_shiv_metal"] = 1,
-			["blight"] = 5,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
-		},
-		["nz_creeper"] = {
-			["shard_dust"] = 5,
-			["voltaic"] = 1,
-			["nothing"] = 20,
+		["nz_creeper"] = { --add energy thing here
+			["shard_dust"] = {
+				max = 1, 
+				chance = 20,
+			},
+			["voltaic"] = {
+				max = 1, 
+				chance = 10,
+			},
+			["j_scrap_energy"] = {
+				max = 1, 
+				chance = 5,
+			},
 		},
 		["nz_creeper_wraith"] = {
-			["ichor"] = 5,
-			["nothing"] = 10,
+			["ichor"] = {
+				max = 2, 
+				chance = 20,
+			},
 		},
 		["nz_demon"] = {
-			["hl2_m_monstertalon"] = 1,
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["nz_demon_flame"] = {
-			["ichor"] = 3,
-			["hl2_m_monstertalon"] = 1,
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["nz_demon_shade"] = {
-			["hl2_m_monstertalon"] = 1,
-			["blight"] = 3,
-			["J_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 20,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
-		["nz_dog"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["nz_dog"] = { --add teeth or something
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 40,
+			},
 		},
 		["nz_dog_shade"] = {
-			["blight"] = 2,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 30,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["nz_drum"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 5, 
+				chance = 50,
+			},
 		},
 		["nz_drum_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 3, 
+				chance = 40,
+			},
+			["blight"] = {
+				max = 2, 
+				chance = 30,
+			},
 		},
 		["nz_drum_ice"] = {
-			["ichor"] = 5,
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 5, 
+				chance = 50,
+			},
+			["ichor"] = {
+				max = 2, 
+				chance = 30,
+			},
 		},
-		["nz_freak"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["nz_freak"] = { --add more garbage
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 50,
+			},
+			["j_old_rag"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
-		["nz_freak_ice"] = {
-			["ichor"] = 1,
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+		["nz_freak_ice"] = { --add more garbage
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 50,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 15,
+			},
+			["j_old_rag"] = {
+				max = 1, 
+				chance = 5,
+			},
 		},
 		["nz_freak_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 2,
+				chance = 30,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 15,
+			},
+			["j_old_rag"] = {
+				max = 1, 
+				chance = 5,
+			},
 		},
 		["nz_hatred"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 3, 
+				chance = 50,
+			},
 		},
 		["nz_hatred_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 3, 
+				chance = 50,
+			},
+			["blight"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["nz_haunt"] = {
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["nz_horror_red"] = {
-			["ichor"] = 2,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
 		["nz_jeffrey"] = {
-			["j_scrap_idea"] = 5,
-			["j_scrap_memory"] = 20,
+			["j_scrap_memory"] = {
+				max = 5, 
+				chance = 75,
+			},
+			["j_scrap_idea"] = {
+				max = 1, 
+				chance = 50,
+			},
 		},
-		["nz_leecher"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+		["nz_leecher"] = { --some kind of plant based stuff drops
+			["food_monster_meat"] = {
+				max = 3, 
+				chance = 50,
+			},
 		},
 		["nz_leecher_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 3, 
+				chance = 50,
+			},
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 30,
+			},
 		},
 		["nz_leperkin"] = {
-			["hl2_m_monstertalon"] = 3,
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 50,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["nz_leperkin_flame"] = {
-			["ichor"] = 5,
-			["hl2_m_monstertalon"] = 3,
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 50,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 30,
+			},
 		},
 		["nz_leperkin_shade"] = {
-			["blight"] = 5,
-			["hl2_m_monstertalon"] = 3,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 50,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
-		["nz_mimic"] = {
-			["nothing"] = 5,
+		["nz_mimic"] = { --energy thing
+			["food_monster_meat"] = {
+				max = 1, 
+				chance = 30,
+			},
 		},
 		["nz_phantom"] = {
-			["ichor"] = 5,
-			["hl2_m_pipe"] = 3,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 30,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 15,
+			},
+			["hl2_m_pipe"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
-		["nz_reanimated"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+		["nz_reanimated"] = { --sleeping stuff maybe?
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["nz_reanimated_flame"] = {
-			["ichor"] = 1,
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
-		["nz_roller"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+		["nz_roller"] = { --junk or something
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["nz_roller_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
-		["nz_static"] = {
-			["ammo_battery"] = 5,
-			["j_scrap_battery"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+		["nz_static"] = { --electric item thing
+			["j_scrap_energy"] = {
+				max = 1, 
+				chance = 5,
+			},
+			["j_scrap_battery"] = {
+				max = 1, 
+				chance = 20,
+			},
+			["ammo_battery"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
-		["nz_steve"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+		["nz_staitjacket"] = {
+			["food_monster_meat"] = {
+				max = 3, 
+				chance = 50,
+			},
 		},
 		["nz_steve_shade"] = {
-			["blight"] = 3,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 3, 
+				chance = 50,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 30,
+			},
 		},
 		["nz_thrasher"] = {
-			["hl2_m_monstertalon"] = 5,
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 3, 
+				chance = 40,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["nz_thrower"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 3, 
+				chance = 30,
+			},
 		},
 		["nz_thrower_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
-		},
-		["nz_thrower_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 3, 
+				chance = 30,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
 		["nz_undead_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 20,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
 		["nz_wraith"] = {
-			["ichor"] = 5,
-			["nothing"] = 10,
+			["ichor"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["pack"] = {
-			["hl2_m_monstertalon"] = 5,
-			["food_monster_meat"] = 5,
-			["nothing"] = 10,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 10,
+			},
 		},
 		["pack_shade"] = {
-			["blight"] = 5,
-			["hl2_m_monstertalon"] = 5,
-			["j_scrap_memory"] = 5,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 15,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 10,
+			},
 		},
-		["resp_angel"] = {
-			["reflective"] = 1,
-			["nothing"] = 10,
+		["resp_angel"] = { --add weird stuff
+			["reflective"] = {
+				max = 1, 
+				chance = 50,
+			},
 		},
-		["resp_skin"] = {
-			["reflective"] = 1,
-			["nothing"] = 20,
+		["resp_skin"] = { --add garbage
+			["reflective"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
 		["resp_babu"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 10,
+			["j_scrap_plastics"] = {
+				max = 3, 
+				chance = 15,
+			},
+			["medical_plastic"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["resp_babu_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["resp_babu_wraith"] = {
-			["ichor"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 10,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
-		["resp_baby"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 20,
+		["resp_baby"] = { --bone shiv
+			["j_scrap_plastics"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
-		["resp_baby_big"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 20,
+		["resp_baby_big"] = { --bone shiv
+			["j_scrap_plastics"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["resp_baby_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 20,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 15,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 5,
+			},
 		},
 		["resp_belmer"] = {
-			["ichor"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 20,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 30,
+			},
 		},
 		["resp_chimera"] = {
-			["hl2_m_monstertalon"] = 5,
-			["food_monster_meat"] = 10,
-			["nothing"] = 20,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 30,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["resp_chimera_shade"] = {
-			["blight"] = 5,
-			["hl2_m_monstertalon"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 20,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 30,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 20,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["resp_dolly"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 20,
+			["j_scrap_plastics"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 1, 
+				chance = 15,
+			},
 		},
 		["resp_dolly_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 20,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 15,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 5,
+			},
 		},
 		["resp_dolly_big"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 20,
+			["j_scrap_plastics"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
-		["resp_floater"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 20,
+		["resp_floater"] = { --shiv
+			["j_scrap_plastics"] = {
+				max = 2, 
+				chance = 20,
+			},
 		},
 		["resp_floater_shade"] = {
-			["blight"] = 10,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 20,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 20,
+			},
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
 		["resp_gemini"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 5,
+			["j_scrap_plastics"] = {
+				max = 4, 
+				chance = 30,
+			},
+			["medical_plastic"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
 		["resp_gemini_wraith"] = {
-			["ichor"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 3, 
+				chance = 30,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 25,
+			},
 		},
 		["resp_kuszo"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 5,
+			["j_scrap_plastics"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["medical_plastic"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
 		["resp_kuszo_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
-		["resp_leecher_small"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+		["resp_leecher_small"] = { --add plant things
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["resp_leecher_small_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
-		},
-		["resp_leecher_small_shade"] = {
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 20,
+			},
 		},
 		["resp_lurker"] = {
-			["hl2_m_monstertalon"] = 5,
-			["food_human_meat"] = 10,
-			["nothing"] = 5,
+			["food_human_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
 		},
 		["resp_lurker_shade"] = {
-			["hl2_m_monstertalon"] = 5,
-			["blight"] = 5,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 40,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 2, 
+				chance = 15,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 25,
+			},
 		},
-		["resp_lyingfigure"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 10,
+		["resp_lyingfigure"] = { --acid or poison or something
+			["food_human_meat"] = {
+				max = 3, 
+				chance = 25,
+			},
 		},
 		["resp_nurse"] = {
-			["j_syringe"] = 1,
-			["hl2_m_pipe"] = 1,
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 5,
+			["j_scrap_plastics"] = {
+				max = 3, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 1, 
+				chance = 20,
+			},
+			["hl2_m_pipe"] = {
+				max = 1, 
+				chance = 10,
+			},
+			["j_syringe"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
 		["resp_paperzombie"] = {
-			["misc_paper"] = 10,
-			["nothing"] = 5,
+			["misc_paper"] = {
+				max = 2, 
+				chance = 40,
+			},
 		},
 		["resp_paranoia"] = {
-			["blight"] = 10,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 4, 
+				chance = 30,
+			},
+			["blight"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["resp_pendulum"] = {
-			["j_scrap_metals"] = 10,
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 30,
+			},
+			["j_scrap_metals"] = {
+				max = 4, 
+				chance = 25,
+			},
 		},
 		["resp_saw"] = {
-			["j_scrap_elecs"] = 10,
-			["ichor"] = 10,
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["j_scrap_elecs"] = {
+				max = 3, 
+				chance = 20,
+			},
+			["ichor"] = {
+				max = 1, 
+				chance = 50,
+			},
 		},
 		["resp_smog"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["resp_spider"] = {
-			["hl2_m_monstertalon"] = 10,
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 4, 
+				chance = 25,
+			},
+			["hl2_m_monstertalon"] = {
+				max = 4, 
+				chance = 15,
+			},
 		},
 		["resp_teleporter"] = {
-			["blight"] = 10,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 25,
+			},
 		},
 		["resp_titan"] = {
-			["food_monster_meat"] = 10,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 4, 
+				chance = 30,
+			},
 		},
 		["resp_titan_small"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 5,
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 30,
+			},
 		},
-		["resp_vomit"] = {
-			["food_monster_meat"] = 5,
-			["nothing"] = 5,
+		["resp_vomit"] = { --acid, poison, venom
+			["food_monster_meat"] = {
+				max = 2, 
+				chance = 25,
+			},
 		},
 		["scarlet"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 5,
+			["j_scrap_plastics"] = {
+				max = 4, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 2, 
+				chance = 20,
+			},
 		},
 		["scarlet_crawl"] = {
-			["medical_plastic"] = 1,
-			["j_scrap_plastics"] = 10,
-			["nothing"] = 5,
+			["j_scrap_plastics"] = {
+				max = 4, 
+				chance = 25,
+			},
+			["medical_plastic"] = {
+				max = 2, 
+				chance = 20,
+			},
 		},
 		["scarlet_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 40,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 30,
+			},
 		},
 		["scarlet_crawl_shade"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 10,
-			["nothing"] = 5,
+			["j_scrap_memory"] = {
+				max = 2, 
+				chance = 40,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 30,
+			},
 		},
 		["shade_crawlsmoke"] = {
-			["blight"] = 1,
-			["j_scrap_memory"] = 15,
-			["nothing"] = 15,
+			["j_scrap_memory"] = {
+				max = 1, 
+				chance = 25,
+			},
+			["blight"] = {
+				max = 1, 
+				chance = 10,
+			},
 		},
-		["spore"] = {
-			["food_monster_meat"] = 15,
-			["nothing"] = 15,
+		["spore"] = { --maybe some other junk in here
+			["food_monster_meat"] = {
+				max = 2,
+				chance = 30,
+			},
 		},
 	}
 	
 	-- Weighted random based on rarity of items
-	local function GetWeightedRandomKey(items)
-		local sum = 0
+	local function randomDrops(items)
+		local drops = {}
 		
-		for item, rarity in pairs(items) do
-			sum = sum + (rarity or 1)
-		end
-
-		local select = math.random() * sum
-
-		for item, rarity in pairs(items) do
-			select = select - (rarity or 1)
-			if select < 0 then 
-				return item
+		for uniqueID, item in pairs(items) do
+			local roll = 0
+			for i = 1, item.max do
+				roll = math.random(1, 100)
+				if(roll <= item.chance) then
+					drops[uniqueID] = (drops[uniqueID] or 0) + 1
+				end
 			end
 		end
+		
+		return drops
 	end
 	
 	-- gets an item from the drop table
-	function PLUGIN:getDrop(npc)
-		return GetWeightedRandomKey(PLUGIN.npcDrops[npc])
+	function PLUGIN:getDrops(npc)
+		return randomDrops(PLUGIN.npcDrops[npc])
 	end
 
 	-- Called when any NPC dies
 	function PLUGIN:OnNPCKilled(npc, attacker, inflictor)		
 		local className = npc:GetClass()
 	
+		--no npc drops if no players on server
+		local playerCount = #player.GetAll()
+		if(playerCount < 1) then return end
+		
+		--dont drop items if killed by another NPC
+		if(IsValid(attacker) and (attacker:IsNPC() or attacker:IsNextBot())) then
+			return false
+		end
+	
 		-- If the NPC has a drop table
 		if(PLUGIN.npcDrops[className]) then
-			local drop = PLUGIN:getDrop(className)
-			if(!drop) then return false end
-			
-			if(drop == "nothing") then
-				return
+			local drops = PLUGIN:getDrops(className)
+			if(!drops or table.IsEmpty(drops)) then return false end
+
+			for uniqueID, amount in pairs(drops) do
+				for i = 1, amount do
+					 -- Spawns the item
+					nut.item.spawn(uniqueID, npc:GetPos()+Vector(0,0,20), function(item)
+						local entity = item:getEntity()
+						if(entity) then
+							entity:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
+							entity.temp = true --these items get cleaned up with map if not picked up
+						end
+					end)
+				end
 			end
-		
-			nut.item.spawn(drop, npc:GetPos()+Vector(0,0,20)) -- Spawns the item
 		end
 	end
 end

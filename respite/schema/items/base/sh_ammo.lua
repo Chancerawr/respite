@@ -8,7 +8,7 @@ ITEM.desc = "A Box that contains %s of Pistol Ammo"
 ITEM.category = "Ammunition"
 ITEM.maxstack = 30
 
---extra function to make ammo saving more reliable, turned off for now.
+--extra function to make ammo saving more reliable
 local function onLoad(item)
 	local plugin = nut.plugin.list["ammosave"]
 	local client = item.player
@@ -24,7 +24,6 @@ local function onLoad(item)
 		client:getChar():setData("ammo", ammoTable)
 	end
 end
-
 
 ITEM.onCombine = function(itemSelf, itemTarget)
 	if(!itemSelf:getData("ammo", itemSelf.ammoAmount)) then
@@ -134,89 +133,19 @@ ITEM.functions.Split = {
 	end	
 }
 
-ITEM.functions.Infuse = {
-	name = "Infuse",
-	tip = "Infuse this item",
+ITEM.functions.Custom = {
+	name = "Customize",
+	tip = "Customize this item",
 	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-		local dust = client:getChar():getInv():getFirstItemOfType("shard_dust")
-		client:requestQuery("Are you sure you want to shard infuse this ammo?", "Infuse", function(text)
-			if(dust:getData("Amount")) then
-				dust:setData("Amount", dust:getData("Amount") - 1)
-				if(dust:getData("Amount") == 0) then
-					dust:remove()
-				end
-			else
-				dust:remove()
-			end
-			
-			item:setData("infused", true)
-			
-			local customData = item:getData("custom", {})
-			customData.name = "Infused " .. item:getName()
-			customData.desc = item:getDesc(true) .. "\nThis ammo glows lightly."
-			customData.color = Color(255, 255, 255)
-			
-			item:setData("custom", customData)
-		end)
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustom(item.player, item)
+		
 		return false
 	end,
+	
 	onCanRun = function(item)
 		local client = item.player
-		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("shard_dust")
-	end
-}
-
-ITEM.functions.Blight = {
-	name = "Blight",
-	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-		local dust = client:getChar():getInv():getFirstItemOfType("blight")
-		client:requestQuery("Are you sure you want to blight this ammo?", "Blight", function(text)		
-			dust:remove()
-			
-			item:setData("infused", true)
-			
-			local customData = item:getData("custom", {})
-			customData.name = "Blighted " .. item:getName()
-			customData.desc = item:getDesc(true) .. "\nThis ammo is pitch black."
-			customData.color = Color(0, 0, 0)
-			
-			item:setData("custom", customData)
-		end)
-		return false
-	end,
-	onCanRun = function(item)
-		local client = item.player
-		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("blight")
-	end
-}
-
-ITEM.functions.Distort = {
-	name = "Distort",
-	icon = "icon16/wrench.png",
-	onRun = function(item)
-		local client = item.player
-		local chip = client:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
-		client:requestQuery("Are you sure you want to Distort this ammo?", "Distort", function(text)
-			chip:remove()
-
-			item:setData("infused", true)
-			
-			local customData = item:getData("custom", {})
-			customData.name = "Distorted " .. item:getName()
-			customData.desc = item:getDesc(true) .. "\nThis ammo's appearance distorts randomly and sometimes becomes translucent."
-			customData.color = Color(140, 20, 140)
-			
-			item:setData("custom", customData)
-		end)
-		return false
-	end,
-	onCanRun = function(item)
-		local client = item.player
-		return (item:getData("infused") == nil) and client:getChar():getInv():getFirstItemOfType("cube_chip_enhanced")
+		return client:getChar():hasFlags("1")
 	end
 }
 

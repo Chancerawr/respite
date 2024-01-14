@@ -439,6 +439,92 @@ local funcTableC = {
 			["sk"] = true
 		}
 	},
+	["gnome_home"] = {
+		name = "Gnome Home",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 50, 70)
+		end,
+		prodMult = 0,
+		results = {
+			func = function(item, client)
+				local position = client:getItemDropPos()
+
+				local gnomeInvID = item:getData("gnh")
+				if(!gnomeInvID) then
+					local data = {
+						item = item:getID(),
+						w = 1,
+						h = 10
+					}
+				
+					nut.inventory.instance("grid", data)
+					:next(function(inventory)
+						local invID = inventory:getID()
+						
+						local function GnomeAccess(inventory, action, context)
+							local item2, toInventory = context.item, context.to
+							if(item2) then
+								local itemTable = nut.item.list[item2.uniqueID]
+
+								if (toInventory and !itemTable.gnome) then -- if to inventory is not valid, it goes to the ground.
+									return false, "Only gnomes can be placed in here."
+								else
+									return true
+								end
+							else
+								return true
+							end
+						end
+					
+						inventory:addAccessRule(GnomeAccess, 1)
+
+						item:setData("gnh", invID)
+						inventory:sync({client})
+
+						netstream.Start(client, "respGnomeInv", item, invID)
+					end)
+					
+				elseif(!nut.inventory.instances[gnomeInvID]) then
+					nut.inventory.loadByID(gnomeInvID)
+					:next(function(inventory)
+						if (inventory and !(inventory.loaded)) then
+							inventory.loaded = true
+
+							local function GnomeAccess(inventory, action, context)
+								local item2, toInventory = context.item, context.to
+								if(item2) then
+									local itemTable = nut.item.list[item2.uniqueID]
+
+									if (toInventory and !itemTable.gnome) then -- if to inventory is not valid, it goes to the ground.
+										return false, "Only gnomes can be placed in here."
+									else
+										return true
+									end
+								else
+									return true
+								end
+							end
+
+							inventory:addAccessRule(GnomeAccess, 1)
+							
+							inventory:sync({client})
+
+							netstream.Start(client, "respGnomeInv", item, gnomeInvID)
+						end
+					end)
+				else
+					local inventory = nut.inventory.instances[gnomeInvID]
+				
+					inventory:sync({client})
+
+					netstream.Start(client, "respGnomeInv", item, gnomeInvID)
+				end
+			end,
+		},
+		dev = {
+			["gn"] = true
+		}
+	},
 }
 
 --table for developing things
@@ -702,6 +788,23 @@ local funcTableD = {
 			["b1"] = true,
 		}
 	},
+	["gn"] = {
+		name = "Gnome Home",
+		sound = function(client)
+			client:EmitSound("ambient/levels/prison/radio_random9.wav", 50, 70)
+		end,
+		startString = "Images of a small wooden house fill you mind.",
+		endString = "You can clearly picture a small wooden house, perfect for little gnomes.",
+		prodMult = 2,
+		required = {
+			resources = {
+				["mem"] = 50,
+			}
+		},
+		dev = {
+			["b1"] = true,
+		}
+	},
 	["fut"] = {
 		name = "Future",
 		sound = function(client)
@@ -891,11 +994,28 @@ ITEM.functions.Absorb = {
 		if(!dataTbl) then return false end
 		
 		if(dataTbl.absorb) then
+			--[[
 			local absorb = inventory:getFirstItemOfType(dataTbl.absorb)
-			while(absorb) do
+			while(absorb and !absorb.removeSafety) do
 				new = new + absorb:getData("Amount", 1)
 				absorb:remove()
 				absorb = inventory:getFirstItemOfType(dataTbl.absorb)
+			end
+			--]]
+			
+			--check every item in the inventory
+			for k, absorb in pairs(inventory:getItems()) do
+				-- if it's the kind we want
+				if(absorb.uniqueID == dataTbl.absorb) then 
+					if(absorb.brokenItem) then continue end --skip over weird broken items
+					
+					new = new + absorb:getData("Amount", 1) --add to the counter
+					absorb:remove()
+
+					if(IsValid(absorb)) then
+						absorb.brokenItem = true
+					end
+				end
 			end
 		end
 		
@@ -1165,6 +1285,25 @@ if(CLIENT) then
 		["fighters"] = "Fighters",
 	}
 
+	netstream.Hook("respGnomeInv", function(item, invID)
+		local panel = nut.gui["inv"..invID]
+		local parent = item.invID and nut.gui["inv"..item.invID] or nil
+
+		if (IsValid(panel)) then
+			panel:Remove()
+		end
+		
+		local inventory = nut.inventory.instances[invID]
+		if (inventory) then
+			local panel = nut.inventory.show(inventory, parent)
+			if (IsValid(panel)) then
+				panel:ShowCloseButton(true)
+				panel:SetTitle("Gnome Home")
+				panel:MoveRightOf(parent, 4)
+			end
+		end
+	end)
+	
 	netstream.Hook("respMenu", function(item, actions)
 		local actionList = vgui.Create("nutRespiteOrb")
 		actionList.item = item

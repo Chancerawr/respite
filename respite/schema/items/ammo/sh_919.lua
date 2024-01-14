@@ -1,7 +1,7 @@
 ITEM.name = "9x19mm Ammo"
 ITEM.model = "models/items/boxsrounds.mdl"
 ITEM.ammo = "919" 
-ITEM.ammoAmount = 1--30 
+ITEM.ammoAmount = 30 
 ITEM.desc = "A box that contains %s 9x19mm rounds."
 ITEM.category = "Ammunition"
 ITEM.flag = "v"

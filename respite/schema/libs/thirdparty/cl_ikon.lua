@@ -161,9 +161,18 @@ function ikon:renderHook()
 		render.ResetModelLighting( 200/255, 200/255, 200/255 )
 		render.SetColorModulation( 1, 1, 1 )
 
+		local col
+		
+		if(IsValid(ikon.renderEntity)) then
+			col = ikon.renderEntity:GetColor()
+		end
+
 		for i = 0, 6 do
-			local col = lightPositions[i]
-			if ( col ) then
+			if(!IsValid(ikon.renderEntity)) then
+				col = lightPositions[i]
+			end
+			
+			if (col) then
 				render.SetModelLighting( i, col.r / 255, col.g / 255, col.b / 255 )
 			end
 		end
@@ -198,7 +207,7 @@ function ikon:renderHook()
 			end
 			
 			render.SetBlend(1)
-			ikon.renderEntity:DrawModel()	
+			ikon.renderEntity:DrawModel()
 		cam.End3D()
 
 		if (tab.drawPostHook) then
@@ -299,11 +308,11 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, color, material,
 	end
 
 	ikon.renderEntity:SetModel(ikon.renderModel)
-	
+
 	if(color) then
 		ikon.renderEntity:SetColor(color)
-	end
-
+	end	
+	
 	if(material) then
 		ikon.renderEntity:SetMaterial(material)
 	end
@@ -349,8 +358,8 @@ function ikon:renderIcon(name, w, h, mdl, camInfo, updateCache, color, material,
 	end
 	ikon.requestList[name] = nil
 	
-	if(material) then --reset material when done
-		ikon.renderEntity:SetColor(Color(0,0,0,255)) --reset render entity
+	if(color) then --reset color when done
+		ikon.renderEntity:SetColor(Color(255,255,255,255)) --reset render entity
 	end
 	
 	if(material) then --reset material when done

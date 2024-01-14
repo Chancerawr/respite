@@ -33,13 +33,11 @@ local function findTargetInCone(startPos, forward, cone, cone2)
 	return targets
 end
 
-local function findTargetInBox(hitpos, boxMaxs)
-	local centerOffset = -0.5 * Vector(boxMaxs[1],boxMaxs[2],0)
-
-	local boxStart = hitpos + centerOffset
-	local boxEnd = hitpos + Vector(boxMaxs[1],boxMaxs[2],boxMaxs[3]) + centerOffset
-
-	local entities = ents.FindInBox(boxStart, boxEnd)
+local function findTargetInBox(position, mins, maxs)
+	local boxMins = position + mins
+	local boxMaxs = position + maxs
+	
+	local entities = ents.FindInBox(boxMins, boxMaxs)
 	local targets = {}
 	
 	for k, target in pairs(entities) do
@@ -56,7 +54,7 @@ end
 --finds targets for abilities
 function PLUGIN:attackStart(client, attacker, trace, action)
 	local target = trace.Entity
-	local hitPos = client:GetEyeTrace().HitPos
+	local hitPos = trace.HitPos or client:GetEyeTrace().HitPos
 	
 	local selfOnly = action.selfOnly
 	if(client:IsPlayer() and client:KeyDown(IN_WALK)) then --self targetting
@@ -177,6 +175,23 @@ function PLUGIN:getAttackData(attacker, action)
 				data.failed = true --tell it that it failed
 				data.actionName = action.name
 				return data
+			end
+		end
+		
+		--deletes consumable items upon use, should probably be moved elsewhere
+		if(action.itemUse) then
+			if(IsValid(attacker) and attacker:getChar()) then
+				local inventory = attacker:getChar():getInv()
+				
+				local item = inventory:getFirstItemOfType(action.itemUse)
+				if(item) then
+					local amount = item:getData("Amount", 1)
+					if(amount > 1) then
+						item:setData("Amount", amount - 1)
+					else
+						item:remove()
+					end
+				end
 			end
 		end
 		

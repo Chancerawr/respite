@@ -1,7 +1,7 @@
 ITEM.name = ".50 BMG Ammo"
 ITEM.model = "models/items/sniper_round_box.mdl"
 ITEM.ammo = "50bmg" 
-ITEM.ammoAmount = 1--12 
+ITEM.ammoAmount = 12
 ITEM.desc = "A box that contains %s .50 BMG bullets."
 ITEM.price = 10
 ITEM.category = "Ammunition"

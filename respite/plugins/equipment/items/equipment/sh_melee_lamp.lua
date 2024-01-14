@@ -1,7 +1,7 @@
 ITEM.name = "Lamp"
 ITEM.desc = "A lamp used for illuminating PAIN."
 ITEM.model = "models/props_interiors/Furniture_Lamp01a.mdl"
-ITEM.class = "hl2_m_lamp"
+ITEM.class = "respite_lamp"
 ITEM.uniqueID = "hl2_m_lamp"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -29,6 +29,16 @@ ITEM.salvage = {
 	["j_scrap_metals"] = 2,
 	["j_scrap_cloth"] = 2
 }
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
+}
+
+function ITEM:onEntityCreated(entity)
+	entity:SetPos(entity:GetPos()+entity:GetUp()*24)
+end
 
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),

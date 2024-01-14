@@ -10,6 +10,8 @@ ITEM.price = 500
 ITEM.category = "Gnomes"
 ITEM.color = Color(255, 140, 20)
 
+ITEM.gnome = true
+
 ITEM.iconCam = {
 	pos = Vector(280.395, 236.86, 184.78),
 	ang = Angle(25, 220, 0),
@@ -45,7 +47,9 @@ ITEM.functions.Gnome = {
 		
 		object:remove()
 		
-		inventory:addSmart(table.Random(gnomeUpgrades), 1, position, {custom = customData})
+		local gnome = table.Random(gnomeUpgrades)
+		
+		inventory:addSmart(gnome, 1, position, {custom = customData})
 		
 		nut.chat.send(client, "itclose", "The gnome in front of " .. item:getName() .. " is changed somehow.")	
 		

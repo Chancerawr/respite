@@ -9,7 +9,8 @@ ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Gnomes"
 ITEM.color = Color(140, 20, 140)
-ITEM.data = { producing2 = 0 }
+
+ITEM.gnome = true
 
 ITEM.iconCam = {
 	pos = Vector(280.4, 236.86, 184.78),

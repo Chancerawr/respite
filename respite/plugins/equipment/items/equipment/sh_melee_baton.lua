@@ -1,7 +1,7 @@
 ITEM.name = "Baton"
 ITEM.desc = "A tool used for justice."
 ITEM.model = "models/warz/melee/policebaton.mdl"
-ITEM.class = "hl2_m_baton"
+ITEM.class = "respite_baton"
 ITEM.slot = "melee"
 ITEM.width = 2
 ITEM.height = 1
@@ -26,6 +26,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_plastics"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

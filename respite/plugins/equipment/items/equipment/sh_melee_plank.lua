@@ -1,7 +1,7 @@
 ITEM.name = "Plank"
 ITEM.desc = "A nice chunk of wood."
 ITEM.model = "models/props_debris/wood_board04a.mdl"
-ITEM.class = "hl2_m_plank"
+ITEM.class = "respite_plank"
 ITEM.uniqueID = "hl2_m_plank"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -27,6 +27,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 3,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
 }
 
 ITEM.iconCam = {

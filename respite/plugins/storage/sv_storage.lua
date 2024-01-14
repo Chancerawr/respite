@@ -83,6 +83,7 @@ function PLUGIN:saveStorage()
 				entity:GetMaterial(),
 				entity:getNetVar("owner", nil),
 				entity:getNetVar("overwrite", nil),
+				entity:GetColor(),
 			}
 		end
   	end
@@ -116,9 +117,10 @@ function PLUGIN:loadStorage()
 		local mat = info[11]
 		local owner = info[12]
 		local overwrite = info[13]
+		local color = info[14]
 		
 		local storage = self.definitions[overwrite or model]
-		if (not storage) then continue end
+		if (!storage) then continue end
 
 		local storage = ents.Create("nut_storage")
 		storage:SetPos(position)
@@ -127,6 +129,10 @@ function PLUGIN:loadStorage()
 		storage:SetModel(model)
 		storage:SetSolid(SOLID_VPHYSICS)
 		storage:PhysicsInit(SOLID_VPHYSICS)
+		
+		if(color) then
+			storage:SetColor(Color(color.r, color.g, color.b))
+		end
 		
 		nut.inventory.loadByID(inv)
 			:next(function(inventory)
@@ -191,7 +197,7 @@ end
 
 -- this stupid time stuff stops them from getting broken when other things break when the load hook is called
 function PLUGIN:InitPostEntity()
-	timer.Simple(60, function()
+	timer.Simple(30, function()
 		PLUGIN:loadStorage()
 	end)
 end

@@ -1,7 +1,7 @@
-ITEM.name = "Sledgehammer"
+ITEM.name = "Makeshift Sledgehammer"
 ITEM.desc = "A large hammer usually used to distribute force over a wide area."
 ITEM.model = "models/props_debris/wood_board02a.mdl"
-ITEM.class = "hl2_m_sledgehammer"
+ITEM.class = "respite_makeshift_sledgehammer"
 ITEM.uniqueID = "hl2_m_sledgehammer"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -28,6 +28,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_concrete"] = 2,
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

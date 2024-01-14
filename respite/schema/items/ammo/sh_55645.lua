@@ -1,7 +1,7 @@
 ITEM.name = "5.56x45mm Ammo"
 ITEM.model = "models/Items/BoxMRounds.mdl"
 ITEM.ammo = "55645" 
-ITEM.ammoAmount = 1--45 
+ITEM.ammoAmount = 45
 ITEM.desc = "A box that contains %s 5.56x45mm rounds."
 ITEM.category = "Ammunition"
 ITEM.flag = "v"

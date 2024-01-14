@@ -10,6 +10,8 @@ ENT.noRag = true
 ENT.model = "models/Zombie/Poison.mdl"
 ENT.material = "models/props_lab/security_screens"
 
+ENT.modelScale = 3
+
 ENT.AttackAnim = "Melee_01"
 
 --all attributes
@@ -54,7 +56,7 @@ ENT.actions = {
 
 function ENT:Initialize()
 	timer.Simple(0.6, function()
-		self:SetModelScale(3)
+		--self:SetModelScale(3)
 		self:ResetSequence("firewalk")
 	end)
 	

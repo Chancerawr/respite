@@ -3,8 +3,8 @@ PLUGIN.name = "Random Names"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "Lets you randomly generate a name."
 
---only on the clietn for now I guess
-if(CLIENT) then
+--only on the client for now I guess
+--if(CLIENT) then
 	PLUGIN.first = {
 		"Bill",
 		"Edward",
@@ -532,4 +532,4 @@ if(CLIENT) then
 		
 		return name
 	end
-end
+--end

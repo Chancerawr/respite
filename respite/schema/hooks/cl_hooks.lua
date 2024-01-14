@@ -203,60 +203,6 @@ function SCHEMA:HUDDrawTargetID()
 	return false
 end
 
-function SCHEMA:ShowPlayerCard(target, client)
-	self.F3 = vgui.Create("DFrame")
-	self.F3:SetSize(ScrW() * 0.35, ScrH() * 0.25)
-	self.F3:Center()
-
-	self.F3:SetTitle(target:Name())
-	
-	self.F3:MakePopup()
-	
-	local name = self.F3:Add("DLabel")
-	name:SetFont("nutMediumFont")
-	name:SetPos(ScrW() * 0.35 * 0.5, 30)
-	name:SetText(target:Name())
-	name:SizeToContents()
-	name:SetTextColor(Color(255, 255, 255, 255))
-	name:CenterHorizontal()
-	--name:Dock(TOP)
-	
-	local scroll = self.F3:Add("DScrollPanel")
-	scroll:SetPos(0, 50)
-	scroll:SetSize(ScrW() * 0.35 - 40, ScrH() * 0.25 - 20)
-	--scroll:Dock(TOP)
-	scroll:Center()
-	function scroll:Paint(w, h) end
-	
-	local desc = scroll:Add("DLabel")
-	desc:SetPos(0, 50)
-	desc:SetFont("nutSmallFont")
-	desc:SetText(target:getChar():getDesc())
-	desc:SetAutoStretchVertical(true)
-	desc:SetWrap(true)
-	desc:SetSize(ScrW() * 0.35, 10)
-	desc:SetTextColor(Color(255, 255, 255, 255))
-	desc:PerformLayout()
-end
-
-function SCHEMA:PlayerBindPress(client, bind, pressed)
-	bind = bind:lower()
-	
-	if ((bind:find("use") or bind:find("attack")) and pressed) then
-		if (bind:find("use") and pressed) then
-			local data = {}
-				data.start = client:GetShootPos()
-				data.endpos = data.start + client:GetAimVector()*96
-				data.filter = client
-			local trace = util.TraceLine(data)
-			local entity = trace.Entity
-			if (IsValid(client) and entity:IsPlayer()) then
-				hook.Run("ShowPlayerCard", entity )
-			end
-		end
-	end
-end
-
 function SCHEMA:SetupQuickMenu(menu)
 
 	local button = menu:addButton("Clear Icon Cache", function(panel, state)
@@ -280,4 +226,44 @@ function SCHEMA:CanCreateCharInfo(panel)
 	suppress.time = true
 	
 	return suppress
+end
+
+local GM = gmod.GetGamemode()
+
+--this is here to improve ragdoll calview
+--previously you would see into the ground sometimes, adding a znear to it improved it a bit
+function SCHEMA:CalcView(client, origin, angles, fov)
+	local view = GM.BaseClass:CalcView(client, origin, angles, fov)
+	local entity = Entity(client:getLocalVar("ragdoll", 0))
+	local ragdoll = client:GetRagdollEntity()
+
+	if (client:GetViewEntity() == client) then
+		if (
+			-- First person if the player has fallen over.
+			(
+				not client:ShouldDrawLocalPlayer()
+				and IsValid(entity)
+				and entity:IsRagdoll()
+			)
+			or
+			-- Also first person if the player is dead.
+			(not LocalPlayer():Alive() and IsValid(ragdoll))
+		) then
+			local ent = LocalPlayer():Alive() and entity or ragdoll
+			local index = ent:LookupAttachment("eyes")
+
+			if (index) then
+				local data = ent:GetAttachment(index)
+
+				if (data) then
+					view = view or {}
+					view.origin = data.Pos
+					view.angles = data.Ang
+					view.znear = 1
+				end
+
+				return view
+			end
+		end
+	end
 end

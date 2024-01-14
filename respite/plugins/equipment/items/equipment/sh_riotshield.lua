@@ -27,6 +27,20 @@ ITEM.attrib = {
 	["stm"] = -4,
 }
 
+ITEM.res = {
+	["Slash"] = 7,
+	["Blunt"] = 7,
+	["Pierce"] = 7,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 2,
+}
+
+ITEM.actions = {
+	"shield_hunker",
+}
+
 ITEM.salvage = {
 	["j_scrap_plastics"] = 8
 }

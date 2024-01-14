@@ -1,14 +1,16 @@
 ITEM.name = "Charged Battery"
+ITEM.desc = "A single, seemingly enhanced battery."
+ITEM.uniqueID = "ammo_battery"
 ITEM.model = "models/items/battery.mdl"
+ITEM.material = "phoenix_storms/wire/pcb_blue"
 ITEM.ammo = "battery" 
 ITEM.ammoAmount = 50 
-ITEM.desc = "A single, seemingly enhanced battery."
 ITEM.category = "Ammunition"
 ITEM.flag = "v"
 ITEM.price = 0
-ITEM.uniqueID = "ammo_battery"
-ITEM.material = "phoenix_storms/wire/pcb_blue"
+
 ITEM.maxstack = 50
+ITEM.color = Color(130, 130, 200)
 
 ITEM.iconCam = {
 	pos = Vector(200, 0, 5),
@@ -30,7 +32,7 @@ ITEM.functions.use = {
 	icon = "icon16/add.png",
 	onRun = function(item)
 		item.player:GiveAmmo(item.ammoAmount, item.ammo)
-		item.player:EmitSound("npc/scanner/cbot_discharge1.wav", 110)
+		item.player:EmitSound("npc/scanner/cbot_discharge1.wav", 75)
 		
 		return true
 	end,

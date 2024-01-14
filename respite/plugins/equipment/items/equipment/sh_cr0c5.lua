@@ -18,7 +18,6 @@ ITEM.lootTags = {
 	["firearm"] = true,
 }
 
-
 ITEM.dmg = {
 	["Rifle"] = 12,
 }
@@ -26,6 +25,15 @@ ITEM.dmg = {
 ITEM.scaling = {
 	["accuracy"] = 0.2,
 	["perception"] = 0.2,
+}
+
+ITEM.salvage = {
+	["parts_gun"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Barrel"] = 1,
 }
 
 ITEM.iconCam = {

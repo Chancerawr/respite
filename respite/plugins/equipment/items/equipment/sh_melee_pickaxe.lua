@@ -1,7 +1,7 @@
 ITEM.name = "Pickaxe"
 ITEM.desc = "A tool used for breaking rocks."
 ITEM.model = "models/warz/melee/pickaxe.mdl"
-ITEM.class = "hl2_m_pickaxe"
+ITEM.class = "respite_pickaxe"
 ITEM.uniqueID = "hl2_m_pickaxe"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -31,6 +31,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 4,
 	["j_scrap_wood"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

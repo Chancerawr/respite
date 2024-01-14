@@ -1,7 +1,7 @@
 ITEM.name = "Steak"
 ITEM.desc = "A meaty steak."
 ITEM.uniqueID = "cook_steak"
-ITEM.model = "models/gibs/antlion_gib_small_2.mdl"
+ITEM.model = "models/gibs/glass_shard03.mdl"
 ITEM.material = "models/flesh"
 ITEM.quantity2 = 2
 --ITEM.price = 3

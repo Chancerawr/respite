@@ -270,7 +270,7 @@ function SWEP:resetHeld(entity)
 	if(IsValid(entity)) then
 		self.heldEntity = nil
 		self:SetNW2Bool("holdingObject", false)
-		
+
 		if(entity.oldCollision) then
 			entity:SetCollisionGroup(entity.oldCollision)
 		end
@@ -315,18 +315,11 @@ function SWEP:onCanPickup(entity)
 end
 
 function SWEP:Pickup(entity)
+	local client = self.Owner
+
 	if (entity:IsPlayerHolding()) then --if it is already being held
 		return
 	end
-	
-	--[[
-	print(self.heldEntity, entity)
-	if (IsValid(self.heldEntity) and self.heldEntity != entity) then
-		self.heldEntity = nil
-		self:SetNW2Bool("holdingObject", false)
-		return false
-	end
-	--]]
 
 	self.heldEntity = entity
 	self:SetNW2Bool("holdingObject", true)
@@ -334,22 +327,57 @@ function SWEP:Pickup(entity)
 	local physObj = entity:GetPhysicsObject()
 	physObj:Wake()
 	
-	timer.Simple(0.1, function() --for some reason this only works on a timer
-		if(IsValid(entity)) then
-			local currentGroup = entity:GetCollisionGroup()
-			
-			if(currentGroup != COLLISION_GROUP_WEAPON) then
-				entity.oldCollision = currentGroup
-			end
-			entity:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-
-			self.Owner:PickupObject(entity)
-			self.Owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 3)..".wav", 75)
+	if(IsValid(entity)) then
+		local currentGroup = entity:GetCollisionGroup()
+		
+		if(currentGroup != COLLISION_GROUP_WEAPON) then
+			entity.oldCollision = currentGroup
 		end
-	end)
+		entity:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
-	self:SetNextSecondaryFire(CurTime() + 0.2)
+		client:SetNW2Float("pickupDropProtect", CurTime()+0.2)
+		client:SetNW2Entity("pickupEntity", entity)
+		
+		client:EmitSound("physics/body/body_medium_impact_soft"..math.random(1, 3)..".wav", 75)
+	end
+
+	self:SetNextSecondaryFire(CurTime() + 0)
 end
+
+hook.Add("OnPlayerPhysicsDrop", "nut_hands_dropHook", function(client, entity, thrown)
+	if(!client:KeyDown(IN_ATTACK2) and !client:KeyPressed(IN_ATTACK2)) then
+		local hands = client:GetWeapon("nut_hands")
+		if(IsValid(hands) and client:GetActiveWeapon():GetClass() == "nut_hands") then
+			hands.heldEntity = nil
+			hands:SetNW2Bool("holdingObject", nil)
+			
+			if(entity.oldCollision) then
+				entity:SetCollisionGroup(entity.oldCollision)
+			end
+		end
+	end
+end)
+
+hook.Add("StartCommand", "nut_hands_dropProtect", function(client, ucmd)
+	local protect = client:GetNW2Float("pickupDropProtect")
+	local pickupEnt = client:GetNW2Entity("pickupEntity")
+
+	if(protect and protect > CurTime()) then
+		ucmd:RemoveKey(IN_ATTACK2)
+
+		if(IsValid(pickupEnt)) then
+			if(SERVER) then
+				client:PickupObject(pickupEnt)
+				client:SetNW2Entity("pickupEntity", nil)
+			end
+		end
+	elseif(client.pickupDropProtect) then
+		if(SERVER) then
+			client:SetNW2Float("pickupDropProtect", nil)
+			client:SetNW2Entity("pickupEntity", nil)
+		end
+	end
+end)
 
 local hull = Vector(4, 4, 4)
 function SWEP:SecondaryAttack()
@@ -375,7 +403,7 @@ function SWEP:SecondaryAttack()
 		--drops a carried object if holding one
 		if(IsValid(self.heldEntity)) then
 			local isHeld = (self.heldEntity == entity)
-
+			
 			client:DropObject()
 
 			self:resetHeld(entity)

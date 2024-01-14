@@ -1,7 +1,7 @@
 ITEM.name = "Clay Pot"
 ITEM.desc = "A well rounded, sturdy clay pot."
 ITEM.model = "models/props/de_inferno/claypot02.mdl"
-ITEM.class = "hl2_m_claypot"
+ITEM.class = "respite_clay_pot"
 ITEM.uniqueID = "hl2_m_claypot"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_concrete"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "GridInv UI"
 PLUGIN.author = "Cheesenut"
 PLUGIN.desc = "Adds UI components for grid inventories."
@@ -37,4 +38,39 @@ if (CLIENT) then
 		end
 		return stacks
 	end
+	
+	netstream.Hook("nutE_menu", function(data)
+		local inventoryTest = vgui.Create("nutGridInventoryEquip")
+		--[[
+		frame:SetSize(450, 600)
+		frame:Center()
+		frame:SetTitle("Titles")
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+
+		local scroll = vgui.Create("DScrollPanel", frame)
+		scroll:Dock(FILL)
+		
+		for k, v in pairs(data) do
+			menuAddTitle(scroll, v)
+		end
+		--]]
+		
+		timer.Simple(2, function()
+			inventoryTest:Remove()
+		end)
+	end)
+else
+	--open and network the titles menu
+	function PLUGIN:equipMenuPopup(client)
+		netstream.Start(client, "nutE_menu", data)
+	end	
 end
+
+nut.command.add("equipmenu", {
+	adminOnly = true,
+	syntax = "<none>",
+	onRun = function(client, arguments)
+		PLUGIN:equipMenuPopup(client)
+	end
+})

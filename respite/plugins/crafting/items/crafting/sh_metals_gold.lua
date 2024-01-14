@@ -1,0 +1,10 @@
+ITEM.name = "Gold"
+ITEM.desc = "A precious metal coveted by the greedy."
+ITEM.uniqueID = "j_scrap_gold"
+ITEM.model = "models/gibs/scanner_gib02.mdl"
+ITEM.material = "models/cs_italy/light_orange"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(255, 215, 0)

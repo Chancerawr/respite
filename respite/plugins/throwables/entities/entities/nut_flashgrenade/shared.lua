@@ -27,6 +27,6 @@ function ENT:PhysicsCollide(data,phys)
 		self.Entity:EmitSound( Format( "physics/metal/metal_grenade_impact_hard%s.wav", math.random( 1, 3 ) ) ) 
 	end
 	
-	local impulse = -data.Speed * data.HitNormal * .4 + (data.OurOldVelocity * -.6)
+	local impulse = -data.Speed * data.HitNormal * .4 + (data.OurOldVelocity * -.4)
 	phys:ApplyForceCenter(impulse)
 end

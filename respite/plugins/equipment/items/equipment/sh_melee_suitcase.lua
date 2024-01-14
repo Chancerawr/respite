@@ -1,7 +1,7 @@
 ITEM.name = "Suitcase"
 ITEM.desc = "A robust worn black suitcase."
 ITEM.model = "models/weapons/w_suitcase_passenger.mdl"
-ITEM.class = "hl2_m_suitcase"
+ITEM.class = "respite_suitcase"
 ITEM.uniqueID = "hl2_m_suitcase"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_cloth"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

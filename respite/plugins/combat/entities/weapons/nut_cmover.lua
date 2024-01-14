@@ -73,7 +73,18 @@ function SWEP:PrimaryAttack()
 	local data = {}
 		data.start = self.Owner:GetShootPos()
 		data.endpos = data.start + self.Owner:GetAimVector()*4096
-		data.filter = {self.Owner, self}
+		--data.filter = {self.Owner, self}
+		data.filter = function(ent)
+			if(ent == self.Owner or ent == ent.Owner) then
+				return false
+			end
+			
+			if(ent.combat) then
+				return false
+			end
+			
+			return true
+		end
 	local trace = util.TraceLine(data)
 
 	if (trace.HitPos) then

@@ -1,7 +1,7 @@
 ITEM.name = "Butterfly Knife"
 ITEM.desc = "A sharp tool used to cut things with style."
 ITEM.model = "models/warz/melee/butterflyknife.mdl"
-ITEM.class = "hl2_m_knifeb"
+ITEM.class = "respite_knifeb"
 ITEM.slot = "melee"
 ITEM.width = 1
 ITEM.height = 1
@@ -28,6 +28,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

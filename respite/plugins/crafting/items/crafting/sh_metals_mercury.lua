@@ -1,0 +1,10 @@
+ITEM.name = "Mercury"
+ITEM.uniqueID = "j_scrap_mercury"
+ITEM.model = "models/props_junk/glassjug01.mdl"
+ITEM.material = "phoenix_storms/metal_plate"
+ITEM.desc = "A liquid metal."
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(200, 50, 50)

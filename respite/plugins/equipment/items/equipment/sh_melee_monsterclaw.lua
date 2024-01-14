@@ -1,7 +1,8 @@
 ITEM.name = "Monster Claw"
+ITEM.prefix = "Claw"
 ITEM.desc = "A medium sized claw torn from some kind of monster."
 ITEM.model = "models/gibs/antlion_gib_small_1.mdl"
-ITEM.class = "hl2_m_monsterclaw"
+ITEM.class = "respite_monster_claw"
 ITEM.uniqueID = "j_monster_claw"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -28,6 +29,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_bone"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 --consumable for the sake of crafting

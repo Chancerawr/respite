@@ -19,6 +19,10 @@ ITEM.attrib = {
 	["end"] = 1,
 }
 
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 200, 6),
 	ang = Angle(0, 270, 0),
@@ -45,7 +49,7 @@ ITEM.functions.Read = {
 
 			for k, v in pairs(readBoost) do
 				buffAmt = v
-				if(hasTrait(client, "zealot")) then
+				if(TRAITS and client:hasTrait("zealot")) then
 					buffAmt = buffAmt * 2
 				end
 				

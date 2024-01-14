@@ -17,6 +17,10 @@ if(SERVER) then
 	}
 end
 
+function ITEM:onEntityCreated(entity)
+	entity:SetAngles(Angle(-90,0,0))
+end
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

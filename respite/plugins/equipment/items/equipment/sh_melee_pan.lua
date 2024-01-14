@@ -1,7 +1,7 @@
 ITEM.name = "Frying Pan"
 ITEM.desc = "A metal frying pan."
 ITEM.model = "models/warz/melee/fryingpan.mdl"
-ITEM.class = "hl2_m_frying_pan"
+ITEM.class = "respite_fryingpan"
 ITEM.slot = "melee"
 ITEM.width = 2
 ITEM.height = 1
@@ -26,6 +26,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

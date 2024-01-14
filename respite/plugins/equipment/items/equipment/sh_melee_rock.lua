@@ -1,7 +1,7 @@
 ITEM.name = "Rock"
 ITEM.desc = "A stone or rock picked up off the ground."
 ITEM.model = "models/props_foliage/rock_forest01d.mdl"
-ITEM.class = "hl2_m_rock"
+ITEM.class = "respite_rock"
 ITEM.uniqueID = "hl2_m_rock"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -27,6 +27,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_concrete"] = 1
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
 }
 
 ITEM.iconCam = {

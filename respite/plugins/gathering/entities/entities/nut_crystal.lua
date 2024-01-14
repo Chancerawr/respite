@@ -42,7 +42,7 @@ if (SERVER) then
 	function ENT:Use(activator)
 	end
 	
-	function ENT:OnTakeDamage( dmginfo )
+	function ENT:OnTakeDamage(dmginfo)
 		if(dmginfo:IsDamageType(DMG_BLAST)) then --needs to be blown up to be harvested
 			nut.item.spawn("shard_dust", self:GetPos() + self:GetUp() * 5)
 			--nut.item.spawn("shard_dust", self:GetPos() + self:GetUp() * 5)

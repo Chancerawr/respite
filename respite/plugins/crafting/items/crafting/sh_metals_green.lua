@@ -1,0 +1,10 @@
+ITEM.name = "Ogre Metal"
+ITEM.desc = "A green metal that, despite rumors, smells nothing like onions at all."
+ITEM.uniqueID = "j_scrap_ogre"
+ITEM.model = "models/gibs/scanner_gib02.mdl"
+ITEM.material = "models/weapons/v_slam/new light2"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(100, 200, 100)

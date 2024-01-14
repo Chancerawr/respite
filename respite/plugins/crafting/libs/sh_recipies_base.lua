@@ -38,7 +38,7 @@ function RECIPES:Register( tbl )
 		function tbl:ProcessCraftItems(player)
 			local char = player:getChar()
 		
-			player:EmitSound("items/ammo_pickup.wav")
+			player:EmitSound("items/ammo_pickup.wav", 65)
 
 			local requiredItems = self.items
 			local items = char:getInv():getItems()

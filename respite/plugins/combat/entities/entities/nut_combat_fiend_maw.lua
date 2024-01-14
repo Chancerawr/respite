@@ -8,6 +8,9 @@ ENT.AdminOnly = true
 ENT.name = "Mawed Blood Fiend"
 ENT.model = "models/spite/fiend.mdl"
 ENT.material = "models/flesh"
+
+ENT.modelScale = 1.2
+
 ENT.color = Color(128, 20, 20)
 
 --all attributes
@@ -49,7 +52,7 @@ function ENT:Initialize()
 	self:basicSetup()
 	
 	timer.Simple(0.6, function()
-		self:SetModelScale(1.2)
+		--self:SetModelScale(1.2)
 		self:ResetSequence("idle_all_angry")
 	end)
 end

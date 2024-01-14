@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 ENT.Type = "anim"
 ENT.PrintName = "Crafting Table"
 ENT.Author = "Black Tea"
@@ -23,12 +24,23 @@ if (SERVER) then
 		self.receivers = {}
 		
 		timer.Simple(1, function()
-			nut.inventory.instance("grid", {10,10})
+			if(self:getNetVar("id")) then
+				nut.inventory.loadByID(self:getNetVar("id"))
 				:next(function(inventory)
-					if(IsValid(self) and self.setInventory) then --why is this necessary?
+					if (inventory and IsValid(self) and !(inventory.loaded and IsValid(inventory.loaded))) then
+						inventory.loaded = self
+						inventory.isStorage = true
 						self:setInventory(inventory)
 					end
 				end)
+			else
+				nut.inventory.instance("grid", {10,10})
+					:next(function(inventory)
+						if(IsValid(self) and self.setInventory) then --why is this necessary?
+							self:setInventory(inventory)
+						end
+					end)
+			end
 		end)
 	end
 
@@ -48,19 +60,25 @@ if (SERVER) then
 	end	
 	
 	function ENT:OnRemove()
-		local index = self:getNetVar("id")
+		if (not self.nutForceDelete) then
+			if (not nut.entityDataLoaded or not PLUGIN.loadedData) then return end
+			if (self.nutIsSafe) then return end
+			if (nut.shuttingDown) then return end
+		end
+		
+		self:deleteInventory()
+	end
+	
+	function ENT:deleteInventory()
+		local inventory = self:getInv()
+		if (inventory) then
+			inventory:delete()
 
-		if (!nut.shuttingDown and !self.nutIsSafe and index) then
-			local item = nut.item.inventories[index]
-
-			if (item) then
-				nut.item.inventories[index] = nil
-
-				nut.db.query("DELETE FROM nut_items WHERE _invID = "..index)
-				nut.db.query("DELETE FROM nut_inventories WHERE _invID = "..index)
-
-				hook.Run("StorageItemRemoved", self, item)
+			if (not self.nutForceDelete) then
+				--hook.Run("StorageEntityRemoved", self, inventory)
 			end
+
+			self:setNetVar("id", nil)
 		end
 	end
 else

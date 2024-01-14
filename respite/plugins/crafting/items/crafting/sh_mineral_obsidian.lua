@@ -1,0 +1,10 @@
+ITEM.name = "Obsidian"
+ITEM.desc = "A pitch black rock."
+ITEM.uniqueID = "j_scrap_obsidian"
+ITEM.model = "models/gibs/shield_scanner_gib2.mdl"
+ITEM.material = "phoenix_storms/black_chrome"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(0, 0, 0)

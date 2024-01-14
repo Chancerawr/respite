@@ -1,7 +1,7 @@
 ITEM.name = "Empty Tequila Bottle"
 ITEM.uniqueID = "j_empty_tequila"
 ITEM.model = "models/props_junk/glassjug01.mdl"
-ITEM.desc = "An empty bottle made of glass, it smells like tequila.\nThis container can be filled with water."
+ITEM.desc = "An empty bottle made of glass, it smells like tequila."
 ITEM.flag = "j"
 ITEM.fillable = true
 

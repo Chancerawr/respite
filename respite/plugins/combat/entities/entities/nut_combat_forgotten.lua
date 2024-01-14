@@ -45,7 +45,9 @@ ENT.res = {
 }
 
 function ENT:Initialize()
+	self:SetSubMaterial(1, "models/props_combine/tpballglow")
 	self:SetSubMaterial(2, "models/props_combine/tpballglow")
+	self:SetSubMaterial(3, "models/props_combine/tpballglow")
 
 	self:basicSetup()
 end

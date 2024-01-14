@@ -1,0 +1,10 @@
+ITEM.name = "Silver"
+ITEM.desc = "A gray metal known for its reflective properties."
+ITEM.uniqueID = "j_scrap_silver"
+ITEM.model = "models/gibs/glass_shard03.mdl"
+ITEM.material = "phoenix_storms/output_jack"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(120, 120, 120)

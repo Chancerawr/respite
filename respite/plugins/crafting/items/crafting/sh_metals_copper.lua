@@ -1,0 +1,10 @@
+ITEM.name = "Copper"
+ITEM.desc = "A orange-ish metal useful in electronics."
+ITEM.uniqueID = "j_scrap_copper"
+ITEM.model = "models/gibs/manhack_gib01.mdl"
+ITEM.material = "models/props_pipes/GutterMetal01a"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(184, 115, 51)

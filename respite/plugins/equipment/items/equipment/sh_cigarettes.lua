@@ -22,6 +22,10 @@ ITEM.loot = {
 	["Consumable"] = 0.1,
 }
 
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}
+
 ITEM.craft = {
 	hp = -10,
 	mp = 5,

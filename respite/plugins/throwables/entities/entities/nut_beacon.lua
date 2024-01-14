@@ -62,10 +62,6 @@ else
 		self.beep = 255
 		
 		self.beaconSound = self.beaconSounds[math.random(#self.beaconSounds)]
-
-		if(istable(self.beaconSound)) then
-			PrintTable(self.beaconSound)
-		end
 	end
 	
 	function ENT:Draw()

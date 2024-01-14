@@ -98,14 +98,16 @@ if(CLIENT) then
 		
 		for k, v in pairs(boosted or attribs) do
 			local boostText = ""
+			local bonus = 0
+			
 			if(boosted and !table.IsEmpty(boosted)) then
-				local bonus = (v - (attribs[k] or 0))
+				bonus = (v - (attribs[k] or 0))
 				boostText = boostText.. " (" ..(((bonus >= 0) and "+") or "")..bonus.. ")"
 				
 				boostCount = boostCount + bonus
 			end
 		
-			attribCount = attribCount + v
+			attribCount = attribCount + v - bonus
 			attribText = attribText .. nut.attribs.list[k].name .. ": " ..v..boostText.. "\n\n"
 		end
 	

@@ -1,7 +1,7 @@
 ITEM.name = "Light Fixture"
 ITEM.desc = "A long cylinder that once illuminated areas."
 ITEM.model = "models/props_silo/wall_light_off.mdl"
-ITEM.class = "hl2_m_lightfixture"
+ITEM.class = "respite_lightfixture"
 ITEM.uniqueID = "j_wall_light"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -28,6 +28,11 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_elecs"] = 2,
 	["j_scrap_glass"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
 }
 
 ITEM.iconCam = {

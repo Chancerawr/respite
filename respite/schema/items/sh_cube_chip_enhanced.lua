@@ -1,6 +1,6 @@
-ITEM.name = "Distorted Chip"
+ITEM.name = "Distortion Key"
 ITEM.uniqueID = "cube_chip_enhanced"
-ITEM.desc = "A thin chip made out of an unknown substance. It seemingly changes color and texture every so often."
+ITEM.desc = "A thin chip made out of an unknown substance. Its shape twists and turns abruptly by itself."
 ITEM.model = "models/gibs/metal_gib4.mdl"
 ITEM.material = "models/props_combine/stasisfield_beam"
 ITEM.flag = "v"

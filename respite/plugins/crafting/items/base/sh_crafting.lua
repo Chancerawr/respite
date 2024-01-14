@@ -63,6 +63,8 @@ ITEM.functions.Stack = {
 			end
 		
 			if(v.uniqueID == item.uniqueID) then
+				if(v.brokenItem) then continue end --skip over weird broken items
+				
 				total = total + v:getData("Amount", 1)
 				
 				local qual = item:getData("custom", {}).quality
@@ -72,6 +74,10 @@ ITEM.functions.Stack = {
 				
 				if(v.id != item.id) then
 					v:remove()
+					
+					if(IsValid(v)) then
+						v.brokenItem = true
+					end
 				end
 			end
 		end

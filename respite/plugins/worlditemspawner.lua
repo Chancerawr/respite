@@ -146,7 +146,7 @@ PLUGIN.spawngroups = {
 	},
 	["junkgarbage"] = {
 		"j_bananaskin",
-		"j_cereal_box",
+		--"j_cereal_box",
 		"j_empty_pill",
 		"j_empty_bandage",
 		"j_empty_beer",
@@ -228,6 +228,7 @@ PLUGIN.spawngroups = {
 		"drug_energy",
 		"drug_nightmare",
 		"drug_painkillers",
+		"drug_pain",
 		"drug_placebo",
 		"drug_poison",
 		"drug_psychotics",
@@ -260,6 +261,21 @@ PLUGIN.spawngroups = {
 		"j_spine",
 		"j_scapula",
 		"j_rib",
+	},
+	["corpseplastic"] = {
+		"j_scrap_plastics",
+		"j_scrap_plastics",
+		"j_scrap_plastics",
+		"j_scrap_plastics",
+		"j_plastic_slice",
+		"j_plastic_slice",
+		"plastic_core",
+		"j_plastic_leg",
+		"j_plastic_pelvis",
+		"j_plastic_torso1",
+		"j_plastic_torso2",
+		"j_plastic_torso3",
+		"hl2_m_plastic_arm",
 	},
 	["junkobj"] = {
 		"j_baby_doll",
@@ -338,7 +354,7 @@ PLUGIN.spawngroups = {
 		"cube_chip",
 		"hl2_m_pot",
 		"hl2_m_brokenbottle",
-		"hl2_m_claypot",
+		--"hl2_m_claypot",
 		"melee_paddle",
 		"melee_fireaxe",
 		"hl2_m_fencepost",
@@ -349,7 +365,7 @@ PLUGIN.spawngroups = {
 		"hl2_m_stick",
 		"hl2_m_branch",
 		"hl2_m_valve",
-		"hl2_m_weirdvase",
+		--"hl2_m_weirdvase",
 		"hl2_m_woodensign",
 		"hl2_m_wrench",
 		"hl2_m_hammer",
@@ -367,7 +383,53 @@ PLUGIN.spawngroups = {
 		"armor_football",
 		"plastic_core",
 		"coin_10"
-	}
+	},
+	["resource"] = {
+		"j_scrap_cloth",
+		"j_scrap_metals",
+		"j_scrap_elecs",
+		"j_scrap_plastics",
+		"j_scrap_wood",
+		"j_scrap_adhesive",
+		"j_scrap_rubber",
+		"j_scrap_organic",
+		"j_scrap_elastic",
+		"j_scrap_chems",
+		"j_scrap_battery",
+		"j_scrap_copper",
+		"j_scrap_iron",
+		"j_scrap_concrete",
+		"j_scrap_glass",
+		"j_scrap_nails",
+		"j_scrap_screws",
+	},
+	["ammo"] = {
+		"ammo_12g",
+		"ammo_22lr",
+		"ammo_40sw",
+		"ammo_44",
+		"ammo_45",
+		"ammo_500",
+		"ammo_50ae",
+		"ammo_50bmg",
+		"ammo_338",
+		"ammo_357",
+		"ammo_408",
+		"ammo_500",
+		"ammo_919",
+		"ammo_939",
+		"ammo_3006",
+		"ammo_4570",
+		"ammo_5728",
+		"ammo_54539",
+		"ammo_55639",
+		"ammo_55645",
+		"ammo_76239",
+		"ammo_76251",
+		"ammo_76254",
+		"ammo_concrete",
+		"ammo_xbow",
+	},
 }
 
 PLUGIN.maxitems = 500
@@ -594,8 +656,6 @@ nut.command.add("spawnitemgrouptest", {
 				spawnGroup[k] = item.loot[groupID]
 			end
 		end
-		
-		PrintTable(spawnGroup)
 		
 		if(spawnGroup) then
 			local aimPos = client:GetEyeTraceNoCursor().HitPos

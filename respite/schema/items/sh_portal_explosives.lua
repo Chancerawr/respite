@@ -8,6 +8,8 @@ ITEM.width = 1
 ITEM.height = 1
 ITEM.color = Color(140, 20, 140)
 
+ITEM.action = "grenade_distortion"
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 1),
 	ang = Angle(0, -0, 0),

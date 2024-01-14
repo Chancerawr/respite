@@ -4,6 +4,8 @@ ITEM.desc = "A gnome that looks about average."
 ITEM.uniqueID = "gnome_jack"
 ITEM.slot = "Gnome"
 
+ITEM.gnome = true
+
 ITEM.attrib = {
 	["str"] = 1,
 	["stm"] = 1,
@@ -13,6 +15,10 @@ ITEM.attrib = {
 	["perception"] = 1,
 	["medical"] = 1,
 	["luck"] = 1,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
 }
 
 ITEM.iconCam = {

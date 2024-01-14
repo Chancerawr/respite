@@ -52,11 +52,14 @@ function ENT:Think()
 				"nz_leperkin",
 				"resp_lyingfigure",
 				"cof_faceless",
+				"resp_skinless",
 			}
 			local creature = table.Random(creatures)
 			
 			local fire = ents.Create(creature)
 			fire:SetPos(self:GetPos())
+			fire:SetMaterial(self:GetMaterial())
+			fire:SetColor(self:GetColor())
 			fire:Spawn()
 			table.insert(nut.plugin.list["creep"].spawns, fire)
 			

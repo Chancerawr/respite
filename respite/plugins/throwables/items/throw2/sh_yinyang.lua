@@ -8,6 +8,8 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Grenades"
 
+ITEM.action = "grenade_yinyang"
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0.5),
 	ang = Angle(0, -0, 0),

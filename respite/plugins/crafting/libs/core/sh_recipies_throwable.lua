@@ -101,7 +101,24 @@ RECIPE.items = {
 RECIPE.result = {
 	["nut_explosivegrenade"] = 1
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_grenade_blood"
+RECIPE.name = "Blood Bomb"
+RECIPE.category = "Grenades"
+RECIPE.model = "models/Items/grenadeAmmo.mdl"
+RECIPE.desc = "A grenade that explodes into a mist of blood, may cause enemies to attack one another."
+ 
+RECIPE.items = {
+	["food_blood"] = 5,
+	["j_scrap_metals"] = 5,
+	["j_scrap_adhesive"] = 1,
+}
+RECIPE.result = {
+	["nut_bloodbomb"] = 1
+}
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_grenade_tear"

@@ -1,17 +1,32 @@
-ITEM.name = "Bones"
+ITEM.name = "Bone"
+ITEM.desc = "Small pieces of bone."
 ITEM.uniqueID = "j_scrap_bone"
-ITEM.model = "models/props_lab/jar01a.mdl"
-ITEM.material = "models/props_c17/furnituremetal001a"
-ITEM.desc = "Some collected bones."
+ITEM.model = "models/gibs/antlion_gib_small_1.mdl"
+ITEM.material = "models/props/cs_militia/milceil001"
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
 ITEM.maxstack = 30
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 0),
-	fov = 5,
+ITEM.loot = {
+	["Consumable"] = 0.01,
+	["Junk"] = 0.1,
+	["Bone"] = 10,
+	["Corpse"] = 5,
+}
+
+ITEM.craft = {
+	buffTbl = {
+		attrib = {
+			["end"] = 0.5,
+			["fortitude"] = 0.5,
+		},
+		
+		res = {
+			["Blunt"] = -1,
+			["Slash"] = 1,
+		}
+	},
 }
 
 ITEM.functions.Scrap = {
@@ -30,4 +45,10 @@ ITEM.functions.Scrap = {
 		local client = item.player
 		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("converter_meat")
 	end
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 5,
 }

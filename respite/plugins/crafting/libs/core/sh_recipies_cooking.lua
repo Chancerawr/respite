@@ -129,7 +129,7 @@ RECIPE = {}
 	RECIPE.name = "Sausage"
 	RECIPE.desc = "A meaty sausage."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/gibs/antlion_gib_small_2.mdl"
+	RECIPE.model = "models/food/hotdog.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -161,7 +161,7 @@ RECIPE = {}
 	RECIPE.name = "Steak"
 	RECIPE.desc = "A meaty steak."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/gibs/antlion_gib_small_2.mdl"
+	RECIPE.model = "models/gibs/glass_shard03.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -245,7 +245,7 @@ RECIPE = {}
 	RECIPE.name = "Pie"
 	RECIPE.desc = "It is a pie."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/props_junk/terracotta01.mdl"
+	RECIPE.model = "models/props_c17/streetsign001c.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -255,6 +255,59 @@ RECIPE = {}
 	}
 	RECIPE.result = {
 		["cook_pie"] = 1
+	}
+RECIPES:Register(RECIPE)
+
+RECIPE = {}
+	RECIPE.uid = "cook_cupcake"
+	RECIPE.name = "Cupcake"
+	RECIPE.desc = "It is a cupcake."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/props_junk/garbage_metalcan002a.mdl"
+	RECIPE.special = true
+	RECIPE.noAverage = true
+	RECIPE.items = {
+		["Bread"] = 1,
+		["Consumable"] = 3,
+	}
+	RECIPE.result = {
+		["cook_cupcake"] = 1
+	}
+RECIPES:Register(RECIPE)
+
+RECIPE = {}
+	RECIPE.uid = "cook_muffin"
+	RECIPE.name = "Muffin"
+	RECIPE.desc = "It is a muffin."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/props_junk/garbage_metalcan002a.mdl"
+	RECIPE.special = true
+	RECIPE.noAverage = true
+	RECIPE.items = {
+		["Egg"] = 1,
+		["Bread"] = 1,
+		["Consumable"] = 2,
+	}
+	RECIPE.result = {
+		["cook_muffin"] = 1
+	}
+RECIPES:Register(RECIPE)
+
+RECIPE = {}
+	RECIPE.uid = "cook_cake"
+	RECIPE.name = "Cake"
+	RECIPE.desc = "It is a cake."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/props_c17/clock01.mdl"
+	RECIPE.special = true
+	RECIPE.noAverage = true
+	RECIPE.items = {
+		["Egg"] = 2,
+		["Bread"] = 2,
+		["Consumable"] = 3,
+	}
+	RECIPE.result = {
+		["cook_cake"] = 1
 	}
 RECIPES:Register(RECIPE)
 
@@ -272,5 +325,22 @@ RECIPE = {}
 	}
 	RECIPE.result = {
 		["cook_salad"] = 1
+	}
+RECIPES:Register(RECIPE)
+
+RECIPE = {}
+	RECIPE.uid = "cook_tea"
+	RECIPE.name = "Tea"
+	RECIPE.desc = "It is tea."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/props_interiors/pot01a.mdl"
+	RECIPE.special = true
+	RECIPE.noAverage = true
+	RECIPE.items = {
+		["Consumable"] = 2,
+		["Leaf"] = 1,
+	}
+	RECIPE.result = {
+		["food_tea"] = 1
 	}
 RECIPES:Register(RECIPE)

@@ -4,8 +4,8 @@ local playerMeta = FindMetaTable("Player")
 
 --this is so the stuff shows up in admin ESP
 function PLUGIN:PlayerLoadout(client)
-	client:SetMaxHealth(client:getMaxHP())
-	client:SetHealth(client:GetMaxHealth())
+	client:SetMaxHealth(math.max(client:getMaxHP(),100))
+	client:SetHealth(math.max(client:getMaxHP(),100))
 	client:setHP(client:getMaxHP())
 	client:setMP(client:getMaxMP())
 end
@@ -40,15 +40,19 @@ function playerMeta:getMaxHP()
 	
 	local stat = char:getAttrib("end", 0)
 
-	return math.max(100 + stat*3, 100)
+	local maxHP = math.max(100 + stat*3, 1)
+
+	maxHP = math.Round(maxHP, 2)
+
+	return maxHP
 end
 
 if(SERVER) then
 	--just use a negative value to subtract
 	function playerMeta:addHP(amount)
-		local new = math.Clamp(self:getHP() + amount, -1000, self:GetMaxHealth())
+		local new = math.Clamp(self:getHP() + amount, -1000, self:getMaxHP())
 		
-		new = math.Round(new, 3)
+		new = math.Round(new, 2)
 		
 		self:setHP(new)
 		
@@ -59,7 +63,7 @@ if(SERVER) then
 	function playerMeta:addMP(amount)
 		local new = math.Clamp(self:getMP() + amount, -1000, self:getMaxMP())
 		
-		new = math.Round(new, 3)
+		new = math.Round(new, 2)
 		
 		self:setMP(new)
 		
@@ -69,6 +73,8 @@ if(SERVER) then
 	--sets to exactly the supplied value
 	function playerMeta:setHP(amount)
 		self:setNetVar("hp", amount)
+		
+		self:SetMaxHealth(self:getMaxHP())
 	end
 	
 	--sets to exactly the supplied value
@@ -90,7 +96,7 @@ else
 		panel.hp:DockMargin(0, 10, 0, 0)
 	
 		local hp = LocalPlayer():Health()
-		local hpMax = LocalPlayer():GetMaxHealth()
+		local hpMax = LocalPlayer():getMaxHP()
 		if (hp and hpMax) then
 			panel.hp:SetText("Health: " ..hp.. "/" ..hpMax)
 		end
@@ -145,7 +151,7 @@ nut.command.add("charsethp", {
 	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then	
-			local new = math.Clamp(tonumber(arguments[2]), 0, target:GetMaxHealth())
+			local new = math.Clamp(tonumber(arguments[2]), 0, target:getMaxHP())
 			target:setHP(new)
 			
 			client:notify("Health is now " ..target:getHP().. ".")
@@ -192,7 +198,7 @@ nut.command.add("charsetmp", {
 	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then	
-			local new = math.Clamp(tonumber(arguments[2]), 0, target:GetMaxHealth())
+			local new = math.Clamp(tonumber(arguments[2]), 0, target:GetMaxMP())
 			target:setMP(new)
 			
 			client:notify("Mind is now " ..target:getMP().. ".")
@@ -234,7 +240,7 @@ nut.command.add("charrestore", {
 	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then	
-			target:setHP(target:GetMaxHealth())
+			target:setHP(target:getMaxHP())
 			
 			client:notify("Health successfully restored.")
 		end
@@ -249,7 +255,7 @@ nut.command.add("charrestoreall", {
 	
 		for k, target in pairs(player.GetAll()) do
 			if(IsValid(target) and target:getChar()) then	
-				target:setHP(target:GetMaxHealth())
+				target:setHP(target:getMaxHP())
 
 				count = count + 1
 			end

@@ -3,97 +3,97 @@ local PLUGIN = PLUGIN
 PLUGIN.grades = {
 	["S++"] = {
 		range = 700, 
-		scale = 3
+		scale = 1.5
 	},
 	
 	["S+"] = {
 		range = 600, 
-		scale = 2.5
+		scale = 1.2
 	},
 	
 	["S"] = {
 		range = 500,
-		scale = 2.25
+		scale = 1.15
 	},	
 	
 	["S-"] = {
 		range = 400,
-		scale = 2.1
+		scale = 1.1
 	},
 	
 	["A+"] = {
 		range = 300, 
-		scale = 2.0
+		scale = 1
 	},
 	
 	["A"] = {
 		range = 250,
-		scale = 1.75
+		scale = 0.95
 	},	
 	
 	["A-"] = {
 		range = 200,
-		scale = 1.6
+		scale = 0.9
 	},
 	
 	["B+"] = {
 		range = 150, 
-		scale = 1.5
+		scale = 0.8
 	},
 	
 	["B"] = {
 		range = 130, 
-		scale = 1.25
+		scale = 0.75
 	},	
 	
 	["B-"] = {
 		range = 110, 
-		scale = 1.15
+		scale = 0.7
 	},
 	
 	["C+"] = {
 		range = 95, 
-		scale = 1.10
+		scale = 0.6
 	},
 	
 	["C"] = {
 		range = 80, 
-		scale = 1.0
+		scale = 0.55
 	},	
 	
 	["C-"] = {
 		range = 65, 
-		scale = 0.9
+		scale = 0.5
 	},
 	
 	["D+"] = {
 		range = 50, 
-		scale = 0.8
+		scale = 0.4
 	},
 	
 	["D"] = {
 		range = 40, 
-		scale = 0.7
+		scale = 0.35
 	},
 	
 	["D-"] = {
 		range = 30, 
-		scale = 0.6
+		scale = 0.3
 	},
 	
 	["E+"] = {
 		range = 20, 
-		scale = 0.5
+		scale = 0.2
 	},
 	
 	["E"] = {
 		range = 10, 
-		scale = 0.4
+		scale = 0.15
 	},
 	
 	["E-"] = {
 		range = 0, 
-		scale = 0.2
+		scale = 0.1
 	}
 }
 

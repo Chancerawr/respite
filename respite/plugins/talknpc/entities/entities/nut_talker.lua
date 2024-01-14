@@ -1,5 +1,3 @@
-local PLUGIN = PLUGIN
-
 ENT.Type = "anim"
 ENT.PrintName = "Talker"
 ENT.Category = "NutScript"
@@ -54,6 +52,10 @@ function ENT:Initialize()
 			physObj:EnableGravity(false)
 			--physObj:Sleep()
 			physObj:EnableCollisions(false)
+		end
+		
+		if(!self:getNetVar("ID")) then
+			self:setNetVar("ID", os.date("%m%d%Y%S"))
 		end
 	end
 	
@@ -263,7 +265,7 @@ else
 		if(!self:IsPlayerHolding()) then
 			local physObj = self:GetPhysicsObject()
 			
-			if(!physObj:IsAsleep()) then
+			if(IsValid(physObj) and !physObj:IsAsleep()) then
 				physObj:Sleep()
 			end
 		end
@@ -278,7 +280,6 @@ else
 		
 		netstream.Start(activator, "nut_Dialogue", self)
 
-		--rotates the npc towards whoever used it, off until I think of a way to do it better
 		--[[
 		if(self:LookupBone("ValveBiped.Bip01_Head1")) then
 			self:PointAtEntity(activator)
@@ -331,8 +332,6 @@ else
 
 			client:notify("You have updated this talking npc's data.")
 		end
-		
-		PLUGIN:saveTalkers()
 	end)
 	
 	netstream.Hook("nut_QuestData", function(client, data)
@@ -537,7 +536,6 @@ else
 		NUT_VENDORS[self:EntIndex()] = nil
 
 		if (nut.shuttingDown or self.nutIsSafe) then return end
-		PLUGIN:saveTalkers()
 	end
 
 	-- Sets how much of the original price a player gets back for selling an item.

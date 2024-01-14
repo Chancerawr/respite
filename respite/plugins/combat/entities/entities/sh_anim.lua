@@ -85,23 +85,26 @@ function ENT:resetAnim()
 end
 
 function ENT:setAnim()
-	if(self.savedAnim) then
-		local savedAnim = tonumber(self.savedAnim)
+	local anim = self:getNetVar("anim", self.savedAnim)
+	if(anim) then
+		local savedAnim = tonumber(anim)
 		
 		timer.Simple(1, function()
-			self:ResetSequence(savedAnim)
-			
-			if(self.IdleAnim) then
-				self.idle = self:LookupSequence(self.IdleAnim) or 4
-			else
-				for k, v in ipairs(self:GetSequenceList()) do
-					if (v:lower():find("idle") and v != "idlenoise") then
-						self.idle = k
-						return
-					end
-				end
+			if(IsValid(self)) then
+				self:ResetSequence(savedAnim)
 				
-				self.idle = 4
+				if(self.IdleAnim) then
+					self.idle = self:LookupSequence(self.IdleAnim) or 4
+				else
+					for k, v in ipairs(self:GetSequenceList()) do
+						if (v:lower():find("idle") and v != "idlenoise") then
+							self.idle = k
+							return
+						end
+					end
+					
+					self.idle = 4
+				end
 			end
 		end)
 	elseif(self.IdleAnim) then
@@ -125,6 +128,7 @@ function ENT:attackAnimStart()
 		local sequence = self:LookupSequence(self.AttackAnim)
 		
 		self:ResetSequence(sequence)
+		self:SetCycle(0)
 		
 		timer.Simple(self:SequenceDuration(sequence), function()
 			if(IsValid(self)) then

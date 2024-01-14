@@ -28,6 +28,15 @@ ITEM.scaling = {
 	["perception"] = 0.2,
 }
 
+ITEM.salvage = {
+	["parts_gun"] = 1
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Barrel"] = 1,
+}
+
 ITEM.iconCam = {
 	pos = Vector(-200, -5, 1.75),
 	ang = Angle(0, -0, 0),

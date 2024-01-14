@@ -2,6 +2,15 @@ local PLUGIN = PLUGIN
 
 //
 local TRAIT = {}
+TRAIT.uid = "nofall"
+TRAIT.name = "Acrobat"
+TRAIT.desc = "You don't fallover when you take fall damage."
+TRAIT.category = "Character"
+
+TRAITS:Register(TRAIT)
+
+//
+local TRAIT = {}
 TRAIT.uid = "glutton"
 TRAIT.name = "Glutton"
 TRAIT.desc = "You enjoy a meal, whether it's a hot dog or a lobster.\nBuffs received from food are enhanced by 20%."
@@ -798,4 +807,3 @@ TRAIT.desc = "You know exactly what's wrong with everyone else.\nYou can diagnos
 TRAIT.category = "Char Abilities"
 
 TRAITS:Register( TRAIT )
-

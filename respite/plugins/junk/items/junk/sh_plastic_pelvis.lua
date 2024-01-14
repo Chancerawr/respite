@@ -1,8 +1,8 @@
 ITEM.name = "Plastic Pelvis"
 ITEM.desc = "A pelvis that is made out of plastic, like something that came off of a mannequin."
 ITEM.uniqueID = "j_plastic_pelvis"
-ITEM.model = "models/props_debris/metal_panelshard01c.mdl"
-ITEM.material = "phoenix_storms/mrref2"
+ITEM.model = "models/dismemberment/gibs/torso/torso_pelvis.mdl"
+ITEM.material = "models/props_wasteland/prison_toilet01"
 ITEM.flag = "j"
 ITEM.width = 2
 ITEM.height = 2

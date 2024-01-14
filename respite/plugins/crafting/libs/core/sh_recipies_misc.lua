@@ -167,22 +167,6 @@ RECIPE.result = {
 RECIPES:Register( RECIPE )
 //
 RECIPE = {}
-RECIPE.uid = "nut_chip_pouch"
-RECIPE.name = "Chip Pouch"
-RECIPE.category = "Machines"
-RECIPE.model = "models/props_junk/garbage_bag001a.mdl"
-RECIPE.desc = "A small sack, it has many slots within it. It can hold 25 chips."
- 
-RECIPE.items = {
-	["j_scrap_cloth"] = 10,
-	["cube_chip_enhanced"] = 1
-}
-RECIPE.result = {
-	["cube_chip_pouch"] = 1
-}
-RECIPES:Register( RECIPE )
-//
-RECIPE = {}
 RECIPE.uid = "nut_generator_repair"
 RECIPE.name = "Generator Repair Kit"
 RECIPE.category = "Machines"

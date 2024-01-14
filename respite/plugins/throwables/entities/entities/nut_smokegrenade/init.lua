@@ -27,7 +27,6 @@ function ENT:Initialize()
 	local trail = util.SpriteTrail(self.Entity, self.Entity:LookupAttachment("fuse"), Color(0, 0, 255), true, 8, 1, 1, (1 / 9) * 0.5, "sprites/bluelaser1.vmt");
 	
 	if (IsValid(trail)) then
-		nut.item.spawn("j_grenade_used", self:GetPos())
 		self.Entity:DeleteOnRemove(trail);
 	end
 end
@@ -123,4 +122,11 @@ end
 Touch
 ---------------------------------------------------------*/
 function ENT:Touch( entity )
+end
+
+/*---------------------------------------------------------
+OnRemove
+---------------------------------------------------------*/
+function ENT:OnRemove()
+	nut.item.spawn("j_grenade_used", self:GetPos())
 end

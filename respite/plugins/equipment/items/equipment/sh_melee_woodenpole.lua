@@ -2,7 +2,7 @@ ITEM.name = "Wooden Pole"
 ITEM.desc = "A long wooden pole. Great for cracking people over the head."
 ITEM.model = "models/props_c17/signpole001.mdl"
 ITEM.material = "models/props/cs_militia/roofbeams01"
-ITEM.class = "hl2_m_woodenpole"
+ITEM.class = "respite_pole_wooden"
 ITEM.uniqueID = "hl2_m_woodenpole"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -29,6 +29,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

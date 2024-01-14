@@ -1,7 +1,7 @@
 ITEM.name = "Bone Cudgel"
 ITEM.desc = "A makeshift melee weapon made out of bones."
 ITEM.model = "models/gibs/hgibs_spine.mdl"
-ITEM.class = "hl2_m_bonecudgel"
+ITEM.class = "respite_bone_cudgel"
 ITEM.uniqueID = "hl2_m_bonecudgel"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -28,6 +28,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_bone"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

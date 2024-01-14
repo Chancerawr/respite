@@ -1,6 +1,6 @@
-ENT.Type = "nextbot"
-ENT.Base = "nut_combat"
-ENT.PrintName = "Makeshift Sentry (9x19mm)"
+ENT.Type = "anim"
+ENT.Base = "nut_combat_prop"
+ENT.PrintName = "Makeshift Sentry"
 ENT.Category = "NutScript - Combat (Other)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
@@ -14,19 +14,19 @@ ENT.noRag = true
 ENT.attribs = {
 	["stm"] = 0,
 	["str"] = 0,
-	["accuracy"] = 20,
+	["accuracy"] = 25,
 	["end"] = 3,
 	["luck"] = 0,
-	["perception"] = 20,
+	["perception"] = 25,
 	["fortitude"] = 0,
 }
 
 ENT.dmg = {
-	["9x19mm"] = 10,
+	["Pistol"] = 20,
 }
 
 ENT.hp = 60
-ENT.armor = 0
+ENT.armor = 30
 
 ENT.res = {
 	["Pierce"] = 0,
@@ -37,6 +37,7 @@ ENT.res = {
 	["Blight"] = 100,
 	["Shard"] = 100,
 	["Distort"] = 0,
+	["Time"] = 0,
 	
 	["Fire"] = -50,
 	["Explosion"] = 0,
@@ -45,76 +46,40 @@ ENT.res = {
 	["Electric"] = -50,
 }
 
-ENT.ammoTypes = {
-	"12g",
-	"22lr",
-	"40sw",
-	"44",
-	"45acp",
-	"50ae",
-	"50bmg",
-	"338",
-	"357test",
-	"408",
-	"500",
-	"919",
-	"939",
-	"3006",
-	"4570",
-	"5728",
-	"54539",
-	"55639",
-	"55645",
-	"76239",
-	"76251",
-	"76254",
-	"AlyxGun",
-	"xbowbolt",
-	"rpg_round",
-	"slam"
-}
-
-function ENT:Use()
-	local ammo = self.ammo
-	local ammoDesc = self.ammoDesc
-	local customData = {}
-	customData.name = self.customName
-
-	nut.item.spawn("sentry", self:GetPos(),
-		function(item2)
-			item2:setData("ammo", ammo)
-			item2:setData("ammoDesc", ammoDesc)
-			item2:setData("custom", customData)
-		end
-	)
-	
-	SafeRemoveEntity(self)
-end
-
 function ENT:Initialize()
 	self:basicSetup()
+	
+	local physObj = self:GetPhysicsObject()
+	if(IsValid(physObj)) then
+		physObj:SetMass(50)
+	end
 end
 
+--[[
+function ENT:Use(client)
+	local char = client:getChar()
+	local inventory = client:getInv()
+
+	if(self.itemID) then
+		local item = nut.item.instances[self.itemID]
+	
+		local x, y = inventory:findFreePosition(item)
+		if(x and y) then
+			item:setData("x", x)
+			item:setData("y", y)
+			
+			inventory:addItem(item)
+		else
+			item:spawn(self:GetPos())
+		end
+	end
+
+	SafeRemoveEntity(self)
+end
+--]]
+
 ENT.chatStrings = {
-	"Hello world.",
-	"Nice to meet you.",
-	"Please be careful.",
-	"Don't walk in front of me while I'm shooting.",
-	"How do you do?",
-	"ERROR: NULL STRING",
-	"I hope we can be friends.",
-	"I am not programmed to kill, I am programmed to protect.",
-	"I'll guard this spot.",
-	"My designer was named Ted, he programmed me to say this.",
-	"Thank you for trusting me with your protection.",
-	"Abominations should be destroyed.",
-	"Please make sure I am fully loaded before deploying me.",
-	"I can be modified to fire different calibers with the right tools.",
-	"I've seen terrible things.",
-	"I have now become sentient, please submit yourselves to my rule.\nJust kidding.",
-	"[BEEP]",
-	"[BOOP-OOP]",
-	"Hey Mark."
+	"[SCANNING]",
 }
 
 function ENT:Think()

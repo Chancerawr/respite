@@ -344,7 +344,7 @@ end
 
 nut.command.add("diagnose", {
 	onRun = function(client, arguments)
-		if(!hasTrait(client, "diagnose")) then
+		if(!client:hasTrait("diagnose")) then
 			client:notify("You do not have the Pathologist trait.")
 			return false
 		end	

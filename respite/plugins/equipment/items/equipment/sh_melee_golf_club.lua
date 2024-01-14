@@ -1,7 +1,7 @@
 ITEM.name = "Golf Club"
 ITEM.desc = "A metal stick used to hit balls."
 ITEM.model = "models/warz/melee/golfclub.mdl"
-ITEM.class = "hl2_m_golf_club"
+ITEM.class = "respitie_golfclub"
 ITEM.slot = "melee"
 ITEM.width = 3
 ITEM.height = 1
@@ -26,6 +26,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

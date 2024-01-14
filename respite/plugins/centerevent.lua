@@ -2,7 +2,7 @@ local PLUGIN = PLUGIN
 PLUGIN.name = "Screen Centered Events"
 PLUGIN.author = ""
 PLUGIN.desc = "Prints an event in the top center of the screen."
-
+--
 if(CLIENT) then
 	function PLUGIN:eventCenter(text)
 		LocalPlayer().eventCenter = {

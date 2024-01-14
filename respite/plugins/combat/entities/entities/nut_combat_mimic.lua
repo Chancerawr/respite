@@ -7,6 +7,9 @@ ENT.AdminOnly = true
 
 ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.material = "models/effects/comball_glow1"
+
+ENT.modelScale = 1.1
+
 ENT.color = Color(50, 50, 150)
 
 ENT.noRag = true
@@ -54,7 +57,7 @@ ENT.actions = {
 
 function ENT:Initialize()
 	if (SERVER) then
-		self:SetModelScale(1.1)
+		--self:SetModelScale(1.1)
 		self:SetRenderFX(kRenderFxDistort)
 	end
 	

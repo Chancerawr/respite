@@ -16,7 +16,8 @@ local PANEL = {}
 
 		self:SetSize(ScrW() * nut.config.get("sbWidth"), ScrH() * nut.config.get("sbHeight"))
 		self:Center()
-
+	
+		--[[
 		self.title = self:Add("DLabel")
 		self.title:SetText(GetHostName())
 		self.title:SetFont("nutBigFont")
@@ -30,10 +31,11 @@ local PANEL = {}
 			surface.SetDrawColor(0, 0, 0, 150)
 			surface.DrawRect(0, 0, w, h)
 		end
+		--]]
 
 		self.scroll = self:Add("DScrollPanel")
 		self.scroll:Dock(FILL)
-		self.scroll:DockMargin(1, 0, 1, 0)
+		self.scroll:DockMargin(1, 100, 1, 0)
 		self.scroll.VBar:SetWide(0)
 
 		self.layout = self.scroll:Add("DListLayout")
@@ -81,7 +83,7 @@ local PANEL = {}
 
 	function PANEL:Think()
 		if ((self.nextUpdate or 0) < CurTime()) then
-			self.title:SetText(nut.config.get("sbTitle", GetHostName()))
+			--self.title:SetText(nut.config.get("sbTitle", GetHostName()))
 
 			local visible, amount
 
@@ -297,6 +299,12 @@ local PANEL = {}
 		surface.DrawOutlinedRect(0, 0, w, h)
 	end
 vgui.Register("nutScoreboard", PANEL, "EditablePanel")
+
+hook.Add("CreateMenuButtons", "nutScoreboard", function(tabs)
+	tabs["Players"] = function(panel)
+		panel:Add("nutScoreboard")
+	end
+end)
 
 concommand.Add("dev_reloadsb", function()
 	if (IsValid(nut.gui.score)) then

@@ -5,7 +5,7 @@ PLUGIN.name = "Simple Cutscenes"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "A system for simple cutscenes."
 
-PLUGIN.fadeDelay = 2
+PLUGIN.fadeDelay = 0.5
 
 PLUGIN.cutscenes = PLUGIN.cutscenes or {}
 
@@ -25,6 +25,7 @@ else
 	function PLUGIN:runCutscene(cutsceneID)
 		local cutscene = PLUGIN.cutscenes[cutsceneID]
 		if(!cutscene) then return end
+		cutscene = table.Copy(cutscene) --make sure we dont modify the source
 		
 		local client = LocalPlayer()
 		local cutStarted = false
@@ -86,7 +87,8 @@ else
 					local lineOffset = 0
 					for k, line in pairs(lines) do
 						tSizeX, tSizeY = surface.GetTextSize(line)
-						surface.SetTextPos(w*0.5 - tSizeX*0.5, h*0.7 + tSizeY*0.5 + lineOffset)
+						--surface.SetTextPos(w*0.5 - tSizeX*0.5, h*0.7 + tSizeY*0.5 + lineOffset)
+						surface.SetTextPos(w*0.5 - tSizeX*0.5, h*0.75 + tSizeY*0.5 + lineOffset)
 						surface.DrawText(line)
 						
 						lineOffset = lineOffset + tSizeY + 8
@@ -165,6 +167,16 @@ else
 			end)
 		end
 		
+		--this helps space things out and prevents things from fading too fast
+		for k, scene in SortedPairs(cutscene) do
+			if(scene.subtitles) then
+				scene.subtitles[#scene.subtitles+1] = {
+					text = "",
+					font = "nutTitleFont", -- The font is uses
+					duration = fadeDelay,
+				}
+			end
+		end
 		
 		--gross timer nonsense here, there's definitely a better way to do this
 		local delay = 0
@@ -173,12 +185,13 @@ else
 		delay = delay + fadeDelay
 		for k, scene in SortedPairs(cutscene) do
 			-- every scene starts with a fade out
-			delay = delay + fadeDelay
 			scene.startTime = delay
+			delay = delay + fadeDelay
 			
 			for k, subtitle in pairs(scene.subtitles) do
 				subtitle.startTime = delay
 				delay = delay + subtitle.duration
+				subtitle.endTime = delay
 			end
 			
 			-- every scene ends with fade in
@@ -186,7 +199,7 @@ else
 		end
 		
 		--fade in to start cutscene
-		fadeIn() 
+		fadeIn()
 		for k, scene in SortedPairs(cutscene) do
 			timer.Simple(scene.startTime, function() -- Scene timer, delays the scene
 				fadeOut() -- Remove darkness, revealing the image

@@ -2,7 +2,7 @@ ITEM.name = "Metal Bat"
 ITEM.desc = "A bat made out of metal."
 ITEM.model = "models/warz/melee/baseballbat.mdl"
 ITEM.material = "models/props_combine/metal_combinebridge001"
-ITEM.class = "hl2_m_bat_metal"
+ITEM.class = "respite_bat_metal"
 ITEM.uniqueID = "hl2_m_bat_metal"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -29,6 +29,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

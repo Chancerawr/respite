@@ -1,7 +1,8 @@
 ITEM.name = "Monster Talon"
+ITEM.prefix = "Talon"
 ITEM.desc = "A huge sharp talon torn from some kind of monster."
 ITEM.model = "models/gibs/antlion_gib_medium_3.mdl"
-ITEM.class = "hl2_m_monstertalon"
+ITEM.class = "respite_monster_talon"
 ITEM.uniqueID = "hl2_m_monstertalon"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -29,6 +30,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_bone"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 --consumable for the sake of crafting

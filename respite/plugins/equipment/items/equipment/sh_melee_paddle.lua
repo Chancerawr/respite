@@ -1,7 +1,7 @@
 ITEM.name = "Canoe Paddle"
 ITEM.desc = "A wooden paddle used to move a canoe."
 ITEM.model = "models/warz/melee/canoepaddle.mdl"
-ITEM.class = "hl2_m_paddle"
+ITEM.class = "respite_paddle"
 ITEM.slot = "melee"
 ITEM.width = 3
 ITEM.height = 1
@@ -26,6 +26,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

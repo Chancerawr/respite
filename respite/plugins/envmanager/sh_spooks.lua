@@ -84,7 +84,7 @@ local function blindTeleport(client)
 		local newPos = client:GetPos()
 		
 		for k, v in pairs(ents.GetAll()) do
-			if(v.chance) then
+			if(v.respite) then
 				newPos = v:GetPos()
 				v:SetPos(client:GetPos())
 				break

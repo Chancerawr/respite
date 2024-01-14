@@ -21,7 +21,7 @@ function PLUGIN:EntityTakeDamage(target, dmginfo)
 		end
 		
 		if(IsValid(inflictor) and ((inflictor:GetClass() == "prop_physics") or (inflictor:GetClass() == "nut_storage"))) then
-			if(!IsValid(target:GetVehicle())) then
+			if(!IsValid(target:GetVehicle()) and target:GetMoveType() != MOVETYPE_NOCLIP) then
 				local damage = dmginfo:GetDamage()
 				
 				dmginfo:ScaleDamage(0.1)

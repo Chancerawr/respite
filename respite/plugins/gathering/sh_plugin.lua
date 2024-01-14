@@ -35,6 +35,7 @@ local gatherItems = {
 	["car"] = true,
 	["memory"] = true,
 	["concrete"] = true,
+	["ore"] = true,
 	
 	["plant_berry"] = true,
 	["plant_blight"] = true,

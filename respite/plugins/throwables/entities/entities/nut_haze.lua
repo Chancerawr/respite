@@ -27,13 +27,12 @@ if (SERVER) then
 	end
 
 	function ENT:OnRemove()
+		nut.item.spawn("j_grenade_used", self:GetPos())
 		self.loopsound:Stop()
 	end
 
 	function ENT:Think()
 		if self.lifetime < CurTime() then
-			nut.item.spawn("j_grenade_used", self:GetPos())
-		
 			self:Remove()
 		end
 

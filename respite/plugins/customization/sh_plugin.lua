@@ -4,28 +4,6 @@ PLUGIN.author = ""
 PLUGIN.desc = "Item Customization."
 
 if(SERVER) then
-	--updates clientside values of sweps
-	function PLUGIN:updateSWEP(client, item)
-		local customData = item:getData("custom", {})
-		
-		if(item.class) then --i dont know why i need this here
-			local swep = weapons.Get(item.class)
-			local itemInfo = {}
-			
-			itemInfo.class = item.class
-			
-			itemInfo.wepDmg = customData.wepDmg or (swep and swep.Primary.Damage)
-			itemInfo.wepSpd = customData.wepSpd or (swep and swep.Primary.RPM)
-			itemInfo.wepAcc = customData.wepAcc
-			itemInfo.wepRec = customData.wepRec
-			itemInfo.wepMag = customData.wepMag or (swep and swep.Primary.ClipSize)
-			
-			itemInfo.name = customData.name
-			
-			netstream.Start(client, "nut_swepUpdate", itemInfo)
-		end
-	end	
-	
 	--customization statrt
 	function PLUGIN:startCustom(client, item, extra)
 		--customizations require a flag in the items set, so it's unnecessary to do this here, uncomment it if you want.
@@ -45,22 +23,6 @@ if(SERVER) then
 		itemInfo.model = customData.model or item.model
 		itemInfo.material = customData.material or item.material
 		itemInfo.img = customData.img
-		
-		if(item.isWeapon) then
-			itemInfo.weapon = true
-			
-			local swep = weapons.Get(item.class)
-			
-			--weapon stat customization stuff
-			if(swep) then
-				itemInfo.wepDmg = customData.wepDmg or swep.Primary.Damage
-				itemInfo.wepSpd = customData.wepSpd or swep.Primary.RPM
-				itemInfo.wepAcc = customData.wepAcc
-				itemInfo.wepRec = customData.wepRec
-				itemInfo.wepMag = customData.wepMag or swep.Primary.ClipSize
-			end
-			
-		end
 		
 		netstream.Start(client, "nut_custom", itemInfo)
 	end
@@ -93,6 +55,17 @@ if(SERVER) then
 		
 		netstream.Start(client, "nut_customA", itemInfo)
 	end
+	
+	--attribute customization start
+	function PLUGIN:startCustomR(client, item)
+		local resData = item:getData("res", item.res) or {}
+	
+		local itemInfo = {}
+		itemInfo.id = item.id
+		itemInfo.res = resData
+		
+		netstream.Start(client, "nut_customR", itemInfo)
+	end	
 
 	--regular finish hook
 	netstream.Hook("nut_customF", function(client, data)
@@ -106,6 +79,7 @@ if(SERVER) then
 		
 		if (item) then
 			item:setData("custom", customData)
+			item:setData("edited", client:Name()) --who last edited this thing
 		end
 	end)	
 	
@@ -121,6 +95,19 @@ if(SERVER) then
 		
 		if (item) then
 			item:setData("attrib", attribData)
+			item:setData("edited", client:Name()) --who last edited this thing
+		end
+	end)
+	
+	--finish hook
+	netstream.Hook("nut_resF", function(client, data)
+		local id = data[1]
+		local item = nut.item.instances[id]
+		local resData = data[2]
+		
+		if (item) then
+			item:setData("res", resData)
+			item:setData("edited", client:Name()) --who last edited this thing
 		end
 	end)
 	
@@ -149,12 +136,6 @@ else
 		local model = item.model
 		local material = item.material or ""
 		local img = item.img
-		
-		local dmg = item.wepDmg
-		local spd = item.wepSpd
-		local acc = item.wepAcc
-		local rec = item.wepRec
-		local mag = item.wepMag
 
 		local frame = vgui.Create("DFrame")
 		frame:SetSize(450, 600)
@@ -229,65 +210,6 @@ else
 			local ranColor = Color(math.random(0,255), math.random(0,255), math.random(0,255))
 			colorC:SetColor(ranColor)
 		end
-				
-		--weapon stuff
-		local wepC
-		local dmgC
-		local rpmC
-		local accC
-		local recC
-		local magC
-		
-		if(item.weapon) then
-			wepC = vgui.Create("DCheckBoxLabel", scroll)
-			wepC:SetText("SWEP Modifiers")
-			wepC:SetValue(0)
-			wepC:SetToolTip("Toggle this if you want any of the stuff below to apply.")
-			wepC:Dock(TOP)					
-			
-			local dmgL = vgui.Create("DLabel", scroll)
-			dmgL:SetText(" Damage:")
-			dmgL:Dock(TOP)
-			
-			dmgC = vgui.Create("DTextEntry", scroll)
-			dmgC:SetText(dmg or 1)
-			dmgC:Dock(TOP)
-			
-			local rpmL = vgui.Create("DLabel", scroll)
-			rpmL:SetText(" RPM:")
-			rpmL:Dock(TOP)
-			
-			rpmC = vgui.Create("DTextEntry", scroll)
-			rpmC:SetText(spd or 1)
-			rpmC:Dock(TOP)
-			
-			local accL = vgui.Create("DLabel", scroll)
-			accL:SetText(" Accuracy Multiplier:")
-			accL:Dock(TOP)
-			
-			accC = vgui.Create("DTextEntry", scroll)
-			accC:SetToolTip("Higher is worse.")
-			accC:SetText(acc or 1)
-			accC:Dock(TOP)		
-			
-			local recL = vgui.Create("DLabel", scroll)
-			recL:SetText(" Recoil Multiplier:")
-			recL:Dock(TOP)
-			
-			recC = vgui.Create("DTextEntry", scroll)
-			recC:SetText(rec or 1)
-			recC:Dock(TOP)
-			
-			local magL = vgui.Create("DLabel", scroll)
-			magL:SetText(" Magazine Size:")
-			magL:Dock(TOP)
-			
-			magC = vgui.Create("DTextEntry", scroll)
-			magC:SetText(mag or 1)
-			magC:Dock(TOP)
-		end
-		
-		--add image customization
 
 		local finishB = vgui.Create("DButton", scroll)
 		finishB:SetSize(60,20)
@@ -311,14 +233,6 @@ else
 			
 			if(pictureC:GetValue() != "") then
 				customData[2].img = pictureC:GetValue()
-			end
-			
-			if(item.weapon and wepC:GetChecked()) then
-				customData[2].wepDmg = math.Clamp(tonumber(dmgC:GetValue()), 0, 100000)
-				customData[2].wepSpd = math.Clamp(tonumber(rpmC:GetValue()), 1, 1000000000)
-				customData[2].wepAcc = math.Clamp(tonumber(accC:GetValue()), 0.0001, 100)
-				customData[2].wepRec = math.Clamp(tonumber(recC:GetValue()), 0, 1000)
-				customData[2].wepMag = math.Clamp(tonumber(magC:GetValue()), 0, 10000)
 			end
 
 			netstream.Start("nut_customF", customData)
@@ -397,6 +311,88 @@ else
 		cancelB.DoClick = function()
 			frame:Remove()
 		end		
+	end)
+	
+	netstream.Hook("nut_customR", function(data)
+		local item = data
+	
+		--current values of item
+		local resData = item.res
+
+		local frame = vgui.Create("DFrame")
+		frame:SetSize(450, 600)
+		frame:Center()
+		frame:SetTitle("Resistances")
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+
+		local scroll = vgui.Create("DScrollPanel", frame)
+		scroll:Dock(FILL)
+
+		local res = {}
+		
+		--damage type resistance customization
+		for k, v in pairs((nut.plugin.list["combat"] and nut.plugin.list["combat"].dmgTypes) or {}) do
+			local resL = vgui.Create("DLabel", scroll)
+			resL:SetText(v.name)
+			resL:Dock(TOP)
+			
+			local resC = vgui.Create("DNumberWang", scroll)
+			resC.res = k
+			resC:SetDecimals(2)
+			resC:Dock(TOP)
+			resC:SetMax(200)
+			resC:SetMin(-200)
+			resC:SetValue(resData[k] or 0)
+			
+			res[k] = resC
+		end
+		
+		--attribute customization
+		for k, v in pairs(EFFS.effects) do
+			local resL = vgui.Create("DLabel", scroll)
+			resL:SetText(v.name)
+			resL:Dock(TOP)
+			
+			local resC = vgui.Create("DNumberWang", scroll)
+			resC.res = k
+			resC:SetDecimals(2)
+			resC:Dock(TOP)
+			resC:SetMax(200)
+			resC:SetMin(-200)
+			resC:SetValue(resData[k] or 0)
+			
+			res[k] = resC
+		end
+		
+		local finishB = vgui.Create("DButton", scroll)
+		finishB:SetSize(60,20)
+		finishB:SetText("Complete")
+		finishB:Dock(TOP)
+		finishB.DoClick = function()
+			local customData = {}
+			customData[1] = item.id
+			customData[2] = {}
+
+			for k, v in pairs(res) do
+				local value = v:GetValue()
+				if(value != 0) then
+					customData[2][k] = value
+				end
+			end
+
+			netstream.Start("nut_resF", customData)
+			
+			frame:Remove()
+		end
+		
+		local cancelB = vgui.Create("DButton", scroll)
+		cancelB:SetSize(60,20)
+		cancelB:SetText("Cancel")
+		cancelB:Dock(TOP)
+		cancelB.DoClick = function()
+			frame:Remove()
+		end
 	end)
 	
 	local function dataTemp(data, req)
@@ -523,43 +519,6 @@ else
 			end)
 		end
 	end)
-	
-	netstream.Hook("nut_swepUpdate", function(data)
-		local item = data
-		local weapon = LocalPlayer():GetWeapon(item.class)
-		
-		if(weapon and IsValid(weapon)) then
-			if(item.name) then
-				weapon.PrintName = item.name
-			end
-			
-			if(item.wepDmg) then
-				weapon.Primary.Damage = tonumber(item.wepDmg)
-			end
-			
-			if(item.wepSpd) then
-				weapon.Primary.RPM = tonumber(item.wepSpd)
-			end
-			
-			if(item.wepRec) then
-				weapon.Primary.KickUp = weapon.Primary.KickUp * item.wepRec
-				weapon.Primary.KickDown = weapon.Primary.KickDown * item.wepRec
-				weapon.Primary.KickHorizontal = weapon.Primary.KickHorizontal * item.wepRec
-				weapon.Primary.StaticRecoilFactor = weapon.Primary.StaticRecoilFactor * item.wepRec
-			end
-			
-			--needs to happen in both client and server
-			if(item.wepAcc) then
-				weapon.Primary.Spread = weapon.Primary.Spread * item.wepAcc
-				weapon.Primary.IronAccuracy = weapon.Primary.IronAccuracy * item.wepAcc
-			end				
-			
-			--needs to happen in both client and server
-			if(item.wepMag) then
-				weapon.Primary.ClipSize = tonumber(item.wepMag)
-			end
-		end
-	end)	
 end
 
 nut.command.add("lootgrouptest", {

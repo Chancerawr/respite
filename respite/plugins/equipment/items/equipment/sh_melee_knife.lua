@@ -1,7 +1,7 @@
 ITEM.name = "Knife"
 ITEM.desc = "A sharp tool used to cut things."
 ITEM.model = "models/warz/melee/knife.mdl"
-ITEM.class = "hl2_m_knife"
+ITEM.class = "respite_knife"
 ITEM.uniqueID = "hl2_m_knife"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -34,6 +34,12 @@ ITEM.actions = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

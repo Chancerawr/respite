@@ -14,17 +14,27 @@ ITEM.scaling = {
 	["end"] = 0.2,
 }
 
+ITEM.attrib = {
+	["stm"] = -4,
+}
+
+ITEM.res = {
+	["Electric"] = 25,
+	["Fire"] = 10,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Liner"] = 1,
+}
+
 ITEM.salvage = {
 	["j_scrap_rubber"] = 8,
 	["j_scrap_metals"] = 10
 }
 
-ITEM.attrib = {
-	["stm"] = -6,
-}
-
-ITEM.res = {
-	["Electric"] = 25,
+ITEM.actions = {
+	"charged_armor",
 }
 
 ITEM.iconCam = {

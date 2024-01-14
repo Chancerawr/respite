@@ -7,6 +7,7 @@ ENT.AdminOnly = true
 
 ENT.model = "models/Combine_Helicopter/helicopter_bomb01.mdl"
 
+--[[
 --all attributes
 ENT.attribs = {
 	["stm"] = 0,
@@ -40,6 +41,7 @@ ENT.res = {
 	["Poison"] = 0,
 	["Electric"] = 0,
 }
+--]]
 
 function ENT:SpawnFunction(ply, tr, ClassName)
 	if (!tr.Hit) then return end
@@ -56,8 +58,6 @@ end
 
 function ENT:Initialize()
 	self:basicSetup()
-
-	--self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,10))
 end
 
 function ENT:physicsSetup()
@@ -65,13 +65,17 @@ function ENT:physicsSetup()
 		--self:SetMoveType(MOVETYPE_STEP)
 		self:DrawShadow(true)
 		self:PhysicsInit(SOLID_VPHYSICS)
-		self:SetSolid(SOLID_BBOX)
+		--self:SetSolid(SOLID_BBOX)
 
 		local physObj = self:GetPhysicsObject()
-			
-		local physObj = self:GetPhysicsObject()
 		if (IsValid(physObj)) then
-			physObj:EnableMotion(true)
+		
+			if(self.saveKey) then
+				physObj:EnableMotion(false)
+			else
+				physObj:EnableMotion(true)
+			end
+
 			physObj:EnableGravity(true)
 			--physObj:Sleep()
 			physObj:EnableCollisions(true)
@@ -79,7 +83,6 @@ function ENT:physicsSetup()
 		end
 	end
 	
-	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,100))
 	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
 end
 

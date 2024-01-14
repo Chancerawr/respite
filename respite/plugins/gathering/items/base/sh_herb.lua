@@ -26,7 +26,7 @@ ITEM.functions.Convert = {
 		local chance = item.multiChance
 		local multi = 1
 		
-		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+		if(TRAITS and client:hasTrait("scrapper")) then --trait increases chance of multi result
 			chance = chance + 10
 		end
 		

@@ -5,12 +5,29 @@ ITEM.material = "models/XQM/WoodPlankTexture"
 ITEM.uniqueID = "herb_purple"
 ITEM.color = Color(155, 50, 200)
 
-ITEM.maxstack = 4
+ITEM.maxstack = 5
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 0),
-	fov = 2.75,
+ITEM.loot = {
+	["Consumable"] = 10,
+}
+
+ITEM.craft = {
+	hp = 3,
+	mp = -1,
+
+	buffTbl = {
+		attrib = {
+			["end"] = 1,
+		},
+		
+		res = {
+			["Time"] = 3,
+		},
+		
+		amp = {
+			["Time"] = 3,
+		},
+	},
 }
 
 ITEM.functions.Jam = {
@@ -44,4 +61,10 @@ ITEM.functions.Jam = {
 
 		return char:hasFlags("q") or char:getInv():hasItem("converter_meat")
 	end
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 2.75,
 }

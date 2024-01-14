@@ -1,7 +1,7 @@
 ITEM.name = "Fence Post"
 ITEM.desc = "A wooden post formerly used to string up a fence of some sort."
 ITEM.model = "models/props/de_inferno/wood_fence_end.mdl"
-ITEM.class = "hl2_m_fencepost"
+ITEM.class = "respite_fencepost"
 ITEM.uniqueID = "hl2_m_fencepost"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

@@ -28,4 +28,4 @@ local function PluginCView(ply, pos, ang, fov, znear, zfar)
 	end
 end
 
-hook.Add("CalcView", "PluginCView", PluginCView)
+hook.Add("CalcView", "ZFarPluginCalcView", PluginCView)

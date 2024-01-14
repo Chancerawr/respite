@@ -6,18 +6,32 @@ nut.config.add("ambienceOff", false, "Whether or not to kill ambient sound entit
 	category = "Map"
 })
 
+local function killEnts()
+	local count = 0
+
+	local entsToKill = {
+		["ambient_generic"] = true,
+		["env_soundscape_triggerable"] = true,
+		["soundent"] = true,
+		["trigger_soundscape"] = true,
+	}
+
+	for k, v in pairs(ents.GetAll()) do
+		if(!IsValid(v)) then continue end
+	
+		if(entsToKill[v:GetClass()]) then
+			SafeRemoveEntity(v)
+			count = count + 1
+		end
+	end
+		
+	return count
+end
+
 function PLUGIN:Think()
 	if(nut.config.get("ambienceOff", false)) then
 		if((!self.cleanedSounds)) then
-			local list = ents.FindByClass("ambient_generic")
-			for k, v in pairs(list) do
-				SafeRemoveEntity(v)
-			end
-			
-			list = ents.FindByClass("env_soundscape_triggerable")
-			for k, v in pairs(list) do
-				SafeRemoveEntity(v)
-			end
+			killEnts()
 			
 			self.cleanedSounds = true
 		end
@@ -27,20 +41,8 @@ end
 nut.command.add("ambiencekill", {
 	adminOnly = true,
 	onRun = function(client, arguments)
-		local list = ents.FindByClass("ambient_generic")
+		local count = killEnts()
 
-		local count = 0
-		for k, v in pairs(list) do
-			count = count + 1
-			SafeRemoveEntity(v)
-		end
-		
-		list = ents.FindByClass("env_soundscape_triggerable")
-		for k, v in pairs(list) do
-			count = count + 1
-			SafeRemoveEntity(v)
-		end
-		
 		client:notify("Removed " ..count.. " entities.")
 	end
 })

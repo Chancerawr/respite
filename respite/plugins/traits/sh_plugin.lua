@@ -2,7 +2,7 @@ PLUGIN.name = "Character Traits"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "Something that makes you special."
 
-nut.config.add("maxTraits", 5, "How many traits points you are given in character creation.", nil, {
+nut.config.add("maxTraits", 3, "How many traits points you are given in character creation.", nil, {
 	data = {min = 1, max = 84600},
 	category = "Traits"
 })
@@ -49,6 +49,8 @@ function PLUGIN:OnCharCreated(client, character)
 	end)
 end
 
+local playerMeta = FindMetaTable("Player")
+
 if (SERVER) then
     function PLUGIN:PlayerLoadedChar(client)
         --this just makes sure everything is properly networked to clients.
@@ -60,36 +62,71 @@ if (SERVER) then
                 char:setData("traits", traitData, false, player.GetAll())
             end
         end
-    end
+    end	
+	
+	--gives a specific trait to someone
+	function playerMeta:giveTrait(trait)
+		local char = self:getChar()
+		if(!char) then return end
+		
+		local traitData = char:getData("traits", {})
+		traitData[trait] = 1 --sets the actual trait to being enabled.
+		
+		char:setData("traits", traitData, false, player.GetAll())
+		
+		return true
+	end	
+	
+	--removes a specific trait from someone
+	function playerMeta:removeTrait(trait)
+		local char = self:getChar()
+		if(!char) then return end
+	
+		local traitData = char:getData("traits", {})
+		traitData[trait] = nil --sets the actual trait to nothing.
+		
+		char:setData("traits", traitData, false, player.GetAll())
+
+		return true
+	end
+end
+
+--checks if a player has a trait
+function playerMeta:hasTrait(trait)
+	local char = self:getChar()
+	if(char) then
+		local traitData = char:getData("traits")
+		if(traitData) then
+			if(traitData[trait]) then
+				return true
+			else
+				return false
+			end
+		end
+	end
+	
+	return false
+end
+
+function PLUGIN:GetStartTraitPoints()
+	return nut.config.get("maxTraits", 3)
 end
 
 nut.command.add("traitadd", {
 	adminOnly = true,
-	syntax = "<string target> <string trait>",
+	syntax = "<string target> <select trait>",
 	onRun = function(client, arguments)
-		if(!arguments[2]) then
-			client:notify("No trait specified.")
-			return false
-		end
-	
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
-		
 		if(target) then
-			local char = target:getChar()
-			if(!char) then return end
-		
-			for k, v in pairs(TRAITS.traits) do
-				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
-					local traitData = char:getData("traits", {})
-					traitData[v.uid] = 1 --sets the actual trait to being enabled.
-					
-					char:setData("traits", traitData, false, player.GetAll())
-					
-					client:notify(" You have given " .. target:GetName() .. " the " .. v.name .. " trait.")
-					
-					break --only want the first one.
-				end
+			local trait = traitFromName(arguments[2])
+			
+			if(trait) then
+				target:giveTrait(trait)
+			
+				client:notify("You have given " ..target:GetName().. " the " ..TRAITS.traits[trait].name.. " trait.")
+			else
+				client:notify("Invalid trait name.")
 			end
 		end
 	end
@@ -97,30 +134,18 @@ nut.command.add("traitadd", {
 
 nut.command.add("traitremove", {
 	adminOnly = true,
-	syntax = "<string target> <string trait>",
+	syntax = "<string target> <string disease>",
 	onRun = function(client, arguments)
-		if(!arguments[2]) then
-			client:notify("No trait specified.")
-			return false
-		end
-	
 		local target = nut.command.findPlayer(client, arguments[1]) or client	
 
 		if(target) then
-			local char = target:getChar()
-			if(!char) then return end
-		
-			for k, v in pairs(TRAITS.traits) do
-				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
-					local traitData = char:getData("traits", {})
-					traitData[v.uid] = nil --sets the actual trait to nothing.
-					
-					char:setData("traits", traitData, false, player.GetAll())
-					
-					client:notify("You have removed the " .. v.name .. " trait from " .. target:GetName() .. ".")
-					
-					break --only want the first one.
-				end
+			local trait = traitFromName(arguments[2])
+			
+			if(trait) then
+				target:removeTrait(trait)
+				client:notify("You have removed the " ..TRAITS.traits[trait].name.. " trait from " .. target:GetName() .. ".")
+			else
+				client:notify("Invalid trait name.")
 			end
 		end
 	end
@@ -138,53 +163,27 @@ nut.command.add("traitcheck", {
 		end
 		
 		if(target) then
-			local char = target:getChar()
-			if(!char) then return end
+			local trait = traitFromName(arguments[2])
 		
-			local traitData = char:getData("traits")
-		
-			for k, v in pairs(TRAITS.traits) do
-				if(string.find(string.lower(v.name), string.lower(arguments[2]))) then --tries to find if their argument matches a trait.
-					if(traitData[v.uid]) then
-						client:notify(target:GetName() .. " has the " .. v.name .. " trait.")
-					else
-						client:notify(target:GetName() .. " does not have the " .. v.name .. " trait.")
-					end
-					
-					break --only want the first one.
+			if(trait) then
+				if(target:hasTrait(trait)) then
+					client:notify(target:GetName() .. " has the " ..TRAITS.traits[trait].name.. " trait.")
+				else
+					client:notify(target:GetName() .. " does not have the " ..TRAITS.traits[trait].name.. " trait.")
 				end
+			else
+				client:notify("Invalid trait name.")
 			end
 		end
 	end
 })
-
---checks whether a character has a trait or not.
-function hasTrait(client, trait) 
-	local char = client:getChar()
-	if(char) then
-		local traitData = char:getData("traits")
-		if(traitData) then
-			if(traitData[trait]) then
-				return true
-			else
-				return false
-			end
-		end
-	end
-	
-	return false
-end
-
-function PLUGIN:GetStartTraitPoints()
-	return 3
-end
 
 --for blood donor trait
 nut.command.add("blood", {
 	onRun = function(client, arguments)
 		local char = client:getChar()
 		
-		if(!hasTrait(client, "donor")) then
+		if(!client:hasTrait("donor")) then
 			client:notifyLocalized("You do not have the Blood Donor Trait.")
 			return false
 		end

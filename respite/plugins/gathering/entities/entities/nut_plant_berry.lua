@@ -37,6 +37,8 @@ if (SERVER) then
 		self:SetPos(Vector(pos.X,pos.Y,pos.Z - 10))
 		local physicsObject = self:GetPhysicsObject()
 
+		self:SetAngles(Angle(0,math.random(0,360),0))
+
 		if (IsValid(physicsObject)) then
 			physicsObject:EnableMotion(false)
 			physicsObject:Sleep()

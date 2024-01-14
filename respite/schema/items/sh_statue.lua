@@ -4,7 +4,7 @@ ITEM.model = "models/props_combine/breenbust.mdl"
 ITEM.material = "models/props_pipes/destroyedpipes01a"
 ITEM.desc = "It appears to be some kind of bust, but something about it makes you uncomfortable."
 ITEM.width = 2
-ITEM.height = 3
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.color = Color(0, 0, 0)
@@ -31,7 +31,7 @@ ITEM.functions.Blight = {
 			blight:remove()
 			nut.item.spawn("food_blood", position)
 			nut.chat.send(client, "itclose", "The statue begins crying blood.")	
-			client:TakeDamage(25, client, client)
+			client:TakeDamage(math.min(hatred, 10), client, client)
 			
 			local hatred = item:getData("hatred", 0)
 			if(hatred > 9) then
@@ -44,7 +44,7 @@ ITEM.functions.Blight = {
 			
 				local ent = ents.Create(table.Random(posSummons))
 				
-				if (ent:IsValid()) then
+				if (IsValid(ent)) then
 					ent:SetPos(client:GetPos())
 					local pos = ent:FindSpot( "random", { type = 'hiding', radius = 5000 } )
 					if(pos) then

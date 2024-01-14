@@ -1,7 +1,7 @@
 ITEM.name = "Valve"
 ITEM.desc = "A round valve taken from some kind of piping system."
 ITEM.model = "models/props_borealis/door_wheel001a.mdl"
-ITEM.class = "hl2_m_valve"
+ITEM.class = "respite_valve"
 ITEM.uniqueID = "hl2_m_valve"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -27,6 +27,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

@@ -15,13 +15,25 @@ ITEM.scaling = {
 	["end"] = 0.2,
 }
 
+ITEM.attrib = {
+	["stm"] = -3,
+}
+
+ITEM.res = {
+	["Blunt"] = 10,
+	["Slash"] = 10,
+	["Fire"] = -25,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Liner"] = 1,
+}
+
+
 ITEM.salvage = {
 	["j_scrap_wood"] = 5,
 	["j_scrap_rubber"] = 10
-}
-
-ITEM.attrib = {
-	["stm"] = -3,
 }
 
 ITEM.iconCam = {

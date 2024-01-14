@@ -1,7 +1,7 @@
 ITEM.name = "Empty Beer Bottle"
 ITEM.uniqueID = "j_empty_beer"
 ITEM.model = "models/props_junk/garbage_glassbottle003a.mdl"
-ITEM.desc = "An empty beer bottle.\nThis container can be filled with water."
+ITEM.desc = "An empty beer bottle."
 ITEM.flag = "j"
 ITEM.fillable = true
 

@@ -1,7 +1,7 @@
-ITEM.name = "Shovel"
-ITEM.desc = "A long common garden shovel."
+ITEM.name = "Spade"
+ITEM.desc = "A long common garden spade."
 ITEM.model = "models/props_junk/shovel01a.mdl"
-ITEM.class = "hl2_m_shovel_alt"
+ITEM.class = "respite_shovel2"
 ITEM.uniqueID = "hl2_m_shovel_alt"
 ITEM.slot = "melee"
 ITEM.width = 4
@@ -31,6 +31,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 2,
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

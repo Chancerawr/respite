@@ -15,12 +15,22 @@ ITEM.scaling = {
 	["end"] = 0.2,
 }
 
-ITEM.salvage = {
-	["j_scrap_cloth"] = 10
-}
-
 ITEM.attrib = {
 	["stm"] = -1,
+}
+
+ITEM.res = {
+	["Blunt"] = 10,
+	["Slash"] = 10,
+	["Pierce"] = 5,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 2,
+}
+
+ITEM.salvage = {
+	["j_scrap_cloth"] = 10
 }
 
 ITEM.iconCam = {

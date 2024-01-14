@@ -1,6 +1,6 @@
 ITEM.name = "Bottled Purple Mist"
 ITEM.prefix = "Purple Mist"
-ITEM.desc = "A bottle filled with a purple gas, inhaling it makes you feel happy and lighter than air for a few hours.\nHeavy users may see strange visions."
+ITEM.desc = "A bottle filled with a purple gas, inhaling it makes you feel happy and lighter than air for a few hours. \nHeavy users may see strange visions."
 ITEM.uniqueID = "bottled_purple"
 ITEM.model = "models/props_junk/glassbottle01a.mdl"
 ITEM.material = "models/items/boxsniperrounds"
@@ -33,20 +33,20 @@ ITEM.loot = {
 }
 
 ITEM.craft = {
-	mp = 10,
+	mp = -2,
 
 	buffTbl = {
 		attrib = {
-			["fortitude"] = 5,
-			["perception"] = -5
+			["end"] = 3,
+			["perception"] = -4
 		},
 		
 		res = {
-			["Blight"] = 8,
-			
 			["Mind"] = -5,
 			["Fear"] = 10,
 			["Pain"] = 5,
+			
+			["Time"] = 5,
 		}
 	},
 }

@@ -1,7 +1,7 @@
 ITEM.name = "Branch"
 ITEM.desc = "A wooden branch pulled off a tree."
 ITEM.model = "models/props/cs_office/Snowman_arm.mdl"
-ITEM.class = "hl2_m_branch"
+ITEM.class = "respite_branch"
 ITEM.uniqueID = "hl2_m_branch"
 ITEM.slot = "melee"
 ITEM.width = 3

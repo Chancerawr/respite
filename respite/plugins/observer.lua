@@ -21,11 +21,23 @@ if (CLIENT) then
 			for k, v in ipairs(player.GetAll()) do
 				if (v == client) then continue end
 
-				scrPos = v:GetPos():ToScreen()
+				local pos = v:GetPos()
+				
+				if(v:getNetVar("nutRagdoll")) then
+					local ragdoll = ents.GetByIndex(v:getNetVar("nutRagdoll"))
+
+					if(IsValid(ragdoll) and ragdoll:GetClass() == "prop_ragdoll") then
+						if(ragdoll:getNetVar("playerRag")) then
+							pos = ragdoll:GetPos()
+						end
+					end
+				end
+				
+				scrPos = pos:ToScreen()
 				marginx, marginy = sy*.1, sy*.1
 				x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
 				teamColor = team.GetColor(v:Team())
-				distance = client:GetPos():Distance(v:GetPos())
+				distance = client:GetPos():Distance(pos)
 				factor = 1 - math.Clamp(distance/dimDistance, 0, 1)
 				size = math.max(10, 32*factor)
 				alpha = math.Clamp(255*factor, 80, 255)
@@ -37,13 +49,13 @@ if (CLIENT) then
 				nut.util.drawText(v:Name() .. "(" .. v:Health() .. ")", x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 
 				if(v.getHP) then
-					local HP = v:getHP()
+					local HP = math.Round(v:getHP(), 2)
 				
 					nut.util.drawText("[ " ..HP.. " ]", x, y - size + 16, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
 				
 				if(v.getMP) then
-					local MP = v:getMP()
+					local MP = math.Round(v:getMP(), 2)
 				
 					nut.util.drawText("[ " ..MP.. " ]", x, y - size + 32, ColorAlpha(Color(50,50,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
@@ -56,7 +68,8 @@ if (CLIENT) then
 					
 					scrPos = v:GetPos():ToScreen()
 					marginx, marginy = sy*.1, sy*.1
-					x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
+					--x, y = math.Clamp(scrPos.x, marginx, sx - marginx), math.Clamp(scrPos.y, marginy, sy - marginy)
+					x, y = scrPos.x, scrPos.y
 					distance = client:GetPos():Distance(v:GetPos())
 					factor = 1 - math.Clamp(distance/dimDistance, 0, 1)
 					local teamColor = Color(190,50,50)
@@ -65,9 +78,12 @@ if (CLIENT) then
 					alpha = math.Clamp(255*factor, 80, 255)
 
 					nut.util.drawText(v:Name(), x, y - size, ColorAlpha(teamColor, alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
-					nut.util.drawText("(" ..(v:getHP()).. "/" ..(v:getMaxHP()).. ")", x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					
-					if(v:getMaxMP() > 0) then
+					if(v.getHP) then
+						nut.util.drawText("(" ..(v:getHP()).. "/" ..(v:getMaxHP()).. ")", x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
+					end
+					
+					if(v.getMP and v:getMaxMP() > 0) then
 						nut.util.drawText("(" ..(v:getMP()).. "/" ..(v:getMaxMP()).. ")", x, y - size + 34, ColorAlpha(Color(20,20,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					end
 				end

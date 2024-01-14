@@ -1,7 +1,7 @@
 ITEM.name = "Crowbar"
 ITEM.desc = "A tool made out of metal, used for prying."
 ITEM.model = "models/warz/melee/crowbar.mdl"
-ITEM.class = "hl2_m_crowbar"
+ITEM.class = "respite_crowbar"
 ITEM.uniqueID = "hl2_m_crowbar"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -31,6 +31,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

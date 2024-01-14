@@ -51,3 +51,7 @@ ITEM.functions.Battery = {
 		return true
 	end
 }
+
+function ITEM:onEntityCreated(entity)
+	entity:SetPos(entity:GetPos()+entity:GetUp()*9)
+end

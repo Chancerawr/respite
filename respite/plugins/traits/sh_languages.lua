@@ -29,7 +29,7 @@ for k, v in pairs(chatLangs) do
 	
 	nut.chat.register(k, { --regular
 		onCanSay =  function(speaker, text)
-			local trait = hasTrait(speaker, k)
+			local trait = speaker:hasTrait(k)
 			if(trait) then
 				return true
 			else
@@ -57,7 +57,7 @@ for k, v in pairs(chatLangs) do
 				nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
 			end
 
-			if (hasTrait(LocalPlayer(), k)) then
+			if (LocalPlayer():hasTrait(k)) then
 				--chat.AddText(nut.config.get("chatColor"), speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 				chat.AddText(nameCol, speako, texCol, " says in "..v..", \""..text.."\"")
 			else
@@ -70,7 +70,7 @@ for k, v in pairs(chatLangs) do
 	
 	nut.chat.register(k.."w", { --whispering
 		onCanSay =  function(speaker, text)
-			local trait = hasTrait(speaker, k)
+			local trait = speaker:hasTrait(k)
 			if(trait) then
 				return true
 			else
@@ -96,7 +96,7 @@ for k, v in pairs(chatLangs) do
 				nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
 			end
 		
-			if (hasTrait(LocalPlayer(), k)) then
+			if (LocalPlayer():hasTrait(k)) then
 				--chat.AddText(nut.config.get("chatColor"), speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 				chat.AddText(nameCol, speako, texCol, " whispers in "..v..", \""..text.."\"")
 			else
@@ -109,7 +109,7 @@ for k, v in pairs(chatLangs) do
 	
 	nut.chat.register(k.."y", { --yelling
 		onCanSay =  function(speaker, text)
-			local trait = hasTrait(speaker, k)
+			local trait = speaker:hasTrait(k)
 			if(trait) then
 				return true
 			else
@@ -135,7 +135,7 @@ for k, v in pairs(chatLangs) do
 				nameCol = Color(tempCol.r + 40, tempCol.b + 60, tempCol.g + 40)
 			end
 		
-			if (hasTrait(LocalPlayer(), k)) then
+			if (LocalPlayer():hasTrait(k)) then
 				--chat.AddText(nut.config.get("chatColor"), speaker:getChar():getName()..' says in Japanese, "'..text..'"')
 				chat.AddText(nameCol, speako, texCol, " yells in "..v..", \""..text.."\"")
 			else
@@ -149,7 +149,7 @@ end
 
 nut.chat.register("pla", {
     onCanSay =  function(speaker, text)
-		local trait = hasTrait(speaker, "pla")
+		local trait = speaker:hasTrait("pla")
 		if(trait) then
 			return true
 		else
@@ -161,7 +161,7 @@ nut.chat.register("pla", {
 		local texCol = nut.config.get("chatColor")
 		texCol = Color(texCol.r, texCol.g, texCol.b)		
 	
-		if (hasTrait(LocalPlayer(), "pla")) then
+		if (LocalPlayer():hasTrait("pla")) then
 			chat.AddText(texCol, speaker:getChar():getName().. ' writes in the Plastic Written Language, "' ..text.. '"')
 		else
 			chat.AddText(texCol, speaker:getChar():getName().. " writes something in the Plastic Written Language.")
@@ -176,7 +176,7 @@ nut.chat.register("pla", {
 
 nut.chat.register("signp", {
     onCanSay =  function(speaker, text)
-		local trait = hasTrait(speaker, "pla")
+		local trait = speaker:hasTrait("pla")
 		if(trait) then
 			return true
 		else
@@ -188,7 +188,7 @@ nut.chat.register("signp", {
 		local texCol = nut.config.get("chatColor")
 		texCol = Color(texCol.r, texCol.g, texCol.b)
 	
-		if (hasTrait(LocalPlayer(), "pla")) then
+		if (LocalPlayer():hasTrait("pla")) then
 			chat.AddText(texCol, speaker:getChar():getName().. ' signs in Plastic, "' ..text.. '"')
 		else
 			chat.AddText(texCol, speaker:getChar():getName().. " is using Plastic Sign Language.")
@@ -203,7 +203,7 @@ nut.chat.register("signp", {
 
 nut.chat.register("sign", {
     onCanSay =  function(speaker, text)
-		local trait = hasTrait(speaker, "sign_a")
+		local trait = speaker:hasTrait("sign_a")
 		if(trait) then
 			return true
 		else
@@ -215,7 +215,7 @@ nut.chat.register("sign", {
 		local texCol = nut.config.get("chatColor")
 		texCol = Color(texCol.r, texCol.g, texCol.b)	
 	
-		if (hasTrait(LocalPlayer(), "sign_a")) then
+		if (LocalPlayer():hasTrait("sign_a")) then
 			chat.AddText(texCol, speaker:getChar():getName().. ' signs in English, "'..text..'"')
 		else
 			chat.AddText(texCol, speaker:getChar():getName().. " is using American sign language.")

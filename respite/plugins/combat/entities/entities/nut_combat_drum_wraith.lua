@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/zombineplayer.mdl"
 ENT.material = "models/effects/splode1_sheet"
 
+ENT.modelScale = 1.8
+
 ENT.AttackAnim = "AttackC"
 
 ENT.color = Color(0, 150, 255)
@@ -56,7 +58,7 @@ function ENT:Initialize()
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		self:SetRenderFX(kRenderFxHologram)
 		
-		self:SetModelScale(1.8)
+		--self:SetModelScale(1.8)
 		self:ResetSequence("zombie_walk_06")
 	end)
 

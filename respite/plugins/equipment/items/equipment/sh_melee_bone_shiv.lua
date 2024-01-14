@@ -1,7 +1,7 @@
 ITEM.name = "Bone Shiv"
 ITEM.desc = "A makeshift shiv made out of bones."
 ITEM.model = "models/gibs/hgibs_scapula.mdl"
-ITEM.class = "hl2_m_boneshiv"
+ITEM.class = "respite_shiv_bone"
 ITEM.uniqueID = "hl2_m_boneshiv"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -29,6 +29,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_bone"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 ITEM.iconCam = {

@@ -2,11 +2,18 @@ PLUGIN.name = "Player Damage Reducer"
 PLUGIN.author = "Neon"
 PLUGIN.desc = "Reduces the damage players do to one another."
 
+--damage types that are considered to be "melee"
+local meleeDmgTypes = {
+	[DMG_SLASH] = true,
+	[DMG_CRUSH] = true,
+	[DMG_CLUB] = true
+}
+
 function PLUGIN:ScalePlayerDamage(client, hitGroup, dmgInfo)
 	local attacker = dmgInfo:GetAttacker()
-	
+
 	if(attacker and attacker:IsPlayer()) then
-		if(dmgInfo:GetDamageType() == DMG_SLASH) then --melee weapons
+		if(meleeDmgTypes[dmgInfo:GetDamageType()]) then --melee weapons
 			dmgInfo:ScaleDamage(.1)
 		else --everything else
 			dmgInfo:ScaleDamage(.5)

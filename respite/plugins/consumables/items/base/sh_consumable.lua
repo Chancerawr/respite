@@ -54,7 +54,7 @@ ITEM.notify --nutscript notification when item is used.
 
 --[[
 ITEM.extraFunc = function(item, client)
-	print("this is a thing")
+
 end
 --]]
 
@@ -130,7 +130,7 @@ local function stomachCheck(item, client, char)
 end
 
 --function that removes all the buffs that the item provides
-local function buffRemoval(item, client, charID)
+local function buffRemoval(item, client, charID, name)
 	if (IsValid(client)) then
 		local curChar = client:getChar()
 		if (curChar and curChar:getID() == charID) then
@@ -140,7 +140,7 @@ local function buffRemoval(item, client, charID)
 			local attribs = item:getData("attrib", item.attrib)
 			if (attribs) then
 				for k, v in pairs(attribs) do
-					char:removeBoost(item:getName(), k)
+					curChar:removeBoost(item:getName(), k)
 				end
 			end
 			
@@ -178,7 +178,7 @@ local function consume(client, item)
 		local durationB = item.durationB
 		
 		--trait bonuses
-		if(TRAITS and hasTrait(client, "survival")) then
+		if(TRAITS and client:hasTrait("survival")) then
 			durationB = durationB * 1.2
 		end
 
@@ -188,17 +188,6 @@ local function consume(client, item)
 			--adds attribs
 			for buffAttrib, buffValue in pairs(attribs) do
 				char:addBoost(name, buffAttrib, buffValue)
-			end
-
-			--timer for buff removal
-			if(timer.Exists("DrugEffect_" ..name.. "_" ..client:EntIndex())) then --refreshes existing buffs if they exist
-				timer.Adjust("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
-					buffRemoval(item, client, charID)
-				end)
-			else				
-				timer.Create("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
-					buffRemoval(item, client, charID)
-				end)
 			end
 		end
 		
@@ -225,15 +214,17 @@ local function consume(client, item)
 			end
 		
 			client:addBuff(buff)
-
+		end
+		
+		if(buff or attribs) then
 			--timer for buff removal
 			if(timer.Exists("DrugEffect_" ..name.. "_" ..client:EntIndex())) then --refreshes existing buffs if they exist
 				timer.Adjust("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
-					buffRemoval(item, client, charID)
+					buffRemoval(item, client, charID, name)
 				end)
 			else				
 				timer.Create("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
-					buffRemoval(item, client, charID)
+					buffRemoval(item, client, charID, name)
 				end)
 			end
 		end
@@ -304,11 +295,11 @@ local function consume(client, item)
 	end
 	
 	--emits sound from player
-	if(item.sound) then
+	if(item.sound and item.sound != "") then
 		client:EmitSound(item.sound, 75, item.soundPitch or 100)
 	end
 	
-	--this is garbage and should be redone properly.
+	--this is bad and should be redone properly.
 	if(item.soundURL) then 
 		local stupidlua = "sound.PlayURL('" ..item.soundURL.. "', '', function() end)"
 		
@@ -566,14 +557,65 @@ ITEM.functions.Convert = {
 	end
 }
 
+--for people to name their crafted items
+ITEM.functions.CustomName = {
+	name = "Change Name",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local customData = item:getData("custom", {})
+
+		client:requestString("Change Name", "", function(text)
+			customData.name = text or " "
+			item:setData("custom", customData)
+		end, customData.name)
+
+		return false
+	end,
+	onCanRun = function(item)
+		local creator = item:getData("creator")
+	
+		local client = item.player
+		
+		if(creator and client:getChar():getID() == creator) then
+			return true
+		else
+			return false
+		end
+	end
+}
+
 function ITEM:onEntityCreated(entity)
 	if(self.modelColor) then
 		entity:SetColor(self.modelColor)
 	end
 
 	if(self.modelScale) then
-		entity:SetModelScale(self.modelScale, 0.0001)
-		entity:Activate()
+		local scale = self.modelScale
+		entity:SetModelScale(scale)
+
+		local physobj = entity:GetPhysicsObject()
+		if (!IsValid(physobj)) then return false end
+
+		--grabbed from a collision resizer tool
+		local physmesh = physobj:GetMeshConvexes()
+		if (!istable(physmesh)) or (#physmesh < 1) then return false end
+
+		for convexkey, convex in pairs(physmesh) do
+			for poskey, postab in pairs(convex) do
+				convex[poskey] = postab.pos * scale
+			end
+		end
+
+		local asleep = physobj:IsAsleep()
+
+		entity:PhysicsInitMultiConvex(physmesh)
+		
+		if(!asleep) then
+			entity:GetPhysicsObject():Wake()
+		end
 	end
 
 	if(self.entMass) then
@@ -716,18 +758,9 @@ end
 
 if (CLIENT) then --draws a square on the food item for how well cooked it is.
 	function ITEM:paintOver(item, w, h)
-		local cooked = item:getData("cooked", 1)
-		
 		local quantity2 = tonumber(item:getData("quantity2", item.quantity2))
 		if (quantity2) then
 			draw.SimpleText(quantity2.. "/" ..item.quantity2, "DermaDefault", 6, h - 16, Color(50,200,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
-		end
-
-		if (cooked > 1) then
-			local col = COOKLEVEL[cooked][3]
-
-			surface.SetDrawColor(col.r, col.g, col.b, 100)
-			surface.DrawRect(w - 14, h - 14, 8, 8)
 		end
 	end
 end

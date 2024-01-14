@@ -24,7 +24,7 @@ ITEM.functions.Scrap = {
 		local chance = item.multiChance
 		local multi = 1
 		
-		if(TRAITS and hasTrait(client, "scrapper")) then --trait increases chance of multi result
+		if(TRAITS and client:hasTrait("scrapper")) then --trait increases chance of multi result
 			chance = chance + 10
 		end
 		
@@ -111,7 +111,11 @@ function ITEM:getDesc(partial)
 		
 	if(!partial) then
 		if(customData.quality) then
-			desc = desc .. "\nQuality: " ..customData.quality
+			desc = desc.. " \nQuality: " ..customData.quality
+		end
+		
+		if(self.fillable) then
+			desc = desc.. " \nThis container can be filled with water."
 		end
 	end
 	

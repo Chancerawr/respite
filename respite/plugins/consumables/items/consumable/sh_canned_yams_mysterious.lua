@@ -13,7 +13,7 @@ ITEM.disease = "fort_nost"
 
 ITEM.attrib = { 
 	["fortitude"] = -5, 
-	["endurance"] = -5 
+	["end"] = -5 
 }
 
 ITEM.loot = {
@@ -29,7 +29,7 @@ ITEM.craft = {
 	buffTbl = {
 		attrib = {
 			["fortitude"] = -5, 
-			["endurance"] = -5 
+			["end"] = -5 
 		},
 		
 		res = {

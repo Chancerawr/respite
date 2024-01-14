@@ -61,6 +61,8 @@ end
 
 -- Respite specific commands
 local respiteCommands = {
+	--just uncomment if you want these
+	--[[
 	-- Offensive
 	["melee"] = {
 		name = "Melee",
@@ -165,6 +167,7 @@ local respiteCommands = {
 			["accuracy"] = 0.5,
 		},
 	},
+	--]]
 	
 	-- Special
 	["luckychance"] = {
@@ -261,3 +264,29 @@ nut.command.add("attack", {
 		PLUGIN:attackStart(client, client, trace, action)
 	end
 })
+
+//
+local ACT
+ACT = {}
+ACT.uid = "cover"
+ACT.name = "Cover"
+ACT.desc = "Defend an ally and boost their armor for 1 turn."
+ACT.category = "Special"
+ACT.attackString = "protects their target in some way"
+ACT.CD = 5
+ACT.noSelf = true
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Cover",
+		effect = "armor",
+		duration = 1,
+		strength = 1,
+		
+		armor = 200,
+		
+		buff = true,
+	}
+}
+ACTS:Register(ACT)

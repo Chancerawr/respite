@@ -15,13 +15,30 @@ ITEM.scaling = {
 	["end"] = 0.2,
 }
 
+ITEM.attrib = {
+	["stm"] = -8,
+}
+
+ITEM.res = {
+	["Rifle"] = 5,
+	["Shotgun"] = 5,
+	["Magnum"] = 8,
+	["Pistol"] = 10,
+	
+	["Pierce"] = 15,
+	["Slash"] = 20,
+	["Fire"] = -10,
+	["Electric"] = -15,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Liner"] = 1,
+}
+
 ITEM.salvage = {
 	["j_scrap_cloth"] = 8,
 	["j_scrap_metals"] = 10
-}
-
-ITEM.attrib = {
-	["stm"] = -8,
 }
 
 ITEM.iconCam = {

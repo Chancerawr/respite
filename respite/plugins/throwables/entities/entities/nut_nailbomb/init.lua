@@ -26,11 +26,11 @@ function ENT:Initialize()
 		phys:Wake()
 	end
 	
-  			local trail = util.SpriteTrail(self.Entity, self.Entity:LookupAttachment("fuse"), Color(255,0, 0), true, 8, 1, 1, (1 / 9) * 0.5, "sprites/bluelaser1.vmt");
-			
-			if (IsValid(trail)) then
-				self.Entity:DeleteOnRemove(trail);
-			end
+	local trail = util.SpriteTrail(self.Entity, self.Entity:LookupAttachment("fuse"), Color(255,0, 0), true, 8, 1, 1, (1 / 9) * 0.5, "sprites/bluelaser1.vmt");
+	
+	if (IsValid(trail)) then
+		self.Entity:DeleteOnRemove(trail);
+	end
 	
 	self.timer = CurTime() + 3
 end

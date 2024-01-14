@@ -1,7 +1,7 @@
 ITEM.name = "Machete"
 ITEM.desc = "A sharp tool made out of metal, used for slicing."
 ITEM.model = "models/warz/melee/machete.mdl"
-ITEM.class = "hl2_m_machate"
+ITEM.class = "respite_machete"
 ITEM.uniqueID = "hl2_m_machate"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -29,6 +29,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

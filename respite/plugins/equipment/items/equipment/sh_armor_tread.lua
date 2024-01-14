@@ -15,12 +15,25 @@ ITEM.scaling = {
 	["end"] = 0.2,
 }
 
-ITEM.salvage = {
-	["j_scrap_rubber"] = 10
-}
-
 ITEM.attrib = {
 	["stm"] = -5,
+}
+
+ITEM.res = {
+	["Blunt"] = 10,
+	["Slash"] = 5,
+	["Electric"] = 10,
+	["Fire"] = 10,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Liner"] = 1,
+}
+
+
+ITEM.salvage = {
+	["j_scrap_rubber"] = 10
 }
 
 ITEM.iconCam = {

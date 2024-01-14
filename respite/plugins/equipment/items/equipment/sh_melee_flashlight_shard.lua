@@ -2,7 +2,7 @@ ITEM.name = "Shardlight"
 ITEM.model = "models/warz/melee/flashlight.mdl"
 ITEM.material = "models/props/de_inferno/offwndwb_break"
 ITEM.desc = "A flashlight that is powered by an internal shard."
-ITEM.class = "hl2_m_flashlight"
+ITEM.class = "respite_flashlight"
 ITEM.uniqueID = "flashlight_shard"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -24,6 +24,12 @@ ITEM.salvage = {
 	["j_scrap_adhesive"] = 1,
 	["j_scrap_battery"] = 1,
 	["shard_dust"] = 1
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

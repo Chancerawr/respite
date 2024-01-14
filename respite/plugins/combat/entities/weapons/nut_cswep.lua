@@ -70,12 +70,10 @@ function SWEP:Reload()
 end
 
 function SWEP:OpenActionList()
-	self:SetActions(self:getNetVar("selected", self.Owner))
+	local actions = self:SetActions(self:getNetVar("selected", self.Owner))
 	
-	if(CLIENT) then
-		local actionList = vgui.Create("nutActionList")
-		actionList.swep = self
-		actionList.actions = self:GetActions()
+	if(SERVER) then
+		netstream.Start(self.Owner, "CSWep_openActionMenu", self)
 	end
 end
 
@@ -93,11 +91,14 @@ function SWEP:SetActions(target)
 	if(!IsValid(target)) then return end
 
 	local actions = target:getActions()
-	self.actions = actions
-	
+
 	if(SERVER) then
 		self:setNetVar("actions", actions)
 	end
+
+	self.actions = actions
+	
+	return self.actions
 end
 
 --this is clientside
@@ -165,6 +166,11 @@ function SWEP:PrimaryAttack()
 	
 	if(!action) then return end
 	
+	--for consumable items
+	if(action.itemUse) then
+		self.actNum = 1
+	end
+	
 	if (SERVER and trace.Hit) then
 		local client = self.Owner
 		local attacker = self:getNetVar("selected", client)
@@ -173,19 +179,6 @@ function SWEP:PrimaryAttack()
 		
 		if(action.uid) then
 			actionTbl = ACTS.actions[action.uid]
-		end
-		
-		--deletes consumable items upon use, should probably be moved elsewhere
-		if(action.consumable) then
-			local Amount = action.consumable:getData("Amount", 1)
-		
-			if(Amount > 1) then
-				action.consumable:setData("Amount", Amount - 1)
-			else
-				action.consumable:remove()
-			end
-			
-			self.actNum = 1
 		end
 		
 		if(actionTbl.attackOverwrite) then --this lets you make actions that just print stuff or run functions
@@ -210,16 +203,34 @@ function SWEP:SecondaryAttack()
 			data.filter = {self.Owner, self}
 		local trace = util.TraceLine(data)
 
-		if (trace.Hit) then
+		if (trace.Hit and IsValid(trace.Entity)) then
 			local entity = trace.Entity
-			
-			if(IsValid(entity) and (self.Owner:IsAdmin() or (entity.combat and entity:GetCreator() == self.Owner))) then
+
+			local allow = entity.combat and 
+				(
+				self.Owner:IsAdmin()
+				or entity:GetCreator() == self.Owner
+				or entity.playerControlled
+				)
+
+			if(allow) then
 				self:selectTarget(entity)
 			else
 				self:selectTarget() --reset target
 			end
+		else
+			self:selectTarget()
 		end
 	end
+end
+
+function SWEP:Holster(weapon)
+	local client = self.Owner
+	
+	client.combatAOE_S = nil
+	client.combatAOE_B = nil
+	
+	return true
 end
 
 function SWEP:DrawHUD()
@@ -359,7 +370,7 @@ function SWEP:DrawHUD()
 					if(action.radius) then
 						client.combatAOE_S = {trace.HitPos, action.radius}
 					elseif(action.box) then
-						client.combatAOE_B = {trace.HitPos, action.box}
+						client.combatAOE_B = action.box
 					else
 						client.combatAOE_S = nil
 						client.combatAOE_B = nil
@@ -389,19 +400,35 @@ end
 
 --sends CEnt action lists to client
 if(CLIENT) then
+	netstream.Hook("CSWep_openActionMenu", function(swep)
+		local actionList = vgui.Create("nutActionList")
+		actionList.swep = swep
+		actionList.actions = swep:GetActions()
+	end)
+	
 	netstream.Hook("CSWep_loadActions", function(swep, actions)
 		swep.actions = util.JSONToTable(actions)
 	end)
 	
-	function PLUGIN:PostDrawOpaqueRenderables()
+	hook.Add("PostDrawOpaqueRenderables", "nut_cswep_renderables", function()
 		local client = LocalPlayer()
-
+		
 		if(client.combatAOE_S) then
 			render.DrawWireframeSphere(client.combatAOE_S[1], client.combatAOE_S[2], 10, 10, Color(100, 100, 255, 255), true)
 		elseif(client.combatAOE_B) then
-			local boxData = client.combatAOE_B[2]
+			local boxData = client.combatAOE_B
+		
+			local width = boxData[1]
+			local length = boxData[2]
+		
+			local mins = Vector(0-width, 0, 0+width*0.5)
+			local maxs = Vector(width, length, width)
 			
-			render.DrawWireframeBox(client.combatAOE_B[1] + -0.5 * Vector(boxData[1],boxData[2],0), Angle(0,0,0), Vector(0,0,0), Vector(boxData[1],boxData[2],boxData[3]), Color(100, 100, 255, 255))
+			local position = client:GetPos()
+			local angles = self:LocalEyeAngles() + Angle(0,-90,0)
+			angles.x = 0
+
+			render.DrawWireframeBox(position, angles, mins, maxs, Color(100, 100, 255, 255))
 		end
-	end
+	end)
 end

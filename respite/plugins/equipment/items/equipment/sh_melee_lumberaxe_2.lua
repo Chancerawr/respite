@@ -1,7 +1,7 @@
 ITEM.name = "Double Axe"
 ITEM.desc = "A double bitted axe, useful for cutting."
 ITEM.model = "models/props/cs_militia/axe.mdl"
-ITEM.class = "hl2_m_lumberaxe_2"
+ITEM.class = "respite_lumberaxe2"
 ITEM.uniqueID = "hl2_m_lumberaxe_2"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -31,6 +31,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 4,
 	["j_scrap_wood"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

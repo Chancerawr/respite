@@ -64,13 +64,15 @@ ENT.res = {
 }
 
 function ENT:Initialize()
-	self:basicSetup()
+	if(!self.saveKey) then
+		self.attribs.stm = math.random(10,20)
+		self.attribs.str = math.random(10,20)
+		self.attribs.accuracy = math.random(10,20)
+		self.attribs["end"] = math.random(10,20)
+		self.attribs.luck = math.random(10,20)
+		self.attribs.perception = math.random(10,20)
+		self.attribs.fortitude = math.random(10,20)
+	end
 	
-	self.attribs.stm = math.random(10,20)
-	self.attribs.str = math.random(10,20)
-	self.attribs.accuracy = math.random(10,20)
-	self.attribs["end"] = math.random(10,20)
-	self.attribs.luck = math.random(10,20)
-	self.attribs.perception = math.random(10,20)
-	self.attribs.fortitude = math.random(10,20)
+	self:basicSetup()
 end

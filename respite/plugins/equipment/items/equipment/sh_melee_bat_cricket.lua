@@ -1,7 +1,7 @@
 ITEM.name = "Cricket Bat"
 ITEM.desc = "A bat made out of wood, used for some British thing."
 ITEM.model = "models/warz/melee/cricketbat.mdl"
-ITEM.class = "hl2_m_bat_cricket"
+ITEM.class = "respite_bat_cricket"
 ITEM.slot = "melee"
 ITEM.width = 2
 ITEM.height = 1
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

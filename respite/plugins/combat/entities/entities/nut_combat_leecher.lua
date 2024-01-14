@@ -10,6 +10,8 @@ ENT.name = "Leecher"
 ENT.model = "models/zombie/poison.mdl"
 ENT.material = "models/weapons/v_smg1/texture5"
 
+ENT.modelScale = 2
+
 ENT.AttackAnim = "Melee_01"
 
 ENT.color = Color(0, 0, 0, 0)
@@ -68,7 +70,7 @@ function ENT:Initialize()
 			zm:AddEffects(EF_BONEMERGE, EF_BONEMERGE_FASTCULL, EF_PARENT_ANIMATES )
 			zm:SetBodygroup(1,1)
 		
-		self:SetModelScale( 2, 0 )
+		--self:SetModelScale(2, 0)
 		self:PhysicsInitShadow(true, false)
 	end
 

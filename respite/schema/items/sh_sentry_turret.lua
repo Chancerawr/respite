@@ -10,39 +10,16 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(70, 120, 70)
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 29),
-	ang = Angle(0, -0, 0),
-	fov = 7,
+ITEM.dmg = {
+	["Pistol"] = 20,
 }
 
 local ammoTypes = {
-	{name = "12 Gauge", data = "12g"},
-	{name = ".22 LR", data = "22lr"},
-	{name = ".40 S&W", data = "40sw"},
-	{name = ".44", data = "44"},
-	{name = ".45 ACP", data = "45acp"},
-	{name = ".50 AE", data = "50ae"},
-	{name = ".50 BMG", data = "50bmg"},
-	{name = ".338 LM", data = "338"},
-	{name = ".357", data = "357test"},
-	{name = ".408 Cheytac", data = "408"},
-	{name = ".500", data = "500"},
-	{name = "9x19mm", data = "919"},
-	{name = "9x39mm", data = "939"},
-	{name = ".30-06", data = "3006"},
-	{name = ".45-70", data = "4570"},
-	{name = "5.7x28mm", data = "5728"},
-	{name = "5.45x39mm", data = "54539"},
-	{name = "5.56x39mm", data = "55639"},
-	{name = "5.56x45mm", data = "55645"},
-	{name = "7.62x39mm", data = "76239"},
-	{name = "7.62x51mm", data = "76251"},
-	{name = "7.62x54mm", data = "76254"},
-	{name = "Concrete Slugs", data = "AlyxGun"},
-	{name = "Crossbow Bolts", data = "xbowbolt"},
-	{name = "Rockets", data = "rpg_round"},
-	{name = "Sawblades", data = "slam"}
+	{name = "Shotgun", data = {"Shotgun", 20}},
+	{name = "Pistol", data = {"Pistol", 20}},
+	{name = "Magnum", data = {"Magnum", 20}},
+	{name = "Rifle", data = {"Rifle", 20}},
+	{name = "Sniper", data = {"Sniper", 20}},
 }
 
 ITEM.functions.Place = {
@@ -53,18 +30,30 @@ ITEM.functions.Place = {
 		local client = item.player
 		
 		local customData = item:getData("custom", {})
-		
-		local sentry = ents.Create("nut_combat_sentry")
-		sentry:SetPos(client:getItemDropPos())
-		sentry:SetAngles(client:GetAngles())
-		sentry.ammo = item:getData("ammo", "919")
-		sentry.ammoDesc = item:getData("ammoDesc", "9x19mm")
-		sentry.customName = customData.name
-		sentry:Spawn()
-		
-		sentry:SetCreator(client)
-		
-		sentry:setNetVar("name", (customData.name or "Makeshift Sentry").. " (" ..item:getData("ammoDesc", "9x19mm").. ")")
+
+		local deployed = item:getData("deployed")
+		if(IsValid(deployed)) then
+			deployed:SetPos(client:getItemDropPos())
+			deployed:SetAngles(client:GetAngles())
+		else
+			local sentry = ents.Create("nut_combat_sentry")
+			sentry:SetPos(client:getItemDropPos())
+			sentry:SetAngles(client:GetAngles())
+			sentry:Spawn()
+
+			sentry.itemID = item.id
+			sentry:setNetVar("name", (customData.name or "Makeshift Sentry"))
+			sentry.dmg = item:getData("dmg", item.dmg)
+			
+			sentry:SetCreator(client)
+			
+			item:setData("deployed", sentry)
+			
+			--remove item from inventory while it's deployed (but dont delete it)
+			--item:removeFromInventory(true)
+		end
+
+		return false
 	end
 }
 
@@ -111,22 +100,24 @@ ITEM.functions.Modify = {
 		local position = client:getItemDropPos()
 		local inventory = client:getChar():getInv()
 		
-		local object = inventory:getFirstItemOfType("j_scrap_idea")
-		
+		local object = inventory:getFirstItemOfType("j_scrap_dream")
+
 		if(data) then
-			item:setData("ammo", data)
-			
-			local realName = "9x19mm"
-			for k, v in pairs(ammoTypes) do
-				if(data == v.data) then
-					realName = v.name
-					break
-				end
+			local dmgT = data[1]
+			local dmgV = data[2]
+		
+			local dmg = {
+				[dmgT] = dmgV,
+			}
+		
+			item:setData("dmg", dmg)
+
+			local amount = object:getData("Amount", 1)
+			if(amount > 1) then
+				object:SetData("Amount", amount - 1)
+			else
+				object:remove()
 			end
-			
-			item:setData("ammoDesc", realName)
-			
-			object:remove()
 		end
 	 
         return false
@@ -139,11 +130,7 @@ ITEM.functions.Modify = {
 		local player = item.player
 		local inv = player:getChar():getInv()
 		
-		if(!inv:getFirstItemOfType("kit_sentry")) then
-			return false
-		end
-		
-		if(!inv:getFirstItemOfType("j_scrap_idea")) then
+		if(!inv:getFirstItemOfType("j_scrap_dream")) then
 			return false
 		end
 		
@@ -159,13 +146,29 @@ function ITEM:getName()
 		name = customData.name
 	end
 
-	return Format(name)
+	return name
 end
 
 function ITEM:getDesc()
 	local desc = self.desc
-	
-	desc = desc .. "\nThis makeshift sentry fires " ..self:getData("ammoDesc", "9x19mm").. "."
-	
-	return Format(desc)
+
+	return desc
 end
+
+function ITEM:onEntityCreated(entity)
+	local deployed = self:getData("deployed")
+	if(IsValid(deployed)) then
+		SafeRemoveEntity(deployed)
+	end
+	
+	local physObj = entity:GetPhysicsObject()
+	if(IsValid(physObj)) then
+		physObj:SetMass(100)
+	end
+end
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 29),
+	ang = Angle(0, -0, 0),
+	fov = 7,
+}

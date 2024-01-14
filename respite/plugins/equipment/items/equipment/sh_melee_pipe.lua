@@ -1,7 +1,7 @@
 ITEM.name = "Metal Pipe"
 ITEM.desc = "An old metallic pipe."
 ITEM.model = "models/props_canal/mattpipe.mdl"
-ITEM.class = "hl2_m_pipe"
+ITEM.class = "respite_pipe"
 ITEM.uniqueID = "hl2_m_pipe"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

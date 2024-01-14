@@ -1,7 +1,7 @@
 ITEM.name = "Home Run-Away"
 ITEM.desc = "A makeshift melee weapon made out of a baseball bat and a sawblade."
 ITEM.model = "models/warz/melee/baseballbat.mdl"
-ITEM.class = "hl2_m_homerunaway"
+ITEM.class = "respite_bat_runaway"
 ITEM.uniqueID = "hl2_m_homerunaway"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -32,6 +32,13 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 3,
 	["j_scrap_wood"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Blade"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

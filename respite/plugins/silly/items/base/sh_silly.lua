@@ -6,12 +6,13 @@ ITEM.height = 1
 ITEM.category = "Stuff"
 --ITEM.sound = "items/battery_pickup.wav"
 
-
 ITEM.functions.use = {
 	name = "Use",
 	tip = "useTip",
 	icon = "icon16/bell.png",
 	onRun = function(item)
+		local client = item.player
+	
 		if(item.startFunc) then
 			item.startFunc(item, client)
 		end
@@ -24,7 +25,8 @@ ITEM.functions.use = {
 				pitch = item.pitch or 100
 			end
 
-			item.player:EmitSound(item.sound, 75, pitch)
+			local entity = item:getEntity() or client
+			entity:EmitSound(item.sound, 75, pitch)
 		end
 	
 		item:setData("producing", CurTime())
@@ -45,3 +47,41 @@ ITEM.functions.use = {
 		return true
 	end
 }
+
+ITEM.functions.Custom = {
+	name = "Customize",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)		
+		nut.plugin.list["customization"]:startCustom(item.player, item)
+		
+		return false
+	end,
+	
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
+function ITEM:getName()
+	local name = self.name
+	
+	local customData = self:getData("custom", {})
+	if(customData.name) then
+		name = customData.name
+	end
+	
+	return name
+end
+
+function ITEM:getDesc(partial)
+	local desc = self.desc
+	
+	local customData = self:getData("custom", {})
+	if(customData.desc) then
+		desc = customData.desc
+	end
+	
+	return desc
+end

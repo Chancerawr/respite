@@ -90,7 +90,6 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		tfa_arm1s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_arm4n = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
 		tfa_arm4s = function(ang) return (ang:Up():Angle() + Angle(0,180,90)) end,
-		
 	}
 
 	local meleeWeapons = {
@@ -241,15 +240,11 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 								pos, ang = TFA_CSGO(wep, vm)
 							end
 						elseif (blackList[wep:GetClass()]) then
-							--[[
-							local att = vm:GetAttachment(1)
-
-							if (att) then
-								pos, ang = att.Pos, att.Ang
-							end
-							--]]
+							--dont do anything
+						elseif (wep.isMelee) then
+							--dont do anything
 						elseif(wep:GetClass() == "nut_*" or wep:GetClass() == "mp_weapon_*") then
-						
+							--dont do anything
 						elseif ((wep.IsTFA and wep:IsTFA()) and !wep.IsMelee) then
 							
 							local att = vm:GetAttachment(1)

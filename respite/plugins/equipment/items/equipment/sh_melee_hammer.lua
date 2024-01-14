@@ -1,7 +1,7 @@
 ITEM.name = "Carpenter Hammer"
 ITEM.desc = "A blunt tool used to apply blunt force."
 ITEM.model = "models/warz/melee/hammer.mdl"
-ITEM.class = "hl2_m_hammer"
+ITEM.class = "respite_hammer"
 ITEM.uniqueID = "hl2_m_hammer"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -28,6 +28,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 2,
 	["j_scrap_wood"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

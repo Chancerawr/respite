@@ -6,12 +6,12 @@ ITEM.material = "phoenix_storms/mrref2"
 ITEM.category = "Medical"
 ITEM.width = 2
 ITEM.height = 2
-ITEM.hp = 50
+ITEM.hp = 40
 ITEM.hpTime = 10
 ITEM.price = 0
 ITEM.container = "j_used_first_aid_kit"
 ITEM.color = Color(130, 130, 130)
-ITEM.quantity2 = 6
+ITEM.quantity2 = 8
 
 ITEM.sound = "items/medshot4.wav"
 ITEM.soundPitch = 110

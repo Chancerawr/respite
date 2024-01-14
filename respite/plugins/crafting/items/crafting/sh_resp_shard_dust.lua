@@ -23,8 +23,6 @@ ITEM.iconCam = {
 if (CLIENT) then
 	function ITEM:drawEntity(entity, item)
 		entity:DrawModel()
-		entity:SetModelScale(.7)
-		entity:DrawShadow(false)
 		
 		local pos = entity:GetPos()
 		local dlight = DynamicLight(entity:EntIndex())
@@ -38,5 +36,32 @@ if (CLIENT) then
 		dlight.Decay = 128
 		dlight.style = 5
 		dlight.DieTime = CurTime() + .1	
+	end
+end
+
+
+function ITEM:onEntityCreated(entity)
+	local scale = 0.7
+	entity:SetModelScale(scale)
+	
+	local physobj = entity:GetPhysicsObject()
+	if (!IsValid(physobj)) then return false end
+
+	--grabbed from a collision resizer tool
+	local physmesh = physobj:GetMeshConvexes()
+	if (!istable(physmesh)) or (#physmesh < 1) then return false end
+
+	for convexkey, convex in pairs(physmesh) do
+		for poskey, postab in pairs(convex) do
+			convex[poskey] = postab.pos * scale
+		end
+	end
+
+	local asleep = physobj:IsAsleep()
+
+	entity:PhysicsInitMultiConvex(physmesh)
+	
+	if(!asleep) then
+		entity:GetPhysicsObject():Wake()
 	end
 end

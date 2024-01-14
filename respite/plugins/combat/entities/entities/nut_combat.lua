@@ -100,6 +100,20 @@ function ENT:basicSetup()
 		self:SetMaterial(self.savedMat or self.material or self:GetMaterial())
 		self:SetColor(self.savedColor or self.color)
 		
+		for k, v in pairs(self.savedSubMat or {}) do
+			self:SetSubMaterial(k, v)
+		end
+		
+		self:SetModelScale(self.savedModelScale or self.modelScale or 1)
+		
+		for k, v in pairs(self.savedBodygroups or {}) do
+			self:SetBodygroup(k, v)
+		end
+		
+		if(self.savedWeapon) then
+			self:EquipWeapon(self.savedWeapon[1], self.savedWeapon[2])
+		end
+		
 		self:SetUseType(SIMPLE_USE)
 		
 		if(!self.saveKey) then
@@ -127,12 +141,14 @@ function ENT:physicsSetup()
 		self:SetSolid(SOLID_BBOX)
 
 		local physObj = self:GetPhysicsObject()
-			
+		
 		if (IsValid(physObj)) then
 			physObj:EnableMotion(false)
 			physObj:EnableGravity(false)
 			--physObj:Sleep()
 			physObj:EnableCollisions(false)
+			
+			physObj:SetMass(101)
 		end
 		
 		if(self.loco) then
@@ -162,21 +178,25 @@ function ENT:getSaveData()
 	saveData.res = self:getNetVar("res")
 	saveData.amp = self:getNetVar("amp")
 	saveData.model = self:GetModel()
+	saveData.modelScale = self:GetModelScale()
 	saveData.mat = self:GetMaterial()
 	saveData.anim = self:GetSequence()
 	saveData.color = self:GetColor()
 	
-	saveData.bodygroups = {
-		self:GetBodygroup(1),
-		self:GetBodygroup(2),
-		self:GetBodygroup(3),
-		self:GetBodygroup(4),
-		self:GetBodygroup(5),
-		self:GetBodygroup(6),
-		self:GetBodygroup(7),
-		self:GetBodygroup(8),
-		self:GetBodygroup(9),
-	}
+	if(IsValid(self.weapon)) then
+		saveData.weapon = {self.weapon:GetModel(), self.weapon:GetMaterial()}
+	end
+	
+	saveData.bodygroups = {}
+	for k, v in pairs(self:GetBodyGroups() or {}) do
+		saveData.bodygroups[v.id] = self:GetBodygroup(v.id)
+	end
+	
+	local subMats = {}
+	for k, v in pairs(self:GetMaterials() or {}) do
+		subMats[k-1] = self:GetSubMaterial(k-1)
+	end
+	saveData.submat = subMats
 	
 	return saveData
 end
@@ -295,14 +315,10 @@ function ENT:die()
 					end
 				end
 			end
-				
-			--I hate this
-			ragdoll:SetBodygroup(1, self:GetBodygroup(1))
-			ragdoll:SetBodygroup(2, self:GetBodygroup(2))
-			ragdoll:SetBodygroup(3, self:GetBodygroup(3))
-			ragdoll:SetBodygroup(4, self:GetBodygroup(4))
-			ragdoll:SetBodygroup(5, self:GetBodygroup(5))
-			ragdoll:SetBodygroup(6, self:GetBodygroup(6))
+			
+			for k, v in pairs(self:GetBodyGroups() or {}) do
+				ragdoll:SetBodygroup(v.id, self:GetBodygroup(v.id))
+			end
 			
 			ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
 			
@@ -316,7 +332,7 @@ function ENT:die()
 		--gets rid of ragdolls that dont have phys objects, just a cautionary thing.
 		if(!IsValid(ragdoll:GetPhysicsObject())) then
 			SafeRemoveEntity(ragdoll)
-		end		
+		end
 	end
 	
 	if(self.inv) then
@@ -325,7 +341,65 @@ function ENT:die()
 		end
 	end
 	
-	SafeRemoveEntity( self )
+	SafeRemoveEntity(self)
+end
+
+--death
+function ENT:statue()
+	if(!self.noRag) then
+		local ragdoll = ents.Create("prop_ragdoll")
+		if ragdoll:IsValid() then 
+			ragdoll:SetPos(self:GetPos())
+			ragdoll:SetModel(self:GetModel())
+			ragdoll:SetAngles(self:GetAngles())
+			ragdoll:Spawn()
+			ragdoll:SetSkin(self:GetSkin())
+			ragdoll:SetColor(self:GetColor())
+			ragdoll:SetMaterial(self:GetMaterial())
+			ragdoll:SetBloodColor(self:GetBloodColor())
+				
+			local num = ragdoll:GetPhysicsObjectCount()-1
+	   
+			for i=0, num do
+				local bone = ragdoll:GetPhysicsObjectNum(i)
+
+				if IsValid(bone) then
+					local bp, ba = self:GetBonePosition(ragdoll:TranslatePhysBoneToBone(i))
+					if bp and ba then
+						bone:SetPos(bp)
+						bone:SetAngles(ba)
+						
+						bone:EnableMotion(false)
+					end
+				end
+			end
+			
+			for k, v in pairs(self:GetBodyGroups() or {}) do
+				ragdoll:SetBodygroup(v.id, self:GetBodygroup(v.id))
+			end
+			
+			ragdoll:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
+			
+			if (self:IsOnFire()) then --if the npc is on fire, set the ragdoll on fire too.
+				ragdoll:Ignite(10,20)
+			end
+			
+			ragdoll.hasMenu = true
+		end
+	
+		--gets rid of ragdolls that dont have phys objects, just a cautionary thing.
+		if(!IsValid(ragdoll:GetPhysicsObject())) then
+			SafeRemoveEntity(ragdoll)
+		end
+	end
+	
+	if(self.inv) then
+		for k, v in pairs(self.inv) do
+			nut.item.spawn(v, self:GetPos())
+		end
+	end
+	
+	SafeRemoveEntity(self)
 end
 
 function ENT:movementStart(position)
@@ -358,33 +432,6 @@ end
 function ENT:OnKilled( dmginfo )
 end
 
-function ENT:turnProcess(turn, you)
-	if(you) then		
-		for k, v in pairs(self:getBuffs()) do
-			if(v.func) then
-			
-			end
-		
-			if(v.dmg) then --damaging spells
-				local dmgT = v.dmgT or "Blunt"
-				local dmg = self:receiveDamage(v.dmg, dmgT) --gets the damage based on their resistances
-				self:addHP(dmg * -1) --reduce their hp by the dmg
-			end
-		
-			if(v.duration) then --counts down the duration
-				v.duration = v.duration - 1
-				if(v.duration <= 0) then
-					self:removeBuff(v, v.uid)
-				else
-
-				end
-			end
-		end		
-	else
-
-	end
-end
-
 --adds a weapon model to a CEnt's hands
 function ENT:EquipWeapon(modelPath, materialPath)
 	if(IsValid(self.weapon)) then 
@@ -405,13 +452,14 @@ function ENT:EquipWeapon(modelPath, materialPath)
 	self.weapon:SetParent(self, self.WeaponMount)
 	self.weapon:SetMoveType(MOVETYPE_NONE)
 	
-	if(self.weapon:GetBoneCount() > 1) then
+	if(self.weapon:GetBoneCount() > 1) then -- if it has bones to merge
 		self.weapon:AddEffects(EF_BONEMERGE)
-	elseif(self.WeaponPosition) then
-		PrintTable(self.WeaponPosition)
+	elseif(self.WeaponPosition) then --if it do not have bones to merge
 		self.weapon:SetPos(self.WeaponPosition.Pos)
 		self.weapon:SetAngles(self.WeaponPosition.Ang)
 	end
+	
+	self.savedWeapon = {modelPath, materialPath}
 end
 
 if (CLIENT) then

@@ -72,7 +72,15 @@ if (SERVER) then
 	
 	function ENT:OnTakeDamage( dmginfo )
 		if(!self.plant) then
-			if(!dmginfo:IsDamageType(DMG_BURN) and !dmginfo:IsDamageType(DMG_BULLET) and !dmginfo:IsDamageType(DMG_BLAST) and dmginfo:GetDamage() > 10) then
+			local dmgType = dmginfo:GetDamageType()
+
+			local ignoreTypes = {
+				[DMG_BURN] = true,
+				[DMG_BULLET] = true,
+				[DMG_BLAST] = true,
+			}
+
+			if(!ignoreTypes[dmgType] and dmginfo:GetDamage() > 10) then
 				local gather = self.resources[math.random(#self.resources)]
 			
 				nut.item.spawn(gather, dmginfo:GetDamagePosition())
@@ -83,7 +91,7 @@ if (SERVER) then
 						self:Remove()
 					end
 				end
-			elseif(dmginfo:IsDamageType(DMG_BLAST)) then --if they blow it up, destroy it entirely.
+			elseif(dmgType == DMG_BLAST) then --if they blow it up, destroy it entirely.
 				for i = 1, math.random(4,6) do
 					local gather = self.resources[math.random(#self.resources)]
 					nut.item.spawn(gather, self:GetPos() + self:GetUp() * 40)

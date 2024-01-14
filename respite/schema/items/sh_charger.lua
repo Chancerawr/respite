@@ -46,3 +46,12 @@ ITEM.functions.Charge = {
 		return true
 	end
 }
+
+function ITEM:onEntityCreated(entity)
+	entity:SetAngles(Angle(-90,0,0))
+
+	local physObj = entity:GetPhysicsObject()
+	if(IsValid(physObj)) then
+		physObj:SetMass(250)
+	end
+end

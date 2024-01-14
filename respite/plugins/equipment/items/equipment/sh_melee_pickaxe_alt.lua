@@ -1,7 +1,7 @@
 ITEM.name = "Pick-axe"
 ITEM.desc = "A long pick-axe commonly used to assist extracting valuable ores from the earth."
 ITEM.model = "models/props_mining/pickaxe01.mdl"
-ITEM.class = "hl2_m_pickaxe_alt"
+ITEM.class = "respite_pickaxe2"
 ITEM.uniqueID = "hl2_m_pickaxe_alt"
 ITEM.slot = "melee"
 ITEM.width = 3
@@ -31,6 +31,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_metals"] = 4,
 	["j_scrap_wood"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

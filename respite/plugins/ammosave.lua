@@ -1,98 +1,195 @@
-PLUGIN.name = "Ammo Saver"
+PLUGIN.name = "Ammo Definitions"
 PLUGIN.author = "Black Tea"
-PLUGIN.desc = "Saves the ammo of a character."
+PLUGIN.desc = "Defines ammo types, also saves character's ammo."
 PLUGIN.ammoList = {}
 nut.ammo = nut.ammo or {}
 
-
+--registers an ammo type with nutscript
 function nut.ammo.register(name)
 	table.insert(PLUGIN.ammoList, name)
 end
 
--- Register Default HL2 Ammunition.
---nut.ammo.register("ar2")
---nut.ammo.register("pistol")
---nut.ammo.register("357")
---nut.ammo.register("smg1")
-nut.ammo.register("xbowbolt")
---nut.ammo.register("buckshot")
-nut.ammo.register("rpg_round")
-nut.ammo.register("smg1_grenade")
-nut.ammo.register("grenade")
---nut.ammo.register("ar2altfire")
-nut.ammo.register("slam")
-
--- Register Cut HL2 Ammunition.
-nut.ammo.register("AlyxGun")
---nut.ammo.register("sniperround")
---nut.ammo.register("sniperpenetratedround")
-nut.ammo.register("thumper")
---nut.ammo.register("gravity")
-nut.ammo.register("battery")
---nut.ammo.register("gaussenergy")
-nut.ammo.register("combinecannon")
---nut.ammo.register("airboatgun")
---nut.ammo.register("striderminigun")
---nut.ammo.register("helicoptergun")
-
--- Register Respite Ammunition.
-nut.ammo.register("919")
-nut.ammo.register("45")
-nut.ammo.register("40")
-nut.ammo.register("44")
-nut.ammo.register("500")
-nut.ammo.register("5728")
-nut.ammo.register("357test")
-nut.ammo.register("50ae")
-nut.ammo.register("50bmg")
-nut.ammo.register("4570")
-nut.ammo.register("54539")
-nut.ammo.register("55639")
-nut.ammo.register("55645")
-nut.ammo.register("76239")
-nut.ammo.register("76251")
-nut.ammo.register("76254")
-nut.ammo.register("939")
-nut.ammo.register("3006")
-nut.ammo.register("338")
-nut.ammo.register("12g")
-nut.ammo.register("22lr")
-nut.ammo.register("408")
-
-nut.ammo.descs = {
-	["combinecannon"] = "Fuel",
-	["battery"] = "Charged Batteries",
-	["thumper"] = "Nails",
-	["AlyxGun"] = "Concrete Slugs",
---	["smg1_grenade"] = "Flares",
-	["slam"] = "Sawblades",
---	["grenade"] = "9x19mm Rounds",
-	["xbowbolt"] = "Crossbow Bolts",
-	["rpg_round"] = "Rockets",
+nut.ammo.types = {
+	["combinecannon"] = {
+		name = "Fuel",
+		dmgtype = DMG_BURN,
+		tracer = 4
+	},
+	["battery"] = {
+		name = "Charged Batteries",
+		dmgtype = DMG_SHOCK,
+		tracer = 4
+	},
+	["thumper"] = {
+		name = "Nails",
+		dmgtype = DMG_SLASH,
+		tracer = 4
+	},
+	["AlyxGun"] = {
+		name = "Concrete Slugs",
+		dmgtype = DMG_CRUSH,
+		tracer = 4
+	},
+	["slam"] = {
+		name = "Sawblades",
+		dmgtype = DMG_SLASH,
+		tracer = 4
+	},
+	["xbowbolt"] = {
+		name = "Crossbow Bolts",
+		dmgtype = DMG_CRUSH,
+		tracer = 4
+	},
+	["rpg_round"] = {
+		name = "Rockets",
+		dmgtype = DMG_BLAST,
+		tracer = 4
+	},
+	["flesh"] = {
+		name = "Meat Chunks",
+		dmgtype = DMG_BURN,
+		tracer = 4
+	},
+	["bone"] = {
+		name = "Bone Shards",
+		dmgtype = DMG_SLASH,
+		tracer = 4
+	},
 	
-	["919"] = "9x19mm Rounds",
-	["45"] = ".45 ACP Rounds",
-	["40"] = ".40 S&W Rounds",
-	["44"] = ".44 Rounds",
-	["500"] = ".500 Rounds",
-	["5728"] = "5.7x28mm Rounds",
-	["357test"] = ".357 Rounds",
-	["50ae"] = ".50 AE Rounds",
-	["50bmg"] = ".50 BMG Rounds",
-	["4570"] = ".45-70 Rounds",
-	["54539"] = "5.45x39mm Rounds",
-	["55639"] = "5.56x39mm Rounds",
-	["55645"] = "5.56x45mm Rounds",
-	["76239"] = "7.62x39mm Rounds",
-	["76251"] = "7.62x51mm Rounds",
-	["76254"] = "7.62x54mm Rounds",
-	["939"] = "9x39mm Rounds",
-	["3006"] = ".30-06mm Rounds",
-	["338"] = ".338 LM Rounds",
-	["12g"] = "12 gauge shells",
-	["22lr"] = ".22 LR Rounds",
-	["408"] = ".408 Cheytac Rounds",
+	["919"] = {
+		name = "9x19mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["45"] = {
+		name = ".45 ACP Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["40"] = {
+		name = ".40 S&W Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["44"] = {
+		name = ".44 Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["500"] = {
+		name = ".500 Rounds",
+	},
+	["5728"] = {
+		name = "5.7x28mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["357test"] = {
+		name = ".357 Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["50ae"] = {
+		name = ".50 AE Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["50bmg"] = {
+		name = ".50 BMG Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["4570"] = {
+		name = ".45-70 Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["54539"] = {
+		name = "5.45x39mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["55639"] = {
+		name = "5.56x39mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["55645"] = {
+		name = "5.56x45mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["76239"] = {
+		name = "7.62x39mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["76251"] = {
+		name = "7.62x51mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["76254"] = {
+		name = "7.62x54mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["939"] = {
+		name = "9x39mm Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["3006"] = {
+		name = ".30-06 Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["338"] = {
+		name = ".338 LM Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["12g"] = {
+		name = "12 Gauge Shells",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["22lr"] = {
+		name = ".22 LR Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
+	["408"] = {
+		name = ".408 Cheytac Rounds",
+		dmgtype = DMG_BULLET,
+		tracer = 4
+	},
 }
+
+--all the existing ammo types so we dont overwrite ones that already exist
+local existingAmmoTypes = game.GetAmmoTypes()
+
+for k, v in pairs(nut.ammo.types) do
+	--skip over ones that already exist
+	--if(!table.HasValue(existingAmmoTypes, k)) then
+		game.AddAmmoType({
+			name = k,
+			dmgtype = v.dmgtype,
+			tracer = v.tracer,
+			plydmg = v.plydmg,
+			npcdmg = v.npcdmg,
+			force = v.force,
+			minsplash = v.minsplash,
+			maxsplash = v.maxsplash
+		})
+		
+		if CLIENT then
+			language.Add(k.. "_ammo", v.name)
+		end
+	--end
+	
+	nut.ammo.register(k)
+end
 
 -- Called right before the character has its information save.
 function PLUGIN:CharacterPreSave(character)
@@ -100,7 +197,7 @@ function PLUGIN:CharacterPreSave(character)
 	local client = character:getPlayer()
 
 	-- Check to see if we can get the player's ammo.
-	if (IsValid(client)) then
+	if (IsValid(client) and client:Alive()) then
 		local ammoTable = {}
 
 		for k, v in ipairs(self.ammoList) do
@@ -116,6 +213,7 @@ function PLUGIN:CharacterPreSave(character)
 end
 
 -- Called after the player's loadout has been set.
+--[[
 function PLUGIN:PlayerLoadedChar(client)
 	timer.Simple(.25, function()
 		if (!IsValid(client)) then
@@ -129,7 +227,6 @@ function PLUGIN:PlayerLoadedChar(client)
 
 		-- Get the saved ammo table from the character data.
 		local character = client:getChar()
-
 		if (!character) then
 			return
 		end
@@ -144,8 +241,10 @@ function PLUGIN:PlayerLoadedChar(client)
 		end
 	end)
 end
+--]]
 
 -- Called after the player's loadout has been set.
+--[[
 function PLUGIN:PlayerDeath(client)
 	local char = client:getChar()
 	
@@ -178,37 +277,36 @@ function PLUGIN:PlayerDeath(client)
 		char:setData("ammo", savedAmmo)
 	end
 end
+--]]
 
 --this restores ammo after death
 function PLUGIN:PlayerSpawn(client)
 	if(!client:getChar()) then return end
+
+	if (!IsValid(client)) then
+		return
+	end
 	
-	timer.Simple(.25, function()
-		if (!IsValid(client)) then
-			return
-		end
-		
-		--fix for people getting ammo from other characters.
-		for k, v in ipairs(self.ammoList) do
-			client:SetAmmo(0, tostring(v))
-		end
+	--fix for people getting ammo from other characters.
+	for k, v in ipairs(self.ammoList) do
+		client:SetAmmo(0, tostring(v))
+	end
 
-		-- Get the saved ammo table from the character data.
-		local character = client:getChar()
+	-- Get the saved ammo table from the character data.
+	local character = client:getChar()
 
-		if (!character) then
-			return
+	if (!character) then
+		return
+	end
+	
+	local ammoTable = character:getData("ammo")
+	
+	-- Check if the ammotable is exists.
+	if (ammoTable) then
+		for k, v in pairs(ammoTable) do
+			client:SetAmmo(v, tostring(k))
 		end
-		
-		local ammoTable = character:getData("ammo")
-		
-		-- Check if the ammotable is exists.
-		if (ammoTable) then
-			for k, v in pairs(ammoTable) do
-				client:SetAmmo(v, tostring(k))
-			end
-		end
-	end)
+	end
 end
 
 nut.command.add("ammocheck", {

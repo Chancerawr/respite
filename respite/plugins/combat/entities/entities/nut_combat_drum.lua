@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/zombie/zombineplayer.mdl"
 ENT.material = "models/flesh"
 
+ENT.modelScale = 1.8
+
 ENT.AttackAnim = "AttackC"
 
 ENT.color = Color(130, 220, 130)
@@ -49,7 +51,7 @@ ENT.res = {
 
 function ENT:Initialize()
 	timer.Simple(0.6, function()
-		self:SetModelScale(1.8)
+		--self:SetModelScale(1.8)
 		self:ResetSequence("zombie_walk_06")
 	end)
 

@@ -26,6 +26,10 @@ ITEM.attrib = {
 	["fortitude"] = 1,
 }
 
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}
+
 ITEM.iconCam = {
 	pos = Vector(1.5, 200, 5),
 	ang = Angle(0, 270, 0),

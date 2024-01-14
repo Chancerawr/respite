@@ -2,6 +2,11 @@ PLUGIN.name = "Chatbox"
 PLUGIN.author = "Chessnut"
 PLUGIN.desc = "Adds a chatbox that replaces the default one."
 
+nut.config.add("charMaxCharacters", 5000, "The maximum characters a single chat message is allowed to have.", nil, {
+	data = {min = 1, max = 10000000},
+	category = "Chat"
+})
+
 if (CLIENT) then
 	NUT_CVAR_CHATFILTER = CreateClientConVar("nut_chatfilter", "", true, false)
 
@@ -70,6 +75,13 @@ if (CLIENT) then
 else
 	netstream.Hook("msg", function(client, text)
 		if ((client.nutNextChat or 0) < CurTime() and text:find("%S")) then
+			local length = #text
+			if(length > nut.config.get("charMaxCharacters", 5000)) then
+				nut.util.notify("Your message is too long.")
+				
+				return false
+			end
+		
 			hook.Run("PlayerSay", client, text)
 			client.nutNextChat = CurTime() + math.max(#text / 250, 0.4)
 		end

@@ -1,5 +1,5 @@
 ENT.Type = "anim"
-ENT.Base = "nut_combat"
+ENT.Base = "nut_combat_prop"
 ENT.PrintName = "Orb?"
 ENT.Category = "NutScript - Combat (Prop)"
 ENT.Spawnable = true
@@ -44,15 +44,4 @@ ENT.res = {
 
 function ENT:Initialize()
 	self:basicSetup()
-
-	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,10))
-	
-	local physObj = self:GetPhysicsObject()
-	if (IsValid(physObj)) then
-		physObj:EnableMotion(true)
-		physObj:EnableGravity(true)
-		--physObj:Sleep()
-		physObj:EnableCollisions(true)
-		physObj:Wake()
-	end
 end

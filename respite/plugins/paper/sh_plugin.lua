@@ -30,6 +30,7 @@ if SERVER then
 				local text = v.text
 				local owner = v.owner
 				local material = v.material
+				local color = v.color
 
 				local entity = ents.Create("nut_paper")
 				entity:SetPos(position)
@@ -42,6 +43,10 @@ if SERVER then
 				
 				if(material) then
 					entity:SetMaterial(material)
+				end
+				
+				if(color) then
+					entity:SetColor(Color(color.r,color.g,color.b))
 				end
 				
 				if(v.frozen != nil) then --freezes the paper if it was frozen before
@@ -66,6 +71,7 @@ if SERVER then
 				owner = v:getNetVar("owner"),
 				frozen = frozeCheck,
 				material = v:GetMaterial(),
+				color = v:GetColor(),
 			}
 		end
 
@@ -94,15 +100,15 @@ if CLIENT then
 	
 	function nut_OpenNote( text, entity, private )
 		if note then note:Remove(); note=nil end
-		note = vgui.Create( "DFrame" )
-		note:SetSize( 300, 400 )
+		note = vgui.Create("DFrame")
+		note:SetSize(ScrW()*0.3, ScrH()*0.7)
 		note:Center()
-		note:SetTitle( "" )
-		note:ShowCloseButton( false )
+		note:SetTitle("")
+		note:ShowCloseButton(false)
 		note:MakePopup()
 		note.text = text
 		note.Paint = function()
-			surface.SetDrawColor( 255, 255, 255 )
+			surface.SetDrawColor(245, 245, 245)
 			surface.DrawRect( 0, 22, note:GetWide(), note:GetTall() -22-30  ) 
 		end
 		
@@ -114,7 +120,7 @@ if CLIENT then
 			note.viewer:SetPos( 2, 26 )
 			note.viewer:SetSize( note:GetWide()-4, note:GetTall()-28-30)
 			timer.Simple( 0.05, function()
-				note.viewer:SetFontInternal( "nutChatFont" )
+				note.viewer:SetFontInternal( "nutBigFont" )
 				note.viewer:InsertColorChange(0, 0, 0, 255)
 				note.viewer:AppendText(note.text)
 			end)
@@ -126,7 +132,7 @@ if CLIENT then
 			note.editor = vgui.Create( "DTextEntry", note )
 			note.editor:SetPos( 2, 26 )
 			note.editor:SetSize( note:GetWide()-4, note:GetTall()-28-30)
-			note.editor:SetFont( "nutChatFont" )
+			note.editor:SetFont( "nutBigFont" )
 			note.editor:SetMultiline( true )
 			note.editor:SetText( note.text )
 			note.editor:SetAllowNonAsciiCharacters( true )
@@ -200,7 +206,7 @@ end
 		self.editor = vgui.Create( "DTextEntry", self )
 		self.editor:SetPos( 2, 2 )
 		self.editor:SetSize( self:GetWide()-4, self:GetTall()-35)
-		self.editor:SetFont( "nutChatFont" )
+		self.editor:SetFont("nutChatFont")
 		self.editor:SetMultiline( true )
 		self.editor:SetText( self.text )
 	end
@@ -213,7 +219,7 @@ end
 		self.viewer:SetPos( 2, 2 )
 		self.viewer:SetSize( self:GetWide()-4, self:GetTall()-35)
 		timer.Simple( 0, function()
-			self.viewer:SetFontInternal( "nutChatFont" )
+			self.viewer:SetFontInternal("nutBigFont")
 			self.viewer:SetText( self.text )
 		end)
 	end
@@ -256,7 +262,7 @@ end
 	end
 
 	function PANEL:Paint()
-		surface.SetDrawColor( 255, 255, 255 )
+		surface.SetDrawColor(245, 245, 245)
 		surface.DrawRect( 0, 0, shit:GetWide(), shit:GetTall() -30  ) 
 	end
 

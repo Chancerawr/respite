@@ -47,6 +47,13 @@ ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(150, 150, 150, 100), .4, 0)
 end
 
+function ITEM:onEntityCreated(entity)
+	local physObj = entity:GetPhysicsObject()
+	if(IsValid(physObj)) then
+		physObj:EnableGravity(false)
+	end
+end
+
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

@@ -1,7 +1,7 @@
 ITEM.name = "Stick"
 ITEM.desc = "A stick broken off from the branch of a tree."
 ITEM.model = "models/props/cs_office/snowman_arm.mdl"
-ITEM.class = "hl2_m_stick"
+ITEM.class = "respite_stick"
 ITEM.uniqueID = "hl2_m_stick"
 ITEM.slot = "melee"
 ITEM.width = 1

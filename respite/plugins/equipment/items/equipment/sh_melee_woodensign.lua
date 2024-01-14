@@ -1,7 +1,7 @@
 ITEM.name = "Wooden Sign"
 ITEM.desc = "A wooden sign with something written in big red letters across it."
 ITEM.model = "models/props_lab/bewaredog.mdl"
-ITEM.class = "hl2_m_woodensign"
+ITEM.class = "respite_sign_wood"
 ITEM.uniqueID = "hl2_m_woodensign"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_wood"] = 4
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

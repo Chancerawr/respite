@@ -1,7 +1,7 @@
 ITEM.name = "Nailed Bat"
 ITEM.desc = "A bat made out of wood, it has nails in it."
 ITEM.model = "models/warz/melee/baseballbat_spike.mdl"
-ITEM.class = "hl2_m_batnail"
+ITEM.class = "respite_bat_nail"
 ITEM.slot = "melee"
 ITEM.width = 3
 ITEM.height = 1
@@ -31,6 +31,12 @@ ITEM.scaling = {
 ITEM.salvage = {
 	["j_scrap_nails"] = 4,
 	["j_scrap_wood"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

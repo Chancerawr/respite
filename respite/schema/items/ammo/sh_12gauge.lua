@@ -1,7 +1,7 @@
 ITEM.name = "12 Gauge Shells"
 ITEM.model = "models/items/boxbuckshot.mdl"
 ITEM.ammo = "12g" 
-ITEM.ammoAmount = 1--15 
+ITEM.ammoAmount = 15
 ITEM.desc = "A box that contains %s 12 Gauge shells."
 ITEM.category = "Ammunition"
 ITEM.flag = "v"

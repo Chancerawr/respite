@@ -4,16 +4,19 @@ PLUGIN.desc = "A simple scoreboard that supports recognition."
 
 if (CLIENT) then
 	function PLUGIN:ScoreboardHide()
+		--[[
 		if (IsValid(nut.gui.score)) then
 			nut.gui.score:SetVisible(false)
 			CloseDermaMenus()
 		end
 
 		gui.EnableScreenClicker(false)
+		--]]
 		return true
 	end
 
 	function PLUGIN:ScoreboardShow()
+		--[[
 		if (IsValid(nut.gui.score)) then
 			nut.gui.score:SetVisible(true)
 		else
@@ -21,6 +24,7 @@ if (CLIENT) then
 		end
 
 		gui.EnableScreenClicker(true)
+		--]]
 		return true
 	end
 

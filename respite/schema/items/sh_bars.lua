@@ -1,20 +1,31 @@
 ITEM.name = "Blackened Bars"
+ITEM.desc = "What have you done?"
 ITEM.uniqueID = "bars"
 ITEM.model = "models/props_trainstation/handrail_64decoration001a.mdl"
 ITEM.material = "models/effects/portalrift_sheet"
-ITEM.desc = "What have you done?"
-ITEM.width = 3
-ITEM.height = 3
+ITEM.width = 2
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "???"
 ITEM.color = Color(0, 0, 0)
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 0),
-	fov = 20
-}
+local function blindTeleport(client)
+	client:ConCommand("hellend")
+	timer.Simple(3, function()
+		local newPos = client:GetPos()
+		
+		for k, v in pairs(ents.GetAll()) do
+			if(v.respite) then
+				newPos = v:GetPos()
+				v:SetPos(client:GetPos())
+				break
+			end
+		end
+		
+		client:SetPos(newPos)
+	end)
+end
 
 ITEM.functions.Stare = {
 	name = "Stare Into",
@@ -28,16 +39,16 @@ ITEM.functions.Stare = {
 		nut.chat.send(client, "itclose", "You feel like something is staring back at you.")	
 	
 		local posSummons = {
-			--"resp_teleporter",
-			"shade_crawlsmoke"
+			"nz_undead_shade",
+			"shade_crawlsmoke",
+			"resp_stranger",
 		}
-	
-		for i = 1, 3 do
+
+		--60% chance of enemy spawn
+		if(math.random(1,10) > 4) then
 			local ent = ents.Create(table.Random(posSummons))
-			
-			if (ent:IsValid()) then
-				ent:SetPos(client:GetPos())
-				local pos = ent:FindSpot( "random", { type = 'hiding', radius = 5000 } )
+			if (IsValid(ent)) then
+				local pos = ent:FindSpot("random", {type = 'hiding', radius = 5000})
 				if(pos) then
 					ent:SetPos(pos)
 					ent:Spawn()
@@ -52,11 +63,37 @@ ITEM.functions.Stare = {
 			end
 		end
 		
+		--20% chance of visual distortion
+		if(math.random(1,10) > 8) then
+			client:ConCommand("mat_corrupt")	  	
+			timer.Simple(2, function() 
+				client:ConCommand("mat_repair")
+			end)
+		end
+		
+		--10% chance of item
+		if(math.random(1,10) > 9) then
+			local position = client:getItemDropPos()
+			nut.item.spawn("blight", position)
+		end
+		
+		if(nut.plugin.list["envmanager"]) then
+			--10% chance of a weird spooky thing happening
+			if(math.random(1,10) > 9) then
+				table.Random(nut.plugin.list["envmanager"].minorSpooks)(client)
+			end
+		end
+
+		--5% chance of a swap teleport
+		if(math.random(1,100) > 94) then
+			blindTeleport(client)
+		end
+
 		item:setData("producing", CurTime())
 		timer.Simple(600 * nut.config.get("devTimeMult", 1), function()
 			item:setData("producing", nil)
 		end)
-		
+
 		return false
 	end,
 	onCanRun = function(item)
@@ -80,3 +117,9 @@ function ITEM:getDesc()
 	
 	return Format(desc)
 end
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 20
+}

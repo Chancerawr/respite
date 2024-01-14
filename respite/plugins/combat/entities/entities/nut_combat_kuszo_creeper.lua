@@ -6,7 +6,7 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/zombie/kuszo.mdl"
-ENT.material = "models/props_lab/warp_sheet"
+ENT.material = "models/zombie_fast/fast_zombie_sheet"
 
 ENT.IdleAnim = "Idle01"
 ENT.AttackAnim = "AttackA"

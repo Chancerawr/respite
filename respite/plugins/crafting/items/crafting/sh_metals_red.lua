@@ -1,0 +1,10 @@
+ITEM.name = "Redsteel"
+ITEM.desc = "A red colored metal that has nothing to do with steel at all. It generates slight heat by itself, and is somewhat soft."
+ITEM.uniqueID = "j_scrap_redsteel"
+ITEM.model = "models/gibs/scanner_gib02.mdl"
+ITEM.material = "models/weapons/v_slam/new light1"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(200, 80, 80)

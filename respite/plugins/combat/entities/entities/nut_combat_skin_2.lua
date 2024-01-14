@@ -46,6 +46,7 @@ ENT.res = {
 	["Blight"] = 25,
 	["Shard"] = 25,
 	["Distort"] = 0,
+	["Time"] = 25,
 	
 	["Fire"] = 0,
 	["Explosion"] = 0,

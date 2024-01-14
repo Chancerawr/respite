@@ -1,7 +1,7 @@
 ITEM.name = "Door Handle"
 ITEM.desc = "Metal handle pulled off of a door."
 ITEM.model = "models/props/de_train/de_train_doorhandle_01.mdl"
-ITEM.class = "hl2_m_handle"
+ITEM.class = "respite_doorhandle"
 ITEM.uniqueID = "hl2_m_handle"
 ITEM.slot = "melee"
 ITEM.width = 1
@@ -27,6 +27,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 1
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

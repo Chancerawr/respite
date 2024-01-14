@@ -6,12 +6,11 @@ ITEM.desc = "A tea leaf."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.maxstack = 1
 
-ITEM.iconCam = {
-	pos = Vector(54.2, 45.6, 33),
-	ang = Angle(25, 220, 0),
-	fov = 4.21,
+ITEM.maxstack = 5
+
+ITEM.loot = {
+	["Consumable"] = 1,
 }
 
 ITEM.functions.Tea = {
@@ -42,4 +41,27 @@ ITEM.functions.Tea = {
 		
 		return (water and tea)
 	end
+}
+
+ITEM.craft = {
+	hp = 10,
+	mp = 2,
+
+	buffTbl = {
+		attrib = {
+			["fortitude"] = 2,
+			["perception"] = 2,
+		},
+		
+		res = {
+			["Blight"] = 3,
+			["Pain"] = 5,
+		},
+	},
+}
+
+ITEM.iconCam = {
+	pos = Vector(54.2, 45.6, 33),
+	ang = Angle(25, 220, 0),
+	fov = 4.21,
 }

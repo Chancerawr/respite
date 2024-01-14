@@ -3,9 +3,8 @@ ITEM.uniqueID = "j_car_battery"
 ITEM.desc = "A large, powerful battery."
 ITEM.model = "models/items/car_battery01.mdl"
 ITEM.flag = "v"
-ITEM.width = 2
-ITEM.height = 2
-ITEM.category = "Miscellaneous"
+ITEM.width = 1
+ITEM.height = 1
 
 ITEM.salvItem = {
 	["j_scrap_plastics"] = 4,

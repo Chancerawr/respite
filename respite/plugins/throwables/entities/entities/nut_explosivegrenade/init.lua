@@ -41,15 +41,10 @@ Think
 ---------------------------------------------------------*/
 function ENT:Think()
 	if self.timer < CurTime() then
-
---	cbt_hcgexplode( self.Entity:GetPos(), 75, 200, 6)
-
-	
-	self:Explosion()
-	
-	nut.item.spawn("j_grenade_used", self:GetPos())
-	
-	self.Entity:Remove()
+		nut.item.spawn("j_grenade_used", self:GetPos())
+		self:Explosion()
+		
+		self.Entity:Remove()
 	end
 end
 
@@ -79,7 +74,6 @@ function ENT:Explosion()
 		explo:Spawn()
 		explo:Activate()
 		explo:Fire( "Explode", "", 0 )
-	
 	
 	local shake = ents.Create( "env_shake" )
 		shake:SetOwner( self.Owner )

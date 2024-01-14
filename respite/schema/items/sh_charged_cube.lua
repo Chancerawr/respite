@@ -20,7 +20,7 @@ ITEM.iconCam = {
 }
 
 --how long it takes for a charge to regenerate.
-local timeCharge = 18000
+local timeCharge = 3600
 
 local function chargeTimer(startTime)
 

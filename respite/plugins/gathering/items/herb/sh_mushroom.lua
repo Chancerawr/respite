@@ -4,10 +4,26 @@ ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/XQM/WoodPlankTexture"
 ITEM.uniqueID = "herb_mushroom"
 
-ITEM.iconCam = {
-	pos = Vector(-200, 0, 0),
-	ang = Angle(0, -0, 0),
-	fov = 2.75,
+ITEM.loot = {
+	["Consumable"] = 10,
+	["Fruit"] = 0.1,
+}
+
+ITEM.craft = {
+	hp = 5,
+
+	buffTbl = {
+		armor = 10,
+	
+		attrib = {
+			["end"] = 1,
+		},
+		
+		res = {
+			["Blunt"] = 2.5,
+			["Poison"] = 2.5,
+		},
+	},
 }
 
 ITEM.functions.Can = {
@@ -19,7 +35,6 @@ ITEM.functions.Can = {
 		local inventory = char:getInv()
 		local position = client:getItemDropPos()
 
-		
 		local nac = inventory:getFirstItemOfType("nac")
 		local can = inventory:getFirstItemOfType("j_tinc")
 		
@@ -43,4 +58,10 @@ ITEM.functions.Can = {
 		
 		return (can or nac)
 	end
+}
+
+ITEM.iconCam = {
+	pos = Vector(-200, 0, 0),
+	ang = Angle(0, -0, 0),
+	fov = 2.75,
 }

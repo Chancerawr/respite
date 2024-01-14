@@ -4,8 +4,14 @@ ITEM.desc = "A strong looking gnome."
 ITEM.uniqueID = "gnome_strong"
 ITEM.slot = "Gnome"
 
+ITEM.gnome = true
+
 ITEM.attrib = {
 	["str"] = 3,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
 }
 
 ITEM.iconCam = {

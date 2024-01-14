@@ -49,7 +49,7 @@ ITEM.craft = {
 }
 
 ITEM.effect = {
-colorMod = {
+	colorMod = {
 		[ "$pp_colour_addr" ] = 0,
 		[ "$pp_colour_addg" ] = 0,
 		[ "$pp_colour_addb" ] = 0.1,

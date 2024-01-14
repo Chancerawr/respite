@@ -20,10 +20,8 @@ function PLUGIN:CanPlayerAccessVendor(client, vendor)
 				return true
 			end
 		else
-			if(TRAITS) then
-				if(hasTrait(client, flag)) then
-					return true
-				end
+			if(TRAITS and client:hasTrait(flag)) then
+				return true
 			end
 		end
 	end	

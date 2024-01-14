@@ -1,7 +1,7 @@
 ITEM.name = "Frying Pan"
 ITEM.desc = "A frying pan, frypan, or skillet is a flat-bottomed pan used for frying, searing, and browning foods."
 ITEM.model = "models/props_c17/metalPot002a.mdl"
-ITEM.class = "hl2_m_frying_pan_alt"
+ITEM.class = "respite_fryingpan2"
 ITEM.uniqueID = "hl2_m_frying_pan_alt"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -27,6 +27,12 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 3
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

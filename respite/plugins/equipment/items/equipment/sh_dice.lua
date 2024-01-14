@@ -16,6 +16,10 @@ ITEM.attrib = {
 	["luck"] = 3
 }
 
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 0),
@@ -32,6 +36,9 @@ ITEM.functions.D4 = {
 		local roll = math.random(1,4)
 		
 		nut.chat.send(item.player, "roll", roll .. " on a D4")
+				
+		local response = item.player:Name().. " rolled " ..roll.. " on a D4"
+		nut.log.addRaw(response, 2)
 		
 		return false
 	end
@@ -46,6 +53,9 @@ ITEM.functions.D6 = {
 		
 		nut.chat.send(item.player, "roll", roll .. " on a D6")
 		
+		local response = item.player:Name().. " rolled " ..roll.. " on a D6"
+		nut.log.addRaw(response, 2)
+		
 		return false
 	end
 }
@@ -58,6 +68,9 @@ ITEM.functions.D8 = {
 		local roll = math.random(1,8)
 		
 		nut.chat.send(item.player, "roll", roll .. " on a D8")
+		
+		local response = item.player:Name().. " rolled " ..roll.. " on a D8"
+		nut.log.addRaw(response, 2)
 		
 		return false
 	end
@@ -72,6 +85,9 @@ ITEM.functions.D10 = {
 		
 		nut.chat.send(item.player, "roll", roll .. " on a D10")
 		
+		local response = item.player:Name().. " rolled " ..roll.. " on a D10"
+		nut.log.addRaw(response, 2)
+		
 		return false
 	end
 }
@@ -85,6 +101,9 @@ ITEM.functions.D20 = {
 		
 		nut.chat.send(item.player, "roll", roll .. " on a D20")
 		
+		local response = item.player:Name().. " rolled " ..roll.. " on a D20"
+		nut.log.addRaw(response, 2)
+		
 		return false
 	end
 }
@@ -97,6 +116,9 @@ ITEM.functions.D100 = {
 		local roll = math.random(1,100)
 		
 		nut.chat.send(item.player, "roll", roll .. " on a D100")
+		
+		local response = item.player:Name().. " rolled " ..roll.. " on a D100"
+		nut.log.addRaw(response, 2)
 		
 		return false
 	end

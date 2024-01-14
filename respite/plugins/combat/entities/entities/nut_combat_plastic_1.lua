@@ -10,6 +10,8 @@ ENT.name = "Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.useGesture = true
+
 ENT.models = {
 	"models/player/group01/female_01.mdl",
 	"models/player/group01/female_02.mdl",

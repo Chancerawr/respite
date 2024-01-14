@@ -3,7 +3,6 @@ PLUGIN.name = "Crafting"
 PLUGIN.author = "Black Tea (NS 1.0), Rusty Shackleford (NS 1.1), Chancer (NS 1.1 Beta)"
 PLUGIN.desc = "Allows you craft some items. And it fucking works."
 
-
 nut.util.include("sh_menu.lua")
 nut.util.include("sh_commands.lua")
 nut.util.include("sh_vars.lua")
@@ -11,50 +10,6 @@ nut.util.include("sh_vars.lua")
 local entityMeta = FindMetaTable("Entity")
 function entityMeta:IsCraftingTable()
 	return self:GetClass() == "nut_craftingtable"	
-end
-
-local benches = {
-	["nut_craftingtable_alchemy"] = true,
-	["nut_craftingtable_arcana"] = true,
-	["nut_craftingtable_smith"] = true,
-	["nut_craftingtable_cooking"] = true,
-	["nut_craftingtable_handicraft"] = true,
-	["nut_craftingtable_process"] = true,
-	["nut_craftingtable_tailor"] = true,
-}
-
-function PLUGIN:SaveData()
-	local data = {}
-	for k, _ in pairs(benches) do
-		for _, v in pairs(ents.FindByClass(k)) do
-			data[#data + 1] = {
-				ent = v:GetClass(),
-				pos = v:GetPos(),
-				angles = v:GetAngles(),
-			}
-		end
-	end
-	
-	self:setData(data)
-end
-
-function PLUGIN:LoadData()
-	local data = self:getData() or {}
-	for k, v in pairs(data) do
-		if(v.ent) then
-			local position = v.pos
-			local angles = v.angles
-			local entity = ents.Create(v.ent)
-			entity:SetPos(position)
-			entity:SetAngles(angles)
-			entity:Spawn()
-			entity:Activate()
-			local phys = entity:GetPhysicsObject()
-			if phys and phys:IsValid() then
-				phys:EnableMotion(false)
-			end
-		end
-	end
 end
 
 function PLUGIN:getProfessionFromString(search)
@@ -82,6 +37,69 @@ function PLUGIN:getProfessionFromString(search)
 end
 
 if(SERVER) then
+	local benches = {
+		["nut_craftingtable"] = true
+	}
+
+	function PLUGIN:saveTables()
+		local data = {}
+		for k, _ in pairs(benches) do
+			for _, v in pairs(ents.FindByClass(k)) do
+				data[#data + 1] = {
+					ent = v:GetClass(),
+					pos = v:GetPos(),
+					angles = v:GetAngles(),
+					invID = v:getNetVar("id")
+				}
+			end
+		end
+		
+		self:setData(data)
+	end
+
+	function PLUGIN:loadTables()
+		local data = self:getData() or {}
+		for k, v in pairs(data) do
+			if(v.ent) then
+				local position = v.pos
+				local angles = v.angles
+				local entity = ents.Create(v.ent)
+				entity:SetPos(position)
+				entity:SetAngles(angles)
+				entity:Spawn()
+				entity:Activate()
+				
+				entity:setNetVar("id", v.invID)
+				
+				local phys = entity:GetPhysicsObject()
+				if phys and phys:IsValid() then
+					phys:EnableMotion(false)
+				end
+			end
+		end
+		
+		self.loadedData = true
+	end
+	
+	function PLUGIN:SaveData()
+		self:saveTables()
+	end
+	
+	-- this stupid time stuff stops them from getting broken when other things break when the load hook is called
+	function PLUGIN:InitPostEntity()
+		--[[
+		timer.Simple(60, function()
+			PLUGIN:loadTables()
+		end)
+		--]]
+	end
+	
+	function PLUGIN:LoadData()
+		pcall(function()
+			PLUGIN:loadTables()
+		end)
+	end
+
 	function PLUGIN:giveCraftXP(char, profession, xp)
 		local craftTbl = char:getData("craft", {})
 

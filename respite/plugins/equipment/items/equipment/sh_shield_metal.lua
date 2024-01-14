@@ -1,8 +1,8 @@
 ITEM.name = "Metal Shield"
+ITEM.desc = "A makeshift metal shield."
 ITEM.uniqueID = "shield_metal"
 ITEM.model = "models/cloud/glassholdshield.mdl"
 ITEM.material = "models/props_canal/canal_bridge_railing_01b"
-ITEM.desc = "A makeshift metal shield."
 
 ITEM.width = 2
 ITEM.height = 3
@@ -27,6 +27,25 @@ ITEM.scaling = {
 ITEM.attrib = {
 	["end"] = 6,
 	["stm"] = -6,
+}
+
+ITEM.res = {
+	["Slash"] = 10,
+	["Blunt"] = 10,
+	["Pierce"] = 5,
+	
+	["Fire"] = 5,
+	["Cold"] = 5,
+	["Electric"] = -5,
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 2,
+	["Barrel"] = 1,
+}
+
+ITEM.actions = {
+	"shield_hunker",
 }
 
 ITEM.salvage = {

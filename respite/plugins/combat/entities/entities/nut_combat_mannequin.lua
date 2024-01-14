@@ -46,14 +46,19 @@ ENT.res = {
 function ENT:Initialize()
 	self:basicSetup()
 
-	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,10))
-	
-	local physObj = self:GetPhysicsObject()
-	if (IsValid(physObj)) then
-		physObj:EnableMotion(true)
-		physObj:EnableGravity(true)
-		--physObj:Sleep()
-		physObj:EnableCollisions(true)
-		physObj:Wake()
+	--[[
+	if(SERVER) then
+		self:PhysicsInit(SOLID_VPHYSICS)
+		self:SetSolid(SOLID_BBOX)
+		
+		local physObj = self:GetPhysicsObject()
+		if (IsValid(physObj)) then
+			physObj:EnableMotion(true)
+			physObj:EnableGravity(true)
+			--physObj:Sleep()
+			physObj:EnableCollisions(true)
+			physObj:Wake()
+		end
 	end
+	--]]
 end

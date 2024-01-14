@@ -38,7 +38,7 @@ if (SERVER) then
   	end
 	
 	function ENT:CreateInv()
-		nut.inventory.instance("grid", {20, 20})
+		nut.inventory.instance("grid", {w = 14, h = 14})
 		:next(function(inventory)
 			nut.config.set("groupStorage", inventory:getID())
 			self.inventory = inventory:getID()
@@ -90,6 +90,16 @@ if (SERVER) then
 
 		hook.Run("SafeBoxAccessRules", inventory)
 		hook.Run("StorageInventorySet", self, inventory)
+	end
+	
+	function ENT:OnRemove()
+		if (not self.nutForceDelete) then
+			if (not nut.entityDataLoaded or not PLUGIN.loadedData) then return end
+			if (self.nutIsSafe) then return end
+			if (nut.shuttingDown) then return end
+		end
+		
+		PLUGIN:saveBox()
 	end
 else
 	netstream.Hook("memoryStorOpen", function(index)

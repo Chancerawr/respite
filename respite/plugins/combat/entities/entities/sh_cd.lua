@@ -11,9 +11,7 @@ function ENT:addCooldown(spell, duration)
 	
 	self.cooldowns[spell] = duration
 
-	for k, v in pairs(player.GetAll()) do
-		netstream.Start(v, "cooldownNetworkAll", self, spell, duration)
-	end
+	PLUGIN:cdNetworkAll(self, spell, duration)
 end
 
 --removes a cooldown from a player
@@ -21,10 +19,8 @@ function ENT:removeCooldown(spell)
 	self.cooldowns = self:getCooldowns()
 	
 	self.cooldowns[spell] = nil
-	
-	for k, v in pairs(player.GetAll()) do
-		netstream.Start(v, "cooldownNetworkAll", self, spell, duration)
-	end
+
+	PLUGIN:cdNetworkAll(self, spell)
 end
 
 --clears all of a player's cooldowns

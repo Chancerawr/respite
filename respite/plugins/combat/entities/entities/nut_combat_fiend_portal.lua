@@ -10,6 +10,8 @@ ENT.name = "Cracked Blood Fiend"
 ENT.model = "models/Zombie/Poison.mdl"
 ENT.material = "models/flesh"
 
+ENT.modelScale = 1.8
+
 ENT.AttackAnim = "Melee_01"
 
 ENT.color = Color(128, 20, 20)
@@ -53,6 +55,6 @@ function ENT:Initialize()
 	self:basicSetup()
 	
 	timer.Simple(0.6, function()
-		self:SetModelScale(1.8)
+		--self:SetModelScale(1.8)
 	end)
 end

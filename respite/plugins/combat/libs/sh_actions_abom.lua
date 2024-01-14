@@ -89,7 +89,7 @@ ACT.name = "Spit Acid"
 ACT.desc = "Spit acid."
 ACT.category = "Monster"
 ACT.hidden = true
-ACT.attackString = "spits acid at"
+ACT.attackString = "spits acid"
 ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Acid"
@@ -161,14 +161,14 @@ ACT.hidden = true
 ACT.attackString = "slashes with a decaying claw"
 ACT.CD = 1
 ACT.dmg = 0
-ACT.dmgT = "Disease"
+ACT.dmgT = "Rot"
 ACT.weaponMult = 0.5
 ACT.effects = {
 	[1] = {
 		uid = ACT.uid,
 		
 		name = "Decay",
-		effect = "disease",
+		effect = "rot",
 		duration = 5,
 		strength = 1,
 		
@@ -311,7 +311,7 @@ ACT.name = "Bone Burst"
 ACT.desc = "Fire a jagged bone at an enemy."
 ACT.category = "Monster"
 ACT.hidden = true
-ACT.attackString = "fires a burst of jagged bones at"
+ACT.attackString = "fires a burst of jagged bones"
 ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Pierce"
@@ -340,7 +340,21 @@ ACT.name = "Smog"
 ACT.desc = "Release a blast of burning smog."
 ACT.category = "Monster"
 ACT.hidden = true
-ACT.attackString = "releases a blast of burning smog at"
+ACT.attackString = "releases a blast of burning smog"
+ACT.CD = 1
+ACT.dmg = 0
+ACT.dmgT = "Fire"
+ACT.weaponMult = 1
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "torrent"
+ACT.name = "Torrent"
+ACT.desc = "Release a blast of burning blood."
+ACT.category = "Monster"
+ACT.hidden = true
+ACT.attackString = "releases a blast of burning blood"
 ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Fire"

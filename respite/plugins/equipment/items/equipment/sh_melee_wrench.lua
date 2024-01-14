@@ -1,7 +1,7 @@
 ITEM.name = "Wrench"
 ITEM.desc = "A useful metal tool."
 ITEM.model = "models/warz/melee/wrench.mdl"
-ITEM.class = "hl2_m_wrench"
+ITEM.class = "respite_wrench"
 ITEM.uniqueID = "hl2_m_wrench"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -33,6 +33,12 @@ ITEM.attrib = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 2
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Bludgeon"] = 1,
+	["Handle"] = 1
 }
 
 ITEM.iconCam = {

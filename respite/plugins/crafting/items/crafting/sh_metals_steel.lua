@@ -1,0 +1,10 @@
+ITEM.name = "Steel"
+ITEM.desc = "A gray metal useful in a variety of applications."
+ITEM.uniqueID = "j_scrap_steel"
+ITEM.model = "models/gibs/glass_shard05.mdl"
+ITEM.material = "phoenix_storms/grey_steel"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(90, 90, 90)

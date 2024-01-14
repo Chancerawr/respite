@@ -1,7 +1,7 @@
 ITEM.name = "Jar"
 ITEM.uniqueID = "j_empty_jar"
 ITEM.model = "models/props_lab/jar01a.mdl"
-ITEM.desc = "An empty jar.\nThis container can be filled with water."
+ITEM.desc = "An empty jar."
 ITEM.flag = "j"
 ITEM.width = 1
 ITEM.height = 1

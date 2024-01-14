@@ -4,7 +4,7 @@ ITEM.model = "models/props/de_inferno/claypot01.mdl"
 ITEM.material = "models/props_lab/xencrystal_sheet"
 ITEM.desc = "A vase-like object with a strange texture."
 ITEM.width = 2
-ITEM.height = 3
+ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
 ITEM.category = "Devices"
@@ -17,10 +17,9 @@ ITEM.iconCam = {
 }
 
 --how long it takes for a charge to regenerate.
-local timeCharge = 1200
+local timeCharge = 120
 
 local function chargeTimer(startTime)
-
 	if(!startTime) then
 		return 0
 	end

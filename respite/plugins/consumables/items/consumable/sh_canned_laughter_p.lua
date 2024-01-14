@@ -7,7 +7,8 @@ ITEM.hungerAmount = 10
 ITEM.quantity2 = 3
 ITEM.price = 0
 
-ITEM.soundURL = "http://rtv.site.nfoservers.com/items/pekora"
+ITEM.sound = ""
+ITEM.soundURL = "http://respite7192.site.nfoservers.com/items/pekora.mp3"
 ITEM.container = "j_tinc"
 
 ITEM.attrib = { 

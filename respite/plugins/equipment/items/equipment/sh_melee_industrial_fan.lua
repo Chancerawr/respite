@@ -1,7 +1,7 @@
 ITEM.name = "Industrial Fan"
 ITEM.desc = "An old industrial fan."
 ITEM.model = "models/props_silo/fanoff.mdl"
-ITEM.class = "hl2_m_fan"
+ITEM.class = "respite_fan"
 ITEM.uniqueID = "j_industrial_fan"
 ITEM.slot = "melee"
 ITEM.width = 2
@@ -30,6 +30,11 @@ ITEM.scaling = {
 
 ITEM.salvage = {
 	["j_scrap_metals"] = 5
+}
+
+ITEM.upgradeSlots = { 
+	["Dream"] = 5,
+	["Blade"] = 1,
 }
 
 ITEM.iconCam = {

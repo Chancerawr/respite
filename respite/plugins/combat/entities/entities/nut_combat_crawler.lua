@@ -6,6 +6,7 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/angelsaur/ghost_girl.mdl"
+ENT.material = "models/effects/portalrift_sheet"
 
 --all attributes
 ENT.attribs = {

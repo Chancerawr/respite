@@ -18,6 +18,10 @@ ITEM.salvage = {
 	["j_scrap_battery"] = 1
 }
 
+ITEM.upgradeSlots = { 
+	["Dream"] = 1,
+}
+
 ITEM.iconCam = {
 	pos = Vector(3, 200, -2.5),
 	ang = Angle(0, 270, 0),
