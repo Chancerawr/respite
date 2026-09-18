@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_lurker"
+
 ENT.model = "models/sient hill custom/Homecoming/lurker.mdl"
 
 ENT.AttackAnim = "Attack"
@@ -49,6 +51,12 @@ ENT.actions = {
 	"stab",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {85,100}
+ENT.FootstepSounds = {
+	"lurker2/metal.wav",
+}

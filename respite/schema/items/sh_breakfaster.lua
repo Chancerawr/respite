@@ -10,12 +10,6 @@ ITEM.price = 500
 ITEM.category = "Machines"
 ITEM.color = Color(50, 150, 50)
 
-ITEM.iconCam = {
-	pos = Vector(332.59982299805, 279.31066894531, 202.58592224121),
-	ang = Angle(25, 220, 0),
-	fov = 5.2785362827253,
-}
-
 ITEM.functions.Milk = {
 	name = "Milk",
 	icon = "icon16/cup.png",
@@ -163,7 +157,7 @@ ITEM.functions.Egg = {
 }
 
 ITEM.functions.Chip2 = {
-	name = "Enhanced Chip",
+	name = "Distortion Key",
 	icon = "icon16/box.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
@@ -173,7 +167,7 @@ ITEM.functions.Chip2 = {
 		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 			
 		if (!chip) then
-			client:notify("You need an enhanced chip to insert!") return false
+			client:notify("You need a distortion key to insert!") return false
 		end
 			
 		nut.item.spawn("food_pancake", position)
@@ -234,3 +228,17 @@ function ITEM:getDesc()
 	
 	return Format(desc)
 end
+
+function ITEM:onEntityCreated(entity)
+	--checks if it was spawned by the saveitems plugin (required an edit in saveitems)
+	if(!self.saveItemPlug) then 
+		--offsets the spawn so it isnt in the floor
+		entity:SetPos(entity:GetPos()+entity:GetUp()*7)
+	end
+end
+
+ITEM.iconCam = {
+	pos = Vector(332.6, 279.31, 202.59),
+	ang = Angle(25, 220, 0),
+	fov = 5.28,
+}

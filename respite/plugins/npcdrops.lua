@@ -5,7 +5,7 @@ PLUGIN.author = ""
 
 if SERVER then
 	PLUGIN.npcDrops = {
-		["amputated"] = {
+		["resp_amputated"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 30,
@@ -15,7 +15,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["amputated_flame"] = {
+		["resp_amputated_w"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 20,
@@ -25,7 +25,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["amputated_shade"] = { --add memory wrap, cloth
+		["resp_amputated_s"] = { --add memory wrap, cloth
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 15,
@@ -35,7 +35,7 @@ if SERVER then
 				chance = 5,
 			},
 		},
-		["cof_child"] = { --add shiv
+		["resp_cof_child"] = { --add shiv
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
@@ -45,7 +45,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["cof_crazywoman"] = { --add shiv
+		["resp_cof_crazywoman"] = { --add shiv
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
@@ -55,25 +55,25 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["cof_faceless"] = { --add something
+		["resp_cof_faceless"] = { --add something
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
 			},
 		},
-		["cof_faster"] = { --add talon/claw
+		["resp_cof_faster"] = { --add talon/claw
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
 			},
 		},
-		["cof_upper"] = { --add shoes
+		["resp_cof_upper"] = { --add shoes
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
 			},
 		},
-		["doll_runner"] = {
+		["resp_doll_runner"] = {
 			["medical_plastic"] = {
 				max = 2, 
 				chance = 30,
@@ -83,7 +83,7 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["doll_walker"] = {
+		["resp_doll_walker"] = {
 			["medical_plastic"] = {
 				max = 2, 
 				chance = 30,
@@ -93,7 +93,7 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["doll_runner_shade"] = {
+		["resp_doll_runner_s"] = {
 			["blight"] = {
 				max = 1, 
 				chance = 10,
@@ -103,7 +103,7 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["doll_walker_shade"] = {
+		["resp_doll_walker_s"] = {
 			["blight"] = {
 				max = 1, 
 				chance = 10,
@@ -113,13 +113,13 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["freak"] = {
+		["resp_deformed"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 35,
 			},
 		},
-		["freak_shade"] = {
+		["resp_deformed_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 25,
@@ -129,7 +129,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["housewife"] = {
+		["resp_housewife"] = {
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
@@ -139,7 +139,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["housewife_shade"] = {
+		["resp_housewife_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 25,
@@ -153,7 +153,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["nz_creeper"] = { --add energy thing here
+		["resp_creeper"] = { --add energy thing here
 			["shard_dust"] = {
 				max = 1, 
 				chance = 20,
@@ -167,13 +167,13 @@ if SERVER then
 				chance = 5,
 			},
 		},
-		["nz_creeper_wraith"] = {
+		["resp_creeper_w"] = {
 			["ichor"] = {
 				max = 2, 
 				chance = 20,
 			},
 		},
-		["nz_demon"] = {
+		["resp_demon"] = {
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
@@ -183,7 +183,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_demon_flame"] = {
+		["resp_demon_w"] = {
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
@@ -197,7 +197,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_demon_shade"] = {
+		["resp_demon_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 20,
@@ -211,13 +211,13 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_dog"] = { --add teeth or something
+		["resp_dog"] = { --add teeth or something
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 40,
 			},
 		},
-		["nz_dog_shade"] = {
+		["resp_dog_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 30,
@@ -227,13 +227,13 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_drum"] = {
+		["resp_drum"] = {
 			["food_monster_meat"] = {
 				max = 5, 
 				chance = 50,
 			},
 		},
-		["nz_drum_shade"] = {
+		["resp_drum_s"] = {
 			["j_scrap_memory"] = {
 				max = 3, 
 				chance = 40,
@@ -243,7 +243,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["nz_drum_ice"] = {
+		["resp_drum_w"] = {
 			["food_monster_meat"] = {
 				max = 5, 
 				chance = 50,
@@ -253,7 +253,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["nz_freak"] = { --add more garbage
+		["resp_waste"] = { --add more garbage
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 50,
@@ -263,7 +263,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_freak_ice"] = { --add more garbage
+		["resp_waste_w"] = { --add more garbage
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 50,
@@ -277,7 +277,7 @@ if SERVER then
 				chance = 5,
 			},
 		},
-		["nz_freak_shade"] = {
+		["resp_waste_s"] = {
 			["j_scrap_memory"] = {
 				max = 2,
 				chance = 30,
@@ -291,13 +291,13 @@ if SERVER then
 				chance = 5,
 			},
 		},
-		["nz_hatred"] = {
+		["resp_hatred"] = {
 			["food_monster_meat"] = {
 				max = 3, 
 				chance = 50,
 			},
 		},
-		["nz_hatred_shade"] = {
+		["resp_hatred_s"] = {
 			["j_scrap_memory"] = {
 				max = 3, 
 				chance = 50,
@@ -307,13 +307,13 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_haunt"] = {
+		["resp_haunt"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 25,
 			},
 		},
-		["nz_horror_red"] = {
+		["resp_horror_w"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 25,
@@ -323,7 +323,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["nz_jeffrey"] = {
+		["resp_jeffrey"] = {
 			["j_scrap_memory"] = {
 				max = 5, 
 				chance = 75,
@@ -333,13 +333,13 @@ if SERVER then
 				chance = 50,
 			},
 		},
-		["nz_leecher"] = { --some kind of plant based stuff drops
+		["resp_leecher"] = { --some kind of plant based stuff drops
 			["food_monster_meat"] = {
 				max = 3, 
 				chance = 50,
 			},
 		},
-		["nz_leecher_shade"] = {
+		["resp_leecher_s"] = {
 			["j_scrap_memory"] = {
 				max = 3, 
 				chance = 50,
@@ -349,7 +349,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["nz_leperkin"] = {
+		["resp_leperkin"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 50,
@@ -359,7 +359,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_leperkin_flame"] = {
+		["resp_leperkin_w"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 50,
@@ -373,7 +373,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["nz_leperkin_shade"] = {
+		["resp_leperkin_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 50,
@@ -387,13 +387,13 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["nz_mimic"] = { --energy thing
+		["resp_mimic"] = { --energy thing
 			["food_monster_meat"] = {
 				max = 1, 
 				chance = 30,
 			},
 		},
-		["nz_phantom"] = {
+		["resp_phantom"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 30,
@@ -407,13 +407,13 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["nz_reanimated"] = { --sleeping stuff maybe?
+		["resp_reanimated"] = { --sleeping stuff maybe?
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 25,
 			},
 		},
-		["nz_reanimated_flame"] = {
+		["resp_reanimated_w"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 25,
@@ -423,13 +423,13 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["nz_roller"] = { --junk or something
+		["resp_roller"] = { --junk or something
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 25,
 			},
 		},
-		["nz_roller_shade"] = {
+		["resp_roller_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 25,
@@ -439,7 +439,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["nz_static"] = { --electric item thing
+		["resp_static"] = { --electric item thing
 			["j_scrap_energy"] = {
 				max = 1, 
 				chance = 5,
@@ -453,13 +453,13 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["nz_staitjacket"] = {
+		["resp_staitjacket"] = {
 			["food_monster_meat"] = {
 				max = 3, 
 				chance = 50,
 			},
 		},
-		["nz_steve_shade"] = {
+		["resp_staitjacket_s"] = {
 			["j_scrap_memory"] = {
 				max = 3, 
 				chance = 50,
@@ -469,7 +469,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["nz_thrasher"] = {
+		["resp_thrasher"] = {
 			["food_monster_meat"] = {
 				max = 3, 
 				chance = 40,
@@ -479,13 +479,13 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["nz_thrower"] = {
+		["resp_thrower"] = {
 			["food_monster_meat"] = {
 				max = 3, 
 				chance = 30,
 			},
 		},
-		["nz_thrower_shade"] = {
+		["resp_thrower_s"] = {
 			["j_scrap_memory"] = {
 				max = 3, 
 				chance = 30,
@@ -495,7 +495,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["nz_undead_shade"] = {
+		["resp_shambler"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 20,
@@ -505,13 +505,13 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["nz_wraith"] = {
+		["resp_wraith"] = {
 			["ichor"] = {
 				max = 2, 
 				chance = 25,
 			},
 		},
-		["pack"] = {
+		["resp_pack"] = {
 			["food_monster_meat"] = {
 				max = 2, 
 				chance = 25,
@@ -521,7 +521,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["pack_shade"] = {
+		["resp_pack_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 25,
@@ -557,7 +557,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["resp_babu_shade"] = {
+		["resp_babu_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 25,
@@ -567,7 +567,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["resp_babu_wraith"] = {
+		["resp_babu_w"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 25,
@@ -597,7 +597,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["resp_baby_shade"] = {
+		["resp_baby_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 15,
@@ -623,7 +623,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["resp_chimera_shade"] = {
+		["resp_chimera_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 30,
@@ -647,7 +647,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["resp_dolly_shade"] = {
+		["resp_dolly_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 15,
@@ -673,7 +673,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["resp_floater_shade"] = {
+		["resp_floater_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 20,
@@ -693,7 +693,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["resp_gemini_wraith"] = {
+		["resp_gemini_w"] = {
 			["j_scrap_memory"] = {
 				max = 3, 
 				chance = 30,
@@ -703,7 +703,7 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["resp_kuszo"] = {
+		["resp_ghoul"] = {
 			["j_scrap_plastics"] = {
 				max = 1, 
 				chance = 40,
@@ -713,7 +713,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["resp_kuszo_shade"] = {
+		["resp_ghoul_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 40,
@@ -729,7 +729,7 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["resp_leecher_small_shade"] = {
+		["resp_leecher_small_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 25,
@@ -749,7 +749,7 @@ if SERVER then
 				chance = 15,
 			},
 		},
-		["resp_lurker_shade"] = {
+		["resp_lurker_s"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 40,
@@ -787,7 +787,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["resp_paperzombie"] = {
+		["resp_paper"] = {
 			["misc_paper"] = {
 				max = 2, 
 				chance = 40,
@@ -871,7 +871,7 @@ if SERVER then
 				chance = 25,
 			},
 		},
-		["scarlet"] = {
+		["resp_scarlet"] = {
 			["j_scrap_plastics"] = {
 				max = 4, 
 				chance = 25,
@@ -881,7 +881,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["scarlet_crawl"] = {
+		["resp_scarlet_crawl"] = {
 			["j_scrap_plastics"] = {
 				max = 4, 
 				chance = 25,
@@ -891,7 +891,7 @@ if SERVER then
 				chance = 20,
 			},
 		},
-		["scarlet_shade"] = {
+		["resp_scarlet_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 40,
@@ -901,7 +901,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["scarlet_crawl_shade"] = {
+		["resp_scarlet_crawl_s"] = {
 			["j_scrap_memory"] = {
 				max = 2, 
 				chance = 40,
@@ -911,7 +911,7 @@ if SERVER then
 				chance = 30,
 			},
 		},
-		["shade_crawlsmoke"] = {
+		["resp_shade_crawl"] = {
 			["j_scrap_memory"] = {
 				max = 1, 
 				chance = 25,
@@ -921,7 +921,7 @@ if SERVER then
 				chance = 10,
 			},
 		},
-		["spore"] = { --maybe some other junk in here
+		["resp_spore"] = { --maybe some other junk in here
 			["food_monster_meat"] = {
 				max = 2,
 				chance = 30,
@@ -952,8 +952,38 @@ if SERVER then
 	end
 
 	-- Called when any NPC dies
-	function PLUGIN:OnNPCKilled(npc, attacker, inflictor)		
+	function PLUGIN:OnNPCKilled(npc, attacker, inflictor)
+		PLUGIN:NPCDrop(npc, attacker, inflictor)
+	end
+	
+	function PLUGIN:NPCDrop(npc, attacker, inflictor)
+		local dmginfo = npc.deathInfo
+		local v = npc:GetVelocity() --velocity
 		local className = npc:GetClass()
+		
+		if(dmginfo) then
+			v = v + (dmginfo:GetDamageForce())
+
+			v.z = math.min(v.z, 100)
+			
+			--if exploded
+			if(dmginfo:IsExplosionDamage()) then
+				local explosionPos = dmginfo:GetDamagePosition()
+				local directionVec = ((npc:GetPos() - explosionPos):GetNormalized())*(dmginfo:GetDamage()*2)
+
+				v = v + (directionVec)
+			end
+			
+			--crossbow
+			if(dmginfo:IsDamageType(DMG_NEVERGIB)) then
+				-- this is the actual crossbow bolt
+				if(IsValid(inflictor)) then
+					local directionVec = ((inflictor:GetVelocity()):GetNormalized())*(dmginfo:GetDamage())
+				
+					v = v + (directionVec)
+				end
+			end
+		end
 	
 		--no npc drops if no players on server
 		local playerCount = #player.GetAll()
@@ -977,6 +1007,11 @@ if SERVER then
 						if(entity) then
 							entity:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
 							entity.temp = true --these items get cleaned up with map if not picked up
+						
+							local physObj = entity:GetPhysicsObject()
+							if(IsValid(physObj)) then
+								physObj:SetVelocityInstantaneous(v)
+							end
 						end
 					end)
 				end

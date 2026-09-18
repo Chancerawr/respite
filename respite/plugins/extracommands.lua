@@ -181,6 +181,33 @@ nut.command.add("cleannpcs", {
 	end
 })
 
+nut.command.add("cleancents", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local count = 0
+	
+		if(!arguments[1]) then
+			for k, v in pairs(ents.GetAll()) do
+				if(IsValid(v) and v.combat) then
+					count = count + 1
+					SafeRemoveEntity(v)
+				end
+			end
+		else
+			local trace = client:GetEyeTraceNoCursor()
+			local hitpos = trace.HitPos + trace.HitNormal*5
+			for k, v in pairs(ents.FindInSphere(hitpos, arguments[1] or 100)) do
+				if(IsValid(v) and v.combat) then
+					count = count + 1
+					SafeRemoveEntity(v)
+				end
+			end
+		end
+		
+		client:notify(count.. " CEnts have been cleaned up from the map.")
+	end
+})
+
 nut.command.add("cleananomalies", {
 	syntax = "[number range]",
 	adminOnly = true,
@@ -311,10 +338,15 @@ nut.command.add("spawnitem", {
 				local aimPos = client:GetEyeTraceNoCursor().HitPos 
 				aimPos:Add(Vector(0, 0, 10))  
 			
+				local angle = client:GetAngles()
+				angle.z = 0
+			
 				local amount = math.min(tonumber(arguments[2]) or 1, 10)
 			
 				for i = 1, amount do
-					nut.item.spawn(uniqueID, aimPos)
+					nut.item.spawn(uniqueID, aimPos, function(item, entity)
+						entity:SetAngles(angle)
+					end)
 				end
             else
 				client:notify("Invalid Item")
@@ -364,11 +396,17 @@ nut.command.add("flip", {
 	onRun = function(client, arguments)
 		local roll = math.random(0,1)
 	
+		local response = client:Name().. " flipped a coin and it landed on "
+	
 		if(roll == 1) then
 			nut.chat.send(client, "flip", "Heads")
+			response = response.. "Heads."
 		else
 			nut.chat.send(client, "flip", "Tails")
+			response = response.. "Tails."
 		end
+		
+		nut.log.addRaw(response, 2)
 	end
 })
 
@@ -415,6 +453,7 @@ nut.command.add("rolld", {
 		msg = "has rolled " ..total.. " [" ..dmsg.. "]" .. " on " ..dice.. "d" ..pips..msg
 		
 		nut.chat.send(client, "rolld", msg)
+		nut.log.addRaw(client:Name().. " " ..msg, 2)
 	end
 })
 
@@ -433,6 +472,8 @@ nut.command.add("card", {
 		local msg = "draws the " ..table.Random(cards).. " of " ..table.Random(family)
 		
 		nut.chat.send(client, "rolld", msg)
+		
+		nut.log.addRaw(client:Name().. " " ..msg, 2)
 	end
 })
 
@@ -512,8 +553,12 @@ nut.command.add("npcrally", {
 	onRun = function(client, arguments)
 		local aimPos = client:GetEyeTraceNoCursor().HitPos
 	
+		local count = 0
+	
 		for k, entity in ipairs(ents.GetAll()) do
 			if(IsValid(entity) and entity.respite and entity.SetEnemy) then
+				count = count + 1
+				
 				entity.rallyPoint = aimPos
 				
 				--[[
@@ -529,6 +574,8 @@ nut.command.add("npcrally", {
 				--]]
 			end
 		end
+		
+		client:notify(count.. " NPCs rallied.")
 	end
 })
 
@@ -574,7 +621,6 @@ nut.command.add("rocket", {
 
 nut.command.add("ai_ignoreplayers", {
 	adminOnly = true,
-	syntax = "<string name>",
 	onRun = function(client, arguments)
 		local ignorePlayers = GetConVar("ai_ignoreplayers")
 	

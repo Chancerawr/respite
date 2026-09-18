@@ -11,7 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Altruit"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_shotgun"
+ITEM.WalkAnim = "walk_shotgun"
+ITEM.RunAnim = "run_shotgun"
+
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	Sound("weapons/1897trench/m3-1.wav"),
+}
+
+ITEM.rarity = 0
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -34,6 +47,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Shotgun"] = 10,
 }
 
 ITEM.iconCam = {

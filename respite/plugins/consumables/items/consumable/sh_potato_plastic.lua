@@ -6,6 +6,7 @@ ITEM.model = "models/props_phx/misc/potato.mdl"
 ITEM.material = "phoenix_storms/mrref2"
 ITEM.quantity2 = 2
 ITEM.price = 2
+ITEM.plastic = true --for plastic converter
 
 ITEM.attrib = { 
 	["str"] = 1 

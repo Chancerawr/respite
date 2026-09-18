@@ -31,15 +31,16 @@ ITEM.functions.Blight = {
 			blight:remove()
 			nut.item.spawn("food_blood", position)
 			nut.chat.send(client, "itclose", "The statue begins crying blood.")	
-			client:TakeDamage(math.min(hatred, 10), client, client)
 			
 			local hatred = item:getData("hatred", 0)
+			
+			client:TakeDamage(math.min(hatred, 5), client, client)
+			
 			if(hatred > 9) then
 				client:notify("A feeling of dread comes over you.")
 			
 				local posSummons = {
 					"resp_teleporter",
-					"shade_crawlsmoke"
 				}
 			
 				local ent = ents.Create(table.Random(posSummons))

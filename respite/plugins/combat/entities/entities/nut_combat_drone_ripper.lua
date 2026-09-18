@@ -8,7 +8,11 @@ ENT.AdminOnly = true
 ENT.model = "models/manhack.mdl"
 --ENT.material = "models/props/cs_militia/roofbeams02"
 
+ENT.BloodColor = BLOOD_COLOR_MECH
+
 ENT.IdleAnim = "Fly"
+
+ENT.PropHeight = 50
 
 --all attributes
 ENT.attribs = {
@@ -47,4 +51,8 @@ ENT.res = {
 	["Acid"] = -25,
 	["Poison"] = 100,
 	["Electric"] = -25,
+}
+
+ENT.actions = {
+	"drone_lacerate",
 }

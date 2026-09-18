@@ -9,10 +9,6 @@ ITEM.height = 1
 ITEM.color = Color(50, 50, 200)
 ITEM.maxstack = 3
 
-ITEM.data = {
-	Amount = 1
-}
-
 ITEM.iconCam = {
 	pos = Vector(-200, 0, 0),
 	ang = Angle(0, -0, 0),

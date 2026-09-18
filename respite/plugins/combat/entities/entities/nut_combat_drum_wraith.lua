@@ -5,11 +5,18 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/zombie/zombineplayer.mdl"
+ENT.NPCReference = "resp_drum_w"
+
+ENT.model = "models/player/zombie_soldier.mdl"
 ENT.material = "models/effects/splode1_sheet"
 
 ENT.modelScale = 1.8
 
+ENT.BloodColor = DONT_BLEED
+
+ENT.IdleAnim = "zombie_walk_06"
+ENT.WalkAnim = "zombie_walk_06"
+ENT.RunAnim = "zombie_walk_06"
 ENT.AttackAnim = "AttackC"
 
 ENT.color = Color(0, 150, 255)
@@ -51,15 +58,25 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
+ENT.StepData = {
+	0.15,
+	0.55,
+}
+
+ENT.StepPitch = 50
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}
+
 function ENT:Initialize()
-	self:SetColor()
-	
 	timer.Simple(0.6, function()
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		self:SetRenderFX(kRenderFxHologram)
-		
-		--self:SetModelScale(1.8)
-		self:ResetSequence("zombie_walk_06")
 	end)
 
 	self:basicSetup()

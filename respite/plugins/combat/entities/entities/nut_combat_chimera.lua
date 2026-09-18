@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_chimera"
+
 ENT.model = "models/ninja/signalvariance/monsters/chimera.mdl"
 
 ENT.AttackAnim = "Attack1"
@@ -51,6 +53,19 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.05,
+	0.45,
+	0.55,
+	0.95,
+}
+
+ENT.FootstepSounds = {
+	"footsteps/medium_concrete_1.mp3",
+	"footsteps/medium_concrete_2.mp3",
+	"footsteps/medium_concrete_3.mp3",
+	"footsteps/medium_concrete_4.mp3",
+	"footsteps/medium_concrete_5.mp3",
+	"footsteps/medium_concrete_6.mp3",
+	"footsteps/medium_concrete_7.mp3",
+}

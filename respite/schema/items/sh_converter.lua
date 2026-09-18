@@ -20,7 +20,7 @@ ITEM.foods = {
 	"food_pumpkin_plastic",
 	"food_onion_plastic",
 	"food_fish_plastic",
-	"food_fish2_plastic"
+	"food_fish2_plastic",
 }
 
 ITEM.iconCam = {
@@ -40,13 +40,13 @@ ITEM.functions.Convert = {
 
 		local done = false
 		local plastics
-		for k, v in pairs (item.foods) do
-			plastics = inventory:getFirstItemOfType(v)
-			if (plastics and !done) then
+		for k, v in pairs(inventory:getItems()) do
+			if(v.plastic) then
 				done = true
+				plastics = v
 				break
 			end
-		end	
+		end
 		
 		if(!done) then
 			client:notifyLocalized("You don't have a suitable plastic food!") return false

@@ -8,6 +8,10 @@ local function findTargetInRad(startPos, radius)
 	local targets = {}
 
 	for k, target in pairs(entities) do
+		if(target:GetClass() == "prop_ragdoll" and target.nutPlayer) then
+			target = target.nutPlayer
+		end
+	
 		if(IsValid(target) and (target:IsPlayer() or target.combat)) then
 			if(target:GetMoveType() == MOVETYPE_NOCLIP) then continue end --ignore noclipped people
 		
@@ -23,6 +27,10 @@ local function findTargetInCone(startPos, forward, cone, cone2)
 	local targets = {}
 	
 	for k, target in pairs(entities) do
+		if(target:GetClass() == "prop_ragdoll" and target.nutPlayer) then
+			target = target.nutPlayer
+		end
+	
 		if(IsValid(target) and (target:IsPlayer() or target.combat)) then
 			if(target:GetMoveType() == MOVETYPE_NOCLIP) then continue end --ignore noclipped people
 		
@@ -41,6 +49,10 @@ local function findTargetInBox(position, mins, maxs)
 	local targets = {}
 	
 	for k, target in pairs(entities) do
+		if(target:GetClass() == "prop_ragdoll" and target.nutPlayer) then
+			target = target.nutPlayer
+		end
+	
 		if(IsValid(target) and (target:IsPlayer() or target.combat)) then
 			if(target:GetMoveType() == MOVETYPE_NOCLIP) then continue end --ignore noclipped people
 		
@@ -52,69 +64,77 @@ local function findTargetInBox(position, mins, maxs)
 end
 
 --finds targets for abilities
-function PLUGIN:attackStart(client, attacker, trace, action)
-	local target = trace.Entity
-	local hitPos = trace.HitPos or client:GetEyeTrace().HitPos
+function PLUGIN:attackStart(client, info)
+	local attacker = info.attacker
+	local trace = info.trace
+	local action = info.action
+	local actionTbl = info.actionTbl
+	local partString = info.partString
+	local weapon = info.weapon
 	
+	local entity = trace.Entity
+	local target = entity
 	local selfOnly = action.selfOnly
+	local hitPos = trace.HitPos
+	
+	if(target:IsRagdoll() and target.nutPlayer) then
+		target = target.nutPlayer
+	end
+	
+	info.client = client
+
+	if(actionTbl.onCanAct) then
+		if(!actionTbl:onCanAct(attacker, info)) then
+			return false
+		end
+	end
+
 	if(client:IsPlayer() and client:KeyDown(IN_WALK)) then --self targetting
 		selfOnly = true
 	end
 	
-	if(selfOnly) then --action that targets self
+	local targets
+	
+	if(actionTbl.onGetTargets) then
+		targets = actionTbl:onGetTargets(attacker, info)
+	elseif(selfOnly) then --action that targets self
 		if(action.radius) then --sphere around caster
-			local targets = findTargetInRad(attacker:GetPos(), action.radius)
-
-			PLUGIN:attack(attacker, targets, action.uid)
+			targets = findTargetInRad(attacker:GetPos(), action.radius)
 		elseif(action.box) then
-			local targets = findTargetInBox(attacker:GetPos(), action.box)
-			
-			PLUGIN:attack(attacker, targets, action.uid)
+			targets = findTargetInBox(attacker:GetPos(), action.box)
 		else --only affects the caster
-			PLUGIN:attack(attacker, {attacker}, action.uid, hitPos)
+			targets = {attacker}
 		end
 	elseif(action.notarget) then --action that requires no target
 		if(action.radius) then --no targetted aoe
-			local targets = findTargetInRad(hitPos, action.radius)
-			
-			PLUGIN:attack(attacker, targets, action.uid)
+			targets = findTargetInRad(hitPos, action.radius)
 		elseif(action.cone) then --cone originating from attacker
 			local forward = attacker:GetForward() * Vector(1,1,0)
 			
-			local targets = findTargetInCone(attacker:GetPos(), forward, action.cone, action.cone2)
-			
-			PLUGIN:attack(attacker, targets, action.uid)
+			targets = findTargetInCone(attacker:GetPos(), forward, action.cone, action.cone2)
 		elseif(action.box) then
-			local targets = findTargetInBox(hitPos, action.box)
-			
-			PLUGIN:attack(attacker, targets, action.uid)
-		else --point on the ground, for summons and stuff
-			PLUGIN:attack(attacker, nil, action.uid, hitPos)
-		end	
+			targets = findTargetInBox(hitPos, action.box)
+		end
 	elseif(IsValid(target)) then--actions that requires a target
-		if (target.combat or target:IsPlayer()) then
+		if(target:GetClass() == "prop_ragdoll" and target.nutPlayer) then
+			targets = target.nutPlayer
+		elseif (target.combat or target:IsPlayer()) then
 			if(IsValid(attacker) and attacker != target) then
 				if(!action.uid) then --regular attack, not a action
-					PLUGIN:attack(attacker, {target})
+					targets = {target}
 				else
 					if(action.radius) then --sphere around entity
 						local entities = ents.FindInSphere(target:GetPos(), action.radius)
 						
-						local targets = findTargetInRad(target:GetPos(), action.radius)
-						
-						PLUGIN:attack(attacker, targets, action.uid)
+						targets = findTargetInRad(target:GetPos(), action.radius)
 					elseif(action.cone) then --cone starting from target
 						local forward = attacker:GetForward() * Vector(1,1,0)
 
-						local targets = findTargetInCone(attacker:GetPos(), forward, action.cone, action.cone2)
-						
-						PLUGIN:attack(attacker, targets, action.uid)
+						targets = findTargetInCone(attacker:GetPos(), forward, action.cone, action.cone2)
 					elseif(action.box) then
-						local targets = findTargetInBox(attacker:GetPos(), action.box)
-						
-						PLUGIN:attack(attacker, targets, action.uid)
+						targets = findTargetInBox(attacker:GetPos(), action.box)
 					else --single target
-						PLUGIN:attack(attacker, {target}, action.uid)
+						targets = {target}
 					end
 				end
 				
@@ -124,25 +144,34 @@ function PLUGIN:attackStart(client, attacker, trace, action)
 			end
 		end
 	end
+	
+	if(targets or action.notarget) then
+		PLUGIN:attack(attacker, targets, info)
+	end
 end
 
 --sets up an attack table with info from the attacker and action
-function PLUGIN:getAttackData(attacker, action)
+function PLUGIN:getAttackData(attacker, info)
+	local action = table.Copy(info.actionTbl or {})
+	local partString = info.partString
+	local weapon = info.weapon or (info.action and info.action.weapon)
+	local trace = info.trace
+
 	local data = {}
 	
 	data.attacker = attacker
 	data.name = attacker:Name()
 	data.attackString = (action and action.attackString) or "attacks"
 	
-	if(action) then
-		if(action.notarget) then
-			data.notarget = true
-		end
+	if(action and !table.IsEmpty(action)) then
+		local weaponItem = nut.item.instances[weapon]
 		
-		if(action.noSelf) then
-			data.noSelf = true
+		if(action.onGetAccuracy) then
+			action.accuracy = action:onGetAccuracy(attacker, info)
+		else
+			action.accuracy = (attacker:getAccuracy(weaponItem) + (action.accuracy or 0)) * (action.accuracyMult or 1)
 		end
-	
+
 		--check costs when they try to do the action
 		if(PLUGIN:costCheck(attacker, action)) then
 			--mana costs
@@ -178,6 +207,13 @@ function PLUGIN:getAttackData(attacker, action)
 			end
 		end
 		
+		local weaponItem = weapon and nut.item.instances[weapon]
+		if(weaponItem) then
+			if(weaponItem.itemUse) then
+				action.itemUse = weaponItem.itemUse
+			end
+		end
+		
 		--deletes consumable items upon use, should probably be moved elsewhere
 		if(action.itemUse) then
 			if(IsValid(attacker) and attacker:getChar()) then
@@ -197,29 +233,10 @@ function PLUGIN:getAttackData(attacker, action)
 		
 		--if the action does damage we worry about damage bonuses and etc
 		if(action.dmg) then
-			--magic grade scaling from items/buffs
-			--[[
-			if(!action.martial) then
-				local magicBonus = attacker:getMagic()
-
-				if(magicBonus > action.dmg) then
-					action.dmg = action.dmg + action.dmg + (magicBonus - action.dmg)^(0.75)
-				else
-					action.dmg = action.dmg + magicBonus
-				end
-			end
-			--]]
-		
 			--damage from attributes
 			if(action.mult) then 
-				if(attacker:IsPlayer()) then --players
-					for attrib, mult in pairs(action.mult) do
-						action.dmg = action.dmg + (attacker:getChar():getAttrib(attrib, 0) * mult)
-					end
-				else --combat entities
-					for attrib, mult in pairs(action.mult) do
-						action.dmg = action.dmg + ((attacker.attribs[attrib] or 0) * mult)
-					end
+				for attrib, mult in pairs(action.mult) do
+					action.dmg = action.dmg + (attacker:getChar():getAttrib(attrib, 0) * mult)
 				end
 			end
 			
@@ -241,37 +258,30 @@ function PLUGIN:getAttackData(attacker, action)
 				action.dmg = action.dmg + weaponDmg * action.weaponMult
 			end
 
-			local amp = attacker:getAmp()
-			if(amp) then
-				if(amp[action.dmgT]) then
-					action.dmg = action.dmg * (1 + amp[action.dmgT])
-				end
-			end
-			
-			--critical hits
-			local crit, critMsg = attacker:rollCrit(action.critC, action.critM, action.critF)
-			if(crit) then
-				action.dmg = action.dmg * crit
-			end
-
-			local accuracy = attacker:getAccuracy() + (action.accuracy or 0)
+			hook.Run("nut_ActionAttackData", action, attacker, info)
 			
 			--damage table
 			data.damage = {}
 			
 			for i = 1, (action.multi or 1) do --multiple hits
+				--this prevents the loop from decreasing/increasing things the more hits there are
+				local subAction = table.Copy(action)
+			
+				hook.Run("nut_OnCombatAttack", subAction, attacker, info)
+			
 				data.damage[i] = {
-					dmg = action.dmg,
-					dmgT = action.dmgT,
-					accuracy = accuracy,
-					crit = critMsg,
-					special = action.special,
+					dmg = subAction.dmg,
+					dmgT = subAction.dmgT,
+					accuracy = subAction.accuracy,
+					crit = subAction.crit,
+					special = subAction.special,
 				}
 			end
 		else
 			data.damage = {}
 		end
 		
+		hook.Run("nut_ActionEffectData", action, attacker, info)
 		--action effects
 		data.effects = action.effects
 		
@@ -280,21 +290,19 @@ function PLUGIN:getAttackData(attacker, action)
 		
 		--special things
 		data.special = action.special
+
+		data.notarget = action.notarget
+
+		data.noSelf = action.noSelf
 	else
 		--basic attack
 		local dmgTbl = attacker:getDamage()
 		
-		--applies crits
 		for k, v in pairs(dmgTbl) do
-			if(!v.dmg) then continue end
-		
-			local crit, critMsg = attacker:rollCrit()
-			if(crit) then
-				v.dmg = v.dmg * crit
-				v.crit = critMsg
-			end
+			hook.Run("nut_ActionAttackData", v, attacker, info)
+			hook.Run("nut_OnCombatAttack", v, attacker, info)
 		end
-		
+
 		data.damage = dmgTbl
 	end
 	
@@ -304,13 +312,16 @@ function PLUGIN:getAttackData(attacker, action)
 end
 
 --main attack function, handles mostly everything
-function PLUGIN:attack(attacker, target, actionID, pos, actionOverwrite)
-	--use table.Copy just in case
-	local action = table.Copy(actionOverwrite) or table.Copy(ACTS.actions[actionID])
-	local attackInfo = PLUGIN:getAttackData(attacker, action, target)
-
-	if(attackInfo.failed) then
-		local response = attacker:Name().. "'s ability <" ..attackInfo.name.. "> has failed to activate!"
+function PLUGIN:attack(attacker, target, info)
+	local action = info.action
+	local actionTbl = info.actionTbl
+	
+	local actionID = action and action.uid
+	local name = attacker:Name() --name of attacker
+	
+	local attackData = PLUGIN:getAttackData(attacker, info)
+	if(attackData.failed) then
+		local response = attacker:Name().. "'s ability <" ..attackData.name.. "> has failed to activate!"
 		
 		nut.chat.send(attacker, "react_npc", response)
 		
@@ -318,35 +329,37 @@ function PLUGIN:attack(attacker, target, actionID, pos, actionOverwrite)
 		
 		return false
 	end
-	
-	attacker:buffOnHit() --for buffs that have charges reduced by hitting things
 
 	--if it's a summoning action or summons something when it happens
-	if(attackInfo.summon) then
-		PLUGIN:summonAction(attacker, action, pos)
+	if(attackData.summon) then
+		PLUGIN:summonAction(attacker, info)
 	end
 
-	--local response = attackInfo.name.. " " ..(attackInfo.attackString or "")
+	--local response = attackData.name.. " " ..(attackData.attackString or "")
 	local responseTbl = {}
 
 	--handles damage parts of the attack
-	local damage = attackInfo.damage --damage table
-	local effects = attackInfo.effects
-	local special = attackInfo.special
+	local damage = attackData.damage --damage table
+	local effects = attackData.effects
+	local special = attackData.special
 	
 	if(target) then
 		for k, v in pairs(target) do
-			if(attackInfo.noSelf and v == attacker) then continue end
+			if(attackData.noSelf and v == attacker) then continue end
 			
 			if(damage) then
 				if(!responseTbl["dmg"]) then responseTbl["dmg"] = {} end
-				responseTbl["dmg"][v] = PLUGIN:damageProcess(v, attackInfo)
+				local dmgProcess = PLUGIN:damageProcess(v, attackData)
+				
+				if(!table.IsEmpty(dmgProcess)) then
+					responseTbl["dmg"][v] = dmgProcess
+				end
 			end
 			
 			if(effects) then
 				if(!responseTbl["effect"]) then responseTbl["effect"] = {} end
 				
-				local effectResponse, extraResponse = PLUGIN:effectProcess(v, attackInfo)
+				local effectResponse, extraResponse = PLUGIN:effectProcess(v, attackData)
 				
 				--effects affecting the target
 				responseTbl["effect"][v] = effectResponse
@@ -359,67 +372,56 @@ function PLUGIN:attack(attacker, target, actionID, pos, actionOverwrite)
 			end
 			
 			if(special) then
-				spell.special(attacker, v)
+				action.special(attacker, v)
 			end
 		end
 	end
 	
-	PLUGIN:combatStringCreate(attackInfo, responseTbl)
+	PLUGIN:combatStringCreate(attackData, responseTbl)
 end
 
 --processing damage and creates the chat message
 function PLUGIN:damageProcess(target, attack, responseString)
-local attackInfo = table.Copy(attack) --just in case
+	local attackInfo = table.Copy(attack) --just in case
 
 	local damage = attackInfo.damage
-	
+
 	local responseTbl = {} --for printed string later
 	
-	if(IsValid(target)) then
-		if(!table.IsEmpty(damage)) then			
-			local totalDam = 0
+	if(IsValid(target) and !table.IsEmpty(damage)) then		
+		local totalDam = 0
 			
-			for k, v in pairs(damage) do			
-				if(!v.dmg) then	continue end
-				
-				--variance
-				v.dmg = math.Round(math.Rand(v.dmg * 0.9, v.dmg * 1.1), 2)
-				
-				--evasion
-				local evade, evaReduct
-				evade, evaReduct = PLUGIN:evadeCalc(target, v.accuracy, v.dmg)
-				
-				v.dmg = v.dmg * (evaReduct or 1)
+		hook.Run("nut_OnCombatDamageProcess", target, damage, attackInfo)
+		
+		for k, v in pairs(damage) do			
+			if(!v.dmg) then	continue end
 			
-				v.dmg = target:receiveDamage(v.dmg, v.dmgT) --resistances handled in here
-				
-				--round it so there's no crazy decimals
-				v.dmg = math.Round(math.max(v.dmg, 0), 2) 
-				
-				--set the target's hp
-				target:addHP(v.dmg * -1)
-				
-				local lifesteal = attackInfo.attacker:getLifesteal()
-				if(lifesteal != 0) then
-					attackInfo.attacker:addHP(math.Round(v.dmg * lifesteal, 2))
-				end
-				
-				if(v.lifesteal) then
-					attackInfo.attacker:addHP(math.Round(v.dmg * v.lifesteal, 2))
-				end
-				
-				responseTbl[#responseTbl+1] = {
-					dmgT = v.dmgT,
-					dmg = v.dmg,
-					crit = v.crit,
-					evade = evade,
-					weapon = v.weap,
-				}
-				
-				--for buffs that have charges reduced by getting hit
-				target:buffGetHit()
-			end
+			--variance
+			v.dmg = math.Round(math.Rand(v.dmg * 0.9, v.dmg * 1.1), 2)
+			
+			--evasion
+			local evade, evaReduct = PLUGIN:evadeCalc(target, v.accuracy, v.dmg)
+			v.dmg = v.dmg * (evaReduct or 1)
+		
+			--reduce damage by target's resistances
+			v.dmg = target:receiveDamage(v.dmg, v.dmgT) --resistances handled in here
+			
+			--round it so there's no crazy decimals
+			v.dmg = math.Round(math.max(v.dmg, 0), 2) 
+			
+			--set the target's hp
+			target:addHP(v.dmg * -1)
+			
+			responseTbl[#responseTbl+1] = {
+				dmgT = v.dmgT,
+				dmg = v.dmg,
+				crit = v.crit,
+				evade = evade,
+				weapon = v.weap,
+			}
 		end
+		
+		hook.Run("nut_OnCombatDamageProcessPost", target, damage, attackInfo)
 	end
 	
 	return responseTbl
@@ -458,7 +460,11 @@ end
 function PLUGIN:combatStringCreate(attackInfo, responseTbl)	
 	local attacker = attackInfo.attacker
 
+	--who all will receive the chat message
+	local receivers = {}
+
 	local chatPrint = ""
+	
 	
 	--start of the string, "Attacker "
 	chatPrint = chatPrint..((attackInfo.name and attackInfo.name.. " ") or "Something ")
@@ -484,10 +490,17 @@ function PLUGIN:combatStringCreate(attackInfo, responseTbl)
 	--damage line
 	local dmgPrint = ""
 	local dmgTbl = responseTbl.dmg
+	
+	local dmgHeader
+	
 	if(dmgTbl and !table.IsEmpty(dmgTbl)) then
 		dmgPrint = "[DAMAGE]"
-		
+	
 		for client, clientDMG in pairs(dmgTbl) do
+			receivers[#receivers+1] = client
+		
+			if(table.IsEmpty(clientDMG)) then continue end
+		
 			local totalDam = 0 --total damage
 		
 			dmgPrint = dmgPrint.. " " ..client:Name().. " {"
@@ -523,6 +536,8 @@ function PLUGIN:combatStringCreate(attackInfo, responseTbl)
 	if(effectTbl and !table.IsEmpty(effectTbl)) then
 		effectPrint = "[EFFECT]"
 		for client, clientEff in pairs(effectTbl) do
+			receivers[#receivers+1] = client
+		
 			effectPrint = effectPrint.. " " ..client:Name().. " ["
 			
 			local loop = 1
@@ -547,8 +562,62 @@ function PLUGIN:combatStringCreate(attackInfo, responseTbl)
 		
 		chatPrint = chatPrint.. "\n" ..effectPrint
 	end
+
+	if(attackInfo.attacker) then
+		local turnOrder = attackInfo.attacker:getTurnData()
+
+		if(turnOrder.entities) then
+			for entity, v in pairs(turnOrder.entities) do
+				receivers[#receivers+1] = entity
+			end
+		else
+			receivers[#receivers+1] = attackInfo.attacker
+		end
+	end
+
+	local entities = ents.FindInSphere(attackInfo.attacker:GetPos(), nut.config.get("chatRange", 280) * 5)
+	for k, v in pairs(entities) do
+		if(v:IsPlayer()) then
+			receivers[#receivers+1] = v
+		end
+	end
+
+	nut.chat.send(attacker, "react_npc", chatPrint, false, receivers)
 	
 	--nut.plugin.list["chatboxextra"]:ChatboxSend(attacker, "react_npc", chatPrint)
-	nut.chat.send(attacker, "react_npc", chatPrint)
 	nut.log.addRaw(chatPrint)
+end
+
+function PLUGIN:summonAction(attacker, info)
+	local actionTbl = info.actionTbl
+	local trace = info.trace
+	local pos = trace.HitPos
+
+	local summon = ents.Create(actionTbl.summon)
+	if(IsValid(summon)) then
+		summon:SetPos(pos)
+		summon:SetCreator(attacker)
+		summon.playerControlled = true
+		summon:Spawn()
+		
+		if(summon.Name) then
+			local name = summon:Name()
+			summon:setNetVar("name", attacker:Name().. "'s " ..(name or ""))
+		end
+			
+		if(attacker:IsPlayer()) then
+			attacker:Give("nut_cmover")
+		end
+		
+		if(attacker.turnData) then
+			local id = attacker.turnData[1] or 1
+			local team = attacker.turnData[2] or 1
+		
+			PLUGIN:turnAdd(id, summon, team)
+		end
+		
+		if(actionTbl.onSummon) then
+			actionTbl:onSummon(attacker, info, summon)
+		end
+	end
 end

@@ -1,22 +1,23 @@
 ITEM.name = "Potion - Luck"
 ITEM.prefix = "Lucky"
-ITEM.desc = "A strange vial that is filled with some bright green liquid.\nDrinking this potion leaves the user feeling somewhat more fortunate. Good things may happen to them."
+ITEM.desc = "A vial filled with some sort of bright green liquid.\nDrinking this potion leaves the user feeling somewhat more fortunate. Good things may happen to them."
 ITEM.uniqueID = "potion_luck"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.price = 75
 ITEM.container = "j_empty_vial"
 ITEM.color = Color(50, 255, 50)
-ITEM.duration = 3000
+ITEM.duration = 1800
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
-
-ITEM.disease = "dis_poti"
-ITEM.disChance = 5
 
 ITEM.stomach = false
 
-ITEM.attrib = {
-	["luck"] = 10,
+ITEM.buffTbl = {
+	attrib = {
+		["luck"] = 10,
+	},
+	
+	duration = 3,
 }
 
 ITEM.loot = {

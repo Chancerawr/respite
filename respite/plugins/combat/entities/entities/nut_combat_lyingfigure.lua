@@ -5,10 +5,12 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_lyingfigure"
+
 ENT.name = "Lying Figure"
 ENT.model = "models/chillax_sf2/silenthill/sh2/lying_figure/lying_figure.mdl"
 
-ENT.IdleAnim = "Walk"
+ENT.IdleAnim = "idle"
 ENT.AttackAnim = "Attack"
 
 ENT.noRag = true
@@ -52,10 +54,19 @@ ENT.actions = {
 	"acid_spit",
 }
 
-function ENT:Initialize()
-	timer.Simple(0.6, function()
-		self:ResetSequence("idle")
-	end)
+ENT.StepData = {
+	0,
+	0.5,
+}
 
+ENT.FootstepSounds = {
+	"physics/flesh/flesh_squishy_impact_hard1.wav",
+	"physics/flesh/flesh_squishy_impact_hard2.wav",
+	"physics/flesh/flesh_squishy_impact_hard3.wav",
+}
+
+ENT.StepPitch = {40,60}
+
+function ENT:Initialize()
 	self:basicSetup()
 end

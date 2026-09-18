@@ -1,0 +1,10 @@
+ITEM.name = "Coal"
+ITEM.desc = "A notably combustible black rock."
+ITEM.uniqueID = "j_scrap_coal"
+ITEM.model = "models/props_junk/rock001a.mdl"
+ITEM.material = "phoenix_storms/black_chrome"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 15
+ITEM.color = Color(0, 0, 0)

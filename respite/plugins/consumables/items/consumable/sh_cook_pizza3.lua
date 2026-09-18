@@ -1,8 +1,9 @@
 ITEM.name = "Medium Pizza"
 ITEM.desc = "A medium pizza."
 ITEM.uniqueID = "cook_pizza3"
-ITEM.model = "models/props/de_nuke/clock.mdl"
-ITEM.material = "models/weapons/v_crossbow/rebar_glow"
+ITEM.model = "models/foodnhouseholditems/pizza.mdl"
+--ITEM.model = "models/props/de_nuke/clock.mdl"
+--ITEM.material = "models/weapons/v_crossbow/rebar_glow"
 ITEM.quantity2 = 8
 --ITEM.price = 3
 

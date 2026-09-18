@@ -5,7 +5,7 @@ ITEM.model = "models/props_junk/wood_crate001a_chunk05.mdl"
 ITEM.category = "Medical"
 ITEM.width = 2
 ITEM.hp = 50
-ITEM.hpTime = 12
+ITEM.hpTime = 45
 ITEM.price = 0
 ITEM.color = Color(232, 0, 0)
 

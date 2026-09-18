@@ -12,6 +12,8 @@ ITEM.sound = "vo/citadel/br_laugh01.wav"
 ITEM.soundPitch = 20
 ITEM.container = "j_tinc"
 
+ITEM.stomach = false
+
 --[[
 ITEM.disease = "dis_mind"
 ITEM.disChance = 100

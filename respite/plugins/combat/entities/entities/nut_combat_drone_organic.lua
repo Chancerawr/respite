@@ -8,7 +8,11 @@ ENT.AdminOnly = true
 ENT.model = "models/shield_scanner.mdl"
 --ENT.material = "models/props/cs_militia/roofbeams02"
 
-ENT.IdleAnim = "Hover4"
+ENT.BloodColor = BLOOD_COLOR_MECH
+
+ENT.IdleAnim = "HoverClosed"
+
+ENT.PropHeight = 50
 
 --ENT.noRag = true
 

@@ -327,7 +327,8 @@ PANEL = {}
 		self:Center()
 		self:ShowCloseButton(false)
 		self:SetDraggable(true)
-		self:SetTitle(L"inv")
+		self:SetTitle("")
+		self.inventoryName = "Inventory"
 	end
 
 	-- Sets which inventory this panel is representing.
@@ -406,7 +407,7 @@ hook.Add("CreateMenuButtons", "nutInventory", function(tabs)
 				local px, py, pw, ph = mainPanel:GetBounds()
 				local x, y = px + pw/2 - totalSize.x / 2, py + ph/2 
 				for _, panel in pairs(sortPanels) do
-					panel:ShowCloseButton(true)
+					panel:ShowCloseButton(false)
 					panel:SetPos(x, y - panel:GetTall()/2)
 					x = x + panel:GetWide() + margin
 				end

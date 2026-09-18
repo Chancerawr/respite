@@ -5,10 +5,14 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_belmer"
+
 ENT.noRag = true
 
 ENT.model = "models/chillax_sf2/silenthill/sh2/mannequin/mannequin.mdl"
 ENT.material = "models/props_lab/security_screens"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Attack_01"
 
@@ -47,4 +51,15 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 50,
 	["Electric"] = 50,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {50, 60}
+ENT.FootstepSounds = {
+	"physics/plastic/plastic_barrel_break1.wav",
+	"physics/plastic/plastic_barrel_break2.wav",
 }

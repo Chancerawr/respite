@@ -14,7 +14,7 @@ ITEM.sound = "ambient/levels/labs/electric_explosion1.wav"
 ITEM.stomach = false
 
 ITEM.attrib = {
-	["stm"] = 25,
+	["stm"] = 20,
 }
 
 ITEM.extraFunc = function(item, client)
@@ -30,15 +30,15 @@ ITEM.loot = {
 ITEM.craft = {
 	buffTbl = {
 		attrib = {
-			["stm"] = 12,
+			["stm"] = 10,
 		},
 		
 		res = {
-			["Stun"] = 25,
-			["Root"] = 25,
-			["Knockdown"] = 25,
-			["Slow"] = 50,
-			["Sleep"] = 100,
+			["Stun"] = 5,
+			["Root"] = 5,
+			["Knockdown"] = 5,
+			["Slow"] = 15,
+			["Sleep"] = 50,
 		}
 	},
 }

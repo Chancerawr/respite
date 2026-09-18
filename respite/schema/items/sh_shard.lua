@@ -23,7 +23,6 @@ if (CLIENT) then
 		
 		local pos = entity:GetPos()
 		local dlight = DynamicLight(entity:EntIndex())
-		local perc = ( ( 9000000 - CurTime() )/ 9000000 )
 		dlight.Pos = pos
 		dlight.r = 255
 		dlight.g = 255

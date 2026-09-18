@@ -110,7 +110,7 @@ local PANEL = {}
 		end
 	end
 	
-	function PANEL:PopulateTemplate(data)
+	function PANEL:PopulateTemplate(data, swep)
 		self.entities = data
 	
 		-- remove the old ones
@@ -137,6 +137,14 @@ local PANEL = {}
 			--button:SetToolTip(desc)
 			button.DoClick = function()
 				netstream.Start("nutTempTP", entity)
+			end
+			button.DoRightClick = function()
+				--remove the CEnt from the template
+				table.RemoveByValue(self.entities, entity)
+				
+				netstream.Start("nutTempRemove", entity, swep)
+				
+				self:PopulateTemplate(self.entities, swep)
 			end
 			button.Paint = function(panel, w, h)
 				surface.SetDrawColor(Color(0, 0, 0, 220))

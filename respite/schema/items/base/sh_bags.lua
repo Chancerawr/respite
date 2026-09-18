@@ -43,6 +43,7 @@ ITEM.functions.View = {
 				if (IsValid(panel)) then
 					panel:ShowCloseButton(true)
 					panel:SetTitle(item:getName())
+					panel.inventoryName = item:getName()
 				end
 			else
 				local itemID = item:getID()

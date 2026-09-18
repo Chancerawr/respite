@@ -54,8 +54,10 @@ if SERVER then
 	end
 
 	function PLUGIN:LoadData()
-		self.gatherPoints = self:getData()
-		self:Initialize()
+		pcall(function()
+			self.gatherPoints = self:getData()
+			self:Initialize()
+		end)
 	end
 
 	function PLUGIN:Initialize()

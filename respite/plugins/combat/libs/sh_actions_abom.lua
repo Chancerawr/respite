@@ -37,6 +37,23 @@ ACTS:Register(ACT)
 //
 local ACT
 ACT = {}
+ACT.uid = "whack"
+ACT.name = "Whack"
+ACT.desc = "A simple whack."
+ACT.category = "Monster"
+ACT.hidden = true
+ACT.attackString = "smacks"
+ACT.CD = 1
+ACT.dmg = 0
+ACT.dmgT = "Blunt"
+ACT.weaponMult = 1
+ACT.mult = {
+	["str"] = 0.25,
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
 ACT.uid = "Stab"
 ACT.name = "Stab"
 ACT.desc = "A simple stab."
@@ -59,7 +76,7 @@ ACT.name = "Mawed Bite"
 ACT.desc = "Bite with big mouth."
 ACT.category = "Monster"
 ACT.hidden = true
-ACT.attackString = "uses their maw to bite"
+ACT.attackString = "uses its maw to bite"
 ACT.CD = 1
 ACT.dmg = 0
 ACT.weaponMult = 1
@@ -75,7 +92,7 @@ ACT.effects = {
 		duration = 1,
 		strength = 1,
 		
-		accuracy = -15,
+		accuracy = -10,
 		
 		debuff = true,
 	}
@@ -94,6 +111,8 @@ ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Acid"
 ACT.weaponMult = 0.9
+ACT.range = 300
+ACT.rangeMin = 80
 ACT.effects = {
 	[1] = {
 		uid = ACT.uid,
@@ -115,14 +134,32 @@ ACT.name = "Throw Meat"
 ACT.desc = "Throw meat."
 ACT.category = "Monster"
 ACT.hidden = true
-ACT.attackString = "throws a chunk of boiling hot meat."
+ACT.attackString = "throws a chunk of boiling hot meat"
 ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Fire"
 ACT.weaponMult = 1
+ACT.range = 300
+ACT.rangeMin = 80
 ACT.mult = {
 	["str"] = 0.3,
 }
+ACT.visual = function(self, entity, target)
+	local projectile = ents.Create("nut_combat_projectile")
+	projectile:SetModel("models/Gibs/HGIBS.mdl")
+	projectile:SetMaterial("models/flesh")
+	projectile:SetPos(entity:GetPos()+entity:GetForward()*10+entity:GetUp()*40)
+	
+	if(target) then
+		projectile.direction = (target:GetPos() - entity:GetPos()):GetNormalized()
+	else
+		projectile.direction = entity:GetForward()
+	end
+	
+	projectile.force = 1000
+	
+	projectile:Spawn()
+end
 ACTS:Register(ACT)
 //
 local ACT
@@ -326,6 +363,9 @@ ACT.effects = {
 		duration = 1,
 		strength = 1,
 		
+		dmg = 10,
+		dmgT = "Pierce",
+		
 		chance = 25,
 		
 		debuff = true,
@@ -359,4 +399,31 @@ ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Fire"
 ACT.weaponMult = 1
+ACTS:Register(ACT)
+
+//
+local ACT
+ACT = {}
+ACT.uid = "corpse_burst"
+ACT.name = "Corpse Burst"
+ACT.desc = "Animate a ghoul from a corpse."
+ACT.category = "Monster"
+ACT.hidden = true
+ACT.attackString = "animates a ghoul from a corpse"
+ACT.CD = 1
+ACT.dmg = 25
+ACT.dmgT = "Electric"
+ACT.radius = 100
+ACT.notarget = true
+ACT.summon = "nut_combat_kuszo_creeper"
+ACT.onCanAct = function(actionTbl, client, data)
+	local trace = data.trace
+	local target = trace.Entity
+
+	if(IsValid(target) and target:GetClass() == "prop_ragdoll") then
+		SafeRemoveEntity(target)
+	
+		return true
+	end
+end
 ACTS:Register(ACT)

@@ -36,22 +36,23 @@ ENT.resources = {
 }
 
 if (SERVER) then
-	--[[
 	function ENT:SpawnFunction(client, trace, className)
 		if (!trace.Hit) then return end
-	
-		local SpawnPos = trace.HitPos + trace.HitNormal * 10
-		local SpawnAng = trace.HitNormal:Angle()
 		
-		local ent = ents.Create(className)
+		local normal = trace.HitNormal
+
+		local SpawnPos = trace.HitPos + normal * 10
+		local SpawnAng = normal:Angle() + Angle(90,0,0)--Angle(normal.x*180, normal.y*180, normal.z*180)
+
+		local ent = ents.Create(ClassName)
 		ent:SetPos(SpawnPos)
 		ent:SetAngles(SpawnAng)
+
 		ent:Spawn()
 		ent:Activate()
 		
 		return ent
 	end
-	--]]
 
 	function ENT:Initialize()
 		local model = self.models[math.random(#self.models)]
@@ -66,9 +67,10 @@ if (SERVER) then
 		
 		if(!self.nodeSpawned) then
 			self:SetPos(self:GetPos() - self:GetUp()*11)
+		else
+			self:SetAngles(Angle(0,math.random(0,360),0))
 		end
-		
-		self:SetAngles(Angle(0,math.random(0,360),0))
+
 		self:SetColor(Color(math.random(150,255), math.random(150,255), math.random(150,255)))
 		
 		local physicsObject = self:GetPhysicsObject()

@@ -5,9 +5,18 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_cof_faceless"
+
 ENT.model = "models/cryoffear/faceless/faceless3.mdl"
 
+ENT.collisionOverwrite = true
+ENT.CollisionHeight = 83
+ENT.CollisionSide = 15
+
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Attack1"
+ENT.WalkAnim = "Walk"
+ENT.RunAnim = "Walk"
 
 --all attributes
 ENT.attribs = {
@@ -45,6 +54,16 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}

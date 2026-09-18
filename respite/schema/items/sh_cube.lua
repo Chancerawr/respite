@@ -57,7 +57,7 @@ ITEM.functions.Chip = {
 }
 
 ITEM.functions.Chip2 = {
-	name = "Enhanced Chip",
+	name = "Distortion Key",
 	icon = "icon16/box.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
@@ -67,7 +67,7 @@ ITEM.functions.Chip2 = {
 		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 			
 		if (!chip) then
-			client:notifyLocalized("You need an enhanced chip to insert!") return false
+			client:notifyLocalized("You need an distortion key to insert!") return false
 		end
 			
 		nut.item.spawn("food_apple_cursed", position)

@@ -111,6 +111,22 @@ ACT.attackString = ""
 ACT.reqStats = {
 	["medical"] = 30,
 }
+ACT.onEffect = function(actionTbl, action, attacker, info)
+	local trace = info.trace
+	local target = trace.Entity
+
+	local altPressed
+	if(attacker.KeyDown and attacker:KeyDown(IN_WALK)) then --self targetting
+		target = attacker
+	end
+
+	local buffs = target:getBuffs()
+	for k, v in pairs(buffs) do
+		if(v.debuff and v.strength <= 1) then
+			target:removeBuff(v)
+		end
+	end
+end
 ACT.effects = {
 	[1] = {
 		uid = ACT.uid,
@@ -123,6 +139,100 @@ ACT.effects = {
 		buff = true,
 	}
 }
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "innovate"
+ACT.name = "Innovate"
+ACT.desc = "Give a plethora of buffs to a single target for 1 turn."
+ACT.CD = 99
+ACT.category = "Craftiness"
+ACT.attackString = "innovates"
+ACT.reqStats = {
+	["medical"] = 35,
+}
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Innovate",
+		effect = "innovate",
+		duration = 1,
+		strength = 1,
+		
+		accuracy = 100,
+		evasion = 100,
+		armor = 200,
+		
+		critC = 10,
+		critM = 0.25,
+		critF = -1,
+		
+		attrib = {
+			["luck"] = 5,
+			["stm"] = 5,
+			["str"] = 5,
+			["end"] = 5,
+			["fortitude"] = 5,
+			["accuracy"] = 5,
+			["perception"] = 5,
+			["medical"] = 5,
+		},
+		
+		res = {
+			["dmg"] = 10,
+			["effect"] = 10,
+		},
+		
+		amp = {
+			["dmg"] = 10,
+		},
+		
+		buff = true,
+	}
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "vulnerability"
+ACT.name = "Vulnerability"
+ACT.desc = "Point out a vulnerability in the target's defenses, lowering their armor and accuracy by 50 percent for 3 turns."
+ACT.category = "Craftiness"
+ACT.attackString = "exposes vulnerabilities in their target"
+ACT.CD = 8
+ACT.reqStats = {
+	["medical"] = 35,
+}
+ACT.onEffect = function(actionTbl, action, attacker, info)
+	local trace = info.trace
+	local target = trace.Entity
+
+	local altPressed
+	if(attacker.KeyDown and attacker:KeyDown(IN_WALK)) then --self targetting
+		target = attacker
+	end
+
+	local evasion = target:getEvasion()
+	local armor = target:getArmor()
+	
+	local buff = {
+		uid = actionTbl.uid,
+		
+		name = "Vulnerable",
+		effect = "weak",
+		duration = 3,
+		strength = 1,
+		
+		evasion = evasion*-0.5,
+		armor = armor*-0.5,
+		
+		debuff = true,
+	}
+	
+	target:addBuff(buff)
+end
 ACTS:Register(ACT)
 //
 local ACT
@@ -147,7 +257,7 @@ ACT.effects = {
 		
 		accuracy = 20,
 		evasion = 25,
-		armor = 50,
+		armor = 100,
 		
 		buff = true,
 	},
@@ -187,6 +297,31 @@ ACT.effects = {
 		name = "Convince",
 		effect = "taunt",
 		duration = 3,
+		strength = 1,
+		
+		debuff = true,
+	}
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "confound"
+ACT.name = "Confound"
+ACT.desc = "Do something very confusing, which will confound an enemy. It may make strange decisions afterwards."
+ACT.category = "Craftiness"
+ACT.attackString = "confuses an enemy, causing it to behave differently"
+ACT.CD = 5
+ACT.reqStats = {
+	["medical"] = 40,
+}
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Confuse",
+		effect = "fear",
+		duration = 1,
 		strength = 1,
 		
 		debuff = true,

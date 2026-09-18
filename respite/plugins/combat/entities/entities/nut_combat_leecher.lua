@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_leecher"
+
 ENT.name = "Leecher"
 
 ENT.model = "models/zombie/poison.mdl"
@@ -13,6 +15,7 @@ ENT.material = "models/weapons/v_smg1/texture5"
 ENT.modelScale = 2
 
 ENT.AttackAnim = "Melee_01"
+ENT.RunAnim = "Run"
 
 ENT.color = Color(0, 0, 0, 0)
 
@@ -54,6 +57,17 @@ ENT.res = {
 ENT.actions = {
 	"whack",
 	"constrict",
+}
+
+ENT.StepData = {
+	0.1,
+	0.55,
+}
+
+ENT.StepPitch = 80
+ENT.FootstepSounds = {
+	"dalrp/npc/leecher/leecher_footstep01.wav",
+	"dalrp/npc/leecher/leecher_footstep02.wav",
 }
 
 function ENT:Initialize()

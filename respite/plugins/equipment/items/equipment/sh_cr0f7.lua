@@ -11,14 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
-ITEM.lootTags = {
-	["weapon"] = true,
-	["ranged"] = true,
-	["firearm"] = true,
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_revolver"
+ITEM.WalkAnim = "walk_revolver"
+ITEM.RunAnim = "run_revolver"
+
+ITEM.attackRange = 2000
+
+ITEM.AttackSounds = {
+	Sound("weapons/flaregun/fire.wav"),
 }
 
-ITEM.rarity = 10
+ITEM.rarity = 0
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -26,7 +32,7 @@ ITEM.lootTags = {
 }
 
 ITEM.dmg = {
-	["Shotgun"] = 10,
+	["Fire"] = 20,
 }
 
 ITEM.scaling = {
@@ -40,6 +46,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Shotgun"] = 10,
 }
 
 ITEM.iconCam = {

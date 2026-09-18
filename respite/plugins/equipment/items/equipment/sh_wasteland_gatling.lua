@@ -11,7 +11,21 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Scavenger"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_crossbow"
+ITEM.WalkAnim = "walk_crossbow"
+ITEM.RunAnim = "run_crossbow"
+
+--for turn based combat
+ITEM.attackRange = 750
+
+ITEM.AttackSounds = {
+	"weapons/minigun/mini-1.wav",
+}
+
+ITEM.rarity = 2
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -34,6 +48,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Rifle"] = 10,
 }
 
 ITEM.iconCam = {

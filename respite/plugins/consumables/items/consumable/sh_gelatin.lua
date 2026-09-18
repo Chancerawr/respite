@@ -1,6 +1,6 @@
 ITEM.name = "Gelatin Pudding"
 ITEM.desc = "A jiggly wiggly tasty treat."
-ITEM.uniqueID = "food_onion"
+ITEM.uniqueID = "food_pudding"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/props_lab/xencrystal_sheet"
 ITEM.quantity2 = 2

@@ -6,16 +6,13 @@ TRAIT.uid = "nofall"
 TRAIT.name = "Acrobat"
 TRAIT.desc = "You don't fallover when you take fall damage."
 TRAIT.category = "Character"
-
 TRAITS:Register(TRAIT)
-
 //
 local TRAIT = {}
 TRAIT.uid = "glutton"
 TRAIT.name = "Glutton"
 TRAIT.desc = "You enjoy a meal, whether it's a hot dog or a lobster.\nBuffs received from food are enhanced by 20%."
 TRAIT.category = "Character"
-
 TRAITS:Register( TRAIT )
 //
 local TRAIT = {}
@@ -640,6 +637,7 @@ end
 
 TRAITS:Register( TRAIT )
 //
+--[[
 local TRAIT = {}
 TRAIT.uid = "librarian" 
 TRAIT.name = "Librarian"
@@ -659,6 +657,7 @@ TRAIT.func = function(client, character)
 	
 	character:getInv():add(table.Random(ranItems), 1) --one random item from above pool
 end
+--]]
 
 TRAITS:Register( TRAIT )
 //
@@ -807,3 +806,37 @@ TRAIT.desc = "You know exactly what's wrong with everyone else.\nYou can diagnos
 TRAIT.category = "Char Abilities"
 
 TRAITS:Register( TRAIT )
+//
+local TRAIT = {}
+TRAIT.uid = "tree_wraith" 
+TRAIT.name = "Wraith Body"
+TRAIT.desc = "A Drifter whose body is partially or primarily composed of ichor."
+TRAIT.category = "Body"
+TRAIT.ignore = true
+TRAIT.res = {
+	["Blight"] = -10,
+}
+TRAITS:Register(TRAIT)
+//
+local TRAIT = {}
+TRAIT.uid = "tree_shard" 
+TRAIT.name = "Shard Body"
+TRAIT.desc = "A Drifter whose body is partially or primarily composed of shards."
+TRAIT.category = "Body"
+TRAIT.ignore = true
+TRAIT.res = {
+	["Blight"] = 5,
+	["Ichor"] = 5,
+}
+TRAITS:Register(TRAIT)
+//
+local TRAIT = {}
+TRAIT.uid = "tree_aberration"
+TRAIT.name = "Aberration Body"
+TRAIT.desc = "You are no longer human."
+TRAIT.category = "Body"
+TRAIT.ignore = true
+TRAIT.res = {
+	["Blight"] = -10,
+}
+TRAITS:Register(TRAIT)

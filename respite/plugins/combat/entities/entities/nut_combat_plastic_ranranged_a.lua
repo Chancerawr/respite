@@ -10,6 +10,8 @@ ENT.name = "Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.BloodColor = DONT_BLEED
+
 ENT.models = {
 	"models/player/group03/female_01.mdl",
 	"models/player/group03/female_02.mdl",
@@ -66,64 +68,28 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-local weapons = {
-	"tfa_cp1ch",
-	"tfa_cp1cs",
-	"tfa_cp1ka",
-	"tfa_cp1kh",
-	"tfa_cp1kl",
-	"tfa_cp1km",
-	"tfa_cp1ko",
-	"tfa_cp1ks",
-	"tfa_cp1kx",
-	"tfa_cpr05",
-	"tfa_cpr06",
-	"tfa_cpr07",
-	"tfa_cpr08",
-	"tfa_cpr09",
-	"tfa_cpunk",
-	"tfa_cr0c5",
-	"tfa_cr0ck",
-	"tfa_cr0f7",
-	"tfa_cr1ck",
-	"tfa_cr1fa",
-	"tfa_cr1fb",
-	"tfa_cr1ka",
-	"tfa_cr1kb",
-	"tfa_cr2fa",
-	"tfa_cr2fb",
-	"tfa_cr2ka",
-	"tfa_cr2kb",
-	"tfa_cr3s7",
-	"tfa_cr3s750",
-	"tfa_cr3s750fe",
-	"tfa_cr3st",
-	"tfa_cr3t3",
-	"tfa_cr4ck",
-	"tfa_cr33d",
-	"tfa_cr33k",
-	"tfa_cr33m",
-	"tfa_cr33p",
-	"tfa_crass",
-	"tfa_criss",
-	"tfa_cross",
-	"tfa_crud3",
-	"tfa_crude",
-	"tfa_crunt",
-	"tfa_wasteland_bomb_launcher",
-	"tfa_wasteland_boltrifle_s",
-	"tfa_wasteland_boltrifle",
-	"tfa_wasteland_beancan_s",
-	"tfa_wasteland_beancan",
-	"tfa_wasteland_shotgun",
-	"tfa_wasteland_ar",
-	"tfa_wasteland_smg",
-	"tfa_wasteland_pistol_s",
-	"tfa_wasteland_pistol",
-	"tfa_wasteland_nailgun",
-	"tfa_wasteland_lmg",
-	"tfa_wasteland_geiger",
-	"tfa_wasteland_gatling",
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}
+
+ENT.weapons = {
+	generated = true,
+	tags = {
+		"ranged",
+	},
+	filter = {
+		"light",
+	}
 }
 
 function ENT:Initialize()
@@ -135,26 +101,6 @@ function ENT:Initialize()
 		self.attribs.luck = math.random(5,25)
 		self.attribs.perception = math.random(5,25)
 		self.attribs.fortitude = math.random(5,25)
-		
-		if(SERVER) then
-			timer.Simple(1, function()
-				if(IsValid(self)) then
-					local randomWeapon = table.Random(weapons)
-					local item = nut.item.list[randomWeapon]
-					if(item) then
-						self:EquipWeapon(item.model, item.material)
-						
-						if(item.dmg) then
-							self.dmg = item.dmg
-						end
-
-						self:setNetVar("name", self.name.. " (" ..item.name.. ")")
-					else
-						print("No item found", randomWeapon)
-					end
-				end
-			end)
-		end
 	end
 	
 	self:basicSetup()

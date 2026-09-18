@@ -10,6 +10,8 @@ ITEM.color = Color(148, 0, 210)
 ITEM.sound = "ambient/creatures/town_muffled_cry1.wav"
 ITEM.container = "j_tinc"
  
+ITEM.stomach = false
+ 
 ITEM.attrib = { 
 	["fortitude"] = 2,
 	["end"] = 1

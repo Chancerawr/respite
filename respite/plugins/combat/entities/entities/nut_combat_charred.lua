@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_zm_charred"
+
 ENT.model = "models/Zombie/poison.mdl"
 ENT.material = "models/charple/charple4_sheet" 
 
@@ -55,8 +57,12 @@ ENT.actions = {
 	"throw_meat",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-	
-	--self:SetModelScale(1.25)
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/zombie_poison/pz_left_foot1.wav",
+	"npc/zombie_poison/pz_right_foot1.wav",
+}

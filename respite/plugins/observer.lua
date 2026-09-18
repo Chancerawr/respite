@@ -54,11 +54,13 @@ if (CLIENT) then
 					nut.util.drawText("[ " ..HP.. " ]", x, y - size + 16, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
 				
+				--[[
 				if(v.getMP) then
 					local MP = math.Round(v:getMP(), 2)
 				
 					nut.util.drawText("[ " ..MP.. " ]", x, y - size + 32, ColorAlpha(Color(50,50,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 				end
+				--]]
 			end
 			
 			if(NUT_CVAR_ADMINESPC:GetBool()) then
@@ -83,9 +85,11 @@ if (CLIENT) then
 						nut.util.drawText("(" ..(v:getHP()).. "/" ..(v:getMaxHP()).. ")", x, y - size + 18, ColorAlpha(Color(200,20,20), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					end
 					
+					--[[
 					if(v.getMP and v:getMaxMP() > 0) then
 						nut.util.drawText("(" ..(v:getMP()).. "/" ..(v:getMaxMP()).. ")", x, y - size + 34, ColorAlpha(Color(20,20,200), alpha), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, nil, alpha)
 					end
+					--]]
 				end
 			end	
 			

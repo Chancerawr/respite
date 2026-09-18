@@ -49,6 +49,22 @@ local function spawnVehicle(vehicle, client, position, data)
 	end
 end
 
+local function spawnProp(model, client, position, data)
+	local entity = ents.Create("prop_physics")
+	
+	if (IsValid(entity)) then
+		entity:SetModel(model)
+		entity:PhysicsInit(SOLID_VPHYSICS)
+		entity:SetPos(position)
+		entity.ghostSpawner = client
+		entity.ghostData = data
+		entity:SetOwner(client)
+		entity:Spawn()
+
+		return true
+	end
+end
+
 local function spawnItem(uniqueID, client, position, data, amount, itemData)
 	if (!nut.item.list[uniqueID]) then
 		for k, v in SortedPairs(nut.item.list) do
@@ -120,25 +136,25 @@ end
 PLUGIN.actions = {
 	--abominations
 	{
-		name = "Paper Zombie",
-		desc = "Spawn a Paper Zombie",
-		model = "models/respite/paperzombie.mdl",
-		category = "Monsters - Abomination",
-		cost = 5,
-		CD = 1,
-		useFunction = function(client, position, data) --serverside only
-			return spawnNPC("resp_paperzombie", client, position, data)
-		end
-	},
-	{
 		name = "Waste",
 		desc = "Spawn a Waste",
 		model = "models/prosperity/freak.mdl",
 		category = "Monsters - Abomination",
-		cost = 10,
+		cost = 5,
 		CD = 1,
 		useFunction = function(client, position, data) --serverside only
-			return spawnNPC("nz_freak", client, position, data)
+			return spawnNPC("resp_waste", client, position, data)
+		end
+	},
+	{
+		name = "Paper Zombie",
+		desc = "Spawn a Paper Zombie",
+		model = "models/respite/paperzombie.mdl",
+		category = "Monsters - Abomination",
+		cost = 7,
+		CD = 1,
+		useFunction = function(client, position, data) --serverside only
+			return spawnNPC("resp_paper", client, position, data)
 		end
 	},
 	{
@@ -160,7 +176,7 @@ PLUGIN.actions = {
 		cost = 15,
 		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("amputated", client, position, data)
+			return spawnNPC("resp_amputated", client, position, data)
 		end
 	},
 	{
@@ -193,7 +209,7 @@ PLUGIN.actions = {
 		cost = 20,
 		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("pack", client, position, data)
+			return spawnNPC("resp_pack", client, position, data)
 		end
 	},
 	{
@@ -204,7 +220,7 @@ PLUGIN.actions = {
 		cost = 25,
 		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_dog", client, position, data)
+			return spawnNPC("resp_dog", client, position, data)
 		end
 	},
 	{
@@ -215,7 +231,7 @@ PLUGIN.actions = {
 		cost = 45,
 		CD = 10,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_leperkin", client, position, data)
+			return spawnNPC("resp_leperkin", client, position, data)
 		end
 	},
 	{
@@ -237,7 +253,7 @@ PLUGIN.actions = {
 		cost = 50,
 		CD = 10,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_static", client, position, data)
+			return spawnNPC("resp_static", client, position, data)
 		end
 	},
 	{
@@ -248,7 +264,7 @@ PLUGIN.actions = {
 		cost = 30,
 		CD = 10,
 		useFunction = function(client, position, data)
-			return spawnNPC("cof_faceless", client, position, data)
+			return spawnNPC("resp_cof_faceless", client, position, data)
 		end
 	},
 	{
@@ -259,7 +275,7 @@ PLUGIN.actions = {
 		cost = 40,
 		CD = 15,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_demon", client, position, data)
+			return spawnNPC("resp_demon", client, position, data)
 		end
 	},
 	{
@@ -270,7 +286,7 @@ PLUGIN.actions = {
 		cost = 30,
 		CD = 15,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_thrower", client, position, data)
+			return spawnNPC("resp_thrower", client, position, data)
 		end
 	},
 	{
@@ -336,7 +352,7 @@ PLUGIN.actions = {
 		cost = 100,
 		CD = 60,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_drum", client, position, data)
+			return spawnNPC("resp_drum", client, position, data)
 		end
 	},
 	{
@@ -369,7 +385,7 @@ PLUGIN.actions = {
 		cost = 150,
 		CD = 60,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_leecher", client, position, data)
+			return spawnNPC("resp_leecher", client, position, data)
 		end
 	},
 	{
@@ -380,7 +396,7 @@ PLUGIN.actions = {
 		cost = 150,
 		CD = 60,
 		useFunction = function(client, position, data)
-			return spawnNPC("scarlet", client, position, data)
+			return spawnNPC("resp_scarlet", client, position, data)
 		end
 	},
 	
@@ -390,10 +406,21 @@ PLUGIN.actions = {
 		desc = "Spawn a Shambling Shade",
 		model = "models/freshdead/freshdead_01.mdl",
 		category = "Monsters - Shade",
-		cost = 5,
+		cost = 7,
 		CD = 3,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_undead_shade", client, position, data)
+			return spawnNPC("resp_shambler", client, position, data)
+		end
+	},
+	{
+		name = "Figment",
+		desc = "Spawn a Figment",
+		model = "models/freshdead/freshdead_01.mdl",
+		category = "Monsters - Shade",
+		cost = 10,
+		CD = 3,
+		useFunction = function(client, position, data)
+			return spawnNPC("resp_figment", client, position, data)
 		end
 	},
 	{
@@ -402,9 +429,9 @@ PLUGIN.actions = {
 		model = "models/angelsaur/ghost_girl.mdl",
 		category = "Monsters - Shade",
 		cost = 10,
-		CD = 15,
+		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("shade_crawlsmoke", client, position, data)
+			return spawnNPC("resp_shade_crawl", client, position, data)
 		end
 	},
 	{
@@ -439,7 +466,7 @@ PLUGIN.actions = {
 		cost = 40,
 		CD = 20,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_wraith", client, position, data)
+			return spawnNPC("resp_wraith", client, position, data)
 		end
 	},
 	{
@@ -450,7 +477,7 @@ PLUGIN.actions = {
 		cost = 30,
 		CD = 10,
 		useFunction = function(client, position, data)
-			return spawnNPC("resp_skinless_wraith", client, position, data)
+			return spawnNPC("resp_skinless_w", client, position, data)
 		end
 	},
 	{
@@ -472,7 +499,7 @@ PLUGIN.actions = {
 		cost = 50,
 		CD = 25,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_creeper_wraith", client, position, data)
+			return spawnNPC("resp_creeper_w", client, position, data)
 		end
 	},
 	{
@@ -483,7 +510,7 @@ PLUGIN.actions = {
 		cost = 10,
 		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_haunt", client, position, data)
+			return spawnNPC("resp_haunt", client, position, data)
 		end
 	},
 	{
@@ -494,7 +521,7 @@ PLUGIN.actions = {
 		cost = 15,
 		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_phantom", client, position, data)
+			return spawnNPC("resp_phantom", client, position, data)
 		end
 	},
 	{
@@ -505,7 +532,7 @@ PLUGIN.actions = {
 		cost = 15,
 		CD = 5,
 		useFunction = function(client, position, data)
-			return spawnNPC("nz_horror_red", client, position, data)
+			return spawnNPC("resp_horror_w", client, position, data)
 		end
 	},
 	{
@@ -516,7 +543,7 @@ PLUGIN.actions = {
 		cost = 40,
 		CD = 15,
 		useFunction = function(client, position, data)
-			return spawnNPC("resp_babu_wraith", client, position, data)
+			return spawnNPC("resp_babu_w", client, position, data)
 		end
 	},
 	{
@@ -674,7 +701,7 @@ PLUGIN.actions = {
 		cost = 30,
 		CD = 30,
 		useFunction = function(client, position, data)
-			return spawnItem("medical_kit", client, position, data)
+			return spawnItem("medical_first", client, position, data)
 		end
 	},
 	{
@@ -961,10 +988,103 @@ PLUGIN.actions = {
 				"sim_fphys_pwzaz",
 				"r751",
 				"r752",
+				"buggy_01",
+				"buggy_02",
+				"buggy_03",
+				"buggy_04",
+				"buggy_05",
+				"buggy_06",
+				"buggy_07",
+				"buggy_08",
+				"buggy_09",
+				"buggy_10",
+				"buggy_11",
+				"buggy_12",
+				"buggy_13",
+				"buggy_14",
+				"buggy_15",
+				"buggy_16",
+				"buggy_17",
+				"buggy_18",
+				"buggy_19",
+				"buggy_20",
+				"buggy_21",
+				"buggy_22",
+				"buggy_23",
+				"buggy_24",
+				"buggy_25",
+				"buggy_26",
+				"buggy_27",
+				"buggy_28",
+				"buggy_29",
+				"buggy_30",
+				"buggy_31",
+				"buggy_32",
+				"buggy_33",
+				"buggy_34",
+				"buggy_35",
+				"buggy_36",
+				"buggy_beta",
+				"buggy_beta_jalopy",
+				"buggy_retail",
+				"buggy_don_s_01",
+				"charger_01",
+				"charger_02",
+				"charger_03",
+				"charger_04",
+				"charger_05",
+				"truck_don_01",
+				"sim_fphys_rnsw",
+				"sim_fphys_van",
+				"sim_fphys_jalopy",
+				"sim_fphys_v8elite",
+				"sim_fphys_imcforklift",
 			}
 			local ranCar = table.Random(cars)
 			
 			return spawnVehicle(ranCar, client, position, data)
+		end
+	},
+	
+	{
+		name = "Random Prop",
+		desc = "Spawns a Random Prop.",
+		category = "Items",
+		cost = 10,
+		CD = 5,
+		useFunction = function(client, position, data)
+			local props = {
+				"models/props_junk/wood_pallet001a.mdl",
+				"models/props_junk/wood_crate001a.mdl",
+				"models/props_junk/wood_crate001a_damaged.mdl",
+				"models/props_junk/wood_crate002a.mdl",
+				"models/props_wasteland/controlroom_storagecloset001b.mdl",
+				"models/props_wasteland/controlroom_desk001b.mdl",
+				"models/props_wasteland/controlroom_filecabinet002a.mdl",
+				"models/props_wasteland/cafeteria_table001a.mdl",
+				"models/props_wasteland/cafeteria_bench001a.mdl",
+				"models/props_interiors/Furniture_Couch01a.mdl",
+				"models/props_interiors/Furniture_Couch02a.mdl",
+				"models/props_c17/FurnitureDrawer002a.mdl",
+				"models/props_c17/FurnitureChair001a.mdl",
+				"models/props_c17/FurnitureDresser001a.mdl",
+				"models/props_c17/FurnitureTable001a.mdl",
+				"models/props_c17/FurnitureTable002a.mdl",
+				"models/props_c17/FurnitureTable003a.mdl",
+				"models/props_c17/FurnitureDrawer001a.mdl",
+				"models/props_c17/bench01a.mdl",
+				"models/props_interiors/Furniture_Desk01a.mdl",
+				"models/props_interiors/Furniture_shelf01a.mdl",
+				"models/props_c17/shelfunit01a.mdl",
+				"models/props_wasteland/barricade001a.mdl",
+				"models/props_wasteland/barricade002a.mdl",
+				"models/props_c17/FurnitureShelf001a.mdl",
+			}
+			local ranProp = table.Random(props)
+			
+			local spawnPos = position+Vector(0,0,25)
+			
+			return spawnProp(ranProp, client, spawnPos, data)
 		end
 	},
 	
@@ -977,7 +1097,7 @@ PLUGIN.actions = {
 		cost = 100,
 		CD = 60,
 		useFunction = function(client, position, data)
-			local ent = ents.Create("mannequin")
+			local ent = ents.Create("resp_mannequin")
 	
 			if (IsValid(ent)) then
 				ent:SetPos(position+Vector(0,0,40))

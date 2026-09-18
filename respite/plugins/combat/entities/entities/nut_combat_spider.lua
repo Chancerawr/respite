@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_spider"
+
 ENT.model = "models/spite/spider.mdl"
 
 ENT.AttackAnim = "Attack1"
@@ -46,6 +48,17 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"footsteps/medium_concrete_1.mp3",
+	"footsteps/medium_concrete_2.mp3",
+	"footsteps/medium_concrete_3.mp3",
+	"footsteps/medium_concrete_4.mp3",
+	"footsteps/medium_concrete_5.mp3",
+	"footsteps/medium_concrete_6.mp3",
+	"footsteps/medium_concrete_7.mp3",
+}

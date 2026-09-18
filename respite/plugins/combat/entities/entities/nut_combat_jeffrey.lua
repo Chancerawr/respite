@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_jeffrey"
+
 ENT.noRag = true
 
 ENT.model = "models/Zombie/Poison.mdl"
@@ -13,6 +15,7 @@ ENT.material = "models/props_lab/security_screens"
 ENT.modelScale = 3
 
 ENT.AttackAnim = "Melee_01"
+ENT.IdleAnim = "firewalk"
 
 --all attributes
 ENT.attribs = {
@@ -54,12 +57,19 @@ ENT.actions = {
 	"constrict",
 }
 
+ENT.StepData = {
+	0.1,
+	0.55,
+}
+
+ENT.StepPitch = 30
+ENT.FootstepSounds = {
+	"physics/glass/glass_sheet_impact_hard1.wav",
+	"physics/glass/glass_sheet_impact_hard2.wav",
+	"physics/glass/glass_sheet_impact_hard3.wav",
+}
+
 function ENT:Initialize()
-	timer.Simple(0.6, function()
-		--self:SetModelScale(3)
-		self:ResetSequence("firewalk")
-	end)
-	
 	if(CLIENT) then
 		local bones = {
 			"ValveBiped.Bip01_L_UpperArm",

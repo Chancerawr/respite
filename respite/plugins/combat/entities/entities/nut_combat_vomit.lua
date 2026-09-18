@@ -5,9 +5,12 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_vomit"
+
 ENT.model = "models/zombie/zombie_vomit.mdl"
 ENT.name = "Vomit"
 
+ENT.IdleAnim = "Idle01"
 ENT.AttackAnim = "AttackA"
 
 --all attributes
@@ -49,6 +52,14 @@ ENT.actions = {
 	"acid_spit",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/fast_zombie/foot1.wav",
+	"npc/fast_zombie/foot2.wav",
+	"npc/fast_zombie/foot3.wav",
+	"npc/fast_zombie/foot4.wav",
+}

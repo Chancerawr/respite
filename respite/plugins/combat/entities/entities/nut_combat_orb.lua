@@ -8,6 +8,10 @@ ENT.AdminOnly = true
 ENT.model = "models/Combine_Helicopter/helicopter_bomb01.mdl"
 ENT.material = "models/props_combine/combine_interface_disp"
 
+ENT.BloodColor = DONT_BLEED
+
+ENT.PropHeight = 50
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 30,
@@ -41,7 +45,3 @@ ENT.res = {
 	["Poison"] = 0,
 	["Electric"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-end

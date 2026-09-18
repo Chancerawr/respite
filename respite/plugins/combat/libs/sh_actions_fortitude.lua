@@ -21,6 +21,8 @@ ACT.effects = {
 		duration = 2,
 		strength = 1,
 		
+		accuracy = -50,
+		
 		debuff = true,
 	}
 }
@@ -123,7 +125,7 @@ ACT.effects = {
 		duration = 2,
 		strength = 1,
 		
-		hitLeft = 1,
+		hitsDef = 1,
 		
 		debuff = true,
 	}
@@ -159,6 +161,21 @@ ACT.effects = {
 		debuff = true,
 	}
 }
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "summon_shade1"
+ACT.name = "Create Shade (Weak)"
+ACT.desc = "Create a weak, distracting shade."
+ACT.category = "Fortitude"
+ACT.attackString = "creates a weak shade"
+ACT.CD = 5
+ACT.notarget = true
+ACT.reqStats = {
+	["fortitude"] = 35,
+}
+ACT.summon = "nut_combat_shambler"
 ACTS:Register(ACT)
 //
 local ACT

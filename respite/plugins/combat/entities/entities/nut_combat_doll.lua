@@ -5,8 +5,13 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_doll_walker"
+
 ENT.model = "models/spite/doll.mdl"
 
+ENT.BloodColor = DONT_BLEED
+
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Attack2"
 
 --all attributes
@@ -42,6 +47,17 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 0,
 	["Electric"] = 25,
+}
+
+ENT.StepData = {
+	0.2,
+	0.7,
+}
+
+ENT.FootstepSounds = {
+	"monsters/suitor/metal_run01.mp3",
+	"monsters/suitor/metal_run02.mp3",
+	"monsters/suitor/metal_run03.mp3",
 }
 
 function ENT:Initialize()

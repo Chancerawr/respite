@@ -8,6 +8,7 @@ ITEM.quantity2 = 6
 ITEM.price = 3
 ITEM.width = 2
 ITEM.height = 2
+ITEM.plastic = true --for plastic converter
 
 ITEM.attrib = { 
 	["end"] = 1,

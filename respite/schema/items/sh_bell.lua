@@ -27,3 +27,10 @@ ITEM.functions.Ring = {
 		return false
 	end
 }
+
+function ITEM:onEntityCreated(entity)
+	local physObj = entity:GetPhysicsObject()
+	if(IsValid(physObj)) then
+		physObj:SetMass(100)
+	end
+end

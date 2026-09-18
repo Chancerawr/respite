@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "Fish"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "An overcomplicated fish naming system."
@@ -61,4 +62,89 @@ function PLUGIN:constructFish()
 	name = adj .." ".. name
 	
 	return name, desc, weight
+end
+
+function PLUGIN:CatchFish(material)
+	local name, desc, wgt = PLUGIN:constructFish()
+	
+	local models = {
+		"models/props/de_inferno/goldfish.mdl",
+		"models/props/cs_militia/fishriver01.mdl",
+		"models/foodnhouseholditems/fishbass.mdl",
+		"models/foodnhouseholditems/fishcatfish.mdl",
+		"models/foodnhouseholditems/fishgolden.mdl",
+		"models/foodnhouseholditems/fishrainbow.mdl",
+		"models/foodnhouseholditems/fishrainbow.mdl",
+		"models/foodnhouseholditems/fishrainbow.mdl",
+	}
+	
+	local customData = {}
+	customData.name = name
+	customData.desc = desc
+	customData.model = table.Random(models)
+	customData.material = material
+	
+	local data = {custom = customData, weight = wgt}
+	
+	return "food_fish", data
+end
+
+function PLUGIN:CatchFishPlastic()
+	return PLUGIN:CatchFish("phoenix_storms/mrref2")
+end
+
+function PLUGIN:CatchFishHotDog()
+	return PLUGIN:CatchFish("models/food/hotdog")
+end
+
+local function GetWeightedRandomKey( tab )
+	local sum = 0
+
+	for _, chance in pairs( tab ) do
+		sum = sum + chance
+	end
+
+	local select = math.random() * sum
+
+	for key, chance in pairs( tab ) do
+		select = select - chance
+		if select < 0 then return key end
+	end
+end
+
+function PLUGIN:GetFishLoot(client, item, itemTable)
+	if(!item) then return end
+	if(!client) then return end
+	
+	local inventory = client:getChar():getInv()
+
+	local loot = GetWeightedRandomKey(itemTable)
+	local data = {}
+	
+	--checks if we need to run a function to get the loot
+	if(isfunction(loot)) then
+		--runs the inner loot function
+		loot, data = loot()
+	end
+	
+	if(nut.item.list[loot]) then
+		local dropPos
+		local name = data.customName or nut.item.list[loot].name or loot
+	
+		if(!IsValid(item:getEntity())) then --checks if item is not on the ground
+			dropPos = client:getItemDropPos()
+			
+			inventory:addSmart(loot, 1, dropPos, data)
+		else --if the item it on the ground
+			dropPos = item:getEntity():GetPos() + item:getEntity():GetUp()*50
+			
+			nut.item.spawn(loot, dropPos, function(item2)
+				for k, v in pairs(data) do
+					item2:setData(k, v)
+				end
+			end)
+		end	
+		
+		return "You fished " ..name.. " up."
+	end
 end

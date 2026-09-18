@@ -21,6 +21,25 @@ ITEM.upgradeSlots = {
 	["Dream"] = 1,
 }
 
+ITEM.functions.Draw = {
+	name = "Draw Card",
+	icon = "icon16/arrow_refresh.png",
+	sound = "physics/cardboard/cardboard_box_impact_soft7.wav",
+	onRun = function(item)
+		local client = item.player
+	
+		local cards = {"1","2","3","4","5","6","7","8","9","10","Ace","Queen","King","Jack"}
+		local family = {"Spades", "Hearts", "Diamonds", "Clubs"}
+		
+		local msg = "draws the " ..table.Random(cards).. " of " ..table.Random(family)
+		
+		nut.chat.send(client, "rolld", msg)
+		nut.log.addRaw(client:Name().. " " ..msg, 2)
+		
+		return false
+	end
+}
+
 ITEM.iconCam = {
 	pos = Vector(0, 0, 200),
 	ang = Angle(90, 0, 0),

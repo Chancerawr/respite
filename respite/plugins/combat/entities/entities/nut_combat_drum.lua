@@ -5,11 +5,16 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-ENT.model = "models/zombie/zombineplayer.mdl"
+ENT.NPCReference = "resp_drum"
+
+ENT.model = "models/player/zombie_soldier.mdl"
 ENT.material = "models/flesh"
 
 ENT.modelScale = 1.8
 
+ENT.IdleAnim = "zombie_walk_06"
+ENT.WalkAnim = "zombie_walk_06"
+ENT.RunAnim = "zombie_walk_06"
 ENT.AttackAnim = "AttackC"
 
 ENT.color = Color(130, 220, 130)
@@ -49,11 +54,17 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	timer.Simple(0.6, function()
-		--self:SetModelScale(1.8)
-		self:ResetSequence("zombie_walk_06")
-	end)
+ENT.StepData = {
+	0.15,
+	0.55,
+}
 
-	self:basicSetup()
-end
+ENT.StepPitch = 50
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}

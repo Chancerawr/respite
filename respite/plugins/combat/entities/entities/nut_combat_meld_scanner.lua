@@ -10,6 +10,8 @@ ENT.material = "models/zombie_fast/fast_zombie_sheet"
 
 ENT.IdleAnim = "Idle"
 
+ENT.PropHeight = 50
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,
@@ -47,4 +49,9 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 25,
 	["Electric"] = -15,
+}
+
+ENT.actions = {
+	"drone_scan",
+	"drone_discharge",
 }

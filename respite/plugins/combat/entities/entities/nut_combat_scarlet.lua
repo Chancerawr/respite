@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_scarlet"
+
 ENT.name = "Dollmother"
 ENT.model = "models/spite/scarlet.mdl"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Attack1"
 
@@ -51,6 +55,18 @@ ENT.actions = {
 	"repair_doll",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.actionsAI = {
+	"slash",
+	"mawed_bite",
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"monsters/suitor/metal_walk01.mp3",
+	"monsters/suitor/metal_walk02.mp3",
+	"monsters/suitor/metal_walk03.mp3",
+}

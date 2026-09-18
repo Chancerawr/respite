@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_torrent"
+
 ENT.model = "models/zombie/classic.mdl"
 ENT.material = "models/zombie_fast/fast_zombie_sheet"
 
@@ -54,8 +56,14 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	--self:SetModelScale(1.1)
+ENT.StepData = {
+	0.25,
+	0.75,
+}
 
-	self:basicSetup()
-end
+ENT.StepPitch = {95, 105}
+ENT.FootstepSounds = {
+	"npc/zombie/foot1.wav",
+	"npc/zombie/foot2.wav",
+	"npc/zombie/foot3.wav",
+}

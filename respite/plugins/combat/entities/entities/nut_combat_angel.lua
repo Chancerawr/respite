@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Husk)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_angel"
+
 ENT.name = "Angel"
 
 ENT.models = {
@@ -27,7 +29,7 @@ ENT.attribs = {
 	["end"] = 20,
 	["luck"] = -5,
 	["perception"] = 20,
-	["fortitude"] = 20,
+	["fortitude"] = 50,
 }
 
 ENT.dmg = {
@@ -53,6 +55,26 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 50,
 	["Electric"] = 50,
+}
+
+ENT.SoundPitch = {10,30}
+ENT.SoundDSP = 4
+
+ENT.AttackSounds = {
+	"HL1/fvox/bell.wav",
+}
+
+ENT.IdleSounds = {
+	"vo/npc/female01/question23.wav",
+	"vo/npc/female01/question28.wav",
+	
+	"vo/npc/male01/question23.wav",
+	"vo/npc/male01/question28.wav",
+}
+
+ENT.HitSounds = {
+	"npc/scanner/scanner_nearmiss1.wav",
+	"npc/scanner/scanner_nearmiss2.wav",
 }
 
 function ENT:Initialize()

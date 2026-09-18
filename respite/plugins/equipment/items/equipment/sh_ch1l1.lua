@@ -11,7 +11,17 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+ITEM.IdleAnim = "idle_crossbow"
+ITEM.WalkAnim = "walk_crossbow"
+ITEM.RunAnim = "run_crossbow"
+
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	Sound("weapons/m79/40mmthump.wav"),
+}
+
+ITEM.rarity = 1
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,

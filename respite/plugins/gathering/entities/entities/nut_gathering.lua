@@ -70,7 +70,7 @@ if (SERVER) then
 		end
 	end
 	
-	function ENT:OnTakeDamage( dmginfo )
+	function ENT:OnTakeDamage(dmginfo)
 		if(!self.plant) then
 			local dmgType = dmginfo:GetDamageType()
 
@@ -82,8 +82,10 @@ if (SERVER) then
 
 			if(!ignoreTypes[dmgType] and dmginfo:GetDamage() > 10) then
 				local gather = self.resources[math.random(#self.resources)]
-			
-				nut.item.spawn(gather, dmginfo:GetDamagePosition())
+
+				nut.item.spawn(gather, dmginfo:GetDamagePosition(), function(item, entity)
+					entity.temp = true
+				end)
 				
 				if (nut.config.get("gDamage")) then
 					self:SetHealth(self:Health() - nut.config.get("gDamageMult", 1))

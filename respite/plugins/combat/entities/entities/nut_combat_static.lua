@@ -5,10 +5,14 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_static"
+
 ENT.name = "Static"
 
 ENT.model = "models/zombie/fast.mdl"
 ENT.material = "models/downpour/filmgrain_1a"
+
+ENT.BloodColor = BLOOD_COLOR_MECH
 
 ENT.AttackAnim = "Melee"
 
@@ -52,6 +56,20 @@ ENT.actions = {
 	"slash",
 	"whack",
 	"claw_electric",
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"ambient/energy/newspark04.wav",
+	"ambient/energy/newspark05.wav",
+	"ambient/energy/newspark06.wav",
+	"ambient/energy/newspark07.wav",
+	"ambient/energy/newspark08.wav",
+	"ambient/energy/newspark09.wav",
 }
 
 function ENT:Initialize()

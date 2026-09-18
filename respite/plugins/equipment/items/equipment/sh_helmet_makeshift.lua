@@ -25,6 +25,11 @@ ITEM.attrib = {
 	["perception"] = -1,
 }
 
+ITEM.res = {
+	["Slash"] = 5,
+	["Blunt"] = 5,
+}
+
 ITEM.upgradeSlots = { 
 	["Dream"] = 1,
 }

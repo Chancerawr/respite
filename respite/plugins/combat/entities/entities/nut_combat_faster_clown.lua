@@ -5,11 +5,18 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_cof_faster"
+
 ENT.name = "Clown"
 
 ENT.model = "models/cryoffear/faster_clown.mdl"
 
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Attack1"
+
+ENT.collisionOverwrite = true
+ENT.CollisionHeight = 90
+ENT.CollisionSide = 18
 
 --all attributes
 ENT.attribs = {
@@ -46,6 +53,12 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {95,105}
+ENT.FootstepSounds = {
+	"cof/faster/faster_step.wav",
+}

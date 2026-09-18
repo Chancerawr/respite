@@ -1,8 +1,9 @@
 ITEM.name = "Sandwich"
 ITEM.desc = "Ingredients placed between two slices of bread, simple and good."
 ITEM.uniqueID = "cook_sandwich"
-ITEM.model = "models/squad/sf_plates/sf_plate1x1.mdl"
-ITEM.material = "models/cs_italy/plaster"
+ITEM.model = "models/foodnhouseholditems/sandwich.mdl"
+--ITEM.model = "models/squad/sf_plates/sf_plate1x1.mdl"
+--ITEM.material = "models/cs_italy/plaster"
 ITEM.quantity2 = 2
 --ITEM.price = 3
 

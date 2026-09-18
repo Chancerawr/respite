@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_baby"
+
 ENT.model = "models/zombie/zombibaba.mdl"
 
 ENT.AttackAnim = "AttackB"
@@ -50,6 +52,16 @@ ENT.actions = {
 	"stab",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.28,
+	0.76,
+}
+
+ENT.StepPitch = 150
+
+ENT.FootstepSounds = {
+	"babu/foot1.wav",
+	"babu/foot2.wav",
+	"babu/foot3.wav",
+	"babu/foot4.wav",
+}

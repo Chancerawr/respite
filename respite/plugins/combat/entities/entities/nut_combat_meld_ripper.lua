@@ -10,6 +10,8 @@ ENT.material = "models/skeleton/skeleton_bloody"
 
 ENT.IdleAnim = "Fly"
 
+ENT.PropHeight = 50
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 30,
@@ -47,4 +49,8 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 25,
 	["Electric"] = -15,
+}
+
+ENT.actions = {
+	"drone_lacerate",
 }

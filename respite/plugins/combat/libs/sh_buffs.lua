@@ -1,9 +1,9 @@
 local PLUGIN = PLUGIN
-
-local playerMeta = FindMetaTable("Player")
+PLUGIN.helperFuncs = PLUGIN.helperFuncs or {}
 
 --gets all buffs
-function playerMeta:getBuffs()
+PLUGIN.helperFuncs["getBuffs"] = function(self)
+--function playerMeta:getBuffs()
 	local char = self:getChar()
 	
 	if(char) then
@@ -14,7 +14,8 @@ function playerMeta:getBuffs()
 end
 
 --goes through all buffs and returns the modifications to a specific thing
-function playerMeta:getBuffAttribute(buffAttribute)
+PLUGIN.helperFuncs["getBuffAttribute"] = function(self, buffAttribute)
+--function playerMeta:getBuffAttribute(buffAttribute)
 	local modify = 0
 	for k, buff in pairs(self:getBuffs()) do
 		if(buff[buffAttribute]) then
@@ -26,7 +27,8 @@ function playerMeta:getBuffAttribute(buffAttribute)
 end
 
 --goes through all buffs and returns the modifications to a specific thing, but this one's for tables
-function playerMeta:getBuffAttributeTbl(buffAttribute)
+PLUGIN.helperFuncs["getBuffAttributeTbl"] = function(self, buffAttribute)
+--function playerMeta:getBuffAttributeTbl(buffAttribute)
 	local modify = {}
 	for _, buff in pairs(self:getBuffs()) do
 		if(buff[buffAttribute]) then
@@ -40,7 +42,8 @@ function playerMeta:getBuffAttributeTbl(buffAttribute)
 end
 
 --adds a buff to a player
-function playerMeta:addBuff(buff, id)
+PLUGIN.helperFuncs["addBuff"] = function(self, buff, id)
+--function playerMeta:addBuff(buff, id)
 	local buffs = self:getBuffs()
 	buffs[id or buff.uid] = buff
 	
@@ -52,6 +55,16 @@ function playerMeta:addBuff(buff, id)
 			char:addBoost(buff.name or buff.uid, k, v)
 		end
 	end
+	
+	if(buff.hpMax or buff.maxHP) then
+		local buffHP = buff.hpMax or buff.maxHP
+	
+		local curHP = self:getHP()
+		local new = math.Clamp(curHP+buffHP, 0, self:getMaxHP())
+		
+		self:setHP(new)
+		self:SetHealth(new)
+	end
 
 	for k, recipient in pairs(player.GetAll()) do
 		PLUGIN:buffNetworkAll(recipient, self, util.TableToJSON(buff), id)
@@ -59,7 +72,8 @@ function playerMeta:addBuff(buff, id)
 end
 
 --removes a buff from a player
-function playerMeta:removeBuff(buff, id)
+PLUGIN.helperFuncs["removeBuff"] = function(self, buff, id)
+--function playerMeta:removeBuff(buff, id)
 	local buffs = self:getBuffs()
 	
 	local char = self:getChar()
@@ -75,7 +89,6 @@ function playerMeta:removeBuff(buff, id)
 	
 	-- if this buff is from food, clear stomach when it ends
 	local stomachTbl = char:getVar("stomach", {})
-	
 	if(stomachTbl[id or buff.uid]) then
 		stomachTbl[id or buff.uid] = nil
 	end
@@ -89,7 +102,8 @@ function playerMeta:removeBuff(buff, id)
 end
 
 --when the buff holder is hit
-function playerMeta:buffGetHit()
+PLUGIN.helperFuncs["buffGetHit"] = function(self)
+--function playerMeta:buffGetHit()
 	local buffs = self:getBuffs()
 	for buffID, buffTbl in pairs(buffs) do
 		if(buffTbl.hitsDef) then
@@ -103,7 +117,8 @@ function playerMeta:buffGetHit()
 end
 
 --when the buff holder hits
-function playerMeta:buffOnHit()
+PLUGIN.helperFuncs["buffOnHit"] = function(self)
+--function playerMeta:buffOnHit()
 	local buffs = self:getBuffs()
 	for buffID, buffTbl in pairs(buffs) do
 		if(buffTbl.hitsAttack) then
@@ -117,7 +132,8 @@ function playerMeta:buffOnHit()
 end
 
 --clears all of a player's buffs
-function playerMeta:clearBuffs()
+PLUGIN.helperFuncs["clearBuffs"] = function(self)
+--function playerMeta:clearBuffs()
 	local char = self:getChar()
 	char.buffs = nil
 end
@@ -429,6 +445,35 @@ else
 		end
 	end)
 end
+
+hook.Add("nut_OnGetRes", "nut_BuffGetRes", function(client, res)
+	local buffRes = client:getBuffAttributeTbl("res") or {}
+	-- adds the buff resistance to the other table
+	for k, v in pairs(buffRes) do
+		res[k] = (res[k] or 0) + v
+	end
+end)
+
+hook.Add("nut_OnGetAmp", "nut_BuffGetAmp", function(client, amp)
+	local buffAmp = client:getBuffAttributeTbl("amp") or {}
+
+	-- adds the buff amplifications to the other table
+	for k, v in pairs(buffAmp) do
+		amp[k] = (amp[k] or 0) + v
+	end
+end)
+
+hook.Add("nut_OnGetMaxHP", "nut_BuffGetHP", function(client, data)
+	data.maxHP = data.maxHP + client:getBuffAttribute("maxHP") + client:getBuffAttribute("hpMax")
+end)
+
+hook.Add("nut_OnCombatAttack", "nut_buffOnHit", function(action, attacker, info)
+	attacker:buffOnHit()
+end)
+
+hook.Add("nut_OnCombatReceiveDamage", "nut_buffGetHit", function(client, data)
+	client:buffGetHit()
+end)
 
 nut.command.add("bufftarget", {
 	adminOnly = true,

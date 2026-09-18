@@ -5,9 +5,15 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_dolly"
+
 ENT.model = "models/zombie/2.mdl"
 
+ENT.BloodColor = DONT_BLEED
+
 ENT.AttackAnim = "Attack"
+ENT.WalkAnim = "Run1"
+ENT.RunAnim = "Run1"
 
 --all attributes
 ENT.attribs = {
@@ -49,6 +55,16 @@ ENT.actions = {
 	"stab",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0,
+	0.25,
+	0.5,
+	0.75,
+}
+
+ENT.StepPitch = 140
+ENT.FootstepSounds = {
+	"physics/plaster/ceiling_tile_impact_bullet1.wav",
+	"physics/plaster/ceiling_tile_impact_bullet2.wav",
+	"physics/plaster/ceiling_tile_impact_bullet3.wav",
+}

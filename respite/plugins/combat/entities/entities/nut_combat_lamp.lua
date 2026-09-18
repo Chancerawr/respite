@@ -6,6 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/props_interiors/furniture_lamp01a.mdl"
+
+ENT.BloodColor = DONT_BLEED
+
 ENT.noRag = true
 ENT.espIgnore = true
 
@@ -45,8 +48,8 @@ ENT.res = {
 }
 
 function ENT:Use()
-	SafeRemoveEntity(self)
-	nut.item.spawn("hl2_m_lamp_strange", self:GetPos())
+	--SafeRemoveEntity(self)
+	--nut.item.spawn("hl2_m_lamp_strange", self:GetPos())
 end
 
 function ENT:Initialize()

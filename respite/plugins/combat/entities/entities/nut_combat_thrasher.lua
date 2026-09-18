@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_thrasher"
+
 ENT.model = "models/_maz_ter_/deadspace/deadspacenecros/twitcher.mdl"
 ENT.material = "models/flesh"
 ENT.color = Color(150, 150, 150)
@@ -51,4 +53,18 @@ ENT.actions = {
 	"slash",
 	"whack",
 	"flail",
+}
+
+ENT.StepData = {
+	0,
+	0.25,
+	0.5,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/demon/nhdemon_foot1.wav",
+	"npc/demon/nhdemon_foot2.wav",
+	"npc/demon/nhdemon_foot3.wav",
+	"npc/demon/nhdemon_foot4.wav",
 }

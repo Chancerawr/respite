@@ -11,6 +11,14 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
+ITEM.IdleAnim = "idle_melee2"
+ITEM.WalkAnim = "walk_melee2"
+ITEM.RunAnim = "run_melee2"
+ITEM.AttackAnim = "seq_meleeattack01"
+
+--for turn based combat
+ITEM.attackRange = 80
+
 ITEM.rarity = 10
 ITEM.lootTags = {
 	["weapon"] = true,

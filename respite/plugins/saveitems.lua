@@ -1,8 +1,17 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "Save Items"
 PLUGIN.author = "Chessnut"
 PLUGIN.desc = "Saves items that were dropped."
 
 function PLUGIN:LoadData()
+	pcall(function()
+		self:loadItems()
+	end)
+end
+
+function PLUGIN:loadItems()
+	self.loadedData = true
+
 	local items = self:getData()
 
 	if (items) then
@@ -44,6 +53,7 @@ function PLUGIN:LoadData()
 								local item = nut.item.new(uniqueID, itemID)
 								item.data = data or {}
 								
+								item.saveItemPlug = true
 								local itemEntity = item:spawn(position, angle)
 								itemEntity.nutItemID = itemID
 
@@ -67,6 +77,8 @@ function PLUGIN:LoadData()
 end
 
 function PLUGIN:SaveData()
+	if(!self.loadedData) then return end
+
 	local items = {}
 
 	for k, v in ipairs(ents.FindByClass("nut_item")) do

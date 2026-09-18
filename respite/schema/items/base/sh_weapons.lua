@@ -266,7 +266,7 @@ ITEM.functions.Clone = {
 	
 		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
 			local inventory = client:getChar():getInv()
-			local data = item.data
+			local data = table.Copy(item.data)
 			data.x = nil
 			data.y = nil
 			data.equip = nil

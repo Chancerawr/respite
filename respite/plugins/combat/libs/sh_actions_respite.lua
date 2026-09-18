@@ -174,6 +174,7 @@ local respiteCommands = {
 		name = "Lucky Chance",
 		desc = "It might do something good, it might do something bad, who knows? Can only be used once per combat. Does not cost an action.",
 		category = "Special",
+		CD = 20,
 		
 		attribs = {
 			["luck"] = 1,
@@ -191,9 +192,10 @@ for k, action in pairs(respiteCommands) do
 	ACT.category = action.category or "Default"
 	ACT.attribs = action.attribs
 	ACT.mult = action.mult
+	ACT.CD = action.CD
 	
-	ACT.attackOverwrite = function(actionTbl, client, trace)
-		basicRoll(actionTbl, client, trace)
+	ACT.attackOverwrite = function(actionTbl, client, data)
+		basicRoll(actionTbl, client, data.trace)
 	end
 	
 	ACTS:Register(ACT)
@@ -239,7 +241,13 @@ nut.command.add("cent", {
 				return false
 			end
 			
-			actionTbl.attackOverwrite(actionTbl, entity, trace)
+			local data = {
+				attacker = entity,
+				trace = trace,
+				actionTbl = actionTbl,
+			}
+			
+			actionTbl.attackOverwrite(actionTbl, entity, data)
 			--basicRoll(actionTbl, entity, trace)
 		else
 			client:notify("You must be looking at a combat entity.")

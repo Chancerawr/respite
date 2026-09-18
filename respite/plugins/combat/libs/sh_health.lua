@@ -1,6 +1,6 @@
 local PLUGIN = PLUGIN
+PLUGIN.helperFuncs = PLUGIN.helperFuncs or {}
 
-local playerMeta = FindMetaTable("Player")
 
 --this is so the stuff shows up in admin ESP
 function PLUGIN:PlayerLoadout(client)
@@ -11,36 +11,57 @@ function PLUGIN:PlayerLoadout(client)
 end
 
 --just use a negative value to take away hp
-function playerMeta:getMaxMP()
+PLUGIN.helperFuncs["getMaxMP"] = function(self)
+--function playerMeta:getMaxMP()
 	local char = self:getChar()
+	if(!char) then return 0 end
 	
-	local stat = 0
-	if(char) then
-		stat = self:getChar():getAttrib("fortitude", 0)
+	local mp = self:getNetVar("mpMax", self.mp) or 10
+	
+	--ignore fortitude mp increases for CEnts
+	if(!self.mp) then
+		mp = mp + char:getAttrib("fortitude", 0)
 	end
 
-	return math.max(10 + stat, 1)
+	mp = math.max(mp, 0)
+
+	return mp
 end
 
 --just use a negative value to take away hp
-function playerMeta:getMP()
+--function playerMeta:getMP()
+PLUGIN.helperFuncs["getMP"] = function(self)
 	return self:getNetVar("mp", self:getMaxMP())
 end
 
---just use a negative value to take away hp
-function playerMeta:getHP()
+--function playerMeta:getHP()
+PLUGIN.helperFuncs["getHP"] = function(self)
 	return self:getNetVar("hp", self:getMaxHP())
 	--return self:Health()
 end
 
 --used to calculate what a player's max HP should be
-function playerMeta:getMaxHP()
+PLUGIN.helperFuncs["getMaxHP"] = function(self)
+--function playerMeta:getMaxHP()
 	local char = self:getChar()
 	if(!char) then return 100 end
-	
-	local stat = char:getAttrib("end", 0)
 
-	local maxHP = math.max(100 + stat*3, 1)
+	local maxHP = self:getNetVar("hpMax", self.hp) or 100
+	
+	local data = {maxHP = maxHP}
+	hook.Run("nut_OnGetMaxHP", self, data)
+	maxHP = data.maxHP
+	
+	--easier to deal with CEnts if their HP is not messed with by this
+	if(!self.hp) then
+		local endurance = char:getAttrib("end", 0)
+		maxHP = maxHP + endurance*3
+		
+		local str = char:getAttrib("str", 0)
+		maxHP = maxHP + str*1
+	end
+
+	maxHP = math.max(maxHP, 1)
 
 	maxHP = math.Round(maxHP, 2)
 
@@ -49,7 +70,8 @@ end
 
 if(SERVER) then
 	--just use a negative value to subtract
-	function playerMeta:addHP(amount)
+	PLUGIN.helperFuncs["addHP"] = function(self, amount)
+	--function playerMeta:addHP(amount)
 		local new = math.Clamp(self:getHP() + amount, -1000, self:getMaxHP())
 		
 		new = math.Round(new, 2)
@@ -60,7 +82,8 @@ if(SERVER) then
 	end
 
 	--just use a negative value to subtract
-	function playerMeta:addMP(amount)
+	PLUGIN.helperFuncs["addMP"] = function(self, amount)
+	--function playerMeta:addMP(amount)
 		local new = math.Clamp(self:getMP() + amount, -1000, self:getMaxMP())
 		
 		new = math.Round(new, 2)
@@ -71,14 +94,16 @@ if(SERVER) then
 	end
 	
 	--sets to exactly the supplied value
-	function playerMeta:setHP(amount)
+	PLUGIN.helperFuncs["setHP"] = function(self, amount)
+	--function playerMeta:setHP(amount)
 		self:setNetVar("hp", amount)
 		
 		self:SetMaxHealth(self:getMaxHP())
 	end
 	
 	--sets to exactly the supplied value
-	function playerMeta:setMP(amount)
+	PLUGIN.helperFuncs["setMP"] = function(self, amount)
+	--function playerMeta:setMP(amount)
 		self:setNetVar("mp", amount)
 	end
 else
@@ -151,7 +176,7 @@ nut.command.add("charsethp", {
 	
 		local target = nut.command.findPlayer(client, arguments[1])
 		if(IsValid(target) and target:getChar()) then	
-			local new = math.Clamp(tonumber(arguments[2]), 0, target:getMaxHP())
+			local new = math.Clamp(tonumber(arguments[2]), -1000, target:getMaxHP())
 			target:setHP(new)
 			
 			client:notify("Health is now " ..target:getHP().. ".")
@@ -262,5 +287,27 @@ nut.command.add("charrestoreall", {
 		end
 		
 		client:notify(count.. " players successfully restored.")
+	end
+})
+
+nut.command.add("centhpadd", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local addHP = tonumber(arguments[1])
+		if(!addHP) then
+			client:notify("Specify an HP Amount.")
+			return false
+		end
+	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			local newHP = entity:getHP()+addHP
+		
+			entity:SetHealth(newHP)
+			entity:setHP(newHP)
+			
+			client:notify("CEnt health set to " ..newHP.. ".")
+		end
 	end
 })

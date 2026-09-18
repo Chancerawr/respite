@@ -1,8 +1,8 @@
 ITEM.name = "Coconut"
 ITEM.desc = "A very hard shelled nut."
 ITEM.uniqueID = "food_coconut"
-ITEM.model = "models/props_phx/misc/smallcannonball.mdl"
-ITEM.material = "models/props/CS_militia/roofbeams03"
+ITEM.model = "models/foodnhouseholditems/coconut.mdl"
+--ITEM.material = "models/props/CS_militia/roofbeams03"
 ITEM.quantity2 = 4
 ITEM.price = 7
 

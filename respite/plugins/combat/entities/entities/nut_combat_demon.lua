@@ -5,10 +5,13 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_demon"
+
 ENT.name = "Demon"
 
 ENT.model = "models/nh2zombies/friendly.mdl"
 
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Melee"
 
 --all attributes
@@ -52,6 +55,14 @@ ENT.actions = {
 	"poison_release",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.35,
+	0.8,
+}
+
+ENT.FootstepSounds = {
+	"npc/demon/nhdemon_foot1.wav",
+	"npc/demon/nhdemon_foot2.wav",
+	"npc/demon/nhdemon_foot3.wav",
+	"npc/demon/nhdemon_foot4.wav",
+}

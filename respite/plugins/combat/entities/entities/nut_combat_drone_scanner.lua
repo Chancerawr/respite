@@ -8,7 +8,11 @@ ENT.AdminOnly = true
 ENT.model = "models/Combine_Scanner.mdl"
 --ENT.material = "models/props/cs_militia/roofbeams02"
 
+ENT.BloodColor = BLOOD_COLOR_MECH
+
 ENT.IdleAnim = "Idle"
+
+ENT.PropHeight = 50
 
 --all attributes
 ENT.attribs = {
@@ -47,4 +51,9 @@ ENT.res = {
 	["Acid"] = -25,
 	["Poison"] = 100,
 	["Electric"] = -25,
+}
+
+ENT.actions = {
+	"drone_scan",
+	"drone_discharge",
 }

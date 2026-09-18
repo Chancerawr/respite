@@ -12,6 +12,7 @@ local RECIPE = {}
 	RECIPE.noAverage = true
 	RECIPE.items = {
 		["Consumable"] = 2,
+		["Cheese"] = 1,
 	}
 	RECIPE.result = {
 		["cook_pizza1"] = 1
@@ -28,6 +29,7 @@ local RECIPE = {}
 	RECIPE.noAverage = true
 	RECIPE.items = {
 		["Consumable"] = 3,
+		["Cheese"] = 1,
 	}
 	RECIPE.result = {
 		["cook_pizza2"] = 1

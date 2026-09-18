@@ -35,10 +35,8 @@ nut.command.add("centequipitem", {
 
 if(SERVER) then
 	netstream.Hook("nut_centEquip", function(client, entity, uniqueID)
-		local itemTable = nut.item.list[uniqueID]
-		
-		if(itemTable) then
-			entity:EquipWeapon(itemTable.model, itemTable.material)
+		if(uniqueID) then
+			entity:EquipItem(uniqueID, true)
 		end
 	end)
 else --CLIENT

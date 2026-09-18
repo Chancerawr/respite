@@ -1107,7 +1107,7 @@ if CLIENT then
 		
 		local function Flicker()
 			NewHookAdd("PreDrawHUD", "dronesrewrite_hell_flicker", function()
-			  local TEMP_BLUR = Material("effects/flicker_256")
+			local TEMP_BLUR = Material("effects/flicker_256")
 		
 			cam.Start2D()
 				local x, y = 0, 0

@@ -16,7 +16,7 @@ if (SERVER) then
 				return
 			end
 			local character = client:getChar()
-			if (client:GetMoveType() == MOVETYPE_NOCLIP or not character) then
+			if (!character) then
 				return
 			end
 
@@ -30,10 +30,12 @@ if (SERVER) then
 			end
 
 			if (client:isRunning()) then
-				local bonus = character.getAttrib
-					and character:getAttrib("end", 0)
-					or 0
-				offset = -0.5 + (bonus / 400)
+				if(client:GetMoveType() != MOVETYPE_NOCLIP) then
+					local bonus = character.getAttrib
+						and character:getAttrib("end", 0)
+						or 0
+					offset = -0.5 + (bonus / 400)
+				end
 			elseif (offset > 0.5) then
 				offset = 1
 			else

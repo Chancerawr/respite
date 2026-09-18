@@ -25,6 +25,105 @@ if (CLIENT) then
 			net.WriteUInt(itemID, 32)
 		net.SendToServer()
 	end
+	
+	local takeAllBackground = Material("respite/ui/inventory.png")
+	
+	function PLUGIN:CreateTakeAllButton(localInvPanel, storageInvPanel, storage)
+		if(IsValid(storageInvPanel.takeAll)) then
+			storageInvPanel.takeAll:Remove()
+		end
+	
+		local frame = vgui.Create("DPanel", storageInvPanel)
+		frame:SetSize(storageInvPanel:GetWide(), 75)
+		frame:MakePopup()
+		frame:SetWide(storageInvPanel:GetWide())
+		frame:SetPos(storageInvPanel:GetPos())
+		frame:MoveBelow(storageInvPanel, 8)
+
+		frame.Paint = function(panel, w, h)
+			--background color
+			surface.SetDrawColor(Color(40, 40, 40, 255))
+			surface.DrawRect(0, 0, w, h)
+		end
+	
+		local button = vgui.Create("DButton", frame)
+		button:Dock(FILL)
+		button:SetText("")
+		button:SetTextColor(Color(255,255,255))
+		button.DoClick = function()
+			netstream.Start("nut_storageTakeAll", storage)
+		end
+		button.Paint = function(panel, w, h)
+			--background color
+			surface.SetDrawColor(Color(0, 0, 0, 220))
+			surface.DrawRect(0, 0, w, h)
+
+			surface.SetDrawColor(10, 10, 10, 255)
+			--surface.SetMaterial(takeAllBackground)
+			surface.DrawRect(0, 0, w, h)
+			--surface.DrawTexturedRect(0, 0, w, h)
+			
+			surface.SetDrawColor(0, 0, 0, 255)
+			surface.DrawOutlinedRect(0, 0, w, h, 4)
+			
+			local name = "Take All"
+			surface.SetFont("nutInventoryTitleFont")
+			surface.SetTextColor(255, 255, 255)
+
+			local textSizeX, textSizeY = surface.GetTextSize(name)
+			
+			surface.SetTextPos(w*0.5-textSizeX*0.5, h*0.5-textSizeY*0.5)
+			surface.DrawText(name)
+		end
+		
+		storageInvPanel.takeAll = frame
+	end
+	
+	--take all prompt
+	function PLUGIN:OnCreateStoragePanel(localInvPanel, storageInvPanel, storage)
+		PLUGIN:CreateTakeAllButton(localInvPanel, storageInvPanel, storage)
+		
+		local oldMousePress = storageInvPanel.OnMousePressed
+		storageInvPanel.OnMousePressed = function(panel, keyCode)
+			if(IsValid(panel.takeAll)) then
+				panel.takeAll:Remove()
+			end
+			
+			oldMousePress(panel, keyCode)
+		end
+		
+		local oldMouseReleased = storageInvPanel.OnMouseReleased
+		storageInvPanel.OnMouseReleased = function(panel, keyCode)
+			PLUGIN:CreateTakeAllButton(localInvPanel, storageInvPanel, storage)
+			
+			oldMouseReleased(panel, keyCode)
+		end
+	end
+end
+
+if(SERVER) then
+	netstream.Hook("nut_storageTakeAll", function(client, storage)
+		local char = client:getChar()
+		
+		if(char and client.nutStorageEntity == storage) then
+			local charInv = char:getInv()
+			local storInv = storage:getInv()
+			
+			local delay = 0
+			
+			for k, v in pairs(storInv:getItems()) do
+				timer.Simple(delay, function()
+					local x, y = charInv:findFreePosition(v)
+				
+					if(x and y) then
+						hook.Run("HandleItemTransferRequest", client, v.id, x, y, charInv:getID())
+					end
+				end)
+				
+				delay = delay + 0.1
+			end
+		end
+	end)
 end
 
 nut.command.add("storagelock", {

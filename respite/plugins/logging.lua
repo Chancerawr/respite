@@ -108,7 +108,10 @@ if (SERVER) then
 				if (attacker:IsPlayer()) then
 					nut.log.addRaw(attacker:Name().. L(" killed %s with %s", victimName, attacker:GetActiveWeapon()))
 				else
-					nut.log.addRaw(L("%s killed %s with %s.", tostring(attacker), victimName, inflictor:GetClass()))
+					local attackerString = (IsValid(attacker) and attacker:GetClass()) or "Unknown Attacker"
+					local inflictorString = (IsValid(inflictor) and inflictor:GetClass()) or "Unknown"
+				
+					nut.log.addRaw(attackerString.. " killed " ..victimName.. " with " ..inflictorString)
 				end
 			end
 			

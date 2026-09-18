@@ -6,16 +6,20 @@ ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/props_c17/furniturefabric002a"
 ITEM.category = "Medical"
 ITEM.hp = 25
-ITEM.hpTime = 10
+ITEM.hpTime = 30
 ITEM.price = 0
 ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_empty_bandage"
-ITEM.quantity2 = 3
+ITEM.quantity2 = 2
 
 ITEM.sound = "physics/cardboard/cardboard_box_impact_soft7.wav"
 ITEM.soundPitch = 50
 
 ITEM.stomach = false
+
+ITEM.buffRemove = {
+	["bleed"] = 1,
+}
 
 ITEM.extraFunc = function(item, client)
 	client:ScreenFade(1, Color(30, 120, 30, 255), 1, 1)

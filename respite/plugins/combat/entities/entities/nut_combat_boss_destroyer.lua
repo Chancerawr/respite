@@ -62,11 +62,19 @@ ENT.actions = {
 	"life_creation",
 }
 
-function ENT:Initialize()
-	--self:SetModelScale(2)
+ENT.StepData = {
+	0.25,
+	0.75,
+}
 
-	self:basicSetup()
-end
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}
 
 function ENT:CustomThink()
 	if(CLIENT) then

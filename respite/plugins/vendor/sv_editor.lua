@@ -87,4 +87,9 @@ EDITOR.scale = function(vendor, client)
 	vendor:setSellScale(scale)
 end
 
+EDITOR.buyScale = function(vendor, client)
+	local buyScale = net.ReadFloat()
+	vendor:setBuyScale(buyScale)
+end
+
 return EDITOR

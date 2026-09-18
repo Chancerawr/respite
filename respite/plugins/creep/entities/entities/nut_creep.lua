@@ -280,13 +280,13 @@ function ENT:OnTakeDamage(dmginfo)
 			local spread
 		
 			if(self.heart) then
-				spread = ents.Create("nz_leecher")
+				spread = ents.Create("resp_leecher")
 				spread:SetPos(self:GetPos() + Vector(0,0,30))
 				spread:Spawn()
 				spread:SetOwner(self)
 			else
 				--[[
-				spread = ents.Create("nz_freak")
+				spread = ents.Create("resp_waste")
 				spread:SetPos(self:GetPos() + Vector(0,0,30))
 				spread:Spawn()
 				spread:SetOwner(self)
@@ -302,7 +302,13 @@ function ENT:OnTakeDamage(dmginfo)
 		if(self.size > 1) then
 			local drop = table.Random(self.drops)
 			
-			nut.item.spawn(drop, self:GetPos() + Vector(0,0,30))
+			nut.item.spawn(drop, self:GetPos() + Vector(0,0,30), function(item)
+				local entity = item:getEntity()
+				if(entity) then
+					entity:SetCollisionGroup(COLLISION_GROUP_DEBRIS_TRIGGER)
+					entity.temp = true --these items get cleaned up with map if not picked up
+				end
+			end)
 		end
 		
 		SafeRemoveEntity(self)

@@ -9,7 +9,7 @@ ITEM.slot = "Accessory"
 
 ITEM.armor = 5
 
-ITEM.rarity = 10
+ITEM.rarity = 7
 ITEM.lootTags = {
 	["armor"] = true,
 	["accessory"] = true,

@@ -17,7 +17,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_919"] = 10
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_22lr"
@@ -34,7 +34,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_22lr"] = 10
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_45"
@@ -51,7 +51,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_45"] = 10
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_40sw"
@@ -68,7 +68,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_40sw"] = 8
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_5728"
@@ -85,7 +85,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_5728"] = 10
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_357"
@@ -102,7 +102,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_357"] = 8
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_12g"
@@ -119,7 +119,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_12g"] = 5
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_concrete"
@@ -136,7 +136,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_concrete"] = 5
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_sawblade"
@@ -153,7 +153,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_sawblade"] = 2
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_44"
@@ -170,7 +170,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_44"] = 10
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_50ae"
@@ -187,7 +187,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_50ae"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_500"
@@ -204,7 +204,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_500"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_4570"
@@ -221,7 +221,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_4570"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_54539"
@@ -238,7 +238,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_54539"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_55645"
@@ -255,7 +255,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_55645"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_55639"
@@ -272,7 +272,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_55639"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_76239"
@@ -289,7 +289,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_76239"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_939"
@@ -306,7 +306,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_939"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_76251"
@@ -323,7 +323,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_76251"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_76254"
@@ -340,7 +340,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_76254"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_3006"
@@ -357,7 +357,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_3006"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_338"
@@ -374,7 +374,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_338"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_408"
@@ -391,7 +391,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_408"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_50bmg"
@@ -408,14 +408,13 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_50bmg"] = 6
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_battery"
 RECIPE.name = "Charged Battery"
 RECIPE.category = "Ammunition"
 RECIPE.model = "models/items/battery.mdl"
-RECIPE.desc = "A single, seemingly enhanced battery."
 RECIPE.stackedResults = true
  
 RECIPE.items = {
@@ -425,7 +424,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_battery"] = 1
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_bone"
@@ -442,7 +441,7 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_bone"] = 5
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_ammo_bone"
@@ -459,4 +458,4 @@ RECIPE.items = {
 RECIPE.result = {
 	["ammo_flesh"] = 2
 }
-RECIPES:Register( RECIPE )
+RECIPES:Register(RECIPE)

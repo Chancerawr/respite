@@ -19,16 +19,18 @@ function PANEL:Init()
 	local y = 0
 
 	for followerID, follower in pairs(followers) do
+		local data = follower.saveData
+	
 		local followerButton = self.scroll:Add("DButton")
 		followerButton:SetSize(ScrW()*0.2, 30)
 		followerButton:SetPos(ScrW()*0.02, ScrH()*0.025 + y)
 		followerButton:DockMargin(0, 10, 0, 0)
 		followerButton:SetFont("nutMediumFont")
 		followerButton:SetTextColor(color_white)
-		followerButton:SetText(follower.name or "Unnamed")
+		followerButton:SetText(data.name or "Unnamed")
 		
-		if(follower.desc) then
-			followerButton:SetTooltip(follower.desc)
+		if(data.desc) then
+			followerButton:SetTooltip(data.desc)
 		end
 		
 		followerButton.Paint = function(panel, w, h)
@@ -41,7 +43,7 @@ function PANEL:Init()
 		followerButton.DoClick = function()
 			local subFrame = self:Add("DFrame")
 			subFrame:SetSize(600, 400)
-			subFrame:SetTitle(follower.name or "Unnamed")
+			subFrame:SetTitle(data.name or "Unnamed")
 			subFrame:MakePopup()
 			subFrame:Center()
 			
@@ -63,14 +65,14 @@ function PANEL:Init()
 			end
 			desc:SetEnabled(false)
 			
-			local descString = follower.name or "Unnamed"
-			if(follower.desc) then
-				descString = descString.. "\n" ..follower.desc
+			local descString = data.name or "Unnamed"
+			if(data.desc) then
+				descString = descString.. "\n" ..data.desc
 			end
 			
-			if(follower.attribs) then
+			if(data.attribs) then
 				descString = descString.. "\n\n"
-				for k, v in pairs(follower.attribs) do
+				for k, v in pairs(data.attribs) do
 					local attribName = (nut.attribs.list[k] and nut.attribs.list[k].name) or "Unknown Attrib"
 					descString = descString..attribName.. ": " ..v.. "\n"
 				end
@@ -99,7 +101,7 @@ function PANEL:Init()
 			recallButton:SetTextColor(Color(255,255,255))
 			recallButton:SetText("Recall")
 			recallButton.DoClick = function()
-				print("Recall that guy")
+				netstream.Start("nut_followerRecall", followerID)
 			end
 			recallButton.Paint = function(panel, w, h)
 				local posX, posY = recallButton:GetPos()
@@ -117,10 +119,13 @@ function PANEL:OnRemove()
 end
 vgui.Register("nutFollowers", PANEL, "EditablePanel")
 
---[[
 hook.Add("CreateMenuButtons", "nutFollowers", function(tabs)
-	tabs["Followers"] = function(panel)
-		panel:Add("nutFollowers")
+	local client = LocalPlayer()
+	local char = client:getChar()
+	local followers = char:getData("fllw", {})
+	if(!table.IsEmpty(followers)) then
+		tabs["Followers"] = function(panel)
+			panel:Add("nutFollowers")
+		end
 	end
 end)
---]]

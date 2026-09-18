@@ -3,9 +3,266 @@ local PLUGIN = PLUGIN
 
 //
 RECIPE = {}
+RECIPE.uid = "nut_upgrade_pistol_1"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 5,
+	["cube_chip"] = 5,
+	["j_scrap_metals"] = 10,
+}
+RECIPE.result = {
+	["enhance_pistol_1"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_pistol_2"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 10,
+	["cube_chip"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+}
+RECIPE.result = {
+	["enhance_pistol_2"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_pistol_3"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 20,
+	["cube_chip"] = 25,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_energy"] = 1,
+}
+RECIPE.result = {
+	["enhance_pistol_3"] = 1
+}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_shotgun_1"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 5,
+	["cube_chip"] = 5,
+	["j_scrap_metals"] = 10,
+}
+RECIPE.result = {
+	["enhance_shotgun_1"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_shotgun_2"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 10,
+	["cube_chip"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+}
+RECIPE.result = {
+	["enhance_shotgun_2"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_shotgun_3"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 20,
+	["cube_chip"] = 25,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_energy"] = 1,
+}
+RECIPE.result = {
+	["enhance_shotgun_3"] = 1
+}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_concrete_1"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 5,
+	["cube_chip"] = 5,
+	["j_scrap_metals"] = 10,
+}
+RECIPE.result = {
+	["enhance_concrete_1"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_concrete_2"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 10,
+	["cube_chip"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+}
+RECIPE.result = {
+	["enhance_concrete_2"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_concrete_3"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 20,
+	["cube_chip"] = 25,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_energy"] = 1,
+}
+RECIPE.result = {
+	["enhance_concrete_3"] = 1
+}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_rifle_1"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 5,
+	["cube_chip"] = 5,
+	["j_scrap_metals"] = 10,
+}
+RECIPE.result = {
+	["enhance_rifle_1"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_rifle_2"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 10,
+	["cube_chip"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+}
+RECIPE.result = {
+	["enhance_rifle_2"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_rifle_3"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 20,
+	["cube_chip"] = 25,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_energy"] = 1,
+}
+RECIPE.result = {
+	["enhance_rifle_3"] = 1
+}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_magnum_1"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 5,
+	["cube_chip"] = 5,
+	["j_scrap_metals"] = 10,
+}
+RECIPE.result = {
+	["enhance_magnum_1"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_magnum_2"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 10,
+	["cube_chip"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+}
+RECIPE.result = {
+	["enhance_magnum_2"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_magnum_3"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 20,
+	["cube_chip"] = 25,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_energy"] = 1,
+}
+RECIPE.result = {
+	["enhance_magnum_3"] = 1
+}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_sniper_1"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 5,
+	["cube_chip"] = 5,
+	["j_scrap_metals"] = 10,
+}
+RECIPE.result = {
+	["enhance_sniper_1"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_sniper_2"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 10,
+	["cube_chip"] = 10,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+}
+RECIPE.result = {
+	["enhance_sniper_2"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+RECIPE.uid = "nut_upgrade_sniper_3"
+RECIPE.category = "Upgrades (Firearm)"
+RECIPE.items = {
+	["parts_gun"] = 20,
+	["cube_chip"] = 25,
+	["j_scrap_metals"] = 10,
+	["j_scrap_elecs"] = 10,
+	["j_scrap_energy"] = 1,
+}
+RECIPE.result = {
+	["enhance_sniper_3"] = 1
+}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
 RECIPE.uid = "nut_dream_str"
 RECIPE.name = "Dream of Brawn"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -22,7 +279,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_acc"
 RECIPE.name = "Dream of Precision"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -39,7 +295,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_acid"
 RECIPE.name = "Dream of Acid"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -56,7 +311,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_agi"
 RECIPE.name = "Dream of Swiftness"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -73,7 +327,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_armor"
 RECIPE.name = "Dream of Protection"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -90,7 +343,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_blunt"
 RECIPE.name = "Dream of Bludgeoning"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -107,7 +359,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_cold"
 RECIPE.name = "Dream of Winter"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -124,7 +375,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_craft"
 RECIPE.name = "Dream of Craftiness"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -141,7 +391,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_electric"
 RECIPE.name = "Dream of Lightning"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -158,7 +407,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_end"
 RECIPE.name = "Dream of Endurance"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -175,7 +423,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_explode"
 RECIPE.name = "Dream of Destruction"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -192,7 +439,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_distort"
 RECIPE.name = "Dream of Space"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -209,7 +455,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_time"
 RECIPE.name = "Dream of Time"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -226,7 +471,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_fire"
 RECIPE.name = "Dream of Flame"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -243,7 +487,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_fort"
 RECIPE.name = "Dream of Fortitude"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -260,7 +503,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_luck"
 RECIPE.name = "Dream of Fortune"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -277,7 +519,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_per"
 RECIPE.name = "Dream of Sight"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -294,7 +535,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_pierce"
 RECIPE.name = "Dream of Piercing"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -311,7 +551,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_poison"
 RECIPE.name = "Dream of Toxicity"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -328,7 +567,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_rot"
 RECIPE.name = "Dream of Decay"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -345,7 +583,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_dream_slash"
 RECIPE.name = "Dream of Evisceration"
-RECIPE.desc = "Can be used to improve an equippable item."
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/items/combine_rifle_cartridge01.mdl"
  
@@ -361,8 +598,7 @@ RECIPES:Register(RECIPE)
 //
 RECIPE = {}
 RECIPE.uid = "nut_dream_purger"
-RECIPE.name = "Equipment Awakener"
-RECIPE.desc = "Can be used to remove dream enhancements from items."
+RECIPE.name = "Dream Crusher"
 RECIPE.category = "Upgrades (Dream)"
 RECIPE.model = "models/warz/melee/hammer.mdl"
  
@@ -379,8 +615,7 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_blade"
 RECIPE.name = "Sharpened Blade"
-RECIPE.desc = "A general weapon improvement for bladed weapons."
-RECIPE.category = "Upgrades (Weapon)"
+RECIPE.category = "Upgrades (Melee)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  
 RECIPE.items = {
@@ -396,8 +631,7 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_blunt"
 RECIPE.name = "Bludgeon Weight"
-RECIPE.desc = "Increases a blunt weapon's damage, but decreases its attack rate."
-RECIPE.category = "Upgrades (Weapon)"
+RECIPE.category = "Upgrades (Melee)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  
 RECIPE.items = {
@@ -413,8 +647,7 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_handle"
 RECIPE.name = "Handle Wraps"
-RECIPE.desc = "Improves grip of a melee weapon's handle for better manueverability."
-RECIPE.category = "Upgrades (Weapon)"
+RECIPE.category = "Upgrades (Melee)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  
 RECIPE.items = {
@@ -431,7 +664,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_1"
 RECIPE.name = "Scrap Armor Plate"
-RECIPE.desc = "A piece of scrap metal that can provide some protection."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -447,7 +679,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_2"
 RECIPE.name = "Iron Armor Plate"
-RECIPE.desc = "A piece of iron that can provide decent protection."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -463,7 +694,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_3"
 RECIPE.name = "Steel Armor Plate"
-RECIPE.desc = "A piece of steel that can provide good protection."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -477,9 +707,23 @@ RECIPE.result = {
 RECIPES:Register(RECIPE)
 //
 RECIPE = {}
+RECIPE.uid = "nut_upgrade_armor_lead"
+RECIPE.name = "Lead Armor Plate"
+RECIPE.category = "Upgrades (Armor)"
+RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
+ 
+RECIPE.items = {
+	["j_scrap_lead"] = 5,
+	["cube_chip"] = 3,
+}
+RECIPE.result = {
+	["enhance_armor_lead"] = 1
+}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_copper"
 RECIPE.name = "Copper Armor Plate"
-RECIPE.desc = "A metal plate that is not very effective at protection, but conducts electricity pretty well."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -495,7 +739,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_gold"
 RECIPE.name = "Golden Armor Plate"
-RECIPE.desc = "A metal plate that is not very effective at protection, but looks very luxurious."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -511,7 +754,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_ogre"
 RECIPE.name = "Ogre Metal Armor Plate"
-RECIPE.desc = "A piece of ogre metal that weighs a ton."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -527,7 +769,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_platinum"
 RECIPE.name = "Platinum Armor Plate"
-RECIPE.desc = "A metal plate that provides some protection."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -543,7 +784,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_red"
 RECIPE.name = "Redsteel Armor Plate"
-RECIPE.desc = "A piece of redsteel that strangely doesn't provide any protection at all, actually it makes you more vulnerable somehow."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -559,7 +799,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_silver"
 RECIPE.name = "Silver Armor Plate"
-RECIPE.desc = "A metal plate that provides some protection."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -575,7 +814,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_upgrade_armor_attuned"
 RECIPE.name = "Attuned Armor Plate"
-RECIPE.desc = "A strange white metal that constantly emits a pleasant sound."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
  
@@ -591,7 +829,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_liner_fire"
 RECIPE.name = "Fire Resistant Liner"
-RECIPE.desc = "A fire-resistant liner that can be added to some armors."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  
@@ -607,7 +844,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_liner_rubber"
 RECIPE.name = "Rubber Liner"
-RECIPE.desc = "A rubber liner that can provide some protection from elecriticty."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  
@@ -623,7 +859,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_liner_rubber"
 RECIPE.name = "Rubber Liner"
-RECIPE.desc = "A rubber liner that can provide some protection from elecriticty."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  
@@ -639,7 +874,6 @@ RECIPES:Register(RECIPE)
 RECIPE = {}
 RECIPE.uid = "nut_liner_timeless"
 RECIPE.name = "Timeless Liner"
-RECIPE.desc = "A 'timeless' liner, it is highly resistant to the passage of time."
 RECIPE.category = "Upgrades (Armor)"
 RECIPE.model = "models/props_junk/cardboard_box004a.mdl"
  

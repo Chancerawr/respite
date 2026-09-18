@@ -9,7 +9,20 @@ ITEM.height = 2
 ITEM.flag = "v"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_ar2"
+ITEM.WalkAnim = "walk_ar2"
+ITEM.RunAnim = "run_ar2"
+
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	"weapons/slam/mine_mode.wav",
+}
+
+ITEM.rarity = 0
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,

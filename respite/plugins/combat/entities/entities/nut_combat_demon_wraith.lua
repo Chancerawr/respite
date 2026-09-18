@@ -5,10 +5,14 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_demon_w"
+
 ENT.name = "Burning Demon"
 
 ENT.model = "models/nh2zombies/friendly.mdl"
 ENT.material = "models/effects/splode1_sheet"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Melee"
 
@@ -51,4 +55,17 @@ ENT.res = {
 ENT.actions = {
 	"slash",
 	"stab",
+	"ichor_spit",
+}
+
+ENT.StepData = {
+	0.35,
+	0.8,
+}
+
+ENT.FootstepSounds = {
+	"npc/demon/nhdemon_foot1.wav",
+	"npc/demon/nhdemon_foot2.wav",
+	"npc/demon/nhdemon_foot3.wav",
+	"npc/demon/nhdemon_foot4.wav",
 }

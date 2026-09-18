@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_spore"
+
 ENT.name = "Lump"
 
 ENT.model = "models/respite/spore.mdl"
@@ -53,6 +55,16 @@ ENT.actions = {
 	"poison_release",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {95,105}
+ENT.FootstepSounds = {
+	"respite/spore/foot1.wav",
+	"respite/spore/foot2.wav",
+	"respite/spore/foot3.wav",
+	"respite/spore/foot4.wav",
+	"respite/spore/foot5.wav",
+}

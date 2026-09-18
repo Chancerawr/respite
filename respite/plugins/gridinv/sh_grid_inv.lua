@@ -362,39 +362,28 @@ if (SERVER) then
 	function GridInv:addSmart(item, number, position, data)
 		local itemObj = nut.item.list[item]
 		if(!itemObj) then return false end
-	
+
 		local items = {}
 		for i = 1, (number or 1) do			
 			x, y = self:findFreePosition(itemObj)
-			
+
 			local newItem
 			if(x) then
-				newItem = self:add(item)
+				newItem = self:add(item, nil, data)
+				--newItem = self:add(item)
 				table.insert(items, newItem)
 			else
 				if(position) then
 					nut.item.spawn(item, position, function(item2)
 						table.insert(items, item2)
+						
+						for k, v in pairs(data) do
+							item2:setData(k, v)
+						end
 					end)
 				end
 			end
 		end
-		
-		timer.Simple(1, function()
-			if(data) then
-				for _, item in pairs(items) do
-					for k, v in pairs(data) do
-						if(!item.setData and item.value) then
-							item.value:setData(k, v)
-						else
-							if(item and item.setData) then
-								item:setData(k, v)
-							end
-						end
-					end
-				end
-			end
-		end)
 		
 		return items
 	end	

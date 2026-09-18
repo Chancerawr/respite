@@ -11,6 +11,19 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
 
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_revolver"
+ITEM.WalkAnim = "walk_revolver"
+ITEM.RunAnim = "run_revolver"
+
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	Sound("gdc/rockets/m202f2.wav"),
+}
+
 ITEM.rarity = 10
 ITEM.lootTags = {
 	["weapon"] = true,
@@ -23,8 +36,8 @@ ITEM.dmg = {
 }
 
 ITEM.scaling = {
-	["str"] = 0.2,
-	["perception"] = 0.2,
+	["str"] = 0.25,
+	["perception"] = 0.15,
 }
 
 ITEM.upgradeSlots = {
@@ -38,6 +51,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Concrete"] = 10,
 }
 
 ITEM.iconCam = {

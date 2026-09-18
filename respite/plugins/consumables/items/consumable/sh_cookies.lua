@@ -1,12 +1,12 @@
 ITEM.name = "Cookies"
 ITEM.prefix = "Cookie"
-ITEM.desc = "A box of delicious cookies."
+ITEM.desc = "A sleeve of delicious cookies."
 ITEM.uniqueID = "food_cookies"
-ITEM.model = "models/props_lab/box01a.mdl"
-ITEM.material = "models/props_wasteland/wood_fence01a_skin2"
+ITEM.model = "models/foodnhouseholditems/cookies.mdl"
+--ITEM.material = "models/props_wasteland/wood_fence01a_skin2"
 ITEM.quantity2 = 1
 ITEM.price = 7
-ITEM.container = "j_empty_chocolate_box"
+--ITEM.container = "j_empty_chocolate_box"
 
 ITEM.attrib = { 
 	["stm"] = 3,

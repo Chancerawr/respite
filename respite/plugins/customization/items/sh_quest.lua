@@ -7,6 +7,17 @@ ITEM.flag = "1"
 ITEM.category = "Quest"
 ITEM.onGetDropModel = true
 
+ITEM.customizable = {
+	["name"] = true,
+	["desc"] = true,
+	["model"] = true,
+	["modelScale"] = true,
+	["modelColor"] = true,
+	["material"] = true,
+	["color"] = true,
+	["img"] = true,
+}
+
 ITEM.functions.Custom = {
 	name = "Customize",
 	tip = "Customize this item",
@@ -70,7 +81,7 @@ ITEM.functions.Clone = {
 	
 		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
 			local inventory = client:getChar():getInv()
-			local data = item.data
+			local data = table.Copy(item.data)
 			data.x = nil
 			data.y = nil
 
@@ -123,4 +134,55 @@ function ITEM:onGetDropModel()
 	end
 	
 	return Format(model)
+end
+
+function ITEM:onEntityCreated(entity)
+	local customData = self:getData("custom", {})
+	
+	local modelColor = customData.modelColor or self.modelColor
+	if(modelColor) then
+		entity:SetColor(modelColor)
+	end
+	
+	local scale = customData.modelScale or self.modelScale
+	scale = tonumber(scale)
+	
+	--[[
+	if(scale) then
+		--clamp this so you cant just crash the server with it
+		scale = math.Clamp(scale, 0.1, 10)
+
+		entity:SetModelScale(scale)
+
+		local physobj = entity:GetPhysicsObject()
+		if (!IsValid(physobj)) then return false end
+
+		--grabbed from a collision resizer tool
+		local physmesh = physobj:GetMeshConvexes()
+		if (!istable(physmesh)) or (#physmesh < 1) then return false end
+
+		for convexkey, convex in pairs(physmesh) do
+			for poskey, postab in pairs(convex) do
+				convex[poskey] = postab.pos * scale
+			end
+		end
+
+		local asleep = physobj:IsAsleep()
+
+		entity:PhysicsInitMultiConvex(physmesh)
+		
+		if(!asleep) then
+			entity:GetPhysicsObject():Wake()
+		end
+	end
+	--]]
+
+	--[[
+	if(self.entMass) then
+		local physObj = entity:GetPhysicsObject()
+		if(IsValid(physObj)) then
+			physObj:SetMass(self.entMass)
+		end
+	end
+	--]]
 end

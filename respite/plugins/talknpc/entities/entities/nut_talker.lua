@@ -1,3 +1,5 @@
+local PLUGIN = PLUGIN
+
 ENT.Type = "anim"
 ENT.PrintName = "Talker"
 ENT.Category = "NutScript"
@@ -262,7 +264,14 @@ if (CLIENT) then
 	end	
 else
 	function ENT:Think()
-		if(!self:IsPlayerHolding()) then
+		--if held with physgun, gravgun, or hands
+		if(self:IsPlayerHolding()) then
+			self.playerMoved = true
+		elseif(self.playerMoved) then
+			self.playerMoved = nil
+
+			PLUGIN:SaveTalkers()
+		else
 			local physObj = self:GetPhysicsObject()
 			
 			if(IsValid(physObj) and !physObj:IsAsleep()) then
@@ -329,6 +338,8 @@ else
 				entity:SetBodygroup(5, groups[5] or 0)
 				entity:SetBodygroup(6, groups[6] or 0)
 			end			
+
+			nut.plugin.list["talknpc"]:SaveTalkers()
 
 			client:notify("You have updated this talking npc's data.")
 		end
@@ -535,7 +546,13 @@ else
 	function ENT:OnRemove()
 		NUT_VENDORS[self:EntIndex()] = nil
 
-		if (nut.shuttingDown or self.nutIsSafe) then return end
+		if (!self.nutForceDelete) then
+			if (!PLUGIN.loadedData) then return end
+			if (self.nutIsSafe) then return end
+			if (nut.shuttingDown) then return end
+		end
+		
+		PLUGIN:SaveTalkers()
 	end
 
 	-- Sets how much of the original price a player gets back for selling an item.

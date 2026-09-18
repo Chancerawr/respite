@@ -35,7 +35,7 @@ ITEM.functions.Activate = {
 }
 
 ITEM.functions.Chip2 = {
-	name = "Enhanced Chip",
+	name = "Distortion Key",
 	icon = "icon16/box.png",
 	sound = "buttons/lightswitch2.wav",
 	onRun = function(item)
@@ -45,7 +45,7 @@ ITEM.functions.Chip2 = {
 		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 			
 		if (!chip) then
-			client:notifyLocalized("You need an enhanced chip to insert!") return false
+			client:notifyLocalized("You need a distortion key to insert!") return false
 		end
 		
 		local roll = math.random(1,9)

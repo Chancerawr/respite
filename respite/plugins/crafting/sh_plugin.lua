@@ -77,26 +77,16 @@ if(SERVER) then
 				end
 			end
 		end
-		
-		self.loadedData = true
 	end
 	
 	function PLUGIN:SaveData()
-		self:saveTables()
+		--self:saveTables()
 	end
-	
-	-- this stupid time stuff stops them from getting broken when other things break when the load hook is called
-	function PLUGIN:InitPostEntity()
-		--[[
-		timer.Simple(60, function()
-			PLUGIN:loadTables()
-		end)
-		--]]
-	end
-	
+
 	function PLUGIN:LoadData()
 		pcall(function()
 			PLUGIN:loadTables()
+			self.loadedData = true
 		end)
 	end
 

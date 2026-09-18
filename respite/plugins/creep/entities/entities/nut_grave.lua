@@ -143,12 +143,12 @@ function ENT:OnTakeDamage( dmginfo )
 	if(self:Health() <= 0 and !self.dead) then
 		if(self.size >= 3) then
 			if(self.heart) then
-				local spread = ents.Create("nz_leecher")
+				local spread = ents.Create("resp_leecher")
 				spread:SetPos(self:GetPos() + Vector(0,0,30))
 				spread:Spawn()
 				spread:SetOwner(self)
 			else
-				local spread = ents.Create("nz_freak")
+				local spread = ents.Create("resp_waste")
 				spread:SetPos(self:GetPos() + Vector(0,0,30))
 				spread:Spawn()
 				spread:SetOwner(self)

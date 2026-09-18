@@ -295,7 +295,12 @@ function ENT:OnRemove()
 	net.Start("nutVendorExit")
 	net.Send(self.receivers)
 
-	if (nut.shuttingDown or self.nutIsSafe) then return end
+	if (!self.nutForceDelete) then
+		if (!PLUGIN.loadedData) then return end
+		if (self.nutIsSafe) then return end
+		if (nut.shuttingDown) then return end
+	end
+	
 	PLUGIN:saveVendors()
 end
 
@@ -320,6 +325,16 @@ function ENT:setSellScale(scale)
 	self:setNetVar("scale", scale)
 	net.Start("nutVendorEdit")
 		net.WriteString("scale")
+	net.Send(self.receivers)
+end
+
+-- Set the price scaling for when a player is buying an item from the vendor.
+function ENT:setBuyScale(scale)
+	assert(isnumber(scale), "scale must be a number")
+
+	self:setNetVar("buyScale", scale)
+	net.Start("nutVendorEdit")
+		net.WriteString("buyScale")
 	net.Send(self.receivers)
 end
 
@@ -360,4 +375,17 @@ function ENT:addReceiver(client, noSync)
 
 	if (noSync) then return end
 	self:sync(client)
+end
+
+if(SERVER) then
+	function ENT:Think()
+		--if held with physgun, gravgun, or hands
+		if(self:IsPlayerHolding()) then
+			self.playerMoved = true
+		elseif(self.playerMoved) then
+			self.playerMoved = nil
+
+			PLUGIN:saveVendors()
+		end
+	end
 end

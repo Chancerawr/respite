@@ -6,6 +6,7 @@ nut.command.add("centsay", {
 	onRun = function(client, arguments)
 		if(!arguments) then
 			client:notify("Put something for the CEnt to say.")
+			return false
 		end
 
 		local msg = table.concat(arguments, " ")
@@ -25,6 +26,7 @@ nut.command.add("centwhisper", {
 	onRun = function(client, arguments)
 		if(!arguments) then
 			client:notify("Put something for the CEnt to say.")
+			return false
 		end
 
 		local msg = table.concat(arguments, " ")
@@ -44,6 +46,7 @@ nut.command.add("centyell", {
 	onRun = function(client, arguments)
 		if(!arguments) then
 			client:notify("Put something for the CEnt to say.")
+			return false
 		end
 
 		local msg = table.concat(arguments, " ")
@@ -63,13 +66,14 @@ nut.command.add("centscream", {
 	onRun = function(client, arguments)
 		if(!arguments) then
 			client:notify("Put something for the CEnt to say.")
+			return false
 		end
 
 		local msg = table.concat(arguments, " ")
 
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
-			nut.chat.send(entity, "scream_npc", entity:Name().. " yells \"" ..msg.."\"")
+			nut.chat.send(entity, "scream_npc", entity:Name().. " screams \"" ..msg.."\"")
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
@@ -82,6 +86,7 @@ nut.command.add("centme", {
 	onRun = function(client, arguments)
 		if(!arguments) then
 			client:notify("Put something for the CEnt to do.")
+			return false
 		end
 
 		local msg = table.concat(arguments, " ")
@@ -184,6 +189,11 @@ nut.command.add("centmodel", {
 				end
 			end
 			
+			entity.WalkAnim = nil
+			entity.RunAnim = nil
+			entity.IdleAnim = nil
+			entity.AttackAnim = nil
+			
 			client:notify("Entity's model has been changed.")
 		else
 			client:notify("You must be looking at a combat entity.")
@@ -217,6 +227,38 @@ nut.command.add("centkill", {
 		if (IsValid(entity) and entity.combat) then
 			entity:die()
 			client:notify(entity:Name().. " has been slain.")
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centrevive", {
+	adminOnly = true,
+	syntax = "<number health>",
+	onRun = function(client, arguments)		
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.deathData) then
+			local deathData = entity.deathData
+			local saveData = deathData.saveData
+			
+			local class = deathData.class
+			
+			local revive = ents.Create(class) --the new clone entity
+			revive:SetPos(entity:GetPos() + Vector(0, 0, 10)) --set its position
+			revive:SetAngles(Angle(0,0,0)) --set its angles
+			
+			revive:Spawn() --spawn it
+			revive:loadSaveData(saveData)
+			
+			if(arguments[1]) then
+				local newHealth = math.min(tonumber(arguments[1]), revive:getMaxHP())
+				revive:setHP(newHealth)
+			end
+
+			SafeRemoveEntity(entity)
+
+			client:notify((saveData.name or "CEnt").. " has been revived.")
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
@@ -442,205 +484,21 @@ nut.command.add("centattribs", {
 	end
 })
 
---clones a target Cent
-nut.command.add("centclone", {
-	adminOnly = true,
-	onRun = function(client, arguments)
-		local entity = client:GetEyeTrace().Entity --entity that we're looking at
-		
-		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
-			local clone = ents.Create(entity:GetClass()) --the new clone entity
-			clone:SetPos(entity:GetPos()) --set its position
-			clone:SetAngles(entity:GetAngles()) --set its angles
-			
-			clone:Spawn() --spawn it
-			
-			clone:SetModel(entity:GetModel()) --set its model
-			clone:SetModelScale(entity:GetModelScale()) --set its model
-			clone:SetMaterial(entity:GetMaterial() or "") --set its material
-			clone:SetColor(entity:GetColor() or Color(255,255,255))
-			
-			clone:physicsSetup()
-			
-			for k, v in pairs(entity:GetBodyGroups() or {}) do
-				clone:SetBodygroup(v.id, entity:GetBodygroup(v.id))
-			end
-			
-			clone:setNetVar("name", entity:Name()) --set its custom name
-			clone:setNetVar("desc", entity:Desc()) --set its description
-
-			clone.inv = entity.inv
-			
-			--set its attributes
-			clone.attribs = entity.attribs
-			
-			--combat stats
-			clone.armor = entity.armor
-			
-			clone:setNetVar("hp", entity:getHP())
-			clone:setNetVar("hpMax", entity:getMaxHP())
-			
-			clone:setNetVar("mp", entity:getMP())
-			clone:setNetVar("mpMax", entity:getMaxMP())
-			
-			clone.actions = entity.actions
-			
-			clone.dmg = entity.dmg
-			clone.res = entity:getNetVar("res")
-			clone.amp = entity:getNetVar("amp")
-
-			clone.savedWeapon = entity.savedWeapon
-			
-			if(entity.savedWeapon) then
-				clone:EquipWeapon(entity.savedWeapon[1], entity.savedWeapon[2])
-			end
-			
-			clone:SetCreator(client) --prop protection
-			
-			--sets its animation
-			timer.Simple(1, function()
-				if(IsValid(clone)) then
-					clone:ResetSequence(entity:GetSequence())
-				end
-			end)
-
-			local name = entity:getNetVar("name", entity.PrintName)
-			client:notify(name.. " has been cloned.") --notify the player
-		else --called if they aren't looking at the right thing
-			client:notify("You must be looking at a combat entity.")
-		end
-	end
-})
-
---clones a target Cent
-nut.command.add("centcopy", {
-	adminOnly = true,
-	onRun = function(client, arguments)
-		local entity = client:GetEyeTrace().Entity --entity that we're looking at
-		
-		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
-			local groups = {}
-			for k, v in pairs(entity:GetBodyGroups() or {}) do
-				groups[v.id] = entity:GetBodygroup(v.id)
-			end
-			
-			local info = {
-				class = entity:GetClass(),
-				ang = entity:GetAngles(),
-				mdl = entity:GetModel(),
-				mdlScale = entity:GetModelScale(),
-				mat = entity:GetMaterial(),
-				col = entity:GetColor(),
-				name = entity:getNetVar("name", entity.PrintName),
-				desc = entity:getNetVar("desc", ""),
-				ani = entity:GetSequence(),
-				inv = entity.inv,
-				
-				groups = groups,
-				
-				actions = entity.actions,
-				
-				hp = entity:getHP(),
-				hpMax = entity:getMaxHP(),
-				
-				mp = entity:getMP(),
-				mpMax = entity:getMaxMP(),
-				
-				armor = entity.armor,
-				
-				dmg = entity.dmg,
-				res = entity:getNetVar("res"),
-				amp = entity:getNetVar("amp"),
-				
-				attribs = entity.attribs,
-				
-				savedWeapon = entity.savedWeapon,
-			}	
-
-			client.CEntC = info
-			local name = entity:getNetVar("name", entity.PrintName)
-			client:notify(name.. " has been copied.") --notify the player
-		else --called if they aren't looking at the right thing
-			client:notify("You must be looking at a combat entity.")
-		end
-	end
-})
-
---clones a target Cent
-nut.command.add("centpaste", {
-	adminOnly = true,
-	onRun = function(client, arguments)
-		local info = client.CEntC
-		if(info) then
-			local clone = ents.Create(info.class) --the new clone entity
-			clone:SetPos(client:GetEyeTrace().HitPos) --set its position
-			clone:SetAngles(info.ang) --set its angles
-			
-			clone:Spawn() --spawn it
-			
-			clone:SetModel(info.mdl) --set its model
-			clone:SetModelScale(info.mdlScale) --set its model
-			clone:SetMaterial(info.mat) --set its material
-			clone:SetColor(info.col)
-			
-			clone:physicsSetup()
-			
-			for k, v in pairs(info.groups or {}) do
-				clone:SetBodygroup(k, v)
-			end
-			
-			--sets its animation
-			timer.Simple(1, function()
-				if(IsValid(clone)) then
-					clone:ResetSequence(info.ani)
-				end
-			end)
-			
-			clone:setNetVar("name", info.name) --set its custom name
-			clone:setNetVar("desc", info.desc) --set its description			
-			
-			clone.inv = info.inv
-
-			clone.armor = info.armor
-			
-			clone:setNetVar("hp", info.hp)
-			clone:setNetVar("hpMax", info.hpMax)
-			
-			clone:setNetVar("mp", info.mp)
-			clone:setNetVar("mpMax", info.mpMax)
-			
-			clone.actions = info.actions
-			clone.dmg = info.dmg
-			clone.res = info.res
-			clone.amp = info.amp
-			
-			--set its attributes
-			clone.attribs = info.attribs
-			
-			if(info.savedWeapon) then
-				clone:EquipWeapon(info.savedWeapon[1], info.savedWeapon[2])
-			end
-			
-			clone:SetCreator(client) --prop protection
-
-			local name = clone:getNetVar("name", clone.PrintName)
-			client:notify(name.. " has been pasted.") --notify the player
-		end
-	end
-})
-
 --creates a CEnt with mirrored stats from a player
 nut.command.add("centmirror", {
 	adminOnly = true,
+	syntax = "<string target>",
 	onRun = function(client, arguments)
-		local entity = client:GetEyeTrace().Entity --entity that we're looking at
-		
-		if (IsValid(entity) and entity:IsPlayer()) then --makes sure it's a CEnt (Combat Entity)
+		local entity = nut.command.findPlayer(client, arguments[1])
+		if (IsValid(entity)) then --makes sure it's a CEnt (Combat Entity)
 			local clone = ents.Create("nut_combat_drifter") --the new clone entity
 			
 			local char = entity:getChar()
 			
-			clone:SetPos(entity:GetPos())
+			local trace = client:GetEyeTrace()
+			if(!trace.HitPos) then return end
+			
+			clone:SetPos(trace.HitPos)
 			clone:SetAngles(entity:GetAngles())
 			
 			clone:Spawn() --spawn it
@@ -676,10 +534,12 @@ nut.command.add("centmirror", {
 
 			clone:SetCreator(client) --prop protection
 			
+			clone:SetSequence(entity:GetSequence())
+			
 			local name = entity:Name()
 			client:notify(name.. " has been mirrored.") --notify the player
 		else --called if they aren't looking at the right thing
-			client:notify("You must be looking at a combat entity.")
+			client:notify("Specify a player.")
 		end
 	end
 })
@@ -735,28 +595,6 @@ nut.command.add("centrestore", {
 	end
 })
 
-nut.command.add("centhpadd", {
-	adminOnly = true,
-	syntax = "<string target>",
-	onRun = function(client, arguments)
-		local addHP = tonumber(arguments[1])
-		if(!addHP) then
-			client:notify("Specify an HP Amount.")
-			return false
-		end
-	
-		local entity = client:GetEyeTrace().Entity
-		if (IsValid(entity) and entity.combat) then
-			local newHP = entity:getHP()+addHP
-		
-			entity:SetHealth(newHP)
-			entity:setHP(newHP)
-			
-			client:notify("CEnt health set to " ..newHP.. ".")
-		end
-	end
-})
-
 nut.command.add("centconfig", {
 	adminOnly = true,
 	onRun = function(client, arguments)	
@@ -787,6 +625,35 @@ nut.command.add("centdmg", {
 		local entity = client:GetEyeTrace().Entity
 		if (IsValid(entity) and entity.combat) then
 			PLUGIN:CEnt_configDMG(client, entity)
+		else
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+nut.command.add("centmangle", {
+	adminOnly = true,
+	onRun = function(client, arguments)	
+		local entity = client:GetEyeTrace().Entity
+		if (IsValid(entity) and entity.combat) then
+			entity:setNetVar("mangled", true)
+			
+			local materials = {
+				"models/flesh",
+				"models/zombie_fast/fast_zombie_sheet",
+				"models/skeleton/skeleton_bloody",
+				"models/skeleton/skeleton",
+			}
+			
+			--replace materials with random stuff
+			for k, v in pairs(entity:GetMaterials()) do
+				local roll = math.random(0,1)
+				if(roll == 1) then --50% chance to replace a material
+					local material = table.Random(materials)
+				
+					entity:SetSubMaterial(k-1, material)
+				end
+			end
 		else
 			client:notify("You must be looking at a combat entity.")
 		end
@@ -956,6 +823,8 @@ nut.chat.register("scream_npc", {
 
 if(SERVER) then
 	function PLUGIN:CEnt_config(client, entity)
+		nut.plugin.list["routes"]:NetworkRouteData(self.Owner)
+	
 		local config = {
 			["name"] = {weight = 1, name = "Name", value = entity:Name()},
 			["desc"] = {weight = 2, name = "Description", value = entity:Desc()},		
@@ -969,9 +838,9 @@ if(SERVER) then
 		}
 		
 		local extra = {}
-		extra.attribs = entity.attribs
+		extra.attribs = entity:getNetVar("attribs", entity.attribs)
 		--extra.dmgT = entity.dmgT
-	
+
 		netstream.Start(client, "CEnt_config", entity, config, extra)
 	end
 	
@@ -984,14 +853,14 @@ if(SERVER) then
 	
 	function PLUGIN:CEnt_configDMG(client, entity)		
 		local extra = {}
-		extra.dmg = entity.dmg
+		extra.dmg = entity:getNetVar("dmg", entity.dmg)
 	
 		netstream.Start(client, "CEnt_configDMG", entity, extra)
 	end
 	
 	netstream.Hook("CEnt_configF", function(client, entity, data)
 		if(data.attribs) then		
-			entity.attribs = data.attribs
+			entity:setNetVar("attribs", data.attribs)
 		end
 		
 		if(data.name) then
@@ -1021,22 +890,43 @@ if(SERVER) then
 		if(data.armor) then
 			entity.armor = tonumber(data.armor)
 		end
+		
+		if(data.patrol) then
+			if(data.patrol == "" or data.patrol == "None") then
+				entity.patrol = {}
+			else
+				local route = nut.plugin.list["routes"].routes[data.patrol]
+				if(route) then
+					entity.patrol = {
+						name = data.patrol,
+						current = 1,
+						wait = 1, --how long it waits before going to the next patrol point
+						pause = false, --pauses the patrol, if it goes into combat or something
+					}
+				end
+			end
+		end
 	end)
 	
 	netstream.Hook("CEnt_configRF", function(client, entity, data)
 		if(data) then
-			entity.res = data
+			entity:setNetVar("res", data)
 		end
 	end)
 	
 	netstream.Hook("CEnt_configDMGF", function(client, entity, data)
 		if(data) then
-			entity.dmg = data
+			entity:setNetVar("dmg", data)
 		end
 	end)
 else
 	netstream.Hook("CEnt_config", function(entity, config, extra)
+		local command = vgui.Create("nutCombatCommand")
+		command:CEntConfig(entity)
+		
+		--[[
 		local attribs = extra.attribs or {}
+		local patrol = extra.patrol or ""
 		
 		local frame = vgui.Create("DFrame")
 		frame:SetSize(450, 600)
@@ -1073,10 +963,29 @@ else
 
 			local entry = vgui.Create("DNumberWang", scroll)
 			entry:SetMax(1000)
+			entry:SetMin(-1000)
 			entry:SetValue(attribs[k] or 0)
 			entry:Dock(TOP)
 			
 			configA[k] = entry
+		end
+		
+		local routes = nut.plugin.list["routes"]
+		if(routes) then
+			local label = vgui.Create("DLabel", scroll)
+			label:SetText("Patrol Route")
+			label:Dock(TOP)
+			
+			configA["patrol"] = entry
+			
+			local entryP = vgui.Create("DComboBox", scroll)
+			entryP:SetText(patrol or "None")
+			entryP:Dock(TOP)
+			entryP:AddChoice("None")
+			for k, v in pairs(routes.routes) do
+				entryP:AddChoice(k)
+			end
+			configF["patrol"] = entryP
 		end
 		
 		local finishB = vgui.Create("DButton", scroll)
@@ -1107,6 +1016,7 @@ else
 		cancelB.DoClick = function()
 			frame:Remove()
 		end
+		--]]
 	end)
 	
 	netstream.Hook("CEnt_configR", function(entity, extra)
@@ -1209,7 +1119,7 @@ else
 		typeList:SetSize(200, 20)
 		typeList:Dock(TOP)
 		
-		for dmgT, dmgTbl in pairs(PLUGIN.dmgTypes) do
+		for m, dmgTbl in pairs(PLUGIN.dmgTypes) do
 			typeList:AddChoice(dmgTbl.name or dmgT, dmgT)
 		end
 		
@@ -1277,7 +1187,9 @@ else
 					end)
 				end):SetImage("icon16/textfield_add.png")
 				menu:AddOption("Remove Entry", function()
-					dmg[panel.dmgT] = nil
+					if(panel.dmgT) then
+						dmg[panel.dmgT] = nil
+					end
 
 					panel:Remove()
 				end):SetImage("icon16/textfield_delete.png")

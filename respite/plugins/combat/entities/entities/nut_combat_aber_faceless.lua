@@ -64,3 +64,19 @@ ENT.res = {
 	["Poison"] = 0,
 	["Electric"] = 0,
 }
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.bleeds = true --for decals
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}

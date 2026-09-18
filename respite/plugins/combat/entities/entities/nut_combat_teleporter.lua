@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_teleporter"
+
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
-ENT.material = "models/angelsaur/ghosts/shadow"
+ENT.material = "models/effects/portalrift_sheet"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Attack1"
 
@@ -43,4 +47,14 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 0,
 	["Electric"] = 0,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {70,80}
+ENT.FootstepSounds = {
+	"chorror/bass4.wav",
 }

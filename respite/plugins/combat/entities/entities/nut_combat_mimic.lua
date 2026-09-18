@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_creeper"
+
 ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.material = "models/effects/comball_glow1"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.modelScale = 1.1
 
@@ -53,6 +57,20 @@ ENT.res = {
 ENT.actions = {
 	"slash",
 	"stab",
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {95,105}
+ENT.FootstepSounds = {
+	"respite/spore/foot1.wav",
+	"respite/spore/foot2.wav",
+	"respite/spore/foot3.wav",
+	"respite/spore/foot4.wav",
+	"respite/spore/foot5.wav",
 }
 
 function ENT:Initialize()

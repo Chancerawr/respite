@@ -69,6 +69,14 @@ if SERVER then
 					
 					if(x) then
 						inventory:add(item, 1)
+						
+						--does nothing yet
+						if(container.pickable) then
+							container:setNetVar("locked", true)
+							container.password = math.Rand(1,1000)
+
+							container.skillCheck = table.Random({1, 1, 1, 1, 4, 4, 8, 8, 12, 16})
+						end
 					else
 						spawntime = CurTime() + (nut.config.get("stor_spawnrate", 600) * 0.25)
 					end
@@ -87,6 +95,24 @@ nut.command.add("storagemark", {
 		local target = trace.Entity
 		if(target and target:GetClass() == "nut_storage") then
 			target.lootable = arguments[1] or "default"
+			client:notify("Storage marked with " ..target.lootable.. ".")
+		else
+			client:notify("Look at a storage entity.")
+		end
+	end
+})
+
+--does nothing yet
+nut.command.add("storagemarkpickable", {
+	adminOnly = true,
+	syntax = "<string itemgroup>",
+	onRun = function(client, arguments)
+		local trace = client:GetEyeTraceNoCursor()
+		
+		local target = trace.Entity
+		if(target and target:GetClass() == "nut_storage") then
+			target.lootable = arguments[1] or "default"
+			target.pickable = true
 			client:notify("Storage marked with " ..target.lootable.. ".")
 		else
 			client:notify("Look at a storage entity.")

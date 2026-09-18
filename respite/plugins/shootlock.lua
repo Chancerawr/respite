@@ -21,19 +21,22 @@ function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 					return
 				end
 
-				local weapon = client:GetActiveWeapon()
 
-				if (IsValid(weapon) and weapon:GetClass() == "weapon_shotgun") then
-					entity:EmitSound("physics/wood/wood_crate_break"..math.random(1, 5)..".wav", 150)
-					entity:blastDoor(client:GetAimVector() * 380)
+				if(client:IsPlayer()) then
+					local weapon = client:GetActiveWeapon()
 
-					local effect = EffectData()
-						effect:SetStart(position)
-						effect:SetOrigin(position)
-						effect:SetScale(10)
-					util.Effect("GlassImpact", effect, true, true)
+					if (IsValid(weapon) and weapon:GetClass() == "weapon_shotgun") then
+						entity:EmitSound("physics/wood/wood_crate_break"..math.random(1, 5)..".wav", 150)
+						entity:blastDoor(client:GetAimVector() * 380)
 
-					return
+						local effect = EffectData()
+							effect:SetStart(position)
+							effect:SetOrigin(position)
+							effect:SetScale(10)
+						util.Effect("GlassImpact", effect, true, true)
+
+						return
+					end
 				end
 			end
 
@@ -48,14 +51,14 @@ function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 					effect:SetScale(2)
 				util.Effect("GlassImpact", effect)
 
-				local name = client:UniqueID()..CurTime()
-				client:SetName(name)
+				--local name = client:UniqueID()..CurTime()
+				--client:SetName(name)
 
 				entity.nutOldSpeed = entity.nutOldSpeed or entity:GetKeyValues().speed or 100
 
 				entity:Fire("setspeed", entity.nutOldSpeed * 3.5)
 				entity:Fire("unlock")
-				entity:Fire("openawayfrom", name)
+				entity:Fire("openawayfrom", client)
 				entity:EmitSound("physics/wood/wood_plank_break"..math.random(1, 4)..".wav", 100, 120)
 
 				entity.nutNextBreach = CurTime() + 1

@@ -5,12 +5,12 @@ ITEM.uniqueID = "medical_suture"
 ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "models/xqm/cinderblock_tex"
 ITEM.category = "Medical"
-ITEM.hp = 50
-ITEM.hpTime = 1
+ITEM.hp = 45
+ITEM.hpTime = 10
 ITEM.price = 0
 ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_empty_bandage"
-ITEM.quantity2 = 3
+ITEM.quantity2 = 4
 
 ITEM.sound = "items/medshot4.wav"
 ITEM.soundPitch = 110
@@ -30,7 +30,7 @@ ITEM.craft = {
 	
 	buffTbl = {
 		res = {
-			["Bleed"] = 15,
+			["Bleed"] = 20,
 		}
 	},
 }

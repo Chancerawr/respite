@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_creeper_wraith"
+
 ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.material = "models/props_combine/tpballglow"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Melee"
 
@@ -49,4 +53,16 @@ ENT.res = {
 ENT.actions = {
 	"slash",
 	"stab",
+}
+
+ENT.StepData = {
+	0.35,
+	0.8,
+}
+
+ENT.FootstepSounds = {
+	"npc/demon/nhdemon_foot1.wav",
+	"npc/demon/nhdemon_foot2.wav",
+	"npc/demon/nhdemon_foot3.wav",
+	"npc/demon/nhdemon_foot4.wav",
 }

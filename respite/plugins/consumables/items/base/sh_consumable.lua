@@ -1,5 +1,5 @@
-ITEM.name = "Food Base"
-ITEM.desc = "This is test food."
+ITEM.name = "Consumable Base"
+ITEM.desc = "This is test consumable."
 ITEM.category = "Consumable"
 ITEM.model = "models/props_junk/garbage_takeoutcarton001a.mdl"
 ITEM.width = 1
@@ -14,6 +14,286 @@ ITEM.sound = "npc/barnacle/barnacle_crunch2.wav" --sound it makes when you use i
 
 ITEM.durationB = 7200 --attribute buff duration
 ITEM.stomach = true --whether to use the stomach system or not
+
+ITEM.customizable = {
+	["name"] = true,
+	["desc"] = true,
+	["model"] = true,
+	["modelScale"] = true,
+	["modelColor"] = true,
+	["material"] = true,
+	["color"] = true,
+	["img"] = true,
+	
+	["res"] = true,
+	["resEffect"] = true,
+	["amp"] = true,
+	["attrib"] = true,
+	
+	["duration"] = true,
+	["armor"] = true,
+	["accuracy"] = true,
+	["evasion"] = true,
+	["hp"] = true,
+	["hpMax"] = true,
+	["quantity2"] = true,
+	
+	["critC"] = true,
+	["critF"] = true,
+	["critM"] = true,
+}
+
+function ITEM:getCustomFields()
+	local item = self
+
+	if(!item.customizable) then return end
+	local customizable = item.customizable
+
+	local saveData = item:getData("custom", {})	
+	local buffTbl = item:getData("buffTbl", {})
+
+	local config = {
+		{
+			["name"] = {
+				weight = 1, 
+				name = "Name", 
+				category = "Basic",
+				value = saveData.name or item.name,
+				updateType = "Custom",
+			},
+			["desc"] = {
+				weight = 2, 
+				name = "Description", 
+				category = "Basic",
+				value = saveData.desc or item.desc,
+				updateType = "Custom",
+			},	
+			["model"] = {
+				weight = 13, 
+				name = "Model", 
+				category = "Basic",
+				value = saveData.model or item.model,
+				updateType = "Custom",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						entity:SetModel(data)
+						entity:PhysicsInit(SOLID_VPHYSICS)
+						entity:SetSolid(SOLID_VPHYSICS)
+					end
+				end,
+			},
+			["modelScale"] = {
+				weight = 14, 
+				name = "Model Scale", 
+				category = "Basic",
+				value = saveData.modelScale or item.modelScale or 1,
+				numeric = true,
+				updateType = "Custom",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						item:onEntityCreated(entity)
+					end
+				end,
+			},
+			["material"] = {
+				weight = 15, 
+				name = "Material", 
+				category = "Basic",
+				value = saveData.material or item.material,
+				updateType = "Custom",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						entity:SetModelScale(data)
+					end
+				end,
+			},
+			["quantity2"] = {
+				weight = 16, 
+				name = "Quantity", 
+				category = "Basic",
+				value = item:getData("quantity2", item.quantity2),
+				numeric = true,
+			},
+			["color"] = {
+				weight = 17, 
+				name = "Inventory Color", 
+				category = "Basic",
+				value = saveData.color or item.color,
+				updateType = "Custom",
+				panelType = "DColorMixer",
+			},
+			["modelColor"] = {
+				weight = 18, 
+				name = "Model Color", 
+				category = "Basic",
+				value = saveData.modelColor or item.modelColor,
+				updateType = "Custom",
+				panelType = "DColorMixer",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						entity:SetColor(data)
+					end
+				end,
+			},
+		},
+		{
+			["attrib"] = {
+				weight = 8, 
+				name = "Attributes", 
+				category = "Attributes",
+				value = buffTbl.attrib or item:getData("attrib", item.attrib),
+				extra = nut.attribs.list,
+				numeric = true,
+			},
+		},
+		{
+			["res"] = {
+				weight = 9, 
+				name = "Resistances (Damage)", 
+				category = "Resistances",
+				value = buffTbl.res or item:getData("res", item.res),
+				extra = nut.plugin.list["combat"].dmgTypes, --needs effect types too
+				numeric = true,
+				updateType = function(item, data, fullData)
+					local res = data
+				
+					local resEffect = fullData["resEffect"] or {}
+					for k, v in pairs(data) do
+						res[k] = v
+					end
+					
+					item:setData("res", res)
+				end,
+			},
+			["resEffect"] = {
+				weight = 10, 
+				name = "Resistances (Effects)", 
+				category = "Resistances",
+				value = buffTbl.res or item:getData("res", item.res),
+				extra = EFFS.effects, --needs effect types too
+				numeric = true,
+				updateType = function(item, data, fullData)
+					--handled by res category
+				end,
+			},
+		},
+		{
+			["amp"] = {
+				weight = 10, 
+				name = "Amplifications", 
+				category = "Amplifications",
+				value = buffTbl.amp or item:getData("amp", item.amp),
+				extra = nut.plugin.list["combat"].dmgTypes,
+				numeric = true,
+			},
+		},
+		{
+			["duration"] = {
+				weight = 1, 
+				name = "Buff Duration", 
+				category = "Buff",
+				value = buffTbl.duration,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["armor"] = {
+				weight = 2, 
+				name = "Armor", 
+				category = "Combat Stats",
+				value = buffTbl.armor,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["accuracy"] = {
+				weight = 3, 
+				name = "Accuracy", 
+				category = "Combat Stats",
+				value = buffTbl.accuracy,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["evasion"] = {
+				weight = 4, 
+				name = "Evasion", 
+				category = "Combat Stats",
+				value = buffTbl.evasion,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["hpMax"] = {
+				weight = 5, 
+				name = "Max Health", 
+				category = "Combat Stats",
+				value = buffTbl.hpMax,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["hp"] = {
+				weight = 6, 
+				name = "Health", 
+				category = "Combat Stats",
+				value = buffTbl.hp,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["critC"] = {
+				weight = 7, 
+				name = "Crit Chance", 
+				category = "Combat Stats",
+				value = buffTbl.critC,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["critM"] = {
+				weight = 8, 
+				name = "Crit Mult", 
+				category = "Combat Stats",
+				value = buffTbl.critM,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+			["critF"] = {
+				weight = 9, 
+				name = "Crit Fail", 
+				category = "Combat Stats",
+				value = buffTbl.critF,
+				numeric = true,
+				updateType = "buffTbl",
+			},
+		},
+	}
+	
+	for k, category in pairs(config) do
+		for var, _ in pairs(category) do
+			if(!customizable[var]) then
+				config[k][var] = nil
+			end
+		end
+	end
+	
+	return config
+end
+
+function ITEM:postCustom(client, item, data)
+	local buffTbl = item:getData("buffTbl", {})
+
+	local fields = nut.plugin.list["customization"]:getCustomFields(item)
+	for _, dataFields in pairs(fields) do
+		for id, v in pairs(dataFields) do
+			if(data[id]) then
+				if(v.updateType == "buffTbl") then
+					buffTbl[id] = data[id]
+				end
+			end
+		end
+	end
+	
+	item:setData("buffTbl", buffTbl)
+end
 
 --[[
 ITEM.onlySelf --disables using forward
@@ -41,6 +321,9 @@ ITEM.cures = {
 --healing
 ITEM.hp = 10 --amount to heal
 ITEM.hpTime = 2 --time it takes in seconds
+
+ITEM.sp = 10 --amount to heal
+ITEM.spTime = 2 --time it takes in seconds
 --]]
 
 --[[
@@ -136,27 +419,23 @@ local function buffRemoval(item, client, charID, name)
 		if (curChar and curChar:getID() == charID) then
 			client:notify(Format("%s has worn off.", name))
 
-			-- attribute boost removal
-			local attribs = item:getData("attrib", item.attrib)
-			if (attribs) then
-				for k, v in pairs(attribs) do
-					curChar:removeBoost(item:getName(), k)
-				end
-			end
+			local attrib = item:getData("attrib", item.attrib)
+			local res = item:getData("res", item.res)
+			local amp = item:getData("amp", item.amp)
+			local buffTbl = item:getData("buffTbl", item.buffTbl)
 			
 			-- buff removal
-			local buff = item:getData("buffTbl", item.buffTbl)
-			if(buff) then
+			if(attrib or res or amp or buffTbl) then
 				client:removeBuff(nil, item.uniqueID)
-			end		
+			end
 		end
-		
-		
 	end
 end
 
 local function consume(client, item)
 	local char = client:getChar()
+	local charID = char:getID()
+	local name = item:getName()
 
 	--stomach checker
 	if(item.stomach) then
@@ -170,9 +449,6 @@ local function consume(client, item)
 		return false
 	end
 	
-	local charID = char:getID()
-	local name = item:getName()
-	
 	if (char and client:Alive()) then
 		--buff duration modification
 		local durationB = item.durationB
@@ -183,6 +459,7 @@ local function consume(client, item)
 		end
 
 		--attribs
+		--[[
 		local attribs = item:getData("attrib", item.attrib)
 		if(attribs) then
 			--adds attribs
@@ -190,12 +467,38 @@ local function consume(client, item)
 				char:addBoost(name, buffAttrib, buffValue)
 			end
 		end
+		--]]
 		
+		local res = item:getData("res")
+		local amp = item:getData("amp")
+		local attrib = item:getData("attrib", item.attrib)
+		local buffTbl = table.Copy(item:getData("buffTbl", item.buffTbl)) or {}
+		
+		--merges base/custom amp with crafted ones
+		for k, v in pairs(amp or {}) do
+			if(!buffTbl.amp) then buffTbl.amp = {} end
+		
+			buffTbl.amp[k] = (buffTbl.amp[k] or 0) + v
+		end
+		
+		--merges base/custom res with crafted ones
+		for k, v in pairs(res or {}) do
+			if(!buffTbl.res) then buffTbl.res = {} end
+		
+			buffTbl.res[k] = (buffTbl.res[k] or 0) + v
+		end
+		
+		--merges base/custom attributes with crafted ones
+		for k, v in pairs(attrib or {}) do
+			if(!buffTbl.attrib) then buffTbl.attrib = {} end
+		
+			buffTbl.attrib[k] = (buffTbl.attrib[k] or 0) + v
+		end
+
 		--buffs
-		local buff = item:getData("buffTbl", item.buffTbl)
-		if(buff) then		
+		if(!table.IsEmpty(buffTbl)) then
 			--this duration is for turn based combat
-			if(!buff.duration) then
+			if(!buffTbl.duration) then
 				--[[
 				if(potion) then
 					buff.duration = 3 --for turn based
@@ -205,18 +508,18 @@ local function consume(client, item)
 				--]]
 			end
 			
-			if(!buff.uid) then
-				buff.uid = item.uniqueID
+			if(!buffTbl.uid) then
+				buffTbl.uid = item.uniqueID
 			end
 			
-			if(!buff.name) then
-				buff.name = name
+			if(!buffTbl.name) then
+				buffTbl.name = name
 			end
-		
-			client:addBuff(buff)
+
+			client:addBuff(buffTbl)
 		end
 		
-		if(buff or attribs) then
+		if(buff) then
 			--timer for buff removal
 			if(timer.Exists("DrugEffect_" ..name.. "_" ..client:EntIndex())) then --refreshes existing buffs if they exist
 				timer.Adjust("DrugEffect_" ..name.. "_" ..client:EntIndex(), durationB, 1, function()
@@ -256,15 +559,40 @@ local function consume(client, item)
 		local id = "nutHeal_"..FrameTime()
 		local hpTime = item.hpTime or 1
 		
-		timer.Create(id, 1, hpTime, function()
+		local healRate = item.hp/hpTime --health per second
+		
+		local tickRate = (1/healRate) --how many seconds between heals
+		local ticks = math.Round(hpTime/tickRate) --how many times we heal
+
+		timer.Create(id, tickRate, ticks, function()
 			if (!IsValid(client) or !client:Alive()) then
 				timer.Destroy(id)	
 			end
 
-			local newHP = math.Clamp(client:Health() + (item.hp/hpTime), 0, client:GetMaxHealth())
+			--local newHP = math.Clamp(client:Health() + (item.hp/hpTime), 0, client:GetMaxHealth())
+			local newHP = math.Clamp(client:Health() + 1, 0, client:GetMaxHealth())
 
 			client:SetHealth(newHP) -- actual health
 			client:setHP(newHP) -- for combat system
+		end)
+	end
+	
+	--sp healing
+	if(item.sp) then
+		local id = "nutHealSP_"..FrameTime()
+		local spTime = item.spTime or 1
+		
+		local healRate = item.sp/spTime --health per second
+		
+		local tickRate = (1/healRate) --how many seconds between heals
+		local ticks = math.Round(spTime/tickRate) --how many times we heal
+
+		timer.Create(id, tickRate, ticks, function()
+			if (!IsValid(client) or !client:Alive()) then
+				timer.Destroy(id)	
+			end
+
+			client:AddSanity(1) -- sanity
 		end)
 	end
 	
@@ -278,6 +606,17 @@ local function consume(client, item)
 
 			client:setMP(math.Clamp(client:getMP() + (item.mp/(item.mpTime or 1)), 0, client:getMaxMP()))
 		end)
+	end
+	
+	if(item.buffRemove) then
+		local buffs = client:getBuffs()
+		for effect, power in pairs(item.buffRemove) do
+			for k, v in pairs(buffs) do
+				if(v.effect == effect) then
+					client:removeBuff(v)
+				end
+			end
+		end
 	end
 	
 	--notifies the player in the top right with a message
@@ -365,7 +704,8 @@ ITEM.functions.use = {
 			return false
 		end
 		
-		return (!IsValid(item.entity))
+		return true
+		--return (!IsValid(item.entity)) --makes it so you cant eat on ground
 	end
 }
 
@@ -379,6 +719,10 @@ ITEM.functions.usef = { -- sorry, for name order.
 		local position = client:getItemDropPos()
 		local trace = client:GetEyeTraceNoCursor()
 		local target = trace.Entity
+
+		if(target:GetClass() == "prop_ragdoll") then
+			target = target:getNetVar("player")
+		end
 
 		if (IsValid(target) and target:IsPlayer() and target:Alive()) then
 			if(!target.pendingEat or target.pendingEat < CurTime()) then --so you can't spam people
@@ -490,6 +834,38 @@ ITEM.functions.CustomAttr = {
 	end
 }
 
+
+ITEM.functions.CustomRes = {
+	name = "Customize Resistances",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item, data)
+		nut.plugin.list["customization"]:startCustomR(item.player, item)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
+
+ITEM.functions.CustomAmp = {
+	name = "Customize Amplifications",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item, data)
+		nut.plugin.list["customization"]:startCustomAmp(item.player, item)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local client = item.player
+		return client:getChar():hasFlags("1")
+	end
+}
+
 ITEM.functions.CustomQuan = {
 	name = "Customize Quantity",
 	tip = "Customize this item",
@@ -512,6 +888,36 @@ ITEM.functions.CustomQuan = {
 	end
 }
 
+--for people to name their crafted items
+ITEM.functions.CustomName = {
+	name = "Change Name",
+	tip = "Customize this item",
+	icon = "icon16/wrench.png",
+	onRun = function(item)
+		local client = item.player
+
+		local customData = item:getData("custom", {})
+
+		client:requestString("Change Name", "", function(text)
+			customData.name = text or " "
+			item:setData("custom", customData)
+		end, customData.name)
+
+		return false
+	end,
+	onCanRun = function(item)
+		local creator = item:getData("creator")
+	
+		local client = item.player
+		
+		if(creator and client:getChar():getID() == creator) then
+			return true
+		else
+			return false
+		end
+	end
+}
+
 ITEM.functions.Clone = {
 	name = "Clone",
 	tip = "Clone this item",
@@ -521,8 +927,11 @@ ITEM.functions.Clone = {
 	
 		client:requestQuery("Are you sure you want to clone this item?", "Clone", function(text)
 			local inventory = client:getChar():getInv()
-			
-			if(!inventory:add(item.uniqueID, 1, item.data)) then
+			local data = table.Copy(item.data)
+			data.x = nil
+			data.y = nil
+
+			if(!inventory:add(item.uniqueID, 1, data)) then
 				client:notify("Inventory is full")
 			end
 		end)
@@ -557,6 +966,58 @@ ITEM.functions.Convert = {
 	end
 }
 
+
+ITEM.functions.Scrap = {
+	tip = "Scrap this item",
+	icon = "icon16/wrench.png",
+	--sound = "npc/manhack/grind"..math.random(1,5)..".wav",
+	onRun = function(item)
+		local client = item.player
+		local char = client:getChar()
+		local inv = char:getInv()
+		local position = client:getItemDropPos()
+		local scrap
+		local amt
+		
+		local roll = math.random(1,100)
+		local chance = item.multiChance or 20
+		local multi = 1
+		
+		if(TRAITS and client:hasTrait("scrapper")) then --trait increases chance of multi result
+			chance = chance + 10
+		end
+		
+		if(roll < chance) then
+			multi = 2
+		end
+
+		for i = 1, multi do
+			amt, scrap = table.Random(item.salvItem)
+			
+			local itemTable = nut.item.list[scrap]
+			if(itemTable) then
+				if(itemTable.maxstack) then
+					timer.Simple(i/2, function()
+						inv:addSmart(scrap, 1, position, {Amount = amt})
+					end)
+				else
+					inv:addSmart(scrap, amt, position)
+				end
+			end
+		end
+		
+		--Randomized sounds don't work up there so I had to do this.
+		client:EmitSound("npc/manhack/grind"..math.random(1,5)..".wav", 70, math.random(85,105))
+	end,
+	onCanRun = function(item)
+		if(!item.salvItem) then
+			return false
+		end
+		local client = item.player
+		return client:getChar():hasFlags("q") or client:getChar():getInv():getFirstItemOfType("kit_salvager")
+	end
+}
+
 --for people to name their crafted items
 ITEM.functions.CustomName = {
 	name = "Change Name",
@@ -588,12 +1049,20 @@ ITEM.functions.CustomName = {
 }
 
 function ITEM:onEntityCreated(entity)
-	if(self.modelColor) then
-		entity:SetColor(self.modelColor)
+	local customData = self:getData("custom", {})
+
+	local modelColor = customData.modelColor or self.modelColor
+	if(modelColor) then
+		entity:SetColor(modelColor)
 	end
 
-	if(self.modelScale) then
-		local scale = self.modelScale
+	local scale = customData.modelScale or self.modelScale
+	scale = tonumber(scale)
+	
+	if(scale) then
+		--clamp this so you cant just crash the server with it
+		scale = math.Clamp(scale, 0.1, 10)
+		
 		entity:SetModelScale(scale)
 
 		local physobj = entity:GetPhysicsObject()
@@ -623,6 +1092,14 @@ function ITEM:onEntityCreated(entity)
 		if(IsValid(physObj)) then
 			physObj:SetMass(self.entMass)
 		end
+	end
+	
+	if(self.physMat) then
+		local property = {
+			["GravityToggle"] = true, 
+			["Material"] = self.physMat,
+		}
+		construct.SetPhysProp(nil, entity, 0, entity:GetPhysicsObject(), property)
 	end
 end
 
@@ -656,6 +1133,15 @@ function ITEM:getDesc(partial)
 			end
 		end
 		
+		local sp = self:getData("sp", self.sp)
+		if(sp) then
+			desc = desc.. "\nSanity Restore: " ..sp
+			
+			if(self.spTime) then
+				desc = desc.. " SP over " ..self.spTime.. " seconds."
+			end
+		end
+		
 		local mp = self:getData("mp", self.mp)
 		if(mp) then
 			desc = desc.. "\nMP Restore: " ..mp
@@ -665,26 +1151,38 @@ function ITEM:getDesc(partial)
 			end
 		end
 		
-		local attribs = self:getData("attrib", self.attrib)
-		if(attribs) then
-			desc = desc.. "\n\n<color=50,200,50>Bonuses</color>"
-			
-			for buffAttrib, buffValue in pairs(attribs) do
-				if(buffValue != 0) then
-					desc = desc .. "\n " ..((nut.attribs.list[buffAttrib] and nut.attribs.list[buffAttrib].name) or "Unknown Attribute").. ": " ..buffValue
-				end
-			end
+		local res = self:getData("res")
+		local amp = self:getData("amp")
+		local attrib = self:getData("attrib", self.attrib)
+		local buffTbl = table.Copy(self:getData("buffTbl", self.buffTbl)) or {}
+		
+		--merges base/custom amp with crafted ones
+		for k, v in pairs(amp or {}) do
+			if(!buffTbl.amp) then buffTbl.amp = {} end
+		
+			buffTbl.amp[k] = (buffTbl.amp[k] or 0) + v
 		end
 		
-		local buffTbl = self:getData("buffTbl", self.buff)
-		if(buffTbl) then
+		--merges base/custom res with crafted ones
+		for k, v in pairs(res or {}) do
+			if(!buffTbl.res) then buffTbl.res = {} end
+		
+			buffTbl.res[k] = (buffTbl.res[k] or 0) + v
+		end
+		
+		--merges base/custom attributes with crafted ones
+		for k, v in pairs(attrib or {}) do
+			if(!buffTbl.attrib) then buffTbl.attrib = {} end
+		
+			buffTbl.attrib[k] = (buffTbl.attrib[k] or 0) + v
+		end
+		
+		if(!table.IsEmpty(buffTbl)) then
 			desc = desc.. "\n\n<color=50,200,50>Buffs</color>"
 			
-			local attribs = buffTbl.attrib or {}
-			for buffAttrib, buffValue in pairs(attribs) do
-				if(buffValue != 0) then
-					desc = desc .. "\n " ..((nut.attribs.list[buffAttrib] and nut.attribs.list[buffAttrib].name) or "Unknown Attribute").. ": " ..buffValue
-				end
+			local hpMax = buffTbl.hpMax
+			if(hpMax) then
+				desc = desc .. "\n Max Health: " ..hpMax
 			end
 			
 			local accuracy = buffTbl.accuracy
@@ -702,32 +1200,74 @@ function ITEM:getDesc(partial)
 				desc = desc .. "\n Armor: " ..armor
 			end
 			
-			local res = buffTbl.res
-			if(res) then
-				desc = desc .. "\n\n Resistances: "
-				
-				for k, v in pairs(res) do
-					desc = desc.. "\n   " ..k..": " ..v.. "%"
-				end
+			local critC = buffTbl.critC
+			if(critC) then
+				desc = desc .. "\n Crit Chance: " ..critC.. "%"
 			end
 			
-			local amp = buffTbl.amp
-			if(amp) then
-				desc = desc .. "\n\n Amplifications: "
-				
-				for k, v in pairs(amp) do
-					desc = desc.. "\n   " ..k..": " ..v
+			local critF = buffTbl.critF
+			if(critF) then
+				desc = desc .. "\n Crit Fail: " ..critF.. "%"
+			end
+			
+			local critM = buffTbl.critM
+			if(critM) then
+				desc = desc .. "\n Crit Mult: " ..critM.. "x"
+			end
+			
+			if(buffTbl.attrib) then
+				desc = desc .. "\n Attributes: "
+			
+				for buffAttrib, buffValue in pairs(buffTbl.attrib) do
+					if(buffValue != 0) then
+						desc = desc .. "\n   " ..((nut.attribs.list[buffAttrib] and nut.attribs.list[buffAttrib].name) or "Unknown Attribute").. ": " ..buffValue
+					end
 				end
+				
+				desc = desc .. "\n"
+			end
+			
+			if(buffTbl.res) then
+				desc = desc .. "\n Resistances: "
+				
+				for k, v in pairs(buffTbl.res) do
+					desc = desc.. "\n   " ..k..": " ..v.. "%"
+				end
+				
+				desc = desc .. "\n"
+			end
+			
+			if(buffTbl.amp) then
+				desc = desc .. "\n Amplifications: "
+				
+				for k, v in pairs(buffTbl.amp) do
+					desc = desc.. "\n   " ..k..": " ..v.. "%"
+				end
+				
+				desc = desc .. "\n"
 			end
 		end
 	end
 	
 	-- Only show these things in the crafting menu
-	if(CLIENT and IsValid(nut.gui.craftingDynamic)) then
-		desc = desc.. "\n\n<color=50,200,50>Ingredient Tags</color>"
-		
-		for tag, _ in pairs(self.loot) do
-			desc = desc .. "\n ["..tag.. "]"
+	if(CLIENT) then
+		if(IsValid(nut.gui.craftingDynamic)) then
+			desc = desc.. "\n\n<color=50,200,50>Ingredient Tags</color>"
+			
+			if(self.loot) then
+				for tag, _ in pairs(self.loot) do
+					desc = desc .. "\n ["..tag.. "]"
+				end
+			end
+		else
+			local craftTags = self:getData("craftTags")
+			if(craftTags) then
+				desc = desc.. "\n\n<color=50,200,50>Food Tags</color>\n"
+
+				for tag, _ in pairs(craftTags) do
+					desc = desc .. "["..tag.. "]"
+				end
+			end
 		end
 	end
 		
@@ -762,5 +1302,13 @@ if (CLIENT) then --draws a square on the food item for how well cooked it is.
 		if (quantity2) then
 			draw.SimpleText(quantity2.. "/" ..item.quantity2, "DermaDefault", 6, h - 16, Color(50,200,50), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
 		end
+		
+		--[[
+		local customData = item:getData("custom", {})
+		local color = customData.color or item.color or nut.config.get("color", Color(0,0,0,255))
+		
+		surface.SetDrawColor(color)
+		surface.DrawOutlinedRect(0, 0, w, h, 1)
+		--]]
 	end
 end

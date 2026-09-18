@@ -1,0 +1,10 @@
+ITEM.name = "Lead"
+ITEM.desc = "A bluish-gray metal known for its density."
+ITEM.uniqueID = "j_scrap_lead"
+ITEM.model = "models/gibs/scanner_gib02.mdl"
+ITEM.material = "models/props_combine/metal_combinebridge001"
+ITEM.flag = "j"
+ITEM.width = 1
+ITEM.height = 1
+ITEM.maxstack = 10
+ITEM.color = Color(90, 90, 140)

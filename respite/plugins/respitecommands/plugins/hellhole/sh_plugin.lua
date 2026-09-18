@@ -7,7 +7,7 @@ nut.command.add("hellholeswap", {
 	adminOnly = true,
 	syntax = "<string name>",
 	onRun = function(client, arguments)
-		local target = nut.command.findPlayer(client, arguments[1]) or client
+		local target = nut.command.findPlayer(client, arguments[1])
 		
 		if(target) then
 			target:Freeze(true)
@@ -19,7 +19,7 @@ nut.command.add("hellholeswap", {
 			timer.Simple(0.5, function()
 				local npcs = {}
 				for k, v in pairs(ents.GetAll()) do
-					if(v.chance) then
+					if(v.respite) then
 						npcs[#npcs + 1] = v
 					end
 				end
@@ -29,12 +29,12 @@ nut.command.add("hellholeswap", {
 				if(npc) then
 					SafeRemoveEntity(npc)
 					target:SetPos(npc:GetPos())
-				else
-					target:Kill()
 				end
 				
 				target:Freeze(false)
 			end)
+		else
+			client:notify("Could not find target.")
 		end
 	end
 })
@@ -78,7 +78,7 @@ nut.command.add("hellhole", {
 		util.Effect('hell_hole', ED)
 		
 		timer.Simple(2, function()
-			local demon = ents.Create("nz_demon")
+			local demon = ents.Create("resp_demon")
 			demon:SetMaterial("models/flesh")
 			demon:SetColor(Color(120, 50, 50, 255))
 			demon:SetPos(hitpos)
@@ -93,7 +93,7 @@ nut.command.add("hellhole", {
 					
 			for k, v in pairs(positions) do
 				timer.Simple((math.random(1,20) * 0.1), function()
-					local extra = ents.Create("nz_demon")
+					local extra = ents.Create("resp_demon")
 					extra:SetMaterial("models/flesh")
 					extra:SetColor(Color(120, 50, 50, 255))
 					extra:SetPos(v)

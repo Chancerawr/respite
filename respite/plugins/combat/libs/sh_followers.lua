@@ -2,70 +2,203 @@ local PLUGIN = PLUGIN
 
 local playerMeta = FindMetaTable("Player")
 
---creature tags, WIP
-function playerMeta:getFollowers()
-	local followers = self:getChar():getData("followers", {})
-	
-	--[[
-	followers = {
-		{
-			name = "Bob",
-			desc = "He's really cool.",
-			model = "models/Humans/Group02/male_02.mdl",
-			material = "",
-			color = Color(255,100,100),
-			class = "nut_combat_custom",
-			attribs = {
-				["stm"] = 12,
-				["str"] = 12,
-				["accuracy"] = 12,
-				["end"] = 15,
-				["luck"] = 5,
-				["perception"] = 10,
-				["fortitude"] = 5,
-			},
-			bodygroups = {
-			
-			},
-		},
-	}
-	--]]
-	
-	return followers
-end
-
 if(SERVER) then
-	netstream.Hook("nut_followerSpawn", function(client, followerID)
+	function PLUGIN:PlayerLoadedChar(client)
+		PLUGIN:networkFollowers(client)
+	end
+
+	function playerMeta:getFollowers()
+		local followers = self:getChar():getData("fllw", {})
+		
+		local followerTbl = {}
+		
+		for k, v in pairs(followers) do
+			local path = "nutscript/"..SCHEMA.folder.."/followers/" ..k
+			
+			if(!file.Exists(path.. ".txt", "DATA")) then continue end
+			
+			local import = file.Read(path.. ".txt") or ""
+			local importTbl = util.JSONToTable(import)
+
+			importTbl.uid = k
+			
+			followerTbl[k] = importTbl
+		end
+		
+		return followerTbl
+	end
+
+	function PLUGIN:getNextUID()
+		local path = "nutscript/"..SCHEMA.folder.."/followers/"
+		if(!file.Exists(path, "DATA")) then
+			file.CreateDir("nutscript/"..SCHEMA.folder.."/followers/")
+		end
+	
+		local files, directories = file.Find(path.. "/*", "DATA")
+
+		return #files+1
+	end
+
+	function playerMeta:addFollower(data)
+		local char = self:getChar()
+		local uid = PLUGIN:getNextUID()
+
+		if(data) then
+			local followers = char:getData("fllw",{})
+			followers[tonumber(uid)] = true
+			
+			char:setData("fllw", followers)
+			
+			local path = "nutscript/"..SCHEMA.folder.."/followers/" ..string.lower(uid).. ".txt"
+			file.Write(path, util.TableToJSON(data))
+			
+			PLUGIN:networkFollowers(self)
+		end
+	end
+	
+	function playerMeta:removeFollower(uid)
+		local char = self:getChar()
+
+		if(uid) then
+			local followers = char:getData("fllw",{})
+			followers[tonumber(uid)] = nil
+			char:setData("fllw", followers)
+			
+			PLUGIN:networkFollowers(self)
+		end
+	end
+	
+	function PLUGIN:networkFollowers(client)
 		local followers = client:getFollowers()
-		local follower = followers[followerID]
 		
-		local ent = ents.Create(follower.class or "nut_combat_custom")
+		netstream.Start(client, "nut_followerReset", v)
 		
-		ent:SetPos(client:GetPos())
+		--delay so we dont overflow with net messages
+		local delay = 0
+		for k, v in pairs(followers) do
+			timer.Simple(delay, function()
+				netstream.Start(client, "nut_followerLoad", v)
+			end)
+			
+			delay = delay + 1
+		end
+	end
+
+	netstream.Hook("nut_followerSpawn", function(client, followerID)
+		local path = "nutscript/"..SCHEMA.folder.."/followers/" ..followerID.. ".txt"
 		
-		ent:setNetVar("name", follower.name or "Unnamed")
-		ent:setNetVar("desc", follower.desc or "")
-
-		if(follower.model) then
-			ent:SetModel(follower.model)
+		local entity = client:getNetVar("follower" ..followerID)
+		if(IsValid(entity)) then
+			SafeRemoveEntity(entity)
 		end
 		
-		if(follower.material) then
-			ent:SetMaterial(follower.material)
+		if(!file.Exists(path, "DATA")) then
+			return false
 		end
-
-		if(follower.color) then
-			ent:SetColor(follower.color)
+		
+		local import = file.Read(path) or ""
+		local importTbl = util.JSONToTable(import)
+		
+		importTbl.pos = client:GetEyeTraceNoCursor().HitPos + Vector(0, 0, 10)
+		importTbl.ang = Angle(0,0,0)
+		
+		local entity = PLUGIN:loadCEnt(importTbl)
+		if(IsValid(entity)) then
+			entity:SetCreator(client)
+			client:setNetVar("follower" ..followerID, entity)
 		end
-
-		if(follower.attribs) then
-			ent.attribs = follower.attribs
+		
+		local cmover = client:HasWeapon("nut_cmover")
+		if(!cmover) then
+			client:Give("nut_cmover")
 		end
-
-		if(follower.bodygroups) then
-			ent.attribs = follower.attribs
+	end)
+	
+	netstream.Hook("nut_followerRecall", function(client, followerID)
+		local entity = client:getNetVar("follower" ..followerID)
+		if(IsValid(entity)) then
+			SafeRemoveEntity(entity)
 		end
-
-		ent:Spawn()
+	end)
+else
+	function playerMeta:getFollowers()
+		local followers = self:getChar():getData("fllw", {})
+		
+		local followerTbl = {}
+		
+		for k, v in pairs(followers) do
+			local importTbl = PLUGIN.FOLLOWERS[k]
+			
+			followerTbl[k] = importTbl
+		end
+	
+		return followerTbl
+	end
+	
+	--clientside cache of networked follower data
+	PLUGIN.FOLLOWERS = PLUGIN.FOLLOWERS or {}
+	
+	netstream.Hook("nut_followerReset", function()
+		PLUGIN.FOLLOWERS = {}
+	end)
+	
+	netstream.Hook("nut_followerLoad", function(followerData)
+		if(!followerData) then return end
+	
+		local followerID = followerData.uid
+		if(followerID) then
+			PLUGIN.FOLLOWERS[followerID] = followerData
+		end
 	end)
 end
+
+nut.command.add("charfolloweradd", {
+	adminOnly = true,
+	syntax = "<string target>",
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity
+		if !(IsValid(entity) and entity.combat) then
+			client:notify("You must be looking at a combat entity.")
+			return false
+		end
+	
+		if(!arguments[1]) then 
+			client:notify("No target specified.")
+			return
+		end
+	
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target)) then
+			local CEntData = {}
+			CEntData.class = entity:GetClass()
+			CEntData.saveData = entity:getSaveData() or {}
+			
+			target:addFollower(CEntData)
+			
+			client:notify(entity:Name().. " has been assigned as a follower to " ..target:Name().. ".")
+		end
+	end
+})
+
+nut.command.add("charfollowerremove", {
+	adminOnly = true,
+	syntax = "<string target> <numbers followerid>",
+	onRun = function(client, arguments)
+		if(!arguments[1]) then 
+			client:notify("No target specified.")
+			return
+		end
+		
+		if(!arguments[2]) then 
+			client:notify("No follower id specified.")
+			return
+		end
+	
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target)) then
+			target:removeFollower(arguments[2])
+			
+			client:notify(target:Name().. " has had their follower removed.")
+		end
+	end
+})

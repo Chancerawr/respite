@@ -11,7 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Machine Guns"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_crossbow"
+ITEM.WalkAnim = "walk_crossbow"
+ITEM.RunAnim = "run_crossbow"
+
+ITEM.attackRange = 750
+
+ITEM.AttackSounds = {
+	Sound("weapons/coltpython/python-1.wav"),
+}
+
+ITEM.rarity = 9
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -34,6 +47,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Rifle"] = 10,
 }
 
 ITEM.iconCam = {

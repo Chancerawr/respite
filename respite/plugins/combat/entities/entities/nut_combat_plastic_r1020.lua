@@ -10,6 +10,8 @@ ENT.name = "Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.BloodColor = DONT_BLEED
+
 ENT.WalkAnim = "walk_all"
 ENT.RunAnim = "run_all_01"
 
@@ -66,6 +68,20 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}
+
 function ENT:Initialize()
 	if(!self.saveKey) then
 		self.attribs.stm = math.random(10,20)
@@ -78,12 +94,4 @@ function ENT:Initialize()
 	end
 	
 	self:basicSetup()
-	
-	--[[
-	self:SetModel(table.Random(nut.faction.indices[FACTION_PLASTIC].models))
-	
-	for k, v in pairs(self:GetBodyGroups()) do
-		self:SetBodygroup(v.id, math.random(0, v.num))
-	end
-	--]]
 end

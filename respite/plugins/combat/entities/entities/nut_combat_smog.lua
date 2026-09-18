@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_smog"
+
 ENT.model = "models/sient hill custom/Homecoming/smog.mdl"
 
 ENT.AttackAnim = "Attack"
@@ -49,6 +51,12 @@ ENT.actions = {
 	"mawed_bite",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.3,
+	0.8,
+}
+
+ENT.StepPitch = {90,105}
+ENT.FootstepSounds = {
+	"smog/step.wav",
+}

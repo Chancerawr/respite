@@ -6,7 +6,7 @@ ITEM.model = "models/props_lab/box01a.mdl"
 ITEM.material = "phoenix_storms/mrref2"
 ITEM.category = "Medical"
 ITEM.hp = 30
-ITEM.hpTime = 5
+ITEM.hpTime = 60
 ITEM.price = 0
 ITEM.color = Color(130, 130, 130)
 
@@ -14,6 +14,10 @@ ITEM.sound = "items/medshot4.wav"
 ITEM.soundPitch = 110
 
 ITEM.stomach = false
+
+ITEM.buffRemove = {
+	["bleed"] = 1,
+}
 
 ITEM.faction = {
 	[FACTION_PLASTIC or -1] = true,

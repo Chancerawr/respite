@@ -367,7 +367,7 @@ DISEASES:Register(DISEASE)
 //
 local DISEASE = {}
 DISEASE.uid = "trait_instrument"
-DISEASE.name = "Instrumental"
+DISEASE.name = "Instrumentality"
 DISEASE.desc = "Broken strings and unmoving keys produce no sounds."
 DISEASE.category = "Trait"
 DISEASE.unpurgeable = true

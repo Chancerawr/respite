@@ -149,6 +149,8 @@ function playerMeta:canInfect()
 			return false
 		end
 	end
+	
+	return true
 end
 
 --returns all diseases the player has

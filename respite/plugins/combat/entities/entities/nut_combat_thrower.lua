@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_thrower"
+
 ENT.model = "models/player/zombie_fast.mdl"
 ENT.material = "models/flesh"
 
@@ -12,7 +14,7 @@ ENT.modelScale = 1.2
 
 ENT.color = Color(155, 255, 155)
 
-ENT.IdleAnim = "Zombie Idle 01"
+ENT.IdleAnim = "zombie_walk_01"
 ENT.WalkAnim = "Zombie Walk 01"
 ENT.RunAnim = "Zombie Walk 01"
 ENT.AttackAnim = "Zombie Attack 06 Original"
@@ -59,11 +61,12 @@ ENT.actions = {
 	"flail",
 }
 
-function ENT:Initialize()
-	timer.Simple(0.6, function()
-		--self:SetModelScale(1.2)
-		self:ResetSequence("zombie_walk_01")
-	end)
+ENT.StepData = {
+	0.25,
+	0.75,
+}
 
-	self:basicSetup()
-end
+ENT.StepPitch = {120, 130}
+ENT.FootstepSounds = {
+	"npc/zombie_poison/pz_right_foot1.wav",
+}

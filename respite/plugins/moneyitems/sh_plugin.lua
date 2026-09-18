@@ -68,3 +68,30 @@ nut.command.add("spawnmoney", {
 		client:notify("You have spawned " ..nut.currency.get(drop).. ".")
 	end
 })
+
+nut.command.add("spawndollar", {
+	adminOnly = true,
+	syntax = "<number value>",
+	onRun = function(client, arguments)
+		local drop = tonumber(arguments[1])
+		if(!drop) then
+			client:notify("Specify a money amount.")
+			return false
+		end
+		
+		local position = client:getItemDropPos()
+		
+		drop = math.Round(drop)
+		
+		if(drop < 1) then
+			client:notify("Cannot spawn money with zero or less value.")
+			return false
+		end
+		
+		nut.item.spawn("j_dollar", position, function(item)
+			item:setData("Amount", drop)
+		end)
+		
+		client:notify("You have spawned a " ..drop.. " dollar bill.")
+	end
+})

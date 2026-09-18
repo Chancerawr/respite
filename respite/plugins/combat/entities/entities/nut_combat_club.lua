@@ -5,9 +5,12 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_club"
+
 ENT.name = "Club"
 ENT.model = "models/cryoffear/mace/sewer_boss.mdl"
 
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Attack1"
 
 ENT.noRag = true
@@ -52,6 +55,17 @@ ENT.actions = {
 	"whack",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = 50
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}

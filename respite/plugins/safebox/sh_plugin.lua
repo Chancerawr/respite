@@ -38,9 +38,11 @@ if (SERVER) then
 	end
 
 	function PLUGIN:SaveData()
+		--[[
 		if(!nut.shuttingDown) then
 			self:saveBox()
 		end
+		--]]
 	end
 
 	function PLUGIN:loadBoxes()
@@ -65,18 +67,10 @@ if (SERVER) then
 		end
 	end
 	
-	-- this stupid time stuff stops them from getting broken when other things break when the load hook is called
-	function PLUGIN:InitPostEntity()
-		--[[
-		timer.Simple(60, function()
-			PLUGIN:loadBoxes()
-		end)
-		--]]
-	end
-	
 	function PLUGIN:LoadData()
 		pcall(function()
 			PLUGIN:loadBoxes()
+			self.loadedData = true
 		end)
 	end
 end

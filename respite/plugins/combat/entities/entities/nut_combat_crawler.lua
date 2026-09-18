@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_shade_crawl"
+
 ENT.model = "models/angelsaur/ghost_girl.mdl"
 ENT.material = "models/effects/portalrift_sheet"
 
@@ -43,8 +45,14 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	--ParticleEffectAttach("Advisor_Pod_Explosion_Smoke", 1, self, 1)
+ENT.StepData = {
+	0,
+	0.5,
+}
 
-	self:basicSetup()
-end
+ENT.FootstepSounds = {
+	"horror/foot1.wav",
+	"horror/foot2.wav",
+	"horror/foot3.wav",
+	"horror/foot4.wav",
+}

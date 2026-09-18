@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_chimera_s"
+
 ENT.model = "models/ninja/signalvariance/monsters/chimera.mdl"
 ENT.material = "models/effects/portalrift_sheet"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Attack1"
 
@@ -52,6 +56,13 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.05,
+	0.45,
+	0.55,
+	0.95,
+}
+
+ENT.FootstepSounds = {
+	"smog/step.wav",
+}

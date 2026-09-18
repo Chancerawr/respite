@@ -2,7 +2,7 @@
 ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
 ENT.PrintName = "Custom"
-ENT.Category = "NutScript - Combat (Abomination)"
+ENT.Category = "NutScript - Combat"
 ENT.Spawnable = false
 ENT.AdminOnly = true
 

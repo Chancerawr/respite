@@ -2,6 +2,7 @@ ITEM.name = "Dream of Winter"
 ITEM.desc = "Can be used to improve the offensive ability of most weapons."
 ITEM.uniqueID = "enhance_dream_cold"
 ITEM.model = "models/props_junk/cardboard_box004a.mdl"
+ITEM.material = "models/props_lab/security_screens"
 ITEM.flag = "V"
 ITEM.width = 1
 ITEM.height = 1

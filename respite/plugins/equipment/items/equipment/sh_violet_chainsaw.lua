@@ -47,7 +47,7 @@ ITEM.functions.Feed = {
 
 		local dmg = item:getData("dmg", item.dmg)
 		for k, v in pairs(dmg) do
-			dmg[k] = dmg[k] + 0.1
+			dmg[k] = dmg[k] + 0.05
 		end
 		item:setData("dmg", dmg)
 

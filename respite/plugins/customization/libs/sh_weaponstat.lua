@@ -46,7 +46,7 @@ end
 PLUGIN.weaponStatTbl = {
 	["tfa"] = {
 		checkFunction = function(swep)
-			if(swep.IsTFAWeapon) then
+			if(swep and swep.IsTFAWeapon) then
 				return true
 			end
 		end,
@@ -96,7 +96,7 @@ PLUGIN.weaponStatTbl = {
 	},
 	["meleearts"] = {
 		checkFunction = function(swep)
-			if(swep.Base == "dangumeleebase") then
+			if(swep and swep.Base == "dangumeleebase") then
 				return true
 			end
 		end,

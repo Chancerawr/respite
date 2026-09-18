@@ -15,7 +15,7 @@ local function blindTeleport(client)
 	timer.Simple(3, function()
 		local newPos = client:GetPos()
 		
-		for k, v in pairs(ents.GetAll()) do
+		for k, v in ipairs(ents.GetAll()) do
 			if(v.respite) then
 				newPos = v:GetPos()
 				v:SetPos(client:GetPos())
@@ -39,26 +39,31 @@ ITEM.functions.Stare = {
 		nut.chat.send(client, "itclose", "You feel like something is staring back at you.")	
 	
 		local posSummons = {
-			"nz_undead_shade",
-			"shade_crawlsmoke",
+			"resp_shambler",
+			"resp_shade_crawl",
 			"resp_stranger",
 		}
 
 		--60% chance of enemy spawn
-		if(math.random(1,10) > 4) then
-			local ent = ents.Create(table.Random(posSummons))
+		if(math.random(1,10) > 3) then
+			local randomEnt = table.Random(posSummons)
+			
+			local ent = ents.Create(randomEnt)
+			
 			if (IsValid(ent)) then
-				local pos = ent:FindSpot("random", {type = 'hiding', radius = 5000})
+				local pos = ent:FindSpot("random", {type = 'hiding', radius = 50000})
 				if(pos) then
 					ent:SetPos(pos)
 					ent:Spawn()
 					ent:SetOwner(self)
 					
 					timer.Simple(0.5, function()
-						ent:SetEnemy(client)
+						if(IsValid(ent)) then
+							ent:SetEnemy(client, 500)
+						end
 					end)
 				else
-					ent:Remove()
+					SafeRemoveEntity(ent)
 				end
 			end
 		end

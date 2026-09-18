@@ -5,10 +5,14 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_leperkin_w"
+
 ENT.name = "Burning Hunter"
 
 ENT.model = "models/sin/leperkin.mdl"
 ENT.material = "models/effects/splode1_sheet"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Melee"
 
@@ -52,4 +56,16 @@ ENT.res = {
 ENT.actions = {
 	"slash",
 	"whack",
+}
+
+ENT.StepData = {
+	0,
+	0.5,
+}
+
+ENT.FootstepSounds = {
+	"npc/leperkin/leperkin_step1.mp3",
+	"npc/leperkin/leperkin_step2.mp3",
+	"npc/leperkin/leperkin_step3.mp3",
+	"npc/leperkin/leperkin_step4.mp3",
 }

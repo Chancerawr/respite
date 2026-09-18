@@ -48,12 +48,12 @@ function ENT:Think()
 				end
 
 				local creatures = {
-					"spore",
-					"amputated",
-					"nz_freak",
-					"nz_thrower",
+					"resp_spore",
+					"resp_amputated",
+					"resp_waste",
+					"resp_thrower",
 					"resp_smog",
-					"cof_faceless",
+					"resp_cof_faceless",
 
 				}
 				local creature = table.Random(creatures)

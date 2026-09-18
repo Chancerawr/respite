@@ -10,7 +10,6 @@ nut.pac.list = nut.pac.list or {}
 
 local meta = FindMetaTable("Player")
 
-
 -- this stores pac3 part information to plugin's table'
 function nut.pac.registerPart(id, outfit)
 	nut.pac.list[id] = outfit
@@ -193,6 +192,8 @@ else
 	end)
 
 	netstream.Hook("partReset", function(wearer, outfitList)
+		if (!pac) then return end
+	
 		for k, v in pairs(outfitList) do
 			wearer:RemovePACPart(nut.pac.list[k])
 		end
@@ -211,7 +212,10 @@ else
 						end
 					end
 				end
-				ply.pac_playerspawn = pac.RealTime -- used for events
+				
+				if(pac) then
+					ply.pac_playerspawn = pac.RealTime -- used for events
+				end
 				
 				entity.overridePAC3 = true
 			end
@@ -219,6 +223,8 @@ else
 	end
 	
 	function PLUGIN:OnEntityCreated(entity)
+		if (!pac) then return end
+	
 		local class = entity:GetClass()
 		
 		-- For safe progress, I skip one frame.

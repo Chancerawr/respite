@@ -32,6 +32,8 @@ if (SERVER) then
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetUseType(SIMPLE_USE)
 		
+		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+		
 		self:SetHealth(math.random(1,2))
 		
 		self.gathers = math.random(2,3)

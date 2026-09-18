@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_haunt"
+
 ENT.models = {
 	"models/tnb/citizens/male_04.mdl",
 	"models/player/zombie_classic.mdl",
@@ -49,6 +51,17 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/zombie/foot1.wav",
+	"npc/zombie/foot2.wav",
+	"npc/zombie/foot3.wav",
+}
+
 function ENT:Initialize()
 	if(SERVER) then
 		self.TV=ents.Create("prop_physics")
@@ -58,6 +71,9 @@ function ENT:Initialize()
 		self.TV:SetMoveType(MOVETYPE_NONE)
 		self.TV:SetMaterial("models/props_lab/security_screens")
 	end
+	
+	self.WalkAnim = "zombie_walk_0" ..math.random(1,6)
+	self.RunAnim = "zombie_walk_0" ..math.random(1,6)
 
 	self:basicSetup()
 end

@@ -3,7 +3,272 @@ PLUGIN.name = "Customization"
 PLUGIN.author = ""
 PLUGIN.desc = "Item Customization."
 
+function PLUGIN:getCustomFields(item, entity)
+	if(item and !item.customizable) then return end
+	
+	local saveData
+	local customizable
+	local itemTable = item
+	
+	if(item) then
+		customizable = item.customizable
+		saveData = item:getData("custom", {})	
+		
+		if(item.getCustomFields) then
+			local config = item:getCustomFields()
+			return config
+		end
+	else
+		itemTable = entity:getItemTable()
+		customizable = itemTable.customizable
+		saveData = entity:getData("custom", {})	
+		
+		if(itemTable.getCustomFields) then
+			local config = itemTable:getCustomFields()
+			return config
+		end
+		
+		item = entity
+	end
+
+	local config = {
+		{
+			["name"] = {
+				weight = 1, 
+				name = "Name", 
+				category = "Basic",
+				value = saveData.name or itemTable.name,
+				updateType = "Custom",
+			},
+			["desc"] = {
+				weight = 2, 
+				name = "Description", 
+				category = "Basic",
+				value = saveData.desc or itemTable.desc,
+				updateType = "Custom",
+			},	
+			["model"] = {
+				weight = 13, 
+				name = "Model", 
+				category = "Basic",
+				value = saveData.model or itemTable.model,
+				updateType = "Custom",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						entity:SetModel(data)
+						entity:PhysicsInit(SOLID_VPHYSICS)
+						entity:SetSolid(SOLID_VPHYSICS)
+					end
+				end,
+			},
+			["modelScale"] = {
+				weight = 14, 
+				name = "Model Scale", 
+				category = "Basic",
+				value = saveData.modelScale or itemTable.modelScale or 1,
+				numeric = true,
+				updateType = "Custom",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						item:onEntityCreated(entity)
+					end
+				end,
+			},
+			["material"] = {
+				weight = 15, 
+				name = "Material", 
+				category = "Basic",
+				value = saveData.material or itemTable.material,
+				updateType = "Custom",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						entity:SetModelScale(data)
+					end
+				end,
+			},
+			["color"] = {
+				weight = 17, 
+				name = "Inventory Color", 
+				category = "Basic",
+				value = saveData.color or itemTable.color or nut.config.get("color"),
+				updateType = "Custom",
+				panelType = "DColorMixer",
+			},
+			["modelColor"] = {
+				weight = 18, 
+				name = "Model Color", 
+				category = "Basic",
+				value = saveData.modelColor or itemTable.modelColor,
+				updateType = "Custom",
+				panelType = "DColorMixer",
+				onUpdate = function(item, data)
+					local entity = item:getEntity()
+					if(entity and IsValid(entity)) then
+						entity:SetColor(data)
+					end
+				end,
+			},
+			["img"] = {
+				weight = 19, 
+				name = "Image", 
+				category = "Basic",
+				value = saveData.img or itemTable.img,
+				updateType = "Custom",
+			},	
+		},
+		{
+			["armor"] = {
+				weight = 7, 
+				name = "Armor (Bonus)", 
+				category = "Combat Stats",
+				value = saveData.armor,
+				numeric = true,
+			},
+			["accuracy"] = {
+				weight = 8, 
+				name = "Accuracy (Bonus)", 
+				category = "Combat Stats",
+				value = saveData.accuracy,
+				numeric = true,
+			},
+			["evasion"] = {
+				weight = 9, 
+				name = "Evasion (Bonus)", 
+				category = "Combat Stats",
+				value = saveData.evasion,
+				numeric = true,
+			},
+		},
+		{
+			["attrib"] = {
+				weight = 8, 
+				name = "Attributes", 
+				category = "Attributes",
+				value = item:getData("attrib", itemTable.attrib),
+				extra = nut.attribs.list,
+				numeric = true,
+			},
+		},
+		{
+			["res"] = {
+				weight = 9, 
+				name = "Resistances (Damage)", 
+				category = "Resistances",
+				value = item:getData("res", itemTable.res),
+				extra = nut.plugin.list["combat"].dmgTypes, --needs effect types too
+				numeric = true,
+				updateType = function(item, data, fullData)
+					local res = data
+				
+					local resEffect = fullData["resEffect"] or {}
+					for k, v in pairs(data) do
+						res[k] = v
+					end
+					
+					item:setData("res", res)
+				end,
+			},
+			["resEffect"] = {
+				weight = 10, 
+				name = "Resistances (Effects)", 
+				category = "Resistances",
+				value = item:getData("res", itemTable.res),
+				extra = EFFS.effects, --needs effect types too
+				numeric = true,
+				updateType = function(item, data, fullData)
+					--handled by res category
+				end,
+			},
+		},
+		{
+			["amp"] = {
+				weight = 10, 
+				name = "Amplifications", 
+				category = "Amplifications",
+				value = item:getData("amp", itemTable.amp),
+				extra = nut.plugin.list["combat"].dmgTypes,
+				numeric = true,
+			},
+		},
+		{
+			["dmg"] = {
+				weight = 11, 
+				name = "Damage Types/Values", 
+				category = "Damage Values",
+				value = item:getData("dmg", itemTable.dmg),
+				extra = nut.plugin.list["combat"].dmgTypes,
+				numeric = true,
+			},
+		},
+		{
+			["scale"] = {
+				weight = 12, 
+				name = "Scaling", 
+				category = "Attribute Scaling",
+				value = item:getData("scale", itemTable.scaling),
+				extra = nut.attribs.list,
+				numeric = true,
+			},
+		},
+		--[[
+		{
+			["actions"] = {
+				weight = 12, 
+				name = "Actions", 
+				category = "Actions",
+				value = 1,--saveData.actions
+				updateType = "netVar",
+				--panelType = "DComboBox",
+			},
+		},
+		--]]
+	}
+	
+	for k, category in pairs(config) do
+		for var, _ in pairs(category) do
+			if(!customizable[var]) then
+				config[k][var] = nil
+			end
+		end
+	end
+	
+	return config
+end
+
 if(SERVER) then
+	function PLUGIN:getCustomData(item)
+		local customData = {}
+	
+		if(item.getCustomData) then
+			customData = item:getCustomData()
+		else
+			local custom = item:getData("custom", {})
+		
+			customData = {
+				--name = custom.name or item:getName(),
+				--desc = custom.desc or item:getDesc(),
+				color = custom.color or item.color or nut.config.get("color") or Color(255, 255, 255),
+				model = custom.model or item.model,
+				material = custom.material or item.material,
+				img = custom.img or item.img,
+				modelScale = custom.modelScale or item.modelScale,
+				attrib = custom.attrib or item.attrib,
+				res = custom.res or item.res,
+				amp = custom.amp or item.amp,
+				armor = custom.armor or item.armor,
+				evasion = custom.evasion or item.evasion,
+				accuracy = custom.accuracy or item.accuracy,
+				scale = custom.scale or item.scaling,
+				dmg = custom.dmg or item.dmg,
+			}
+		end
+		
+		return customData
+	end
+
 	--customization statrt
 	function PLUGIN:startCustom(client, item, extra)
 		--customizations require a flag in the items set, so it's unnecessary to do this here, uncomment it if you want.
@@ -13,6 +278,7 @@ if(SERVER) then
 		end
 		--]]
 
+		--[[
 		local customData = item:getData("custom", {})
 	
 		local itemInfo = {}
@@ -23,8 +289,15 @@ if(SERVER) then
 		itemInfo.model = customData.model or item.model
 		itemInfo.material = customData.material or item.material
 		itemInfo.img = customData.img
+		itemInfo.modelScale = customData.modelScale or item.modelScale
+		--]]
 		
-		netstream.Start(client, "nut_custom", itemInfo)
+		item:sync()
+		
+		local data = PLUGIN:getCustomData(item)
+		local itemID = item.id
+
+		netstream.Start(client, "nut_custom", itemID, data)
 	end
 	
 	--attribute customization start
@@ -65,6 +338,17 @@ if(SERVER) then
 		itemInfo.res = resData
 		
 		netstream.Start(client, "nut_customR", itemInfo)
+	end	
+	
+	--attribute customization start
+	function PLUGIN:startCustomAmp(client, item)
+		local ampData = item:getData("amp", item.amp) or {}
+	
+		local itemInfo = {}
+		itemInfo.id = item.id
+		itemInfo.amp = ampData
+		
+		netstream.Start(client, "nut_customAmp", itemInfo)
 	end	
 
 	--regular finish hook
@@ -110,8 +394,8 @@ if(SERVER) then
 			item:setData("edited", client:Name()) --who last edited this thing
 		end
 	end)
-	
-		--finish hook
+
+	--finish hook
 	netstream.Hook("nut_equipF", function(client, data)
 		local id = data[1]
 		local item = nut.item.instances[id]
@@ -124,9 +408,48 @@ if(SERVER) then
 			item:setData("edited", client:Name()) --who last edited this thing
 		end
 	end)
+	
+	--finish hook
+	netstream.Hook("nut_ItemUpdateData", function(client, itemID, data)
+		--if(!item or !item.id) then return end
+		
+		local item = nut.item.instances[itemID]
+		
+		local customData = item:getData("custom", {})
+
+		local fields = PLUGIN:getCustomFields(item)
+		for _, dataFields in pairs(fields) do
+			for id, v in pairs(dataFields) do
+				if(data[id]) then
+					if(isfunction(v.updateType)) then
+						v.updateType(item, data[id], data)
+					elseif(v.updateType == "Custom") then
+						customData[id] = data[id]
+					else
+						item:setData(id, data[id])
+					end
+					
+					if(v.onUpdate) then
+						v.onUpdate(item, data[id], data)
+					end
+				end
+			end
+		end
+		
+		item:setData("custom", customData)
+		
+		if(item.postCustom) then
+			item:postCustom(client, item, data)
+		end
+	end)
 else
 	--clientside hook for menus
-	netstream.Hook("nut_custom", function(data)
+	netstream.Hook("nut_custom", function(itemID, data)
+		local custom = vgui.Create("nutItemCustom")
+
+		custom:ItemConfig(itemID, data)
+		
+		--[[
 		local item = data
 	
 		--current values of item
@@ -136,6 +459,7 @@ else
 		local model = item.model
 		local material = item.material or ""
 		local img = item.img
+		local modelScale = item.modelScale
 
 		local frame = vgui.Create("DFrame")
 		frame:SetSize(450, 600)
@@ -192,6 +516,16 @@ else
 		pictureC:SetToolTip("Use an image URL.")
 		pictureC:SetText(img or "")
 		pictureC:Dock(TOP)
+		
+		--picture customization
+		local scaleL = vgui.Create("DLabel", scroll)
+		scaleL:SetText("Scale:")
+		scaleL:Dock(TOP)
+
+		local scaleC = vgui.Create("DTextEntry", scroll)
+		scaleC:SetToolTip("Model scale, be careful about anything spherical")
+		scaleC:SetText(modelScale or "")
+		scaleC:Dock(TOP)
 
 		--color customization
 		local colorL = vgui.Create("DLabel", scroll)
@@ -227,6 +561,8 @@ else
 			
 			customData[2].model = modelC:GetValue()
 			
+			customData[2].modelScale = scaleC:GetValue()
+			
 			if(materialC:GetValue() != "") then
 				customData[2].material = materialC:GetValue()
 			end
@@ -247,6 +583,7 @@ else
 		cancelB.DoClick = function()
 			frame:Remove()
 		end		
+		--]]
 	end)
 	
 	netstream.Hook("nut_customA", function(data)
@@ -332,7 +669,8 @@ else
 		local res = {}
 		
 		--damage type resistance customization
-		for k, v in pairs((nut.plugin.list["combat"] and nut.plugin.list["combat"].dmgTypes) or {}) do
+		local dmgTypes = nut.plugin.list["combat"] and nut.plugin.list["combat"].dmgTypes
+		for k, v in SortedPairsByMemberValue(dmgTypes or {}, "name") do
 			local resL = vgui.Create("DLabel", scroll)
 			resL:SetText(v.name)
 			resL:Dock(TOP)
@@ -349,7 +687,7 @@ else
 		end
 		
 		--attribute customization
-		for k, v in pairs(EFFS.effects) do
+		for k, v in SortedPairsByMemberValue(EFFS.effects, "name") do
 			local resL = vgui.Create("DLabel", scroll)
 			resL:SetText(v.name)
 			resL:Dock(TOP)
@@ -413,6 +751,9 @@ else
 				["armor"] = {weight = 3, name = "Armor", value = dataTemp, panelT = "DNumberWang"},
 				["scale"] = {weight = 6, name = "Grade Scaling", value = dataTempTbl, panelT = "DNumberWang", extra = nut.attribs.list},
 			},
+			["nut_customAmp"] = {
+				["amp"] = {weight = 1, name = "Amplifications", value = dataTempTbl, panelT = "DNumberWang", extra = nut.plugin.list["combat"].dmgTypes},
+			},
 		}
 
 		for k, v in pairs(menuGenerate) do
@@ -454,7 +795,7 @@ else
 
 						local subTbl = {}
 						
-						for subKey, subValue in pairs(field.extra) do
+						for subKey, subValue in SortedPairsByMemberValue(field.extra, "name") do
 							local subLabel = vgui.Create("DLabel", scroll)
 							subLabel:SetText(subValue.name)
 							subLabel:Dock(TOP)

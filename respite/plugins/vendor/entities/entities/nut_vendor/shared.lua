@@ -20,6 +20,12 @@ function ENT:setupVars()
 	self.factions = {}
 	self.messages = {}
 	self.classes = {}
+	
+	--default all to on at the start
+	for k, v in pairs(nut.faction.indices) do
+		self.factions[k] = true
+	end
+	
 	self.hasSetupVars = true
 end
 
@@ -29,6 +35,7 @@ function ENT:Initialize()
 			if (not IsValid(self)) then return end
 			self:setAnim()
 		end)
+		
 		return
 	end
 
@@ -136,6 +143,8 @@ function ENT:getPrice(uniqueID, isSellingToVendor)
 	-- If selling to the vendor, scale the price down since it is "used".
 	if (isSellingToVendor) then
 		price = math.floor(price * self:getSellScale())
+	else --buying from vendor
+		price = math.floor(price * self:getBuyScale())
 	end
 
 	return price
@@ -163,6 +172,10 @@ end
 
 function ENT:getSellScale()
 	return self:getNetVar("scale", 0.5)
+end
+
+function ENT:getBuyScale()
+	return self:getNetVar("buyScale", 1)
 end
 
 function ENT:getName()

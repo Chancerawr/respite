@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_wraith"
+
 ENT.model = "models/predatorcz/amnesia/grunt.mdl"
 ENT.material = "models/props_combine/tpballglow"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Attack2"
 
@@ -47,4 +51,17 @@ ENT.res = {
 
 ENT.actions = {
 	"ichor_spit",
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = 30
+ENT.FootstepSounds = {
+	"ambient/water/distant_drip1.wav",
+	"ambient/water/distant_drip2.wav",
+	"ambient/water/distant_drip3.wav",
+	"ambient/water/distant_drip4.wav",
 }

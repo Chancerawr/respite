@@ -8,6 +8,10 @@ end
 
 if (SERVER) then return end
 
+SOUND_F1_MENU_UNANCHOR = {"buttons/lightswitch2.wav", 50, 250}
+SOUND_MENU_BUTTON_ROLLOVER = {"physics/plaster/ceiling_tile_impact_soft3.wav", 50, 80}
+SOUND_MENU_BUTTON_PRESSED = {"physics/plaster/ceiling_tile_impact_hard1.wav", 50, 50}
+
 function PLUGIN:PlayerBindPress(client, bind, pressed)	
 	if (bind:lower():find("gm_showhelp") and pressed) then
 		if (IsValid(nut.gui.menu)) then

@@ -12,7 +12,17 @@ ITEM.flag = "v"
 ITEM.slot = "primary"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+ITEM.IdleAnim = "idle_crossbow"
+ITEM.WalkAnim = "walk_crossbow"
+ITEM.RunAnim = "run_crossbow"
+
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	Sound("weapons/m79/40mmthump.wav"),
+}
+
+ITEM.rarity = 3
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,

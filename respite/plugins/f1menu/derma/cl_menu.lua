@@ -85,7 +85,8 @@ local PANEL = {}
 		local key = input.IsKeyDown(KEY_F1)
 		if (key and (self.noAnchor or CurTime()+.4) < CurTime() and self.anchorMode == true) then
 			self.anchorMode = false
-			surface.PlaySound(SOUND_F1_MENU_UNANCHOR)
+			--surface.PlaySound(SOUND_F1_MENU_UNANCHOR)
+			LocalPlayer():EmitSound(unpack(SOUND_F1_MENU_UNANCHOR))
 		end
 	
 		--no thank you
@@ -151,8 +152,8 @@ local PANEL = {}
 
 				self.panel:Clear()
 
-				self.title:SetText(this:GetText())
-				self.title:SetTextColor(nut.config.get("color", Color(250, 250,250)))
+				--self.title:SetText(this:GetText())
+				--self.title:SetTextColor(nut.config.get("color", Color(250, 250,250)))
 				self.title:SizeToContentsY()
 				self.title:AlphaTo(255, 0.5)
 				self.title:MoveAbove(self.panel, 8)
@@ -164,6 +165,13 @@ local PANEL = {}
 				if (callback) then
 					callback(self.panel, this)
 				end
+				
+				LocalPlayer():EmitSound(unpack(SOUND_MENU_BUTTON_PRESSED))
+				--surface.PlaySound(SOUND_MENU_BUTTON_PRESSED)
+			end
+			tab.OnCursorEntered = function(this)
+				LocalPlayer():EmitSound(unpack(SOUND_MENU_BUTTON_ROLLOVER))
+				--surface.PlaySound(SOUND_MENU_BUTTON_ROLLOVER)
 			end
 		self.tabs:AddPanel(tab)
 

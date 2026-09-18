@@ -5,14 +5,20 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_floater_distorted"
+
 ENT.models = {
 	"models/zombie/classic2.mdl",
 	"models/zombie/classic3.mdl",
 	"models/zombie/classic4.mdl"
 }
 ENT.material = "models/props_combine/stasisfield_beam"
+ENT.color = Color(255,0,0)
+
+ENT.BloodColor = BLOOD_COLOR_MECH
 
 ENT.AttackAnim = "AttackA"
+ENT.IdleAnim = "Idle01"
 
 --all attributes
 ENT.attribs = {

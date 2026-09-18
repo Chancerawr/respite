@@ -5,7 +5,7 @@ ITEM.slot = "Helmet"
 
 ITEM.armor = 20
 
-ITEM.rarity = 10
+ITEM.rarity = 6
 ITEM.lootTags = {
 	["armor"] = true,
 	["helmet"] = true,
@@ -22,6 +22,12 @@ ITEM.salvage = {
 
 ITEM.attrib = {
 	["perception"] = -2,
+}
+
+ITEM.res = {
+	["Blunt"] = 10,
+	["Slash"] = 5,
+	["Pierce"] = 3,
 }
 
 ITEM.upgradeSlots = { 

@@ -44,9 +44,11 @@ local workshopIDs = {
 	--124358552, --infinite concrete
 }
 
+--[[
 for k, v in pairs(workshopIDs) do
-	--resource.AddWorkshop(v)
+	resource.AddWorkshop(v)
 end
+--]]
 
 function SCHEMA:OnCharCreated(client, character)
 	--[[

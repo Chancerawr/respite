@@ -93,7 +93,53 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 	}
 
 	local meleeWeapons = {
-
+		--[[
+		respite_switchblade = true,
+		respite_broken_bottle = true,
+		respite_machete = true,
+		respite_shovel = true,
+		respite_sickle = true,
+		respite_dadao = true,
+		respite_machete2 = true,
+		respite_pitchfork = true,
+		respite_pushbroom = true,
+		respite_shovel2 = true,
+		respite_harpoon = true,
+		respite_makeshift_glaive = true,
+		respite_makeshift_spear = true,
+		respite_spear = true,
+		respite_trident = true,
+		respite_scythe = true,
+		respite_cleaver = true,
+		respite_baton = true,
+		respite_cinderblock = true,
+		respite_crowbar = true,
+		respite_hatchet = true,
+		respite_hook = true,
+		respite_iceaxe = true,
+		respite_pickaxe2 = true,
+		respite_plastic_foot = true,
+		respite_rock = true,
+		respite_beardedaxe = true,
+		respite_tomahawk = true,
+		respite_bone_cudgel = true,
+		respite_bone_rattle = true,
+		respite_hammer = true,
+		respite_crowbar2 = true,
+		respite_doorhandle = true,
+		respite_fish = true,
+		respite_fish2 = true,
+		respite_flashlight = true,
+		respite_fryingpan = true,
+		respite_fryingpan2 = true,
+		respite_hhradio = true,
+		respite_dollars = true,
+		respite_reloading_press = true,
+		respite_steeringwheel = true,
+		respite_suitcase = true,
+		respite_valve = true,
+		respite_wrench = true,
+		--]]
 	}
 	
 	local blackList = {
@@ -126,6 +172,9 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 		weapon_physgun = true,
 		weapon_toolgun = true,
 		weapon_crowbar = true,
+		nut_hands = true,
+		nut_keys = true,
+		votv_dummyweapon = true,
 	}
 
 	local meta = FindMetaTable("Player")
@@ -212,6 +261,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 
 			if (LocalPlayer() == client and !client:ShouldDrawLocalPlayer()) then
 				local wep = client:GetActiveWeapon()
+
 				if (wep:IsValid()) then
 					local vm = wep.CW20Weapon and
 					(IsValid(wep.CW_VM) and wep.CW_VM or client:GetViewModel()) or
@@ -253,7 +303,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 								pos, ang = TFA_CSGO(wep, vm)
 							end
 						else
-							if (!meleeWeapons[wep:GetClass()]) then
+							if (!meleeWeapons[wep:GetClass()] and !wep.isMelee) then
 								local att = vm:GetAttachment(1)
 
 								if (att) then
@@ -264,6 +314,21 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 					end
 				 end
 			end
+			
+			--attempted to make fall over ragdolls also have lights
+			--didnt end up working too well
+			--[[
+			local fallover = client:getNetVar("nutRagdoll")
+			if(fallover) then
+				local fallRagdoll = ents.GetByIndex(fallover)
+				if(IsValid(fallRagdoll)) then
+					local bpos, bang = client:GetBonePosition(client:LookupBone("ValveBiped.Bip01_R_Hand") or 1)
+					if (bpos and bang) then
+						pos, ang = bpos, bang
+					end
+				end
+			end
+			--]]
 			 
 			local flashlightInfo = client:getFlashType()
 			client.flash:SetFOV(60)
@@ -290,7 +355,7 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 			if (!client:GetNoDraw()) then
 				if (client:GetNWBool("customFlashlight") == true) then
 					if (LocalPlayer() == client and !client:ShouldDrawLocalPlayer()) then return end
-					
+
 					local bpos, bang = client:GetBonePosition(client:LookupBone("ValveBiped.Bip01_R_Hand") or 1)
 					if (!bpos or !bang) then return end
 					
@@ -332,11 +397,11 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 
 		    for client, flash in pairs(FLASHES) do
 				if (!client or !IsValid(client) or !client:IsPlayer()) then
-					 flash:Remove()
-					 FLASHES[client] = nil
+					flash:Remove()
+					FLASHES[client] = nil
 					 
-					 continue
-				 end
+					continue
+				end
 
 				if (client:GetNWBool("customFlashlight") != true) then 
 					if (flash) then
@@ -346,9 +411,10 @@ PLUGIN.desc = "This plugin makes your flashlight feels like it's from L4D2"
 					continue
 				end
 
-				local dist = client:GetPos():Distance(LocalPlayer():GetPos())
+				local dist = client:GetPos():DistToSqr(LocalPlayer():GetPos())
 
-				if (dist > 512) then
+				--512 * 512
+				if (dist > 262144) then
 					if (IsValid(client.flash)) then
 						client.flash:Remove()
 					end

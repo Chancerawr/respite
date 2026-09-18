@@ -42,7 +42,7 @@ if (SERVER) then
 	end
 
 	function PLUGIN:SaveData()
-		PLUGIN:SaveTalkers()
+		--PLUGIN:SaveTalkers()
 	end
 
 	function PLUGIN:SaveTalkers()
@@ -153,9 +153,18 @@ if (SERVER) then
 	end
 	
 	--hacky solution to errors yeeting all data, just put it in a timer and it'll only screw itself over
+	--[[
 	function PLUGIN:InitPostEntity()
 		timer.Simple(30, function()
 			PLUGIN:LoadTalkers()
+		end)
+	end
+	--]]
+	
+	function PLUGIN:LoadData()
+		pcall(function()
+			PLUGIN:LoadTalkers()
+			self.loadedData = true
 		end)
 	end
 end

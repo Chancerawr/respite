@@ -8,6 +8,17 @@ ITEM.flag = "V"
 
 ITEM.worldModel = "models/props_lab/box01a.mdl"
 
+ITEM.customizable = {
+	["name"] = true,
+	["desc"] = true,
+	["model"] = true,
+	["modelScale"] = true,
+	["modelColor"] = true,
+	["material"] = true,
+	["color"] = true,
+	["img"] = true,
+}
+
 ITEM.functions.Deploy = {
 	name = "Deploy",
 	tip = "useTip",
@@ -26,11 +37,17 @@ ITEM.functions.Deploy = {
 			SafeRemoveEntity(deployed)
 		end
 
-		local weapon = client:Give("nut_vehiclespawner")
+		local weapon = client:GetWeapon("nut_vehiclespawner")
+		if(!IsValid(weapon)) then
+			weapon = client:Give("nut_vehiclespawner")
+		end
+		
 		client:SelectWeapon("nut_vehiclespawner")
 		
-		weapon.item = item
-		weapon:SetNW2String("vehicleModel", item.model)
+		if(IsValid(weapon)) then
+			weapon.item = item
+			weapon:SetNW2String("vehicleModel", item.model)
+		end
 
 		return false
 	end,
@@ -59,33 +76,35 @@ ITEM.functions.Repair = {
 		local inventory = char:getInv()
 		
 		local metal = inventory:getFirstItemOfType("j_scrap_metals")
-		local amount = metal:getData("Amount", 1)
-		
-		if(amount > 1) then
-			metal:setData("Amount", amount - 1)
-		else
-			metal:remove()
-		end
-		
-		local health = item:getData("health")
-		local healthMax = item:getData("healthMax")
-		
-		local deployed = item:getData("deployed")
-		if(IsValid(deployed)) then
-			health = deployed:GetCurHealth()
-			healthMax = deployed:GetMaxHealth()
-		end
-		
-		local repairAmt = healthMax * 0.05
-		local newHealth = math.Round(health+repairAmt)
-		newHealth = math.min(newHealth, healthMax)
-		
-		item:setData("health", newHealth)
+		if(metal) then
+			local amount = metal:getData("Amount", 1)
+			
+			if(amount > 1) then
+				metal:setData("Amount", amount - 1)
+			else
+				metal:remove()
+			end
+			
+			local health = item:getData("health")
+			local healthMax = item:getData("healthMax")
+			
+			local deployed = item:getData("deployed")
+			if(IsValid(deployed)) then
+				health = deployed:GetCurHealth()
+				healthMax = deployed:GetMaxHealth()
+			end
+			
+			local repairAmt = healthMax * 0.15
+			local newHealth = math.Round(health+repairAmt)
+			newHealth = math.min(newHealth, healthMax)
+			
+			item:setData("health", newHealth)
 
-		if(IsValid(deployed)) then
-			deployed:SetCurHealth(newHealth)
-			deployed:SetOnFire(false)
-			deployed:SetOnSmoke(false)
+			if(IsValid(deployed)) then
+				deployed:SetCurHealth(newHealth)
+				deployed:SetOnFire(false)
+				deployed:SetOnSmoke(false)
+			end
 		end
 
 		return false
@@ -164,7 +183,14 @@ ITEM.functions.CustomColor = {
 
 		local color = item:getData("color")
 
-		netstream.Start(client, "nut_vehicle_color", item.id, color)
+		local skin
+		if(item.skinCustom) then
+			skin = item:getData("skin", 0)
+		end
+		
+		local model = item.model
+
+		netstream.Start(client, "nut_vehicle_color", item.id, color, skin, model)
 
 		return false
 	end,
@@ -174,19 +200,139 @@ ITEM.functions.CustomColor = {
 }
 
 if(SERVER) then
-	netstream.Hook("nut_vehicle_colorF", function(client, itemID, color)
+	netstream.Hook("nut_vehicle_colorF", function(client, itemID, color, skin)
 		if(itemID) then
 			local item = nut.item.instances[itemID]
 			
 			if(item) then
 				item:setData("color", color)
+				
+				if(skin) then
+					item:setData("skin", skin)
+				end
 			end
 		end
 	end)
 else
-	netstream.Hook("nut_vehicle_color", function(itemID, color)
+	netstream.Hook("nut_vehicle_color", function(itemID, color, skin, modelPath)
+		if(IsValid(nut.gui.menu)) then
+			nut.gui.menu:Remove()
+		end
+	
 		-- Background panel
-		frame = vgui.Create("DFrame")
+		local frame = vgui.Create("DFrame")
+		--frame:SetSize(400, 340)
+		frame:SetSize(400, 400)
+		frame:SetPos(ScrW()*0.5-600, ScrH()*0.5-200)
+		frame:MakePopup()
+		frame:ShowCloseButton(true)
+		frame.OnRemove = function()
+			if(IsValid(frame.modelPanel)) then
+				frame.modelPanel:Remove()
+			end
+		end
+		
+		local modelPanel = vgui.Create("DPanel")
+		modelPanel:SetSize(700,500)
+		modelPanel:SetPos(frame:GetPos())
+		modelPanel:MoveRightOf(frame, 8)
+		modelPanel.Paint = function(panel, w, h)
+		end
+		frame.modelPanel = modelPanel
+		
+		local model = vgui.Create("nutModelPanel", modelPanel)
+		model:Dock(FILL)
+		model:SetFOV(30)
+		model:SetCamPos(Vector(300,300,300))
+		model:SetModel(modelPath)
+		
+		local yaw = 0
+		model.LayoutEntity = function(panel, ent)
+			-- Point camera toward the look pos
+			--local lookAng = (panel.vLookatPos-panel.vCamPos):Angle()
+			
+			-- Rotate the look angles based on incrementing yaw value
+			--lookAng:RotateAroundAxis(Vector(1, 0, 0), yaw)
+			
+			-- Set camera look angles
+			--panel:SetLookAng(lookAng)
+			
+			-- Make entity rotate like normal
+			ent:SetAngles(Angle(0, RealTime()*30,  0))
+			
+			yaw = yaw + 1
+		end
+
+		local entity = model:GetEntity()
+		
+		if(color) then
+			model:SetColor(color)
+		end
+
+		local skinC
+		if(skin) then
+			entity:SetSkin(skin)
+		
+			local skinL = vgui.Create("DLabel", frame)
+			skinL:Dock(TOP)
+			skinL:SetText("Skin")
+			skinL:DockMargin(0, 0, 0, 8)
+			
+			skinC = vgui.Create("DNumSlider", frame)
+			skinC:Dock(TOP)
+			skinC:SetDecimals(0)
+			skinC:SetMin(0)
+			skinC:DockMargin(0, 0, 0, 8)
+			skinC:SetValue(skin)
+			
+			skinC:SetMax(entity:SkinCount()-1)
+			skinC.OnValueChanged = function(panel, new)
+				if(isnumber(new)) then
+					entity:SetSkin(new)
+				end
+			end
+		end
+		
+		local colorC = vgui.Create("DColorMixer", frame)
+		colorC:Dock(TOP)
+		colorC:DockMargin(0, 0, 0, 8)
+		
+		if(color) then
+			colorC:SetColor(color)
+		end
+		
+		colorC.ValueChanged = function(panel, colTbl)
+			local newColor = Color(colTbl.r, colTbl.g, colTbl.b)
+			
+			model:SetColor(newColor)
+		end
+		
+		local finishB = vgui.Create("DButton", frame)
+		finishB:SetSize(60,20)
+		finishB:SetText("Complete")
+		finishB:Dock(TOP)
+		finishB.DoClick = function()
+			local customColor = colorC:GetColor()
+			
+			local customSkin
+			if(skin) then
+				customSkin = skinC:GetValue()
+			end
+		
+			netstream.Start("nut_vehicle_colorF", itemID, customColor, customSkin)
+			
+			frame:Remove()
+		end
+		finishB.Paint = function(panel, w, h)
+			surface.SetDrawColor(Color(0,0,0,255))
+			surface.DrawRect(0,0,w,h)
+		end
+	end)
+	
+	--[[
+	netstream.Hook("nut_vehicle_skin", function(itemID, color)
+		-- Background panel
+		local frame = vgui.Create("DFrame")
 		frame:SetSize(400, 340)
 		frame:Center()
 		frame:MakePopup()
@@ -207,11 +353,12 @@ else
 		finishB.DoClick = function()
 			local customColor = colorC:GetColor()
 		
-			netstream.Start("nut_vehicle_colorF", itemID, customColor)
+			netstream.Start("nut_vehicle_skinF", itemID, customColor)
 			
 			frame:Remove()
 		end
 	end)
+	--]]
 end
 
 function ITEM:getName()

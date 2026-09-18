@@ -1,9 +1,9 @@
 local PLUGIN = PLUGIN
-
-local playerMeta = FindMetaTable("Player")
+PLUGIN.helperFuncs = PLUGIN.helperFuncs or {}
 
 --gets all cooldowns
-function playerMeta:getCooldowns()
+PLUGIN.helperFuncs["getCooldowns"] = function(self)
+--function playerMeta:getCooldowns()
 	local char = self:getChar()
 	
 	if(char) then
@@ -14,30 +14,33 @@ function playerMeta:getCooldowns()
 end
 
 --adds a cooldown to a player
-function playerMeta:addCooldown(spell, duration)
+PLUGIN.helperFuncs["addCooldown"] = function(self, action, duration)
+--function playerMeta:addCooldown(spell, duration)
 	local cooldowns = self:getCooldowns()
-	cooldowns[spell] = duration
+	cooldowns[action] = duration
 	
 	local char = self:getChar()
 	char.cooldowns = cooldowns
 
-	PLUGIN:cdNetworkAll(self, spell, duration)
+	PLUGIN:cdNetworkAll(self, action, duration)
 end
 
 --removes a cooldown from a player
-function playerMeta:removeCooldown(spell)
+PLUGIN.helperFuncs["removeCooldown"] = function(self, action)
+--function playerMeta:removeCooldown(spell)
 	local cooldowns = self:getCooldowns()
 	
 	local char = self:getChar()
 	char.cooldowns = cooldowns
 	
-	cooldowns[spell] = nil
+	cooldowns[action] = nil
 
-	PLUGIN:cdNetworkAll(self, spell)
+	PLUGIN:cdNetworkAll(self, action)
 end
 
 --clears all of a player's cooldowns
-function playerMeta:clearCooldowns()
+PLUGIN.helperFuncs["clearCooldowns"] = function(self)
+--function playerMeta:clearCooldowns()
 	local char = self:getChar()
 	char.cooldowns = nil
 end

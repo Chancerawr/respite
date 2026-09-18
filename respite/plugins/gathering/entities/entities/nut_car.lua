@@ -45,11 +45,11 @@ if (SERVER) then
 		self:SetPos(Vector(pos.X,pos.Y,pos.Z + 15))
 		self:SetAngles(Angle(0,math.random(0,360),0))
 		
-		local physicsObject = self:GetPhysicsObject()
+		local physObj = self:GetPhysicsObject()
 
-		if (IsValid(physicsObject)) then
-			physicsObject:EnableMotion(false)
-			physicsObject:Sleep()
+		if (IsValid(physObj)) then
+			physObj:EnableMotion(false)
+			physObj:Sleep()
 		end
 	end
 end

@@ -23,6 +23,11 @@ ITEM.attrib = {
 	["perception"] = -1,
 }
 
+ITEM.res = {
+	["Blunt"] = 12,
+	["Slash"] = 2,
+}
+
 ITEM.upgradeSlots = { 
 	["Dream"] = 1,
 }

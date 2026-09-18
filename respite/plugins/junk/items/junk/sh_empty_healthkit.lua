@@ -1,13 +1,13 @@
 ITEM.name = "Empty First-Aid Kit"
-ITEM.uniqueID = "j_used_first_aid_kit"
-ITEM.model = "models/items/healthkit.mdl"
 ITEM.desc = "A used first-aid kit."
+ITEM.uniqueID = "j_used_res_kit"
+ITEM.model = "models/items/healthkit.mdl"
 ITEM.flag = "j"
 ITEM.width = 2
 ITEM.height = 2
 
 ITEM.salvItem = {
-	["j_scrap_plastics"] = 3
+	["j_scrap_plastics"] = 4
 }
 
 if(SERVER) then

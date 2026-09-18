@@ -5,10 +5,19 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_deformed"
+
 ENT.name = "Deformed"
 
 ENT.model = "models/spite/freak01.mdl"
+ENT.models = {
+	"models/spite/freak01.mdl",
+	"models/spite/freak02.mdl",
+	"models/spite/freak03.mdl",
+	"models/spite/freak04.mdl"
+}
 
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Attack"
 
 --all attributes
@@ -46,17 +55,14 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-local models = {
-	"models/spite/freak01.mdl",
-	"models/spite/freak02.mdl",
-	"models/spite/freak03.mdl",
-	"models/spite/freak04.mdl"
+ENT.StepData = {
+	0,
+	0.5,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if(SERVER) then
-		self:SetModel(table.Random(models))
-	end
-end
+ENT.FootstepSounds = {
+	"player/footsteps/gravel1.wav",
+	"player/footsteps/gravel2.wav",
+	"player/footsteps/gravel3.wav",
+	"player/footsteps/gravel4.wav",
+}

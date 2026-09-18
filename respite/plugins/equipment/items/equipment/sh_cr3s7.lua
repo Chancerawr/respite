@@ -11,7 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Shotguns"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.attackRange = 500
+
+ITEM.IdleAnim = "idle_revolver"
+ITEM.WalkAnim = "walk_revolver"
+ITEM.RunAnim = "run_revolver"
+
+ITEM.AttackSounds = {
+	Sound("weapons/tmg/tmg_1.wav"),
+}
+
+ITEM.rarity = 9
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -33,6 +46,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Shotgun"] = 10,
 }
 
 ITEM.iconCam = {

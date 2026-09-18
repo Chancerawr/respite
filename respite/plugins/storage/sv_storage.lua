@@ -69,7 +69,7 @@ function PLUGIN:saveStorage()
 		end
 		
 		if (entity:getInv()) then
-			data[#data + 1] = {
+			data[#data+1] = {
 				entity:GetPos(),
 				entity:GetAngles(),
 				entity:getNetVar("id"),
@@ -84,6 +84,7 @@ function PLUGIN:saveStorage()
 				entity:getNetVar("owner", nil),
 				entity:getNetVar("overwrite", nil),
 				entity:GetColor(),
+				entity.pickable, 
 			}
 		end
   	end
@@ -95,7 +96,9 @@ function PLUGIN:StorageItemRemoved(entity, inventory)
 end
 
 function PLUGIN:LoadData()
-
+	pcall(function()
+		PLUGIN:loadStorage()
+	end)
 end
 
 function PLUGIN:loadStorage()
@@ -118,6 +121,7 @@ function PLUGIN:loadStorage()
 		local owner = info[12]
 		local overwrite = info[13]
 		local color = info[14]
+		local pickable = info[15]
 		
 		local storage = self.definitions[overwrite or model]
 		if (!storage) then continue end
@@ -129,10 +133,6 @@ function PLUGIN:loadStorage()
 		storage:SetModel(model)
 		storage:SetSolid(SOLID_VPHYSICS)
 		storage:PhysicsInit(SOLID_VPHYSICS)
-		
-		if(color) then
-			storage:SetColor(Color(color.r, color.g, color.b))
-		end
 		
 		nut.inventory.loadByID(inv)
 			:next(function(inventory)
@@ -150,6 +150,10 @@ function PLUGIN:loadStorage()
 				end
 			end)
 		
+		if(color) then
+			storage:SetColor(Color(color.r, color.g, color.b))
+		end
+		
 		if (password) then
 			storage.password = password
 			storage:setNetVar("locked", true)
@@ -157,6 +161,10 @@ function PLUGIN:loadStorage()
 		
 		if(lootable) then
 			storage.lootable = lootable
+		end
+		
+		if(pickable) then
+			storage.pickable = pickable
 		end
 		
 		if(name) then
@@ -196,8 +204,8 @@ function PLUGIN:loadStorage()
 end
 
 -- this stupid time stuff stops them from getting broken when other things break when the load hook is called
+--[[
 function PLUGIN:InitPostEntity()
-	timer.Simple(30, function()
-		PLUGIN:loadStorage()
-	end)
+	PLUGIN:loadStorage()
 end
+--]]

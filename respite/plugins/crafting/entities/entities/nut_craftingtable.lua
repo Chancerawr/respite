@@ -60,13 +60,14 @@ if (SERVER) then
 	end	
 	
 	function ENT:OnRemove()
-		if (not self.nutForceDelete) then
-			if (not nut.entityDataLoaded or not PLUGIN.loadedData) then return end
+		if (!self.nutForceDelete) then
+			if (!PLUGIN.loadedData) then return end
 			if (self.nutIsSafe) then return end
 			if (nut.shuttingDown) then return end
 		end
 		
 		self:deleteInventory()
+		PLUGIN:saveTables()
 	end
 	
 	function ENT:deleteInventory()
@@ -79,6 +80,17 @@ if (SERVER) then
 			end
 
 			self:setNetVar("id", nil)
+		end
+	end
+	
+	function ENT:Think()
+		--if held with physgun, gravgun, or hands
+		if(self:IsPlayerHolding()) then
+			self.playerMoved = true
+		elseif(self.playerMoved) then
+			self.playerMoved = nil
+
+			nut.plugin.list["crafting"]:saveTables()
 		end
 	end
 else

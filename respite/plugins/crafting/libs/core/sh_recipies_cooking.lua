@@ -15,6 +15,7 @@ if(SERVER) then
 				LOOT.material = item.material
 				LOOT.attrib = item.attrib
 				LOOT.rarity = item.rarity
+				LOOT.buffTbl = item.buffTbl
 				LOOT.lootTags = item.loot
 
 				LOOTGEN:Register(LOOT)
@@ -44,7 +45,7 @@ RECIPE = {}
 	RECIPE.name = "Sandwich"
 	RECIPE.desc = ""
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/squad/sf_plates/sf_plate1x1.mdl"
+	RECIPE.model = "models/foodnhouseholditems/sandwich.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -83,7 +84,8 @@ RECIPE = {}
 	RECIPE.noAverage = true
 	RECIPE.items = {
 		["Drink"] = 1,
-		["Fruit"] = 2,
+		["Fruit"] = 1,
+		["Consumable"] = 1,
 	}
 	RECIPE.result = {
 		["cook_smoothie"] = 1
@@ -117,7 +119,8 @@ RECIPE = {}
 	RECIPE.noAverage = true
 	RECIPE.items = {
 		["Meat"] = 2,
-		["Drink"] = 2,
+		["Drink"] = 1,
+		["Consumable"] = 1,
 	}
 	RECIPE.result = {
 		["cook_stew"] = 1
@@ -134,6 +137,7 @@ RECIPE = {}
 	RECIPE.noAverage = true
 	RECIPE.items = {
 		["Meat"] = 2,
+		["Consumable"] = 1,
 	}
 	RECIPE.result = {
 		["cook_sausage"] = 1
@@ -149,7 +153,8 @@ RECIPE = {}
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
-		["Meat"] = 3,
+		["Meat"] = 2,
+		["Consumable"] = 1,
 	}
 	RECIPE.result = {
 		["cook_patty"] = 1
@@ -161,15 +166,15 @@ RECIPE = {}
 	RECIPE.name = "Steak"
 	RECIPE.desc = "A meaty steak."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/gibs/glass_shard03.mdl"
+	RECIPE.model = "models/foodnhouseholditems/meat9.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
-		["Meat"] = 2,
+		["Meat"] = 3,
 		["Consumable"] = 1,
 	}
 	RECIPE.result = {
-		["cook_patty"] = 1
+		["cook_steak"] = 1
 	}
 RECIPES:Register(RECIPE)
 
@@ -178,7 +183,7 @@ RECIPE = {}
 	RECIPE.name = "Sushi"
 	RECIPE.desc = "Fish that has been prepared in a fancy way."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/props/cs_militia/fishriver01.mdl"
+	RECIPE.model = "models/foodnhouseholditems/salmon.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -216,7 +221,8 @@ RECIPE = {}
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
-		["Meat"] = 4,
+		["Meat"] = 3,
+		["Consumable"] = 1,
 	}
 	RECIPE.result = {
 		["cook_sticks"] = 1
@@ -228,7 +234,7 @@ RECIPE = {}
 	RECIPE.name = "Tartare"
 	RECIPE.desc = "Raw fish that has been seasoned and shaped into small cakes."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/props/cs_militia/fishriver01.mdl"
+	RECIPE.model = "models/foodnhouseholditems/salmon.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -245,7 +251,7 @@ RECIPE = {}
 	RECIPE.name = "Pie"
 	RECIPE.desc = "It is a pie."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/props_c17/streetsign001c.mdl"
+	RECIPE.model = "models/foodnhouseholditems/pie.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
@@ -286,7 +292,7 @@ RECIPE = {}
 	RECIPE.items = {
 		["Egg"] = 1,
 		["Bread"] = 1,
-		["Consumable"] = 2,
+		["Consumable"] = 3,
 	}
 	RECIPE.result = {
 		["cook_muffin"] = 1
@@ -298,13 +304,13 @@ RECIPE = {}
 	RECIPE.name = "Cake"
 	RECIPE.desc = "It is a cake."
 	RECIPE.category = "Cooking"
-	RECIPE.model = "models/props_c17/clock01.mdl"
+	RECIPE.model = "models/foodnhouseholditems/cake.mdl"
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
-		["Egg"] = 2,
+		["Egg"] = 1,
 		["Bread"] = 2,
-		["Consumable"] = 3,
+		["Consumable"] = 4,
 	}
 	RECIPE.result = {
 		["cook_cake"] = 1
@@ -320,8 +326,8 @@ RECIPE = {}
 	RECIPE.special = true
 	RECIPE.noAverage = true
 	RECIPE.items = {
-		["Consumable"] = 1,
 		["Vegetable"] = 2,
+		["Consumable"] = 1,
 	}
 	RECIPE.result = {
 		["cook_salad"] = 1
@@ -342,5 +348,54 @@ RECIPE = {}
 	}
 	RECIPE.result = {
 		["food_tea"] = 1
+	}
+RECIPES:Register(RECIPE)
+
+//
+RECIPE = {}
+	RECIPE.uid = "nut_cheese"
+	RECIPE.name = "Cheese"
+	RECIPE.desc = "Create cheese from milk."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/foodnhouseholditems/cheesewheel1c.mdl"
+	 
+	RECIPE.items = {
+		["food_milk_carton"] = 1,
+	}
+	RECIPE.result = {
+		["food_cheese"] = 1
+	}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+	RECIPE.uid = "nut_cheese2"
+	RECIPE.name = "Cheese"
+	RECIPE.desc = "Create cheese from milk."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/foodnhouseholditems/cheesewheel1c.mdl"
+	 
+	RECIPE.items = {
+		["food_milk_jug"] = 1,
+	}
+	RECIPE.result = {
+		["food_cheese"] = 2
+	}
+RECIPES:Register(RECIPE)
+//
+RECIPE = {}
+	RECIPE.uid = "nut_taco"
+	RECIPE.name = "Taco"
+	RECIPE.desc = "Create a taco."
+	RECIPE.category = "Cooking"
+	RECIPE.model = "models/hunter/triangles/025x025.mdl"
+	RECIPE.special = true
+	RECIPE.noAverage = true
+	
+	RECIPE.items = {
+		["Consumable"] = 2,
+		["Bread"] = 1,
+	}
+	RECIPE.result = {
+		["food_taco"] = 2
 	}
 RECIPES:Register(RECIPE)

@@ -25,7 +25,7 @@ ACT.hidden = true
 ACT.attackString = "whacks"
 ACT.CD = 1
 ACT.dmg = 0
-ACT.dmgT = "Crush"
+ACT.dmgT = "Blunt"
 ACT.weaponMult = 0.8
 ACTS:Register(ACT)
 
@@ -74,7 +74,6 @@ ACT.effects = {
 	}
 }
 ACTS:Register(ACT)
-
 
 //
 local ACT
@@ -134,5 +133,20 @@ ACT.dmg = 10
 ACT.dmgT = "Fire"
 ACT.mult = {
 	["stm"] = 0.5,
+}
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Burning",
+		effect = "fire",
+		duration = 2,
+		strength = 1,
+		
+		dmg = 15,
+		dmgT = "Fire",
+		
+		debuff = true,
+	}
 }
 ACTS:Register(ACT)

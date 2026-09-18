@@ -5,11 +5,16 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_babu_w"
+
 ENT.model = "models/zombie/babu.mdl"
 ENT.material = "models/props_lab/security_screens"
 
+ENT.BloodColor = DONT_BLEED
+
 ENT.IdleAnim = "Idle01"
 ENT.AttackAnim = "AttackB"
+ENT.RunAnim = "A_Walk1"
 
 --all attributes
 ENT.attribs = {
@@ -47,10 +52,20 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	timer.Simple(0.6, function()
-		self:ResetSequence("idle01")
-	end)
-	
-	self:basicSetup()
-end
+ENT.StepData = {
+	0,
+	0.17,
+	0.39,
+	0.55,
+	0.68,
+	0.86,
+}
+
+ENT.SoundPitch = {165,185}
+
+ENT.FootstepSounds = {
+	"babu/foot1.wav",
+	"babu/foot2.wav",
+	"babu/foot3.wav",
+	"babu/foot4.wav",
+}

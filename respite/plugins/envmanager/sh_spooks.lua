@@ -179,14 +179,14 @@ end
 
 local function enemySpawn(client)
 	local creatures = {
-		"resp_dolly_shade",
-		"shade_crawlsmoke",
-		"nz_undead_shade",
-		"resp_babu_shade",
+		"resp_dolly_s",
+		"resp_shade_crawl",
+		"resp_shambler",
+		"resp_babu_s",
 		"resp_belmer",
-		"nz_haunt",
-		"nz_phantom",
-		"resp_babu_wraith"
+		"resp_haunt",
+		"resp_phantom",
+		"resp_babu_w"
 	}
 
 	local ent = ents.Create(table.Random(creatures))

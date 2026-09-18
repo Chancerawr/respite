@@ -6,21 +6,21 @@ PLUGIN.helperFuncs = PLUGIN.helperFuncs or {}
 function PLUGIN:hitCalc(accuracy, target)
 	local evasion = target:getEvasion()
 	
-	evasion = math.max(evasion, 0.1) --don't want evasion at 0, probably not necessary if we don't multiple/divide
+	--evasion = math.max(evasion, 0.1) --don't want evasion at 0, probably not necessary if we don't multiple/divide
 	
 	local hit = accuracy - evasion --difference between accuracy and evasion
 	
 	if(hit > 0) then --if accuracy is higher than evasion, full hit.
 		return 1
 	else --if evasion is higher than accuracy, process a graze/dodge
-		local roll = math.random(1,60)
+		local roll = math.random(1,10)
 
 		if((hit * -1) > roll) then --essentially (evasion - accuracy), higher evasion means it's more likely to be higher than the roll.
 			local roll2 = math.random(1,100) --second roll for grazes
-			local graze = roll2 + hit --adds the second roll to (accuracy - hit) to check damage reduction from dodge
-			
+			local graze = roll2 + hit --adds the second roll to (accuracy - evasion) to check damage reduction from dodge
+
 			--lower graze is "better" for the person evading, lower roll2 + hit means less damage from attack
-			if(graze > 45) then
+			if(graze > 50) then
 				return 0.7
 			elseif(graze > 40) then
 				return 0.5
@@ -83,10 +83,15 @@ function PLUGIN:costCheck(client, spell)
 end
 
 --creates a table for targeting data for the cswep
-local function actionFormat(actionTbl, item)
+function PLUGIN:actionFormat(actionTbl, item)
+	local itemName = ""
+	if(item) then
+		itemName = " (" ..item:getName().. ")"
+	end
+
 	local action = {
 		uid = actionTbl.uid,
-		name = actionTbl.name,
+		name = actionTbl.name..itemName,
 		category = actionTbl.category,
 		notarget = actionTbl.notarget,
 		radius = actionTbl.radius,
@@ -95,8 +100,7 @@ local function actionFormat(actionTbl, item)
 		box = actionTbl.box,
 		selfOnly = actionTbl.selfOnly,
 		itemUse = actionTbl.itemUse,
-		--attackOverwrite = actionTbl.attackOverwrite,
-		weapon = item, --ID of the weapon
+		weapon = item and item.id, --ID of the weapon
 	}
 
 	return action
@@ -114,11 +118,12 @@ PLUGIN.helperFuncs["getActions"] = function(self)
 		category = "Default",
 	}	
 	
-	if(self.actions) then
-		for k, v in pairs(self.actions) do
+	local CEntActions = self:getNetVar("actions", self.actions)
+	if(CEntActions) then
+		for k, v in pairs(CEntActions) do
 			local action = PLUGIN:actionFind(v)
 			if(action) then
-				actions[#actions+1] = actionFormat(action)
+				actions[#actions+1] = PLUGIN:actionFormat(action)
 			end
 		end
 	end
@@ -127,8 +132,15 @@ PLUGIN.helperFuncs["getActions"] = function(self)
 		if(actionData.hidden) then continue end
 	
 		-- Default actions
+		--[[
 		if(actionData.category == "Default") then
-			actions[#actions+1] = actionFormat(v)
+			actions[#actions+1] = PLUGIN:actionFormat(actionData)
+			continue
+		end
+		--]]
+		
+		if(actionData.trait) then
+			if(!self:hasTrait(actionData.trait)) then continue end
 		end
 	
 		--if the ability requires stat thresholds to use
@@ -142,7 +154,7 @@ PLUGIN.helperFuncs["getActions"] = function(self)
 			if(!reqStats) then continue end
 		end
 
-		actions[#actions+1] = actionFormat(actionData)
+		actions[#actions+1] = PLUGIN:actionFormat(actionData)
 	end
 	
 	--actions from the inventory (equipment and consumables)
@@ -166,7 +178,7 @@ PLUGIN.helperFuncs["getActions"] = function(self)
 					end
 					if(!reqStats) then continue end
 				
-					actions[#actions+1] = actionFormat(actionData, v.id)
+					actions[#actions+1] = PLUGIN:actionFormat(actionData, v)
 				end
 			elseif(v.action) then --consumables
 				local action = v.action
@@ -186,7 +198,7 @@ PLUGIN.helperFuncs["getActions"] = function(self)
 				end
 				if(!reqStats) then continue end
 				
-				actions[#actions+1] = actionFormat(actionData, v)
+				actions[#actions+1] = PLUGIN:actionFormat(actionData, v)
 			end
 		end
 	end
@@ -204,37 +216,17 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 		local dualCheck = 0
 		
 		-- For CEnts
-		if(self.dmg) then
-			for dmgT, dmgV in pairs(self.dmg) do
+		local CEntdmg = self:getNetVar("dmg", self.dmg)
+		if(CEntdmg) then
+			for dmgT, dmgV in pairs(CEntdmg) do
 				local dmg = dmgV
 				
 				--direct dmg buffs
-				dmg = dmg + self:getBuffAttribute("dmgB")
-				
-				local amp = self:getAmp()
-				if(amp) then
-					if(amp[dmgT]) then
-						dmg = dmg * (1 + amp[dmgT])
-					end
-					
-					--general damage amp
-					if(amp["dmg"]) then 
-						dmg = dmg * (1 + amp["dmg"])
-					end
-				end
-				
-				--critical hits
-				--[[
-				local crit, critMsg = self:rollCrit()
-				if(crit) then
-					dmg = dmg * crit
-				end
-				--]]
+				dmg = dmg + self:getBuffAttribute("dmg")
 			
 				totalDam[#totalDam + 1] = {
 					dmg = dmg, 
 					dmgT = dmgT,
-					--crit = critMsg,
 					accuracy = self:getAccuracy()
 				}
 			end
@@ -250,7 +242,7 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 				local dmgTbl = v:getData("dmg", v.dmg)
 				if(dmgTbl) then
 					for dmgT, dmgV in pairs(dmgTbl) do
-						local dmg = dmgV
+						local dmg = tonumber(dmgV)
 					
 						for name, mult in pairs(v:getData("scale", v.scaling) or {}) do
 							local attrib = char:getAttrib(name, 0)
@@ -262,27 +254,6 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 								dmg = dmg + attribBonus
 							end
 						end
-
-						--damage amplification
-						local amp = self:getAmp()
-						if(amp) then
-							if(amp[dmgT]) then
-								dmg = dmg * (1 + amp[dmgT])
-							end
-							
-							--general damage amp
-							if(amp["dmg"]) then 
-								dmg = dmg * (1 + amp["dmg"])
-							end
-						end
-					
-						--critical hits
-						--[[
-						local crit, critMsg = self:rollCrit()
-						if(crit) then
-							dmg = dmg * crit
-						end
-						--]]
 						
 						--direct dmg buffs
 						dmg = dmg + self:getBuffAttribute("dmg")
@@ -291,7 +262,6 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 							dmg = dmg, 
 							dmgT = dmgT,
 							weap = v:getName(),
-							--crit = critMsg,
 							accuracy = self:getAccuracy()
 						}
 					end
@@ -312,7 +282,7 @@ PLUGIN.helperFuncs["getDamage"] = function(self, weapon)
 		if(table.IsEmpty(totalDam)) then
 			totalDam[1] = {
 				dmg = char:getAttrib("str", 0) * 0.1 + self:getBuffAttribute("dmg"),
-				dmgT = "Crush",
+				dmgT = "Blunt",
 				weap = "Hands",
 				accuracy = self:getAccuracy()
 			}
@@ -330,14 +300,11 @@ PLUGIN.helperFuncs["getRes"] = function(self)
 	local inv = char:getInv()
 	
 	--resistance, start with resist from buffs
-	local res = table.Copy(self.res or {})
+	local res = self:getNetVar("res", self.res or {})
+	res = table.Copy(res)
 	
-	local buffRes = self:getBuffAttributeTbl("res") or {}
-	-- adds the buff resistance to the other table
-	for k, v in pairs(buffRes) do
-		res[k] = (res[k] or 0) + v
-	end
-	
+	hook.Run("nut_OnGetRes", self, res)
+
 	res["dmg"] = (res["dmg"] or 0) + (char:getAttrib("end", 0) * 0.25)
 	res["effect"] = (res["effect"] or 0) + (char:getAttrib("end", 0) * 0.25) + (char:getAttrib("fortitude", 0) * 0.25)
 	
@@ -366,51 +333,12 @@ PLUGIN.helperFuncs["getRes"] = function(self)
 	return res
 end
 
---function playerMeta:getAmp()
-PLUGIN.helperFuncs["getAmp"] = function(self)
-	local char = self:getChar()
-	local inv = char:getInv()
-	
-	--amplifications, start with amp from buffs
-	local amp = table.Copy(self.amp or {})
-	
-	local buffAmp = self:getBuffAttributeTbl("amp") or {}
-	-- adds the buff amplifications to the other table
-	for k, v in pairs(buffAmp) do
-		amp[k] = (amp[k] or 0) + v
-	end
-	
-	for k, v in pairs(amp) do
-		amp[k] = v * 0.01
-	end
-	
-	--amp from items
-	for k, v in pairs(inv:getItems()) do
-		if(v:getData("equip")) then
-			for k2, v2 in pairs(v:getData("amp", {})) do
-				if(amp[k2]) then
-					amp[k2] = 1 - (1 - amp[k2]) * (1 - v2 * 0.01)
-				else
-					amp[k2] = 1 - (1 - v2 * 0.01)
-				end
-			end
-		end
-	end
-	
-	--rounds resistance so it isnt scary numbers
-	for k, v in pairs(amp) do
-		amp[k] = math.Round(v, 4)
-	end
-	
-	return amp
-end
-
 --gets how much armor a player has from items, buffs, etc
 --function playerMeta:getArmor()
 PLUGIN.helperFuncs["getArmor"] = function(self)
 	local char = self:getChar()
 	
-	local armor = self.armor or 0
+	local armor = self:getNetVar("armor", self.armor or 0)
 	
 	if(char) then
 		local inv = char:getInv()
@@ -450,7 +378,8 @@ end
 PLUGIN.helperFuncs["getEvasion"] = function(self)
 	local char = self:getChar()
 	
-	local evasion = 0
+	local evasion = self:getNetVar("evasion", self.evasion or 0)
+	evasion = tonumber(evasion)
 	
 	if(char) then
 		evasion = evasion + (char:getAttrib("stm", 0) * 0.5)
@@ -461,22 +390,8 @@ PLUGIN.helperFuncs["getEvasion"] = function(self)
 		
 		evasion = evasion + self:getBuffAttribute("evasion")
 	end
-	
-	return evasion
-end
 
---gets how much lifesteal a player has
---function playerMeta:getLifesteal()
-PLUGIN.helperFuncs["getLifesteal"] = function(self)
-	local char = self:getChar()
-	
-	local lifesteal = 0
-	
-	if(char) then
-		lifesteal = lifesteal + self:getBuffAttribute("lifesteal")
-	end
-	
-	return lifesteal
+	return evasion
 end
 
 --gets how much accuracy a player has
@@ -484,7 +399,8 @@ end
 PLUGIN.helperFuncs["getAccuracy"] = function(self)
 	local char = self:getChar()
 	
-	local accuracy = 1
+	local accuracy = self:getNetVar("accuracy", self.accuracy or 1)
+	accuracy = tonumber(accuracy)
 	
 	if(char) then
 		accuracy = accuracy + (char:getAttrib("accuracy", 0) * 1)
@@ -497,80 +413,6 @@ PLUGIN.helperFuncs["getAccuracy"] = function(self)
 	end
 	
 	return accuracy
-end
-
---rolls for a crit
---function playerMeta:rollCrit()
-PLUGIN.helperFuncs["rollCrit"] = function(self, bonusC, bonusM, bonusF)
-	local char = self:getChar()
-	
-	local mult = 1
-	
-	local critMsg = ""
-	
-	local critC, critM, critF = self:getCrit()
-	
-	critC = critC + (bonusC or 0)
-	critM = critM + (bonusM or 0)
-	critF = critF + (bonusF or 0)
-	
-	local luck = char:getAttrib("luck", 0)
-	
-	local critRoll = math.Rand(1, 100)
-	if(critRoll < critC) then
-		mult = critM
-		critMsg = "(Crit!) "
-	else -- Fails can only happen on non-crits
-		local failRoll = math.Rand(1, 100)
-		if(failRoll < critF) then
-			mult = 0.25
-			critMsg = "(Fail!) "
-		end
-	end
-
-	return mult, critMsg
-end
-
---gets a player's crit chance and crit multiplier
---function playerMeta:getCrit()
-PLUGIN.helperFuncs["getCrit"] = function(self)
-	local char = self:getChar()
-
-	--base crit chance is 5% (50)
-	local critC = 5
-	
-	--base crit multiplier is 1.2x
-	local critM = 1.2
-	
-	--base crit fail chance is 5% (50)
-	local critF = 5
-
-	if(char) then
-		local luck = char:getAttrib("luck", 0)
-		
-		critC = critC + (luck * 0.4) + self:getBuffAttribute("critC")
-		critM = critM + (luck * 0.04) + self:getBuffAttribute("critM")
-		critF = critF - (luck * 0.05) + self:getBuffAttribute("critF")
-		
-		local inv = char:getInv()
-		
-		local itemCritC = 0
-		local itemCritM = 0
-		local itemCritF = 0
-		for k, v in pairs(inv:getItems()) do
-			if(v:getData("equip")) then
-				itemCritC = itemCritC + (v:getData("critC", v.critC) or 0)
-				itemCritM = itemCritM + (v:getData("critM", v.critM) or 0)
-				itemCritF = itemCritF + (v:getData("critF", v.critF) or 0)
-			end
-		end
-		
-		critC = critC + itemCritC
-		critM = critM + itemCritM
-		critF = critF + itemCritF
-	end
-	
-	return critC, critM, critF
 end
 
 --[[
@@ -615,6 +457,12 @@ end
 --function playerMeta:receiveDamage(dmg, dmgT)
 PLUGIN.helperFuncs["receiveDamage"] = function(self, dmg, dmgT)
 	local res = self:getRes()
+
+	local data = {dmg = dmg, dmgT = dmgT}
+	hook.Run("nut_OnCombatReceiveDamage", self, data)
+	
+	dmg = data.dmg
+	dmgT = data.dmgT
 
 	--physical damage reduction (DR) from armor
 	if(PLUGIN:armorReduction(dmgT)) then

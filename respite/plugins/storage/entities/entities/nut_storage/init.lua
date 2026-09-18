@@ -108,3 +108,63 @@ function ENT:Use(activator)
 
 	activator.nutNextOpen = CurTime() + OPEN_TIME * 1.5
 end
+
+if(SERVER) then
+	function ENT:Think()
+		--if held with physgun, gravgun, or hands
+		if(self:IsPlayerHolding()) then
+			self.playerMoved = true
+		elseif(self.playerMoved) then
+			self.playerMoved = nil
+
+			PLUGIN:saveStorage()
+		end
+	end
+end
+
+duplicator.RegisterEntityClass("nut_storage", function(client, entData)
+	local model = entData.Model
+	local pos = entData.Pos
+	local ang = entData.Angle
+
+	local data = PLUGIN.definitions[model:lower()]
+
+	if (!data) then return end
+	if (hook.Run("CanPlayerSpawnStorage", client, entity, data) == false) then
+		return
+	end
+	
+	local storage = ents.Create("nut_storage")
+	storage:SetPos(pos)
+	storage:SetAngles(ang)
+	storage:Spawn()
+	storage:SetModel(model)
+	storage:SetSkin(entData.Skin or 0)
+	storage:SetSolid(SOLID_VPHYSICS)
+	storage:PhysicsInit(SOLID_VPHYSICS)
+	storage:SetCreator(client)
+
+	nut.inventory.instance(data.invType, data.invData)
+		:next(function(inventory)
+			if (IsValid(storage)) then
+				inventory.isStorage = true
+				storage:setInventory(inventory)
+
+				if (isfunction(data.onSpawn)) then
+					data.onSpawn(storage)
+				end
+				
+				PLUGIN:saveStorage()
+			end
+		end, function(err)
+			ErrorNoHalt(
+				"Unable to create storage entity for "..client:Name().."\n"..
+				err.."\n"
+			)
+			if (IsValid(storage)) then
+				storage:Remove()
+			end
+		end)
+		
+	return storage
+end, "Data")

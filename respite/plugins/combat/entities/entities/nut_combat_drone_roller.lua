@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/Roller.mdl"
 --ENT.material = "models/props/cs_militia/roofbeams02"
 
+ENT.BloodColor = BLOOD_COLOR_MECH
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 15,
@@ -46,4 +48,8 @@ ENT.res = {
 	["Acid"] = -25,
 	["Poison"] = 100,
 	["Electric"] = 100,
+}
+
+ENT.actions = {
+	"drone_discharge"
 }

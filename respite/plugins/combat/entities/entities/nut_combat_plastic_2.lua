@@ -10,6 +10,8 @@ ENT.name = "Plastic"
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.BloodColor = DONT_BLEED
+
 ENT.models = {
 	"models/player/group01/female_01.mdl",
 	"models/player/group01/female_02.mdl",
@@ -64,4 +66,18 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 50,
 	["Electric"] = 0,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
 }

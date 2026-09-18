@@ -28,7 +28,7 @@ if(SERVER) then
 
 			local players = player.GetAll()
 			
-			for k, client in pairs(players) do
+			for k, client in ipairs(players) do
 				local char = client:getChar()
 				if (!char) then continue end
 				

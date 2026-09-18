@@ -432,7 +432,7 @@ for k, v in pairs(dropFunctions) do
 							
 							client:notify("Supply Drop inbound.")
 						else
-							client:notify("Sky not found, enhanced chip refunded.")
+							client:notify("Sky not found, distortion refunded.")
 							
 							if(!IsValid(item:getEntity())) then --checks if item is not on the ground								
 								inventory:addSmart("distortion", 1, client:getItemDropPos())

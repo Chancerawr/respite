@@ -11,7 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_ar2"
+ITEM.WalkAnim = "walk_ar2"
+ITEM.RunAnim = "run_ar2"
+
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	Sound("gdc/rockets/m202f2.wav"),
+}
+
+ITEM.rarity = 7
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -34,6 +47,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Concrete"] = 10,
 }
 
 ITEM.iconCam = {

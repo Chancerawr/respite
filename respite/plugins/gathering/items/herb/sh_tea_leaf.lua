@@ -11,6 +11,7 @@ ITEM.maxstack = 5
 
 ITEM.loot = {
 	["Consumable"] = 1,
+	["Leaf"] = 1,
 }
 
 ITEM.functions.Tea = {

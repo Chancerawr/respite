@@ -53,5 +53,9 @@ ITEM.functions.Battery = {
 }
 
 function ITEM:onEntityCreated(entity)
-	entity:SetPos(entity:GetPos()+entity:GetUp()*9)
+	--checks if it was spawned by the saveitems plugin (required an edit in saveitems)
+	if(!self.saveItemPlug) then 
+		--offsets the spawn so it isnt in the floor
+		entity:SetPos(entity:GetPos()+entity:GetUp()*9)
+	end
 end

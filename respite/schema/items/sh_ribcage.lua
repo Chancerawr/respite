@@ -67,10 +67,13 @@ ITEM.functions.Release = {
 		
 		local startTime = item:getData("sTime", 0)
 		local charges = chargeTimer(startTime)
-		
+
 		--if charges return false, that means we need to reset our time value.
 		if(!charges) then
-			item:setData("sTime", CurTime())
+			if(SERVER) then
+				item:setData("sTime", CurTime())
+			end	
+
 			return false
 		elseif(charges < 1) then
 			return false

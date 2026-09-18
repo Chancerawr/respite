@@ -6,7 +6,7 @@ ITEM.desc = "A strange metal box, It has a large slot that is labelled 'CHIP', a
 ITEM.funcTable = {
 	{
 		id = "Coins",
-		name = "Scrap Coins (10)",
+		name = "Scrap Coins (5)",
 		icon = "icon16/cog.png",
 		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."
@@ -21,7 +21,7 @@ ITEM.funcTable = {
 	},
 	{
 		id = "Coins2",
-		name = "Scrap Coins (105)",
+		name = "Scrap Coins (55)",
 		icon = "icon16/cog.png",
 		sound = "ambient/machines/spindown.wav",	
 		--startString = "The machine accepts the materials and outputs adhesive."

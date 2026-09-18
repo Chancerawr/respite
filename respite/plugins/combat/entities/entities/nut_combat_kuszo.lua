@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_ghoul"
+
 ENT.model = "models/zombie/kuszo.mdl"
 
 ENT.IdleAnim = "Idle01"
@@ -50,6 +52,14 @@ ENT.actions = {
 	"mawed_bite",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"dalrp/npc/kuszo/foot1.wav",
+	"dalrp/npc/kuszo/foot2.wav",
+	"dalrp/npc/kuszo/foot3.wav",
+	"dalrp/npc/kuszo/foot4.wav",
+}

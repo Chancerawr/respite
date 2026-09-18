@@ -32,66 +32,14 @@ if(SERVER) then
 			entity:SetAngles(info.ang)
 
 			entity.saveKey = saveKey
+			entity:Spawn()
 			
-			for k, v in pairs(info.saveData or {}) do
-				if(k == "model") then
-					entity.savedModel = v
-
-					continue
-				elseif(k == "modelScale") then
-					entity.savedModelScale = v
-
-					continue
-				elseif(k == "bodygroups") then
-					entity.savedBodygroups = v
-
-					continue
-				elseif(k == "attribs") then
-					entity.attribs = v
-					
-					continue
-				elseif(k == "res") then
-					entity.res = v
-					
-					continue
-				elseif(k == "amp") then
-					entity.amp = v
-					
-					continue
-				elseif(k == "dmg") then
-					entity.dmg = v
-					
-					continue
-				elseif(k == "actions") then
-					entity.actions = v
-					
-					continue
-				elseif(k == "mat") then
-					entity.savedMat = v
-					
-					continue
-				elseif(k == "submat") then
-					entity.savedSubMat = v
-					
-					continue
-				elseif(k == "anim") then
-					entity.savedAnim = v
-				
-					--continue
-				elseif(k == "color") then
-					entity.savedColor = v
-				
-					continue
-				elseif(k == "weapon") then
-					entity.savedWeapon = v
-				
-					continue
-				end
-				
-				entity:setNetVar(k, v)
+			local saveData = info.saveData
+			if(saveData) then
+				entity:loadSaveData(saveData)
 			end
 			
-			entity:Spawn()
+			return entity
 		else
 			if(saveKey) then
 				PLUGIN.savedEnts[saveKey] = nil
@@ -204,5 +152,120 @@ nut.command.add("centimport", {
 		PLUGIN:loadCEnt(importTbl)
 	
 		client:notify("CEnt successfully imported.")
+	end
+})
+
+nut.command.add("centimportmenu", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		if(!arguments) then
+			client:notify("Specify a CEnt to import.")
+			return false
+		end
+		
+		local path = "nutscript/"..SCHEMA.folder.."/combatexport/"
+		
+		local files, directories = file.Find(path.. "*", "DATA")
+		if(files) then
+			netstream.Start(client, "nut_centImportMenu", files)
+		end
+	end
+})
+
+if(SERVER) then
+	netstream.Hook("nut_CEntImportFromMenu", function(client, name)
+		local name = string.lower(name)
+		
+		local path = "nutscript/"..SCHEMA.folder.."/combatexport/" ..name
+		
+		if(!file.Exists(path, "DATA")) then
+			client:notify("No stored CEnt of that name.")
+			return false
+		end
+		
+		local import = file.Read(path) or ""
+		local data = util.JSONToTable(import)
+	
+		data.pos = client:GetEyeTraceNoCursor().HitPos + Vector(0, 0, 10)
+		data.ang = Angle(0,0,0)
+	
+		client.CEntC = data
+	
+		client:notify(name.. " copied, use /centpaste to spawn.")
+	end)
+else --CLIENT
+	netstream.Hook("nut_centImportMenu", function(files)
+		local menu = vgui.Create("nutCEntImportMenu")
+		menu:Populate(files)
+	end)
+end
+
+
+--clones a target Cent
+nut.command.add("centclone", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
+			local saveData = entity:getSaveData()
+			
+			local clone = ents.Create(entity:GetClass()) --the new clone entity
+			clone:SetPos(entity:GetPos()) --set its position
+			clone:SetAngles(entity:GetAngles()) --set its angles
+			
+			clone:Spawn() --spawn it
+			clone:loadSaveData(saveData)
+			
+			clone:SetCreator(client) --prop protection
+
+			local name = entity:getNetVar("name", entity.PrintName)
+			client:notify(name.. " has been cloned.") --notify the player
+		else --called if they aren't looking at the right thing
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+--clones a target Cent
+nut.command.add("centcopy", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local entity = client:GetEyeTrace().Entity --entity that we're looking at
+		
+		if (IsValid(entity) and entity.combat) then --makes sure it's a CEnt (Combat Entity)
+			local data = {
+				class = entity:GetClass(),
+				ang = entity:GetAngles(),
+				saveData = entity:getSaveData()
+			}
+
+			client.CEntC = data
+			local name = entity:getNetVar("name", entity.PrintName)
+			client:notify(name.. " has been copied.") --notify the player
+		else --called if they aren't looking at the right thing
+			client:notify("You must be looking at a combat entity.")
+		end
+	end
+})
+
+--clones a target Cent
+nut.command.add("centpaste", {
+	adminOnly = true,
+	onRun = function(client, arguments)
+		local data = client.CEntC
+		if(data) then
+			local clone = ents.Create(data.class) --the new clone entity
+			clone:SetPos(client:GetEyeTrace().HitPos) --set its position
+			clone:SetAngles(data.ang) --set its angles
+			
+			clone:Spawn() --spawn it
+			clone:loadSaveData(data.saveData)
+			
+			clone:SetCreator(client) --prop protection
+
+			local name = clone:getNetVar("name", clone.PrintName)
+			client:notify(name.. " has been pasted.") --notify the player
+		end
 	end
 })

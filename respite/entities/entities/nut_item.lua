@@ -31,8 +31,15 @@ if (SERVER) then
 		self.health = amount
 	end
 
-	--[[
 	function ENT:OnTakeDamage(dmginfo)
+		local item = self:getItemTable()
+		if(item) then
+			if(item.OnTakeDamage) then
+				item:OnTakeDamage(dmginfo, self)
+			end
+		end
+	
+		--[[
 		local damage = dmginfo:GetDamage()
 		self:setHealth(self.health - damage)
 
@@ -40,8 +47,8 @@ if (SERVER) then
 			self.breaking = true
 			self:Remove()
 		end
+		--]]
 	end
-	--]]
 
 	function ENT:setItem(itemID)
 		local itemTable = nut.item.instances[itemID]
@@ -88,6 +95,10 @@ if (SERVER) then
 
 		if (itemTable.onEntityCreated) then
 			itemTable:onEntityCreated(self)
+		end
+		
+		if(itemTable.entityHealth) then
+			self:SetHealth(itemTable.entityHealth)
 		end
 	end
 

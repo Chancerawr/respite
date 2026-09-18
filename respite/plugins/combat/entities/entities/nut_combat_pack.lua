@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_pack"
+
 ENT.model = "models/spite/pack.mdl"
 
 ENT.AttackAnim = "Attack1"
@@ -49,6 +51,17 @@ ENT.actions = {
 	"stab",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.0,
+	0.25,
+	0.5,
+	0.75,
+}
+
+
+ENT.StepPitch = {95,105}
+ENT.FootstepSounds = {
+	"monsters/suitor/metal_run01.mp3",
+	"monsters/suitor/metal_run02.mp3",
+	"monsters/suitor/metal_run03.mp3",
+}

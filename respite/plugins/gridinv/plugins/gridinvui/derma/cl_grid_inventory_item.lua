@@ -29,7 +29,9 @@ end
 function PANEL:PaintBehind(w, h)
 	surface.SetDrawColor(0, 0, 15, 150)
 	surface.DrawRect(0, 0, w, h)
-	surface.DrawOutlinedRect(0, 0, w, h)
+	
+	surface.SetDrawColor(0, 0, 0, 255)
+	surface.DrawOutlinedRect(0, 0, w, h, 2)
 end
 
 function PANEL:PerformLayout(w, h)

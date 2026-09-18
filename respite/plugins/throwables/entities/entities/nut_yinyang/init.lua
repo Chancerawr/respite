@@ -90,7 +90,6 @@ function ENT:Explosion()
 		explo:Activate()
 		explo:Fire( "Explode", "", 0 )
 	
-	
 	local shake = ents.Create( "env_shake" )
 		shake:SetOwner( self.Owner )
 		shake:SetPos( self.Entity:GetPos() )
@@ -115,8 +114,6 @@ function ENT:Explosion()
 		shake2:Activate()
 		shake2:Fire( "StartShake", "", 0 )
 	
-	
-
 	local ar2Explo = ents.Create( "env_ar2explosion" )
 		ar2Explo:SetOwner( self.GrenadeOwner )
 		ar2Explo:SetPos( self.Entity:GetPos() )
@@ -124,9 +121,30 @@ function ENT:Explosion()
 		ar2Explo:Activate()
 		ar2Explo:Fire( "Explode", "", 0 )
 
-	for k, v in pairs ( ents.FindInSphere( self.Entity:GetPos(), 250 ) ) do
+	for k, v in pairs (ents.FindInSphere(self:GetPos(), 400)) do
 		if(v:IsPlayer()) then
-			v:setRagdolled(true, 2)
+			local direction = (v:GetPos() - self:GetPos()):GetNormalized()
+
+			if(nut) then --nutscript ragdolling
+				local ragdoll = v.nutRagdoll
+				if(!IsValid(v.nutRagdoll)) then
+					ragdoll = v:setRagdolled(true, 5)
+				end
+			else --votv ragdolling
+				local ragdoll = v:GetNW2Entity("VOTVRagdoll")
+				if(!IsValid(ragdoll)) then
+					ragdoll = v:ToggleVOTVRagdoll(true, 5)
+				end
+			end
+			
+			if(IsValid(ragdoll)) then
+				local physCount = ragdoll:GetPhysicsObjectCount()
+			
+				for i = 1, physCount do
+					local bone = ragdoll:GetPhysicsObjectNum(i-1)
+					bone:SetVelocity(direction*math.random(500,1000))
+				end
+			end
 		end
 	end
 	

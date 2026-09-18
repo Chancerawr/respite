@@ -87,4 +87,8 @@ addEditor("scale", function(scale)
 	net.WriteFloat(scale)
 end)
 
+addEditor("buyScale", function(scale)
+	net.WriteFloat(scale)
+end)
+
 return EDITOR

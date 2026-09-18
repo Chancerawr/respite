@@ -48,11 +48,34 @@ ITEM.functions.Place = {
 			sentry:SetCreator(client)
 			
 			item:setData("deployed", sentry)
-			
-			--remove item from inventory while it's deployed (but dont delete it)
-			--item:removeFromInventory(true)
 		end
 
+		return false
+	end
+}
+
+ITEM.functions.Recall = {
+	name = "Recall",
+	tip = "useTip",
+	icon = "icon16/arrow_down.png",
+	onRun = function(item)
+		local client = item.player
+		
+		local deploy = item:getData("deployed")
+		if(IsValid(deploy)) then
+			SafeRemoveEntity(deploy)
+		end
+		
+		item:setData("deployed", nil)
+		
+		return false
+	end,
+	onCanRun = function(item)
+		local deploy = item:getData("deployed")
+		if(deploy) then
+			return true
+		end
+		
 		return false
 	end
 }

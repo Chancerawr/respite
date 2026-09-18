@@ -115,10 +115,14 @@ ITEM.functions.Battery = {
 }
 
 function ITEM:onEntityCreated(entity)
-	entity:SetAngles(Angle(-90,0,0))
+	--checks if it was spawned by the saveitems plugin (required an edit in saveitems)
+	if(!self.saveItemPlug) then 
+		--offsets the spawn so it isnt in the floor
+		entity:SetAngles(Angle(-90,0,0))
+	end
 
 	local physObj = entity:GetPhysicsObject()
 	if(IsValid(physObj)) then
-		physObj:SetMass(250)
+		physObj:SetMass(100)
 	end
 end

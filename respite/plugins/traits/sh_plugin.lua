@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "Character Traits"
 PLUGIN.author = "Chancer"
 PLUGIN.desc = "Something that makes you special."
@@ -18,13 +19,13 @@ function TRAITS:GetAll()
 end
 
 function PLUGIN:OnCharCreated(client, character)
-	timer.Simple(0.5, function()
-		local traitData = character:getData("traits", {})
+	--timer.Simple(0.5, function()
+		local traits = client:getTraits(character)
 		local traitItems = {}
 		
 		local dumbIt = 0.5
 	
-		for k, v in pairs(traitData) do
+		for k, v in pairs(traits) do
 			local items = TRAITS.traits[k].items
 			if(items) then
 				for k, v in pairs(items) do
@@ -41,12 +42,32 @@ function PLUGIN:OnCharCreated(client, character)
 		end
 		
 		for k, v in pairs(traitItems) do
-			dumbIt = dumbIt + 2
-			timer.Simple(dumbIt, function()
-				character:getInv():addSmart(v)
-			end)
+			character:getInv():addSmart(v)
 		end
-	end)
+	--end)
+end
+
+--finds disease from a partial string or id
+local function traitFromName(name)
+	local traits = TRAITS.traits
+	
+	if(traits[name]) then
+		return name
+	end
+	
+	local name = string.lower(name)
+	
+	local trait
+	for k, v in pairs(traits) do
+		if(string.lower(v.name) == string.lower(name)) then --exact name
+			trait = k
+			break	
+		elseif(string.find(string.lower(v.name), string.lower(name))) then --partial name
+			trait = k
+		end
+	end
+	
+	return trait
 end
 
 local playerMeta = FindMetaTable("Player")
@@ -55,13 +76,15 @@ if (SERVER) then
     function PLUGIN:PlayerLoadedChar(client)
         --this just makes sure everything is properly networked to clients.
         --kind of annoying and gross, but might not work properly otherwise.
-        for k, v in pairs(player.GetAll()) do
+        --[[
+		for k, v in pairs(player.GetAll()) do
             local char = v:getChar()
             if(char) then
-                local traitData = char:getData("traits", {})
-                char:setData("traits", traitData, false, player.GetAll())
+                local traits = client:getTraits()
+                char:setData("traits", traits, false, player.GetAll())
             end
         end
+		--]]
     end	
 	
 	--gives a specific trait to someone
@@ -69,10 +92,10 @@ if (SERVER) then
 		local char = self:getChar()
 		if(!char) then return end
 		
-		local traitData = char:getData("traits", {})
-		traitData[trait] = 1 --sets the actual trait to being enabled.
+		local traits = self:getTraits()
+		traits[trait] = 1 --sets the actual trait to being enabled.
 		
-		char:setData("traits", traitData, false, player.GetAll())
+		char:setData("traits", traits, false, player.GetAll())
 		
 		return true
 	end	
@@ -82,10 +105,10 @@ if (SERVER) then
 		local char = self:getChar()
 		if(!char) then return end
 	
-		local traitData = char:getData("traits", {})
-		traitData[trait] = nil --sets the actual trait to nothing.
+		local traits = self:getTraits()
+		traits[trait] = nil --sets the actual trait to nothing.
 		
-		char:setData("traits", traitData, false, player.GetAll())
+		char:setData("traits", traits, false, player.GetAll())
 
 		return true
 	end
@@ -95,9 +118,9 @@ end
 function playerMeta:hasTrait(trait)
 	local char = self:getChar()
 	if(char) then
-		local traitData = char:getData("traits")
-		if(traitData) then
-			if(traitData[trait]) then
+		local traits = self:getTraits()
+		if(traits) then
+			if(traits[trait]) then
 				return true
 			else
 				return false
@@ -106,6 +129,34 @@ function playerMeta:hasTrait(trait)
 	end
 	
 	return false
+end
+
+--gets the trait IDs of the traits the player has
+function playerMeta:getTraits(character)
+	local char = character or self:getChar()
+	if(!char) then return {} end
+	
+	return char:getData("traits", {})
+end
+
+--gets the actual trait tables and returns them
+function playerMeta:getTraitsData()
+	local char = self:getChar()
+	if(!char) then return end
+	
+	local playerTraits = self:getTraits()
+	
+	local traitData = {}
+	
+	for k, v in pairs(playerTraits) do
+		local trait = TRAITS.traits[k]
+	
+		if(trait) then
+			traitData[#traitData+1] = trait
+		end
+	end
+	
+	return traitData
 end
 
 function PLUGIN:GetStartTraitPoints()
@@ -209,7 +260,7 @@ if(CLIENT) then
 	netstream.Hook("ShowTraits", function(client)
 		local traitText = ""
 		
-		for k, v in pairs(client:getChar():getData("traits", {})) do
+		for k, v in pairs(client:getTraits()) do
 			traitText = traitText ..TRAITS.traits[k].name.. ": " ..TRAITS.traits[k].desc.. "\n\n"
 		end
 	

@@ -47,8 +47,8 @@ function ENT:Think()
 			end
 
 			local creatures = {
-				"nz_freak",
-				"cof_child",
+				"resp_waste",
+				"resp_cof_child",
 				"resp_dolly",
 				"resp_baby",
 			}

@@ -1,8 +1,9 @@
 ITEM.name = "Ice Cream"
 ITEM.desc = "A medium sized bucket of ice cream, it is cold to the touch."
 ITEM.uniqueID = "food_ice_cream"
-ITEM.model = "models/props_junk/metal_paintcan001a.mdl"
-ITEM.material = "phoenix_storms/black_brushes"
+ITEM.model = "models/foodnhouseholditems/icecream_open1.mdl"
+--ITEM.model = "models/props_junk/metal_paintcan001a.mdl"
+--ITEM.material = "phoenix_storms/black_brushes"
 ITEM.quantity2 = 10
 ITEM.price = 12
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"

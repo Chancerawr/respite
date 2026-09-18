@@ -10,6 +10,8 @@ ENT.material = "models/skeleton/skeleton_bloody"
 
 ENT.IdleAnim = "Idle"
 
+ENT.PropHeight = 50
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 20,

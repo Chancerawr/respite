@@ -40,6 +40,7 @@ ITEM.functions.Deploy = {
 		ent.follow = client
 		ent.desiredPos = nil
 		ent.noSave = true -- don't save this when /centsave is run
+		ent.espIgnore = true -- don't show this on the admin ESP
 		
 		if(name) then
 			ent:setNetVar("name", name)

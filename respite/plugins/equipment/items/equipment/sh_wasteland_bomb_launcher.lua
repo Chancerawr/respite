@@ -11,7 +11,18 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Scavenger"
 
-ITEM.rarity = 10
+ITEM.IdleAnim = "idle_rpg"
+ITEM.WalkAnim = "walk_rpg"
+ITEM.RunAnim = "run_rpg"
+
+--for turn based combat
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	"weapons/fokku_tc_m14/sg550-1.wav",
+}
+
+ITEM.rarity = 0
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,

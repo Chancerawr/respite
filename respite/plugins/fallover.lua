@@ -5,6 +5,38 @@ PLUGIN.desc = "Slight changes to default /fallover command."
 
 local playerMeta = FindMetaTable("Player")
 
+--synchronizes decals from one model to another
+function PLUGIN:DecalSync(model1, model2)
+	--used to make the ragdoll and the player seem more consistently the same
+	for k, client in ipairs(player.GetAll()) do
+		netstream.Start(client, "nutRag_decalSync", model1, model2)
+	end
+end
+
+if(CLIENT) then
+	--gives the decals of model1 to model2
+	function PLUGIN:DecalSync(model1, model2)
+		if (IsValid(model1) and IsValid(model2)) then
+			model1:SnatchModelInstance(model2)
+		end
+	end
+	
+	function PLUGIN:EntityRemoved(entity, fullUpdate)
+		if(fullUpdate) then return end
+		
+		local client = entity:GetNWEntity("nutPlayer")
+		if(client) then
+			if(IsValid(client)) then
+				PLUGIN:DecalSync(client, entity)
+			end
+		end
+	end
+
+	netstream.Hook("nutRag_decalSync", function(model1, model2)
+		PLUGIN:DecalSync(model1, model2)
+	end)
+end
+
 function playerMeta:createRagdoll(freeze)
 	local entity = ents.Create("prop_ragdoll")
 	entity:SetPos(self:GetPos())
@@ -12,6 +44,7 @@ function playerMeta:createRagdoll(freeze)
 	entity:SetModel(self:GetModel())
 	entity:SetMaterial(self:GetMaterial())
 	entity:SetSkin(self:GetSkin())
+	entity:SetColor(self:GetColor())
 	
 	local bodyGroups = entity:GetBodyGroups()
 	for k, v in pairs(bodyGroups or {}) do
@@ -74,8 +107,9 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 			end
 		end
 		entity:AddCallback("PhysicsCollide", PhysCallback) -- Add Callback
-		
+
 		entity:setNetVar("player", self)
+		entity:SetNWEntity("nutPlayer", self)
 		entity:CallOnRemove("fixer", function()
 			if (IsValid(self)) then
 				self:setLocalVar("blur", nil)
@@ -89,6 +123,16 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 				self:SetNotSolid(false)
 				self:Freeze(false)
 				self:SetMoveType(MOVETYPE_WALK)
+				
+				--this might not be necessary
+				--hard to test since ragdolls dont really get up if moving so much
+				--[[
+				local physObj = entity:GetPhysicsObject()
+				if(IsValid(physObj)) then
+					self:SetVelocity(physObj:GetVelocity())
+				end
+				--]]
+				
 				self:SetLocalVelocity(
 					IsValid(entity)
 					and entity.nutLastVelocity
@@ -100,7 +144,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 				if (entity.nutWeapons) then
 					for k, v in ipairs(entity.nutWeapons) do
 						local weapon = self:Give(v.class)
-						if(weapon) then
+						if(IsValid(weapon)) then
 							weapon:SetClip1(v.clip)
 							
 							self:SetAmmo(v.ammo, v.ammoType)
@@ -119,12 +163,12 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 							end
 						end
 						
-						--timer.Simple(0, function()
+						timer.Simple(0, function()
 							if(self.activeWeapon) then
 								self:SelectWeapon(self.activeWeapon)
 
 								if(self.activeWeaponR) then
-									timer.Simple(0, function()
+									timer.Simple(0.1, function()
 										self:setWepRaised(true)
 									end)
 									
@@ -133,7 +177,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 								
 								self.activeWeapon = nil
 							end
-						--end)
+						end)
 					end
 					
 					--clear this for future fallovers
@@ -159,9 +203,10 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 			end
 		end)
 
-		self:setLocalVar("blur", 5)
+		self:setLocalVar("blur", 2)
 		self.nutRagdoll = entity
 		self:setNetVar("nutRagdoll", entity:EntIndex())
+		self:SetNW2Entity("nutRagdoll", entity)
 		
 		entity:setNetVar("playerRag", true)
 		entity.nutPlayer = self
@@ -197,7 +242,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 
 		self:GodDisable()
 		self:StripWeapons()
-		self:Freeze(true)
+		--self:Freeze(true)
 		self:SetNoDraw(true)
 		self:SetNotSolid(true)
 		self:SetMoveType(MOVETYPE_NONE)
@@ -226,22 +271,33 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 							entity.nutPausing = false
 						end
 					end
-
+					
 					time = time - 0.33
 
 					if (time <= 0) then
 						entity:Remove()
 						self:setNetVar("nutRagdoll", nil)
 					end
+				elseif(!IsValid(entity) and IsValid(self)) then
+					self:setAction()
+					self:setNetVar("nutRagdoll", nil)
+					timer.Remove(uniqueID)
 				else
 					self:setNetVar("nutRagdoll", nil)
 					timer.Remove(uniqueID)
 				end
 			end)
 		end
+		
+		--synchronizes decals
+		timer.Simple(0, function() --entity will be NULL if we do it too early
+			PLUGIN:DecalSync(entity, self)
+		end)
 
 		self:setLocalVar("ragdoll", entity:EntIndex())
 		hook.Run("OnCharFallover", self, entity, true)
+		
+		return entity
 	elseif (IsValid(self.nutRagdoll)) then
 		self.nutRagdoll:Remove()
 
@@ -250,6 +306,7 @@ function playerMeta:setRagdolled(state, time, getUpGrace)
 	end
 end
 
+--reduces damage from falling/props, for fun
 function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 	if (IsValid(entity.nutPlayer)) then
 		if (dmgInfo:IsDamageType(DMG_CRUSH)) then
@@ -264,8 +321,99 @@ function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 			end
 		end
 		
-		dmgInfo:ScaleDamage(0.2)
+		dmgInfo:ScaleDamage(0.1)
 
 		entity.nutPlayer:TakeDamageInfo(dmgInfo)
+	end
+end
+
+nut.command.add("forcefallover", {
+	adminOnly = true,
+	syntax = "<string name>",
+	onRun = function(client, arguments)
+		if(!arguments[1]) then
+			client:notify("Specify a target.")
+			return false
+		end
+		
+		local target = nut.command.findPlayer(client, arguments[1])
+		if(IsValid(target)) then	
+			target:setRagdolled(true)
+			
+			client:notify(target:Name().. " has been ragdolled.")
+		end
+	end
+})
+
+function PLUGIN:SetupMove(ply, mvd, cmd)
+	if(SERVER) then
+		local ragdoll = ply:GetNW2Entity("nutRagdoll")
+
+		-- push attack
+		if(ragdoll and IsValid(ragdoll)) then
+			ply:SetVelocity(Vector(0,0,0)) --no moving while ragdolled
+		
+			--let them crawl
+			if (mvd:KeyDown(IN_FORWARD)) then 
+
+				local bones = {
+					"ValveBiped.Bip01_R_Hand",
+					"ValveBiped.Bip01_L_Hand",
+				}
+				
+				for k, v in pairs(bones) do
+					local bone = ply:LookupBone("ValveBiped.Bip01_L_Hand")
+
+					local physBoneID = ragdoll:TranslateBoneToPhysBone(bone)
+					
+					local physBone = ragdoll:GetPhysicsObjectNum(physBoneID)
+					if(IsValid(physBone)) then
+						physBone:AddVelocity(ply:GetForward()*math.Rand(75,150))
+					end
+				end
+			end
+			
+			if (mvd:KeyDown(IN_MOVELEFT) or mvd:KeyDown(IN_MOVERIGHT)) then 
+				local bones = {
+					"ValveBiped.Bip01_R_Thigh",
+					"ValveBiped.Bip01_L_Thigh",
+				}
+				
+				for k, v in pairs(bones) do
+					local bone = ply:LookupBone("ValveBiped.Bip01_L_Hand")
+
+					local physBoneID = ragdoll:TranslateBoneToPhysBone(bone)
+					
+					local physBone = ragdoll:GetPhysicsObjectNum(physBoneID)
+					if(IsValid(physBone)) then
+						if(mvd:KeyDown(IN_MOVERIGHT)) then
+							print("Add velo right")
+							physBone:AddVelocity(ply:GetRight()*math.Rand(75,150))
+						else
+							print("Add velo left")
+							physBone:AddVelocity(ply:GetRight()*math.Rand(75,150)*-1)
+						end
+					end
+				end
+			end
+			
+			if (mvd:KeyDown(IN_BACK)) then 
+				local bones = {
+					"ValveBiped.Bip01_R_Thigh",
+					"ValveBiped.Bip01_L_Thigh",
+				}
+				
+				for k, v in pairs(bones) do
+					local bone = ply:LookupBone("ValveBiped.Bip01_L_Hand")
+
+					local physBoneID = ragdoll:TranslateBoneToPhysBone(bone)
+					
+					local physBone = ragdoll:GetPhysicsObjectNum(physBoneID)
+					if(IsValid(physBone)) then
+						physBone:AddVelocity(ply:GetForward()*math.Rand(75,150)*-1)
+					end
+				end
+			end
+		end
 	end
 end

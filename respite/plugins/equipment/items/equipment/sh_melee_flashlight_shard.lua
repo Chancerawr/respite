@@ -11,6 +11,9 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Illumination"
 
+--for turn based combat
+ITEM.attackRange = 80
+
 ITEM.dmg = {
 	["Shard"] = 4,
 }

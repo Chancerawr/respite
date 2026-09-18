@@ -15,6 +15,7 @@ function PLUGIN:saveVendors()
 				classes = v.classes,
 				money = v.money,
 				scale = v:getNetVar("scale"),
+				buyScale = v:getNetVar("buyScale"),
 				flag = v:getNetVar("flag"),
 				material = v:GetMaterial()
 			}
@@ -24,7 +25,6 @@ end
 
 function PLUGIN:loadVendors()
 	for k, v in ipairs(ents.FindByClass("nut_vendor")) do
-		v.nutIsSafe = true
 		v:Remove()
 	end
 
@@ -39,6 +39,7 @@ function PLUGIN:loadVendors()
 		entity:setNetVar("name", v.name)
 		entity:setNetVar("desc", v.desc)
 		entity:setNetVar("scale", v.scale or 0.5)
+		entity:setNetVar("buyScale", v.buyScale or 1)
 		entity:setNetVar("flag", v.flag)
 
 		if(v.material) then
@@ -52,12 +53,21 @@ function PLUGIN:loadVendors()
 	end
 end
 
+function PLUGIN:LoadData()
+	pcall(function()
+		PLUGIN:loadVendors()
+		self.loadedData = true
+	end)
+end
+
 --i save and load them this way to make absolutely sure they dont break everything
+--[[
 if(SERVER) then
-	--hacky solution to errors yeeting all data, just put it in a timer and it'll only screw itself over
+	--hacky solution to errors losing all data, just put it in a timer and it'll only screw itself over
 	function PLUGIN:InitPostEntity()
-		timer.Simple(0, function()
+		timer.Simple(10, function()
 			PLUGIN:loadVendors()
 		end)
 	end
 end
+--]]

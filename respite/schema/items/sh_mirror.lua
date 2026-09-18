@@ -159,7 +159,7 @@ ITEM.functions.Idea = {
 }
 
 ITEM.functions.EChip = {
-	name = "Enhanced Chip",
+	name = "Distortion Key",
 	icon = "icon16/map.png",
 	sound = "ambient/water/distant_drip4.wav",
 	onRun = function(item)
@@ -167,7 +167,7 @@ ITEM.functions.EChip = {
 		local inventory = client:getChar():getInv()
 		local chip = inventory:getFirstItemOfType("cube_chip_enhanced")	
 		
-		nut.chat.send(client, "itclose", "You push an enhanced chip into the mirror, it presents a different location.")
+		nut.chat.send(client, "itclose", "You push a distortion key into the mirror, it presents a different location.")
 
 		chip:remove()
 		

@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 ENT.Type = "anim"
 ENT.PrintName = "Paper"
 ENT.Author = "Black Tea"
@@ -23,6 +24,16 @@ if (SERVER) then
 		activator:OpenNote( self:getNetVar( "text" ), self, self:getNetVar( "private" ) )
 	end
 	
+	function ENT:Think()
+		--if held with physgun, gravgun, or hands
+		if(self:IsPlayerHolding()) then
+			self.playerMoved = true
+		elseif(self.playerMoved) then
+			self.playerMoved = nil
+
+			PLUGIN:SavePaper()
+		end
+	end
 else
 	function ENT:Draw()
 		self:DrawModel()

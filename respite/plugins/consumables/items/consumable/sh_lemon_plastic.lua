@@ -6,6 +6,7 @@ ITEM.model = "models/props/de_inferno/crate_fruit_break_gib2.mdl"
 ITEM.material = "phoenix_storms/mrref2"
 ITEM.quantity2 = 2
 ITEM.price = 2
+ITEM.plastic = true --for plastic converter
 
 ITEM.attrib = {
 	["luck"] = 1 

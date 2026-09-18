@@ -5,9 +5,13 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_hatred"
+
 ENT.model = "models/zombie/hatred.mdl"
 
 ENT.AttackAnim = "AttackA"
+ENT.WalkAnim = "A_Walk2"
+ENT.RunAnim = "A_Walk4"
 
 --all attributes
 ENT.attribs = {
@@ -44,6 +48,11 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"cof/taller/taller_step.wav",
+}

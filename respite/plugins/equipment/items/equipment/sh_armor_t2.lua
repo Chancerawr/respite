@@ -5,7 +5,7 @@ ITEM.slot = "Chest"
 
 ITEM.armor = 45
 
-ITEM.rarity = 10
+ITEM.rarity = 2
 ITEM.lootTags = {
 	["armor"] = true,
 	["chest"] = true,

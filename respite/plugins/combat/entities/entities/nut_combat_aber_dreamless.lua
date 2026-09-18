@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Other)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_dreamless"
+
 ENT.name = "Dreamless"
 
 ENT.model = "models/player/group01/male_04.mdl"
@@ -90,6 +92,58 @@ ENT.res = {
 	["Poison"] = 0,
 	["Electric"] = 0,
 	["Time"] = 100,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.SoundPitch = {50, 70}
+ENT.SoundVolume = 1
+ENT.SoundDSP = 4
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}
+
+ENT.AttackSounds = {
+	"npc/fast_zombie/fz_frenzy1.wav",
+}
+
+ENT.DeathSounds = {
+	"npc/stalker/stalker_die1.wav",
+	"npc/stalker/stalker_die2.wav",
+}
+
+ENT.IdleSounds = {
+	"npc/zombie/zombie_voice_idle1.wav",
+	"npc/zombie/zombie_voice_idle2.wav",
+	"npc/zombie/zombie_voice_idle3.wav",
+	"npc/zombie/zombie_voice_idle4.wav",
+	"npc/zombie/zombie_voice_idle10.wav",
+	"npc/zombie/zombie_voice_idle12.wav",
+	"npc/zombie/zombie_voice_idle13.wav",
+}
+
+ENT.PainSounds = {
+	"npc/zombie/zombie_pain1.wav",
+	"npc/zombie/zombie_pain2.wav",
+	"npc/zombie/zombie_pain3.wav",
+	"npc/zombie/zombie_pain4.wav",
+	"npc/zombie/zombie_pain5.wav",
+	"npc/zombie/zombie_pain6.wav",
+}
+
+ENT.HitSounds = {
+	"npc/zombie/claw_strike1.wav",
+	"npc/zombie/claw_strike2.wav",
+	"npc/zombie/claw_strike3.wav",
 }
 
 function ENT:Initialize()

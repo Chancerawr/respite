@@ -11,6 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Scavenger"
 
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_revolver"
+ITEM.WalkAnim = "walk_revolver"
+ITEM.RunAnim = "run_revolver"
+
+--for turn based combat
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	"weapons/uzi/mac10-1.wav",
+}
+
 ITEM.rarity = 10
 ITEM.lootTags = {
 	["weapon"] = true,

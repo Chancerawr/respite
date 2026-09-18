@@ -8,11 +8,13 @@ ITEM.price = 50
 ITEM.color = Color(20, 100, 20)
 
 ITEM.loot = {
-	["Consumable"] = 10,
+	["Cursed Apple"] = 10,
+	--["Consumable"] = 10,
 	["Food"] = 0.1,
 	["Fruit"] = 0.1,
 }
 
+--[[
 ITEM.craft = {
 	buffTbl = {
 		attrib = {
@@ -27,6 +29,7 @@ ITEM.craft = {
 		},
 	},
 }
+--]]
 
 ITEM.extraFunc = function(item, client)
 	local char = client:getChar()
@@ -35,16 +38,16 @@ ITEM.extraFunc = function(item, client)
 	local luckR = math.random(0, luck)
 	local roll = math.random(luckR, 100)
 	
-	local ranAttrib = table.Random(nut.attribs.list)
+	local attrib, attribID = table.Random(nut.attribs.list)
 	
 	if(roll > 40) then --60% chance (without luck factor)
 		client:notify("The apple is delicious, you feel like you've become something more.")
-		char:updateAttrib(ranAttrib, 1)
+		char:updateAttrib(attribID, 1)
 		
 		client:ScreenFade(1, Color(180, 255, 180, 255), 3, 0)
 	else
 		client:notify("The apple is rotten to the core, you feel like you lost something.")
-		char:updateAttrib(ranAttrib, -0.9)
+		char:updateAttrib(attribID, -0.9)
 		
 		client:ScreenFade(1, Color(255, 108, 180, 255), 3, 0)
 	end

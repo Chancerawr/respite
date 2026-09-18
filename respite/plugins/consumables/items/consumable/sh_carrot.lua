@@ -1,7 +1,7 @@
 ITEM.name = "Carrot"
 ITEM.desc = "An orange carrot."
 ITEM.uniqueID = "food_carrot"
-ITEM.model = "models/props/cs_office/Snowman_nose.mdl"
+ITEM.model = "models/foodnhouseholditems/carrot.mdl"
 ITEM.quantity2 = 1
 ITEM.price = 1
 

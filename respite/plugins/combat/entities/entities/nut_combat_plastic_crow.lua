@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/crow.mdl"
 ENT.material = "phoenix_storms/mrref2"
 
+ENT.BloodColor = DONT_BLEED
+
 --all attributes
 ENT.attribs = {
 	["stm"] = 20,

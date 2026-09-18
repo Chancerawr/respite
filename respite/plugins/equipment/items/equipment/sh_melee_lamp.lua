@@ -1,5 +1,5 @@
 ITEM.name = "Lamp"
-ITEM.desc = "A lamp used for illuminating PAIN."
+ITEM.desc = "A lamp used for illumination."
 ITEM.model = "models/props_interiors/Furniture_Lamp01a.mdl"
 ITEM.class = "respite_lamp"
 ITEM.uniqueID = "hl2_m_lamp"
@@ -9,6 +9,14 @@ ITEM.height = 1
 ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
+
+ITEM.IdleAnim = "idle_melee2"
+ITEM.WalkAnim = "walk_melee2"
+ITEM.RunAnim = "run_melee2"
+ITEM.AttackAnim = "seq_meleeattack01"
+
+--for turn based combat
+ITEM.attackRange = 80
 
 ITEM.rarity = 10
 ITEM.lootTags = {
@@ -37,7 +45,11 @@ ITEM.upgradeSlots = {
 }
 
 function ITEM:onEntityCreated(entity)
-	entity:SetPos(entity:GetPos()+entity:GetUp()*24)
+	--checks if it was spawned by the saveitems plugin (required an edit in saveitems)
+	if(!self.saveItemPlug) then 
+		--offsets the spawn so it isnt in the floor
+		entity:SetPos(entity:GetPos()+entity:GetUp()*24)
+	end
 end
 
 ITEM.iconCam = {

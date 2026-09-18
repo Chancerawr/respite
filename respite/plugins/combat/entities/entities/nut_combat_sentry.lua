@@ -8,6 +8,8 @@ ENT.AdminOnly = true
 ENT.model = "models/combine_turrets/floor_turret.mdl"
 ENT.material = "models/props_wasteland/quarryobjects01"
 
+ENT.BloodColor = BLOOD_COLOR_MECH
+
 ENT.noRag = true
 
 --all attributes
@@ -17,7 +19,7 @@ ENT.attribs = {
 	["accuracy"] = 25,
 	["end"] = 3,
 	["luck"] = 0,
-	["perception"] = 25,
+	["perception"] = 40,
 	["fortitude"] = 0,
 }
 

@@ -6,14 +6,14 @@ if (SERVER) then return end
 
 nut.xhair = nut.xhair or {}
 
-local function drawdot( pos, size, col )
+local function drawdot(pos, size, col)
 	local color = col[2]
 	surface.SetDrawColor(color.r, color.g, color.b, color.a)
 	surface.DrawRect(pos[1] - size/2, pos[2] - size/2, size, size)
 
 	local color = col[1]
 	surface.SetDrawColor(color.r, color.g, color.b, color.a)
-	surface.DrawOutlinedRect(pos[1] - size/2, pos[2] - size/2 , size, size)
+	surface.DrawOutlinedRect(pos[1] - size/2, pos[2] - size/2, size, size, 1)
 end
 
 surface.CreateFont("nutCrossIcons", {
@@ -27,7 +27,7 @@ local math_round = math.Round
 local curGap = 0
 local curAlpha = 0
 local curIconAlpha = 0
-local maxDistance = 1000 ^ 2
+local maxDistance = 2097152 --2^21
 local crossSize = 4
 local crossGap = 0
 local colors = {color_black}
@@ -132,7 +132,7 @@ function PLUGIN:PostDrawHUD()
 
 	entity = trace.Entity
 	distance = trace.StartPos:DistToSqr(trace.HitPos)
-	scaleFraction = 1 - math.Clamp(distance / maxDistance, 0, .75)
+	scaleFraction = 1 - math.Clamp(distance / maxDistance, 0, 1)
 	screen = trace.HitPos:ToScreen()
 	crossSize = 4
 	crossGap = 16
@@ -174,18 +174,17 @@ function PLUGIN:PostDrawHUD()
 			filter2 = {client}
 
 			crossSize2 = 4
-			crossGap2 = 24 * (scaleFraction - (client:isWepRaised() and 0 or .1))
+			crossGap2 = 16 * (scaleFraction - (client:isWepRaised() and 0 or .1))
 			
 			if (IsValid(entity) and entity:GetClass() == "nut_item" and 
-				entity:GetPos():DistToSqr(data.start) <= 16384) then
+				entity:GetPos():DistToSqr(data.start) <= 32768) then
 				crossGap2 = 0
-				crossSize2 = 5
 			end
-
-			curGap2 = Lerp(ft * 2, curGap2, crossGap2)
+			
+			curGap2 = Lerp(ft*4, curGap2, crossGap2)
 			curAlpha2 = Lerp(ft * 2, curAlpha2, (!client:isWepRaised() and 255 or 150))
 			
-			colors2[2] = Color(schemaColor.r, schemaColor.g, schemaColor.b, 255)
+			colors2[2] = Color(255, 255, 255, 255)
 
 			drawdot({math_round(cx), math_round(cy)}, crossSize2, colors2)
 			drawdot({math_round(cx + curGap2), math_round(cy)}, crossSize2, colors2)

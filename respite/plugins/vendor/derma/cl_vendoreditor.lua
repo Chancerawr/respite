@@ -126,6 +126,27 @@ function PANEL:Init()
 		end)
 	end
 
+	self.buyScale = self:Add("DNumSlider")
+	self.buyScale:Dock(TOP)
+	self.buyScale:DockMargin(0, 4, 0, 0)
+	self.buyScale:SetText("Buy price scale")
+	self.buyScale.Label:SetTextColor(color_white)
+	self.buyScale.TextArea:SetTextColor(color_white)
+	self.buyScale:SetDecimals(2)
+	self.buyScale:SetMax(10)
+	self.buyScale.OnValueChanged = function(this, value)
+		timer.Create("nutVendorScale2", PRICE_UPDATE_DELAY, 1, function()
+			if (IsValid(self) and IsValid(self.buyScale)) then
+				value = self.buyScale:GetValue()
+
+				local diff = math.abs(value - entity:getBuyScale())
+				if (diff > 0.05) then
+					EDITOR.buyScale(value)
+				end
+			end
+		end)
+	end
+
 	self.faction = self:Add("DButton")
 	self.faction:SetText(L"vendorFaction")
 	self.faction:Dock(TOP)
@@ -248,6 +269,7 @@ function PANEL:Init()
 	self:listenForUpdates()
 	self:updateMoney()
 	self:updateSellScale()
+	self:updateBuyScale()
 end
 
 function PANEL:getModeText(mode)
@@ -292,6 +314,10 @@ function PANEL:updateSellScale()
 	self.sellScale:SetValue(nutVendorEnt:getSellScale())
 end
 
+function PANEL:updateBuyScale()
+	self.buyScale:SetValue(nutVendorEnt:getBuyScale())
+end
+
 function PANEL:onNameDescChanged(vendor, key, value)
 	local entity = nutVendorEnt
 
@@ -305,6 +331,8 @@ function PANEL:onNameDescChanged(vendor, key, value)
 		self.bubble:SetChecked(entity:getNoBubble())
 	elseif (key == "scale") then
 		self:updateSellScale()
+	elseif (key == "buyScale") then
+		self:updateBuyScale()
 	end
 end
 

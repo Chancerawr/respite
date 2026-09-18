@@ -20,6 +20,11 @@ ITEM.actions = {
 function ITEM:onEquipWeapon(client, weapon)
 	client:Give("tfa_chafe")
 	client:Give("tfa_m249lmg")
+	client:Give("weapon_violet_freezie_ray")
+	client:Give("weapon_violet_vio_vio_beam")
+	client:Give("weapon_violet_voltaic_buster")
+	client:Give("weapon_violet_chainsaw")
+	client:Give("weapon_violet_power_wash")
 	
 	client:GiveAmmo(100, "combinecannon")
 	client:GiveAmmo(200, "55645")

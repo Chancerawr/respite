@@ -1,8 +1,8 @@
 local PLUGIN = PLUGIN
 
-function ENT:walkAnims(distance)
+function ENT:walkAnims(distance, walk)
 	local run
-	if(distance > 300) then
+	if(distance > 300 and !walk) then
 		run = true
 	end
 
@@ -21,8 +21,14 @@ function ENT:walkAnims(distance)
 	}
 	
 	if(run) then
-		if(self.RunAnim) then
-			seq = self:LookupSequence(self.RunAnim)
+		local RunAnim = self:getNetVar("RunAnim", self.RunAnim)
+
+		if(RunAnim) then
+			if(isnumber(RunAnim)) then
+				act = RunAnim
+			else
+				seq = self:LookupSequence(RunAnim)
+			end
 		else
 			for k, v in pairs(runAnims) do
 				seq = self:SelectWeightedSequence(v)
@@ -32,8 +38,13 @@ function ENT:walkAnims(distance)
 			end
 		end
 	else
-		if(self.WalkAnim) then
-			seq = self:LookupSequence(self.WalkAnim)
+		local WalkAnim = self:getNetVar("WalkAnim", self.WalkAnim)
+		if(WalkAnim) then
+			if(isnumber(WalkAnim)) then
+				act = WalkAnim
+			else
+				seq = self:LookupSequence(WalkAnim)
+			end
 		else
 			for k, v in pairs(walkAnims) do
 				seq = self:SelectWeightedSequence(v)
@@ -44,7 +55,7 @@ function ENT:walkAnims(distance)
 		end
 	end
 
-	groundSpeed = 200
+	local groundSpeed = 200
 	
 	if(seq != -1) then
 		local tempAnim = self:GetSequence()
@@ -54,14 +65,12 @@ function ENT:walkAnims(distance)
 	
 		if(act) then
 			self:StartActivity(act)
-		end
-		
-		if(seq) then
+		elseif(seq) then
 			self:ResetSequence(seq)
 		end
 		
 		--this tries to set the speed based on how fast the anim is
-		groundSpeed = self:GetSequenceGroundSpeed(seq)
+		groundSpeed = self:GetSequenceGroundSpeed(self:GetSequence())
 		if(groundSpeed < 1) then
 			if(run) then --this is just a default value if the animation fails
 				groundSpeed = 200
@@ -70,70 +79,59 @@ function ENT:walkAnims(distance)
 			end
 		end
 	end
-	
+
 	self.loco:SetDesiredSpeed(groundSpeed)
-	self:SetPlaybackRate(1)
-	self:SetPoseParameter("move_x", 1)
 end
 
 function ENT:resetAnim()
-	local prevAnim = self.prevAnim or self.idle
+	self:ResetSequenceInfo()
+
+	--the anim it was doing before
+	local anim = self.prevAnim
+	if(!anim) then
+		--configured idle animation
+		local IdleAnim = self:getNetVar("IdleAnim", self.IdleAnim)
+		if(IdleAnim) then
+			anim = self:LookupSequence(IdleAnim)
+		else --if no preset idle, then try to find one
+			for k, v in ipairs(self:GetSequenceList()) do
+				if (v:lower():find("idle") and v != "idlenoise") then
+					anim = k
+					break
+				end
+			end
+			
+			--if we still don't have anything
+			--just give up and go with 4
+			if(!anim) then
+				anim = 4
+			end
+		end
+	end
 	
-	self:SetSequence(prevAnim)
+	self:ResetSequence(anim)
+	self:SetPoseParameter("move_x", 0)
 	
 	self.prevAnim = nil
 end
 
-function ENT:setAnim()
-	local anim = self:getNetVar("anim", self.savedAnim)
-	if(anim) then
-		local savedAnim = tonumber(anim)
-		
-		timer.Simple(1, function()
-			if(IsValid(self)) then
-				self:ResetSequence(savedAnim)
-				
-				if(self.IdleAnim) then
-					self.idle = self:LookupSequence(self.IdleAnim) or 4
-				else
-					for k, v in ipairs(self:GetSequenceList()) do
-						if (v:lower():find("idle") and v != "idlenoise") then
-							self.idle = k
-							return
-						end
-					end
-					
-					self.idle = 4
-				end
-			end
-		end)
-	elseif(self.IdleAnim) then
-		self.idle = self:LookupSequence(self.IdleAnim)
-		self:ResetSequence(self:LookupSequence(self.IdleAnim))
-	else
-		for k, v in ipairs(self:GetSequenceList()) do
-			if (v:lower():find("idle") and v != "idlenoise") then
-				self.idle = k
-				return self:ResetSequence(k)
-			end
-		end
-
-		self.idle = 4
-		self:ResetSequence(4)
-	end
-end
-
 function ENT:attackAnimStart()
-	if(self.AttackAnim) then
-		local sequence = self:LookupSequence(self.AttackAnim)
-		
-		self:ResetSequence(sequence)
-		self:SetCycle(0)
-		
-		timer.Simple(self:SequenceDuration(sequence), function()
-			if(IsValid(self)) then
-				self:setAnim()
-			end
-		end)
+	local AttackAnim = self:getNetVar("AttackAnim", self.AttackAnim)
+	if(AttackAnim) then
+		if(isnumber(AttackAnim)) then
+			--this does not work properly and i do not know why
+			self:RestartGesture(AttackAnim)
+		else
+			local sequence = self:LookupSequence(AttackAnim)
+
+			self:ResetSequence(sequence)
+			self:SetCycle(0)
+			
+			timer.Simple(self:SequenceDuration(sequence), function()
+				if(IsValid(self)) then
+					self:resetAnim()
+				end
+			end)
+		end
 	end
 end

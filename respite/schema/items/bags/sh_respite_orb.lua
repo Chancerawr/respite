@@ -1093,6 +1093,7 @@ ITEM.functions.View = {
 				if (IsValid(panel)) then
 					panel:ShowCloseButton(true)
 					panel:SetTitle(item:getName())
+					panel.inventoryName = item:getName()
 					panel:MoveRightOf(parent, 4)
 				end
 			else
@@ -1299,6 +1300,7 @@ if(CLIENT) then
 			if (IsValid(panel)) then
 				panel:ShowCloseButton(true)
 				panel:SetTitle("Gnome Home")
+				panel.inventoryName = "Gnome Home"
 				panel:MoveRightOf(parent, 4)
 			end
 		end

@@ -117,9 +117,12 @@ function SWEP:PrimaryAttack()
 	
 	local customData = item:getData("custom", {})
 	
-	local spawnPos = trace.HitPos + client:GetUp()*10
+	local spawnPos = trace.HitPos + client:GetUp()*20 + (item.spawnOffset or Vector(0,0,0))
 	
-	local vehicle = simfphys.SpawnVehicleSimple(item.class, spawnPos, Angle(0,0,0))
+	local angle = client:GetAngles()
+	angle.x = 0
+	
+	local vehicle = simfphys.SpawnVehicleSimple(item.class, spawnPos, angle)
 	
 	vehicle.itemHealth = item:getData("health")
 	vehicle.item = item
@@ -136,9 +139,8 @@ function SWEP:PrimaryAttack()
 
 	item:setData("deployed", vehicle)
 
-	if(item.skin) then
-		vehicle:SetSkin(item.skin)
-	end
+	local skin = item:getData("skin", item.skin or 0)
+	vehicle:SetSkin(skin)
 
 	if(item.spawnFunc) then
 		item:spawnFunc(client, vehicle)
@@ -155,11 +157,13 @@ end
 
 if(CLIENT) then
 	function SWEP:MakeGhostEntity(model, pos, angle)
-		util.PrecacheModel(model)
-	
 		if(IsValid(self.GhostEntity)) then
-			SafeRemoveEntity(self.GhostEntity)
+			self:UpdateGhostEntity()
+
+			return
 		end
+		
+		util.PrecacheModel(model)
 
 		self.GhostEntity = ents.CreateClientProp(model)
 
@@ -202,10 +206,8 @@ if(CLIENT) then
 	
 		local vehicleModel = self:GetNW2String("vehicleModel")
 	
-		if(vehicleModel) then
+		if(vehicleModel and vehicleModel != "") then
 			self:MakeGhostEntity(vehicleModel or "models/hunter/blocks/cube05x05x05.mdl", trace.HitPos, Angle(0,0,0))
-		else
-			self:UpdateGhostEntity()
 		end
 	end
 	

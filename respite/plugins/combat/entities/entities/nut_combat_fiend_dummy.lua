@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_fiend"
+
 ENT.name = "Dummy Blood Fiend"
 
 ENT.model = "models/spite/fiend.mdl"
@@ -44,6 +46,20 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 50,
 	["Electric"] = 50,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
 }
 
 function ENT:Initialize()

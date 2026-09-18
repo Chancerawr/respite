@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_siam"
+
 ENT.model = "models/sient hill custom/Homecoming/siam.mdl"
 
 ENT.AttackAnim = "Attack3"
@@ -44,6 +46,12 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.3,
+	0.8,
+}
+
+ENT.StepPitch = {85,95}
+ENT.FootstepSounds = {
+	"siam/step.wav",
+}

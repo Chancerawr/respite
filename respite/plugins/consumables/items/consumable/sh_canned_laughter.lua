@@ -10,6 +10,8 @@ ITEM.price = 0
 ITEM.sound = "vo/citadel/br_laugh01.wav"
 ITEM.container = "j_tinc"
 
+ITEM.stomach = false
+
 ITEM.attrib = { 
 	["fortitude"] = 3
 }

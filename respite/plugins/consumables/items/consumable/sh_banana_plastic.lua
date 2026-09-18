@@ -7,6 +7,7 @@ ITEM.material = "phoenix_storms/mrref2"
 ITEM.quantity2 = 1
 ITEM.price = 2
 ITEM.container = "j_scrap_plastics"
+ITEM.plastic = true --for plastic converter
 
 ITEM.attrib = { 
 	["perception"] = 1 

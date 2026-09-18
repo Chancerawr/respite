@@ -22,25 +22,6 @@ function PLUGIN:PostPlayerLoadout(client)
 	client:Give("nut_cswep")
 end
 
---helper function that finds (initialized) actions based on partial strings
-function PLUGIN:actionFind(partial)
-	local action
-	
-	for k, v in pairs(ACTS.actions) do
-		if(!v.uid) then continue end
-		
-		if(string.lower(v.uid) == string.lower(partial)) then
-			return v
-		elseif(string.find(string.lower(v.uid), string.lower(partial))) then
-			action = v
-		elseif(string.find(string.lower(v.name), string.lower(partial))) then
-			action = v
-		end
-	end
-	
-	return action
-end
-
 --function that determines how many attributes a player gets on character creation
 function PLUGIN:Think()
 	if(!SERVER) then return end
@@ -51,5 +32,33 @@ function PLUGIN:Think()
 	
 	if(PLUGIN.cdThink) then
 		PLUGIN:cdThink()
+	end
+end
+
+--used to select things with the cmover and turn swep
+function PLUGIN:SetupMove(ply, mvd, cmd)
+	local dragMins = ply.dragMins
+
+	-- push attack
+	if(dragMins) then
+		local trace = ply:GetEyeTrace()
+	
+		ply.dragMaxs = trace.HitPos
+	
+		if(mvd:KeyReleased(IN_ATTACK)) then
+			local command = ply.selectSwep
+
+			if(IsValid(command)) then
+				command:BoxSelect(ply.dragMins, ply.dragMaxs)
+			end
+			
+			ply.dragMins = nil
+			ply.dragMaxs = nil
+			ply.selectSwep = nil
+		elseif(mvd:KeyReleased(IN_ATTACK2)) then
+			ply.dragMins = nil
+			ply.dragMaxs = nil
+			ply.selectSwep = nil
+		end
 	end
 end

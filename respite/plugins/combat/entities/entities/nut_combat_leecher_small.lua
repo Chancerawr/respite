@@ -5,9 +5,11 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_leecher_small"
+
 ENT.name = "Small Leecher"
 
-ENT.model = "models/zombie/grabber_01.mdl"
+ENT.model = "models/zombie/zombie_soldier.mdl"
 ENT.material = "models/weapons/v_smg1/texture5"
 
 ENT.AttackAnim = "AttackA"
@@ -49,6 +51,17 @@ ENT.res = {
 
 ENT.actions = {
 	"whack",
+}
+
+ENT.StepData = {
+	0.4375,
+	0.875,
+}
+
+ENT.StepPitch = 170
+ENT.FootstepSounds = {
+	"dalrp/npc/leecher/leecher_footstep01.wav",
+	"dalrp/npc/leecher/leecher_footstep02.wav",
 }
 
 function ENT:Initialize()

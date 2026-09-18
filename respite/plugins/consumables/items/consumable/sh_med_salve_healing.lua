@@ -6,7 +6,7 @@ ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
 ITEM.category = "Medical"
 ITEM.hp = 120
-ITEM.hpTime = 120
+ITEM.hpTime = 180
 ITEM.price = 75
 ITEM.color = Color(232, 0, 0)
 ITEM.container = "j_empty_vial"
@@ -27,7 +27,7 @@ ITEM.loot = {
 }
 
 ITEM.craft = {
-	hp = 25,
+	hp = 50,
 	
 	buffTbl = {
 		res = {

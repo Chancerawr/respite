@@ -9,6 +9,7 @@ ENT.model = "models/zombie/babu.mdl"
 
 ENT.IdleAnim = "Idle01"
 ENT.AttackAnim = "AttackB"
+ENT.RunAnim = "A_Walk1"
 
 --all attributes
 ENT.attribs = {
@@ -45,10 +46,44 @@ ENT.res = {
 	["Electric"] = 25,
 }
 
-function ENT:Initialize()
-	timer.Simple(0.6, function()
-		self:ResetSequence("idle01")
-	end)
+ENT.StepData = {
+	0,
+	0.17,
+	0.39,
+	0.55,
+	0.68,
+	0.86,
+}
 
-	self:basicSetup()
-end
+ENT.SoundPitch = 95
+
+ENT.FootstepSounds = {
+	"babu/foot1.wav",
+	"babu/foot2.wav",
+	"babu/foot3.wav",
+	"babu/foot4.wav",
+}
+
+ENT.AttackSounds = {
+	"babu/attack1.wav",
+	"babu/attack2.wav"
+}
+
+ENT.DeathSounds = {
+	"babu/die1.wav",
+	"babu/die2.wav"
+}
+
+ENT.WalkSounds = {
+	"babu/loop1.wav",
+	"babu/loop2.wav"
+}
+
+ENT.PainSounds = {
+	"babu/pain1.wav",
+	"babu/pain2.wav"
+}
+
+ENT.HitSounds = {
+	"npc/zombie/claw_strike1.wav"
+}

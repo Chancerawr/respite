@@ -204,7 +204,7 @@ function PANEL:Init()
 		resist:DockMargin(2,2,2,2)
 		resist:SetFont("nutSmallFont")
 		
-		local name = (PLUGIN.dmgTypes[k] and PLUGIN.dmgTypes[k].name) or (EFFS.effects[k] and EFFS.effects[k].name)
+		local name = (PLUGIN.dmgTypes[k] and PLUGIN.dmgTypes[k].name) or (EFFS.effects[string.lower(k)] and EFFS.effects[string.lower(k)].name)
 		if(name) then
 			resist:SetText("   " ..name.. " Resistance: " ..(v * 100).. "%.")
 		elseif(k == "dmg") then
@@ -251,7 +251,7 @@ function PANEL:Init()
 	
 	self.equip = {}
 	
-	local x, y = 500, 0
+	local x, y = 500*(ScrW()/1920), 0
 	
 	for k, v in pairs(inventory:getItems()) do
 		if(v:getData("equip")) then
@@ -324,7 +324,7 @@ function PANEL:Init()
 	end	
 
 	--buffs here
-	x, y = 900, 0
+	x, y = 900*(ScrW()/1920), 0
 	
 	local buffs = client:getBuffs() or {}
 	
@@ -340,7 +340,7 @@ function PANEL:Init()
 		for k, v in pairs(buffs) do
 			y = y + 25
 		
-			local buff = self:Add("DLabel")
+			local buff = self:Add("DButton")
 			buff:SetPos(x, y)
 			--buff:Dock(RIGHT)
 			buff:SetTall(25)
@@ -356,14 +356,147 @@ function PANEL:Init()
 			end
 			
 			buff:SetText(buffText)
+			
+			buff.OnCursorEntered = function(panel)
+				if(IsValid(self.buffDesc)) then self.buffDesc:Remove() end
+				
+				self:CreateBuffDesc(panel, v)
+			end
+			
+			buff.OnCursorExited = function(panel)
+				if(IsValid(self.buffDesc) and vgui.GetHoveredPanel() != self.buffDesc) then 
+					self.buffDesc:Remove() 
+				end
+			end
 		end	
 	end
 end
 
-function PANEL:OnRemove()
+function PANEL:CreateBuffDesc(buffPanel, buffData)
+	local posX, posY = buffPanel:GetPos()
 
+	local buffDesc = self:Add("DTextEntry")
+	buffDesc:SetPos(posX, posY)
+	--buffDesc:Dock(RIGHT)
+	buffDesc:SetTall(200)
+	buffDesc:SetWide(300)
+	--buffDesc:SetFont("nutSmallFont")
+	buffDesc:SetTextColor(color_white)
+	buffDesc:SetExpensiveShadow(1, Color(0, 0, 0, 150))
+	
+	buffDesc:SetText("")
+	
+	buffDesc:MoveToFront()
+	buffDesc:MoveLeftOf(buffPanel, 0)
+	
+	local desc = ""
+
+	local effect = buffData.effect
+	if(effect) then
+		desc = desc.. "Effect: " ..string.upper(effect).. ".\n"
+	end
+	
+	local accuracy = buffData.accuracy
+	if(accuracy) then
+		desc = desc.. "Accuracy: " ..accuracy.. ".\n"
+	end
+	
+	local evasion = buffData.evasion
+	if(evasion) then
+		desc = desc.. "Evasion: " ..evasion.. ".\n"
+	end
+	
+	local armor = buffData.armor
+	if(armor) then
+		desc = desc.. "Armor: " ..armor.. ".\n"
+	end
+	
+	local critC = buffData.critC
+	if(critC) then
+		desc = desc.. "Critical Chance: " ..critC.. "%.\n"
+	end
+	local critF = buffData.critF
+	if(critF) then
+		desc = desc.. "Critical Failure: " ..critF.. "%.\n"
+	end
+	local critM = buffData.critM
+	if(critM) then
+		desc = desc.. "Critical Multiplier: " ..critM.. "x.\n"
+	end
+	
+	local attrib = buffData.attrib
+	if(attrib) then
+		desc = desc.. "Attributes:\n"
+		for k, v in pairs(attrib) do
+			local attribName = (nut.attribs.list[k] and nut.attribs.list[k].name) or k
+		
+			desc = desc.. "\t" ..attribName.. ": " ..v.. ".\n"
+		end
+		
+		desc = desc.. "\n"
+	end
+	
+	local res = buffData.res
+	if(res) then
+		desc = desc.. "Resistances:\n"
+		for k, v in pairs(res) do
+			desc = desc.. "\t" ..string.upper(k).. ": " ..v.. "%\n"
+		end
+		
+		desc = desc.. "\n"
+	end
+	
+	local amp = buffData.amp
+	if(amp) then
+		desc = desc.. "Amplifications:\n"
+		for k, v in pairs(amp) do
+			desc = desc.. "\t" ..string.upper(k).. ": " ..v.. "%\n"
+		end
+		
+		desc = desc.. "\n"
+	end
+	
+	local descObj = nut.markup.parse("<font=nutItemDescFont>" ..desc.. "</font>")
+	local h = descObj:getHeight()
+	buffDesc:SetTall(h+64)
+	
+	buffDesc.Paint = function(panel, w, h)
+		--inner box of tooltip
+		surface.SetDrawColor(0, 0, 0, 255)
+		surface.DrawRect(0, 0, w, h)
+	
+		--outline of skill desc
+		surface.SetDrawColor(255, 255, 255, 255)
+		surface.DrawOutlinedRect(0, 0, w, h, 1)
+		
+		if(buffData.name) then
+			local buffName = buffData.name
+		
+			draw.DrawText(buffName, "nutChatFont", w/2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
+		end
+		
+		descObj:draw(4, 32, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, alpha)
+
+		--[[
+		for lineIt, line in pairs(descLines) do
+			local textX, textY = surface.GetTextSize(line)
+		
+			surface.SetTextPos(4, 4 + textY * lineIt)
+			surface.DrawText(line)
+			--draw.DrawText(line, "DermaDefault", 5, 4 + 12 * lineIt, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT)
+		end
+		--]]
+	end
+
+	buffDesc.OnCursorExited = function(panel)
+		panel:Remove()
+	end
+	
+	self.buffDesc = buffDesc
 end
 
+function PANEL:OnRemove()
+end
 
 vgui.Register("nutStatus", PANEL, "DScrollPanel")
 

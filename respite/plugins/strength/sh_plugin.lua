@@ -6,7 +6,7 @@ if (SERVER) then
 	function PLUGIN:PlayerGetFistDamage(client, damage, context)
 		if (client:getChar()) then
 			-- Add to the total fist damage.
-			context.damage = 0 --+ (client:getChar():getAttrib("str", 0) * nut.config.get("strMultiplier"))
+			context.damage = 1 --+ (client:getChar():getAttrib("str", 0) * nut.config.get("strMultiplier"))
 		end
 	end
 

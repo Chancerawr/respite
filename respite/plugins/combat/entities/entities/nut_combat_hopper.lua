@@ -5,10 +5,14 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_leperkin"
+
 ENT.model = "models/sin/hopper.mdl"
 ENT.name = "Hopper"
 
 ENT.AttackAnim = "Morph_In"
+ENT.WalkAnim = "Run_Fast"
+ENT.WalkAnim = "Run_Fast"
 
 --all attributes
 ENT.attribs = {
@@ -50,6 +54,14 @@ ENT.actions = {
 	"acid_spit",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/leperkin/leperkin_step1.mp3",
+	"npc/leperkin/leperkin_step2.mp3",
+	"npc/leperkin/leperkin_step3.mp3",
+	"npc/leperkin/leperkin_step4.mp3",
+}

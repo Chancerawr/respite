@@ -6,6 +6,7 @@ ITEM.model = "models/props/cs_italy/orange.mdl"
 ITEM.material = "phoenix_storms/mrref2"
 ITEM.quantity2 = 6
 ITEM.price = 2
+ITEM.plastic = true --for plastic converter
 
 ITEM.attrib = { 
 	["accuracy"] = 1 

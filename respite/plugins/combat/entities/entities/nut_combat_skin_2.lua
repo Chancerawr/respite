@@ -5,6 +5,11 @@ ENT.Category = "NutScript - Combat (Husk)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_skin"
+
+ENT.WalkAnim = "zombie_walk_01"
+ENT.RunAnim = "Zombie_run_fast"
+
 ENT.name = "Skin"
 
 ENT.models = {
@@ -53,6 +58,20 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 0,
 	["Electric"] = 0,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
 }
 
 function ENT:Initialize()

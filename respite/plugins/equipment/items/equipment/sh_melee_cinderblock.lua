@@ -10,6 +10,14 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
+ITEM.IdleAnim = "idle_melee"
+ITEM.WalkAnim = "walk_melee"
+ITEM.RunAnim = "run_melee"
+ITEM.AttackAnim = "seq_meleeattack01"
+
+--for turn based combat
+ITEM.attackRange = 80
+
 ITEM.salvage = {
 	["j_scrap_concrete"] = 2
 }

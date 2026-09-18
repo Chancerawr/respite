@@ -1,6 +1,6 @@
 ITEM.name = "Potion - Accuracy"
 ITEM.prefix = "Accurate"
-ITEM.desc = "A strange vial that is filled with some bright liquid.\nThis potion enhances a person's senses, and helps steady their hands."
+ITEM.desc = "A vial filled with some sort of bright green liquid.\nThis potion enhances a person's senses, and helps steady their hands."
 ITEM.uniqueID = "potion_accuracy"
 ITEM.model = "models/healthvial.mdl"
 ITEM.material = "phoenix_storms/pack2/interior_sides"
@@ -10,13 +10,14 @@ ITEM.color = Color(50, 255, 50)
 ITEM.duration = 3000
 ITEM.sound = "npc/barnacle/barnacle_gulp1.wav"
 
-ITEM.disease = "dis_poti"
-ITEM.disChance = 5
-
 ITEM.stomach = false
 
-ITEM.attrib = {
-	["accuracy"] = 10,
+ITEM.buffTbl = {
+	attrib = {
+		["accuracy"] = 10,
+	},
+	
+	duration = 3,
 }
 
 ITEM.loot = {

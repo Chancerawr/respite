@@ -3,6 +3,7 @@ PLUGIN.name = "CEnt Templater"
 PLUGIN.author = " "
 PLUGIN.desc = "Used to save CEnt setups."
 
+--[[
 function PLUGIN:loadCEnt(data)
 	local entity = ents.Create(data.class)
 	if(IsValid(entity)) then
@@ -68,13 +69,16 @@ function PLUGIN:loadCEnt(data)
 		return entity
 	end
 end
+--]]
 
 function PLUGIN:saveTemplate(client, data, saveName)
 	if(!saveName) then return false end
 
-	local path = "nutscript/"..SCHEMA.folder.."/combattemplate/"
+	local mapName = game.GetMap()
+
+	local path = "nutscript/"..SCHEMA.folder.."/"..mapName.."/combattemplate/"
 	if(!file.Exists(path, "DATA")) then
-		file.CreateDir("nutscript/"..SCHEMA.folder.."/combattemplate/")
+		file.CreateDir("nutscript/"..SCHEMA.folder.."/"..mapName.."/combattemplate/")
 	end
 	
 	local toSave = {}
@@ -92,7 +96,7 @@ function PLUGIN:saveTemplate(client, data, saveName)
 		toSave[k] = saved
 	end
 
-	path = "nutscript/"..SCHEMA.folder.."/combattemplate/" ..string.lower(saveName).. ".txt"
+	path = "nutscript/"..SCHEMA.folder.."/"..mapName.."/combattemplate/" ..string.lower(saveName).. ".txt"
 	
 	--maybe verify before saving over other templates
 	if(file.Exists(path, "DATA")) then
@@ -109,7 +113,9 @@ end
 function PLUGIN:loadTemplate(client, saveName, swep)
 	if(!saveName) then return false end
 	
-	local path = "nutscript/"..SCHEMA.folder.."/combattemplate/" ..string.lower(saveName)
+	local mapName = game.GetMap()
+	
+	local path = "nutscript/"..SCHEMA.folder.."/"..mapName.."/combattemplate/" ..string.lower(saveName)
 	
 	if(!file.Exists(path.. ".txt", "DATA")) then
 		client:notify("No stored template of that name.")
@@ -123,7 +129,7 @@ function PLUGIN:loadTemplate(client, saveName, swep)
 	
 	local entities = importTbl or {}
 	for k, entity in pairs(entities) do
-		loaded[#loaded+1] = PLUGIN:loadCEnt(entity)
+		loaded[#loaded+1] = nut.plugin.list["combat"]:loadCEnt(entity)
 	end
 
 	if(swep and IsValid(swep)) then

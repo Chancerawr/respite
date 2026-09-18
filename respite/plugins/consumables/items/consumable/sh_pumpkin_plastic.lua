@@ -7,6 +7,7 @@ ITEM.material = "phoenix_storms/mrref2"
 ITEM.quantity2 = 4
 ITEM.price = 8
 ITEM.width = 2
+ITEM.plastic = true --for plastic converter
 
 ITEM.attrib = { 
 	["fortitude"] = 1 

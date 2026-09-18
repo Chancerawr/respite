@@ -5,7 +5,11 @@ ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_horror_w"
+
 ENT.model = "models/horror/zm_f4zt.mdl"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Melee"
 
@@ -45,6 +49,18 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 0,
 	["Electric"] = 0,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"horror/foot1.wav",
+	"horror/foot2.wav",
+	"horror/foot3.wav",
+	"horror/foot4.wav",
 }
 
 function ENT:Initialize()

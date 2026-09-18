@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_creeper"
+
 ENT.model = "models/nh2zombies/creeper.mdl"
 ENT.material = "models/alyx/emptool_glow"
+
+ENT.BloodColor = BLOOD_COLOR_MECH
 
 ENT.AttackAnim = "Melee"
 
@@ -52,6 +56,27 @@ ENT.actions = {
 	"claw_electric",
 	"slash",
 	"stab",
+	"corpse_burst",
+}
+
+ENT.actionsAI = {
+	"claw_electric",
+	"slash",
+	"stab",
+}
+
+
+
+ENT.StepData = {
+	0.35,
+	0.8,
+}
+
+ENT.FootstepSounds = {
+	"npc/demon/nhdemon_foot1.wav",
+	"npc/demon/nhdemon_foot2.wav",
+	"npc/demon/nhdemon_foot3.wav",
+	"npc/demon/nhdemon_foot4.wav",
 }
 
 function ENT:Initialize()

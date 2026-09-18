@@ -46,6 +46,8 @@ local PANEL = {}
 	end
 vgui.Register("nutTraits", PANEL, "DFrame")
 
+--[[
 timer.Simple(1, function()
 	nut.plugin.list["minimenu"]:addMenu({"Character Traits", "nutTraits"})
 end)
+--]]

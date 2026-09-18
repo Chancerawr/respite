@@ -9,6 +9,8 @@ ENT.model = "models/cryoffear/taller/taller.mdl"
 ENT.material = "models/effects/comball_glow1"
 
 ENT.AttackAnim = "Attack"
+ENT.WalkAnim = "Walk"
+ENT.IdleAnim = "Idle"
 
 ENT.color = Color(128, 0, 0)
 

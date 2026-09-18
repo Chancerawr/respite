@@ -1,17 +1,17 @@
 local PLUGIN = PLUGIN
 
 if(SERVER) then
-	local function tableMerger(finished, tab)
+	local function tableMerger(finished, tab, mult)
 		for k, v in pairs(tab) do
 			if(istable(v)) then
 				if(!finished[k]) then
 					finished[k] = {}
 				end
 				
-				tableMerger(finished[k], v)
+				tableMerger(finished[k], v, mult)
 			else
 				if(!isbool(finished[k])) then
-					finished[k] = (finished[k] or 0) + v
+					finished[k] = (finished[k] or 0) + v*(mult or 1)
 				end
 			end
 		end
@@ -62,18 +62,13 @@ if(SERVER) then
 		
 		local nameCount = {} --counts all the materials used so it can determine a name
 		local craftInfo = {} --table that holds all of the stats from materials used
+		local craftTags = {} --table that holds all the tags of the items used to craft this thing
 		local total = 0 --total items used
 		
 		--this counts up the total ingredients we have in the inventory so we can sort based on amount
 		local temp = {}
 		for id, item in pairs(items, false) do 
-			local tags
-			
-			if(item.uniqueID == "quest_ingredient") then
-				tags = item:getData("tags", {})
-			else
-				tags = item.loot
-			end
+			local tags = item:getData("tags", item.loot)
 
 			if(tags) then --an item's individual tags
 				for k, v in pairs(tags) do
@@ -93,43 +88,21 @@ if(SERVER) then
 		for k, v in SortedPairsByValue(temp, false) do
 			requiredItems[k] = {v, itemTable.items[k]}
 		end
-		
+
 		--checks that the player has all the items
 		local count
 		for k, v in SortedPairsByMemberValue(requiredItems, 1, false) do --basically goes for the least common ingredient first
 			local required = v[2]
 			count = 0
-			
+
 			for id, item in pairs(items, false) do	
 				local tags = item:getData("tags", item.loot)
 				if(tags and tags[k]) then --an item's individual tags
-					local craft
-					if(item.uniqueID == "quest_ingredient") then
-						craft = {
-							attrib = item:getData("attrib"),
-							res = item:getData("res"),
-							amp = item:getData("amp"),
-							
-							dmg = item:getData("dmg"),
-							armor = item:getData("armor"),
-							weight = item:getData("weight"),
-							
-							hp = item:getData("hp"),
-							hpMax = item:getData("hpMax"),
-							mp = item:getData("mp"),
-							mpMax = item:getData("mpMax"),
-							
-							evasion = item:getData("evasion"),
-							accuracy = item:getData("accuracy"),
-							
-							critM = item:getData("critM"),
-							critC = item:getData("critC"),
-							
-							magic = item:getData("magic"),
-						}
-					else
-						craft = item.craft
+					for k, v in pairs(tags) do
+						craftTags[k] = (craftTags[k] or 0) + 1
 					end
+				
+					local craft = item.craft
 				
 					if(count >= required) then
 						break
@@ -149,24 +122,28 @@ if(SERVER) then
 						item.mark = count - required --marks the item with how much is left
 
 						if(craft) then --ignore filler
-							nameCount[name] = (nameCount[name] or 0) + quan - item.mark
-
+							if(!item.NoPrefix) then
+								nameCount[name] = (nameCount[name] or 0) + quan - item.mark
+							end
+							
 							total = total + quan - item.mark
 						end
 					else
 						item.mark = 0 --marks the item with 0 for later deletion
 						
 						if(craft) then --ignore filler
-							nameCount[name] = (nameCount[name] or 0) + quan
+							if(!item.NoPrefix) then
+								nameCount[name] = (nameCount[name] or 0) + quan
+							end
 						
 							total = total + quan
 						end
 					end
-
+					
 					--gathers up all of the crafting info (stats, resistances, etc)
 					if(craft) then
 						for i = 1, (quan - (item.mark or 0)) do
-							tableMerger(craftInfo, craft)
+							tableMerger(craftInfo, craft, itemTable.specMult)
 						end
 					end
 				end
@@ -189,6 +166,10 @@ if(SERVER) then
 		
 		if(itemTable.nodmg) then
 			craftInfo.dmg = nil
+		end
+		
+		if(!table.IsEmpty(craftTags)) then
+			craftInfo.craftTags = craftTags
 		end
 
 		--constructs a name based on the two most used materials
@@ -288,20 +269,18 @@ if(SERVER) then
 	
 		--uses loot generation system to grab some extra values
 		local generatedData = nut.plugin.list["equipment"]:generateLoot(level, uniqueID, true) or {}
-		if(generatedData) then
-			if(generatedData.custom) then
-				generatedData.custom.name = name --name based on the ingredients
-				generatedData.realName = name --realname is used for buffs usually
-			else --make absolutely sure the name goes through
-				generatedData.custom = {}
-				generatedData.custom.name = name
-			end
+		if(generatedData.custom) then
+			generatedData.custom.name = name --name based on the ingredients
+			generatedData.realName = name --realname is used for buffs usually
+		else --make absolutely sure the name goes through
+			generatedData.custom = {}
+			generatedData.custom.name = name
 		end
 		
-		--merges the two tables hell yeah computer science
+		--merges the two tables
 		tableMerger(generatedData, craftInfo)
 		
-		--used for special stuff, like noting that something is a potion or not
+		--used for special stuff, can set variables in the data
 		if(recipe.data) then
 			for k, v in pairs(recipe.data) do
 				generatedData[k] = v
@@ -377,267 +356,207 @@ else
 			self.categories = {}
 			self.nextBuy = 0
 
-			hook.Call("CraftingPrePopulateItems", self)
+			--hook.Call("CraftingPrePopulateItems", self)
 
 			timer.Simple(0, function()
-				for class, itemTable in SortedPairsByMemberValue(RECIPES:GetAll(), "category") do
-					if(itemTable.level and level < itemTable.level) then continue end
-				
-					--if (checkProfession(self.profession, itemTable.profession) and trait) then
-						local category = itemTable.category
-						local category2 = string.lower(category)
-
-						if (!self.categories[category2]) then
-							local category3 = self.list:Add("DCollapsibleCategory")
-							category3:Dock(TOP)
-							category3:SetLabel(category)
-							category3:DockMargin(5, 5, 5, 5)
-							category3:SetPadding(5)
-
-							local list = vgui.Create("DIconLayout")
-								list.Paint = function(list, w, h)
-									surface.SetDrawColor(0, 0, 0, 25)
-									surface.DrawRect(0, 0, w, h)
-								end
-							category3:SetContents(list)
-
-								local icon = list:Add("SpawnIcon")
-								icon:SetModel(itemTable.model or "models/props_lab/box01a.mdl")		
-								icon.PaintOver = function(icon, w, h)
-									surface.SetDrawColor(0, 0, 0, 45)
-									surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
-
-									if(itemTable.level) then
-										draw.SimpleText(itemTable.level, "DermaDefault", w - 12, h - 14, Color(64,128,64), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 1, color_black)
-									end
-								end
-
-								local text = string.format("Crafting %s\n%s\n\nRequirements:\n", itemTable.name, itemTable.desc)
-								local cnt = 0
-								local brk = "\n"
-								
-								if(itemTable.special) then								
-									for itc, qua in pairs(itemTable.items) do
-										cnt = cnt + 1
-										if (cnt == table.Count(itemTable.items)) then brk = "" end
-		
-										text = text ..itc.. " x " ..qua..brk
-									end
-								else
-									for itc, qua in pairs(itemTable.items) do
-										cnt = cnt + 1
-										if (cnt == table.Count(itemTable.items)) then brk = "" end
-										local tblItem = nut.item.list[itc]
-										if tblItem then
-											text = text .. tblItem.name .. " x ".. qua .. brk
-										end
-									end
-								end
-								icon:SetToolTip(text)
-								
-								function icon:OnCursorEntered()
-									if(IsValid(icon.recipeDesc)) then
-										icon.recipeDesc:Remove()
-									end
-								
-									icon.recipeDesc = self:Add("DTextEntry")
-									icon.recipeDesc:SetSize(320, 100)
-									icon.recipeDesc:SetText("")
-									
-									local recipeDescPosX = icon:GetX() + icon:GetWide()
-									--[[
-									if(skillDescPosX > frame:GetWide()*0.55) then
-										skillDescPosX = button:GetX() - button.recipeDesc:GetWide()
-									end
-									--]]
-									
-									icon.recipeDesc:SetPos(recipeDescPosX, icon:GetY())
-									
-									function icon.recipeDesc:Paint(w, h)
-										--inner box of tooltip
-										surface.SetDrawColor(0, 0, 0, 255)
-										surface.DrawRect(0, 0, w, h)
-									
-										--outline of skill desc
-										surface.SetDrawColor(255, 255, 255, 255)
-										surface.DrawOutlinedRect(0, 0, w, h, 1)
-										
-										--[[
-										if(ability.name) then
-											local learned
-											if(treeLevel >= k) then
-												learned = "Learned"
-											else
-												learned = "Unlearned"
-											end
-										
-											local abilityName = ability.name.. " (" ..learned.. ")"
-										
-											draw.DrawText(abilityName, "DermaDefault", w/2, 0, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER)
-										end
-										--]]
-										
-										if(text) then
-											local descLines = nut.util.wrapText(text, 250, "DermaDefault")
-										
-											for lineIt, line in pairs(descLines) do
-												draw.DrawText(line, "DermaDefault", 5, 4 + 12 * lineIt, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT)
-											end
-										end
-										--]]
-									end
-									
-									icon.recipeDesc:MoveToFront()
-								end
-								
-								function icon:OnCursorExited()
-									if(IsValid(icon.skillDesc)) then
-										icon.recipeDesc:Remove()
-									end
-								end
-								
-								icon.DoClick = function(panel)
-									if(itemTable.special) then
-										netstream.Start("nut_craftSpecial", self.ent, itemTable.uid)
-										self:Close()
-									else
-										if (icon.disabled) then
-											return
-										end
-										net.Start("nut_CraftItem")
-											net.WriteString( class )
-										net.SendToServer()
-										icon.disabled = true
-										icon:SetAlpha(70)
-										timer.Simple(nut.config.buyDelay, function()
-											if (IsValid(icon)) then
-												icon.disabled = false
-												icon:SetAlpha(255)
-											end
-										end)
-									end
-								end
-							category3:InvalidateLayout(true)
-							hook.Call("CraftingCategoryCreated", category3)
-							self.categories[category2] = {list = list, category = category3, panel = panel}
-						else
-							local list = self.categories[category2].list
-							local icon = list:Add("SpawnIcon")
-							icon:SetModel(itemTable.model or "models/props_lab/box01a.mdl")
-							
-							local text = string.format("Crafting %s\n%s\n\nRequirements:\n", itemTable.name, itemTable.desc)
-							local cnt = 0
-							local brk = "\n"
-							
-							if(itemTable.special) then
-								for itc, qua in pairs(itemTable.items) do
-									cnt = cnt + 1
-									if (cnt == table.Count(itemTable.items)) then brk = "" end
-	
-									text = text ..itc.. " x ".. qua .. brk
-								end
-							else
-								for itc, qua in pairs(itemTable.items) do
-									cnt = cnt + 1
-									if (cnt == table.Count(itemTable.items)) then brk = "" end
-									local tblItem = nut.item.list[itc]
-									if tblItem then
-										text = text .. tblItem.name .. " x ".. qua .. brk
-									end
-								end
-							end
-							icon:SetToolTip(text)
-							
-							--[[
-							icon.OnCursorEntered = function(panel)
-								if(IsValid(self.recipeDesc)) then
-									self.recipeDesc:Remove()
-								end
-							
-								self.recipeDesc = self:Add("DTextEntry")
-								local recipeDesc = self.recipeDesc
-								
-								recipeDesc:SetSize(320, 100)
-								recipeDesc:SetText("")
-								
-								local recipeDescPosX = icon:GetX() + icon:GetWide()
-								recipeDesc:SetPos(recipeDescPosX, icon:GetY())
-								
-								function recipeDesc:Paint(w, h)
-									--inner box of tooltip
-									surface.SetDrawColor(0, 0, 0, 255)
-									surface.DrawRect(0, 0, w, h)
-								
-									--outline of skill desc
-									surface.SetDrawColor(255, 255, 255, 255)
-									surface.DrawOutlinedRect(0, 0, w, h, 1)
-									
-									if(text) then
-										local descLines = nut.util.wrapText(text, 250, "DermaDefault")
-									
-										for lineIt, line in pairs(descLines) do
-											draw.DrawText(line, "DermaDefault", 5, 4 + 12 * lineIt, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT)
-										end
-									end
-								end
-								
-								recipeDesc:MoveToFront()
-							end
-							
-							icon.OnCursorExited = function(panel)
-								if(IsValid(self.recipeDesc)) then
-									self.recipeDesc:Remove()
-								end
-							end
-							--]]
-							
-							icon.DoClick = function(panel)
-								if(itemTable.special) then
-									netstream.Start("nut_craftSpecial", self.ent, itemTable.uid)
-									self:Close()
-								else	
-									if (icon.disabled) then
-										return
-									end
-									net.Start("nut_CraftItem")
-										net.WriteString(class)
-									net.SendToServer()
-									icon.disabled = true
-									icon:SetAlpha(70)
-									timer.Simple(1, function()
-										if (IsValid(icon)) then
-											icon.disabled = false
-											icon:SetAlpha(255)
-										end
-									end)
-								end
-							end
-
-							hook.Call("CraftingItemCreated", itemTable, icon)			
-						end
-					--end
-				end
+				self:GetRecipes()
 			end)
 			
-			hook.Call("CraftingPostPopulateItems", self)
+			--hook.Call("CraftingPostPopulateItems", self)
 		end
 		function PANEL:Think()
 			if (!self:IsActive()) then
 				self:MakePopup()
 			end
 		end
-	vgui.Register("nut_Crafting", PANEL, "DFrame")
+		
+		function PANEL:GetRecipes()
+			local level = LocalPlayer():getChar():getData("craft", {})[self.profession] or 0
 
-	--[[
-	function PLUGIN:CreateMenuButtons(menu, addButton)
-		if self.menuEnabled then
-			addButton("crafting", nut.lang.Get("crafting"), function()
-				nut.gui.crafting = vgui.Create("nut_Crafting", menu)
-				menu:SetCurrentMenu(nut.gui.crafting)
-			end)
+			--[[
+			if(self.profession) then
+				self:SetTitle(string.upper(self.profession))--.. " Level: " ..math.Round(level)))
+			end
+			--]]
+			
+			for class, itemTable in SortedPairsByMemberValue(RECIPES:GetAll(), "category") do
+				if(itemTable.level and level < itemTable.level) then continue end
+				if(itemTable.tblLevel and self.ent.tblLevel and self.ent.tblLevel < itemTable.tblLevel) then continue end
+			
+				local canAdd = self:CanAddRecipe(itemTable)
+				if(canAdd) then
+					local category = itemTable.category
+					local categoryLower = string.lower(category)
+
+					if (!self.categories[categoryLower]) then
+						self:AddCategory(category)
+					end
+					
+					local list = self.categories[categoryLower].list
+					
+					self:AddRecipe(list, itemTable, class)
+				end
+			end
 		end
-	end
-	--]]
+		
+		--adds a category
+		function PANEL:AddCategory(category)
+			local newCat = self.list:Add("DCollapsibleCategory")
+			newCat:Dock(TOP)
+			newCat:SetLabel(category)
+			newCat:DockMargin(5, 5, 5, 5)
+			newCat:SetPadding(5)
+
+			local list = vgui.Create("DIconLayout")
+				list.Paint = function(list, w, h)
+					surface.SetDrawColor(0, 0, 0, 25)
+					surface.DrawRect(0, 0, w, h)
+				end
+			newCat:SetContents(list)
+
+			newCat:InvalidateLayout(true)
+			hook.Call("CraftingCategoryCreated", newCat)
+			self.categories[string.lower(category)] = {list = list, category = newCat, panel = panel}
+		
+			return self.categories[string.lower(category)]
+		end
+		
+		function PANEL:CanAddRecipe(itemTable)
+			local entity = self.ent
+		
+			--[[
+			if(self.profession) then
+				local trait = LocalPlayer():hasTrait(self.profession)
+			
+				if(checkProfession(self.profession, itemTable.profession) and trait) then
+					return true
+				end
+			elseif(entity.recipes) then
+				if(entity.recipes[itemTable.uid]) then
+					return true
+				end
+			elseif(entity.craftCategory) then
+				if(entity.craftCategory == itemTable.category) then
+					return true
+				end
+			end
+			--]]
+			
+			return true
+		end
+		
+		function PANEL:AddRecipe(list, itemTable, class)
+			--local icon = list:Add("SpawnIcon")
+			--icon:SetModel(itemTable.model or "models/props_lab/box01a.mdl")
+			
+			local text = string.format("Crafting %s\n%s\n\nRequirements:\n", itemTable.name, itemTable.desc)
+			local cnt = 0
+			local brk = "\n"
+			
+			local winningKey = table.GetWinningKey(itemTable.result) --most common item
+			local resultItem = (winningKey and nut.item.list[winningKey]) or {}
+
+			--gets the description, if one isnt provided, grabs result item's desc
+			local recipeName = itemTable.name or resultItem.name or ""
+			local recipeDesc = itemTable.desc or resultItem.desc or ""
+			local resultModel = itemTable.model or resultItem.model or "models/props_lab/box01a.mdl"
+
+			--local list = self.categories[category2].list
+			local icon = list:Add("SpawnIcon")
+			icon:SetModel(resultModel)
+										
+			local text = "Crafting " ..recipeName.. "\n" ..recipeDesc.. "\n\nRequirements:\n"
+			--local text = string.format("Crafting %s\n%s\n\nRequirements:\n", itemTable.name, itemTable.desc)
+			local cnt = 0
+			local brk = "\n"
+			
+			if(itemTable.special) then
+				for itc, qua in pairs(itemTable.items) do
+					cnt = cnt + 1
+					if (cnt == table.Count(itemTable.items)) then brk = "" end
+
+					text = text ..itc.. " x ".. qua .. brk
+				end
+			else
+				for itc, qua in pairs(itemTable.items) do
+					cnt = cnt + 1
+					if (cnt == table.Count(itemTable.items)) then brk = "" end
+					local tblItem = nut.item.list[itc]
+					if tblItem then
+						text = text .. tblItem.name .. " x ".. qua .. brk
+					end
+				end
+			end
+			icon:SetToolTip(text)
+			
+			--[[
+			icon.OnCursorEntered = function(panel)
+				if(IsValid(self.recipeDesc)) then
+					self.recipeDesc:Remove()
+				end
+			
+				self.recipeDesc = self:Add("DTextEntry")
+				local recipeDesc = self.recipeDesc
+				
+				recipeDesc:SetSize(320, 100)
+				recipeDesc:SetText("")
+				
+				local recipeDescPosX = icon:GetX() + icon:GetWide()
+				recipeDesc:SetPos(recipeDescPosX, icon:GetY())
+				
+				function recipeDesc:Paint(w, h)
+					--inner box of tooltip
+					surface.SetDrawColor(0, 0, 0, 255)
+					surface.DrawRect(0, 0, w, h)
+				
+					--outline of skill desc
+					surface.SetDrawColor(255, 255, 255, 255)
+					surface.DrawOutlinedRect(0, 0, w, h, 1)
+					
+					if(text) then
+						local descLines = nut.util.wrapText(text, 250, "DermaDefault")
+					
+						for lineIt, line in pairs(descLines) do
+							draw.DrawText(line, "DermaDefault", 5, 4 + 12 * lineIt, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT)
+						end
+					end
+				end
+				
+				recipeDesc:MoveToFront()
+			end
+			
+			icon.OnCursorExited = function(panel)
+				if(IsValid(self.recipeDesc)) then
+					self.recipeDesc:Remove()
+				end
+			end
+			--]]
+			
+			icon.DoClick = function(panel)
+				if(itemTable.special) then
+					netstream.Start("nut_craftSpecial", self.ent, itemTable.uid)
+					self:Close()
+				else	
+					if (icon.disabled) then
+						return
+					end
+					net.Start("nut_CraftItem")
+						net.WriteString(class)
+					net.SendToServer()
+					icon.disabled = true
+					icon:SetAlpha(70)
+					timer.Simple(1, function()
+						if (IsValid(icon)) then
+							icon.disabled = false
+							icon:SetAlpha(255)
+						end
+					end)
+				end
+			end
+
+			hook.Call("CraftingItemCreated", itemTable, icon)	
+		end
+	vgui.Register("nut_Crafting", PANEL, "DFrame")
 
 	netstream.Hook("nut_openSpecialCraft", function(storage, index, recipe)
 		timer.Simple(0, function()

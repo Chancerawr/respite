@@ -1,7 +1,7 @@
 ITEM.name = "Sushi"
 ITEM.desc = "Fish that has been prepared in a fancy way."
 ITEM.uniqueID = "cook_sushi"
-ITEM.model = "models/props/cs_militia/fishriver01.mdl"
+ITEM.model = "models/foodnhouseholditems/salmon.mdl"
 ITEM.quantity2 = 2
 --ITEM.price = 3
 

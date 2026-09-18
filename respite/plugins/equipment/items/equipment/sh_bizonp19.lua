@@ -9,11 +9,25 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Submachine Guns"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_smg1"
+ITEM.WalkAnim = "walk_smg1"
+ITEM.RunAnim = "run_smg1"
+
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	Sound("Weapon_P19.Single"),
+}
+
+ITEM.rarity = 1
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
 	["firearm"] = true,
+	["factory"] = true,
 }
 
 ITEM.dmg = {
@@ -32,6 +46,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Pistol"] = 10,
 }
 
 ITEM.iconCam = {

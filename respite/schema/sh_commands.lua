@@ -59,7 +59,9 @@ nut.command.add("chargiveitem", {
 			end
 
 			local notified
-			for i = 1, (amount or 1) do
+			
+			amount = math.min(amount or 1, 100)
+			for i = 1, amount do
 				target:getChar():getInv():add(uniqueID)
 					:next(function(res)
 						if(!notified) then

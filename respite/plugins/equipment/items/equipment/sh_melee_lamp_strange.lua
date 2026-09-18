@@ -10,6 +10,14 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Melee"
 
+ITEM.IdleAnim = "idle_melee2"
+ITEM.WalkAnim = "walk_melee2"
+ITEM.RunAnim = "run_melee2"
+ITEM.AttackAnim = "seq_meleeattack01"
+
+--for turn based combat
+ITEM.attackRange = 80
+
 ITEM.rarity = 10
 ITEM.lootTags = {
 	["weapon"] = true,
@@ -44,7 +52,7 @@ ITEM.functions.Place = {
 	icon = "icon16/arrow_up.png",
 	onRun = function(item)
 		local client = item.player
-		local grd = ents.Create( "nut_combat_lamp" )
+		local grd = ents.Create( "lamp_stranger" )
 		grd:SetPos(client:getItemDropPos())
 		grd:SetAngles(client:GetAngles())
 		grd:Spawn()
@@ -53,7 +61,11 @@ ITEM.functions.Place = {
 }
 
 function ITEM:onEntityCreated(entity)
-	entity:SetPos(entity:GetPos()+entity:GetUp()*24)
+	--checks if it was spawned by the saveitems plugin (required an edit in saveitems)
+	if(!self.saveItemPlug) then 
+		--offsets the spawn so it isnt in the floor
+		entity:SetPos(entity:GetPos()+entity:GetUp()*24)
+	end
 end
 
 ITEM.iconCam = {

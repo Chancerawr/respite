@@ -11,8 +11,8 @@ if(SERVER) then
 		local eventLog = {
 			name = "Event Log", --name of panel
 			data = file.Read(path) or "", --data displayed in the panel
-			size = {400, 400},
-			pos = {0.29, 0.5},
+			size = {400, 830},
+			pos = {0.15, 0.16},
 			saveFunc = "nut_eventLogSave",
 		}
 
@@ -39,13 +39,31 @@ else
 		noteFrame:MakePopup()
 		noteFrame:ShowCloseButton(true)
 
-		local scroll = vgui.Create("DScrollPanel", noteFrame)
+		noteFrame.Paint = function(panel, w, h)
+			--background image
+			surface.SetDrawColor(Color(40, 40, 40, 255))
+			surface.DrawRect(0, 0, w, h)
+		end
+
+		local scroll = vgui.Create("DPanel", noteFrame)
 		scroll:Dock(FILL)
+		
+		local closeButton = vgui.Create("DButton", noteFrame)
+		closeButton:SetPos(556, 0)
+		closeButton:SetSize(20, 20)
+		closeButton:SetTextColor(Color(255,255,255))
+		closeButton:SetText("X")
+		closeButton.Paint = function(panel, w, h)
+			draw.RoundedBox(0, 0, 0, w, h, Color(0, 0, 0))
+		end
+		closeButton.DoClick = function()
+			noteFrame:Close()
+		end
 	
 		local notesGUI = vgui.Create("DTextEntry", scroll)
 		notesGUI:DockMargin(0, 8, 0, 0)
-		notesGUI:SetSize(160, ScrH() * 0.2)
-		notesGUI:Dock(FILL)
+		notesGUI:SetSize(160, ScrH() * 0.700)
+		notesGUI:Dock(TOP)
 		notesGUI:SetFont("nutCharSubTitleFont")
 		notesGUI:SetTextColor(Color(255,255,255))
 		notesGUI:SetVerticalScrollbarEnabled(true)
@@ -54,11 +72,12 @@ else
 		notesGUI:SetWrap(true)
 		notesGUI:SetMultiline(true)
 		notesGUI:SetEditable(true)
+		notesGUI:SetUpdateOnType(false)
 
 		if(edit) then
 			local notesGUIB = vgui.Create("DButton", noteFrame)
 			notesGUIB:SetText("Save")
-			notesGUIB:SetSize(20, 100)
+			notesGUIB:SetSize(20, 60)
 			notesGUIB:Dock(BOTTOM)
 			notesGUIB.DoClick = function()
 				netstream.Start(eventLog.saveFunc, notesGUI:GetText())
@@ -75,13 +94,13 @@ else
 	end)
 end
 
-nut.command.add("vieweventlog", {
+nut.command.add("questlog", {
 	onRun = function(client, arguments)
 		PLUGIN:openLog(client, false)
 	end
 })
 
-nut.command.add("editeventlog", {
+nut.command.add("editquestlog", {
 	adminOnly = true,
 	onRun = function(client, arguments)
 		PLUGIN:openLog(client, true)

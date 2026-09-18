@@ -11,7 +11,17 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+ITEM.IdleAnim = "idle_rpg"
+ITEM.WalkAnim = "walk_rpg"
+ITEM.RunAnim = "run_rpg"
+
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	"ambient/fire/mtov_flame2.wav",
+}
+
+ITEM.rarity = 5
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,

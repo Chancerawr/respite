@@ -11,6 +11,20 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Scavenger"
 
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_smg1"
+ITEM.WalkAnim = "walk_smg1"
+ITEM.RunAnim = "run_smg1"
+
+--for turn based combat
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	"weapons/fokku_tc_m14/sg550-1.wav",
+}
+
 ITEM.rarity = 10
 ITEM.lootTags = {
 	["weapon"] = true,
@@ -34,6 +48,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Pistol"] = 10,
 }
 
 ITEM.iconCam = {

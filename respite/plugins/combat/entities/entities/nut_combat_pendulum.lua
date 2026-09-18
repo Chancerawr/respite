@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_pendulum"
+
 ENT.model = "models/sient hill custom/Homecoming/pendulum.mdl"
 
 ENT.AttackAnim = "Attack"
@@ -51,4 +53,6 @@ ENT.actions = {
 
 function ENT:Initialize()
 	self:basicSetup()
+
+	self:SetCollisionBounds(Vector(-20,-20,0), Vector(20,20,160))
 end

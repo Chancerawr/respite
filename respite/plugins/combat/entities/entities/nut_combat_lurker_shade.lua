@@ -5,8 +5,12 @@ ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_lurker_s"
+
 ENT.model = "models/sient hill custom/Homecoming/lurker.mdl"
 ENT.material = "phoenix_storms/lag_sign"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.AttackAnim = "Attack"
 
@@ -53,10 +57,19 @@ ENT.actions = {
 	"stab",
 }
 
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {85,100}
+ENT.FootstepSounds = {
+	"lurker2/metal.wav",
+}
+
 ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 function ENT:Initialize()
-	
 	if(SERVER) then
 		self:SetRenderMode(RENDERMODE_TRANSALPHA)
 		self:SetRenderFX(kRenderFxDistort)

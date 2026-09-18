@@ -1,7 +1,7 @@
 ITEM.name = "Bacon"
 ITEM.desc = "Some sort of bacon, it looks pretty tasty."
-ITEM.model = "models/gibs/wood_gib01e.mdl"
-ITEM.material = "models/flesh"
+ITEM.model = "models/foodnhouseholditems/baconcooked.mdl"
+--ITEM.material = "models/flesh"
 ITEM.uniqueID = "food_bacon"
 ITEM.quantity2 = 2
 ITEM.price = 10

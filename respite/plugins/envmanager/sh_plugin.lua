@@ -59,11 +59,11 @@ local function itemNPCs()
 	}
 
 	local shades = {
-		"nz_undead_shade"
+		"resp_shambler"
 	}
 	
 	local wraiths = {
-		"nz_phantom"
+		"resp_phantom"
 	}
 
 	local items = ents.FindByClass("nut_item")

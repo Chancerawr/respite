@@ -186,7 +186,9 @@ ACT.notarget = true
 ACT.mult = {
 	["fortitude"] = 1,
 }
-ACT.attackOverwrite = function(actionTbl, attacker, trace)
+ACT.onHit = function(actionTbl, attacker, info)
+	local trace = info.trace
+
 	local disc = ents.Create("prop_physics")
 	disc:SetModel("models/props_phx/construct/plastic/plastic_angle_360.mdl")
 	disc:SetMaterial("models/player/player_chrome1")
@@ -196,12 +198,9 @@ ACT.attackOverwrite = function(actionTbl, attacker, trace)
 	disc:Spawn()
 
 	local physObj = disc:GetPhysicsObject()
-
 	if(IsValid(physObj)) then
 		physObj:EnableMotion(false)
 	end
-
-	PLUGIN:attackStart(attacker, attacker, trace, actionTbl)
 end
 ACTS:Register(ACT)
 //
@@ -307,13 +306,353 @@ ACT.hidden = true
 ACT.attackString = "creates a copy of itself"
 ACT.CD = 2
 ACT.notarget = true
-ACT.attackOverwrite = function(actionTbl, attacker, trace)
-	local copy = ents.Create("nut_combat_doll")
-	copy:SetPos(trace.HitPos)
-	copy:Spawn()
-	
-	copy:setNetVar("name", "Recurrence")
-
-	PLUGIN:attackStart(attacker, attacker, trace, actionTbl)
+ACT.summon = "nut_combat_doll"
+ACT.onSummon = function(actionTbl, attacker, info, summon)
+	summon:setNetVar("name", "Recurrence")
 end
+ACTS:Register(ACT)
+
+//
+local ACT
+ACT = {}
+ACT.uid = "forest_heal"
+ACT.name = "Healing Word of Nature"
+ACT.desc = "Heals a target for 50 HP."
+ACT.category = "Forest"
+ACT.hidden = true
+ACT.attackString = "heals with the power of gentle words"
+ACT.CD = 5
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Heal",
+		effect = "heal",
+		duration = 0,
+
+		buff = true,
+	}
+}
+ACT.onEffect = function(actionTbl, action, attacker, info)
+	local trace = info.trace
+	local target = trace.Entity
+	local client = info.client
+	
+	if(client.KeyDown and client:KeyDown(IN_WALK)) then --self targetting
+		target = attacker
+	end
+
+	target:addHP(50)
+end
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "forest_fire"
+ACT.name = "Forest Fire"
+ACT.desc = "Hits an area with a large fireball."
+ACT.category = "Forest"
+ACT.hidden = true
+ACT.attackString = "attacks with a large fireball"
+ACT.CD = 3
+ACT.weaponMult = 1.5
+ACT.radius = 200
+ACT.dmg = 0
+ACT.dmgT = "Fire"
+ACT.notarget = true
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "forest_song"
+ACT.name = "Song of the Forest"
+ACT.desc = "Sing and provide a motivational buff to allies."
+ACT.category = "Forest"
+ACT.hidden = true
+ACT.attackString = "sings"
+ACT.CD = 3
+ACT.radius = 200
+ACT.notarget = true
+ACT.noSelf = true
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Song",
+		effect = "amp",
+		duration = 3,
+		strength = 1,
+
+		attribs = {
+			["str"] = 5,
+			["stm"] = 5,
+			["luck"] = 5,
+			["fortitude"] = 5,
+			["medical"] = 5,
+			["accuracy"] = 5,
+			["perception"] = 5,
+			["end"] = 5,
+		},
+
+		res = {
+			["dmg"] = 10,
+		},
+		
+		buff = true,
+	}
+}
+ACTS:Register(ACT)
+local ACT
+ACT = {}
+ACT.uid = "forest_root"
+ACT.name = "Entangle"
+ACT.desc = "Root a target, preventing it from moving for 1 turn, if the enemy is very large or strong, it may have reduced effect."
+ACT.category = "Forest"
+ACT.hidden = true
+ACT.attackString = "causes roots to sprout from the ground"
+ACT.CD = 3
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Song",
+		effect = "root",
+		duration = 1,
+		strength = 1,
+
+		debuff = true,
+	}
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "rat_chaos"
+ACT.name = "Chaos"
+ACT.desc = "The target of this action will be forced to do the most chaotic thing they can think of, immediately, even if it is not their turn."
+ACT.category = "Rat"
+ACT.hidden = true
+ACT.attackString = "instigates chaos"
+ACT.CD = 20
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Chaos",
+		effect = "curse",
+		duration = 1,
+		strength = 1,
+		
+		debuff = true,
+	}
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "rat_dice_ally"
+ACT.name = "Roll the Dice (Ally)"
+ACT.desc = "Target ally will receive random buffs."
+ACT.category = "Rat"
+ACT.hidden = true
+ACT.attackString = "rolls the dice"
+ACT.CD = 5
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Rat Accuracy",
+		effect = "stat",
+		duration = 2,
+		strength = 1,
+		
+		accuracy = 30,
+		
+		chance = 33,
+		
+		buff = true,
+	},
+	[2] = {
+		uid = ACT.uid,
+		
+		name = "Rat Crit",
+		effect = "stat",
+		duration = 2,
+		strength = 1,
+
+		critC = 5,
+		critF = -1,
+		
+		chance = 33,
+		
+		buff = true,
+	},
+	[3] = {
+		uid = ACT.uid,
+		
+		name = "Rat Dodge",
+		effect = "stat",
+		duration = 2,
+		strength = 1,
+
+		evasion = 15,
+		
+		chance = 33,
+		
+		buff = true,
+	},
+	[4] = {
+		uid = ACT.uid,
+		
+		name = "Rat Armor",
+		effect = "stat",
+		duration = 2,
+		strength = 1,
+
+		armor = 100,
+		
+		chance = 33,
+		
+		buff = true,
+	},
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "rat_dice_enemy"
+ACT.name = "Roll the Dice (Enemy)"
+ACT.desc = "Target enemy will receive random debuffs."
+ACT.category = "Rat"
+ACT.hidden = true
+ACT.attackString = "rolls the dice"
+ACT.CD = 5
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Rat Accuracy",
+		effect = "weak",
+		duration = 2,
+		strength = 1,
+		
+		accuracy = -30,
+		
+		chance = 33,
+		
+		debuff = true,
+	},
+	[2] = {
+		uid = ACT.uid,
+		
+		name = "Rat Misfortune",
+		effect = "weak",
+		duration = 2,
+		strength = 1,
+
+		critC = -5,
+		critF = 1,
+		
+		chance = 33,
+		
+		debuff = true,
+	},
+	[3] = {
+		uid = ACT.uid,
+		
+		name = "Rat Slow",
+		effect = "slow",
+		duration = 2,
+		strength = 1,
+
+		evasion = -15,
+		
+		chance = 33,
+		
+		debuff = true,
+	},
+	[4] = {
+		uid = ACT.uid,
+		
+		name = "Rat Weaken",
+		effect = "weaken",
+		duration = 2,
+		strength = 1,
+
+		armor = -100,
+		
+		chance = 33,
+		
+		buff = true,
+	},
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "rat_hero"
+ACT.name = "Rodent Inspiration"
+ACT.desc = "Target rodent will gain absurd buffs for two turns. Only works on rodents (not including self)."
+ACT.category = "Rat"
+ACT.hidden = true
+ACT.attackString = "inspires a rodent"
+ACT.CD = 5
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Rat Hero",
+		effect = "hero",
+		duration = 2,
+		strength = 1,
+		
+		accuracy = 50,
+		critM = 0.2,
+		critC = 15,
+		critF = -5,
+		armor = 500,
+
+		attrib = {
+			["luck"] = 5,
+			["stm"] = 5,
+			["str"] = 5,
+			["end"] = 5,
+			["fortitude"] = 5,
+			["accuracy"] = 5,
+			["perception"] = 5,
+			["medical"] = 5,
+		},
+
+		amp = {
+			["dmg"] = 50,
+		},
+
+		buff = true,
+	},
+}
+ACTS:Register(ACT)
+local ACT
+ACT = {}
+ACT.uid = "rat_erasure"
+ACT.name = "Extremely Bad Idea"
+ACT.desc = "99% chance to do nothing, 1% chance to mark target for erasure."
+ACT.category = "Rat"
+ACT.hidden = true
+ACT.attackString = "tries to mark a target for erasure"
+ACT.CD = 5
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+
+		effect = "curse",
+		name = "ERASURE TARGET",
+		effect = "hero",
+		duration = 99,
+		strength = 1,
+		
+		chance = 1,
+
+		debuff = true,
+	},
+}
 ACTS:Register(ACT)

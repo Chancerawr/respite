@@ -108,14 +108,18 @@ if (CLIENT) then
 			return nutStorageBase:exitStorage()
 		end
 
+		local storageName = storage:getNetVar("name") or L(storage:getStorageInfo().name)
+
 		-- Show both the storage and inventory.
 		local localInvPanel = localInv:show()
 		local storageInvPanel = storageInv:show()
-		storageInvPanel:SetTitle(L(storage:getStorageInfo().name))
-
+		--storageInvPanel:SetTitle(L(storage:getStorageInfo().name))
+		storageInvPanel:SetTitle("")
+		storageInvPanel.inventoryName = storageName
+		
 		-- Allow the inventory panels to close.
 		localInvPanel:ShowCloseButton(true)
-		storageInvPanel:ShowCloseButton(true)
+		--storageInvPanel:ShowCloseButton(true)
 
 		-- Put the two panels, side by side, in the middle.
 		local extraWidth = (storageInvPanel:GetWide() + PADDING) / 2

@@ -5,8 +5,11 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_cof_faster"
+
 ENT.model = "models/cryoffear/faster/faster.mdl"
 
+ENT.IdleAnim = "Idle"
 ENT.AttackAnim = "Attack1"
 
 --all attributes
@@ -44,6 +47,12 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {95,105}
+ENT.FootstepSounds = {
+	"cof/faster/faster_step.wav",
+}

@@ -1,3 +1,4 @@
+local PLUGIN = PLUGIN
 PLUGIN.name = "Writing Paper"
 PLUGIN.author = "Black Tea"
 PLUGIN.desc = "Write something on it."
@@ -12,6 +13,9 @@ if SERVER then
 		if note:IsValid() then
 			note:setNetVar( "text", text )
 		end
+		
+		PLUGIN:SavePaper()
+		
 		nut.log.addRaw(client:Name() .. " wrote " .. data[1])
 	end)
 
@@ -33,33 +37,38 @@ if SERVER then
 				local color = v.color
 
 				local entity = ents.Create("nut_paper")
-				entity:SetPos(position)
-				entity:SetAngles(angles)
-				entity:Spawn()
-				entity:Activate()
-				entity:setNetVar("private", private)
-				entity:setNetVar("text", text)
-				entity:setNetVar("owner", owner)
-				
-				if(material) then
-					entity:SetMaterial(material)
-				end
-				
-				if(color) then
-					entity:SetColor(Color(color.r,color.g,color.b))
-				end
-				
-				if(v.frozen != nil) then --freezes the paper if it was frozen before
-					entity:GetPhysicsObject():EnableMotion(v.frozen)
+				if(IsValid(entity)) then
+					entity:SetPos(position)
+					entity:SetAngles(angles)
+					entity:Spawn()
+					entity:Activate()
+					entity:setNetVar("private", private)
+					entity:setNetVar("text", text)
+					entity:setNetVar("owner", owner)
+					
+					if(material) then
+						entity:SetMaterial(material)
+					end
+					
+					if(color) then
+						entity:SetColor(Color(color.r,color.g,color.b))
+					end
+					
+					if(v.frozen != nil) then --freezes the paper if it was frozen before
+						entity:GetPhysicsObject():EnableMotion(v.frozen)
+					end
 				end
 			end
 		end
 	end
-
+	
 	function PLUGIN:SaveData()
+	end
+
+	function PLUGIN:SavePaper()
 		local data = {}
 
-		for k, v in pairs(ents.FindByClass("nut_paper")) do
+		for k, v in ipairs(ents.FindByClass("nut_paper")) do
 
 			local frozeCheck = v:GetPhysicsObject():IsMotionEnabled() --checks whether the paper is frozen
 			
@@ -136,6 +145,7 @@ if CLIENT then
 			note.editor:SetMultiline( true )
 			note.editor:SetText( note.text )
 			note.editor:SetAllowNonAsciiCharacters( true )
+			note.editor:SetVerticalScrollbarEnabled(true)
 		end
 		note:viewmode()
 		
@@ -190,84 +200,4 @@ if CLIENT then
 		local private = data[3]
 		nut_OpenNote( text, ent, private )
 	end)
-
 end
-
-/*
-	Why this is not working shit!
-	if shit then shit:Remove() shit = nil end
-
-	local PANEL = {}
-
-	function PANEL:EditMode()
-		if self.viewer then self.viewer:Remove() self.viewer = nil end
-		if self.close then self.edited = true; self.close:SetText( "Submit" ) end
-
-		self.editor = vgui.Create( "DTextEntry", self )
-		self.editor:SetPos( 2, 2 )
-		self.editor:SetSize( self:GetWide()-4, self:GetTall()-35)
-		self.editor:SetFont("nutChatFont")
-		self.editor:SetMultiline( true )
-		self.editor:SetText( self.text )
-	end
-
-	function PANEL:ViewMode()
-		if self.editor then
-		self.text = self.editor:GetValue()
-		self.editor:Remove() self.editor = nil end
-		self.viewer = vgui.Create( "RichText", self )
-		self.viewer:SetPos( 2, 2 )
-		self.viewer:SetSize( self:GetWide()-4, self:GetTall()-35)
-		timer.Simple( 0, function()
-			self.viewer:SetFontInternal("nutBigFont")
-			self.viewer:SetText( self.text )
-		end)
-	end
-
-	function PANEL:Init()
-		self:SetSize( 300, 400 )
-		self:MakePopup()
-		self.text = "asd"
-		self.edited = false
-		self:ViewMode()
-		
-		self.edit = vgui.Create( "DButton", self )
-		self.edit:SetSize( 148, 25 )
-		self.edit:SetPos( 1, self:GetTall()-28 )
-		self.edit:SetText( "Edit" )
-		self.edit.view = true
-		self.edit.DoClick = function()
-			if self.edit.view then
-				self.edit:SetText( "View" )
-				self.edit.view = false
-				self:EditMode()
-			else
-				self.edit:SetText( "Edit" )
-				self.edit.view = true
-				self:ViewMode()
-			end
-		end
-		
-		self.close = vgui.Create( "DButton", self )
-		self.close:SetSize( 148, 25 )
-		self.close:SetPos( 151, self:GetTall()-28 )
-		self.close:SetText( "Close" )
-		self.close.DoClick = function()
-			if self.edited then --submit edited texts.
-			end
-			self:Remove()
-			self = nil 
-		end
-
-	end
-
-	function PANEL:Paint()
-		surface.SetDrawColor(245, 245, 245)
-		surface.DrawRect( 0, 0, shit:GetWide(), shit:GetTall() -30  ) 
-	end
-
-	vgui.Register( "Nut_Note", PANEL, "Panel" )
-
-	shit = vgui.Create( "Nut_Note" )
-	shit:Center()
-*/

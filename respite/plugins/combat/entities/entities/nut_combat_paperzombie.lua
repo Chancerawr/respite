@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_paper"
+
 ENT.model = "models/respite/paperzombie.mdl"
 
 ENT.AttackAnim = "AttackA"
@@ -43,7 +45,3 @@ ENT.res = {
 	["Poison"] = 0,
 	["Electric"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-end

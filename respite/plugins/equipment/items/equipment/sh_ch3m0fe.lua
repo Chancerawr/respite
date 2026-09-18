@@ -12,7 +12,20 @@ ITEM.flag = "v"
 ITEM.slot = "primary"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_crossbow"
+ITEM.WalkAnim = "walk_crossbow"
+ITEM.RunAnim = "run_crossbow"
+
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	Sound("weapons/fokku_tc_deagle/deagle-1.wav"),
+}
+
+ITEM.rarity = 1
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -35,6 +48,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Sniper"] = 10,
 }
 
 ITEM.iconCam = {

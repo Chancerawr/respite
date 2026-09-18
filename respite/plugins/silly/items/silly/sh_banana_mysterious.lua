@@ -65,7 +65,6 @@ local function constructStory()
 		"capitalism",
 		"communism",
 		"society",
-		"racism",
 		"freedom",
 		
 		"God",
@@ -77,14 +76,14 @@ local function constructStory()
 		"Japan",
 		"Europe",
 		"North America",
-		"Jerusalem",
 		
 		"the light",
 		"the dark",
 		"the world",
 		"the war",
 		"the homeless",
-		"the obese",
+		"the sad",
+		"the happy",
 		"the weak",
 		"the strong",
 		
@@ -250,7 +249,11 @@ function ITEM:Speak()
 	
 	local wordsString = ""
 	for k, v in pairs(words) do
-		wordsString = wordsString.. " " ..v
+		if(k != 1) then
+			wordsString = wordsString.. " " ..v
+		else
+			wordsString = wordsString.. "" ..v
+		end
 	end
 	
 	nut.chat.send(client, "itclose", "The Mysterious Banana whispers, \"" ..wordsString.. ".\"" )

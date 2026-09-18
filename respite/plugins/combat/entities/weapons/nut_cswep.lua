@@ -9,7 +9,7 @@ SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 
 SWEP.Author = ""
-SWEP.Instructions = "Primary Fire: Use selected command. (Default: Attack)\nSecondary Fire: Select/Deselect targeted entity.\nReload: Cycle through actions."
+SWEP.Instructions = "Primary Fire: Use selected command. (Default: Attack)\nSecondary Fire: Select/Deselect targeted entity.\nReload: Action Menu."
 SWEP.Purpose = "Managing the attacks and actions of yourself or a Combat Entity."
 
 SWEP.ViewModelFOV = 45
@@ -22,7 +22,7 @@ SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
-SWEP.Primary.Delay = 1
+SWEP.Primary.Delay = 0.2
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
@@ -157,7 +157,7 @@ end
 function SWEP:PrimaryAttack()
 	local data = {}
 		data.start = self.Owner:GetShootPos()
-		data.endpos = data.start + self.Owner:GetAimVector()*4096
+		data.endpos = data.start + self.Owner:GetAimVector()*32768
 		data.filter = {self.Owner, self}
 	local trace = util.TraceLine(data)
 
@@ -166,6 +166,15 @@ function SWEP:PrimaryAttack()
 	
 	if(!action) then return end
 	
+	local weapon = action.weapon
+
+	local weaponItem = weapon and nut.item.instances[weapon]
+	if(weaponItem) then
+		if(weaponItem.itemUse) then
+			self.actNum = 1
+		end
+	end
+
 	--for consumable items
 	if(action.itemUse) then
 		self.actNum = 1
@@ -180,15 +189,23 @@ function SWEP:PrimaryAttack()
 		if(action.uid) then
 			actionTbl = ACTS.actions[action.uid]
 		end
-		
+
+		local data = {
+			attacker = attacker,
+			trace = trace,
+			weapon = weapon,
+			action = action,
+			actionTbl = actionTbl,
+		}
+
 		if(actionTbl.attackOverwrite) then --this lets you make actions that just print stuff or run functions
-			actionTbl:attackOverwrite(attacker, trace)
+			actionTbl:attackOverwrite(attacker, data)
 		else
-			PLUGIN:attackStart(client, attacker, trace, action)
+			PLUGIN:attackStart(client, data)
 		end
 		
-		if(attacker.AttackAnim) then
-			attacker:attackAnimStart()
+		if(attacker.combat) then
+			attacker:Attack(trace.Entity, actionTbl)
 		end
 	
 		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
@@ -230,6 +247,8 @@ function SWEP:Holster(weapon)
 	client.combatAOE_S = nil
 	client.combatAOE_B = nil
 	
+	client.CSWEPHighlight = nil
+	
 	return true
 end
 
@@ -265,9 +284,39 @@ function SWEP:DrawHUD()
 		end
 		--]]
 		
-		local posY = ScrH() - 100 * scrModY
-		local posX = ScrW() - 220 * scrModX
-		local textX = ScrW() - (120 * scrModX)
+		local posX
+		local posY
+		local textX
+		--turn status
+		local APCircle = client:getNetVar("showAPCircle")
+		local turnOver = client:getNetVar("turnOverIcon")
+		if APCircle or turnOver then
+			--they have set their turn to over.
+			posX = ScrW() * 0.5 - 100 * scrModX
+			posY = 70 * scrModY
+			local boxX = 200 * scrModX
+			textX = posX + boxX * 0.5
+			local turnState
+			if turnOver then
+				turnState = "Turn Over"
+			elseif APCircle then
+				turnState = "Your Turn"
+			end
+
+			surface.SetFont("nutMediumFont")
+			local textSizeX, textSizeY = surface.GetTextSize(turnState)
+			surface.SetDrawColor(Color(0,0,0,200))
+			surface.DrawRect(posX, posY, boxX, textSizeY * 1.5)
+			surface.SetDrawColor(Color(255,255,255))
+			surface.DrawOutlinedRect(posX, posY, boxX, textSizeY * 1.5, 1)
+			posY = posY + textSizeY * 0.75
+			
+			nut.util.drawText(turnState, textX, posY, Color(255,255,255), 1, 1, "nutMediumFont")
+		end
+		
+		posY = ScrH() - 100 * scrModY
+		posX = ScrW() - 220 * scrModX
+		textX = ScrW() - (120 * scrModX)
 		
 		local hp = user.getHP and user:getHP()
 		local mp = user.getMP and user:getMP()
@@ -358,12 +407,19 @@ function SWEP:DrawHUD()
 
 			if (trace.Hit) then
 				local entity = trace.Entity
+				
+				if(entity:IsRagdoll() and entity.nutPlayer) then
+					entity = entity.nutPlayer
+				end
+				
 				if(entity.combat or entity:IsPlayer()) then
 					self.viewed = entity:Name()
+					client.CSWEPHighlight = entity
 					
 					self.nextCEntTrace = CurTime() + 1
 				else
 					self.viewed = nil
+					client.CSWEPHighlight = nil
 				end
 				
 				if(action) then
@@ -429,6 +485,15 @@ if(CLIENT) then
 			angles.x = 0
 
 			render.DrawWireframeBox(position, angles, mins, maxs, Color(100, 100, 255, 255))
+		end
+	end)
+
+	--highlights what the player is looking at with the cswep
+	hook.Add("PreDrawHalos", "CSwepHighlighter", function()
+		local client = LocalPlayer()
+	
+		if(client.CSWEPHighlight and IsValid(client.CSWEPHighlight)) then
+			halo.Add({client.CSWEPHighlight}, Color(255,50,50), 1, 1, 1, true)
 		end
 	end)
 end

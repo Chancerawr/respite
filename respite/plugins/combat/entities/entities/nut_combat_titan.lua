@@ -5,12 +5,15 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_titan"
+
 ENT.model = "models/cryoffear/taller/taller.mdl"
 
 ENT.modelScale = 2
 
 ENT.AttackAnim = "Attack"
 ENT.WalkAnim = "Walk"
+ENT.RunAnim = "Walk"
 ENT.IdleAnim = "Idle"
 
 --all attributes
@@ -48,8 +51,12 @@ ENT.res = {
 	["Electric"] = 0,
 }
 
-function ENT:Initialize()
-	--self:SetModelScale(2)
+ENT.StepData = {
+	0.25,
+	0.75,
+}
 
-	self:basicSetup()
-end
+ENT.StepPitch = 50
+ENT.FootstepSounds = {
+	"cof/taller/taller_step.wav",
+}

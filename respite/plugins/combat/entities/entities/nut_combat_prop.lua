@@ -80,10 +80,42 @@ function ENT:physicsSetup()
 			--physObj:Sleep()
 			physObj:EnableCollisions(true)
 			physObj:Wake()
+
+			if(!self.saveKey) then
+				self:DropToFloor()
+				
+				if(self.PropHeight) then
+					self:SetPos(self:GetPos()+Vector(0,0,self.PropHeight))
+					
+					physObj:EnableMotion(false)
+				end
+			end
 		end
 	end
 	
 	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+end
+
+function ENT:movementStart(position)
+	if(SERVER) then
+		local collisionMin, collisionMax = self:GetCollisionBounds()
+		
+		local height
+		if(self.PropHeight) then
+			height = Vector(0, 0, self.PropHeight)
+		else
+			height = Vector(0, 0, (collisionMax.z - collisionMin.z)*0.5)
+		end
+		
+		local pointAt = (position - self:GetPos()):GetNormalized()
+		local angle = pointAt:Angle()
+		angle.z = 0
+		
+		self:SetPos(position + height)
+		self:SetAngles(angle)
+		
+		local position
+	end
 end
 
 function ENT:Think()

@@ -229,6 +229,7 @@ function SCHEMA:CanCreateCharInfo(panel)
 end
 
 local GM = gmod.GetGamemode()
+local viewAngBuffer = Angle(0,0,0)
 
 --this is here to improve ragdoll calview
 --previously you would see into the ground sometimes, adding a znear to it improved it a bit
@@ -255,15 +256,29 @@ function SCHEMA:CalcView(client, origin, angles, fov)
 			if (index) then
 				local data = ent:GetAttachment(index)
 
+				local viewAng = data.Ang
+				--lets ragdolled players look around a little
+				if(viewAngBuffer) then					
+					viewAng = viewAng + viewAngBuffer
+				end
+
 				if (data) then
 					view = view or {}
 					view.origin = data.Pos
-					view.angles = data.Ang
+					view.angles = viewAng
 					view.znear = 1
 				end
 
 				return view
 			end
 		end
+	end
+end
+
+--used to make it so you can look around a little when ragdolled
+function SCHEMA:InputMouseApply(cmd, x, y, ang)
+	if(IsValid(Entity(LocalPlayer():getLocalVar("ragdoll", 0)))) then
+		viewAngBuffer.x = math.Clamp(viewAngBuffer.x + x * 0.05, -32, 32)
+		viewAngBuffer.y = math.Clamp(viewAngBuffer.y + y * 0.05, -32, 32)
 	end
 end

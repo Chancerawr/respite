@@ -5,7 +5,10 @@ ENT.Category = "NutScript - Combat (Wraith)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_phantom"
+
 ENT.model = "models/zombie/junkie_01.mdl"
+ENT.material = "models/effects/comball_glow1"
 
 ENT.AttackAnim = "AttackA"
 
@@ -49,10 +52,13 @@ ENT.actions = {
 	"whack",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-	
-	if(SERVER) then
-		self:SetMaterial("models/effects/comball_glow1")
-	end
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/zombie/foot1.wav",
+	"npc/zombie/foot2.wav",
+	"npc/zombie/foot3.wav",
+}

@@ -5,9 +5,15 @@ ENT.Category = "NutScript - Combat (Shade)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_hatred_s"
+
 ENT.model = "models/zombie/hatred.mdl"
 
+ENT.BloodColor = DONT_BLEED
+
 ENT.AttackAnim = "AttackA"
+ENT.WalkAnim = "A_Walk3"
+ENT.RunAnim = "A_Walk3"
 
 --all attributes
 ENT.attribs = {
@@ -43,6 +49,15 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 0,
 	["Electric"] = 0,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"cof/taller/taller_step.wav",
 }
 
 function ENT:Initialize()

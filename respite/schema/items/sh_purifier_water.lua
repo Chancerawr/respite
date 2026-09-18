@@ -3,7 +3,7 @@ ITEM.uniqueID = "purifier_water"
 ITEM.model = "models/props_junk/plasticbucket001a.mdl"
 ITEM.material = "models/props_combine/com_shield001a"
 ITEM.desc = "A strange object, it appears to be both liquid and solid at the same time."
-ITEM.width = 2
+ITEM.width = 1
 ITEM.height = 2
 ITEM.flag = "v"
 ITEM.price = 500
@@ -112,7 +112,7 @@ ITEM.functions.HazePink = {
 		local inventory = client:getChar():getInv()
 		local corWater = inventory:getFirstItemOfType("haze_bottled_pink")
 			
-		item:setData("purity", item:getData("purity", 10) - 5)
+		item:setData("purity", item:getData("purity", 10) - 10)
 		
 		corWater:remove()
 		inventory:add("voltaic")
@@ -128,7 +128,7 @@ ITEM.functions.HazePink = {
 			return false
 		end
 		
-		if (item:getData("purity", 10) >= 5) then -- <50% purity cannot purify blue haze
+		if (item:getData("purity", 10) >= 10) then -- <50% purity cannot purify blue haze
 			return true
 		else
 			return false

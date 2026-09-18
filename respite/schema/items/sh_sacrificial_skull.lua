@@ -109,8 +109,8 @@ ITEM.functions.Sacrifice = {
 				client:notify("You receive a bottle of blue haze for your sacrifice.")
 				rewardI = "haze_bottled"
 			elseif (reward == 99) then
-				client:notify("You receive an enhanced chip for your sacrifice.")
-				rewardI = "cube_chip_enhanced"		
+				client:notify("You receive an distortion for your sacrifice.")
+				rewardI = "distortion"		
 			elseif (reward == 100) then
 				client:notify("You feel like you've changed somehow.")	
 				char:updateAttrib("fortitude", 0.5)

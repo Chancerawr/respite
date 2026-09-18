@@ -6,7 +6,7 @@ ITEM.uniqueID = "herb_mushroom"
 
 ITEM.loot = {
 	["Consumable"] = 10,
-	["Fruit"] = 0.1,
+	["Mushroom"] = 1,
 }
 
 ITEM.craft = {

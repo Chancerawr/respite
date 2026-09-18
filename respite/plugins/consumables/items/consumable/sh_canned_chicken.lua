@@ -14,6 +14,7 @@ ITEM.attrib = {
 ITEM.loot = {
 	["Consumable"] = 10,
 	["Food"] = 5,
+	["Meat"] = 1,
 	["Canned"] = 10,
 }
 

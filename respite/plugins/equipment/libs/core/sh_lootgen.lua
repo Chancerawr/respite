@@ -98,6 +98,8 @@ PLUGIN.grades = {
 }
 
 function PLUGIN:getGrade(bonus)
+	bonus = tonumber(bonus)
+
 	for k, v in pairs(self.grades) do
 		for k, v in SortedPairsByMemberValue(self.grades, "scale", true) do
 			if(bonus >= v.scale) then
@@ -152,6 +154,32 @@ if(SERVER) then
 		self.loot[tbl.uniqueID] = tbl
 	end
 
+	function PLUGIN:randomItemByTags(tags, filter)
+		local items = nut.item.list
+	
+		local possible = {}
+	
+		for k, item in pairs(items) do
+			if(!item.lootTags) then continue end
+
+			for _, tag in pairs(filter or {}) do
+				if(item.lootTags[tag]) then
+					continue
+				end
+			end
+
+			for _, tag in pairs(tags) do
+				if(item.lootTags[tag]) then
+					possible[#possible+1] = item
+				end
+			end
+		end
+		
+		local item = GetWeightedRandomKey(possible)
+	
+		return item
+	end
+
 	--main loot generation function
 	function PLUGIN:generateLoot(level, dropType, noAdj)
 		local data = {}
@@ -162,6 +190,7 @@ if(SERVER) then
 
 		if(dropType) then --specific type of item specified in arguments
 			dropFind = getItemFromString(potentialLoot, string.lower(dropType))
+			
 			if(dropFind) then
 				loot = dropFind
 			else
@@ -188,9 +217,9 @@ if(SERVER) then
 				end
 			end
 		end
-		
+
 		if(loot) then
-			local itemTable = nut.item.list[loot.uniqueID]
+			local itemTable = table.Copy(nut.item.list[loot.uniqueID])
 		
 			customData.name = (adj.name and (adj.name.. " ") or "") ..itemTable.name
 			customData.desc = itemTable.desc.. (adj.desc and ("\n" ..adj.desc) or "")
@@ -243,9 +272,11 @@ if(SERVER) then
 			
 			data.amp = itemTable.amp
 			
+			data.buffTbl = itemTable.buffTbl
+			
 			data.custom = customData
 			
-			return data, (itemTable.uniqueID or "quest_equip_11")
+			return table.Copy(data), (itemTable.uniqueID or "quest_equip_11")
 		end
 	end
 end

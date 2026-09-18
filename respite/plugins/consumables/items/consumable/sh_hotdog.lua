@@ -5,6 +5,8 @@ ITEM.model = "models/food/hotdog.mdl"
 ITEM.quantity2 = 2
 ITEM.price = 7
 
+ITEM.physMat = "zombieflesh"
+
 ITEM.attrib = { 
 	["str"] = 3 
 }

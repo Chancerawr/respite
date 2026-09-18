@@ -6,6 +6,9 @@ ENT.Spawnable = true
 ENT.AdminOnly = true
 
 ENT.model = "models/nh2_gmn/dave_the_dummy_on_stand.mdl"
+
+ENT.BloodColor = DONT_BLEED
+
 ENT.noRag = true
 
 --all attributes
@@ -42,23 +45,3 @@ ENT.res = {
 	["Poison"] = 0,
 	["Electric"] = 0,
 }
-
-function ENT:Initialize()
-	self:basicSetup()
-
-	--[[
-	if(SERVER) then
-		self:PhysicsInit(SOLID_VPHYSICS)
-		self:SetSolid(SOLID_BBOX)
-		
-		local physObj = self:GetPhysicsObject()
-		if (IsValid(physObj)) then
-			physObj:EnableMotion(true)
-			physObj:EnableGravity(true)
-			--physObj:Sleep()
-			physObj:EnableCollisions(true)
-			physObj:Wake()
-		end
-	end
-	--]]
-end

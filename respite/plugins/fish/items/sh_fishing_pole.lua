@@ -1,17 +1,99 @@
+local PLUGIN = PLUGIN or nut.plugin.list["fish"]
 ITEM.name = "Fishing Pole"
 ITEM.desc = "A pole with a line and a reel attached to it. It glows in the dark and feels different than an ordinary fishing rod.\nCan use chips or organic material as bait."
 ITEM.model = "models/props_junk/harpoon002a.mdl"
 ITEM.uniqueID = "fishing_pole"
 ITEM.price = 20
 ITEM.flag = "v"
-ITEM.data = { producing2 = 0 }
 ITEM.color = Color(80, 80, 180)
 
-ITEM.iconCam = {
-	pos = Vector(0, 0, 200),
-	ang = Angle(90, 0, 90),
-	fov = 35,
-}
+function ITEM:CastHook(client)
+	local hook = ents.Create("prop_physics")
+	hook:SetPos(client:GetPos() + Vector(0,0,50))
+	hook:SetModel("models/props_junk/meathook001a.mdl")
+	hook:Spawn()
+	
+	local phys = hook:GetPhysicsObject()
+	if IsValid(phys) then
+		local ang = client:EyeAngles()
+		phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
+		phys:SetMass(1)
+		phys:SetBuoyancyRatio(0.1)
+	end
+	
+	return hook
+end
+
+function ITEM:AttachRope(client, hook)
+	local dummy = ents.Create("prop_physics")
+	dummy:SetModel("models/props_junk/harpoon002a.mdl")
+	dummy:SetPos(client:GetPos()+client:GetUp()*50)
+	dummy:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+	dummy:SetAngles(client:GetAngles())
+	
+	dummy:Spawn()
+	
+	constraint.Rope(dummy, hook, 0, 0, Vector(0,0,10), Vector(0,0,0), 400, 75, 0, 1, "cable/cable_lit", false, color_white)
+	
+	dummy:SetParent(client, 1)
+
+	return dummy
+end
+
+function ITEM:StartFishing(bait, itemTable, hook, dummy)
+	if(IsValid(hook) and IsValid(dummy)) then
+		local item = self
+		local client = item.player
+		local char = client:getChar()
+		local inventory = char:getInv()
+		
+		local baitItem = inventory:getFirstItemOfType(bait)
+		
+		item:setData("producing", CurTime())
+		
+		local oldPos = client:GetPos()
+		
+		nut.chat.send(client, "itclose", "The hook is cast into the water.")
+		
+		client:setAction("Fishing...", 5, function()
+			local luck = char:getAttrib("luck", 0)
+
+			local position = client:getItemDropPos()
+			
+			item:setData("producing", nil)
+			
+			if(item and baitItem and IsValid(hook) and hook:WaterLevel() > 0) then
+				local notif = PLUGIN:GetFishLoot(client, item, itemTable)
+				
+				local luckRoll = math.Clamp(math.random(0, math.floor(luck)), 0, 99)
+				if(math.random(luckRoll, 150) < 90) then
+					client:notify("Your bait was lost.")
+					baitItem:remove()
+				end
+				
+				local physObj = hook:GetPhysicsObject()
+				if(IsValid(physObj)) then
+					local up = Vector(math.random(-100,100),math.random(-100,100),math.random(5000,6000))
+
+					physObj:AddVelocity(up)
+				end
+				
+				client:notify(notif)
+			else
+				client:notify("Fishing failed.")
+			end
+
+			timer.Simple(math.Rand(1.25,2), function()
+				SafeRemoveEntity(hook)
+				SafeRemoveEntity(dummy)
+			end)
+		end)
+	else
+		SafeRemoveEntity(hook)
+		SafeRemoveEntity(dummy)
+		client:notify("How did you lose your hook?")
+	end
+end
 
 ITEM.functions.FishBait = {
 	name = "Fishing (Chip)",
@@ -20,149 +102,43 @@ ITEM.functions.FishBait = {
 	onRun = function(item)
 		local client = item.player
 		
-		local hook = ents.Create("prop_physics")
-		hook:SetPos(client:GetPos() + Vector(0,0,50))
-		hook:SetModel("models/props_junk/meathook001a.mdl")
-		hook:Spawn()
+		local bait = "cube_chip"
 		
-		local phys = hook:GetPhysicsObject()
-					
-		if phys:IsValid() then
-			local ang = client:EyeAngles()
-			phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
-			phys:SetMass(1)
-			phys:SetBuoyancyRatio(0.28)
+		--create the hook entity
+		local hook = item:CastHook(client)
+		
+		--attach a rope to it
+		local dummy = item:AttachRope(client, hook)
+
+		local ammoDrop = function()
+			local ammo = {
+				"ammo_919",
+				"ammo_45",
+				"ammo_12g"
+			}
+			
+			return table.Random(ammo)
 		end
+			
+		local itemTable = {
+			[PLUGIN.CatchFish] = 50,
+			["cube_chip_enhanced"] = 1,
+			["cube_chip_memory"] = 1,
+			[ammoDrop] = 1,
+			["food_banana"] = 2,
+			["coin_10"] = 5,
+			["purifier_water_tablet"] = 5,
+			["food_monster_meat"] = 10,
+			["j_scrap_memory"] = 10,
+			["j_dark_wood"] = 10,
+			["j_scrap_nails"] = 10,
+			["ichor"] = 10,
+			["blight"] = 10,
+			["food_apple_cursed"] = 10,
+			["j_scrap_chems"] = 10,
+		}
 		
-		timer.Simple(2, function()
-			if(hook:WaterLevel() > 0) then
-				local inventory = client:getChar():getInv()
-				local chip = inventory:getFirstItemOfType("cube_chip")
-				local char = client:getChar()
-				
-				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
-				item:setData("producing", CurTime())
-				local oldPos = client:GetPos()
-				client:setAction("Fishing...", 5, function()
-					local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
-					local position = client:getItemDropPos()
-					
-					item:setData("producing", nil)
-					
-					if (item != nil and client:GetPos():Distance(oldPos) <= 500 and chip) then
-						local roll = math.random(0, 1)
-							
-						if(roll == 0) then --fish 
-							local name, desc, wgt = nut.plugin.list["fish"]:constructFish()
-							
-							local model = ""
-							if(math.random(1,2) == 2) then
-								model = "2"
-							end
-							
-							local customData = {}
-							customData.name = name
-							customData.desc = desc
-							
-							if(!inventory:add("food_fish" .. model, 1, {custom = customData, weight = wgt})) then --if the inventory has space, put it in the inventory
-								nut.item.spawn("food_fish" .. model, position,
-									function(item2)
-										item2:setData("custom", customData)
-										item2:setData("weight", wgt)
-									end
-								)
-							end
-							
-							client:notify("You catch a "..name.. ".")	
-						else
-							roll = math.random(luckRoll, 100)
-							local catch
-							
-							if(roll < 10) then
-								nut.chat.send(client, "meclose", "catches a chunk of meat.")		
-								catch = "food_monster_meat"
-								
-							elseif(roll < 15) then
-								nut.chat.send(client, "meclose", "catches a box of coins.")
-								catch = "coin_10"
-								
-							elseif(roll < 25) then
-								nut.chat.send(client, "meclose", "catches a nostalgic object.")
-								catch = "j_scrap_memory"
-								
-							elseif(roll < 35) then
-								nut.chat.send(client, "meclose", "catches a chunk of dark wood.")
-								catch = "j_dark_wood"
-								
-							elseif(roll < 40) then
-								nut.chat.send(client, "meclose", "catches a watery tablet.")
-								catch = "purifier_water_tablet"
-								
-							elseif(roll < 50) then
-								nut.chat.send(client, "meclose", "catches a tin can with a nail in it.")
-								catch = "j_scrap_nails"
-								
-							elseif(roll < 60) then
-								nut.chat.send(client, "meclose", "catches a vial of a strange substance.")
-								catch = "ichor"
-								
-							elseif(roll < 70) then
-								nut.chat.send(client, "meclose", "catches a vial of blight.")
-								catch = "blight"
-								
-							elseif(roll < 80) then
-								nut.chat.send(client, "meclose", "catches a strange looking apple.")
-								catch = "food_apple_cursed"
-							
-							elseif(roll < 85) then
-								nut.chat.send(client, "meclose", "catches a small amount of chemicals.")
-								catch = "j_scrap_chems"
-								
-							elseif(roll < 95) then
-								local ammo = {
-									"ammo_919",
-									"ammo_45",
-									"ammo_12g"
-								}
-								
-								nut.chat.send(client, "meclose", "catches a box of ammunition.")
-								catch = table.Random(ammo)
-								
-							elseif(roll < 98) then
-								nut.chat.send(client, "meclose", "catches a.. Banana?")
-								catch = "food_banana"	
-								
-							elseif(roll < 100) then
-								nut.chat.send(client, "meclose", "catches a shimmering chip.")
-								catch = "cube_chip_enhanced"
-								
-							else
-								nut.chat.send(client, "meclose", "catches some kind of weird chip.")
-								catch = "cube_chip_memory"
-							end
-							
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								inventory:addSmart(catch, 1, client:getItemDropPos())
-							else --if the item it on the ground
-								nut.item.spawn(catch, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-							end		
-						end
-					
-						if(math.random(luckRoll, 150) < 90) then
-							client:notify("Your bait was lost.")
-							chip:remove()
-						end
-					else
-						client:notify("Fishing has failed.")
-					end
-					
-					hook:Remove()
-				end)
-			else
-				hook:Remove()
-				client:notify("Your hook needs to be in the water!")
-			end
-		end)
+		item:StartFishing(bait, itemTable, hook, dummy)
 		
 		return false
 	end,
@@ -191,150 +167,32 @@ ITEM.functions.FishNoBait = {
 	onRun = function(item)
 		local client = item.player
 		
-		local hook = ents.Create("prop_physics")
-		hook:SetPos(client:GetPos() + Vector(0,0,50))
-		hook:SetModel("models/props_junk/meathook001a.mdl")
-		hook:Spawn()
+		local bait = "j_scrap_organic"
 		
-		local phys = hook:GetPhysicsObject()
-					
-		if phys:IsValid() then
-			local ang = client:EyeAngles()
-			phys:SetVelocityInstantaneous(ang:Forward() * math.random(300, 350))
-			phys:SetMass(1)
-			phys:SetBuoyancyRatio(0.28)
-		end
+		--create the hook entity
+		local hook = item:CastHook(client)
 		
-		timer.Simple(2, function()
-			if(hook:WaterLevel() > 0) then
-				local inventory = client:getChar():getInv()
-				local char = client:getChar()
-				
-				nut.chat.send(client, "itclose", "The hook is cast into the water.")		
-				item:setData("producing", CurTime())
-				local oldPos = client:GetPos()
-				client:setAction("Fishing...", 10, function()
-					local luckRoll = math.Clamp(math.random(0, math.floor(char:getAttrib("luck"))), 0, 99)
-					local position = client:getItemDropPos()
-					local bait = inventory:getFirstItemOfType("j_scrap_organic")
-					
-					item:setData("producing", nil)
-					
-					if (item != nil and client:GetPos():Distance(oldPos) <= 500 and bait) then
-						local roll = math.random(0, 1)
-							
-						if(roll == 0) then --fish 
-							local name, desc, wgt = nut.plugin.list["fish"]:constructFish()
-							desc = "A plastic fish.\nIt weighs " .. wgt .. " pounds."
-							
-							local model = ""
-							if(math.random(1,2) == 2) then
-								model = "2"
-							end
-							
-							local customData = {}
-							customData.name = "Plastic " ..name
-							customData.desc = desc
-							
-							if(!inventory:add("food_fish" .. model .. "_plastic", 1, {custom = customData, weight = wgt})) then --if the inventory has space, put it in the inventory
-								nut.item.spawn("food_fish" .. model .. "_plastic", position,
-									function(item2)
-										item2:setData("custom", customData)
-										item2:setData("weight", wgt)
-									end
-								)
-							end
-							
-							client:notify("You catch a plastic fish.")	
-						else
-							roll = math.random(luckRoll, 100)
-							local catch
-							
-							if(roll < 10) then
-								nut.chat.send(client, "meclose", "catches nothing.")
-								
-							elseif(roll < 20) then
-								nut.chat.send(client, "meclose", "catches a tin can.")
-								catch = "j_tinc"
-								
-							elseif(roll < 30) then
-								nut.chat.send(client, "meclose", "catches a boot.")
-								catch = "j_old_shoe"
-								
-							elseif(roll < 40) then
-								nut.chat.send(client, "meclose", "catches a baby doll.")
-								catch = "j_baby_doll"
-							
-							elseif(roll < 50) then
-								nut.chat.send(client, "meclose", "catches a can of yams.")
-								catch = "food_yams"								
-								
-							elseif(roll < 60) then
-								nut.chat.send(client, "meclose", "catches a small box of coins.")
-								catch = "coin_10"
-								
-							elseif(roll < 70) then
-								nut.chat.send(client, "meclose", "catches a humanoid rib.")
-								catch = "j_rib"								
-								
-							elseif(roll < 80) then
-								nut.chat.send(client, "meclose", "catches a strange bottle.")
-								catch = "drug_depress"
-								
-							elseif(roll < 85) then
-								nut.chat.send(client, "meclose", "catches a strange can.")
-								catch = "food_laugh"									
-								
-							elseif(roll < 90) then
-								nut.chat.send(client, "meclose", "catches a.. Banana?")
-								catch = "food_banana"	
-								
-							elseif(roll < 95) then
-								nut.chat.send(client, "meclose", "catches a chip.")
-								catch = "cube_chip"
-								
-							elseif(roll < 100) then
-								nut.chat.send(client, "meclose", "catches a strange object.")
-								catch = "j_scrap_memory"
-							
-							else
-								nut.chat.send(client, "meclose", "catches a cactus?")
-								catch = "j_cactus_plant"
-							end
-							
-							if(!IsValid(item:getEntity())) then --checks if item is not on the ground
-								if(catch) then
-									if(!inventory:add(catch)) then --if the inventory has space, put it in the inventory
-										nut.item.spawn(catch, client:getItemDropPos()) --if not, drop it on the ground
-									end
-								end
-								
-							else --if the item it on the ground
-								nut.item.spawn(catch, item:getEntity():GetPos() + item:getEntity():GetUp()*50) --spawn the grow item above the item
-							end		
-						end
-					
-						if(math.random(luckRoll, 150) < 110) then
-							client:notify("Your bait was lost.")
-							
-							local amount = bait:getData("Amount", 1)
-							bait:setData("Amount", amount - 1) --costs 1
-							if (bait:getData("Amount", 1) <= 0) then
-								bait:remove()
-							end
-						end
-					else
-						client:notify("Fishing has failed.")
-					end
-					
-					hook:Remove()
-				end)
-			else
-				hook:Remove()
-				client:notify("Your hook needs to be in the water!")
-			end
-		end)
+		--attach a rope to it
+		local dummy = item:AttachRope(client, hook)
 		
+		local itemTable = {
+			[PLUGIN.CatchFishPlastic] = 50,
+			["j_tinc"] = 10,
+			["j_old_shoe"] = 10,
+			["j_baby_doll"] = 10,
+			["food_yams"] = 10,
+			["coin_10"] = 10,
+			["j_rib"] = 10,
+			["drug_depress"] = 10,
+			["food_laugh"] = 5,
+			["food_banana"] = 5,
+			["cube_chip"] = 5,
+			["j_scrap_memory"] = 5,
+			["j_cactus_plant"] = 1,
+		}
+		
+		item:StartFishing(bait, itemTable, hook, dummy)
+
 		return false
 	end,
 	onCanRun = function(item) --only one farm action should be happening at once with one item.
@@ -342,6 +200,48 @@ ITEM.functions.FishNoBait = {
 		
 		local organic = player:getChar():getInv():getFirstItemOfType("j_scrap_organic")
 		if(!organic) then
+			return false
+		end
+	
+		local prodTime = 10
+		if(item:getData("producing")) then
+			if(item:getData("producing") < CurTime() and item:getData("producing") + prodTime >= CurTime()) then
+				return false
+			end
+		end
+		
+		return true
+	end
+}
+
+ITEM.functions.FishHotDog = {
+	name = "Fishing (Hot Dog)",
+	icon = "icon16/anchor.png",
+	sound = "ambient/machines/spinup.wav",
+	onRun = function(item)
+		local client = item.player
+		
+		local bait = "food_hotdog"
+		
+		--create the hook entity
+		local hook = item:CastHook(client)
+		
+		--attach a rope to it
+		local dummy = item:AttachRope(client, hook)
+		
+		local itemTable = {
+			[PLUGIN.CatchFishHotDog] = 50,
+		}
+		
+		item:StartFishing(bait, itemTable, hook, dummy)
+		
+		return false
+	end,
+	onCanRun = function(item) --only one farm action should be happening at once with one item.
+		local player = item.player
+		
+		local bait = player:getChar():getInv():getFirstItemOfType("food_hotdog")
+		if(!bait) then
 			return false
 		end
 	
@@ -397,6 +297,12 @@ ITEM.functions.Battery = {
 function ITEM:onEntityCreated(entity)
 	local physObj = entity:GetPhysicsObject()
 	if(IsValid(physObj)) then
-		physObj:SetMass(250)
+		physObj:SetMass(100)
 	end
 end
+
+ITEM.iconCam = {
+	pos = Vector(0, 0, 200),
+	ang = Angle(90, 0, 90),
+	fov = 35,
+}

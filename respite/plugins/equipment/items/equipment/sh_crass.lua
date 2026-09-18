@@ -11,7 +11,21 @@ ITEM.price = 0
 ITEM.flag = "V"
 ITEM.category = "Weapons - Misc"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_crossbow"
+ITEM.WalkAnim = "walk_crossbow"
+ITEM.RunAnim = "run_crossbow"
+
+--for turn based combat
+ITEM.attackRange = 1000
+
+ITEM.AttackSounds = {
+	Sound("weapons/minigun/mini_bolt.mp3"),
+}
+
+ITEM.rarity = 7
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,

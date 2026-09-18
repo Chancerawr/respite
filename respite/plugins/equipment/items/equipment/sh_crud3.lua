@@ -11,7 +11,21 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_revolver"
+ITEM.WalkAnim = "walk_revolver"
+ITEM.RunAnim = "run_revolver"
+
+--for turn based combat
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	Sound("weapons/tact870/m3-1.wav"),
+}
+
+ITEM.rarity = 9
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
@@ -34,6 +48,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Magnum"] = 10,
 }
 
 ITEM.iconCam = {

@@ -209,7 +209,7 @@ function SWEP:PrimaryAttack()
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 	self.Owner:ViewPunch(Angle(self.LastHand + 2, self.LastHand + 5, 0.125))
 
-	timer.Simple(0.055, function()
+	--timer.Simple(0.055, function()
 		if (IsValid(self) and IsValid(self.Owner)) then
 			local damage = self.Primary.Damage
 			local context = {damage = damage}
@@ -232,13 +232,15 @@ function SWEP:PrimaryAttack()
 				local entity = trace.Entity
 
 				if (IsValid(entity)) then
+					local velocity = self.Owner:GetVelocity()
+				
 					local damageInfo = DamageInfo()
 						damageInfo:SetAttacker(self.Owner)
 						damageInfo:SetInflictor(self)
 						damageInfo:SetDamage(damage)
 						damageInfo:SetDamageType(DMG_SLASH)
 						damageInfo:SetDamagePosition(trace.HitPos)
-						damageInfo:SetDamageForce(self.Owner:GetAimVector()*10000)
+						damageInfo:SetDamageForce(velocity*5 + self.Owner:GetAimVector()*2500)
 					entity:DispatchTraceAttack(damageInfo, data.start, data.endpos)
 
 					self.Owner:EmitSound("physics/body/body_medium_impact_hard" ..math.random(1, 6).. ".wav", 80)
@@ -248,7 +250,7 @@ function SWEP:PrimaryAttack()
 			hook.Run("PlayerThrowPunch", self.Owner, trace)
 			self.Owner:LagCompensation(false)
 		end
-	end)
+	--end)
 end
 
 function SWEP:applyForce(entity, strength)
@@ -277,6 +279,21 @@ function SWEP:resetHeld(entity)
 	end
 end
 
+function SWEP:getMaxPickupWeight()
+	local client = self.Owner
+	local char = client:getChar()
+	
+	local mass = 100
+	
+	if(char) then
+		local str = char:getAttrib("str", 0)
+		
+		mass = mass + str
+	end
+	
+	return mass
+end
+
 function SWEP:onCanPickup(entity)
 	--ignores invalid entities, players, npcs, and nextbots
 	if(!IsValid(entity) or entity:IsPlayer() or entity:IsNPC() or entity:IsNextBot()) then
@@ -295,26 +312,23 @@ function SWEP:onCanPickup(entity)
 		return false
 	end
 
-	local physicsObject = entity:GetPhysicsObject()
+	local physObj = entity:GetPhysicsObject()
+	if (!IsValid(physObj)) then return false end
 
-	if (!IsValid(physicsObject)) then
-		return false
-	end
-
-	if(!physicsObject:IsMoveable()) then
+	if(!physObj:IsMoveable()) then
 		return false
 	end
 	
 	--things that are too heavy to carry
-	local mass = physicsObject:GetMass()
-	if (physicsObject:GetMass() > 100) then
+	local mass = physObj:GetMass()
+	if (physObj:GetMass() > self:getMaxPickupWeight()) then
 		return false
 	end
 
 	return true
 end
 
-function SWEP:Pickup(entity)
+function SWEP:Pickup(entity, physBone)
 	local client = self.Owner
 
 	if (entity:IsPlayerHolding()) then --if it is already being held
@@ -347,13 +361,21 @@ end
 hook.Add("OnPlayerPhysicsDrop", "nut_hands_dropHook", function(client, entity, thrown)
 	if(!client:KeyDown(IN_ATTACK2) and !client:KeyPressed(IN_ATTACK2)) then
 		local hands = client:GetWeapon("nut_hands")
-		if(IsValid(hands) and client:GetActiveWeapon():GetClass() == "nut_hands") then
+		local active = client:GetActiveWeapon()
+		if(IsValid(hands) and IsValid(active) and active:GetClass() == "nut_hands") then
 			hands.heldEntity = nil
 			hands:SetNW2Bool("holdingObject", nil)
 			
 			if(entity.oldCollision) then
 				entity:SetCollisionGroup(entity.oldCollision)
 			end
+			
+			--not sure if i like it
+			--[[
+			if(thrown) then
+				client:EmitSound("weapons/slam/throw.wav", 55, 150)
+			end
+			--]]
 		end
 	end
 end)
@@ -397,24 +419,31 @@ function SWEP:SecondaryAttack()
 		data.maxs = hull
 	local trace = util.TraceHull(data)
 	local entity = trace.Entity
+	local physBone = trace.PhysicsBone
 	self.tracePos = trace.HitPos
+
+	--for when the trace fails
+	if(!IsValid(entity)) then
+		local backupSearch = ents.FindInSphere(trace.HitPos, 10)
+
+		for k, v in pairs(backupSearch) do
+			if(!IsValid(v)) then continue end
+			if(v:IsPlayer()) then continue end
+		
+			entity = v
+			break
+		end
+	end
 	
-	if (IsValid(entity)) then
+	if(IsValid(entity)) then
 		--drops a carried object if holding one
-		if(IsValid(self.heldEntity)) then
-			local isHeld = (self.heldEntity == entity)
-			
+		local heldEntity = self.heldEntity
+		
+		if(IsValid(heldEntity)) then --drop held object
 			client:DropObject()
 
 			self:resetHeld(entity)
-			
-			--drops the thing
-			if(isHeld) then
-				return
-			end
-		end
-	
-		if (entity:isDoor()) then
+		elseif (entity:isDoor()) then --knock on door
 			if (hook.Run("PlayerCanKnock", client, entity) == false) then
 				return
 			end
@@ -427,9 +456,9 @@ function SWEP:SecondaryAttack()
 			self:SetNextSecondaryFire(CurTime() + 0.1)
 			self:SetNextPrimaryFire(CurTime() + 1)
 		elseif (self:onCanPickup(entity)) then --if it can be picked up, then pick it up
-			self:Pickup(entity)
+			self:Pickup(entity, physBone)
 		end
-	elseif(!IsValid(entity)) then
+	elseif(!IsValid(entity)) then --drop
 		self:resetHeld(entity)
 	end
 end

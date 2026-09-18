@@ -187,6 +187,32 @@ local functionInfo = {
 			dmgT = "Cold",
 		},
 	},
+	["rot"] = {
+		name = "Rot", 
+		required = "j_scrap_rot",
+		removal = "shard_dust",
+		itemName = "Decaying ",
+		itemDesc = "\nIt slowly rots everything it touches.",
+		itemColor = Color(128, 255, 0),
+		confirm = "Are you sure you want to Rot this item?",
+		dmg = {
+			ratio = 0.5,
+			dmgT = "Rot",
+		},
+	},
+	["rot_chip"] = {
+		name = "Decay", 
+		required = "cube_chip_rot",
+		removal = "shard_dust",
+		itemName = "Decaying ",
+		itemDesc = "\nIt decays everything it touches.",
+		itemColor = Color(128, 255, 0),
+		confirm = "Are you sure you want to Decay this item?",
+		dmg = {
+			ratio = 1,
+			dmgT = "Rot",
+		},
+	},
 }
 
 timer.Simple(0, function()
@@ -251,8 +277,8 @@ timer.Simple(0, function()
 						newDmg = newDmg + dmgV * funcTable.dmg.ratio
 					end
 					
-					dmgTbl[funcTable.dmg.dmgT] = newDmg + (funcTable.dmg.dmgBonus or 0)
-					
+					dmgTbl[funcTable.dmg.dmgT] = (dmgTbl[funcTable.dmg.dmgT] or 0) + newDmg + (funcTable.dmg.dmgBonus or 0)
+
 					item:setData("dmg", dmgTbl)
 				end
 			end)
@@ -288,7 +314,6 @@ timer.Simple(0, function()
 			local client = item.player
 			
 			local infused = item:getData("infused")
-			
 			if(infused) then
 				local funcTable = functionInfo[infused]
 			
@@ -311,7 +336,6 @@ timer.Simple(0, function()
 				--undo damage things
 				if(funcTable.dmg) then
 					local dmgTbl = item:getData("dmg", item.dmg or {})
-					
 					
 					local newDmg = 0
 					for dmgT, dmgV in pairs(dmgTbl) do

@@ -10,15 +10,19 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Tools"
 
-ITEM.rarity = 10
+--for turn based combat
+ITEM.attackRange = 80
+
+ITEM.rarity = 5
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
 	["firearm"] = true,
+	["light"] = true,
 }
 
 ITEM.dmg = {
-	["Blunt"] = 3,
+	["Blunt"] = 8,
 }
 
 ITEM.scaling = {

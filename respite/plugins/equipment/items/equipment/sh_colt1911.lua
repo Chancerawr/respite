@@ -10,11 +10,25 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Pistols"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_revolver"
+ITEM.WalkAnim = "walk_revolver"
+ITEM.RunAnim = "run_revolver"
+
+ITEM.attackRange = 500
+
+ITEM.AttackSounds = {
+	Sound("Dmgfok_co1911.Single"),
+}
+
+ITEM.rarity = 1
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
 	["firearm"] = true,
+	["factory"] = true,
 }
 
 ITEM.dmg = {
@@ -33,6 +47,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Pistol"] = 10,
 }
 
 ITEM.iconCam = {

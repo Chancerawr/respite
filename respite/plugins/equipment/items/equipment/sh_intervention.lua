@@ -9,11 +9,26 @@ ITEM.price = 0
 ITEM.flag = "v"
 ITEM.category = "Weapons - Snipers"
 
-ITEM.rarity = 10
+--for CEnts
+ITEM.firearm = true
+
+ITEM.IdleAnim = "idle_ar2"
+ITEM.WalkAnim = "walk_ar2"
+ITEM.RunAnim = "run_ar2"
+
+--for turn based combat
+ITEM.attackRange = 5000
+
+ITEM.AttackSounds = {
+	Sound("Weapon_INT.Single"),
+}
+
+ITEM.rarity = 1
 ITEM.lootTags = {
 	["weapon"] = true,
 	["ranged"] = true,
 	["firearm"] = true,
+	["factory"] = true,
 }
 
 ITEM.dmg = {
@@ -32,6 +47,7 @@ ITEM.salvage = {
 ITEM.upgradeSlots = { 
 	["Dream"] = 5,
 	["Barrel"] = 1,
+	["Sniper"] = 10,
 }
 
 ITEM.iconCam = {

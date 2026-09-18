@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_nurse"
+
 ENT.name = "Nurse"
 ENT.model = "models/chillax_sf2/silenthill/sh2/nurse/nurse.mdl"
 
@@ -52,6 +54,14 @@ ENT.actions = {
 	"repair_doll",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.74,
+}
+
+ENT.StepPitch = {80,90}
+ENT.FootstepSounds = {
+	"dalrp/npc/nurse/nurse_foot01.wav",
+	"dalrp/npc/nurse/nurse_foot02.wav",
+	"dalrp/npc/nurse/nurse_foot03.wav",
+}

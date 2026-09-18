@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_fiend_stalker"
+
 ENT.name = "Bringer of Blood"
 
 ENT.model = "models/spite/fiend.mdl"
@@ -12,6 +14,8 @@ ENT.material = "models/flesh"
 ENT.color = Color(128, 20, 20)
 
 ENT.modelScale = 1.4
+
+ENT.IdleAnim = "idle_all_angry"
 
 --all attributes
 ENT.attribs = {
@@ -59,10 +63,16 @@ ENT.actions = {
 	"blood_martyr",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-	
-	timer.Simple(0.6, function()
-		self:ResetSequence("idle_all_angry")
-	end)
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}

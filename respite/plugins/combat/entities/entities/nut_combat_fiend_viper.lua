@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_fiend"
+
 ENT.name = "Viper Blood Fiend"
 
 ENT.model = "models/sient hill custom/homecoming/lurker.mdl"
@@ -51,10 +53,12 @@ ENT.res = {
 	["Electric"] = 50,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-	
-	timer.Simple(0.6, function()
-		--self:SetModelScale(1.3)
-	end)	
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.StepPitch = {85,100}
+ENT.FootstepSounds = {
+	"lurker2/metal.wav",
+}

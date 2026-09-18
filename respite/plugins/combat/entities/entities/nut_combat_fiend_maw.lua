@@ -5,6 +5,8 @@ ENT.Category = "NutScript - Combat (Fiend)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_fiend"
+
 ENT.name = "Mawed Blood Fiend"
 ENT.model = "models/spite/fiend.mdl"
 ENT.material = "models/flesh"
@@ -12,6 +14,8 @@ ENT.material = "models/flesh"
 ENT.modelScale = 1.2
 
 ENT.color = Color(128, 20, 20)
+
+ENT.IdleAnim = "idle_all_angry"
 
 --all attributes
 ENT.attribs = {
@@ -48,11 +52,16 @@ ENT.res = {
 	["Electric"] = 50,
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-	
-	timer.Simple(0.6, function()
-		--self:SetModelScale(1.2)
-		self:ResetSequence("idle_all_angry")
-	end)
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
+}

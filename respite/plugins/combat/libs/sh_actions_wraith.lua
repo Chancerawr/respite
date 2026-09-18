@@ -13,4 +13,6 @@ ACT.CD = 1
 ACT.dmg = 0
 ACT.dmgT = "Ichor"
 ACT.weaponMult = 1.2
+ACT.range = 300
+ACT.rangeMin = 80
 ACTS:Register(ACT)

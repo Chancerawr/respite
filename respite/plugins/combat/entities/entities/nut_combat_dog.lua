@@ -5,8 +5,11 @@ ENT.Category = "NutScript - Combat (Abomination)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
+ENT.NPCReference = "resp_dog"
+
 ENT.model = "models/zombie/dog.mdl"
 
+ENT.IdleAnim = "Idle01"
 ENT.AttackAnim = "Attack"
 
 --all attributes
@@ -48,6 +51,14 @@ ENT.actions = {
 	"maw_bite",
 }
 
-function ENT:Initialize()
-	self:basicSetup()
-end
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/demon/nhdemon_foot1.wav",
+	"npc/demon/nhdemon_foot2.wav",
+	"npc/demon/nhdemon_foot3.wav",
+	"npc/demon/nhdemon_foot4.wav",
+}

@@ -152,12 +152,17 @@ ACT.effects = {
 		debuff = true,
 	}
 }
-ACT.attackOverwrite = function(actionTbl, client, trace)
+ACT.onHit = function(actionTbl, action, attacker, info)
+	local trace = info.trace
 	local target = trace.Entity
+	local client = info.client
+	
+	if(client.KeyDown and client:KeyDown(IN_WALK)) then --self targetting
+		target = attacker
+	end
+	
 	if(IsValid(target) and target.combat) then
-		actionTbl.dmg = target:getHP()*0.5
-
-		PLUGIN:attackStart(client, client, trace, actionTbl)
+		action.dmg = target:getHP()*0.5
 	end
 end
 ACTS:Register(ACT)
@@ -177,14 +182,10 @@ ACT.dmgT = "Pierce"
 ACT.radius = 125
 ACT.selfOnly = true
 ACT.mult = {
-	["accuracy"] = 0.25,
+	["end"] = 0.5,
 }
-ACT.attackOverwrite = function(actionTbl, client, trace)
-	local target = trace.Entity
-	if(IsValid(target) and target.combat) then
-		actionTbl.dmg = target:getHP()
-
-		PLUGIN:attackStart(client, client, trace, actionTbl)
-	end
+ACT.onHit = function(actionTbl, action, attacker, info)
+	action.dmg = attacker:getHP()
+	attacker:die()
 end
 ACTS:Register(ACT)

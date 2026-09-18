@@ -3,7 +3,7 @@ ITEM.prefix = "Foot"
 ITEM.desc = "A foot that was once connected to a human being. \n You thought they smelled badly before."
 ITEM.uniqueID = "food_human_foot"
 ITEM.model = "models/dismemberment/gibs/legs/foot.mdl"
-ITEM.quantity2 = 1
+ITEM.quantity2 = 2
 ITEM.price = 0
 ITEM.color = Color(150,50,50)
 

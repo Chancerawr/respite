@@ -1,6 +1,6 @@
 ENT.Type = "nextbot"
 ENT.Base = "nut_combat"
-ENT.PrintName = "Damaged Plastic (Random)"
+ENT.PrintName = "Decrepit Plastic (Random)"
 ENT.Category = "NutScript - Combat (Plastic)"
 ENT.Spawnable = true
 ENT.AdminOnly = true
@@ -9,6 +9,8 @@ ENT.name = "Decrepit Plastic"
 
 ENT.model = "models/player/group01/male_04.mdl"
 ENT.material = "models/props_buildings/destroyedbuilldingwall01a"
+
+ENT.BloodColor = DONT_BLEED
 
 ENT.WalkAnim = "walk_all"
 ENT.RunAnim = "run_all_01"
@@ -65,6 +67,20 @@ ENT.res = {
 	["Acid"] = 0,
 	["Poison"] = 50,
 	["Electric"] = 0,
+}
+
+ENT.StepData = {
+	0.25,
+	0.75,
+}
+
+ENT.FootstepSounds = {
+	"npc/footsteps/hardboot_generic1.wav",
+	"npc/footsteps/hardboot_generic2.wav",
+	"npc/footsteps/hardboot_generic3.wav",
+	"npc/footsteps/hardboot_generic4.wav",
+	"npc/footsteps/hardboot_generic5.wav",
+	"npc/footsteps/hardboot_generic6.wav",
 }
 
 function ENT:Initialize()

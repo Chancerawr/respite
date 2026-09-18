@@ -1,7 +1,7 @@
 local PLUGIN = PLUGIN
 nut.plugin = nut.plugin or {}
 nut.plugin.list = nut.plugin.list or {}
---PrintTable(nut.plugin.list.quests)
+
 local questPLUGIN = nut.plugin.list.quests--nut.plugins.list( "quests" )
 if not questPLUGIN then
 	print( 'quest_honeya example will not work properly without "quest" plugin.' )

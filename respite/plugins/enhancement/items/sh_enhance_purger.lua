@@ -1,5 +1,5 @@
-ITEM.name = "Equipment Awakener"
-ITEM.desc = "Can be used on an equipment to 'dream' upgrades attached to it."
+ITEM.name = "Dream Crusher"
+ITEM.desc = "Can be used on an equipment to remove 'dream' upgrades attached to it."
 ITEM.uniqueID = "enhance_purger"
 ITEM.model = "models/warz/melee/hammer.mdl"
 ITEM.material = "models/props_lab/security_screens"

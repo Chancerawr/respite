@@ -51,6 +51,28 @@ ACTS:Register(ACT)
 //
 local ACT
 ACT = {}
+ACT.uid = "swiftstrike"
+ACT.name = "Swift Strike"
+ACT.desc = "Attack an enemy with high speed. Accuracy increases based on Agility."
+ACT.category = "Agility"
+ACT.attackString = "swiftly strikes"
+ACT.CD = 2
+ACT.dmg = 0
+ACT.weaponMult = 1.25
+ACT.accuracy = 0
+ACT.reqStats = {
+	["stm"] = 15,
+}
+ACT.onGetAccuracy = function(actionTbl, attacker, info)
+	local char = attacker:getChar()
+	local agi = char:getAttrib("stm", 0)
+	
+	return agi
+end
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
 ACT.uid = "dash"
 ACT.name = "Dash"
 ACT.desc = "Move a great distance in a short amount of time."
@@ -81,12 +103,12 @@ local ACT
 ACT = {}
 ACT.uid = "trip"
 ACT.name = "Trip"
-ACT.desc = "Quickly kick out an enemy's legs and send them to the ground."
+ACT.desc = "Quickly kick out an enemy's legs and send them to the ground. Some enemies may be immune to knockdown from this ability."
 ACT.category = "Agility"
 ACT.attackString = "trips"
 ACT.CD = 2
 ACT.dmg = 15
-ACT.dmgT = "Crush"
+ACT.dmgT = "Blunt"
 ACT.mult = {
 	["stm"] = 0.5,
 }
@@ -105,6 +127,60 @@ ACT.effects = {
 		debuff = true,
 	}
 }
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
+ACT.uid = "combo"
+ACT.name = "Combo"
+ACT.desc = "Deals more damage for each combo charge an enemy has on it."
+ACT.category = "Agility"
+ACT.attackString = "combo attacks"
+ACT.CD = 1
+ACT.weaponMult = 1
+ACT.dmg = 0
+ACT.mult = {
+	["stm"] = 0.5,
+}
+ACT.reqStats = {
+	["stm"] = 25,
+}
+ACT.onHit = function(actionTbl, action, attacker, info)
+	local trace = info.trace
+	local target = trace.Entity
+	local client = info.client
+	
+	local altPressed
+	if(client.KeyDown and client:KeyDown(IN_WALK)) then --self targetting
+		target = attacker
+	end
+
+	if(IsValid(target) and (target.combat or target:IsPlayer())) then
+		local comboBuff = target:getBuffs()["combo"]
+		
+		if(comboBuff) then
+			comboCount = comboBuff.count+1
+		else
+			comboCount = 1
+		end
+
+		action.dmg = action.dmg*comboCount
+			
+		local counter = {
+			uid = actionTbl.uid,
+			
+			name = "Combo " ..comboCount,
+			effect = "combo",
+			duration = 2,
+			strength = 1,
+			
+			count = comboCount,
+			
+			debuff = true,
+		}
+		target:addBuff(counter)
+	end
+end
 ACTS:Register(ACT)
 //
 local ACT
@@ -193,6 +269,24 @@ ACTS:Register(ACT)
 //
 local ACT
 ACT = {}
+ACT.uid = "kickback"
+ACT.name = "Kickback"
+ACT.desc = "Kick an enemy and propel yourself backwards. Distance is up to dashing distance away."
+ACT.category = "Agility"
+ACT.attackString = "propels themselves away with a skilled kick"
+ACT.CD = 4
+ACT.dmg = 15
+ACT.dmgT = "Blunt"
+ACT.mult = {
+	["stm"] = 0.5,
+}
+ACT.reqStats = {
+	["stm"] = 40,
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
 ACT.uid = "whirlwind"
 ACT.name = "Whirlwind"
 ACT.desc = "Rapidly spin in place, hitting enemies with your weapon in a small area."
@@ -214,13 +308,55 @@ ACTS:Register(ACT)
 //
 local ACT
 ACT = {}
+ACT.uid = "outmaneuver"
+ACT.name = "Outmaneuver"
+ACT.desc = "Outmaneuver your target, increasing your evasion and accuracy while decreasing your target's."
+ACT.category = "Agility"
+ACT.attackString = "outmaneuvers"
+ACT.CD = 5
+ACT.reqStats = {
+	["stm"] = 40,
+}
+ACT.effects = {
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Outmaneuver",
+		effect = "blind",
+		duration = 2,
+		strength = 1,
+		
+		evasion = -50,
+		accuracy = -50,
+		
+		debuff = true,
+	},
+	[1] = {
+		uid = ACT.uid,
+		
+		name = "Outmaneuver",
+		effect = "dodge",
+		duration = 2,
+		strength = 1,
+		
+		evasion = 50,
+		accuracy = 50,
+		
+		selfApply = true,
+		buff = true,
+	},
+}
+ACTS:Register(ACT)
+//
+local ACT
+ACT = {}
 ACT.uid = "onslaught"
 ACT.name = "Onslaught"
 ACT.desc = "Unleash an onslaught of weaker attacks on an enemy."
 ACT.category = "Agility"
 ACT.attackString = "unleashes an onslaught of attacks"
 ACT.weaponMult = 0.6
-ACT.accuracy = -20
+ACT.accuracy = -25
 ACT.multi = 10
 ACT.CD = 7
 ACT.dmg = 0

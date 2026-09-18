@@ -154,7 +154,7 @@ end
 function PANEL:onVendorPropEdited(vendor, key)
 	if (key == "name") then
 		self.vendor:setName(vendor:getName())
-	elseif (key == "scale") then
+	elseif (key == "scale" or key == "buyScale") then
 		for _, panel in pairs(self.items[self.vendor]) do
 			if (not IsValid(panel)) then continue end
 			panel:updatePrice()

@@ -132,6 +132,7 @@ PLUGIN.spawngroups = {
 		"alc_vodka",
 		"alc_whiskey",
 		"alc_wine",
+		"alc_mead",
 	},
 	["potion"] = {
 		"potion_accuracy",
@@ -210,11 +211,11 @@ PLUGIN.spawngroups = {
 		"medical_bandages",
 		"medical_gauze",
 		"medical_iv",
-		"medicine_cold",
 		"medical_memory",
 		"medical_plastic",
 		"medical_splint",
 		"medical_suture",
+		"medical_first",
 	},
 	["drug"] = {
 		"drug_antibiotics",
@@ -429,6 +430,22 @@ PLUGIN.spawngroups = {
 		"ammo_76254",
 		"ammo_concrete",
 		"ammo_xbow",
+	},
+	["cash"] = {
+		"j_dollar",
+		"coin_10",
+		"cube_chip",
+	},
+	["farm"] = {
+		"farm_apple",
+		"farm_banana",
+		"farm_cactus",
+		"farm_lemon",
+		"farm_melon",
+		"farm_onion",
+		"farm_orange",
+		"farm_pumpkin",
+		"farm_tomato",
 	},
 }
 
